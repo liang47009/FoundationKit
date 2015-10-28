@@ -14,8 +14,6 @@ LOCAL_SRC_FILES := ../../FoundationKit/Crypto/aes.cpp \
                    ../../FoundationKit/Crypto/Base64.cpp \
                    ../../FoundationKit/Data/Data.cpp \
                    ../../FoundationKit/Data/DataStream.cpp \
-                   ../../FoundationKit/Data/Hash.cpp \
-                   ../../FoundationKit/Data/HashStatistic.cpp \
                    ../../FoundationKit/Data/Value.cpp \
                    ../../FoundationKit/Events/Event.cpp \
                    ../../FoundationKit/Events/EventAcceleration.cpp \
