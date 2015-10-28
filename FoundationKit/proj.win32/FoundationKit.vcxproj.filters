@@ -1,0 +1,557 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{8bbace43-c4dd-4e9e-87b0-4d288f1fbe9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{afbd91f7-c42f-45ce-9bbe-dfafd3679d07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Foundation">
+      <UniqueIdentifier>{35bf071e-e06a-4a71-b90b-010242e1a23e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Crypto">
+      <UniqueIdentifier>{e59ca199-5fa8-4973-98bc-bd7185878d00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{4e5d3ba0-9fee-44bb-8846-cebb842049c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FoundationKit">
+      <UniqueIdentifier>{70d107ff-a362-4aa7-9bfd-8ba0cd9d78a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Foundation\Notifications">
+      <UniqueIdentifier>{f12c0944-843a-4960-ba3a-47f8cf88aeba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{7e6f3b5c-7d4c-43b1-a1f7-46a45a616e41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LuaEngine">
+      <UniqueIdentifier>{67cb3701-5643-444b-a8f9-6d0bbee9cda9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\windows">
+      <UniqueIdentifier>{fe579a28-0dfa-426e-92c5-130f254da9c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cache">
+      <UniqueIdentifier>{343e3eed-76f8-47bf-8ed7-6d3d3d563667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HttpClient">
+      <UniqueIdentifier>{f7729063-e97c-463a-98c2-5a126d1a3610}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HttpDownloader">
+      <UniqueIdentifier>{9b73b001-5a84-449c-abff-f57e2a9df195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{60fab813-1b98-4b94-9fae-2eb120e87216}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\unzip">
+      <UniqueIdentifier>{49aba178-7de0-4404-b102-a25107d2b7da}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\FoundationKit\Data\Buffer.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Data\Data.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Data\DataStream.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Data\Value.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Singleton.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Matrix.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Quaternion.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Vector2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Vector3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Vector4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\MathUtil.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Crypto\aes.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Crypto\Base64.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Crypto\md5.hpp">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Geometry.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Runnable.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\WorkQueue.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\ThreadPool.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Logger.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Platform.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Math.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Data\HashTable.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Data\Hash.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Data\HashFunction.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Data\HashStatistic.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\FunctionHelper.h">
+      <Filter>FoundationKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\FoundationKitDefines.h">
+      <Filter>FoundationKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\NotificationCenter.h">
+      <Filter>Foundation\Notifications</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\NotificationObserver.h">
+      <Filter>Foundation\Notifications</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Scheduler.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Version.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\uthash.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\utlist.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\LuaEngine\LuaEngine.h">
+      <Filter>LuaEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\LuaEngine\LuaLoader.h">
+      <Filter>LuaEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\LuaEngine\LuaScriptHelper.h">
+      <Filter>LuaEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\LuaEngine\LuaScriptor.h">
+      <Filter>LuaEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\LuaEngine\LuaStack.h">
+      <Filter>LuaEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\LuaEngine\LuaValue.h">
+      <Filter>LuaEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\LuaEngine\Script.h">
+      <Filter>LuaEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\Event.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventCustom.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventDispatcher.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventListener.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventListenerCustom.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Exception.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\noncopyable.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Types.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventKeyboard.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventListenerKeyboard.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\TupleApply.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\RandomHelper.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Data\Dictionary.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventAcceleration.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventController.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventListenerAcceleration.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventListenerController.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventListenerMouse.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventListenerTouch.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventMouse.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\EventTouch.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\IMEDelegate.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\IMEDispatcher.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\KeyboardExampleWindows.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\Touch.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\function_traits.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\optional.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\utility.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Cache\AbstractCache.h">
+      <Filter>Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Cache\AbstractStrategy.h">
+      <Filter>Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Cache\KeyValueArgs.h">
+      <Filter>Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Cache\LRUCache.h">
+      <Filter>Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Cache\LRUCacheTest.h">
+      <Filter>Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Cache\LRUStrategy.h">
+      <Filter>Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\FileUtils.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.h">
+      <Filter>Platform\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h">
+      <Filter>Platform\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HttpClient\HttpClient.h">
+      <Filter>HttpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HttpClient\HttpClientTest.h">
+      <Filter>HttpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HttpClient\HttpRequest.h">
+      <Filter>HttpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HttpClient\HttpResponse.h">
+      <Filter>HttpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HttpClient\MimeTypes.h">
+      <Filter>HttpClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HttpDownloader\Downloader.h">
+      <Filter>HttpDownloader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HttpDownloader\DownloaderImpl.h">
+      <Filter>HttpDownloader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HttpDownloader\IDownloaderImpl.h">
+      <Filter>HttpDownloader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HttpDownloader\DownloaderTest.h">
+      <Filter>HttpDownloader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Data\ValueTest.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h">
+      <Filter>external\unzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h">
+      <Filter>external\unzip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\external\unzip\unzip.h">
+      <Filter>external\unzip</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\FoundationKit\Data\Data.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Data\DataStream.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Data\Value.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Matrix.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Quaternion.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Vector2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Vector3.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Vector4.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\MathUtil.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Geometry.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\WorkQueue.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\ThreadPool.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Logger.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Platform.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Math.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Data\Hash.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Data\HashStatistic.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\NotificationCenter.cpp">
+      <Filter>Foundation\Notifications</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\NotificationObserver.cpp">
+      <Filter>Foundation\Notifications</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Scheduler.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Version.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\LuaEngine\LuaEngine.cpp">
+      <Filter>LuaEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\LuaEngine\LuaLoader.cpp">
+      <Filter>LuaEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\LuaEngine\LuaStack.cpp">
+      <Filter>LuaEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\LuaEngine\LuaValue.cpp">
+      <Filter>LuaEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\LuaEngine\Script.cpp">
+      <Filter>LuaEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\Event.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventCustom.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventDispatcher.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventListener.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventListenerCustom.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Exception.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventKeyboard.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventListenerKeyboard.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventAcceleration.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventController.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventListenerAcceleration.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventListenerController.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventListenerMouse.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventListenerTouch.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventMouse.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\EventTouch.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\IMEDispatcher.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\KeyboardExampleWindows.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\Touch.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\FileUtils.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\FileUtils_win32.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\PlatformWindows.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\HttpClient\HttpClient.cpp">
+      <Filter>HttpClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\HttpClient\HttpRequest.cpp">
+      <Filter>HttpClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\HttpClient\MimeTypes.cpp">
+      <Filter>HttpClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\HttpDownloader\Downloader.cpp">
+      <Filter>HttpDownloader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\HttpDownloader\DownloaderImpl.cpp">
+      <Filter>HttpDownloader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\external\unzip\ioapi.cpp">
+      <Filter>external\unzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\external\unzip\ioapi_mem.cpp">
+      <Filter>external\unzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\external\unzip\unzip.cpp">
+      <Filter>external\unzip</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\FoundationKit\Math\Matrix.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Math\Quaternion.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Math\Vector2.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Math\Vector3.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Math\Vector4.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Math\MathUtil.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Math\MathUtilNeon.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Data\Dictionary.inl">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="..\FoundationKit\Data\Value.inl">
+      <Filter>Data</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>17607772-E1B6-466E-952A-8921BA4590B8</string>
+	<key>IDESourceControlProjectName</key>
+	<string>DevelopmentFramework</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>BDF394AD00F0672C031FDA5A297CD80086AC8A54</key>
+		<string>https://github.com/facebook/rocksdb.git</string>
+		<key>F41B8952C78DF7A8D40CC5A311733AACF1566999</key>
+		<string>https://github.com/DevelopmentFramework/FoundationKit.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>DevelopmentFramework.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>BDF394AD00F0672C031FDA5A297CD80086AC8A54</key>
+		<string>../external/rocksdb</string>
+		<key>F41B8952C78DF7A8D40CC5A311733AACF1566999</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/DevelopmentFramework/FoundationKit.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>F41B8952C78DF7A8D40CC5A311733AACF1566999</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F41B8952C78DF7A8D40CC5A311733AACF1566999</string>
+			<key>IDESourceControlWCCName</key>
+			<string>FoundationKit</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>BDF394AD00F0672C031FDA5A297CD80086AC8A54</string>
+			<key>IDESourceControlWCCName</key>
+			<string>rocksdb</string>
+		</dict>
+	</array>
+</dict>
+</plist>
