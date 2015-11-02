@@ -54,7 +54,11 @@ voidpf ZCALLBACK fopen_mem_func (voidpf opaque,
     unsigned long size = 0;
 
     base = (void*)strtoull(filename, &pEnd, 16);
-    if (!base) return NULL;
+    if (!base)
+    {
+        free(mem);
+        return NULL;
+    }
     size = strtoul(pEnd, &pEnd, 16);
     if (!size) return NULL;
 
@@ -91,7 +95,11 @@ voidpf ZCALLBACK fopen_mem_func64_32 (voidpf opaque,
     unsigned long size = 0;
 
     base = (void*)strtoull((const char*)filename, &pEnd, 16);
-    if (!base) return NULL;
+    if (!base)
+    {
+        free(mem);
+        return NULL;
+    }
     size = strtoul(pEnd, &pEnd, 16);
     if (!size) return NULL;
 
