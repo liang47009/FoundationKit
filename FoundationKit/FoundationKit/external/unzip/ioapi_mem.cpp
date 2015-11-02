@@ -60,7 +60,11 @@ voidpf ZCALLBACK fopen_mem_func (voidpf opaque,
         return NULL;
     }
     size = strtoul(pEnd, &pEnd, 16);
-    if (!size) return NULL;
+    if (!size)
+    {
+        free(mem);
+        return NULL;
+    }
 
     mem->base = base;
     mem->size = size;
@@ -101,7 +105,11 @@ voidpf ZCALLBACK fopen_mem_func64_32 (voidpf opaque,
         return NULL;
     }
     size = strtoul(pEnd, &pEnd, 16);
-    if (!size) return NULL;
+    if (!size)
+    {
+        free(mem);
+        return NULL;
+    }
 
     mem->base = base;
     mem->size = size;
