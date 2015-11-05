@@ -298,4 +298,18 @@ void Vector2::smooth(const Vector2& target, float elapsedTime, float responseTim
     }
 }
 
+Vector2 Vector2::moveTowards(Vector2 current, Vector2 target, float maxDistanceDelta)
+{
+    Vector2 a = target - current;
+    float magnitude = a.length();
+    if (magnitude <= maxDistanceDelta || magnitude == 0.f)
+    {
+        return target;
+    }
+    return current + a / magnitude * maxDistanceDelta;
+}
+
+
+
+
 NS_FK_END

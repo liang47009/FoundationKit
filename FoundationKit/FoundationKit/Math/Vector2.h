@@ -112,6 +112,57 @@ public:
      */
     static const Vector2& unitY();
 
+    static Vector2 moveTowards(Vector2 current, Vector2 target, float maxDistanceDelta);
+
+   /**
+    * Returns the angle (in radians) between the specified vectors.
+    *
+    * @param v1 The first vector.
+    * @param v2 The second vector.
+    *
+    * @return The angle between the two vectors (in radians).
+    */
+    static float angle(const Vector2& v1, const Vector2& v2);
+
+   /**
+    * Adds the specified vectors and stores the result in dst.
+    *
+    * @param v1 The first vector.
+    * @param v2 The second vector.
+    * @param dst A vector to store the result in.
+    */
+    static void add(const Vector2& v1, const Vector2& v2, Vector2* dst);
+
+   /**
+    * Clamps the specified vector within the specified range and returns it in dst.
+    *
+    * @param v The vector to clamp.
+    * @param min The minimum value.
+    * @param max The maximum value.
+    * @param dst A vector to store the result in.
+    */
+    static void clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2* dst);
+
+   /**
+    * Returns the dot product between the specified vectors.
+    *
+    * @param v1 The first vector.
+    * @param v2 The second vector.
+    *
+    * @return The dot product between the vectors.
+    */
+    static float dot(const Vector2& v1, const Vector2& v2);
+
+   /**
+    * Subtracts the specified vectors and stores the result in dst.
+    * The resulting vector is computed as (v1 - v2).
+    *
+    * @param v1 The first vector.
+    * @param v2 The second vector.
+    * @param dst The destination vector.
+    */
+    static void subtract(const Vector2& v1, const Vector2& v2, Vector2* dst);
+
     /**
      * Indicates whether this vector contains all zeros.
      *
@@ -127,30 +178,11 @@ public:
     bool isOne() const;
 
     /**
-     * Returns the angle (in radians) between the specified vectors.
-     *
-     * @param v1 The first vector.
-     * @param v2 The second vector.
-     * 
-     * @return The angle between the two vectors (in radians).
-     */
-    static float angle(const Vector2& v1, const Vector2& v2);
-
-    /**
      * Adds the elements of the specified vector to this one.
      *
      * @param v The vector to add.
      */
     void add(const Vector2& v);
-
-    /**
-     * Adds the specified vectors and stores the result in dst.
-     *
-     * @param v1 The first vector.
-     * @param v2 The second vector.
-     * @param dst A vector to store the result in.
-     */
-    static void add(const Vector2& v1, const Vector2& v2, Vector2* dst);
 
     /**
      * Clamps this vector within the specified range.
@@ -159,16 +191,6 @@ public:
      * @param max The maximum value.
      */
     void clamp(const Vector2& min, const Vector2& max);
-
-    /**
-     * Clamps the specified vector within the specified range and returns it in dst.
-     *
-     * @param v The vector to clamp.
-     * @param min The minimum value.
-     * @param max The maximum value.
-     * @param dst A vector to store the result in.
-     */
-    static void clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2* dst);
 
     /**
      * Returns the distance between this vector and v.
@@ -205,16 +227,6 @@ public:
      * @return The dot product.
      */
     float dot(const Vector2& v) const;
-
-    /**
-     * Returns the dot product between the specified vectors.
-     *
-     * @param v1 The first vector.
-     * @param v2 The second vector.
-     * 
-     * @return The dot product between the vectors.
-     */
-    static float dot(const Vector2& v1, const Vector2& v2);
 
     /**
      * Computes the length of this vector.
@@ -329,16 +341,6 @@ public:
     void subtract(const Vector2& v);
 
     /**
-     * Subtracts the specified vectors and stores the result in dst.
-     * The resulting vector is computed as (v1 - v2).
-     *
-     * @param v1 The first vector.
-     * @param v2 The second vector.
-     * @param dst The destination vector.
-     */
-    static void subtract(const Vector2& v1, const Vector2& v2, Vector2* dst);
-
-    /**
      * Updates this vector towards the given target using a smoothing function.
      * The given response time determines the amount of smoothing (lag). A longer
      * response time yields a smoother result and more lag. To force this vector to
@@ -350,6 +352,8 @@ public:
      * @param responseTime response time (in the same units as elapsedTime).
      */
     void smooth(const Vector2& target, float elapsedTime, float responseTime);
+
+    float magnitude();
 
     /**
      * Calculates the sum of this vector with the given vector.

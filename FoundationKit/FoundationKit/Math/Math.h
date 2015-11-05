@@ -82,12 +82,14 @@ namespace Math
 
     /// Returns the absolute value of val.
     template< typename T >
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type abs(const T& val)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    abs(const T& val)
     {return std::abs(val);}
 
     /// Returns the arc-cosine of val - the angle in radians whose cosine is val.
     template< typename T >
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type acos(const T& val)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    acos(const T& val)
     {return std::acos(val);}
 
     /** 
@@ -104,22 +106,26 @@ namespace Math
 
     /// Returns the arc-sine of val - the angle in radians whose sine is val.
     template< typename T >
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type asin(const T val)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    asin(const T val)
     { return std::asin(val); }
 
     /// Returns the arc-tangent of val - the angle in radians whose tangent is val.
     template< typename T >
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type atan(const T val)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    atan(const T val)
     { return std::atan(val); }
 
     /// Returns the angle in radians whose Tan is y/x.
     template< typename T >
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type atan2(const T y, const T x)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    atan2(const T y, const T x)
     { return std::atan2(y, x); }
 
     /// Returns the smallest integer greater to or equal to val.
     template< typename T >
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type ceil(const T val)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    ceil(const T val)
     { return std::ceil(val); }
 
     /// Returns the smallest integer greater to or equal to val.
@@ -130,7 +136,8 @@ namespace Math
 
 	/// Returns the largest integer smaller to or equal to val.
 	template< typename T >
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type floor(const T& val)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    floor(const T& val)
 	{
 		return std::floor(val);
 	}
@@ -145,7 +152,8 @@ namespace Math
 
     /// Clamps val value between a minimum and maximum value.
     template< typename T>
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type clamp(const T& val, const T& minVal, const T& maxVal)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    clamp(const T& val, const T& minVal, const T& maxVal)
     {
         if (maxVal <= minVal)
             return minVal;
@@ -154,17 +162,20 @@ namespace Math
 
     /// Clamps value between 0 and 1 and returns value.
     template< typename T>
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type clamp01(const T& val)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    clamp01(const T& val)
     { return val < 0 ? 0 : val > 1 ? 1 : val; }
 
     /// Returns the cosine of angle f in radians.
     template< typename T >
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type cos(const T& val)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    cos(const T& val)
     { return std::cos(val); }
 
     /// Returns e raised to the specified power.
     template< typename T >
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type exp(const T& power)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    exp(const T& power)
     { return std::exp(power); }
 
 
@@ -180,22 +191,26 @@ namespace Math
 
     /// Returns the natural (base e) logarithm of val specified value.
     template< typename T >
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type Log(const T& val)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    log(const T& val)
     { return std::log(val); }
 
     /// Returns the base 10 logarithm of val specified value.
     template< typename T >
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type Log10(const T& val0)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    log10(const T& val0)
     { return std::log10(val0); }
 
     /// returns the maximum of two values
     template< typename T >
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type max(const T& v1, const T& v2)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    max(const T& v1, const T& v2)
     { return v1 > v2 ? v1 : v2; }
 
     /// returns the minimum of two values
     template <typename T>
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type min(const T& v1, const T& v2)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    min(const T& v1, const T& v2)
     { return v1 < v2 ? v1 : v2; }
 
     /// Returns f raised to power p.
@@ -230,17 +245,20 @@ namespace Math
 
     /// Returns the sine of angle val in radians.
     template <typename T>
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type sin(const T& val)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    sin(const T& val)
     { return std::sin(val); }
 
     /// Returns square root of val.
     template <typename T>
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type sqrt(const T& val)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    sqrt(const T& val)
     { return std::sqrt(val); }
 
     /// Returns the tangent of angle val in radians.
     template <typename T>
-	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type tan(const T& val)
+	inline typename std::enable_if< std::is_arithmetic<T>::value, T >::type 
+    tan(const T& val)
     { return std::tan(val); }
 
     template<typename T>
