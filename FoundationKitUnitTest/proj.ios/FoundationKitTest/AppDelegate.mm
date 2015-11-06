@@ -10,6 +10,7 @@
 #include "FoundationKit/Foundation/Scheduler.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Data/Dictionary.h"
+#include "FoundationKit/Data/DictionaryTest.h"
 
 
 using namespace FoundationKit;
@@ -27,9 +28,7 @@ using namespace FoundationKit;
     LOG_INFO("======= didFinishLaunchingWithOptions ");
     Scheduler::getInstance()->setTimeScale(1.0f);
     
-    Dictionary<int, std::string> dir;
-    dir.insert({10,""});
-    
+    TestDictionary();
     
     return YES;
 }

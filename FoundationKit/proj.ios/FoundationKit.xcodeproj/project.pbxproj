@@ -83,6 +83,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		094D60BB1BEC3F0F008ED567 /* DictionaryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryTest.h; sourceTree = "<group>"; };
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0977BAF61AB6CC31006BC260 /* libFoundationKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundationKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		09DBEB0D1BE0662E0063A2BF /* AbstractCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractCache.h; sourceTree = "<group>"; };
@@ -325,6 +326,7 @@
 		09DBEB1A1BE0662E0063A2BF /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				094D60BB1BEC3F0F008ED567 /* DictionaryTest.h */,
 				09DBEB1B1BE0662E0063A2BF /* Buffer.h */,
 				09DBEB1C1BE0662E0063A2BF /* Data.cpp */,
 				09DBEB1D1BE0662E0063A2BF /* Data.h */,

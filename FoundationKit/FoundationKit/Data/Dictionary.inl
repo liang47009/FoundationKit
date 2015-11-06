@@ -67,24 +67,23 @@ TValue & Dictionary<TKey, TValue>::operator[](const TKey & key)
 }
 
 template < typename TKey, typename TValue >
-TValue & Dictionary<TKey, TValue>::operator[](dki_pair & ki_pair)
+TValue & Dictionary<TKey, TValue>::operator[](ki_pair& keyIndexPair)
 {
-    return (at(ki_pair));
+    return (at(keyIndexPair));
 }
 
 template < typename TKey, typename TValue >
 TValue & Dictionary<TKey, TValue>::at(const TKey & key)
 {
     auto it = m_MultiMap.find(key);
-    FKASSERT(it != m_MultiMap.end(), _T("Dictionary::at: Couldn't find key '") )
+    FKASSERT(it != m_MultiMap.end(), "Dictionary::at: Couldn't find key '");
     return ((*it).second);
 }
 
 template < typename TKey, typename TValue >
-TValue & Dictionary<TKey, TValue>::at
-(dki_pair & ki_pair)
+TValue & Dictionary<TKey, TValue>::at(ki_pair& keyIndexPair)
 {
-    return (at(ki_pair.first, ki_pair.second));
+    return (at(keyIndexPair.first, keyIndexPair.second));
 }
 
 template < typename TKey, typename TValue >
@@ -97,7 +96,7 @@ TValue & Dictionary<TKey, TValue>::at(const TKey & key, size_type index)
     {
         ++i;
         ++it;
-        FKASSERT(it != range.second, _T("Dictionary::at: The value with key '"));
+        FKASSERT(it != range.second, "Dictionary::at: The value with key '");
     }
     return ((*it).second);
 }
@@ -174,42 +173,17 @@ Dictionary<TKey, TValue>::upper_bound(const TKey & key) const
 
 template < typename TKey, typename TValue >
 typename Dictionary<TKey, TValue>::iterator
-Dictionary<TKey, TValue>::insert(const TValue & value)
-{
-    return (m_MultiMap.insert(value));
-}
-
-template < typename TKey, typename TValue >
-typename Dictionary<TKey, TValue>::iterator
-Dictionary<TKey, TValue>::insert(TValue && value)
-{
-    return (m_MultiMap.insert(value));
-}
-
-template < typename TKey, typename TValue >
-typename Dictionary<TKey, TValue>::iterator
-Dictionary<TKey, TValue>::insert(
-                                 typename Dictionary<TKey, TValue>::const_interator hint,
-                                 const typename Dictionary<TKey, TValue>::value_type & value)
-{
-    return (m_MultiMap.insert(hint, value));
-}
-
-template < typename TKey, typename TValue >
-typename Dictionary<TKey, TValue>::iterator
-Dictionary<TKey, TValue>::insert(
-                                 typename Dictionary<TKey, TValue>::const_interator hint,
-                                 typename Dictionary<TKey, TValue>::value_type && value)
-{
-    return (m_MultiMap.insert(hint, value));
-}
-
-template < typename TKey, typename TValue >
-typename Dictionary<TKey, TValue>::iterator
-Dictionary<TKey, TValue>::insert
-(const dkv_pair & kv_pair)
+Dictionary<TKey, TValue>::insert(const value_type & kv_pair)
 {
     return (m_MultiMap.insert(kv_pair));
+}
+
+
+template < typename TKey, typename TValue >
+typename Dictionary<TKey, TValue>::iterator
+Dictionary<TKey, TValue>::insert(std::initializer_list<value_type> _Ilist)
+{
+    return m_MultiMap.insert(_Ilist);
 }
 
 template < typename TKey, typename TValue >

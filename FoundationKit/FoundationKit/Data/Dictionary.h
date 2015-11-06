@@ -11,45 +11,39 @@ losemymind.libo@gmail.com
 
 NS_FK_BEGIN
 
-template < class TKey, class TValue >
+template < typename TKey, typename TValue >
 class Dictionary
 {
 public:
     typedef typename std::unordered_multimap<TKey, TValue> dictionary;
     typedef typename dictionary::iterator iterator;
     typedef typename dictionary::const_iterator const_interator;
-    typedef TKey key_type;
-    typedef TValue value_type;
-    typedef size_t size_type;
+    typedef typename dictionary::key_type key_type;
+    typedef typename dictionary::size_type size_type;
+    typedef typename dictionary::value_type value_type;
     typedef typename dictionary::reference reference;
     typedef typename dictionary::const_reference const_reference;
     typedef typename dictionary::difference_type difference_type;
     typedef typename dictionary::allocator_type allocator_type;
     typedef typename dictionary::mapped_type mapped_type;
-    typedef typename std::pair<TKey, TValue> dkv_pair;
-    typedef typename std::pair<TKey, size_type> dki_pair;
-    typedef std::pair<
-				typename dictionary::iterator,
-				typename dictionary::iterator
-				> dictionary_pair;
-    
+    typedef std::pair<TKey, size_t> ki_pair;
+
     Dictionary();
     Dictionary(const Dictionary & yRef);
     Dictionary(Dictionary && yRef);
     Dictionary(iterator begin, iterator end);
     ~Dictionary();
     
-    Dictionary<TKey, TValue> &
-    operator=(const Dictionary<TKey, TValue>& yRef);
-    Dictionary<TKey, TValue> &
-    operator=(Dictionary<TKey, TValue>&& yRef);
+    Dictionary<TKey, TValue> & operator=(const Dictionary<TKey, TValue>& yRef);
+    Dictionary<TKey, TValue> & operator=(Dictionary<TKey, TValue>&& yRef);
     TValue & operator[](const TKey & key);
-    TValue & operator[](dki_pair & ki_pair);
+    TValue & operator[](ki_pair & keyIndexPair);
+
     
     TValue & at(const TKey & key);
-    TValue & at(dki_pair & ki_pair);
     TValue & at(const TKey & key, size_type index);
-    
+    TValue & at(ki_pair& keyIndexPair);
+
     iterator begin();
     iterator end();
     
@@ -59,16 +53,13 @@ public:
     const_interator find(const TKey & key) const;
     size_type count(const TKey & key) const;
     
-    std::pair< const_interator, const_interator>
+    std::pair< const_interator, const_interator >
     equal_range(const TKey & key) const;
     const_interator lower_bound(const TKey & key) const;
     const_interator upper_bound(const TKey & key) const;
     
-    iterator insert(const TValue & value);
-    iterator insert(TValue && value);
-    iterator insert(const_interator hint, const value_type & value);
-    iterator insert(const_interator hint, value_type && value);
-    iterator insert(const dkv_pair & kv_pair);
+    iterator insert(const value_type & kv_pair);
+    iterator insert(std::initializer_list<value_type> _Ilist);
     
     iterator erase(const_interator position);
     size_type erase(const key_type& key);
