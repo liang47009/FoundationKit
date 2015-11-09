@@ -231,6 +231,12 @@ void DataStream::write(unsigned char* data, size_t pSize, int pPos)
 	{
 		memcpy(&_buffer[pPos], data, pSize);
 	}
+    else
+    {
+        std::ostringstream os;
+        os << "pPos + pSize > _buffer.size()";
+        throw std::out_of_range(os.str());
+    }
 }
 
 void DataStream::read( unsigned char* data, size_t dataSize )

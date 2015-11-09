@@ -99,7 +99,7 @@ public:
 		return readSequenceContainer<std::list<V>, V>(data);
 	}
 
-	void write			(uint8_t* data, size_t pSize, int32_t pPos = -1);
+	void write (uint8_t* data, size_t pSize, int32_t pPos = -1);
 
 	template< typename T >
 	void read(T& data)
@@ -147,10 +147,10 @@ private:
 	template<typename C, typename V>
 	DataStream& readSequenceContainer(C& data)
 	{
-		uint32_t size;
+		size_t size=0;
 		*this >> size;
 
-		for(uint64_t i = 0; i < size; ++i)
+		for(size_t i = 0; i < size; ++i)
 		{
 			V value;
 			*this >> value;
@@ -174,12 +174,9 @@ private:
 	template<typename C ,typename K, typename V>
 	DataStream& readAssociativeContainer(C& data)
 	{
-		uint32_t size;
+		size_t size=0;
 		*this >> size;
-		//if(size > 1000)
-		//    return *this;
-
-		for(uint64_t i = 0; i < size; ++i)
+		for(size_t i = 0; i < size; ++i)
 		{
 			K key;
 			V value;
