@@ -68,6 +68,37 @@ void TestDictionary()
     }
 
     LOG_INFO("===== Item count with %d = %d", ikey, dict2.count(ikey));
+    dict2.insert({10,"value 0"});
+    dict2.insert({10,"value 1"});
+    dict2.insert({10,"value 2"});
+    dict2.insert({10,"value 3"});
+    
+    auto values = dict2.valuesOfKey(10);
+    for (auto value: values)
+    {
+        LOG_INFO("===== KEY=%d, VALUE=%s", 10, value.c_str());
+    }
+    
+    auto keys = dict2.allKeys();
+    for (auto key: keys)
+    {
+        LOG_INFO("===== KEY=%d", key);
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

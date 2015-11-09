@@ -7,6 +7,7 @@ losemymind.libo@gmail.com
 #pragma once
 
 #include <unordered_map>
+#include <vector>
 #include "FoundationKit/FoundationKitDefines.h"
 
 NS_FK_BEGIN
@@ -43,6 +44,9 @@ public:
     TValue & at(const TKey & key);
     TValue & at(const TKey & key, size_type index);
     TValue & at(ki_pair& keyIndexPair);
+    
+    std::vector<TValue> valuesOfKey(const TKey &key);
+    std::vector<TKey> allKeys();
 
     iterator begin();
     iterator end();

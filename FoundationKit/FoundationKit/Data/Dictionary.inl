@@ -102,6 +102,29 @@ TValue & Dictionary<TKey, TValue>::at(const TKey & key, size_type index)
 }
 
 template < typename TKey, typename TValue >
+std::vector<TValue> Dictionary<TKey, TValue>::valuesOfKey(const TKey &key)
+{
+    std::pair<iterator, iterator> range = m_MultiMap.equal_range(key);
+    std::vector<TValue>  values;
+    for (auto it = range.first; it != range.second; ++it)
+    {
+        values.push_back(it->second);
+    }
+    return values;
+}
+
+template < typename TKey, typename TValue >
+std::vector<TKey> Dictionary<TKey, TValue>::allKeys()
+{
+    std::vector<TKey> keys;
+    for (auto it : m_MultiMap)
+    {
+        keys.push_back(it.first);
+    }
+    return keys;
+}
+
+template < typename TKey, typename TValue >
 typename Dictionary<TKey, TValue>::iterator Dictionary<TKey, TValue>::begin()
 {
     return (m_MultiMap.begin());
@@ -126,15 +149,13 @@ typename Dictionary<TKey, TValue>::const_interator Dictionary<TKey, TValue>::cen
 }
 
 template < typename TKey, typename TValue >
-typename Dictionary<TKey, TValue>::const_interator Dictionary<TKey, TValue>::find
-(const TKey & key) const
+typename Dictionary<TKey, TValue>::const_interator Dictionary<TKey, TValue>::find(const TKey & key) const
 {
     return (m_MultiMap.find(key));
 }
 
 template < typename TKey, typename TValue >
-typename Dictionary<TKey, TValue>::size_type Dictionary<TKey, TValue>::count
-(const TKey & key) const
+typename Dictionary<TKey, TValue>::size_type Dictionary<TKey, TValue>::count(const TKey & key) const
 {
     return (m_MultiMap.count(key));
 }
