@@ -11,6 +11,7 @@
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Data/Dictionary.h"
 #include "FoundationKit/Data/DictionaryTest.h"
+#include "FoundationKit/Data/DataStreamTest.h"
 
 
 using namespace FoundationKit;
@@ -29,6 +30,7 @@ using namespace FoundationKit;
     Scheduler::getInstance()->setTimeScale(1.0f);
     
     TestDictionary();
+    TestDataStream();
     
     return YES;
 }
