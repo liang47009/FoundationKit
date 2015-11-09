@@ -199,7 +199,7 @@ DataStream& DataStream::operator>>(double& data)
 
 DataStream& DataStream::operator>>(std::string& data)
 {
-	unsigned int size = 0;
+	size_t size = 0;
 	*this >> size;
 
 	// Check for fake string size to prevent memory hacks
