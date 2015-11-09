@@ -18,8 +18,10 @@ class  DataStream
 {
 public:
 	DataStream();
+    DataStream(const DataStream& pDataStream);
 	DataStream(DataStream&& pDataStream);
-	DataStream& operator=(DataStream&& pDataStream);
+	DataStream& operator=(const DataStream& pDataStream);
+    DataStream& operator=(DataStream&& pDataStream);
     DataStream& operator<<(const unsigned char data);
     DataStream& operator<<(const unsigned short data);
     DataStream& operator<<(const unsigned int data);
@@ -130,7 +132,7 @@ public:
 
 	const char* c_str();
 
-	const std::string&	getBuffer();
+	const std::string&	getBuffer()const;
 
 private:
 	template<typename C>

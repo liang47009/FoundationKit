@@ -13,10 +13,20 @@ NS_FK_BEGIN
 DataStream::DataStream()
 {
 }
-
-DataStream::DataStream(DataStream&& pDataStream): 
-		_buffer(std::move(pDataStream._buffer))
+DataStream::DataStream(const DataStream& pDataStream)
+    : _buffer(pDataStream.getBuffer())
 {
+}
+
+DataStream::DataStream(DataStream&& pDataStream)
+    : _buffer(std::move(pDataStream._buffer))
+{
+}
+
+DataStream& DataStream::operator=(const DataStream& pDataStream)
+{
+    _buffer = pDataStream.getBuffer();
+    return *this;
 }
 
 DataStream& DataStream::operator=(DataStream&& pDataStream)
@@ -261,7 +271,7 @@ size_t DataStream::size()
 	return (int)_buffer.size();
 }
 
-const std::string& DataStream::getBuffer()
+const std::string& DataStream::getBuffer()const
 {
 	return _buffer;
 }
