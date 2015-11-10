@@ -209,6 +209,13 @@ Dictionary<TKey, TValue>::insert(std::initializer_list<value_type> _Ilist)
 
 template < typename TKey, typename TValue >
 typename Dictionary<TKey, TValue>::iterator
+Dictionary<TKey, TValue>::insert(const TKey& key, const TValue& value)
+{
+    return m_MultiMap.insert({key, value});
+}
+
+template < typename TKey, typename TValue >
+typename Dictionary<TKey, TValue>::iterator
 Dictionary<TKey, TValue>::erase
 (typename Dictionary<TKey, TValue>::const_interator position)
 {

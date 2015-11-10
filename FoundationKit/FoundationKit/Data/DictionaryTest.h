@@ -72,6 +72,7 @@ void TestDictionary()
     dict2.insert({10,"value 1"});
     dict2.insert({10,"value 2"});
     dict2.insert({10,"value 3"});
+    dict2.insert(ikey, value0);
     
     auto values = dict2.valuesOfKey(10);
     for (auto value: values)

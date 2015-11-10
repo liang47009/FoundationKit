@@ -63,6 +63,7 @@ public:
     
     iterator insert(const value_type & kv_pair);
     iterator insert(std::initializer_list<value_type> _Ilist);
+    iterator insert(const TKey& key, const TValue& value);
     
     iterator erase(const_interator position);
     size_type erase(const key_type& key);
