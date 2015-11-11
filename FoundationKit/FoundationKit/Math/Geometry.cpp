@@ -1,4 +1,9 @@
-
+/****************************************************************************
+ Copyright (c) 2015 libo All rights reserved.
+ 
+ losemymind.libo@gmail.com
+ 
+ ****************************************************************************/
 #include <algorithm>
 #include <assert.h>
 #include <float.h>

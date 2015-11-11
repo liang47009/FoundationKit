@@ -1,9 +1,9 @@
 /****************************************************************************
-Copyright (c) 2015 libo.
-
-losemymind.libo@gmail.com
-
-****************************************************************************/
+ Copyright (c) 2015 libo All rights reserved.
+ 
+ losemymind.libo@gmail.com
+ 
+ ****************************************************************************/
 #include "FileUtils.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Foundation/StringUtils.h"

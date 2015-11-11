@@ -1,3 +1,9 @@
+/****************************************************************************
+ Copyright (c) 2015 libo All rights reserved.
+ 
+ losemymind.libo@gmail.com
+ 
+ ****************************************************************************/
 #pragma once
 #include <math.h>
 #include <functional>

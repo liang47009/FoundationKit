@@ -1,9 +1,9 @@
 /****************************************************************************
-  Copyright (c) 2014-2015 libo.
-
-  losemymind.libo@gmail.com
-
-****************************************************************************/
+ Copyright (c) 2015 libo All rights reserved.
+ 
+ losemymind.libo@gmail.com
+ 
+ ****************************************************************************/
 #pragma once
 #include <random>
 #include <cmath>

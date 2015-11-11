@@ -1,7 +1,11 @@
-
+/****************************************************************************
+ Copyright (c) 2015 libo All rights reserved.
+ 
+ losemymind.libo@gmail.com
+ 
+ ****************************************************************************/
 #include "ProtectedMemoryAllocator.h"
 #include <assert.h>
-
 
 ProtectedMemoryAllocator::ProtectedMemoryAllocator(vm_size_t pool_size)
     : _poolSize(pool_size)

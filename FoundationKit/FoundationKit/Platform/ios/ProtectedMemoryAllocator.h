@@ -1,6 +1,11 @@
+/****************************************************************************
+ Copyright (c) 2015 libo All rights reserved.
+ 
+ losemymind.libo@gmail.com
+ 
+ ****************************************************************************/
 #ifndef FoundationKit_ProtectedMemoryAllocator_H
 #define FoundationKit_ProtectedMemoryAllocator_H
-
 
 #pragma once
 

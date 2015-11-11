@@ -1,7 +1,7 @@
 /****************************************************************************
-Copyright (c) 2015 libo.
+ Copyright (c) 2015 libo All rights reserved.
 
-losemymind.libo@gmail.com
+ losemymind.libo@gmail.com
 
 ****************************************************************************/
 #pragma once

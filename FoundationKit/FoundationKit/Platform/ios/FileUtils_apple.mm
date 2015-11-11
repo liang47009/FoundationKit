@@ -1,5 +1,9 @@
-
-
+/****************************************************************************
+ Copyright (c) 2015 libo All rights reserved.
+ 
+ losemymind.libo@gmail.com
+ 
+ ****************************************************************************/
 #include "FoundationKit/FoundationKitDefines.h"
 #if (FK_TARGET_PLATFORM == FK_PLATFORM_IOS || FK_TARGET_PLATFORM == FK_PLATFORM_MAC)
 #include "FileUtils.h"

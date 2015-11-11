@@ -1,7 +1,7 @@
 /****************************************************************************
-Copyright (c) 2015-2016 libo.
+  Copyright (c) 2015 libo All rights reserved.
 
-losemymind.libo@gmail.com
+  losemymind.libo@gmail.com
 
 ****************************************************************************/
 #include "NotificationCenter.h"

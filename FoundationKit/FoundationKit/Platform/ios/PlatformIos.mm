@@ -1,3 +1,9 @@
+/****************************************************************************
+ Copyright (c) 2015 libo All rights reserved.
+ 
+ losemymind.libo@gmail.com
+ 
+ ****************************************************************************/
 #ifdef FK_TARGET_OS_IPHONE
 #include "Platform.h"
 #include <sys/types.h>

@@ -1,5 +1,5 @@
 /****************************************************************************
-  Copyright (c) 2013-2014 libo.
+  Copyright (c) 2015 libo All rights reserved.
  
   losemymind.libo@gmail.com
 

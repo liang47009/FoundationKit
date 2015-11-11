@@ -1,9 +1,9 @@
 /****************************************************************************
-Copyright (c) 2015 libo.
-
-losemymind.libo@gmail.com
-
-****************************************************************************/
+ Copyright (c) 2015 libo All rights reserved.
+ 
+ losemymind.libo@gmail.com
+ 
+ ****************************************************************************/
 #ifndef FoundationKit_FileUtils_H
 #define FoundationKit_FileUtils_H
 #pragma once
