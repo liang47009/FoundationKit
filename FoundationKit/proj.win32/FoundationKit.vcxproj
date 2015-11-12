@@ -108,11 +108,9 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Data\Buffer.h" />
     <ClInclude Include="..\FoundationKit\Data\Data.h" />
     <ClInclude Include="..\FoundationKit\Data\DataStream.h" />
+    <ClInclude Include="..\FoundationKit\Data\DataStreamTest.h" />
     <ClInclude Include="..\FoundationKit\Data\Dictionary.h" />
-    <ClInclude Include="..\FoundationKit\Data\Hash.h" />
-    <ClInclude Include="..\FoundationKit\Data\HashFunction.h" />
-    <ClInclude Include="..\FoundationKit\Data\HashStatistic.h" />
-    <ClInclude Include="..\FoundationKit\Data\HashTable.h" />
+    <ClInclude Include="..\FoundationKit\Data\DictionaryTest.h" />
     <ClInclude Include="..\FoundationKit\Data\Value.h" />
     <ClInclude Include="..\FoundationKit\Data\ValueTest.h" />
     <ClInclude Include="..\FoundationKit\Events\Event.h" />
@@ -194,8 +192,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp" />
     <ClCompile Include="..\FoundationKit\Data\Data.cpp" />
     <ClCompile Include="..\FoundationKit\Data\DataStream.cpp" />
-    <ClCompile Include="..\FoundationKit\Data\Hash.cpp" />
-    <ClCompile Include="..\FoundationKit\Data\HashStatistic.cpp" />
     <ClCompile Include="..\FoundationKit\Data\Value.cpp" />
     <ClCompile Include="..\FoundationKit\Events\Event.cpp" />
     <ClCompile Include="..\FoundationKit\Events\EventAcceleration.cpp" />

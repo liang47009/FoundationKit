@@ -132,18 +132,6 @@
     <ClInclude Include="..\FoundationKit\Math\Math.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Data\HashTable.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Data\Hash.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Data\HashFunction.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Data\HashStatistic.h">
-      <Filter>Data</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\FunctionHelper.h">
       <Filter>FoundationKit</Filter>
     </ClInclude>
@@ -342,6 +330,12 @@
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h">
       <Filter>external\unzip</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Data\DataStreamTest.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Data\DictionaryTest.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Data\Data.cpp">
@@ -397,12 +391,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Math\Math.cpp">
       <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Data\Hash.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Data\HashStatistic.cpp">
-      <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\NotificationCenter.cpp">
       <Filter>Foundation\Notifications</Filter>

@@ -188,7 +188,7 @@ static inline std::string convertPathFormatToUnixStyle(const std::string& path)
 {
     std::string ret = path;
     size_t len = ret.length();
-    for (int i = 0; i < len; ++i)
+	for (size_t i = 0; i < len; ++i)
     {
         if (ret[i] == '\\')
         {
