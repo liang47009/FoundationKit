@@ -11,41 +11,6 @@
 
 NS_FK_BEGIN
 
-/**
- * @code
- *   struct MyStruct
- *   {
- *      int a;
- *      double b;
- *   };
- *   auto ptr = AlignedStorage<MyStruct>::create();
- *   auto ptr0 = AlignedStorage<MyStruct>::get(ptr);
- *   AlignedStorage<MyStruct>::destroy(ptr);
- * @endcode
- */
-template<typename T>
-struct AlignedStorage 
-{
-    using type = typename std::aligned_storage<sizeof(T), std::alignment_of<T>::value>::type;
-    template<typename... Args>
-    static type create(Args&&... args)
-    {
-        type  _ptr;
-        new(&_ptr)T(std::forward<Args>(args)...);
-        return _ptr;
-    }
-    static void destroy(type& ptr)
-    {
-        reinterpret_cast<T*>(&ptr)->~T();
-    }
-
-    static T* get(type& ptr)
-    {
-        return reinterpret_cast<T*>(&ptr);
-    }
-};
-
-
 /** 
  * check class has a member
  * @code

@@ -86,6 +86,7 @@
 		09445CD01BF081A3002DB11A /* DataStreamTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStreamTest.h; sourceTree = "<group>"; };
 		09445CD11BF42675002DB11A /* any.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = any.hpp; sourceTree = "<group>"; };
 		09445CD21BF42676002DB11A /* anyTest.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = anyTest.hpp; sourceTree = "<group>"; };
+		09445CD31BF59623002DB11A /* memory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = memory.hpp; sourceTree = "<group>"; };
 		094D60BB1BEC3F0F008ED567 /* DictionaryTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryTest.h; sourceTree = "<group>"; };
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0977BAF61AB6CC31006BC260 /* libFoundationKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundationKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -414,6 +415,7 @@
 		09DBEC531BE0662E0063A2BF /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				09445CD31BF59623002DB11A /* memory.hpp */,
 				09445CD11BF42675002DB11A /* any.hpp */,
 				09445CD21BF42676002DB11A /* anyTest.hpp */,
 				09DBEC541BE0662E0063A2BF /* ApplyTuple.h */,
