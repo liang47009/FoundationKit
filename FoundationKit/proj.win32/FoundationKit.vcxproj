@@ -136,6 +136,8 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h" />
     <ClInclude Include="..\FoundationKit\FoundationKitDefines.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\any.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\anyTest.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Exception.h" />
     <ClInclude Include="..\FoundationKit\Foundation\function_traits.h" />
