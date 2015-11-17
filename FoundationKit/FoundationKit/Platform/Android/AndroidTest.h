@@ -4,6 +4,7 @@
 #include "AndroidJNIConverter.h"
 #include "AndroidJNICaller.h"
 #include "AndroidJavaObject.h"
+#include "AndroidJavaClass.h"
 
 NS_FK_BEGIN
 
@@ -110,12 +111,7 @@ namespace Android
             LOGD("===== buf 222 :%s", buf);
 
             LOGD("===== last ref count:%d", last._rep->getReferenceCount());
-
-
-
     }
-
-
 } //namespace Andorid
 
 NS_FK_END

@@ -29,7 +29,7 @@ namespace Android
 
 
     AndroidJavaObject::AndroidJavaObject(jobject jobj)
-    :AndroidJavaObject()
+        : AndroidJavaObject()
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
         if (!env) 
@@ -41,6 +41,7 @@ namespace Android
         if (jobj)
         {
             _object = env->NewGlobalRef(jobj);
+            _classID = env->GetObjectClass(jobj);
             createRefCountedBase();
         }
         else
@@ -98,12 +99,12 @@ namespace Android
     }
 
 
-    jclass AndroidJavaObject::getRawClass()
+    jclass AndroidJavaObject::getRawClass()const
     {
         return _classID;
     }
 
-    jobject AndroidJavaObject::getRawObject()
+    jobject AndroidJavaObject::getRawObject()const
     {
         return _object;
     }
