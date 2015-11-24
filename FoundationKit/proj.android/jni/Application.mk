@@ -7,6 +7,8 @@ APP_STL := gnustl_static
 #NDK_TOOLCHAIN_VERSION := 4.8
 NDK_TOOLCHAIN_VERSION := clang
 
+APP_PLATFORM := android-9
+
 #设置编译架构
 #APP_ABI := all
 #APP_ABI := armeabi armeabi-v7a x86
