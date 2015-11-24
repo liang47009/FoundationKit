@@ -217,7 +217,7 @@ public:
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
         const char * signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
         jfieldID fid = env->GetStaticFieldID(_classID, fieldName.c_str(), signature);
-        return JNICaller<T>::getFieldStatic(env, getRawObject(), fid);
+        return JNICaller<T>::getFieldStatic(env, getRawClass(), fid);
     }
 
     /** Set the value of a static field in an object type.
@@ -231,7 +231,7 @@ public:
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
         const char * signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > >::Result::value();
         jfieldID fid = env->GetStaticFieldID(_classID, fieldName.c_str(), signature);
-        JNICaller<T>::setFieldStatic(env, getRawObject(), fid, CPPToJNIConverter<T>::convert(fieldValue));
+        JNICaller<T>::setFieldStatic(env, getRawClass(), fid, CPPToJNIConverter<T>::convert(fieldValue));
     }
 
     jclass getRawClass()const;
