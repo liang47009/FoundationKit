@@ -9,16 +9,12 @@
 #ifndef STD_OPTIONAL_H_
 #define STD_OPTIONAL_H_
 
-#if __cplusplus >= 201103L
-#include <optional>
-
-#else
-
 #include <type_traits>
 #include <exception>
 #include <string>
+#include "stddefines.hpp"
 
-namespace std {
+_STD_BEGIN
 
 class nullopt_t { };
 
@@ -263,7 +259,7 @@ bool operator<(const T &value, const optional<T> &opt) {
     return bool(opt) ? std::less<T>{}(*opt, value) : false;
 }
 
-}  // namespace std
-#endif // #if __cplusplus >= 201103L
+_STD_END
+
 #endif // #ifndef STD_OPTIONAL_H_
 

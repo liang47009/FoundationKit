@@ -7,10 +7,9 @@
 #pragma once
 #include <tuple>
 #include <functional>
-#include "FoundationKit/FoundationKitDefines.h"
-#include "FoundationKit/Foundation/Logger.h"
+#include "stddefines.hpp"
 
-NS_FK_BEGIN
+_STD_BEGIN
 
 /** 
  * 
@@ -109,8 +108,8 @@ struct function_traits : public function_traits < decltype(&T::operator()) >{};
 
 //
 template < typename T>
-struct function_traits<T&> : public function_traits < std::remove_reference_t<T> >{};
+struct function_traits<T&> : public function_traits < typename std::remove_reference<T>::type >{};
 
-NS_FK_END
+_STD_END
 
 

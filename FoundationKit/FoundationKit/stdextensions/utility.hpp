@@ -4,12 +4,15 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
+#ifndef FoundationKit_utility_H
+#define FoundationKit_utility_H
 
 #pragma once
 #include "FoundationKit/FoundationKitDefines.h"
 #include <utility>
+#include "stddefines.hpp"
 
-NS_FK_BEGIN
+_STD_BEGIN
 
 /** 
  * check class has a member
@@ -49,52 +52,60 @@ public:\
 /**
  * Get max integer
  * @code
- *   int ret = MaxIntegerOf<10, 1, 20, 30,100, 20, 11>::value;
+ *   int ret = max_integer_of<10, 1, 20, 30,100, 20, 11>::value;
  * @endcode
  * the ret is 100
  */
 template<size_t N, size_t... R>
-struct MaxIntegerOf;
+struct max_integer_of;
 
 template<size_t N>
-struct MaxIntegerOf<N> : std::integral_constant < size_t, N > {};
+struct max_integer_of<N> : std::integral_constant < size_t, N >{};
 
 template<size_t N0, size_t N1, size_t... R>
-struct MaxIntegerOf<N0, N1, R...> :std::integral_constant < size_t,
+struct max_integer_of<N0, N1, R...> :std::integral_constant < size_t,
     N0 >= N1 ?
-    MaxIntegerOf<N0, R...>::value :
-    MaxIntegerOf<N1, R...>::value > {};
+    max_integer_of<N0, R...>::value :
+    max_integer_of<N1, R...>::value >{};
 
 /** 
  * Get memory aligned size
  * @code
- *   size_t len = MaxAligned<int, std::string, double, char[4], long long, long long int>::value;
+ *   size_t len = max_aligned<int, std::string, double, char[4], long long, long long int>::value;
  * @endcode
  * len is 8
  */
 template<typename... Args>
-struct MaxAligned : std::integral_constant < int, MaxIntegerOf<std::alignment_of<Args>::value...>::value > {};
+struct max_aligned : std::integral_constant < int, max_integer_of<std::alignment_of<Args>::value...>::value > {};
 
 
 /**
  * Whether it contains a type
  * @code
- *   bool contain = ContainsOfType<int, std::string, int, double, float, char*, char>::value;
- *   bool notcontain = ContainsOfType<int, std::string, double, float, char*, char>::value;
+ *   bool contain = contains_of_type<int, std::string, int, double, float, char*, char>::value;
+ *   bool notcontain = contains_of_type<int, std::string, double, float, char*, char>::value;
  * @endcode
  * contain is true
  * notcontain is false
  */
 template<typename T, typename... LIST>
-struct ContainsOfType;
+struct contains_of_type;
 
 template<typename T, typename H, typename... R>
-struct ContainsOfType<T, H, R...> : std::conditional < std::is_same<T, H>::value,
-    std::true_type, ContainsOfType < T, R... > > ::type{};
+struct contains_of_type<T, H, R...> : std::conditional < std::is_same<T, H>::value,
+    std::true_type, contains_of_type < T, R... > > ::type{};
 
 template<typename T>
-struct ContainsOfType<T> : std::false_type{};
-
-NS_FK_END
+struct contains_of_type<T> : std::false_type{};
 
 
+template <class _Ty>
+struct always_false
+{
+    static const bool value = false;
+};
+
+_STD_END
+
+
+#endif // FoundationKit_utility_H

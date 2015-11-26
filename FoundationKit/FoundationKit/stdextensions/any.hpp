@@ -15,30 +15,31 @@ Original file from boost: http://www.boost.org
 #endif
 #include <algorithm>
 #include <typeinfo>
+#include "stddefines.hpp"
 
+_STD_BEGIN
 // stl is not implement disable_if, so we implement it and add to std namespace.
-namespace std
-{
-    /**
-    // TEMPLATE CLASS disable_if
-    template<bool _Test,
-    class _Ty = void>
-    struct disable_if
-    {	// type is undefined for assumed !_Test
-        typedef _Ty type;
-    };
 
-    template<class _Ty>
-    struct disable_if < true, _Ty >
-    {	// type is _Ty for _Test
+/**
+// TEMPLATE CLASS disable_if
+template<bool _Test,
+class _Ty = void>
+struct disable_if
+{	// type is undefined for assumed !_Test
+    typedef _Ty type;
+};
+
+template<class _Ty>
+struct disable_if < true, _Ty >
+{	// type is _Ty for _Test
         
-    };
-    */
+};
+*/
 
-    //written more simply as
-    template < bool _Test, class _Ty = void >
-    using disable_if = std::enable_if < !_Test, _Ty > ;
-}
+//written more simply as
+template < bool _Test, class _Ty = void >
+using disable_if = std::enable_if < !_Test, _Ty > ;
+
 
 
 class any
@@ -252,7 +253,7 @@ ValueType any_cast(any & operand)
     typedef typename std::conditional <
         std::is_reference<ValueType>::value,
         ValueType,
-        typename std::add_reference<ValueType>::type
+        typename std::add_lvalue_reference<ValueType>::type
     > ::type ref_type;
 
     return static_cast<ref_type>(*result);
@@ -269,7 +270,7 @@ inline ValueType any_cast(const any & operand)
 template<typename ValueType>
 inline ValueType any_cast(any&& operand)
 {
-    std::static_assert(
+    static_assert(
         std::is_rvalue_reference<ValueType&&>::value /*true if ValueType is rvalue or just a value*/
         || std::is_const< typename std::remove_reference<ValueType>::type >::value,
         "any_cast shall not be used for getting nonconst references to temporary objects"
@@ -295,6 +296,8 @@ inline const ValueType* unsafe_any_cast(const any * operand) _NOEXCEPT
 {
     return unsafe_any_cast<ValueType>(const_cast<any *>(operand));
 }
+
+_STD_END
 
 #endif // FoundationKit_any_H
 

@@ -12,6 +12,11 @@
 #include "FoundationKit/Data/Dictionary.h"
 #include "FoundationKit/Data/DictionaryTest.h"
 #include "FoundationKit/Data/DataStreamTest.h"
+#include "FoundationKit/stdextensions/function_traits.hpp"
+#include "FoundationKit/stdextensions/aligned_ptr.hpp"
+#include "FoundationKit/stdextensions/any.hpp"
+#include "FoundationKit/stdextensions/optional.hpp"
+#include "FoundationKit/stdextensions/utility.hpp"
 
 
 using namespace FoundationKit;
