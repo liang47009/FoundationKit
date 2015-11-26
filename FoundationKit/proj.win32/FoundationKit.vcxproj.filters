@@ -58,6 +58,15 @@
     <Filter Include="external\unzip">
       <UniqueIdentifier>{49aba178-7de0-4404-b102-a25107d2b7da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="stdextensions">
+      <UniqueIdentifier>{c3eebad2-fd7a-4ad4-b611-23fd3c8b1281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{6d13a433-c1f4-453e-a084-f25fa1e92b63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thread\Impl">
+      <UniqueIdentifier>{8b68b36b-2bee-40df-b21a-8d10a0dc9aee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -255,15 +264,6 @@
     <ClInclude Include="..\FoundationKit\Events\Touch.h">
       <Filter>Events</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\function_traits.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\optional.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\utility.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Cache\AbstractCache.h">
       <Filter>Cache</Filter>
     </ClInclude>
@@ -336,11 +336,38 @@
     <ClInclude Include="..\FoundationKit\Data\DictionaryTest.h">
       <Filter>Data</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\any.hpp">
-      <Filter>Foundation</Filter>
+    <ClInclude Include="..\FoundationKit\stdextensions\aligned_ptr.hpp">
+      <Filter>stdextensions</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\anyTest.hpp">
-      <Filter>Foundation</Filter>
+    <ClInclude Include="..\FoundationKit\stdextensions\any.hpp">
+      <Filter>stdextensions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\stdextensions\function_traits.hpp">
+      <Filter>stdextensions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\stdextensions\optional.hpp">
+      <Filter>stdextensions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\stdextensions\stddefines.hpp">
+      <Filter>stdextensions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\stdextensions\utility.hpp">
+      <Filter>stdextensions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Thread\thread.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Thread\Impl\thread.h">
+      <Filter>Thread\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Thread\Impl\thread_posix.h">
+      <Filter>Thread\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Thread\Impl\thread_win32.h">
+      <Filter>Thread\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Thread\Impl\thread_wp.h">
+      <Filter>Thread\Impl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

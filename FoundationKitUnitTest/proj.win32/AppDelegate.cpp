@@ -18,6 +18,12 @@
 #include "FoundationKit/Foundation/ApplyTuple.h"
 #include "FoundationKit/Foundation/TupleApply.h"
 #include "FoundationKit/Platform/Platform.h"
+#include "FoundationKit/stdextensions/aligned_ptr.hpp"
+#include "FoundationKit/stdextensions/any.hpp"
+#include "FoundationKit/stdextensions/function_traits.hpp"
+#include "FoundationKit/stdextensions/optional.hpp"
+#include "FoundationKit/stdextensions/utility.hpp"
+#include "FoundationKit/stdextensions/utility.hpp"
 
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"

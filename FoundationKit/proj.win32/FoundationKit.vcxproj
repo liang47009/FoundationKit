@@ -136,16 +136,12 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h" />
     <ClInclude Include="..\FoundationKit\FoundationKitDefines.h" />
-    <ClInclude Include="..\FoundationKit\Foundation\any.hpp" />
-    <ClInclude Include="..\FoundationKit\Foundation\anyTest.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Exception.h" />
-    <ClInclude Include="..\FoundationKit\Foundation\function_traits.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Logger.h" />
     <ClInclude Include="..\FoundationKit\Foundation\noncopyable.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\NotificationCenter.h" />
     <ClInclude Include="..\FoundationKit\Foundation\NotificationObserver.h" />
-    <ClInclude Include="..\FoundationKit\Foundation\optional.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Runnable.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Scheduler.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Singleton.h" />
@@ -154,7 +150,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\TupleApply.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Types.h" />
     <ClInclude Include="..\FoundationKit\Foundation\uthash.h" />
-    <ClInclude Include="..\FoundationKit\Foundation\utility.h" />
     <ClInclude Include="..\FoundationKit\Foundation\utlist.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Version.h" />
     <ClInclude Include="..\FoundationKit\Foundation\WorkQueue.h" />
@@ -188,6 +183,17 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Platform\Platform.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h" />
+    <ClInclude Include="..\FoundationKit\stdextensions\aligned_ptr.hpp" />
+    <ClInclude Include="..\FoundationKit\stdextensions\any.hpp" />
+    <ClInclude Include="..\FoundationKit\stdextensions\function_traits.hpp" />
+    <ClInclude Include="..\FoundationKit\stdextensions\optional.hpp" />
+    <ClInclude Include="..\FoundationKit\stdextensions\stddefines.hpp" />
+    <ClInclude Include="..\FoundationKit\stdextensions\utility.hpp" />
+    <ClInclude Include="..\FoundationKit\Thread\Impl\thread.h" />
+    <ClInclude Include="..\FoundationKit\Thread\Impl\thread_posix.h" />
+    <ClInclude Include="..\FoundationKit\Thread\Impl\thread_win32.h" />
+    <ClInclude Include="..\FoundationKit\Thread\Impl\thread_wp.h" />
+    <ClInclude Include="..\FoundationKit\Thread\thread.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp" />
