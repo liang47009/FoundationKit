@@ -125,7 +125,7 @@ public:
 #endif
 	}
 
-	_TTHREAD_DISABLE_ASSIGNMENT(recursive_mutex)
+	DISABLE_ASSIGNMENT(recursive_mutex)
 
 private:
 #if defined(_TTHREAD_WIN32_)
@@ -214,25 +214,24 @@ public:
 private:
 	pthread_cond_t mHandle;
 };
+    
+    static id _pthread_t_to_ID(const pthread_t &aHandle)
+    {
+        static mutex idMapLock;
+        static std::map<pthread_t, unsigned long int> idMap;
+        static unsigned long int idCount(1);
+        
+        lock_guard<mutex> guard(idMapLock);
+        if(idMap.find(aHandle) == idMap.end())
+            idMap[aHandle] = idCount ++;
+        return id(idMap[aHandle]);
+    }
 
-
-static id _pthread_t_to_ID(const pthread_t &aHandle)
-{
-	static mutex idMapLock;
-	static std::map<pthread_t, unsigned long int> idMap;
-	static unsigned long int idCount(1);
-
-	lock_guard<mutex> guard(idMapLock);
-	if(idMap.find(aHandle) == idMap.end())
-		idMap[aHandle] = idCount ++;
-	return thread::id(idMap[aHandle]);
-}
 /// Thread class.
 class thread {
 public:
 	typedef pthread_t native_handle_type;
 
-	class id;
 
 	/// Default constructor.
 	/// Construct a @c thread object without an associated thread of execution
@@ -257,10 +256,10 @@ public:
 
 		// Fill out the thread startup information (passed to the thread wrapper,
 		// which will eventually free it)
-		_thread_start_info * ti = new _thread_start_info;
-		ti->mFunction = aFunction;
-		ti->mArg = aArg;
-		ti->mThread = this;
+		thread_parameter * ti = new thread_parameter;
+		ti->_workfunction = aFunction;
+		ti->_param = aArg;
+		ti->_thread = this;
 
 		// The thread is now alive
 		mNotAThread = false;

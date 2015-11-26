@@ -17,6 +17,7 @@
 #include "FoundationKit/stdextensions/any.hpp"
 #include "FoundationKit/stdextensions/optional.hpp"
 #include "FoundationKit/stdextensions/utility.hpp"
+#include "FoundationKit/Thread/thread.h"
 
 
 using namespace FoundationKit;
