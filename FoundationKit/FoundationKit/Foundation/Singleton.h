@@ -12,23 +12,6 @@
 #include "FoundationKit/FoundationKitDefines.h"
 NS_FK_BEGIN
 
-namespace detail {
-
-    /**  this can detect inherited member functions!
-     *   usage:
-     *   bool b1 = has_function<TestCheckFun>::value;
-     *   bool b1 = has_function<TestCheckFun, int>::value;
-     */
-    template<typename T, typename... Args>
-    struct has_function
-    {
-        template<typename C, typename = decltype(std::declval<C>().destroyInstance(std::declval<Args>()...))>
-        static std::true_type test(int);
-        template<typename C> static std::false_type test(...);
-        const static bool value = decltype(test<T>(0))::value;
-    };
-}//namespace detail
-
 template< typename T, bool destroy_on_exit = true >
 class Singleton : noncopyable
 {
