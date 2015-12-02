@@ -9,10 +9,12 @@
 #ifndef STD_OPTIONAL_H_
 #define STD_OPTIONAL_H_
 
+#if __cplusplus >= 201103L
+
+#include "stddefines.hpp"
 #include <type_traits>
 #include <exception>
 #include <string>
-#include "stddefines.hpp"
 
 _STD_BEGIN
 
@@ -260,5 +262,7 @@ bool operator<(const T &value, const optional<T> &opt) {
 }
 
 _STD_END
+
+#endif // #if __cplusplus < 201103L
 
 #endif // #ifndef STD_OPTIONAL_H_

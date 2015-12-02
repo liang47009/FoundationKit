@@ -21,3 +21,10 @@
 #endif
 
 #endif
+
+#if __cplusplus < 201103L
+#ifdef _MSC_VER
+//#  define noexcept throw ()
+//#  define noexcept(x) throw ()
+#endif
+#endif
