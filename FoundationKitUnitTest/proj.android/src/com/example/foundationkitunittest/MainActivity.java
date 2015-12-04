@@ -1,54 +1,42 @@
 package com.example.foundationkitunittest;
 
-import java.util.Arrays;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
 
 public class MainActivity extends Activity {
 
+	public static String TAG = MainActivity.class.getSimpleName();
+	public static MainActivity activity = null;
+	
+	public boolean isEnable = true;
+	
+	public int     value = 10000;
+	
+	public Bundle   instanceState = null;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		instanceState = savedInstanceState;
+		activity = this;
 		foundationInit((Context)this);
-	
-		String str= "sjfldsfjdls";
-		str += '\0';
-
-		
-		
-		byte[] key = str.getBytes();
-		
-	
-		
-		byte[] randout = str.getBytes();
-
-   
-
-		A3A8(key, randout);
-		
-		 String value = new String(key);
-		 String value1 = new String(randout);
-		
-		Log.d("MainActivity", "======:" + value + " | " + value1);
-		
 	}
 	
-	
+	public void debugPrint(int line, String fileName, String message)
+	{
+		Log.d("TAG", "debugPrint line:" + line + " file:" + fileName + " msg:"+message);
+	}
 	
 	
 	public native void  foundationInit(Context context);
 	
-	public static native void A3A8(byte[] key, byte[] randout);
-	
     static 
     {
-    	//System.loadLibrary("jemalloc");
         System.loadLibrary("foundationkittest");
     }
 }

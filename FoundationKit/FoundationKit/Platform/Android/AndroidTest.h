@@ -27,6 +27,29 @@ namespace Android
 
     static void testJavaString()
     {
+
+        LOGD("======================= TEST AndroidJavaClass===============");
+        AndroidJavaClass  class4;
+
+        {
+            AndroidJavaClass class0("com.example.foundationkitunittest.MainActivity");
+            LOGD("======= copy Constructor====");
+            AndroidJavaClass class1 = class0;
+            LOGD("class0 ref count should be is 2 : %d", class0._shared_ObjPtr->getReferenceCount());
+            LOGD("class1 ref count should be is 2 : %d", class1._shared_ObjPtr->getReferenceCount());
+
+            LOGD("======= move Constructor====");
+            AndroidJavaClass class3 = std::move(class0);
+            LOGD("class1 ref count should be is 2 : %d", class1._shared_ObjPtr->getReferenceCount());
+            LOGD("class3 ref count should be is 2 : %d", class3._shared_ObjPtr->getReferenceCount());
+
+            class4 = class3;
+        }
+
+        LOGD("class4 ref count should be is 1 : %d", class4._shared_ObjPtr->getReferenceCount());
+
+        LOGD("============================================================");
+
         //const char* strBuf = "This is test java String.";
         //size_t length      = strlen(strBuf);
 
@@ -69,7 +92,7 @@ namespace Android
              AndroidJavaObject  ajo4 = *javaString;
              AndroidJavaObject  ajo5 = *javaString;
 
-             LOGD("===== ajo5 ref count:%d", ajo5._rep->getReferenceCount());
+             LOGD("===== ajo5 ref count:%d", ajo5._shared_ObjPtr->getReferenceCount());
 
 
              AndroidJavaObject  ajo6 = ajo5;
@@ -78,11 +101,11 @@ namespace Android
              AndroidJavaObject  ajo9 = ajo8;
              AndroidJavaObject  ajo10 = ajo9;
 
-             LOGD("===== javaString ref count:%d", javaString->_rep->getReferenceCount());
-             LOGD("===== ajo10 ref count:%d", ajo10._rep->getReferenceCount());
+             LOGD("===== javaString ref count:%d", javaString->_shared_ObjPtr->getReferenceCount());
+             LOGD("===== ajo10 ref count:%d", ajo10._shared_ObjPtr->getReferenceCount());
              LOGD("==== AndroidJavaObject::raw jobject 000: %p", ajo10.getRawObject());
              delete javaString;
-             LOGD("===== ajo10 ref count:%d", ajo10._rep->getReferenceCount());
+             LOGD("===== ajo10 ref count:%d", ajo10._shared_ObjPtr->getReferenceCount());
 
              LOGD("==== AndroidJavaObject::raw jobject 111 : %p", ajo10.getRawObject());
 
@@ -101,16 +124,43 @@ namespace Android
             buf = &(vecbuf.front());
             LOGD("===== buf 222 :%s", buf);
 
-            LOGD("===== ajo12 ref count:%d", ajo12._rep->getReferenceCount());
+            LOGD("===== ajo12 ref count:%d", ajo12._shared_ObjPtr->getReferenceCount());
 
             last = std::move(ajo12);
         }
 
-            vecbuf = last.call< std::vector<unsigned char> >("getBytes");
-            buf = &(vecbuf.front());
-            LOGD("===== buf 222 :%s", buf);
+        vecbuf = last.call< std::vector<unsigned char> >("getBytes");
+        buf = &(vecbuf.front());
+        LOGD("===== buf 222 :%s", buf);
+        LOGD("===== last ref count:%d", last._shared_ObjPtr->getReferenceCount());
+        AndroidJavaClass mainActivityClass("com.example.foundationkitunittest.MainActivity");
+        //jobject activityobj = mainActivityClass.getStatic<jobject>("activity", "com.example.foundationkitunittest.MainActivity");
+        jobject activityobj = mainActivityClass.getStatic<jobject>("activity", "com/example/foundationkitunittest/MainActivity");
+        LOGD("===== activity pointer address:%p", activityobj);
+        AndroidJavaObject mainActivity(activityobj);
+        mainActivity.call("debugPrint",__LINE__, __FILE__, "TEST HAHAHAHH.");
+        bool isEnable = mainActivity.get<bool>("isEnable");
+        int  value    = mainActivity.get<int>("value");
+        LOGD("===== mainActivity isEnable:%s", isEnable?"true":"false");
+        LOGD("===== mainActivity  value:%d", value);
+        mainActivity.set<bool>("isEnable", false);
+        mainActivity.set<int>("value", 9999);
 
-            LOGD("===== last ref count:%d", last._rep->getReferenceCount());
+        isEnable = mainActivity.get<bool>("isEnable");
+        value    = mainActivity.get<int>("value");
+        LOGD("===== mainActivity after change isEnable:%s", isEnable?"true":"false");
+        LOGD("===== mainActivity after change value:%d", value);
+        std::string TAG = mainActivity.getStatic<std::string>("TAG");
+        LOGD("===== mainActivity  TAG:%s", TAG.c_str());
+
+        jobject  bundle    = mainActivity.get<jobject>("instanceState", "android.os.Bundle");
+        LOGD("===== mainActivity instanceState address:%p", bundle);
+        bundle    = mainActivity.get<jobject>("instanceState", "android/os/Bundle");
+        LOGD("===== mainActivity instanceState address:%p", bundle);
+
+
+
+
     }
 } //namespace Andorid
 

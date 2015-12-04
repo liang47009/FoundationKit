@@ -10,7 +10,7 @@ namespace Android
     AndroidJavaObject::AndroidJavaObject()
         : _classID(nullptr)
         , _object(nullptr)
-        , _rep(nullptr)
+        , _shared_ObjPtr(nullptr)
     {
 
     }
@@ -41,7 +41,9 @@ namespace Android
         if (jobj)
         {
             _object = env->NewGlobalRef(jobj);
-            _classID = env->GetObjectClass(jobj);
+            jclass classPtr = env->GetObjectClass(jobj);
+            _classID = (jclass)env->NewGlobalRef(classPtr);
+            env->DeleteLocalRef(classPtr);
             createRefCountedBase();
         }
         else
@@ -55,7 +57,7 @@ namespace Android
 
     AndroidJavaObject::~AndroidJavaObject()
     {
-        FK_SAFE_RELEASE_NULL(_rep);
+        FK_SAFE_RELEASE_NULL(_shared_ObjPtr);
     }
 
     AndroidJavaObject& AndroidJavaObject::operator=(AndroidJavaObject&& right)
@@ -71,31 +73,31 @@ namespace Android
 
     void AndroidJavaObject::move(AndroidJavaObject&& right)
     {
-        FK_SAFE_RELEASE(_rep);
-        _classID  = std::move(right._classID);
-        _object   = std::move(right._object);
-        _rep      = std::move(right._rep);
-        right._classID = nullptr;
-        right._object  = nullptr;
-        right._rep     = nullptr;  
+        FK_SAFE_RELEASE(_shared_ObjPtr);
+        _classID        = std::move(right._classID);
+        _object         = std::move(right._object);
+        _shared_ObjPtr  = std::move(right._shared_ObjPtr);
+        right._classID        = nullptr;
+        right._object         = nullptr;
+        right._shared_ObjPtr  = nullptr;  
 
 
     }
 
     void AndroidJavaObject::swap(AndroidJavaObject& other)
     {
-        std::swap(_classID, other._classID);
-        std::swap(_object,  other._object);
-        std::swap(_rep,     other._rep);
+        std::swap(_classID,       other._classID);
+        std::swap(_object,        other._object);
+        std::swap(_shared_ObjPtr, other._shared_ObjPtr);
     }
 
     void AndroidJavaObject::copy(AndroidJavaObject& other)
     {
-        FK_SAFE_RELEASE(_rep);
-        _classID  = other._classID;
-        _object   = other._object;
-        _rep      = other._rep;
-        FK_SAFE_RETAIN(_rep);
+        FK_SAFE_RELEASE(_shared_ObjPtr);
+        _classID       = other._classID;
+        _object        = other._object;
+        _shared_ObjPtr = other._shared_ObjPtr;
+        FK_SAFE_RETAIN(_shared_ObjPtr);
     }
 
 
@@ -111,17 +113,25 @@ namespace Android
 
     void AndroidJavaObject::createRefCountedBase()
     {
-        jobject for_lambda = _object;
-        auto delFun = [for_lambda]()
+        jobject for_lambda_object = _object;
+        jclass  for_lambda_class  = _classID;
+        auto delFun = [for_lambda_object, for_lambda_class]()
         {
-            if(for_lambda)
+            if(for_lambda_object)
             {
                 JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
-                env->DeleteGlobalRef(for_lambda);
+                env->DeleteGlobalRef(for_lambda_object);
             }
 
+            if(for_lambda_class)
+            {
+                JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+                env->DeleteGlobalRef(for_lambda_class);
+            }
+
+
         };
-        _rep = new RefCounted<decltype(delFun)>(delFun);
+        _shared_ObjPtr = new RefCounted<decltype(delFun)>(delFun);
     }
 
 
