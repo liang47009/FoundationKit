@@ -14,6 +14,28 @@
 
 _STD_BEGIN
 
+// stl is not implement disable_if, so we implement it and add to std namespace.
+
+/**
+ // TEMPLATE CLASS disable_if
+ template<bool _Test,
+ class _Ty = void>
+ struct disable_if
+ {	// type is undefined for assumed !_Test
+ typedef _Ty type;
+ };
+ 
+ template<class _Ty>
+ struct disable_if < true, _Ty >
+ {	// type is _Ty for _Test
+ 
+ };
+ */
+
+//written more simply as
+template < bool _Test, class _Ty = void >
+using disable_if = std::enable_if < !_Test, _Ty > ;
+
 /** 
  * check class has a member
  * @code
@@ -48,22 +70,19 @@ public:\
 	enum{value = std::is_same<decltype(check<T>(0)), std::true_type>::value};\
 };
 
-namespace detail {
-    
-    /**  this can detect inherited member functions!
-     *   usage:
-     *   bool b1 = has_function<TestCheckFun>::value;
-     *   bool b1 = has_function<TestCheckFun, int>::value;
-     */
-    template<typename T, typename... Args>
-    struct has_function
-    {
-        template<typename C, typename = decltype(std::declval<C>().destroyInstance(std::declval<Args>()...))>
-        static std::true_type test(int);
-        template<typename C> static std::false_type test(...);
-        const static bool value = decltype(test<T>(0))::value;
-    };
-}//namespace detail
+/**  this can detect inherited member functions!
+ *   usage:
+ *   bool b1 = has_function<TestCheckFun>::value;
+ *   bool b1 = has_function<TestCheckFun, int>::value;
+ */
+template<typename T, typename... Args>
+struct has_function
+{
+    template<typename C, typename = decltype(std::declval<C>().destroyInstance(std::declval<Args>()...))>
+    static std::true_type test(int);
+    template<typename C> static std::false_type test(...);
+    const static bool value = decltype(test<T>(0))::value;
+};
 
 
 
