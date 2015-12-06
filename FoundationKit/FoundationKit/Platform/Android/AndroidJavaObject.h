@@ -57,6 +57,8 @@
 
 #include <jni.h>
 #include <string>
+#include <algorithm>
+#include <cassert>
 #include "AndroidJNIHelper.h"
 #include "AndroidJNICaller.h"
 #include "AndroidFunctional.h"
@@ -95,18 +97,19 @@ public:
     AndroidJavaObject(std::string className, Args... args)
         : AndroidJavaObject()
     {
+        std::replace(className.begin(), className.end(), '.', '/');
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
         if (!env) 
         {
             LOGE("Failed to get evn");
             return;
         }
-        _classID = AndroidJNIHelper::getInstance()->getClassID(className.c_str());
-        if (_classID)
+        jclass classPtr = AndroidJNIHelper::getInstance()->getClassID(className.c_str());
+        if (classPtr)
         {
             std::string methodSignature = getJNISignature<void, Args...>(args...);
             LOGD("==== AndroidJavaObject::method signature:%s", methodSignature.c_str());
-            jmethodID methodID = env->GetMethodID(_classID, "<init>", methodSignature.c_str());
+            jmethodID methodID = env->GetMethodID(classPtr, "<init>", methodSignature.c_str());
             if (!methodID) 
             {
                 LOGE("Failed to find method id of %s", "<init>");
@@ -114,8 +117,11 @@ public:
                 env->ExceptionClear();
                 return;
             }
-            _object = env->NewObject(_classID, methodID, CPPToJNIConverter<Args>::convert(args)...);
-            _object = env->NewGlobalRef(_object);
+            jobject objPtr = env->NewObject(classPtr, methodID, CPPToJNIConverter<Args>::convert(args)...);
+            _object = env->NewGlobalRef(objPtr);
+            _classID = (jclass)env->NewGlobalRef(classPtr);
+            env->DeleteLocalRef(objPtr);
+            env->DeleteLocalRef(classPtr);
             createRefCountedBase();
         }
         else
@@ -161,14 +167,26 @@ public:
     /** Get the value of a field in an object (non-static).
      *  The generic parameter determines the field type.
      *  @param[in] fieldName The name of the field (e.g. int counter; would have fieldName = "counter")
-     *  @return   _RT object.
+     *  @param[in] sig The field signature,for example: "com/example/foundationkitunittest/MainActivity" 
+     *                  or "com.example.foundationkitunittest.MainActivity".
+     *                  if return type is not jobject, needn't set sig value, default is "".
+     *  @return   T object.
      */
     template<typename T>
-    T get(std::string fieldName)
+    T get(std::string fieldName, std::string sig = "")
     {
+        if (std::is_same<T, jobject>::value && sig.empty())
+        {
+            LOGD("Failed to get field value, return type is jobject, must be set the field signature.");
+            assert(false);
+        }
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
-        const char * signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
-        jfieldID fid = env->GetFieldID(_classID, fieldName.c_str(), signature);
+        std::string signature = sig;
+        if (signature.empty())
+        {
+            signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
+        }
+        jfieldID fid = env->GetFieldID(_classID, fieldName.c_str(), signature.c_str());
         return JNICaller<T>::getField(env, getRawObject(), fid);
     }
 
@@ -176,13 +194,25 @@ public:
      *  The generic parameter determines the field type.
      *  @param[in] fieldName The name of the field (e.g. int counter; would have fieldName = "counter")
      *  @param[in] fieldValueThe value to assign to the field. It has to match the field type.
+     *  @param[in] sig The field signature,for example: "com/example/foundationkitunittest/MainActivity" 
+     *                  or "com.example.foundationkitunittest.MainActivity".
+     *                  if return type is not jobject, needn't set sig value, default is "".
      */
     template<typename T>
-    void set(std::string fieldName, T fieldValue)
+    void set(std::string fieldName, T fieldValue, std::string sig = "")
     {
+        if (std::is_same<T, jobject>::value && sig.empty())
+        {
+            LOGD("Failed to get field value, return type is jobject, must be set the field signature.");
+            assert(false);
+        }
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
-        const char * signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > >::Result::value();
-        jfieldID fid = env->GetFieldID(_classID, fieldName.c_str(), signature);
+        std::string signature = sig;
+        if (signature.empty())
+        {
+            signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
+        }
+        jfieldID fid = env->GetFieldID(_classID, fieldName.c_str(), signature.c_str());
         JNICaller<T>::setField(env, getRawObject(), fid, CPPToJNIConverter<T>::convert(fieldValue));
     }
 
@@ -209,28 +239,52 @@ public:
     /** Get the value of a static field in an object type.
      *  The generic parameter determines the field type.
      *  @param[in] fieldName The name of the field (e.g. int counter; would have fieldName = "counter")
+     *  @param[in] sig The field signature,for example: "com/example/foundationkitunittest/MainActivity" 
+     *                  or "com.example.foundationkitunittest.MainActivity".
+     *                  if return type is not jobject, needn't set sig value, default is "".
      *  @return   _RT object.
      */
     template<typename T>
-    T getStatic(std::string fieldName)
+    T getStatic(std::string fieldName, std::string sig = "")
     {
+        if (std::is_same<T, jobject>::value && sig.empty())
+        {
+            LOGD("Failed to get field value, return type is jobject, must be set the field signature.");
+            assert(false);
+        }
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
-        const char * signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
-        jfieldID fid = env->GetStaticFieldID(_classID, fieldName.c_str(), signature);
+        std::string signature = sig;
+        if (signature.empty())
+        {
+            signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
+        }
+        jfieldID fid = env->GetStaticFieldID(_classID, fieldName.c_str(), signature.c_str());
         return JNICaller<T>::getFieldStatic(env, getRawClass(), fid);
     }
 
     /** Set the value of a static field in an object type.
      *  The generic parameter determines the field type.
      *  @param[in] fieldName The name of the field (e.g. int counter; would have fieldName = "counter")
+     *  @param[in] sig The field signature,for example: "com/example/foundationkitunittest/MainActivity" 
+     *                  or "com.example.foundationkitunittest.MainActivity".
+     *                  if return type is not jobject, needn't set sig value, default is "".
      *  @param[in] fieldValueThe value to assign to the field. It has to match the field type.
      */
     template<typename T>
-    void setStatic(std::string fieldName, T fieldValue)
+    void setStatic(std::string fieldName, T fieldValue, std::string sig = "")
     {
+        if (std::is_same<T, jobject>::value && sig.empty())
+        {
+            LOGD("Failed to get field value, return type is jobject, must be set the field signature.");
+            assert(false);
+        }
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
-        const char * signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > >::Result::value();
-        jfieldID fid = env->GetStaticFieldID(_classID, fieldName.c_str(), signature);
+        std::string signature = sig;
+        if (signature.empty())
+        {
+            signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
+        }
+        jfieldID fid = env->GetStaticFieldID(_classID, fieldName.c_str(), signature.c_str());
         JNICaller<T>::setFieldStatic(env, getRawClass(), fid, CPPToJNIConverter<T>::convert(fieldValue));
     }
 
@@ -242,8 +296,7 @@ protected:
     jclass                 _classID;
     jobject                _object;
 public : 
-    RefCountedBase*        _rep;
-
+    RefCountedBase*        _shared_ObjPtr;
 };
 
 } //namespace Andorid

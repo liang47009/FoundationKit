@@ -55,6 +55,7 @@
     其中std::vector 代表了数组。
  */
 
+#include <algorithm>
 #include "AndroidJavaObject.h"
 
 NS_FK_BEGIN
@@ -78,11 +79,11 @@ public:
     AndroidJavaClass():AndroidJavaObject(){};
     AndroidJavaClass(AndroidJavaClass&& right) : AndroidJavaClass()
     {
-        _classID  = std::move(right._classID);
+        move(std::forward<AndroidJavaClass>(right));
     }
     AndroidJavaClass(const AndroidJavaClass& other): AndroidJavaClass()
     {
-        _classID = other.getRawClass();
+        copy(const_cast<AndroidJavaClass&>(other));
     }
 
     /** Construct an AndroidJavaClass based on the name of the java class.
@@ -92,37 +93,65 @@ public:
 
     AndroidJavaClass(std::string className)
     {
+        std::replace(className.begin(), className.end(), '.', '/');
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
         if (!env) 
         {
             LOGE("Failed to get evn");
             return;
         }
-        _classID = AndroidJNIHelper::getInstance()->getClassID(className.c_str());
-        if (!_classID)
+        jclass classPtr = AndroidJNIHelper::getInstance()->getClassID(className.c_str());
+        if(classPtr)
+        {
+            _classID = (jclass)env->NewGlobalRef(classPtr);
+            env->DeleteLocalRef(classPtr);
+            createRefCountedBase();
+        }
+        else
         {
             LOGE("Failed to find class %s", className.c_str());
             env->ExceptionDescribe();
             env->ExceptionClear();
         }
+
+
     }
 
     virtual ~AndroidJavaClass(){ _classID = nullptr;};
 
     AndroidJavaClass& operator=(AndroidJavaClass&& right)
     {
-        _classID  = std::move(right._classID);
+        move(std::forward<AndroidJavaClass>(right));
         return *this;
     }
     AndroidJavaClass& operator=(const AndroidJavaClass& other)
     {
-        _classID = other.getRawClass();
+        copy(const_cast<AndroidJavaClass&>(other));
         return *this;
     }
 
+    /** 
     void move(AndroidJavaObject&& right) = delete;
     void swap(AndroidJavaObject& right)= delete;
     void copy(AndroidJavaObject& other) = delete;
+
+    void move(AndroidJavaClass&& right)
+    {
+        FK_SAFE_RELEASE(_shared_ObjPtr);
+        _classID        = std::move(right._classID);
+        _shared_ObjPtr  = std::move(right._shared_ObjPtr);
+        right._classID        = nullptr;
+        right._shared_ObjPtr  = nullptr; 
+    }
+    void copy(AndroidJavaClass& other)
+    {
+        FK_SAFE_RELEASE(_shared_ObjPtr);
+        _classID       = other.getRawClass();
+        _shared_ObjPtr = other._shared_ObjPtr;
+        FK_SAFE_RETAIN(_shared_ObjPtr);
+    }
+
+    */
 
      /** Calls a Java method on an object (non-static).
      *  To call a method with return type 'void', use the regular version.
@@ -147,54 +176,6 @@ public:
      */
     template<typename T>
     void set(std::string fieldName, T fieldValue) = delete;
-
-
-    /** Call a static Java method on a class.
-     *  To call a static method with return type 'void', use the regular version.
-     *  @param[in]  methodName Specifies which method to call.
-     *  @param[in]  args       An array of parameters passed to the method.
-     *  @return     _RT object.
-     */
-    template<typename T = void, typename... Args>
-    T callStatic(std::string methodName, Args... args)
-    {
-        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
-        jmethodID methodID = env->GetStaticMethodID(_classID, methodName.c_str(), getJNISignature<T, Args...>(args...));
-        if (!methodID) {
-            LOGE("Failed to find method id of %s", methodName.c_str());
-            env->ExceptionDescribe();
-            env->ExceptionClear();
-        }
-        return JNICaller<T, decltype(CPPToJNIConverter<Args>::convert(args))...>::call(env, _classID, methodID, CPPToJNIConverter<Args>::convert(args)...);
-    }
-
-    /** Get the value of a static field in an object type.
-     *  The generic parameter determines the field type.
-     *  @param[in] fieldName The name of the field (e.g. int counter; would have fieldName = "counter")
-     *  @return   _RT object.
-     */
-    template<typename T>
-    T getStatic(std::string fieldName)
-    {
-        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
-        const char * signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
-        jfieldID fid = env->GetStaticFieldID(_classID, fieldName.c_str(), signature);
-        return JNICaller<T>::getFieldStatic(env, getRawClass(), fid);
-    }
-
-    /** Set the value of a static field in an object type.
-     *  The generic parameter determines the field type.
-     *  @param[in] fieldName The name of the field (e.g. int counter; would have fieldName = "counter")
-     *  @param[in] fieldValueThe value to assign to the field. It has to match the field type.
-     */
-    template<typename T>
-    void setStatic(std::string fieldName, T fieldValue)
-    {
-        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
-        const char * signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > >::Result::value();
-        jfieldID fid = env->GetStaticFieldID(_classID, fieldName.c_str(), signature);
-        JNICaller<T>::setFieldStatic(env, getRawClass(), fid, CPPToJNIConverter<T>::convert(fieldValue));
-    }
 };
 
 } //namespace Andorid

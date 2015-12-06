@@ -53,9 +53,9 @@ namespace Android
             env->SetObjectField(instance, fid, fieldValue);
         }
 
-        static void setFieldStatic(JNIEnv* env, jobject instance, jfieldID fid, T fieldValue)
+        static void setFieldStatic(JNIEnv* env, jclass clazz, jfieldID fid, T fieldValue)
         {
-            env->SetStaticObjectField(instance, fid, fieldValue);
+            env->SetStaticObjectField(clazz, fid, fieldValue);
         }
     };
 
@@ -97,6 +97,7 @@ namespace Android
     };
 
 
+
     //void implementation
     template <typename... Args>
     struct JNICaller < void, Args... >
@@ -108,6 +109,41 @@ namespace Android
         static void callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
         {
             env->CallStaticVoidMethod(clazz, method, v...);
+        }
+    };
+
+    // jobject implementation
+    template <typename... Args>
+    struct JNICaller < jobject, Args... > 
+    {
+        static jobject call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+        {
+            return env->CallObjectMethod(instance, method, v...);
+        }
+
+        static jobject callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+        {
+            return env->CallStaticObjectMethod(clazz, method, v...);
+        }
+
+        static jobject getField(JNIEnv * env, jobject instance, jfieldID fid) 
+        {
+            return env->GetObjectField(instance, fid);
+        }
+
+        static jobject getFieldStatic(JNIEnv * env, jclass clazz, jfieldID fid)
+        {
+            return env->GetStaticObjectField(clazz, fid);
+        }
+
+        static void setField(JNIEnv* env, jobject instance, jfieldID fid, jobject fieldValue)
+        {
+            env->SetObjectField(instance, fid, fieldValue);
+        }
+
+        static void setFieldStatic(JNIEnv* env, jclass clazz, jfieldID fid, jobject fieldValue)
+        {
+            env->SetStaticObjectField(clazz, fid, fieldValue);
         }
     };
 
@@ -386,9 +422,6 @@ namespace Android
         }
     };
 
-
-
-
     //generic call to instance method
     template<typename T = void, typename... Args>
     T call(jobject instance, const std::string & className, const std::string & methodName, Args... v)
@@ -409,44 +442,114 @@ namespace Android
         return JNICaller<T, decltype(CPPToJNIConverter<Args>::convert(v))...>::callStatic(jniEnv, methodInfo.classID, methodInfo.methodID, CPPToJNIConverter<Args>::convert(v)...);
     }
 
+    /** Get the value of a field in an object (non-static).
+     *  The generic parameter determines the field type.
+     *  @param[in] instance  The java object instance.
+     *  @param[in] fieldName The name of the field (e.g. int counter; would have fieldName = "counter")
+     *  @param[in] sig The field signature,for example: "com/example/foundationkitunittest/MainActivity" 
+     *                  or "com.example.foundationkitunittest.MainActivity".
+     *                  if return type is not jobject, needn't set sig value, default is "".
+     *  @return   T object.
+     */
     template<typename T> 
-    T getField(jobject instance, const std::string & propertyName)
+    T getField(jobject instance, const std::string & fieldName, std::string sig = "")
     {
+        if (std::is_same<T, jobject>::value && sig.empty())
+        {
+            LOGD("Failed to get field value, return type is jobject, must be set the field signature.");
+            assert(false);
+        }
         JNIEnv* jniEnv = AndroidJNIHelper::getInstance()->getEnv();
         jclass clazz = jniEnv->GetObjectClass(instance);
-        const char * signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
-        jfieldID fid = jniEnv->GetFieldID(clazz, propertyName.c_str(), signature);
+        std::string signature = sig;
+        if (signature.empty())
+        {
+            signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
+        }
+        jfieldID fid = jniEnv->GetFieldID(clazz, fieldName.c_str(), signature.c_str());
         return JNICaller<T>::getField(jniEnv, instance, fid);
     }
 
+    /** Get the value of a static field in an object type.
+     *  The generic parameter determines the field type.
+     *  @param[in] clazz     The java class instance.
+     *  @param[in] fieldName The name of the field (e.g. int counter; would have fieldName = "counter")
+     *  @param[in] sig The field signature,for example: "com/example/foundationkitunittest/MainActivity" 
+     *                  or "com.example.foundationkitunittest.MainActivity".
+     *                  if return type is not jobject, needn't set sig value, default is "".
+     *  @return   _RT object.
+     */
     template<typename T> 
-    T getFieldStatic(jobject instance, const std::string & propertyName)
+    T getFieldStatic(jclass clazz, const std::string & fieldName, std::string sig = "")
     {
+        if (std::is_same<T, jobject>::value && sig.empty())
+        {
+            LOGD("Failed to get field value, return type is jobject, must be set the field signature.");
+            assert(false);
+        }
         JNIEnv* jniEnv = AndroidJNIHelper::getInstance()->getEnv();
-        jclass clazz = jniEnv->GetObjectClass(instance);
-        const char * signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
-        jfieldID fid = jniEnv->GetStaticFieldID(clazz, propertyName.c_str(), signature);
+        std::string signature = sig;
+        if (signature.empty())
+        {
+            signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
+        }
+        jfieldID fid = jniEnv->GetStaticFieldID(clazz, fieldName.c_str(), signature.c_str());
         return JNICaller<T>::getFieldStatic(jniEnv, clazz, fid);
     }
 
+    /** Set the value of a field in an object (non-static).
+     *  The generic parameter determines the field type.
+     *  @param[in] instance  The java object instance.
+     *  @param[in] fieldName The name of the field (e.g. int counter; would have fieldName = "counter")
+     *  @param[in] fieldValueThe value to assign to the field. It has to match the field type.
+     *  @param[in] sig The field signature,for example: "com/example/foundationkitunittest/MainActivity" 
+     *                  or "com.example.foundationkitunittest.MainActivity".
+     *                  if return type is not jobject, needn't set sig value, default is "".
+     */
     template<typename T>
-    void setField(jobject instance, const std::string& propertyName, T fieldValue)
+    void setField(jobject instance, const std::string& fieldName, T fieldValue, std::string sig = "")
     {
+        if (std::is_same<T, jobject>::value && sig.empty())
+        {
+            LOGD("Failed to get field value, return type is jobject, must be set the field signature.");
+            assert(false);
+        }
         JNIEnv* jniEnv = AndroidJNIHelper::getInstance()->getEnv();
         jclass clazz = jniEnv->GetObjectClass(instance);
-        const char * signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > >::Result::value();
-        jfieldID fid = jniEnv->GetFieldID(clazz, propertyName.c_str(), signature);
+        std::string signature = sig;
+        if (signature.empty())
+        {
+            signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
+        }
+        jfieldID fid = jniEnv->GetFieldID(clazz, fieldName.c_str(), signature.c_str());
         JNICaller<T>::setField(jniEnv, instance, fid, CPPToJNIConverter<T>::convert(fieldValue));
     }
-
+    
+    /** Set the value of a static field in an object type.
+     *  The generic parameter determines the field type.
+     *  @param[in] clazz     The java class instance.
+     *  @param[in] fieldName The name of the field (e.g. int counter; would have fieldName = "counter")
+     *  @param[in] sig The field signature,for example: "com/example/foundationkitunittest/MainActivity" 
+     *                  or "com.example.foundationkitunittest.MainActivity".
+     *                  if return type is not jobject, needn't set sig value, default is "".
+     *  @param[in] fieldValueThe value to assign to the field. It has to match the field type.
+     */
     template<typename T>
-    void setFieldStatic(jobject instance, const std::string& propertyName, T fieldValue)
+    void setFieldStatic(jclass clazz, const std::string& fieldName, T fieldValue, std::string sig = "")
     {
+        if (std::is_same<T, jobject>::value && sig.empty())
+        {
+            LOGD("Failed to get field value, return type is jobject, must be set the field signature.");
+            assert(false);
+        }
         JNIEnv* jniEnv = AndroidJNIHelper::getInstance()->getEnv();
-        jclass clazz = jniEnv->GetObjectClass(instance);
-        const char * signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > >::Result::value();
-        jfieldID fid = jniEnv->GetStaticFieldID(clazz, propertyName.c_str(), signature);
-        JNICaller<T>::setFieldStatic(jniEnv, instance, fid, CPPToJNIConverter<T>::convert(fieldValue));
+        std::string signature = sig;
+        if (signature.empty())
+        {
+            signature = Concatenate<typename CPPToJNIConverter<T>::JNIType, CompileTimeString < '\0' > > ::Result::value();
+        }
+        jfieldID fid = jniEnv->GetStaticFieldID(clazz, fieldName.c_str(), signature.c_str());
+        JNICaller<T>::setFieldStatic(jniEnv, clazz, fid, CPPToJNIConverter<T>::convert(fieldValue));
     }
 
 

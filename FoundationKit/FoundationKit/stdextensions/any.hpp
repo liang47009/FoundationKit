@@ -16,31 +16,9 @@ Original file from boost: http://www.boost.org
 #include <algorithm>
 #include <typeinfo>
 #include "stddefines.hpp"
+#include "utility.hpp"
 
 _STD_BEGIN
-// stl is not implement disable_if, so we implement it and add to std namespace.
-
-/**
-// TEMPLATE CLASS disable_if
-template<bool _Test,
-class _Ty = void>
-struct disable_if
-{	// type is undefined for assumed !_Test
-    typedef _Ty type;
-};
-
-template<class _Ty>
-struct disable_if < true, _Ty >
-{	// type is _Ty for _Test
-        
-};
-*/
-
-//written more simply as
-template < bool _Test, class _Ty = void >
-using disable_if = std::enable_if < !_Test, _Ty > ;
-
-
 
 class any
 {

@@ -28,17 +28,6 @@
 using namespace FoundationKit;
 using namespace FoundationKit::Android;
 
-void A3A8(unsigned char key[16], unsigned char randout[16])
-{
-    unsigned char* pKey = key;
-    unsigned char* pRandout = randout;
-    LOG_TRACE("============== A3A8 M %s, %s", pKey, pRandout);
-
-    pKey[0]='A';
-    pKey[1]='B';
-    pKey[2]='C';
-}
-
 /* This is a trivial JNI example where we use a native method
  * to return a new VM String. See the corresponding Java source
  * file located at:
@@ -67,28 +56,6 @@ JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_found
 
     testJavaString();
 }
-
-
-JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_A3A8( JNIEnv* env,jobject thiz, jbyteArray key, jbyteArray randout)
-{
-    jbyte * recivedkey =env->GetByteArrayElements(key,0);
-    jbyte * recivedrandout =env->GetByteArrayElements(randout,0);
-
-    LOG_TRACE("============== A3A8 S %s, %s", recivedkey, recivedrandout);
-    A3A8((unsigned char*)recivedkey, (unsigned char*)recivedrandout);
-    LOG_TRACE("============== A3A8 E %s, %s", recivedkey, recivedrandout);
-
-    
-    for (int index = 0;recivedkey; ++index, ++recivedkey)
-    {
-        recivedkey[index]= (jbyte)*recivedkey;
-    }
-    
-    env->ReleaseByteArrayElements(key,recivedkey,0);
-    env->ReleaseByteArrayElements(randout,recivedrandout,0);
-
-}
-
 
 }//extern "C"{
 
