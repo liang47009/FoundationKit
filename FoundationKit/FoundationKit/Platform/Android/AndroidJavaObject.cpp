@@ -73,15 +73,15 @@ namespace Android
 
     void AndroidJavaObject::move(AndroidJavaObject&& right)
     {
-        FK_SAFE_RELEASE(_shared_ObjPtr);
+        if(_shared_ObjPtr == right._shared_ObjPtr)
+            return;
+        FK_SAFE_RELEASE_NULL(_shared_ObjPtr);
         _classID        = std::move(right._classID);
         _object         = std::move(right._object);
         _shared_ObjPtr  = std::move(right._shared_ObjPtr);
         right._classID        = nullptr;
         right._object         = nullptr;
         right._shared_ObjPtr  = nullptr;  
-
-
     }
 
     void AndroidJavaObject::swap(AndroidJavaObject& other)
@@ -93,11 +93,12 @@ namespace Android
 
     void AndroidJavaObject::copy(AndroidJavaObject& other)
     {
-        FK_SAFE_RELEASE(_shared_ObjPtr);
+        RefCountedBase* tempRCB = _shared_ObjPtr;
         _classID       = other._classID;
         _object        = other._object;
         _shared_ObjPtr = other._shared_ObjPtr;
         FK_SAFE_RETAIN(_shared_ObjPtr);
+        FK_SAFE_RELEASE(tempRCB);
     }
 
 

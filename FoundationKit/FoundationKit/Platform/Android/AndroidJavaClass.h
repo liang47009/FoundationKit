@@ -124,6 +124,7 @@ public:
         move(std::forward<AndroidJavaClass>(right));
         return *this;
     }
+    
     AndroidJavaClass& operator=(const AndroidJavaClass& other)
     {
         copy(const_cast<AndroidJavaClass&>(other));

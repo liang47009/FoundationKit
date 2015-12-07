@@ -108,7 +108,7 @@ public:
         if (classPtr)
         {
             std::string methodSignature = getJNISignature<void, Args...>(args...);
-            LOGD("==== AndroidJavaObject::method signature:%s", methodSignature.c_str());
+            //LOGD("==== AndroidJavaObject::method signature:%s", methodSignature.c_str());
             jmethodID methodID = env->GetMethodID(classPtr, "<init>", methodSignature.c_str());
             if (!methodID) 
             {
