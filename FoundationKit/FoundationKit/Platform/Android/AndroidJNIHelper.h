@@ -147,7 +147,7 @@ namespace Android
 
 NS_FK_END
 
-#define JNIHELPER FoundationKit::AndroidJNIHelper::getInstance() 
+#define JNIHELPER FoundationKit::Android::AndroidJNIHelper::getInstance() 
 
 
 
