@@ -164,15 +164,8 @@ namespace Android
         mainActivity = mainActivity;
 
         LOGD("===== mainActivity ref count should be 1 :%d", mainActivity._shared_ObjPtr->getReferenceCount());
-
-        LOGD("===== mainActivity crash by get isEnable");
-        // crash
         isEnable = mainActivity.get<bool>("isEnable");
-
-        LOGD("===== mainActivity no crash.");
         mainActivity = std::move(mainActivity);
-        LOGD("===== mainActivity crash by get isEnable");
-        // crash
         isEnable = mainActivity.get<bool>("isEnable");
         LOGD("===== mainActivity ref count should be 1 :%d", mainActivity._shared_ObjPtr->getReferenceCount());
         LOGD("===== mainActivity no crash -- end");

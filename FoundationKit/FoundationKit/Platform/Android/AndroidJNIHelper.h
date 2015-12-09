@@ -41,16 +41,16 @@ namespace Android
          */
         void setJavaVM(JavaVM *javaVM);
 
+        /** Get Java virtual machine.
+        *  @return  javaVM object.
+        */
+        JavaVM* getJavaVM();
+
         /** Set JavaVM object, called this method when android main activity onCreate method.
          *  @param[in]  activityInstance Android activity object.
          *  @return     if get class loader successful, return true, else return false.
          */
         bool setClassLoaderActivity(jobject activityInstance);
-
-        /** Get Java virtual machine.
-         *  @return  javaVM object.
-         */
-        JavaVM* getJavaVM();
 
         /** Get JNIEnv.
          *  @return  JNIEnv object.
@@ -144,7 +144,6 @@ namespace Android
     };
 
 } //namespace Android
-
 
 NS_FK_END
 

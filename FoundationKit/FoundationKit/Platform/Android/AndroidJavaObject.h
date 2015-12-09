@@ -104,6 +104,7 @@ public:
             LOGE("Failed to get evn");
             return;
         }
+
         jclass classPtr = AndroidJNIHelper::getInstance()->getClassID(className.c_str());
         if (classPtr)
         {
@@ -153,8 +154,7 @@ public:
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
         std::string methodSignature = getJNISignature<T, Args...>(args...);
-        LOGD("==== AndroidJavaObject::method signature:%s", methodSignature.c_str());
-
+        //LOGD("==== AndroidJavaObject::method signature:%s", methodSignature.c_str());
         jmethodID methodID = env->GetMethodID(_classID, methodName.c_str(), getJNISignature<T, Args...>(args...));
         if (!methodID) {
             LOGE("Failed to find method id of %s", methodName.c_str());

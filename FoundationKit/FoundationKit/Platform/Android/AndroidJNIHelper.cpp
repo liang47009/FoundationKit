@@ -6,7 +6,6 @@ NS_FK_BEGIN
 
 namespace Android
 {
-
     static pthread_key_t SHARED_JNIENV_KEY;
 
     // For setJavaVM - pthread_key_create
@@ -31,14 +30,19 @@ namespace Android
         }
     }
 
-
-
     void AndroidJNIHelper::setJavaVM(JavaVM *javaVM)
     {
         pthread_t thisthread = pthread_self();
         LOGD("JniHelper::setJavaVM(%p), pthread_self() = %ld", javaVM, thisthread);
         _psJavaVM = javaVM;
         pthread_key_create(&SHARED_JNIENV_KEY, _detachCurrentThread);
+    }
+
+    JavaVM* AndroidJNIHelper::getJavaVM()
+    {
+        pthread_t thisthread = pthread_self();
+        LOGD("%s:%d  pthread_self() = %ld", __FUNCTION__, __LINE__, thisthread);
+        return _psJavaVM;
     }
 
     bool AndroidJNIHelper::setClassLoaderActivity(jobject activityInstance)
@@ -50,30 +54,28 @@ namespace Android
             "getClassLoader",
             "()Ljava/lang/ClassLoader;"))
         {
+            LOGE("%s:%d Get default class loader failed.", __FUNCTION__, __LINE__);
             return false;
         }
 
-        jobject obj = getEnv()->CallObjectMethod(activityInstance, classloaderMethodInfo.methodID);
-
-        if (nullptr == obj)
+        jobject classLoaderObj = getEnv()->CallObjectMethod(activityInstance, classloaderMethodInfo.methodID);
+        if (nullptr == classLoaderObj)
+        {
+            LOGE("%s:%d Get class loader object failed .",__FUNCTION__, __LINE__);
+            checkException();
             return false;
-
+        }
+            
         JniMethodInfo loadClassMethodInfo;
         if (!getDefaultClassLoader(loadClassMethodInfo, "java/lang/ClassLoader", "loadClass", "(Ljava/lang/String;)Ljava/lang/Class;"))
         {
+            LOGE("%s:%d Get default class loader failed.", __FUNCTION__, __LINE__);
             return false;
         }
 
-        _classloader = getEnv()->NewGlobalRef(obj);
+        _classloader = getEnv()->NewGlobalRef(classLoaderObj);
         _loadMethod = loadClassMethodInfo.methodID;
         return true;
-    }
-
-    JavaVM* AndroidJNIHelper::getJavaVM()
-    {
-        pthread_t thisthread = pthread_self();
-        LOGD("JniHelper::getJavaVM(), pthread_self() = %ld", thisthread);
-        return _psJavaVM;
     }
 
     JNIEnv* AndroidJNIHelper::getEnv()
@@ -88,36 +90,34 @@ namespace Android
     {
         if (nullptr == className)
         {
+            LOGE("%s:%d invalid argument, the argument is nullptr.",__FUNCTION__, __LINE__);
             return nullptr;
         }
         JNIEnv* env = getEnv();
         if (!env)
         {
-            LOGE("Failed to get JNIEnv");
+            LOGE("%s:%d Failed to get JNIEnv",__FUNCTION__, __LINE__);
             return nullptr;
         }
 
         jclass clazz = nullptr;
-
         if (_classloader == nullptr || _loadMethod == nullptr)
         {
             clazz = env->FindClass(className);
-            if (!clazz)
+            if (nullptr == clazz)
             {
-                LOGE("Failed to find class %s", className);
-                env->ExceptionClear();
+                LOGE("%s:%d Failed to find class %s", __FUNCTION__, __LINE__, className);
+                checkException();
             }
         }
         else
         {
             jstring jstrClassName = env->NewStringUTF(className);
-
             clazz = (jclass)env->CallObjectMethod(_classloader, _loadMethod, jstrClassName);
-
             if (nullptr == clazz)
             {
-                LOGE("Classloader failed to find class of %s", className);
-                env->ExceptionClear();
+                LOGE("%s:%d Classloader failed to find class of %s", __FUNCTION__, __LINE__, className);
+                checkException();
             }
             env->DeleteLocalRef(jstrClassName);
         }
@@ -140,7 +140,7 @@ namespace Android
             // Thread not attached
             if (jvm->AttachCurrentThread(&env, nullptr) < 0)
             {
-                LOGE("Failed to get the environment using AttachCurrentThread()");
+                LOGE("%s:%d Failed to get the environment using AttachCurrentThread()",__FUNCTION__, __LINE__);
             }
             else
             {
@@ -165,31 +165,32 @@ namespace Android
             (nullptr == methodName) ||
             (nullptr == signature))
         {
+            LOGE("%s:%d invalid argument, the argument is className:%p, methodName:%p, signature:%p.", __FUNCTION__, __LINE__, className, methodName, signature);
             return false;
         }
 
         JNIEnv *env = getEnv();
         if (!env)
         {
+            LOGE("%s:%d Failed to get JNIEnv", __FUNCTION__, __LINE__);
             return false;
         }
 
         jclass classID = env->FindClass(className);
         if (!classID)
         {
-            LOGE("Failed to find class %s", className);
-            env->ExceptionClear();
+            LOGE("%s:%d Failed to find class %s", __FUNCTION__, __LINE__, className);
+            checkException();
             return false;
         }
 
         jmethodID methodID = env->GetMethodID(classID, methodName, signature);
         if (!methodID)
         {
-            LOGE("Failed to find method id of %s", methodName);
-            env->ExceptionClear();
+            LOGE("%s:%d  Failed to find method id of %s", __FUNCTION__, __LINE__, methodName);
+            checkException();
             return false;
         }
-
         methodinfo.classID = classID;
         methodinfo.env = env;
         methodinfo.methodID = methodID;
@@ -199,11 +200,16 @@ namespace Android
     std::string AndroidJNIHelper::jstring2string(jstring jstr)
     {
         if (jstr == nullptr)
+        {
+            LOGE("%s:%d invalid argument, the argument is nullptr.", __FUNCTION__, __LINE__);
             return "";
-
+        }
         JNIEnv *env = getEnv();
         if (!env)
+        {
+            LOGE("%s:%d Failed to get JNIEnv", __FUNCTION__, __LINE__);
             return nullptr;
+        }
 
         const char* chars = env->GetStringUTFChars(jstr, nullptr);
         std::string ret(chars);
@@ -216,6 +222,7 @@ namespace Android
         JNIEnv *env = getEnv();
         if (!env)
         {
+            LOGE("%s:%d Failed to get JNIEnv", __FUNCTION__, __LINE__);
             return nullptr;
         }
         return env->NewStringUTF(str.c_str());
@@ -227,42 +234,48 @@ namespace Android
             (nullptr == methodName) ||
             (nullptr == signature))
         {
+            LOGE("%s:%d invalid argument, the argument is className:%p, methodName:%p, signature:%p.", __FUNCTION__, __LINE__, className, methodName, signature);
             return false;
         }
 
         JNIEnv *env = getEnv();
         if (!env)
         {
-            LOGE("Failed to get JNIEnv");
+            LOGE("%s:%d Failed to get JNIEnv", __FUNCTION__, __LINE__);
             return false;
         }
 
         jclass classID = getClassID(className);
         if (!classID)
         {
-            LOGE("Failed to find class %s", className);
-            env->ExceptionClear();
+            LOGE("%s:%d Failed to find class %s", __FUNCTION__, __LINE__, className);
+            checkException();
             return false;
         }
-
         return getStaticMethodInfo(methodinfo, classID, methodName, signature);
-
     }
 
     bool AndroidJNIHelper::getStaticMethodInfo(JniMethodInfo &methodinfo, jclass classID, const char *methodName, const char *signature)
     {
+        if ((nullptr == classID) ||
+            (nullptr == methodName) ||
+            (nullptr == signature))
+        {
+            LOGE("%s:%d invalid argument, the argument is classID:%p, methodName:%p, signature:%p.", __FUNCTION__, __LINE__, classID, methodName, signature);
+            return false;
+        }
         JNIEnv *env = getEnv();
         if (!env)
         {
-            LOGE("Failed to get JNIEnv");
+            LOGE("%s:%d Failed to get JNIEnv", __FUNCTION__, __LINE__);
             return false;
         }
 
         jmethodID methodID = env->GetStaticMethodID(classID, methodName, signature);
         if (!methodID)
         {
-            LOGE("Failed to find static method id of %s", methodName);
-            env->ExceptionClear();
+            LOGE("%s:%d Failed to find static method id of %s", __FUNCTION__, __LINE__, methodName);
+            checkException();
             return false;
         }
 
@@ -274,10 +287,9 @@ namespace Android
 
     bool AndroidJNIHelper::getMethodInfo(JniMethodInfo &methodinfo, const char *className, const char *methodName, const char *signature)
     {
-        if ((nullptr == className) ||
-            (nullptr == methodName) ||
-            (nullptr == signature))
+        if ((nullptr == className) || (nullptr == methodName) || (nullptr == signature))
         {
+            LOGE("%s:%d invalid argument, the argument is className:%p, methodName:%p, signature:%p.", __FUNCTION__, __LINE__, className, methodName, signature);
             return false;
         }
 
@@ -291,7 +303,7 @@ namespace Android
         if (!classID)
         {
             LOGE("Failed to find class %s", className);
-            env->ExceptionClear();
+            checkException();
             return false;
         }
         return getMethodInfo(methodinfo, classID, methodName, signature);
@@ -309,16 +321,14 @@ namespace Android
         if (!methodID)
         {
             LOGE("Failed to find method id of %s", methodName);
-            env->ExceptionClear();
+            checkException();
             return false;
         }
-
         methodinfo.classID = classID;
         methodinfo.env = env;
         methodinfo.methodID = methodID;
         return true;
     }
-
 
     void AndroidJNIHelper::checkException()
     {
@@ -335,7 +345,7 @@ namespace Android
             JniMethodInfo methodinfo;
             getMethodInfo(methodinfo, "java/lang/Throwable", "getMessage", "()Ljava/lang/String;");
             std::string exceptionMessage = jstring2string(reinterpret_cast<jstring>(env->CallObjectMethod(jthrowable, methodinfo.methodID)));
-            throw std::runtime_error(exceptionMessage.c_str());
+            LOGE("%s",exceptionMessage.c_str());
         }
     }
 
