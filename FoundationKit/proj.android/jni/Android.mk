@@ -73,6 +73,7 @@ LOCAL_SRC_FILES := ../../FoundationKit/Crypto/aes.cpp \
                    ../../FoundationKit/Platform/Android/AndroidJNIHelper.cpp \
                    ../../FoundationKit/Platform/Android/AndroidJavaObject.cpp \
                    ../../FoundationKit/Platform/Android/AndroidFunctional.cpp \
+                   ../../FoundationKit/Platform/Android/AndroidJavaBridge.cpp
                    
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../ \

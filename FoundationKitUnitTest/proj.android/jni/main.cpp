@@ -22,11 +22,21 @@
 #include "FoundationKit/Platform/Android/AndroidSystemInfo.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Platform/Android/AndroidTest.h"
+#include "FoundationKit/Platform/Android/AndroidJavaBridge.h"
 #include <vector>
+#include <stdarg.h>
 
 
 using namespace FoundationKit;
 using namespace FoundationKit::Android;
+
+
+template<typename... Args>
+static void doTest(Args&&... args)
+{
+
+}
+
 
 /* This is a trivial JNI example where we use a native method
  * to return a new VM String. See the corresponding Java source
@@ -43,7 +53,11 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 	//initAndroidCrashDump();
     return JNI_VERSION_1_4;
 }
-  
+
+bool getTestValue(int n1, int n2)
+{
+    return n1 > n2;
+}
     
 
 JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
@@ -55,6 +69,11 @@ JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_found
     LOG_TRACE("============== >>>>> deviceid = %s",deviceid.c_str());
 
     testJavaString();
+
+    AndroidJavaBridge::getInstance()->registerMethod<decltype(getTestValue)>("getTestValue",getTestValue);
+
+
+
 }
 
 }//extern "C"{
