@@ -412,6 +412,8 @@ struct JNIToCPPConverter<jboolean>
     static bool convert(jobject jobj)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass instanceClass = env->FindClass("java/lang/Boolean");
+        assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "booleanValue", "()Z");
         return env->CallBooleanMethod(jobj, methodID);
@@ -425,6 +427,8 @@ struct JNIToCPPConverter < jbyte >
     static unsigned char convert(jobject jobj)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass instanceClass = env->FindClass("java/lang/Byte");
+        assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "byteValue", "()B");
         return env->CallIntMethod(jobj, methodID);
@@ -438,6 +442,8 @@ struct JNIToCPPConverter < jchar >
     static char convert(jobject jobj)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass instanceClass = env->FindClass("java/lang/Character");
+        assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "charValue", "()C");
         return env->CallIntMethod(jobj, methodID);
@@ -451,6 +457,8 @@ struct JNIToCPPConverter < jshort >
     static short convert(jobject jobj)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass instanceClass = env->FindClass("java/lang/Short");
+        assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "shortValue", "()S");
         return env->CallIntMethod(jobj, methodID);
@@ -464,6 +472,8 @@ struct JNIToCPPConverter < jint >
     static int convert(jobject jobj)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass instanceClass = env->FindClass("java/lang/Integer");
+        assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "intValue", "()I");
         return env->CallIntMethod(jobj, methodID);
@@ -477,6 +487,8 @@ struct JNIToCPPConverter < jlong >
     static long convert(jobject jobj)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass instanceClass = env->FindClass("java/lang/Long");
+        assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "longValue", "()J");
         return env->CallIntMethod(jobj, methodID);
@@ -490,6 +502,8 @@ struct JNIToCPPConverter < jfloat >
     static float convert(jobject jobj)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass instanceClass = env->FindClass("java/lang/Float");
+        assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "floatValue", "()F");
         return env->CallIntMethod(jobj, methodID);
@@ -503,6 +517,8 @@ struct JNIToCPPConverter < jdouble >
     static double convert(jobject jobj)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass instanceClass = env->FindClass("java/lang/Double");
+        assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "doubleValue", "()D");
         return env->CallIntMethod(jobj, methodID);
@@ -513,7 +529,13 @@ template <>
 struct JNIToCPPConverter < jstring >
 {
     inline static std::string convert(jstring obj){ return AndroidJNIHelper::getInstance()->jstring2string(obj); }
-    inline static std::string convert(jobject jobj){return convert((jstring)jobj);}
+    inline static std::string convert(jobject jobj)
+    {
+        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass instanceClass = env->FindClass("java/lang/String");
+        assert(env->IsInstanceOf(jobj, instanceClass));
+        return convert((jstring)j
+    }
 
 
 };
