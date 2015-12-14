@@ -1,4 +1,3 @@
-
 #include "AndroidJavaBridge.h"
 NS_FK_BEGIN
 
@@ -37,42 +36,56 @@ extern "C"
     jstring       T   std::string
     */
     JNIEXPORT void JNICALL Java_com_losemymind_foundationkit_AndroidJavaBridge_nativeInvoke(JNIEnv* env, 
-        jobject obj, jstring funName, jstring argSig, ...)
+        jobject obj, jstring funName, jstring argSig, jobjectArray args)
     {
         std::string strFunName = AndroidJNIHelper::getInstance()->jstring2string(funName);
         std::string strArgSig  = AndroidJNIHelper::getInstance()->jstring2string(argSig);
         size_t count = strArgSig.size();
+        LOGD("======= nativeInvoke Method strFunName:%s", strFunName.c_str());
+        LOGD("======= nativeInvoke Method strArgSig:%s", strArgSig.c_str());
+        LOGD("======= nativeInvoke Method argcount:%d", count);
+        std::vector<AndroidJavaObject>  arguments;
+        jsize arrLen = env->GetArrayLength(args);
+        for(size_t i = 0; i < arrLen; ++i)
+        {
+            arguments.emplace_back(env->GetObjectArrayElement(args, i));
+        }
+        AndroidJavaBridge::getInstance()->invoke(strFunName, arguments);
 
-        LOGD("======== strFunName:%s", strFunName.c_str());
-        LOGD("======== strArgSig:%s", strArgSig.c_str());
-        LOGD("======== count:%d", count);
 
-
+        /**
         size_t argIndex = 0;
-        va_list args;
-        va_start(args, count);
         while (argIndex < count)
         {
             char argType = strArgSig[argIndex];
             switch (argType)
             {
-            case 'z':  
+            case 'z':
+                bool val = arguments[argIndex].call<bool>("booleanValue");  
                 break;    
-            case 'b':  
+            case 'b': 
+                unsigned char val = arguments[argIndex].call<unsigned char>("byteValue");  
                 break;
             case 'c': 
+                char val = arguments[argIndex].call<char>("charValue");  
                 break;
             case 's':
+                short val = arguments[argIndex].call<short>("shortValue");
                 break;
             case 'i':
+                int val = arguments[argIndex].call<int>("intValue");
                 break;
             case 'j':
+                long val = arguments[argIndex].call<long>("longValue");
                 break;
             case 'f':
+                float val = arguments[argIndex].call<float>("floatValue");
                 break;
             case 'd':
+                double val = arguments[argIndex].call<double>("doubleValue");
                 break;
             case 'l':
+                jobject val = arguments[argIndex].getRawObject();
                 break;
             case 'Z':
                 break;
@@ -100,7 +113,7 @@ extern "C"
             }
             ++argIndex;
         }
-        va_end(args);
+        */
     }
 }
 

@@ -60,6 +60,8 @@ public class AndroidJavaBridge {
 				szSig = 'L';
 			strSignature += szSig;
 		}
+		
+
 		return strSignature;
 	}
   

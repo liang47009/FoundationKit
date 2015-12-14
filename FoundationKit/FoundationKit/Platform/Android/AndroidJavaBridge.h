@@ -2,8 +2,11 @@
 #include <functional>
 #include <unordered_map>
 #include <string>
+#include <cstdarg>
+#include <vector>
 #include "FoundationKit/Foundation/Singleton.h"
 #include "AndroidJNIHelper.h"
+#include "AndroidJavaObject.h"
 
 NS_FK_BEGIN
 
@@ -77,6 +80,8 @@ namespace InvokeHelper
 namespace Android
 {
 
+    typedef std::vector<AndroidJavaObject> NativeArguments;
+
     class AndroidJavaBridge : public Singleton < AndroidJavaBridge >
     {
         friend class Singleton < AndroidJavaBridge >;
@@ -106,6 +111,7 @@ namespace Android
             {
                 return InvokeHelper::invoke<R>(iter->second, std::forward<Args>(args)...);
             }
+            LOGD("Method is not exist of name %s", methodName.c_str());
             return R();
         }
     protected:

@@ -54,9 +54,14 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     return JNI_VERSION_1_4;
 }
 
-bool getTestValue(int n1, int n2)
+void getTestValue(NativeArguments args)
 {
-    return n1 > n2;
+    LOGD("====== getTestValue by call.");
+
+    int v0 = JNIToCPPConverter<jint>::convert(args[0].getRawObject());
+    int v1 = JNIToCPPConverter<jint>::convert(args[1].getRawObject());
+    LOGD("====== getTestValue v0:%d", v0);
+    LOGD("====== getTestValue v1:%d", v1);
 }
     
 

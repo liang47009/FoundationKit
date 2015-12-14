@@ -25,10 +25,7 @@ public class MainActivity extends Activity {
 		instanceState = savedInstanceState;
 		activity = this;
 		foundationInit((Context)this);
-		float[]  fs={10.f,11.f};
-		MainActivity[] activities = {this, this, this};
-		AndroidJavaBridge.getInstance().invoke("debugPrint", 10, 10.f, 'c', "This is test", this,fs, activities);
-
+		AndroidJavaBridge.getInstance().invoke("getTestValue", 10, 999, "This is test");
 	}
 	
 	public void debugPrint(int line, String fileName, String message)

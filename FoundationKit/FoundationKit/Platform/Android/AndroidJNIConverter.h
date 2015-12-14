@@ -409,54 +409,113 @@ template <>
 struct JNIToCPPConverter<jboolean>
 {
     inline static bool convert(jboolean obj){ return static_cast<bool>(obj); }
+    static bool convert(jobject jobj)
+    {
+        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass clazz = env->GetObjectClass(jobj);
+        jmethodID methodID = env->GetMethodID(clazz, "booleanValue", "()Z");
+        return env->CallBooleanMethod(jobj, methodID);
+    }
 };
 
 template <>
 struct JNIToCPPConverter < jbyte >
 {
     inline static unsigned char convert(jbyte obj){ return static_cast<unsigned char>(obj); }
+    static unsigned char convert(jobject jobj)
+    {
+        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass clazz = env->GetObjectClass(jobj);
+        jmethodID methodID = env->GetMethodID(clazz, "byteValue", "()B");
+        return env->CallIntMethod(jobj, methodID);
+    }
 };
 
 template <>
 struct JNIToCPPConverter < jchar >
 {
     inline static char convert(jchar obj){ return static_cast<char>(obj); }
+    static char convert(jobject jobj)
+    {
+        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass clazz = env->GetObjectClass(jobj);
+        jmethodID methodID = env->GetMethodID(clazz, "charValue", "()C");
+        return env->CallIntMethod(jobj, methodID);
+    }
 };
 
 template <>
 struct JNIToCPPConverter < jshort >
 {
     inline static short convert(jshort obj){ return static_cast<short>(obj); }
+    static short convert(jobject jobj)
+    {
+        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass clazz = env->GetObjectClass(jobj);
+        jmethodID methodID = env->GetMethodID(clazz, "shortValue", "()S");
+        return env->CallIntMethod(jobj, methodID);
+    }
 };
 
 template <>
 struct JNIToCPPConverter < jint >
 {
     inline static int convert(jint obj){ return static_cast<int>(obj); }
+    static int convert(jobject jobj)
+    {
+        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass clazz = env->GetObjectClass(jobj);
+        jmethodID methodID = env->GetMethodID(clazz, "intValue", "()I");
+        return env->CallIntMethod(jobj, methodID);
+    }
 };
 
 template <>
 struct JNIToCPPConverter < jlong >
 {
     inline static long convert(jlong obj){ return static_cast<long>(obj); }
+    static long convert(jobject jobj)
+    {
+        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass clazz = env->GetObjectClass(jobj);
+        jmethodID methodID = env->GetMethodID(clazz, "longValue", "()J");
+        return env->CallIntMethod(jobj, methodID);
+    }
 };
 
 template <>
 struct JNIToCPPConverter < jfloat >
 {
     inline static float convert(jfloat obj){ return static_cast<float>(obj); }
+    static float convert(jobject jobj)
+    {
+        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass clazz = env->GetObjectClass(jobj);
+        jmethodID methodID = env->GetMethodID(clazz, "floatValue", "()F");
+        return env->CallIntMethod(jobj, methodID);
+    }
 };
 
 template <>
 struct JNIToCPPConverter < jdouble >
 {
     inline static double convert(jdouble obj){ return static_cast<double>(obj); }
+    static double convert(jobject jobj)
+    {
+        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        jclass clazz = env->GetObjectClass(jobj);
+        jmethodID methodID = env->GetMethodID(clazz, "doubleValue", "()D");
+        return env->CallIntMethod(jobj, methodID);
+    }
 };
 
 template <>
 struct JNIToCPPConverter < jstring >
 {
     inline static std::string convert(jstring obj){ return AndroidJNIHelper::getInstance()->jstring2string(obj); }
+    inline static std::string convert(jobject jobj){return convert((jstring)jobj);}
+
+
 };
 
 // class AndroidJavaObject;
