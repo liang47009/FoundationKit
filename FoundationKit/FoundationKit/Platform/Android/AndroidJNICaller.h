@@ -183,25 +183,25 @@ namespace Android
     };
 
     template <typename... Args>
-    struct JNICaller < unsigned char, Args... > 
+    struct JNICaller < char, Args... > 
     {
 
-        static unsigned char call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+        static char call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
         {
             return env->CallByteMethod(instance, method, v...);
         }
 
-        static unsigned char callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+        static char callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
         {
             return env->CallStaticByteMethod(clazz, method, v...);
         }
 
-        static unsigned char getField(JNIEnv * env, jobject instance, jfieldID fid)
+        static char getField(JNIEnv * env, jobject instance, jfieldID fid)
         {
             return env->GetByteField(instance, fid);
         }
 
-        static unsigned char getFieldStatic(JNIEnv * env, jclass clazz, jfieldID fid)
+        static char getFieldStatic(JNIEnv * env, jclass clazz, jfieldID fid)
         {
             return env->GetStaticByteField(clazz, fid);
         }
@@ -218,24 +218,24 @@ namespace Android
     };
 
     template <typename... Args>
-    struct JNICaller < char, Args... > 
+    struct JNICaller < unsigned char, Args... > 
     {
-        static char call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+        static unsigned char call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
         {
             return env->CallCharMethod(instance, method, v...);
         }
 
-        static char callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+        static unsigned char callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
         {
             return env->CallStaticCharMethod(clazz, method, v...);
         }
 
-        static char getField(JNIEnv * env, jobject instance, jfieldID fid)
+        static unsigned char getField(JNIEnv * env, jobject instance, jfieldID fid)
         {
             return env->GetCharField(instance, fid);
         }
 
-        static char getFieldStatic(JNIEnv * env, jclass clazz, jfieldID fid)
+        static unsigned char getFieldStatic(JNIEnv * env, jclass clazz, jfieldID fid)
         {
             return env->GetStaticCharField(clazz, fid);
         }

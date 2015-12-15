@@ -33,28 +33,29 @@ std::vector<float>
 std::vector<double>
 
 JNI 类型转换为C++类型，支持全部JNI类型
-
-Java类型    本地类型        描述
-boolean     jboolean        C/C++8位整型
-byte        jbyte           C/C++带符号的8位整型
-char        jchar           C/C++无符号的16位整型
-short       jshort          C/C++带符号的16位整型
-int         jint            C/C++带符号的32位整型
-long        jlong           C/C++带符号的64位整型e
-float       jfloat          C/C++32位浮点型
-double      jdouble         C/C++64位浮点型
-Object      jobject         任何Java对象，或者没有对应java类型的对象
-Class       jclass          Class对象
-String      jstring         字符串对象
-Object[]    jobjectArray    任何对象的数组
-boolean[]   jbooleanArray   布尔型数组
-byte[]      jbyteArray      比特型数组
-char[]      jcharArray      字符型数组
-short[]     jshortArray     短整型数组
-int[]       jintArray       整型数组
-long[]      jlongArray      长整型数组
-float[]     jfloatArray     浮点型数组
-double[]    jdoubleArray    双浮点型数组
+-------------------------------------------------------------------------
+类型对于关系
+Java类型    JNI类型          C++类型          
+boolean     jboolean        bool             
+byte        jbyte           char             
+char        jchar           unsigned char    
+short       jshort          short/unsigned short
+int         jint            int/unsigned int
+long        jlong           long/unsigned long/long long
+float       jfloat          float
+double      jdouble         double
+Object      jobject         jobject
+Class       jclass          jclass
+String      jstring         std::string/ const char*
+Object[]    jobjectArray    std::vector<jobject>
+boolean[]   jbooleanArray   std::vector<bool>
+byte[]      jbyteArray      std::vector<char>
+char[]      jcharArray      std::vector<unsigned char>
+short[]     jshortArray     std::vector<short>
+int[]       jintArray       std::vector<int>
+long[]      jlongArray      std::vector<long>
+float[]     jfloatArray     std::vector<float>
+double[]    jdoubleArray    std::vector<double>
 ****************************************************************************/
 
 #pragma once
@@ -67,6 +68,47 @@ NS_FK_BEGIN
 
 namespace Android
 {
+
+ template<typename T>
+struct TypeTranslation{using type = T;}; // jobject/ jclass
+ template<>
+struct TypeTranslation<jboolean>{ using type = bool;};
+ template<>
+struct TypeTranslation<jbyte>{ using type = char;};
+ template<>
+struct TypeTranslation<jchar>{ using type = unsigned char;};
+ template<>
+struct TypeTranslation<jshort>{ using type = short;};
+ template<>
+struct TypeTranslation<jint>{ using type = int;};
+ template<>
+struct TypeTranslation<jlong>{ using type = long;};
+ template<>
+struct TypeTranslation<jfloat>{ using type = float;};
+ template<>
+struct TypeTranslation<jdouble>{ using type = double;};
+ template<>
+struct TypeTranslation<jstring>{ using type = std::string;};
+ template<>
+struct TypeTranslation<jobjectArray>{ using type = std::vector<jobject>;};
+ template<>
+struct TypeTranslation<jbooleanArray>{ using type = std::vector<bool>;};
+ template<>
+struct TypeTranslation<jbyteArray>{ using type = std::vector<char>;};
+ template<>
+struct TypeTranslation<jcharArray>{ using type = std::vector<unsigned char>;};
+ template<>
+struct TypeTranslation<jshortArray>{ using type = std::vector<short>;};
+ template<>
+struct TypeTranslation<jintArray>{ using type = std::vector<int>;};
+ template<>
+struct TypeTranslation<jlongArray>{ using type = std::vector<long>;};
+ template<>
+struct TypeTranslation<jfloatArray>{ using type = std::vector<float>;};
+ template<>
+struct TypeTranslation<jdoubleArray>{ using type = std::vector<double>;};
+
+
 
 //Compile Time String
 template <char... Cs> struct CompileTimeString
@@ -141,7 +183,7 @@ struct CPPToJNIConverter < void >
 template<>
 struct CPPToJNIConverter < unsigned char >
 {
-    using JNIType = CompileTimeString < 'B' > ;
+    using JNIType = CompileTimeString < 'C' > ;
     inline static jchar convert(unsigned char value){ return static_cast<jchar>(value); }
 };
 
@@ -180,11 +222,10 @@ struct CPPToJNIConverter < bool >
     inline static jboolean convert(bool value){ return static_cast<jboolean>(value); }
 };
 
-
 template<>
 struct CPPToJNIConverter < char >
 {
-    using JNIType = CompileTimeString < 'C' > ;
+    using JNIType = CompileTimeString < 'B' > ;
     inline static jbyte convert(char value){ return static_cast<jbyte>(value); }
 };
 
@@ -246,10 +287,7 @@ struct CPPToJNIConverter < std::string >
 };
 
 
-
-
 //object implementations
-
 template<>
 struct CPPToJNIConverter < std::vector<std::string> >
 {
@@ -306,17 +344,17 @@ struct CPPToJNIConverter < std::vector<bool> >
             boolArray.push_back(b);
         }
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
-        jbooleanArray jniArray = env->NewBooleanArray(obj.size());
-        env->SetBooleanArrayRegion(jniArray, 0, obj.size(), (const jboolean*)&boolArray[0]);
+        jbooleanArray jniArray = env->NewBooleanArray(boolArray.size());
+        env->SetBooleanArrayRegion(jniArray, 0, boolArray.size(), (const jboolean*)&boolArray[0]);
         return jniArray;
     }
 };
 
 template<>
-struct CPPToJNIConverter < std::vector<unsigned char> >
+struct CPPToJNIConverter < std::vector<char> >
 {
     using JNIType = CompileTimeString < '[', 'B' > ;
-    static jbyteArray convert(const std::vector<unsigned char>& obj)
+    static jbyteArray convert(const std::vector<char>& obj)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
         jbyteArray jniArray = env->NewByteArray(obj.size());
@@ -326,10 +364,10 @@ struct CPPToJNIConverter < std::vector<unsigned char> >
 };
 
 template<>
-struct CPPToJNIConverter < std::vector<char> >
+struct CPPToJNIConverter < std::vector<unsigned char> >
 {
     using JNIType = CompileTimeString < '[', 'C' > ;
-    static jcharArray convert(const std::vector<char>& obj)
+    static jcharArray convert(const std::vector<unsigned char>& obj)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
         jcharArray jniArray = env->NewCharArray(obj.size());
@@ -411,9 +449,8 @@ const char * getJNISignature(Args...)
     return Concatenate < CompileTimeString<'('>, //left parenthesis
         typename CPPToJNIConverter<Args>::JNIType..., //params signature
         CompileTimeString<')'>, //right parenthesis
-        typename CPPToJNIConverter<T>::JNIType,
-        CompileTimeString < '\0' >> //return type signature
-        ::Result::value();
+        typename CPPToJNIConverter<T>::JNIType, //return type signature
+        CompileTimeString < '\0' > >::Result::value();
 }
 
 
@@ -445,8 +482,8 @@ struct JNIToCPPConverter<jboolean>
 template <>
 struct JNIToCPPConverter < jbyte >
 {
-    inline static unsigned char convert(jbyte obj){ return static_cast<unsigned char>(obj); }
-    static unsigned char convert(jobject jobj)
+    inline static char convert(jbyte obj){ return static_cast<char>(obj); }
+    static char convert(jobject jobj)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
         jclass instanceClass = env->FindClass("java/lang/Byte");
@@ -460,8 +497,8 @@ struct JNIToCPPConverter < jbyte >
 template <>
 struct JNIToCPPConverter < jchar >
 {
-    inline static char convert(jchar obj){ return static_cast<char>(obj); }
-    static char convert(jobject jobj)
+    inline static unsigned char convert(jchar obj){ return static_cast<unsigned char>(obj); }
+    static unsigned char convert(jobject jobj)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
         jclass instanceClass = env->FindClass("java/lang/Character");
@@ -556,7 +593,7 @@ struct JNIToCPPConverter < jstring >
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
         jclass instanceClass = env->FindClass("java/lang/String");
         assert(env->IsInstanceOf(jobj, instanceClass));
-        return convert((jstring)j
+        return convert((jstring)jobj);
     }
 
 
@@ -588,6 +625,8 @@ struct JNIToCPPConverter < jobjectArray >
         }
         return result;
     }
+
+    static std::vector<jobject> convert(jobject jobj){return convert((jobjectArray)jobj);}
 };
 
 template <>
@@ -609,15 +648,16 @@ struct JNIToCPPConverter < jbooleanArray >
         }
         return result;
     }
+    static std::vector<bool> convert(jobject jobj){return convert((jbooleanArray)jobj);}
 };
 
 template <>
 struct JNIToCPPConverter <jbyteArray>
 {
-    static std::vector<unsigned char> convert(jbyteArray jniArray)
+    static std::vector<char> convert(jbyteArray jniArray)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
-        std::vector<unsigned char> result;
+        std::vector<char> result;
         if (jniArray)
         {
             jbyte* elems = env->GetByteArrayElements(jniArray, NULL);
@@ -628,18 +668,18 @@ struct JNIToCPPConverter <jbyteArray>
             }
             env->ReleaseByteArrayElements(jniArray, elems, 0);
         }
-        result.push_back('\0');
         return result;
     }
+    static std::vector<char> convert(jobject jobj){return convert((jbyteArray)jobj);}
 };
 
 template <>
 struct JNIToCPPConverter < jcharArray >
 {
-    static std::vector<char> convert(jcharArray jniArray)
+    static std::vector<unsigned char> convert(jcharArray jniArray)
     {
         JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
-        std::vector<char> result;
+        std::vector<unsigned char> result;
         if (jniArray)
         {
             jchar* elems = env->GetCharArrayElements(jniArray, NULL);
@@ -650,9 +690,9 @@ struct JNIToCPPConverter < jcharArray >
             }
             env->ReleaseCharArrayElements(jniArray, elems, 0);
         }
-        result.push_back('\0');
         return result;
     }
+    static std::vector<unsigned char> convert(jobject jobj){return convert((jcharArray)jobj);}
 };
 
 template <>
@@ -674,6 +714,7 @@ struct JNIToCPPConverter < jshortArray >
         }
         return result;
     }
+    static std::vector<short> convert(jobject jobj){return convert((jshortArray)jobj);}
 };
 
 template <>
@@ -695,6 +736,7 @@ struct JNIToCPPConverter < jintArray >
         }
         return result;
     }
+    static std::vector<int> convert(jobject jobj){return convert((jintArray)jobj);}
 };
 
 template <>
@@ -716,6 +758,7 @@ struct JNIToCPPConverter < jlongArray >
         }
         return result;
     }
+    static std::vector<long> convert(jobject jobj){return convert((jlongArray)jobj);}
 };
 
 template <>
@@ -737,6 +780,7 @@ struct JNIToCPPConverter < jfloatArray >
         }
         return result;
     }
+    static std::vector<float> convert(jobject jobj){return convert((jfloatArray)jobj);}
 };
 
 template <>
@@ -758,6 +802,8 @@ struct JNIToCPPConverter < jdoubleArray >
         }
         return result;
     }
+
+    static std::vector<double> convert(jobject jobj){return convert((jdoubleArray)jobj);}
 };
 
 
@@ -789,7 +835,7 @@ struct JobjectToArrayConverter < std::vector<bool> >
 };
 
 template <>
-struct JobjectToArrayConverter < std::vector<unsigned char> >
+struct JobjectToArrayConverter < std::vector<char> >
 {
     static jbyteArray convert(jobject jobj)
     {
@@ -798,7 +844,7 @@ struct JobjectToArrayConverter < std::vector<unsigned char> >
 };
 
 template <>
-struct JobjectToArrayConverter < std::vector<char> >
+struct JobjectToArrayConverter < std::vector<unsigned char> >
 {
     static jcharArray convert(jobject jobj)
     {

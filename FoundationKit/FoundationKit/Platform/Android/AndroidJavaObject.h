@@ -288,6 +288,12 @@ public:
         JNICaller<T>::setFieldStatic(env, getRawClass(), fid, CPPToJNIConverter<T>::convert(fieldValue));
     }
 
+    template<typename JniType>
+    typename TypeTranslation<JniType>::type convertWith()
+    {
+        return JNIToCPPConverter<JniType>::convert(getRawObject());
+    }
+
     jclass getRawClass()const;
     jobject getRawObject()const;
 

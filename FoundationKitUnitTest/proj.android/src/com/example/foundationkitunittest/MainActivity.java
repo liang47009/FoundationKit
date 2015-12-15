@@ -25,7 +25,8 @@ public class MainActivity extends Activity {
 		instanceState = savedInstanceState;
 		activity = this;
 		foundationInit((Context)this);
-		AndroidJavaBridge.getInstance().invoke("getTestValue", 10, 999, "This is test");
+		char[] arr = {'a','b','c','d','e'};
+		AndroidJavaBridge.getInstance().invoke("getTestValue", 10, 999, "This is test", arr);
 	}
 	
 	public void debugPrint(int line, String fileName, String message)

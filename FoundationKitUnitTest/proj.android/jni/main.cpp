@@ -58,10 +58,18 @@ void getTestValue(NativeArguments args)
 {
     LOGD("====== getTestValue by call.");
 
-    int v0 = JNIToCPPConverter<jint>::convert(args[0].getRawObject());
-    int v1 = JNIToCPPConverter<jint>::convert(args[1].getRawObject());
+
+    int v0 = args[0].convertWith<jint>();
+    int v1 = args[1].convertWith<jint>();
+    std::string v2 = args[2].convertWith<jstring>();
     LOGD("====== getTestValue v0:%d", v0);
     LOGD("====== getTestValue v1:%d", v1);
+    LOGD("====== getTestValue v1:%s", v2.c_str());
+    std::vector<unsigned char> arr = args[3].convertWith<jcharArray>();
+    for(auto c : arr)
+    {
+        LOGD("======= c: %c", c);
+    }
 }
     
 

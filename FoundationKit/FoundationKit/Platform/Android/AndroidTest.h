@@ -66,8 +66,8 @@ namespace Android
         LOGD("===== len:%d", len);
         EQUAL_VAL(length, len);
 
-        std::vector<unsigned char> vecbuf = javaString->call< std::vector<unsigned char> >("getBytes");
-        unsigned char* buf = &(vecbuf.front());
+        std::vector<char> vecbuf = javaString->call< std::vector<char> >("getBytes");
+        char* buf = &(vecbuf.front());
         LOGD("===== buf:%s", buf);
         EQUAL_PCHAR(strBuf, (const char*)buf);
 
@@ -75,7 +75,7 @@ namespace Android
         std::string strconcat = javaString->call<std::string>("concat", strBuf);
         LOGD("===== strconcat:%s", strconcat.c_str());
 
-        vecbuf = javaString->call< std::vector<unsigned char> >("getBytes");
+        vecbuf = javaString->call< std::vector<char> >("getBytes");
         buf = &(vecbuf.front());
         LOGD("===== buf:%s", buf);
         
@@ -110,17 +110,17 @@ namespace Android
              LOGD("==== AndroidJavaObject::raw jobject 111 : %p", ajo10.getRawObject());
 
 
-            vecbuf = ajo10.call< std::vector<unsigned char> >("getBytes");
+            vecbuf = ajo10.call< std::vector<char> >("getBytes");
             buf = &(vecbuf.front());
             LOGD("===== buf 000 :%s", buf);
 
             AndroidJavaObject  ajo11(std::move(ajo10));
-            vecbuf = ajo11.call< std::vector<unsigned char> >("getBytes");
+            vecbuf = ajo11.call< std::vector<char> >("getBytes");
             buf = &(vecbuf.front());
             LOGD("===== buf 111 :%s", buf);
 
             AndroidJavaObject  ajo12(ajo11);
-            vecbuf = ajo12.call< std::vector<unsigned char> >("getBytes");
+            vecbuf = ajo12.call< std::vector<char> >("getBytes");
             buf = &(vecbuf.front());
             LOGD("===== buf 222 :%s", buf);
 
@@ -129,7 +129,7 @@ namespace Android
             last = std::move(ajo12);
         }
 
-        vecbuf = last.call< std::vector<unsigned char> >("getBytes");
+        vecbuf = last.call< std::vector<char> >("getBytes");
         buf = &(vecbuf.front());
         LOGD("===== buf 222 :%s", buf);
         LOGD("===== last ref count:%d", last._shared_ObjPtr->getReferenceCount());
