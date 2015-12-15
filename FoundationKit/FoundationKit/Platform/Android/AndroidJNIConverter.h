@@ -68,45 +68,48 @@ NS_FK_BEGIN
 
 namespace Android
 {
+    // this type convert for std::vector<std::string>
+    class _jstringArray : public _jarray {};
+    typedef _jstringArray*  jstringArray;
 
- template<typename T>
-struct TypeTranslation{using type = T;}; // jobject/ jclass
- template<>
-struct TypeTranslation<jboolean>{ using type = bool;};
- template<>
-struct TypeTranslation<jbyte>{ using type = char;};
- template<>
-struct TypeTranslation<jchar>{ using type = unsigned char;};
- template<>
-struct TypeTranslation<jshort>{ using type = short;};
- template<>
-struct TypeTranslation<jint>{ using type = int;};
- template<>
-struct TypeTranslation<jlong>{ using type = long;};
- template<>
-struct TypeTranslation<jfloat>{ using type = float;};
- template<>
-struct TypeTranslation<jdouble>{ using type = double;};
- template<>
-struct TypeTranslation<jstring>{ using type = std::string;};
- template<>
-struct TypeTranslation<jobjectArray>{ using type = std::vector<jobject>;};
- template<>
-struct TypeTranslation<jbooleanArray>{ using type = std::vector<bool>;};
- template<>
-struct TypeTranslation<jbyteArray>{ using type = std::vector<char>;};
- template<>
-struct TypeTranslation<jcharArray>{ using type = std::vector<unsigned char>;};
- template<>
-struct TypeTranslation<jshortArray>{ using type = std::vector<short>;};
- template<>
-struct TypeTranslation<jintArray>{ using type = std::vector<int>;};
- template<>
-struct TypeTranslation<jlongArray>{ using type = std::vector<long>;};
- template<>
-struct TypeTranslation<jfloatArray>{ using type = std::vector<float>;};
- template<>
-struct TypeTranslation<jdoubleArray>{ using type = std::vector<double>;};
+    template<typename T>
+    struct TypeTranslation{using type = T;}; // jobject/ jclass
+    template<>
+    struct TypeTranslation<jboolean>{ using type = bool;};
+    template<>
+    struct TypeTranslation<jbyte>{ using type = char;};
+    template<>
+    struct TypeTranslation<jchar>{ using type = unsigned char;};
+    template<>
+    struct TypeTranslation<jshort>{ using type = short;};
+    template<>
+    struct TypeTranslation<jint>{ using type = int;};
+    template<>
+    struct TypeTranslation<jlong>{ using type = long;};
+    template<>
+    struct TypeTranslation<jfloat>{ using type = float;};
+    template<>
+    struct TypeTranslation<jdouble>{ using type = double;};
+    template<>
+    struct TypeTranslation<jstring>{ using type = std::string;};
+    template<>
+    struct TypeTranslation<jobjectArray>{ using type = std::vector<jobject>;};
+    template<>
+    struct TypeTranslation<jbooleanArray>{ using type = std::vector<bool>;};
+    template<>
+    struct TypeTranslation<jbyteArray>{ using type = std::vector<char>;};
+    template<>
+    struct TypeTranslation<jcharArray>{ using type = std::vector<unsigned char>;};
+    template<>
+    struct TypeTranslation<jshortArray>{ using type = std::vector<short>;};
+    template<>
+    struct TypeTranslation<jintArray>{ using type = std::vector<int>;};
+    template<>
+    struct TypeTranslation<jlongArray>{ using type = std::vector<long>;};
+    template<>
+    struct TypeTranslation<jfloatArray>{ using type = std::vector<float>;};
+    template<>
+    struct TypeTranslation<jdoubleArray>{ using type = std::vector<double>;};
 
 
 
@@ -807,6 +810,29 @@ struct JNIToCPPConverter < jdoubleArray >
 };
 
 
+template <>
+struct JNIToCPPConverter < jstringArray >
+{
+    static std::vector<std::string> convert(jobject jobj)
+    {
+        JNIEnv *env = AndroidJNIHelper::getInstance()->getEnv();
+        std::vector<std::string> result;
+        jobjectArray jniArray = (jobjectArray)jobj;
+        if (jniArray)
+        {
+            jint length = env->GetArrayLength(jniArray);
+            for (int i = 0; i < length; i++)
+            {
+                jobject valueJObject = env->GetObjectArrayElement(jniArray, i);
+                result.push_back(AndroidJNIHelper::getInstance()->jstring2string((jstring)valueJObject));
+                env->DeleteLocalRef(valueJObject);
+            }
+        }
+        return result;
+    }
+};
+
+
 // ======================= JobjectToArrayConverter ======================
 
 //default template
@@ -894,6 +920,15 @@ struct JobjectToArrayConverter < std::vector<double> >
     static jdoubleArray convert(jobject jobj)
     {
         return static_cast<jdoubleArray>(jobj);
+    }
+};
+
+template <>
+struct JobjectToArrayConverter < std::vector<std::string> >
+{
+    static jstringArray convert(jobject jobj)
+    {
+        return static_cast<jstringArray>(jobj);
     }
 };
 
