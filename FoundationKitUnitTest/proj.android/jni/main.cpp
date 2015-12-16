@@ -23,6 +23,8 @@
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Platform/Android/AndroidTest.h"
 #include "FoundationKit/Platform/Android/AndroidJavaBridge.h"
+#include "FoundationKit/stdextensions/utility.hpp"
+#include "FoundationKit/Foundation/Timer.h"
 #include <vector>
 #include <stdarg.h>
 
@@ -71,6 +73,26 @@ void getTestValue(NativeArguments args)
         LOGD("======= c: %c", c);
     }
 }
+
+size_t noCache(size_t n)  
+{  
+    return (n < 2) ? n : noCache(n - 1) + noCache(n - 2);  
+}
+
+size_t hasCache(size_t n)  
+{  
+     return (n < 2) ? n : sugar(hasCache)(n - 1) + sugar(hasCache)(n - 2);  
+} 
+
+void testFunctionCache()
+{
+    Timer t1;
+     auto v1 = noCache(45);
+     LOGD("=========== noCache value:%d run time:%lld", v1, t1.elapsed_seconds());
+     Timer t2;
+     auto v2 = hasCache(45);
+     LOGD("=========== hasCache value:%d run time:%lld", v2, t2.elapsed_seconds());
+}
     
 
 JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
@@ -84,7 +106,7 @@ JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_found
     testJavaString();
 
     AndroidJavaBridge::getInstance()->registerMethod<decltype(getTestValue)>("getTestValue",getTestValue);
-
+    testFunctionCache();
 
 
 }

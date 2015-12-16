@@ -10,6 +10,8 @@
 #pragma once
 #include "FoundationKit/FoundationKitDefines.h"
 #include <utility>
+#include <unordered_map>
+#include <map>
 #include "stddefines.hpp"
 
 _STD_BEGIN
@@ -37,7 +39,7 @@ template < bool _Test, class _Ty = void >
 using disable_if = std::enable_if < !_Test, _Ty > ;
 
 /** 
- * check class has a member
+ * this can detect inherited member functions!
  * @code
  *   struct AppDelegate
  *   {
@@ -51,13 +53,24 @@ using disable_if = std::enable_if < !_Test, _Ty > ;
  *
  *   HAS_MEMBER(applicationDidFinishLaunching);
  *   HAS_MEMBER(update);
- *   bool bHave0 = has_member_applicationDidFinishLaunching<AppDelegate>::value;
- *   bool bHave1 = has_member_update<Scheduler,std::string>::value;
- *   bool bHave2 = has_member_update<Scheduler,float>::value;
+ *   bool bHave0 = has_member_applicationDidFinishLaunching<AppDelegate>::value; // true
+ *   bool bHave1 = has_member_update<Scheduler,std::string>::value;   // false
+ *   bool bHave2 = has_member_update<Scheduler,float>::value;  // true
+
+ *   template<typename T,typename... Args>
+ *    typename std::enable_if<has_member_update<T,decltype(Args)...>::value>::type testFun()
+ *     {
+ *          std::cout<<"has update function" << std::endl;
+ *     } 
+ *
+ *    template<typename T,typename... Args>
+ *    typename std::enable_if<!has_member_update<T,decltype(Args)...>::value>::type testFun()
+ *     {
+ *          std::cout<<"has no update function" << std::endl;
+ *     } 
+ *     testFun<Scheduler, int>();   // output: has no update function 
+ *     testFun<Scheduler, float>(); // has update function
  * @endcode
- *   bHave0 = true
- *   bHave1 = false
- *   bHave2 = true
  */
 #define HAS_MEMBER(member)\
 template<typename T, typename... Args>\
@@ -69,22 +82,6 @@ private:\
 public:\
 	enum{value = std::is_same<decltype(check<T>(0)), std::true_type>::value};\
 };
-
-/**  this can detect inherited member functions!
- *   usage:
- *   bool b1 = has_function<TestCheckFun>::value;
- *   bool b1 = has_function<TestCheckFun, int>::value;
- */
-template<typename T, typename... Args>
-struct has_function
-{
-    template<typename C, typename = decltype(std::declval<C>().destroyInstance(std::declval<Args>()...))>
-    static std::true_type test(int);
-    template<typename C> static std::false_type test(...);
-    const static bool value = decltype(test<T>(0))::value;
-};
-
-
 
 /**
  * Get max integer
@@ -141,6 +138,63 @@ struct always_false
 {
     static const bool value = false;
 };
+
+// ============= function cache implement ==================
+/** 
+ * @code
+ *     size_t noCache(size_t n)  
+ *     {  
+ *        return (n < 2) ? n : noCache(n - 1) + noCache(n - 2);  
+ *     }
+ *     
+ *     size_t hasCache(size_t n)  
+ *     {  
+ *         return (n < 2) ? n : sugar(hasCache)(n - 1) + sugar(hasCache)(n - 2);  
+ *     } 
+ *     
+ *     void testFunctionCache()
+ *     {
+ *         Timer t1;
+ *         auto v1 = noCache(45);
+ *         LOGD("=========== noCache value:%d run time:%lld", v1, t1.elapsed_seconds());
+ *         Timer t2;
+ *         auto v2 = hasCache(45);
+ *         LOGD("=========== hasCache value:%d run time:%lld", v2, t2.elapsed_seconds());
+ *     }
+ * @endcode
+ */
+// sugar helper method.
+template <typename R, typename... Args>  
+std::function<R(Args...)> function_cache(R(*func) (Args...))  
+{  
+    auto result_map = std::make_shared<std::map<std::tuple<Args...>, R>>();  
+      
+    return ([=](Args... args)
+    {  
+        std::tuple<Args...> t(args...);  
+        if (result_map->find(t) == result_map->end())  
+            (*result_map)[t] = func(args...);  
+        return (*result_map)[t];  
+    });  
+} 
+// sugar the function and cache.
+template <typename R, typename...  Args>  
+std::function<R(Args...)> sugar(R(*func)(Args...), bool needClear = false)  
+{  
+    using function_type = std::function<R(Args...)>;  
+    static std::unordered_map<decltype(func), function_type> functor_map;  
+
+    if (needClear)  
+        return functor_map[func] = function_cache(func);  
+
+    if (functor_map.find(func) == functor_map.end())  
+        functor_map[func] = function_cache(func);  
+
+    return functor_map[func];  
+} 
+
+// ============= function cache implement end ==================
+
 
 _STD_END
 
