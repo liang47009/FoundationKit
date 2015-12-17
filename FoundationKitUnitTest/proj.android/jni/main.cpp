@@ -60,7 +60,6 @@ void getTestValue(NativeArguments args)
 {
     LOGD("====== getTestValue by call.");
 
-
     int v0 = args[0].convertWith<jint>();
     int v1 = args[1].convertWith<jint>();
     std::string v2 = args[2].convertWith<jstring>();

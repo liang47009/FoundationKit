@@ -54,62 +54,74 @@ _STD_BEGIN
 
  */
 
-template < typename T>
+//普通函数
+//函数指针
+//function/lambda
+//成员函数
+//函数对象
+
+//转换为std::function和函数指针 
+template<typename T>
 struct function_traits;
 
-template < typename Ret, typename... Args>
-struct function_traits < Ret(Args...) >
+//普通函数
+template<typename Ret, typename... Args>
+struct function_traits<Ret(Args...)>
 {
-    using return_type = Ret;
-    using args_tuple = std::tuple < Args... > ;
-    //using signature = Ret(Args...);
-    typedef Ret signature(Args...);
-    enum{ arity = sizeof...(Args) };
+public:
+    enum { arity = sizeof...(Args) };
+    typedef Ret function_type(Args...);
+    typedef Ret return_type;
+    using stl_function_type = std::function<function_type>;
+    typedef Ret(*pointer)(Args...);
 
-    template < std::size_t N>
-    struct arg
+    template<size_t I>
+    struct args
     {
-        static_assert(N < arity, "no such parameter index.");
-        using type = typename std::tuple_element<N, std::tuple<Args...>>::type;
+        static_assert(I < arity, "index is out of range, index must less than sizeof Args");
+        using type = typename std::tuple_element<I, std::tuple<Args...>>::type;
     };
 };
 
-// function pointer
-template < typename Ret, typename... Args>
-struct function_traits<Ret(*)(Args...)> : public function_traits < Ret(Args...) >{};
+//函数指针
+template<typename Ret, typename... Args>
+struct function_traits<Ret(*)(Args...)> : function_traits<Ret(Args...)>{};
 
-// std::function
-template <  typename Ret, typename... Args>
-struct function_traits<std::function<Ret(Args...)> > : public function_traits < Ret(Args...) >{};
+//std::function
+template <typename Ret, typename... Args>
+struct function_traits<std::function<Ret(Args...)>> : function_traits<Ret(Args...)>{};
 
-//member function pointer
-template < typename T, typename Ret, typename... Args>
-struct function_traits<Ret(T::*)(Args...)> : public function_traits < Ret(Args...) >{};
+//member function
+#define FUNCTION_TRAITS(...)\
+template <typename ReturnType, typename ClassType, typename... Args>\
+struct function_traits<ReturnType(ClassType::*)(Args...) __VA_ARGS__> : function_traits<ReturnType(Args...)>{};\
 
-//const member function pointer
-template < typename T, typename Ret, typename... Args>
-struct function_traits<Ret(T::*)(Args...) const> : public function_traits < Ret(Args...) >{};
+FUNCTION_TRAITS()
+FUNCTION_TRAITS(const)
+FUNCTION_TRAITS(volatile)
+FUNCTION_TRAITS(const volatile)
 
-//volatile member function pointer
-template < typename T, typename Ret, typename... Args>
-struct function_traits<Ret(T::*)(Args...) volatile> : public function_traits < Ret(Args...) > {};
+//函数对象
+template<typename Callable>
+struct function_traits : function_traits<decltype(&Callable::operator())>{};
 
-//const volatile member function pointer
-template < typename T, typename Ret, typename... Args>
-struct function_traits<Ret(T::*)(Args...) const volatile> : public function_traits < Ret(Args...) > {};
+template <typename Function>
+typename function_traits<Function>::stl_function_type to_function(const Function& lambda)
+{
+    return static_cast<typename function_traits<Function>::stl_function_type>(lambda);
+}
 
-// member object pointer
-template < typename T, typename Ret>
-struct function_traits<Ret(T::*)> : public function_traits < Ret(T&) >{};
+template <typename Function>
+typename function_traits<Function>::stl_function_type to_function(Function&& lambda)
+{
+    return static_cast<typename function_traits<Function>::stl_function_type>(std::forward<Function>(lambda));
+}
 
-//callable object
-template < typename T>
-struct function_traits : public function_traits < decltype(&T::operator()) >{};
-
-//
-template < typename T>
-struct function_traits<T&> : public function_traits < typename std::remove_reference<T>::type >{};
-
+template <typename Function>
+typename function_traits<Function>::pointer to_function_pointer(const Function& lambda)
+{
+    return static_cast<typename function_traits<Function>::pointer>(lambda);
+}
 _STD_END
 
 
