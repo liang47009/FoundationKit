@@ -369,6 +369,9 @@
     <ClInclude Include="..\FoundationKit\Thread\Impl\thread_wp.h">
       <Filter>Thread\Impl</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\FunctionCenter.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Data\Data.cpp">
