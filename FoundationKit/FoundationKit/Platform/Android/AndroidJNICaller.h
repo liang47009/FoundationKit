@@ -428,7 +428,7 @@ namespace Android
     {
         JNIEnv* jniEnv = AndroidJNIHelper::getInstance()->getEnv();
         JniMethodInfo methodInfo;
-        AndroidJNIHelper::getInstance()->getMethodInfo(methodInfo, className, methodName, getJNISignature<T, Args...>(v...));
+        AndroidJNIHelper::getInstance()->getMethodInfo(methodInfo, className.c_str(), methodName.c_str(), getJNISignature<T, Args...>(v...));
         return JNICaller<T, decltype(CPPToJNIConverter<Args>::convert(v))...>::call(jniEnv, instance, methodInfo.methodID, CPPToJNIConverter<Args>::convert(v)...);
     }
 
@@ -438,7 +438,7 @@ namespace Android
     {
         JNIEnv* jniEnv = AndroidJNIHelper::getInstance()->getEnv();
         JniMethodInfo methodInfo;
-        AndroidJNIHelper::getInstance()->getMethodInfo(methodInfo, className, methodName, getJNISignature<T, Args...>(v...));
+        AndroidJNIHelper::getInstance()->getMethodInfo(methodInfo, className.c_str(), methodName.c_str(), getJNISignature<T, Args...>(v...));
         return JNICaller<T, decltype(CPPToJNIConverter<Args>::convert(v))...>::callStatic(jniEnv, methodInfo.classID, methodInfo.methodID, CPPToJNIConverter<Args>::convert(v)...);
     }
 
