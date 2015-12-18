@@ -171,7 +171,7 @@ struct CPPToJNIConverter < T* >
 template<>
 struct CPPToJNIConverter <jobject>
 {
-    using JNIType = CompileTimeString < 'L' > ;
+    using JNIType = CompileTimeString < 'L', 'j', 'a', 'v', 'a', '/', 'l', 'a', 'n', 'g', '/', 'O', 'b', 'j', 'e', 'c', 't', ';' > ;
     inline static jobject convert(jobject obj) { return obj; }
 };
 

@@ -233,7 +233,7 @@ public:
             env->ExceptionDescribe();
             env->ExceptionClear();
         }
-        return JNICaller<T, decltype(CPPToJNIConverter<Args>::convert(args))...>::call(env, _classID, methodID, CPPToJNIConverter<Args>::convert(args)...);
+        return JNICaller<T, decltype(CPPToJNIConverter<Args>::convert(args))...>::callStatic(env, _classID, methodID, CPPToJNIConverter<Args>::convert(args)...);
     }
 
     /** Get the value of a static field in an object type.
