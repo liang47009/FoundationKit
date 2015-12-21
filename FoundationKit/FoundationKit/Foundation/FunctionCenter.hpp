@@ -4,6 +4,7 @@
 #pragma once
 #include <unordered_map>
 #include <string>
+#include <mutex>
 #include "FoundationKit/FoundationKitDefines.h"
 #include "FoundationKit/Foundation/Singleton.h"
 #include "FoundationKit/Foundation/Logger.h"
@@ -66,7 +67,8 @@ class FunctionCenter:public Singleton<FunctionCenter>
     {
     }
 public:
-
+    typedef std::lock_guard<std::mutex>   GuardLock;
+    
     ~FunctionCenter()
     {
         for (auto& iter : _methodMap)
@@ -78,6 +80,7 @@ public:
     template<typename Function>
     bool declare(std::string methodName, Function func)
     {
+        GuardLock guard(_methodLock);
         auto iter = _methodMap.find(methodName);
         if (iter == _methodMap.end())
         {
@@ -89,25 +92,33 @@ public:
         }
         LOG_INFO("Method is exist of name %s", methodName.c_str());
         return false;
-
     }
 
     template<typename Function>
     void remove(std::string methodName, Function func)
     {
+        GuardLock guard(_methodLock);
         auto iter = _methodMap.find(methodName);
         if (iter != _methodMap.end())
         {
             using stl_fun_type = typename std::function_traits<Function>::stl_function_type;
             InvokeBase* invoker = dynamic_cast<InvokeHolder<stl_fun_type>*>(iter->second);
-            delete invoker;
-            _methodMap.erase(iter->first);
+            if (invoker)
+            {
+                delete invoker;
+                _methodMap.erase(iter->first);
+            }
+            else
+            {
+                LOG_INFO("Function sig error %s", methodName.c_str());
+            }
         }
     }
 
     template<typename R = void, typename... Args>
     R invoke(std::string methodName, Args... args)
     {
+        GuardLock guard(_methodLock);
         auto iter = _methodMap.find(methodName);
         if (iter != _methodMap.end())
         {
@@ -124,6 +135,7 @@ public:
 
 private:
     std::unordered_map<std::string, InvokeBase*>   _methodMap;
+    std::mutex                                     _methodLock;
 };
 
 NS_FK_END
