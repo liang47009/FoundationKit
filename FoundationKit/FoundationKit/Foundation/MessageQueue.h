@@ -7,7 +7,7 @@
 #include <functional>
 #include <unordered_map>
 #include "FoundationKit/stdextensions/any.hpp"
-#include "FoundationKit/Foundation/function_traits.h"
+#include "FoundationKit/stdextensions/function_traits.hpp"
 
 using namespace std;
 class MessageQueue
