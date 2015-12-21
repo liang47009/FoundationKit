@@ -14,19 +14,19 @@ DataStream::DataStream()
 {
 }
 DataStream::DataStream(const DataStream& pDataStream)
-    : _buffer(pDataStream.getBuffer())
+	: _buffer(pDataStream.getBuffer())
 {
 }
 
 DataStream::DataStream(DataStream&& pDataStream)
-    : _buffer(std::move(pDataStream._buffer))
+	: _buffer(std::move(pDataStream._buffer))
 {
 }
 
 DataStream& DataStream::operator=(const DataStream& pDataStream)
 {
-    _buffer = pDataStream.getBuffer();
-    return *this;
+	_buffer = pDataStream.getBuffer();
+	return *this;
 }
 
 DataStream& DataStream::operator=(DataStream&& pDataStream)
@@ -37,32 +37,32 @@ DataStream& DataStream::operator=(DataStream&& pDataStream)
 
 DataStream& DataStream::operator<<(const unsigned char data)
 {
-    _buffer.append((char*)&data, sizeof(unsigned char));
-    return *this;
+	_buffer.append((char*)&data, sizeof(unsigned char));
+	return *this;
 }
 
 DataStream& DataStream::operator<<(const unsigned short data)
 {
-    _buffer.append((char*)&data, sizeof(unsigned short));
-    return *this;
+	_buffer.append((char*)&data, sizeof(unsigned short));
+	return *this;
 }
 
 DataStream& DataStream::operator<<(const unsigned int data)
 {
-    _buffer.append((char*)&data, sizeof(unsigned int));
-    return *this;
+	_buffer.append((char*)&data, sizeof(unsigned int));
+	return *this;
 }
 
 DataStream& DataStream::operator<<(const unsigned long data)
 {
-    _buffer.append((char*)&data, sizeof(unsigned long));
-    return *this;
+	_buffer.append((char*)&data, sizeof(unsigned long));
+	return *this;
 }
 
 DataStream& DataStream::operator<<(const unsigned long long data)
 {
-    _buffer.append((char*)&data, sizeof(unsigned long long));
-    return *this;
+	_buffer.append((char*)&data, sizeof(unsigned long long));
+	return *this;
 }
 
 DataStream& DataStream::operator<<(bool data)
@@ -91,8 +91,8 @@ DataStream& DataStream::operator<<(const int data)
 
 DataStream& DataStream::operator<<(const long data)
 {
-    _buffer.append((char*)&data, sizeof(long));
-    return *this;
+	_buffer.append((char*)&data, sizeof(long));
+	return *this;
 }
 
 DataStream& DataStream::operator<<(const long long data)
@@ -128,32 +128,32 @@ DataStream& DataStream::operator<<(const std::string& data)
 
 DataStream& DataStream::operator>>(unsigned char& data)
 {
-    read(data);
-    return *this;
+	read(data);
+	return *this;
 }
 
 DataStream& DataStream::operator>>(unsigned short& data)
 {
-    read(data);
-    return *this;
+	read(data);
+	return *this;
 }
 
 DataStream& DataStream::operator>>(unsigned int& data)
 {
-    read(data);
-    return *this;
+	read(data);
+	return *this;
 }
 
 DataStream& DataStream::operator>>(unsigned long& data)
 {
-    read(data);
-    return *this;
+	read(data);
+	return *this;
 }
 
 DataStream& DataStream::operator>>(unsigned long long& data)
 {
-    read(data);
-    return *this;
+	read(data);
+	return *this;
 }
 
 DataStream& DataStream::operator>>(bool& data)
@@ -185,8 +185,8 @@ DataStream& DataStream::operator>>(int& data)
 
 DataStream& DataStream::operator>>(long& data)
 {
-    read(data);
-    return *this;
+	read(data);
+	return *this;
 }
 
 DataStream& DataStream::operator>>(long long& data)
@@ -241,12 +241,12 @@ void DataStream::write(unsigned char* data, size_t pSize, int pPos)
 	{
 		memcpy(&_buffer[pPos], data, pSize);
 	}
-    else
-    {
-        std::ostringstream os;
-        os << "pPos + pSize > _buffer.size()";
-        throw std::out_of_range(os.str());
-    }
+	else
+	{
+		std::ostringstream os;
+		os << "pPos + pSize > _buffer.size()";
+		throw std::out_of_range(os.str());
+	}
 }
 
 void DataStream::read( unsigned char* data, size_t dataSize )
