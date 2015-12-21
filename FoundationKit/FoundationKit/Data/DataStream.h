@@ -18,36 +18,36 @@ class  DataStream
 {
 public:
 	DataStream();
-    DataStream(const DataStream& pDataStream);
+	DataStream(const DataStream& pDataStream);
 	DataStream(DataStream&& pDataStream);
 	DataStream& operator=(const DataStream& pDataStream);
-    DataStream& operator=(DataStream&& pDataStream);
-    DataStream& operator<<(const unsigned char data);
-    DataStream& operator<<(const unsigned short data);
-    DataStream& operator<<(const unsigned int data);
-    DataStream& operator<<(const unsigned long data);
-    DataStream& operator<<(const unsigned long long data);
+	DataStream& operator=(DataStream&& pDataStream);
+	DataStream& operator<<(const unsigned char data);
+	DataStream& operator<<(const unsigned short data);
+	DataStream& operator<<(const unsigned int data);
+	DataStream& operator<<(const unsigned long data);
+	DataStream& operator<<(const unsigned long long data);
 	DataStream& operator<<(bool data);
 	DataStream& operator<<(const char data);
 	DataStream& operator<<(const short data);
 	DataStream& operator<<(const int data);
-    DataStream& operator<<(const long data);
+	DataStream& operator<<(const long data);
 	DataStream& operator<<(const long long data);
 	DataStream& operator<<(const float data);
 	DataStream& operator<<(const double data);
 	DataStream& operator<<(const char* data);
 	DataStream& operator<<(const std::string& data);
 
-    DataStream& operator>>(unsigned char& data);
-    DataStream& operator>>(unsigned short& data);
-    DataStream& operator>>(unsigned int& data);
-    DataStream& operator>>(unsigned long& data);
-    DataStream& operator>>(unsigned long long& data);
-    DataStream& operator>>(bool& data);
+	DataStream& operator>>(unsigned char& data);
+	DataStream& operator>>(unsigned short& data);
+	DataStream& operator>>(unsigned int& data);
+	DataStream& operator>>(unsigned long& data);
+	DataStream& operator>>(unsigned long long& data);
+	DataStream& operator>>(bool& data);
 	DataStream& operator>>(char& data);
 	DataStream& operator>>(short& data);
 	DataStream& operator>>(int& data);
-    DataStream& operator>>(long& data);
+	DataStream& operator>>(long& data);
 	DataStream& operator>>(long long& data);
 	DataStream& operator>>(float& data);
 	DataStream& operator>>(double& data);
@@ -101,18 +101,18 @@ public:
 		return readSequenceContainer<std::list<V>, V>(data);
 	}
 
-	void write (uint8_t* data, size_t pSize, int32_t pPos = -1);
+	void write(uint8_t* data, size_t pSize, int32_t pPos = -1);
 
 	template< typename T >
 	void read(T& data)
 	{
-		if(_buffer.size() < sizeof(T))
+		if (_buffer.size() < sizeof(T))
 		{
 			data = 0;
 			return;
 		}
-		memcpy(&data,&_buffer[0],sizeof(T));
-		_buffer.erase(0,sizeof(T));
+		memcpy(&data, &_buffer[0], sizeof(T));
+		_buffer.erase(0, sizeof(T));
 	}
 
 	template< typename T >
@@ -133,7 +133,6 @@ public:
 	const char* c_str();
 
 	const std::string&	getBuffer()const;
-
 private:
 	template<typename C>
 	DataStream& writeSequenceContainer(const C& data)
