@@ -68,6 +68,7 @@
 		09DBEDAD1BE0662F0063A2BF /* PlatformIos.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09DBED201BE0662F0063A2BF /* PlatformIos.mm */; };
 		09DBEDAE1BE0662F0063A2BF /* ProtectedMemoryAllocator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09DBED221BE0662F0063A2BF /* ProtectedMemoryAllocator.mm */; };
 		09DBEDAF1BE0662F0063A2BF /* Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09DBED231BE0662F0063A2BF /* Platform.cpp */; };
+		09DDC5371C27895D00496EA9 /* MessageQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09DDC5341C27895D00496EA9 /* MessageQueue.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -253,6 +254,10 @@
 		09DBED221BE0662F0063A2BF /* ProtectedMemoryAllocator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ProtectedMemoryAllocator.mm; sourceTree = "<group>"; };
 		09DBED231BE0662F0063A2BF /* Platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Platform.cpp; sourceTree = "<group>"; };
 		09DBED241BE0662F0063A2BF /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
+		09DDC5331C27895D00496EA9 /* FunctionCenter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FunctionCenter.hpp; sourceTree = "<group>"; };
+		09DDC5341C27895D00496EA9 /* MessageQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MessageQueue.cpp; sourceTree = "<group>"; };
+		09DDC5351C27895D00496EA9 /* MessageQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageQueue.h; sourceTree = "<group>"; };
+		09DDC5361C27895D00496EA9 /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -455,6 +460,10 @@
 		09DBEC531BE0662E0063A2BF /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				09DDC5331C27895D00496EA9 /* FunctionCenter.hpp */,
+				09DDC5341C27895D00496EA9 /* MessageQueue.cpp */,
+				09DDC5351C27895D00496EA9 /* MessageQueue.h */,
+				09DDC5361C27895D00496EA9 /* Timer.h */,
 				09DBEC541BE0662E0063A2BF /* ApplyTuple.h */,
 				09DBEC551BE0662E0063A2BF /* Exception.cpp */,
 				09DBEC561BE0662E0063A2BF /* Exception.h */,
@@ -685,6 +694,7 @@
 				09DBED321BE0662F0063A2BF /* Event.cpp in Sources */,
 				09DBEDAF1BE0662F0063A2BF /* Platform.cpp in Sources */,
 				09DBED331BE0662F0063A2BF /* EventAcceleration.cpp in Sources */,
+				09DDC5371C27895D00496EA9 /* MessageQueue.cpp in Sources */,
 				09DBED691BE0662F0063A2BF /* ioapi_mem.cpp in Sources */,
 				09DBED421BE0662F0063A2BF /* KeyboardExampleWindows.cpp in Sources */,
 				09DBED341BE0662F0063A2BF /* EventController.cpp in Sources */,
