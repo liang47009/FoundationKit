@@ -22,7 +22,6 @@
 #include "FoundationKit/Platform/Android/AndroidSystemInfo.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Platform/Android/AndroidTest.h"
-#include "FoundationKit/Platform/Android/AndroidJavaBridge.h"
 #include "FoundationKit/stdextensions/utility.hpp"
 #include "FoundationKit/Foundation/Timer.h"
 #include <vector>
@@ -31,14 +30,6 @@
 
 using namespace FoundationKit;
 using namespace FoundationKit::Android;
-
-
-template<typename... Args>
-static void doTest(Args&&... args)
-{
-
-}
-
 
 /* This is a trivial JNI example where we use a native method
  * to return a new VM String. See the corresponding Java source
@@ -56,22 +47,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     return JNI_VERSION_1_4;
 }
 
-void getTestValue(NativeArguments args)
-{
-    LOGD("====== getTestValue by call.");
-
-    int v0 = args[0].convertWith<jint>();
-    int v1 = args[1].convertWith<jint>();
-    std::string v2 = args[2].convertWith<jstring>();
-    LOGD("====== getTestValue v0:%d", v0);
-    LOGD("====== getTestValue v1:%d", v1);
-    LOGD("====== getTestValue v1:%s", v2.c_str());
-    std::vector<unsigned char> arr = args[3].convertWith<jcharArray>();
-    for(auto c : arr)
-    {
-        LOGD("======= c: %c", c);
-    }
-}
 
 size_t noCache(size_t n)  
 {  
@@ -104,10 +79,7 @@ JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_found
 
     testJavaString();
 
-    AndroidJavaBridge::getInstance()->registerMethod<decltype(getTestValue)>("getTestValue",getTestValue);
     testFunctionCache();
-
-
 }
 
 }//extern "C"{
