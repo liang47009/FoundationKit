@@ -5,6 +5,8 @@
 #include "AndroidJNICaller.h"
 #include "AndroidJavaObject.h"
 #include "AndroidJavaClass.h"
+#include "FoundationKit/Foundation/FunctionCenter.hpp"
+#include "AndroidJavaBridge.h"
 
 NS_FK_BEGIN
 
@@ -170,8 +172,13 @@ namespace Android
         LOGD("===== mainActivity ref count should be 1 :%d", mainActivity._shared_ObjPtr->getReferenceCount());
         LOGD("===== mainActivity no crash -- end");
 
+        LOGD("========================Test AndroidJavaBridge==================");
 
-
+        FunctionCenter::getInstance()->declare("CallAndroidJavaBridge", [](NativeArguments args)
+            {
+                int code = args[0].convertWith<jint>();
+                std::string msg = args[1].convertWith<jstring>();
+            });
 
     }
 } //namespace Andorid

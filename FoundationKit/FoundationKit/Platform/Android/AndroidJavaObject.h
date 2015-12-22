@@ -291,11 +291,18 @@ public:
     template<typename JniType>
     typename TypeTranslation<JniType>::type convertWith()
     {
+        if (getRawObject() == nullptr)
+            return typename TypeTranslation<JniType>::type();
         return JNIToCPPConverter<JniType>::convert(getRawObject());
     }
 
     jclass getRawClass()const;
     jobject getRawObject()const;
+
+    explicit operator bool() const// _NOEXCEPT
+    {
+        return (getRawObject() != nullptr);
+    }
 
 protected:
     void createRefCountedBase();
@@ -308,3 +315,29 @@ public :
 } //namespace Andorid
 
 NS_FK_END
+
+using namespace FoundationKit::Android;
+
+inline bool operator==(const AndroidJavaObject& _Left, std::nullptr_t)// _NOEXCEPT
+{
+    return (_Left.getRawObject() == nullptr);
+}
+
+inline bool operator==(std::nullptr_t, const AndroidJavaObject& _Right)// _NOEXCEPT
+{
+    return (nullptr == _Right.getRawObject());
+}
+
+inline bool operator!=(const AndroidJavaObject& _Left, std::nullptr_t _Right)// _NOEXCEPT
+{
+    return (!(_Left == _Right));
+}
+
+inline bool operator!=(std::nullptr_t _Left, const AndroidJavaObject& _Right)// _NOEXCEPT
+{ 
+    return (!(_Left == _Right));
+}
+
+
+
+

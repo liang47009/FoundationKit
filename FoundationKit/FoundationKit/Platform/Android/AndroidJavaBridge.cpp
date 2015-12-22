@@ -1,17 +1,10 @@
+#include <jni.h>
+#include "FoundationKit/Foundation/FunctionCenter.hpp"
+#include "AndroidJavaObject.h"
 #include "AndroidJavaBridge.h"
-NS_FK_BEGIN
 
-namespace Android
-{
-
-AndroidJavaBridge::AndroidJavaBridge()
-{
-}
-
-AndroidJavaBridge::~AndroidJavaBridge()
-{
-}
-
+using namespace FoundationKit;
+using namespace FoundationKit::Android;
 extern "C"
 {
     /** 
@@ -50,7 +43,7 @@ extern "C"
         {
             arguments.emplace_back(env->GetObjectArrayElement(args, i));
         }
-        AndroidJavaBridge::getInstance()->invoke(strFunName, arguments);
+        FoundationKit::FunctionCenter::getInstance()->invoke(strFunName, arguments);
 
 
         /**
@@ -115,9 +108,4 @@ extern "C"
         }
         */
     }
-}
-
-
-} //namespace Android
-
-NS_FK_END
+}//extern "C"

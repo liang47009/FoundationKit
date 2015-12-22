@@ -8,6 +8,7 @@
 #include "FoundationKit/FoundationKitDefines.h"
 #include "FoundationKit/Foundation/Singleton.h"
 #include "FoundationKit/Foundation/Logger.h"
+#include "FoundationKit/stdextensions/function_traits.hpp"
 
 NS_FK_BEGIN
 
