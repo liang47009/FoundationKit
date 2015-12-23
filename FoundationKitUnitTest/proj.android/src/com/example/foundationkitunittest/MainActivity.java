@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
 		
 		foundationInit((Context)this);
 		char[] arr = {'a','b','c','d','e'};
-		AndroidJavaBridge.getInstance().invoke("getTestValue", 10, 999, "This is test", arr);
+		AndroidJavaBridge.getInstance().invoke("CallAndroidJavaBridge", 10, "This is test");
 	}
 	
 	public void debugPrint(int line, String fileName, String message)

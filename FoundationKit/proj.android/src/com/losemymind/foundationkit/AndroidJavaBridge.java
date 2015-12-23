@@ -41,6 +41,7 @@ public class AndroidJavaBridge {
 		_foundationTypeMap.put(float[].class, 'F');
 		_foundationTypeMap.put(double[].class, 'D');
 		_foundationTypeMap.put(String.class, 'T');
+		//_foundationTypeMap.put(null, 'N');
 		
 		//对象默认就是 Object 和Object数组，在getArgumentSignature中
 		//做处理，这里不必保存。
@@ -54,7 +55,9 @@ public class AndroidJavaBridge {
 		for(Object obj : args)
 		{
 			char szSig = 'l';
-			if(_foundationTypeMap.containsKey(obj.getClass()))
+			if(obj==null)
+				szSig = 'N';
+			else if(_foundationTypeMap.containsKey(obj.getClass()))
 				szSig= _foundationTypeMap.get(obj.getClass());
 			else if(obj.getClass().isArray())
 				szSig = 'L';

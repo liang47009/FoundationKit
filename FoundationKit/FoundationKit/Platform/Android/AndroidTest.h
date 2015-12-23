@@ -178,7 +178,9 @@ namespace Android
             {
                 int code = args[0].convertWith<jint>();
                 std::string msg = args[1].convertWith<jstring>();
+                LOGD("============ code: %d msg:%s", code, msg.c_str());
             });
+
 
     }
 } //namespace Andorid
