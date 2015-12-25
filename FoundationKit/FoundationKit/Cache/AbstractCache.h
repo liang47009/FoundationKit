@@ -23,7 +23,6 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 #include "FoundationKit/FoundationKitDefines.h"
 NS_FK_BEGIN
 
-
 template<typename TKey, typename TValue, typename TStrategy>
 class AbstractCache
 {
