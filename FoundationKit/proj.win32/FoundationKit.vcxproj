@@ -148,6 +148,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\Singleton.h" />
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h" />
     <ClInclude Include="..\FoundationKit\Foundation\ThreadPool.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\Timer.h" />
     <ClInclude Include="..\FoundationKit\Foundation\TupleApply.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Types.h" />
     <ClInclude Include="..\FoundationKit\Foundation\uthash.h" />
