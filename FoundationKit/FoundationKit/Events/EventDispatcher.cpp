@@ -646,9 +646,14 @@ void EventDispatcher::removeCustomEventListeners(const std::string& customEventN
 
 void EventDispatcher::removeAllEventListeners()
 {
+    std::vector<EventListener::ListenerID> idList;
     for (const auto& e : _listenerMap)
     {
-        removeEventListenersForListenerID(e.first);
+        idList.push_back(e.first);
+    }
+    for (const auto& id : idList)
+    {
+        removeEventListenersForListenerID(id);
     }
     _listenerMap.clear();
 }
