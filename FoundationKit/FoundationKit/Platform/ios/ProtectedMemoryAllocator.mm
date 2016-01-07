@@ -50,14 +50,14 @@ bool  ProtectedMemoryAllocator::unProtect()
 
 bool  ProtectedMemoryAllocator::protect(vm_address_t address, vm_size_t size)
 {
-    kern_return_t result =  vm_protect(mach_task_self(), address, size, FALSE, VM_PROT_READ);
+    kern_return_t result =  vm_protect(mach_task_self(), address, size, FALSE, VM_PROT_READ | VM_PROT_EXECUTE | VM_PROT_COPY);
     return (result == KERN_SUCCESS);
 }
 
 // Makes the entire allocation pool read/write.
 bool  ProtectedMemoryAllocator::unProtect(vm_address_t address, vm_size_t size)
 {
-    kern_return_t result =  vm_protect(mach_task_self(), address, size, FALSE, VM_PROT_READ | VM_PROT_WRITE);
+    kern_return_t result =  vm_protect(mach_task_self(), address, size, FALSE, VM_PROT_READ | VM_PROT_WRITE | VM_PROT_COPY);
     return (result == KERN_SUCCESS);
 }
 

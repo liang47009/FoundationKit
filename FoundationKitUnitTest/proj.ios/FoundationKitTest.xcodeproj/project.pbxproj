@@ -289,7 +289,7 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/DevelopmentFramework-fuuadyvxzevfhybsvwcaaycwclyi/Build/Products/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8bc9d2a4-7476-42ff-a0be-cd73301e7eb0";
+				PROVISIONING_PROFILE = "8a8d11a6-8ec2-4d21-9776-f423ec4a240e";
 			};
 			name = Debug;
 		};
@@ -319,7 +319,7 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/DevelopmentFramework-fuuadyvxzevfhybsvwcaaycwclyi/Build/Products/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8bc9d2a4-7476-42ff-a0be-cd73301e7eb0";
+				PROVISIONING_PROFILE = "8a8d11a6-8ec2-4d21-9776-f423ec4a240e";
 			};
 			name = Release;
 		};
