@@ -9,20 +9,27 @@ class Event;
 class EventListenerKeyboard : public EventListener
 {
 public:
-    typedef std::shared_ptr<EventListenerKeyboard>    Pointer;
+	typedef std::shared_ptr<EventListenerKeyboard>    Pointer;
 
-    static const std::string LISTENER_ID;
-    
-    static EventListenerKeyboard::Pointer create();
-    
-    virtual bool checkAvailable() override;
-    
-    std::function<void(EventKeyboard::KeyCode, Event*)> onKeyPressed;
-    std::function<void(EventKeyboard::KeyCode, Event*)> onKeyReleased;
-    std::function<void(EventKeyboard::KeyCode, Event*)> onKeyChar;
+	static const std::string LISTENER_ID;
+	
+	static EventListenerKeyboard::Pointer create();
+	
+	virtual bool checkAvailable() override;
+	
+   /**
+	*@brief Keyboard event delegate
+	*@param EventKeyboard::KeyCode  The key code.
+	*@param int The key value.
+	*@param Event*  The keyboard event object.
+	*/
+	typedef std::function<void(EventKeyboard::KeyCode, int, Event*)> KeyboardEventDelegate;
+	KeyboardEventDelegate onKeyPressed;
+	KeyboardEventDelegate onKeyReleased;
+	KeyboardEventDelegate onKeyChar;
 protected:
-    EventListenerKeyboard();
-    bool init();
+	EventListenerKeyboard();
+	bool init();
 };
 
 NS_FK_END

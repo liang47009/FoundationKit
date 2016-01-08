@@ -45,7 +45,8 @@ public:
      * @param message Log message.
      */
     void log(Level level, const char* message, ...);
-        /**
+
+    /**
      * Determines if logging is currently enabled for the given level.
      *
      * @param level Log level.
