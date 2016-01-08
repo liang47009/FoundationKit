@@ -32,11 +32,11 @@ public:
     HttpResponse(HttpRequest::Pointer request)
         :_succeed(false)
         , _responseCode(0)
+        , _pHttpRequest(request)
+        , _responseMessageString("")
     {
-        _pHttpRequest = request;
         _responseData.clear();
         _errorBuffer.clear();
-        _responseMessageString = "";
     }
 
     /**

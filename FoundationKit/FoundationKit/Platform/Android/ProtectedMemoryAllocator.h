@@ -15,7 +15,7 @@ public:
     ProtectedMemoryAllocator(const ProtectedMemoryAllocator&) = delete;
     ProtectedMemoryAllocator& operator = (const ProtectedMemoryAllocator&) = delete;
 
-	ProtectedMemoryAllocator(size_t pool_size);
+	explicit ProtectedMemoryAllocator(size_t pool_size);
 	~ProtectedMemoryAllocator();
 
     char*       allocate(vm_size_t size);
@@ -49,7 +49,7 @@ public:
     ProtectedMemoryLocker(const ProtectedMemoryLocker&) = delete;
     ProtectedMemoryLocker& operator = (const ProtectedMemoryLocker&) = delete;
 
-    ProtectedMemoryLocker(ProtectedMemoryAllocator* allocator) :_allocator(allocator)
+    explicit ProtectedMemoryLocker(ProtectedMemoryAllocator* allocator) :_allocator(allocator)
     {
         _mutex.lock();
         _allocator->unProtect();

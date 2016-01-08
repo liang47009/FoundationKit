@@ -8,7 +8,7 @@ class  EventCustom : public Event
 {
 public:
     /** Constructor */
-    EventCustom(const std::string& eventName);
+    explicit EventCustom(const std::string& eventName);
     
     /** Sets user data */
     inline void setUserData(void* data) { _userData = data; };

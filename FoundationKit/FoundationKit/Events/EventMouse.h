@@ -36,7 +36,7 @@ public:
      * @param mouseEventCode A given mouse event type.
      * @js ctor
      */
-    EventMouse(MouseEventType mouseEventCode);
+    explicit EventMouse(MouseEventType mouseEventCode);
 
     /** Set mouse scroll data.
      * 
