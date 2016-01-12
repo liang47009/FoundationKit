@@ -17,59 +17,59 @@ typedef vm_offset_t   vm_address_t;
 class ProtectedMemoryAllocator
 {
 public:
-    ProtectedMemoryAllocator() = delete;
-    ProtectedMemoryAllocator(const ProtectedMemoryAllocator&) = delete;
-    ProtectedMemoryAllocator& operator = (const ProtectedMemoryAllocator&) = delete;
+	ProtectedMemoryAllocator() = delete;
+	ProtectedMemoryAllocator(const ProtectedMemoryAllocator&) = delete;
+	ProtectedMemoryAllocator& operator = (const ProtectedMemoryAllocator&) = delete;
 
-	ProtectedMemoryAllocator(size_t pool_size);
+	explicit ProtectedMemoryAllocator(size_t pool_size);
 	~ProtectedMemoryAllocator();
 
-    char*       allocate(vm_size_t size);
+	char*       allocate(vm_size_t size);
 
-    char*       getBaseAddress(){ return reinterpret_cast<char*>(_baseAddress); }
+	char*       getBaseAddress(){ return reinterpret_cast<char*>(_baseAddress); }
 
-    vm_size_t   getTotalSize(){ return _poolSize; }
+	vm_size_t   getTotalSize(){ return _poolSize; }
 
-    vm_size_t   getAllocatedSize(){ return _nextAllocOffset; }
+	vm_size_t   getAllocatedSize(){ return _nextAllocOffset; }
 
-    bool        protect();
+	bool        protect();
 
-    bool        unProtect();
+	bool        unProtect();
 
-    static bool protect(vm_address_t address, vm_size_t size);
+	static bool protect(vm_address_t address, vm_size_t size);
 
-    static bool unProtect(vm_address_t address, vm_size_t size);
+	static bool unProtect(vm_address_t address, vm_size_t size);
 
 private:
-    vm_size_t         _poolSize;
-    vm_address_t      _baseAddress;
-    vm_size_t         _nextAllocOffset;
-    bool              _valid;
+	vm_size_t         _poolSize;
+	vm_address_t      _baseAddress;
+	vm_size_t         _nextAllocOffset;
+	bool              _valid;
 };
 
 
 class ProtectedMemoryLocker
 {
 public:
-    ProtectedMemoryLocker() = delete;
-    ProtectedMemoryLocker(const ProtectedMemoryLocker&) = delete;
-    ProtectedMemoryLocker& operator = (const ProtectedMemoryLocker&) = delete;
+	ProtectedMemoryLocker() = delete;
+	ProtectedMemoryLocker(const ProtectedMemoryLocker&) = delete;
+	ProtectedMemoryLocker& operator = (const ProtectedMemoryLocker&) = delete;
 
-    ProtectedMemoryLocker(ProtectedMemoryAllocator* allocator) :_allocator(allocator)
-    {
-        _mutex.lock();
-        _allocator->unProtect();
-    }
+	explicit ProtectedMemoryLocker(ProtectedMemoryAllocator* allocator) :_allocator(allocator)
+	{
+		_mutex.lock();
+		_allocator->unProtect();
+	}
 
-    ~ProtectedMemoryLocker()
-    {
-        _allocator->protect();
-        _mutex.unlock();
-    }
+	~ProtectedMemoryLocker()
+	{
+		_allocator->protect();
+		_mutex.unlock();
+	}
 
 private:
-    std::mutex                _mutex;
-    ProtectedMemoryAllocator *_allocator;
+	std::mutex                _mutex;
+	ProtectedMemoryAllocator *_allocator;
 };
 #endif // FoundationKit_ProtectedMemoryAllocator_H
 

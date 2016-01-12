@@ -240,6 +240,10 @@ void Downloader::downloadToFP(const std::string& srcUrl, const std::string& cust
     unit.customId = customId;
     unit.storagePath = storagePath;
     unit.fp = nullptr;
+    unit.resumeDownload = false;
+    unit.downloaded = 0.0f;
+    unit.totalToDownload = 0.0f;
+    unit._reserved = nullptr;
 
     prepareDownload(unit);
 

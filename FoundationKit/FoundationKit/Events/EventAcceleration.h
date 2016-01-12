@@ -32,7 +32,7 @@ public:
      *
      * @param acc A given Acceleration.
      */
-    EventAcceleration(const Acceleration& acc);
+    explicit EventAcceleration(const Acceleration& acc);
     
 private:
     Acceleration _acc;

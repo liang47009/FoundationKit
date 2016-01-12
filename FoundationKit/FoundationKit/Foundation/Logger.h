@@ -45,7 +45,8 @@ public:
      * @param message Log message.
      */
     void log(Level level, const char* message, ...);
-        /**
+
+    /**
      * Determines if logging is currently enabled for the given level.
      *
      * @param level Log level.
@@ -78,3 +79,5 @@ extern void _log_(const char* message, ...);
 #define LOG_WARN( format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_WARN, format, ##__VA_ARGS__)
 #define LOG_ERROR(format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_ERROR, format, ##__VA_ARGS__)
 #define LOG_FATAL(format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_FATAL, format, ##__VA_ARGS__)
+
+

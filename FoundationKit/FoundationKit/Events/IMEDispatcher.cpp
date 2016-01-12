@@ -195,7 +195,7 @@ void IMEDispatcher::dispatchInsertText(const char * text, size_t len)
 {
     do 
     {
-        FK_BREAK_IF(!_impl || !text || len <= 0);
+        FK_BREAK_IF(!_impl || !text || len == 0);
 
         // there is no delegate attached to IME
         FK_BREAK_IF(!_impl->_delegateWithIme);
