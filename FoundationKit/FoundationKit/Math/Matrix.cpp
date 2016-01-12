@@ -15,7 +15,7 @@
 
  This file was modified to fit the FoundationKit project
  */
-#include "Math.h"
+#include "MathEx.h"
 #include "MathUtil.h"
 #include "Matrix.h"
 

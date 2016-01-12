@@ -15,7 +15,7 @@
 
  This file was modified to fit the FoundationKit project
  */
-#include "Math.h"
+#include "MathEx.h"
 #include "Vector4.h"
 
 NS_FK_BEGIN

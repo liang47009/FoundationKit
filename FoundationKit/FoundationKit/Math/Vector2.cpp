@@ -15,9 +15,8 @@
 
  This file was modified to fit the FoundationKit project
  */
-#include <cmath>
 #include "Vector2.h"
-
+#include "MathEx.h"
 NS_FK_BEGIN
 
 Vector2 Vector2::Zero  = Vector2(0.f, 0.f);

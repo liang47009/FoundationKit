@@ -46,6 +46,10 @@
     <ExecutablePath>$(WindowsSdk_71A_ExecutablePath);$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(WindowsSdk_71A_IncludePath);$(IncludePath)</IncludePath>
     <LibraryPath>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)../Rubbish/$(ProjectName)/$(Configuration)</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(SolutionDir)../Rubbish/$(ProjectName)/$(Configuration)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -173,7 +177,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\LuaEngine\LuaValue.h" />
     <ClInclude Include="..\FoundationKit\LuaEngine\Script.h" />
     <ClInclude Include="..\FoundationKit\Math\Geometry.h" />
-    <ClInclude Include="..\FoundationKit\Math\Math.h" />
+    <ClInclude Include="..\FoundationKit\Math\MathEx.h" />
     <ClInclude Include="..\FoundationKit\Math\MathUtil.h" />
     <ClInclude Include="..\FoundationKit\Math\Matrix.h" />
     <ClInclude Include="..\FoundationKit\Math\Quaternion.h" />
@@ -244,7 +248,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\LuaEngine\LuaValue.cpp" />
     <ClCompile Include="..\FoundationKit\LuaEngine\Script.cpp" />
     <ClCompile Include="..\FoundationKit\Math\Geometry.cpp" />
-    <ClCompile Include="..\FoundationKit\Math\Math.cpp" />
+    <ClCompile Include="..\FoundationKit\Math\MathEx.cpp" />
     <ClCompile Include="..\FoundationKit\Math\MathUtil.cpp" />
     <ClCompile Include="..\FoundationKit\Math\Matrix.cpp" />
     <ClCompile Include="..\FoundationKit\Math\Quaternion.cpp" />

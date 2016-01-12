@@ -45,9 +45,11 @@
     <ExecutablePath>$(WindowsSdk_71A_ExecutablePath);$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(WindowsSdk_71A_IncludePath);$(IncludePath)</IncludePath>
     <ExcludePath>$(WindowsSdk_71A_IncludePath);$(ExcludePath)</ExcludePath>
+    <IntDir>$(SolutionDir)../Rubbish/$(ProjectName)/$(Configuration)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(SolutionDir)../Rubbish/$(ProjectName)/$(Configuration)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

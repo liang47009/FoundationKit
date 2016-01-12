@@ -16,7 +16,7 @@
  This file was modified to fit the FoundationKit project
  */
 #include "Vector3.h"
-#include "Math.h"
+#include "MathEx.h"
 #include "MathUtil.h"
 
 NS_FK_BEGIN

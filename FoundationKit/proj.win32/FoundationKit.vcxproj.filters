@@ -138,9 +138,6 @@
     <ClInclude Include="..\FoundationKit\Platform\Platform.h">
       <Filter>Platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Math\Math.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\FunctionHelper.h">
       <Filter>FoundationKit</Filter>
     </ClInclude>
@@ -375,6 +372,9 @@
     <ClInclude Include="..\FoundationKit\Foundation\Timer.h">
       <Filter>Foundation</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\MathEx.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Data\Data.cpp">
@@ -427,9 +427,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Platform.cpp">
       <Filter>Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Math\Math.cpp">
-      <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\NotificationCenter.cpp">
       <Filter>Foundation\Notifications</Filter>
@@ -550,6 +547,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\external\unzip\unzip.cpp">
       <Filter>external\unzip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\MathEx.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

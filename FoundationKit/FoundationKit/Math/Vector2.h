@@ -19,7 +19,6 @@
 #pragma once
 
 #include "FoundationKit/FoundationKitDefines.h"
-#include "Math.h"
 
 NS_FK_BEGIN
 
