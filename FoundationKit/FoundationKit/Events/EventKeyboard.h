@@ -185,8 +185,12 @@ public:
 		KEY_PLAY
 	};
 	
+
 	EventKeyboard(KeyCode keyCode, int keyValue, bool isPressed);
-	EventKeyboard() = delete;
+    EventKeyboard();
+    const KeyCode keyCode()const;
+    const int     keyValue()const;
+    const bool    isPressed()const;
 private:
 
 	KeyCode _keyCode;
