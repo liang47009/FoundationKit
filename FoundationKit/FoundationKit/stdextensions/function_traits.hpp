@@ -73,21 +73,17 @@ struct function_traits<Ret(Args...)>
     //using signature = Ret(Args...); //C++ 14 support
     typedef  Ret function_type(Args...);
     typedef  Ret signature(Args...);
-    using stl_function_type = std::function<function_type>;
-    using args_as_tuple = std::tuple < Args... >;
+    using    stl_function_type = std::function<function_type>;
+    using    args_as_tuple = std::tuple < Args... >;
+    typedef  Ret(*pointer)(Args...);
     //static constexpr std::size_t arity = sizeof...(Args); //C++ 14 support
     static const std::size_t arity = sizeof...(Args);
-    typedef Ret(*pointer)(Args...);
-
-
     template<size_t I>
     struct args
     {
         static_assert(I < arity, "index is out of range, index must less than sizeof Args");
-        using type = typename std::tuple_element<I, std::tuple<Args...>>::type;
+        using type = typename std::tuple_element<I, args_as_tuple>::type;
     };
-
-
 };
 
 //函数指针
@@ -129,6 +125,7 @@ typename function_traits<Function>::pointer to_function_pointer(const Function& 
 {
     return static_cast<typename function_traits<Function>::pointer>(lambda);
 }
+
 _STD_END
 
 

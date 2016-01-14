@@ -375,6 +375,9 @@
     <ClInclude Include="..\FoundationKit\Math\MathEx.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\stdextensions\delegate.h">
+      <Filter>stdextensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Data\Data.cpp">

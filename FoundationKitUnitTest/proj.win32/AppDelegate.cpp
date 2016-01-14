@@ -25,6 +25,8 @@
 #include "FoundationKit/stdextensions/utility.hpp"
 #include "FoundationKit/stdextensions/utility.hpp"
 #include "FoundationKit/Foundation/FunctionCenter.hpp"
+#include "FoundationKit/stdextensions/delegate.h"
+
 
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
@@ -50,11 +52,11 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
 	//TestDownloader();
+
 	return true;
 }
 
