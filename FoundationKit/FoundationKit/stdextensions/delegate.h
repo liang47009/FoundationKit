@@ -15,6 +15,29 @@ losemymind.libo@gmail.com
 
 _STD_BEGIN
 
+/*
+    void fun2()
+    {
+    LOG_INFO("======== call fun2 ");
+    }
+
+    auto fun0 = []()
+    {
+    LOG_INFO("======== call fun0 ");
+    };
+
+    auto fun1 = []()
+    {
+    LOG_INFO("======== call fun1 ");
+    };
+
+    Delegate<void()>  _delegate;
+    _delegate += fun0;
+    _delegate += fun1;
+    _delegate += fun2;
+    _delegate();
+*/
+
 template<typename _Fty>
 class Delegate
 {
