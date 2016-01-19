@@ -34,7 +34,7 @@ void Logger::log( Level level, const char* message, ... )
     std::string strPreMsg = LevelMsg[level];
     strPreMsg += ":";
     va_list args;
-    va_start(args, message);
+
     // Declare a moderately sized buffer on the stack that should be
     // large enough to accommodate most log requests.
     int size = MAX_LOG_LENGTH;
@@ -43,9 +43,10 @@ void Logger::log( Level level, const char* message, ... )
     char* str = &dynamicBuffer[0];
     for (;;)
     {
+        va_start(args, message);
         // Pass one less than size to leave room for NULL terminator
         int needed = vsnprintf(str, size - 1, message, args);
-
+        va_end(args);
         // NOTE: Some platforms return -1 when vsnprintf runs out of room, while others return
         // the number of characters actually needed to fill the buffer.
         if (needed >= 0 && needed < size)
@@ -73,7 +74,6 @@ void Logger::log( Level level, const char* message, ... )
     fprintf(stdout, "%s", strPreMsg.c_str());
     fflush(stdout);
 #endif
-    va_end(args);
 }
 
 bool Logger::isEnabled( Level level )
@@ -93,7 +93,6 @@ extern void _log_(const char* message, ...)
 {
     std::string strPreMsg;
     va_list args;
-    va_start(args, message);
     // Declare a moderately sized buffer on the stack that should be
     // large enough to accommodate most log requests.
     int size = NS_NAME::MAX_LOG_LENGTH;
@@ -102,9 +101,10 @@ extern void _log_(const char* message, ...)
     char* str = &dynamicBuffer[0];
     for (;;)
     {
+        va_start(args, message);
         // Pass one less than size to leave room for NULL terminator
         int needed = vsnprintf(str, size - 1, message, args);
-
+        va_end(args);
         // NOTE: Some platforms return -1 when vsnprintf runs out of room, while others return
         // the number of characters actually needed to fill the buffer.
         if (needed >= 0 && needed < size)
@@ -132,5 +132,4 @@ extern void _log_(const char* message, ...)
     fprintf(stdout, "%s", strPreMsg.c_str());
     fflush(stdout);
 #endif
-    va_end(args);
 }
