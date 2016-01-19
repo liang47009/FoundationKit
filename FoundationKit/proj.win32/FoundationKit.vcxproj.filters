@@ -378,6 +378,9 @@
     <ClInclude Include="..\FoundationKit\stdextensions\delegate.h">
       <Filter>stdextensions</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\FoundationKitMacros.h">
+      <Filter>FoundationKit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Data\Data.cpp">

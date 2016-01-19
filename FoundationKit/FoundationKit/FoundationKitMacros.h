@@ -1,5 +1,5 @@
 
-// 这个文件暂时不被使用
+// 杩欎釜鏂囦欢鏆傛椂涓嶈浣跨敤
 
 #define UNUSED_PARAM(param) do{(void)(param);}while(0)
 
