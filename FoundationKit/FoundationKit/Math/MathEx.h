@@ -9,6 +9,7 @@
 #include <vector>
 #include <limits>
 #include <cmath>
+#include <algorithm>
 #include "FoundationKit/FoundationKitDefines.h"
 
 NS_FK_BEGIN
