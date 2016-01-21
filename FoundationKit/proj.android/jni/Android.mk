@@ -57,7 +57,7 @@ LOCAL_SRC_FILES := ../../FoundationKit/Crypto/aes.cpp \
                    ../../FoundationKit/LuaEngine/LuaValue.cpp \
                    ../../FoundationKit/LuaEngine/Script.cpp \
                    ../../FoundationKit/Math/Geometry.cpp \
-                   ../../FoundationKit/Math/Math.cpp \
+                   ../../FoundationKit/Math/MathEx.cpp \
                    ../../FoundationKit/Math/MathUtil.cpp \
                    ../../FoundationKit/Math/Matrix.cpp \
                    ../../FoundationKit/Math/Quaternion.cpp \
