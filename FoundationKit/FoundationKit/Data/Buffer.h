@@ -141,7 +141,7 @@ public:
             _capacity = newCapacity;
         }
 
-        _used = newCapacity;
+        //_used = newCapacity;
     }
 
     /** 
@@ -188,7 +188,8 @@ public:
     void assign(const T* buf, std::size_t sz)
     {
         if (0 == sz) return;
-        if (sz > _capacity) resize(sz, false);
+        if (sz > _capacity) 
+            resize(sz, false);
         std::memcpy(_ptr, buf, sz * sizeof(T));
         _used = sz;
     }
@@ -198,14 +199,16 @@ public:
     {
         if (0 == sz) return;
         resize(_used + sz, true);
-        std::memcpy(_ptr + _used - sz, buf, sz * sizeof(T));
+        std::memcpy(_ptr + _used, buf, sz * sizeof(T));
+        _used += sz;
     }
 
     /** Resizes this buffer by one element and appends the argument value. */
     void append(T val)
     {
-        resize(_used + 1, true);
-        _ptr[_used - 1] = val;
+        resize(_used + sizeof(T), true);
+        _ptr[_used] = val;
+        _used += sizeof(T);
     }
 
     // Resizes this buffer and appends the argument buffer.
@@ -262,6 +265,7 @@ public:
     void clear()
     {
         std::memset(_ptr, 0, _used * sizeof(T));
+        _used = 0£»
     }
 
     // Returns the used size of the buffer in elements.
