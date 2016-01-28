@@ -43,20 +43,16 @@ std::string StringUtils::toupper( const std::string& str )
 std::string StringUtils::format( const char* format, ... )
 {
 	const static unsigned int MAX_STRING_LENGTH = 64;
-	//char buf[MAX_STRING_LENGTH]= {0};
 	va_list arglist;
-	va_start(arglist, format);
-	//vsnprintf(buf, MAX_STRING_LENGTH, format, arglist);
-	//va_end(arglist);
-	//return buf;
-
 	int size = MAX_STRING_LENGTH;
 	std::vector<char> dynamicBuffer(MAX_STRING_LENGTH);
 	char* str = &dynamicBuffer[0];
 	for (;;)
 	{
-		// Pass one less than size to leave room for NULL terminator
-		int needed = vsnprintf(str, size - 1, format, arglist);
+        va_start(arglist, format);
+        // Pass one less than size to leave room for NULL terminator
+        int needed = vsnprintf(str, size - 1, format, arglist);
+        va_end(arglist);
 
 		// NOTE: Some platforms return -1 when vsnprintf runs out of room, while others return
 		// the number of characters actually needed to fill the buffer.
@@ -70,7 +66,6 @@ std::string StringUtils::format( const char* format, ... )
 		dynamicBuffer.resize(size);
 		str = &dynamicBuffer[0];
 	}
-	va_end(arglist);
 	return str;
 }
 
