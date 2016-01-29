@@ -194,20 +194,6 @@ std::function<R(Args...)> sugar(R(*func)(Args...), bool needClear = false)
 } 
 
 // ============= function cache implement end ==================
-
-
-inline bool little_endian()
-{
-    static const int test_endian = 1;
-    return *reinterpret_cast<const char*>(&test_endian) == test_endian;
-}
-
-inline bool big_endian()
-{
-    return !little_endian();
-}
-
-
 _STD_END
 
 

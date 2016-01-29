@@ -195,26 +195,28 @@ public:
     }
 
     /** Resizes this buffer and appends the argument buffer.*/
-    void append(const T* buf, std::size_t sz)
+    const T* append(const T* buf, std::size_t sz)
     {
-        if (0 == sz) return;
+        if (0 == sz) return 0;
         resize(_used + sz, true);
         std::memcpy(_ptr + _used, buf, sz * sizeof(T));
         _used += sz;
+        return (_ptr + _used);
     }
 
     /** Resizes this buffer by one element and appends the argument value. */
-    void append(T val)
+    const T* append(T val)
     {
         resize(_used + sizeof(T), true);
         _ptr[_used] = val;
         _used += sizeof(T);
+        return (_ptr + _used);
     }
 
     // Resizes this buffer and appends the argument buffer.
-    void append(const Buffer& buf)
+    const T* append(const Buffer& buf)
     {
-        append(buf.begin(), buf.size());
+        return append(buf.begin(), buf.size());
     }
 
     // Returns the allocated memory size in elements.
