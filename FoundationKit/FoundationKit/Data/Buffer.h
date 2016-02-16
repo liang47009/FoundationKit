@@ -197,11 +197,11 @@ public:
     /** Resizes this buffer and appends the argument buffer.*/
     const T* append(const T* buf, std::size_t sz)
     {
-        if (0 == sz) return 0;
+        if (0 == sz) return nullptr;
         resize(_used + sz, true);
         std::memcpy(_ptr + _used, buf, sz * sizeof(T));
         _used += sz;
-        return (_ptr + _used);
+        return (_ptr + _used - sz);
     }
 
     /** Resizes this buffer by one element and appends the argument value. */
@@ -210,7 +210,7 @@ public:
         resize(_used + sizeof(T), true);
         _ptr[_used] = val;
         _used += sizeof(T);
-        return (_ptr + _used);
+        return (_ptr + _used - sizeof(T));
     }
 
     // Resizes this buffer and appends the argument buffer.
