@@ -11,6 +11,7 @@
 #include <cctype>
 #include <sstream>
 #include "StringUtils.h"
+#include "FoundationKit/external/ConvertUTF/ConvertUTF.h"
 
 NS_FK_BEGIN
 
@@ -258,5 +259,44 @@ std::wstring StringUtils::string2UTF8wstring(const std::string &input)
 	return output;
 }
 
+
+bool StringUtils::UTF8ToUTF16(const std::string& utf8, std::u16string& outUtf16)
+{
+    if (utf8.empty())
+    {
+        outUtf16.clear();
+        return true;
+    }
+
+    bool ret = false;
+
+    const size_t utf16Bytes = (utf8.length() + 1) * sizeof(char16_t);
+    char16_t* utf16 = (char16_t*)malloc(utf16Bytes);
+    memset(utf16, 0, utf16Bytes);
+
+    char* utf16ptr = reinterpret_cast<char*>(utf16);
+    const UTF8* error = nullptr;
+
+    if (llvm::ConvertUTF8toWide(2, utf8, utf16ptr, error))
+    {
+        outUtf16 = utf16;
+        ret = true;
+    }
+
+    free(utf16);
+
+    return ret;
+}
+
+bool StringUtils::UTF16ToUTF8(const std::u16string& utf16, std::string& outUtf8)
+{
+    if (utf16.empty())
+    {
+        outUtf8.clear();
+        return true;
+    }
+
+    return llvm::convertUTF16ToUTF8String(utf16, outUtf8);
+}
 
 NS_FK_END

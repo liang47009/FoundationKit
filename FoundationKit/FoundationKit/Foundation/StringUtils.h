@@ -9,6 +9,7 @@
 #include <vector>
 #include <sstream>
 #include <iomanip>
+#include "FoundationKit/stdextensions/std_wrapper.h"
 #include "FoundationKit/FoundationKitDefines.h"
 
 NS_FK_BEGIN
@@ -16,8 +17,6 @@ NS_FK_BEGIN
 class StringUtils
 {
 public:
-	typedef std::basic_string < unsigned char, std::char_traits<unsigned char>, std::allocator< unsigned char> > ustring;
-
 	static std::string tolower(const std::string& str);
 
 	static std::string toupper(const std::string& str);
@@ -98,6 +97,41 @@ public:
 	{
 		return reinterpret_cast<unsigned char*>(&*str.begin());
 	}
+
+
+    /**
+    *  @brief Converts utf8 string to utf16 string.
+    *  @param utf8 The utf8 string to be converted.
+    *  @param outUtf16 The output utf16 string.
+    *  @return True if succeed, otherwise false.
+    *  @note Please check the return value before using \p outUtf16
+    *  e.g.
+    *  @code
+    *    std::u16string utf16;
+    *    bool ret = StringUtils::UTF8ToUTF16("ÄãºÃhello", utf16);
+    *    if (ret) {
+    *        do_some_thing_with_utf16(utf16);
+    *    }
+    *  @endcode
+    */
+    static bool UTF8ToUTF16(const std::string& utf8, std::u16string& outUtf16);
+
+    /**
+    *  @brief Converts utf16 string to utf8 string.
+    *  @param utf16 The utf16 string to be converted.
+    *  @param outUtf8 The output utf8 string.
+    *  @return True if succeed, otherwise false.
+    *  @note Please check the return value before using \p outUtf8
+    *  e.g.
+    *  @code
+    *    std::string utf8;
+    *    bool ret = StringUtils::UTF16ToUTF8(u"\u4f60\u597d", utf16);
+    *    if (ret) {
+    *        do_some_thing_with_utf8(utf8);
+    *    }
+    *  @endcode
+    */
+    static bool UTF16ToUTF8(const std::u16string& utf16, std::string& outUtf8);
 };
 
 NS_FK_END

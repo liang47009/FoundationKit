@@ -15,7 +15,7 @@ Original file from boost: http://www.boost.org
 #endif
 #include <algorithm>
 #include <typeinfo>
-#include "stddefines.hpp"
+#include "std_wrapper.h"
 #include "utility.hpp"
 
 _STD_BEGIN

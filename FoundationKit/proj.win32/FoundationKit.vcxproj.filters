@@ -1,18 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="资源文件">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Data">
       <UniqueIdentifier>{8bbace43-c4dd-4e9e-87b0-4d288f1fbe9b}</UniqueIdentifier>
     </Filter>
@@ -67,9 +55,9 @@
     <Filter Include="Thread\Impl">
       <UniqueIdentifier>{8b68b36b-2bee-40df-b21a-8d10a0dc9aee}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <Filter Include="external\ConvertUTF">
+      <UniqueIdentifier>{6e38259a-cf06-416d-86f9-e944221f83b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Data\Buffer.h">
@@ -345,9 +333,6 @@
     <ClInclude Include="..\FoundationKit\stdextensions\optional.hpp">
       <Filter>stdextensions</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\stdextensions\stddefines.hpp">
-      <Filter>stdextensions</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\stdextensions\utility.hpp">
       <Filter>stdextensions</Filter>
     </ClInclude>
@@ -380,6 +365,12 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\FoundationKitMacros.h">
       <Filter>FoundationKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h">
+      <Filter>external\ConvertUTF</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\stdextensions\std_wrapper.h">
+      <Filter>stdextensions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -556,6 +547,12 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Math\MathEx.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.c">
+      <Filter>external\ConvertUTF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTFWrapper.cpp">
+      <Filter>external\ConvertUTF</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
