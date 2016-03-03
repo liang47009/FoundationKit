@@ -20,7 +20,12 @@
 
 _STD_BEGIN
 
-#if (__cplusplus < 201103L) && defined(_MSC_VER) && _MSC_VER < 1600
+
+#if defined(_MSC_VER) && _MSC_VER >= 1600 || __cplusplus >= 201103L
+#define SUPPORT_CPP11 1
+#endif
+
+#if  !defined(SUPPORT_CPP11)
     typedef unsigned short char16_t;
     typedef unsigned int char32_t;
     typedef basic_string<char16_t, char_traits<char16_t>, allocator<char16_t> > u16string;
