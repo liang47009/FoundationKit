@@ -59,7 +59,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(ProjectDir)/../FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../FoundationKit/external/unzip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(ProjectDir)/../FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../FoundationKit/external/unzip;$(FoundationKitHeaders)FoundationKit/system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -195,6 +195,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\stdextensions\optional.hpp" />
     <ClInclude Include="..\FoundationKit\stdextensions\std_wrapper.h" />
     <ClInclude Include="..\FoundationKit\stdextensions\utility.hpp" />
+    <ClInclude Include="..\FoundationKit\system\dirent.h" />
     <ClInclude Include="..\FoundationKit\Thread\Impl\thread.h" />
     <ClInclude Include="..\FoundationKit\Thread\Impl\thread_posix.h" />
     <ClInclude Include="..\FoundationKit\Thread\Impl\thread_win32.h" />

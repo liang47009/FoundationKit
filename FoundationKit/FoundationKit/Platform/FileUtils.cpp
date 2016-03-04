@@ -10,6 +10,7 @@
 #include "unzip.h"
 #include <sys/stat.h>
 #include <algorithm>
+#include <dirent.h> // for DIR
 //#include <codecvt> //ndk is not support
 
 #if (FK_TARGET_PLATFORM==FK_PLATFORM_WIN32)
@@ -60,7 +61,7 @@ static Data getData(const std::string& filename, bool forString)
         readsize = fread(buffer, sizeof(unsigned char), size, fp);
         fclose(fp);
 
-        if (forString && readsize < size)
+        if (forString && readsize <= size)
         {
             buffer[readsize] = '\0';
         }
@@ -105,6 +106,71 @@ std::string FileUtils::getResourceRootPath()
     return _resourceRootPath;
 }
 
+
+std::string FileUtils::fullPathForFilename(const std::string &filename) const
+{
+    if (filename.empty())
+    {
+        return "";
+    }
+
+    if (isAbsolutePath(filename))
+    {
+        return filename;
+    }
+
+    // Get the new file name.
+    const std::string newFilename = filename;
+
+    std::string fullpath;
+
+    for (const auto& searchIt : _searchPaths)
+    {
+        std::string fullPath = _resourceRootPath + searchIt + filename;
+        if (isFileExist(fullPath))
+        {
+            return fullPath;
+        }
+    }
+
+    // The file wasn't found, return empty string.
+    return "";
+}
+
+void FileUtils::setSearchPaths(const std::vector<std::string>& searchPaths)
+{
+    _searchPaths = searchPaths;
+}
+
+void FileUtils::addSearchPath(const std::string & searchpath, const bool front /*= false*/)
+{
+    std::string prefix;
+    if (!isAbsolutePath(searchpath))
+        prefix = _resourceRootPath;
+
+    std::string path = prefix + searchpath;
+    if (path.length() > 0 && path[path.length() - 1] != '/')
+    {
+        path += "/";
+    }
+    if (front) {
+        _searchPaths.insert(_searchPaths.begin(), path);
+    }
+    else {
+        _searchPaths.push_back(path);
+    }
+}
+
+const std::vector<std::string>& FileUtils::getSearchPaths() const
+{
+    return _searchPaths;
+}
+
+void FileUtils::setWritablePath(const std::string& writablePath)
+{
+    _writablePath = writablePath;
+}
+
 bool FileUtils::isDirectoryExist(const std::string& dirPath) const
 {
 #if (FK_TARGET_PLATFORM==FK_PLATFORM_WIN32)
@@ -123,6 +189,11 @@ bool FileUtils::isDirectoryExist(const std::string& dirPath) const
     }
     return false;
 #endif
+}
+
+bool FileUtils::isDirectory(const std::string& path)const
+{
+    return path[path.size() - 1] == '/' || path[path.size() - 1] == '\\';
 }
 
 bool FileUtils::isAbsolutePath(const std::string& path) const
@@ -250,7 +321,7 @@ std::string FileUtils::getFileExtension(const std::string& filePath) const
     return fileExtension;
 }
 
-long FileUtils::getFileSize(const std::string &filepath)
+long FileUtils::getFileSize(const std::string &filepath)const
 {
     FKASSERT(!filepath.empty(), "Invalid path");
 
@@ -277,69 +348,67 @@ long FileUtils::getFileSize(const std::string &filepath)
         return (long)(info.st_size);
     }
 }
-
-std::string FileUtils::fullPathForFilename(const std::string &filename) const
+bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newfullpath)const
 {
-    if (filename.empty())
+    bool ret = false;
+    const size_t BUFF_SIZE = 1024;
+    do 
     {
-        return "";
-    }
-
-    if (isAbsolutePath(filename))
-    {
-        return filename;
-    }
-
-    // Get the new file name.
-    const std::string newFilename = filename;
-
-    std::string fullpath;
-
-    for (const auto& searchIt : _searchPaths)
-    {
-        std::string fullPath = _resourceRootPath + searchIt + filename;
-        if (isFileExist(fullPath))
+        FK_BREAK_IF(oldfullpath == newfullpath);
+        const long srcFileSize = getFileSize(oldfullpath);
+        FILE *fpSrc = fopen(oldfullpath.c_str(), "rb");
+        FK_BREAK_IF(!fpSrc);
+        FILE *fpDes = fopen(newfullpath.c_str(), "wb");
+        FK_BREAK_IF(!fpDes);
+        char read_buff[BUFF_SIZE];
+        long readedSize = 0;
+        long unreadSize = srcFileSize;
+        while (readedSize < srcFileSize)
         {
-            return fullPath;
+            if (unreadSize > BUFF_SIZE)
+            {
+                readedSize += fread(read_buff, sizeof(char), BUFF_SIZE, fpSrc);
+                fwrite(read_buff, 1, BUFF_SIZE, fpDes);
+            }
+            else
+            {
+                readedSize += fread(read_buff, sizeof(char), unreadSize, fpSrc);
+                fwrite(read_buff, 1, unreadSize, fpDes);
+            }
+            unreadSize = srcFileSize - readedSize;
+        }
+        fclose(fpSrc);
+        fclose(fpDes);
+        ret = true;
+    } while (false);
+    return ret;
+}
+
+void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild)const
+{
+    std::string finallyPath = dirPath;
+    if (*(finallyPath.end() - 1) != '/' && *(finallyPath.end() - 1) != '\\')
+    {
+        finallyPath.append("/");
+    }
+    DIR*    dir;
+    dirent* entry;
+    dir = opendir(finallyPath.c_str());
+    while (entry = readdir(dir))
+    {
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+            continue;
+        if (entry->d_type == DT_REG)
+        {
+            files.push_back(finallyPath + entry->d_name);
+        }
+        if (entry->d_type == DT_DIR && includeChild)
+        {
+            std::string strChildDir = finallyPath + entry->d_name;
+            getFilesFromDir(strChildDir, files, includeChild);
         }
     }
-
-    // The file wasn't found, return empty string.
-    return "";
-}
-
-void FileUtils::setSearchPaths(const std::vector<std::string>& searchPaths)
-{
-    _searchPaths = searchPaths;
-}
-
-void FileUtils::addSearchPath(const std::string & searchpath, const bool front /*= false*/)
-{
-    std::string prefix;
-    if (!isAbsolutePath(searchpath))
-        prefix = _resourceRootPath;
-
-    std::string path = prefix + searchpath;
-    if (path.length() > 0 && path[path.length() - 1] != '/')
-    {
-        path += "/";
-    }
-    if (front) {
-        _searchPaths.insert(_searchPaths.begin(), path);
-    }
-    else {
-        _searchPaths.push_back(path);
-    }
-}
-
-const std::vector<std::string>& FileUtils::getSearchPaths() const
-{
-    return _searchPaths;
-}
-
-void FileUtils::setWritablePath(const std::string& writablePath)
-{
-    _writablePath = writablePath;
+    closedir(dir);
 }
 
 

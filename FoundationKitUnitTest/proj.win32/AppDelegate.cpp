@@ -52,11 +52,17 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
-	//TestDownloader();
 
+    std::vector<std::string> files;
+    FileUtils::getInstance()->copyFile("C:\\HaxLogs.txt", "D:\\HaxLogs.txt");
+    FileUtils::getInstance()->getFilesFromDir("F:\\Software\\test", files, true);
+
+
+    
 	return true;
 }
 

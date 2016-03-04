@@ -28,6 +28,14 @@ public:
 
     std::string getResourceRootPath();
 
+    std::string fullPathForFilename(const std::string &filename) const;
+
+    void setSearchPaths(const std::vector<std::string>& searchPaths);
+    void addSearchPath(const std::string & searchpath, const bool front = false);
+    const std::vector<std::string>& getSearchPaths() const;
+    void setWritablePath(const std::string& writablePath);
+    std::string getWritablePath() const;
+
    /**
     *  Checks whether the path is a directory.
     *
@@ -35,6 +43,15 @@ public:
     *  @return True if the directory exists, false if not.
     */
     bool isDirectoryExist(const std::string& dirPath) const;
+
+
+   /**
+    *  Checks whether the 'path' is a directory.
+    *
+    *  @param path The path of the directory, it could be a relative or an absolute path.
+    *  @return True if the 'path' is a directory, false if not.
+    */
+    bool isDirectory(const std::string& path)const;
 
    /**
     *  Checks whether the path is an absolute path.
@@ -101,16 +118,24 @@ public:
     *  @param filepath The path of the file, it could be a relative or absolute path.
     *  @return The file size.
     */
-    long getFileSize(const std::string &filepath);
+    long getFileSize(const std::string &filepath)const;
 
-    std::string fullPathForFilename(const std::string &filename) const;
+   /**
+    *  copy a file
+    *
+    *  @param oldfullpath  The current fullpath of the file. Includes path and name.
+    *  @param newfullpath  The new fullpath of the file. Includes path and name.
+    *  @return True if the file have been copy successfully, false if not.
+    */
+    bool copyFile(const std::string &oldfullpath, const std::string &newfullpath)const;
 
-    void setSearchPaths(const std::vector<std::string>& searchPaths);
-    void addSearchPath(const std::string & searchpath, const bool front = false);
-    const std::vector<std::string>& getSearchPaths() const;
-    void setWritablePath(const std::string& writablePath);
 
-
+   /**
+    *  get all files from a directory
+    *
+    *  @param dirPath The path of the directory.
+    */
+    void getFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild = false)const;
 
     //=====================================================================
     //                         Implementation in platform 
@@ -133,7 +158,7 @@ public:
     */
     bool createDirectory(const std::string& dirPath);
 
-    /**
+   /**
     *  Removes a directory.
     *
     *  @param dirPath  The full path of the directory, it must be an absolute path.
@@ -141,7 +166,7 @@ public:
     */
     bool removeDirectory(const std::string& dirPath);
 
-    /**
+   /**
     *  Removes a file.
     *
     *  @param filepath The full path of the file, it must be an absolute path.
@@ -149,7 +174,7 @@ public:
     */
     bool removeFile(const std::string &filepath);
 
-    /**
+   /**
     *  Renames a file under the given directory.
     *
     *  @param path     The parent directory path of the file, it must be an absolute path.
@@ -159,7 +184,7 @@ public:
     */
     bool renameFile(const std::string &path, const std::string &oldname, const std::string &name);
 
-    /**
+   /**
     *  Renames a file under the given directory.
     *
     *  @param oldfullpath  The current fullpath of the file. Includes path and name.
@@ -167,9 +192,6 @@ public:
     *  @return True if the file have been renamed successfully, false if not.
     */
     bool renameFile(const std::string &oldfullpath, const std::string &newfullpath);
-
-
-    std::string getWritablePath() const;
 
 protected:
     friend Singleton < FileUtils > ;
