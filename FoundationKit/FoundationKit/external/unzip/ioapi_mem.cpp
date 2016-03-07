@@ -38,6 +38,7 @@ voidpf ZCALLBACK fopen_mem_func (voidpf opaque,
                                     const char* filename,
                                     int mode)
 {
+    (void)(opaque);
     ourmemory_t *mem = (ourmemory_t*)malloc(sizeof(ourmemory_t));
 
     if (mem==NULL) return NULL; /* Can't allocate space, so failed */
@@ -83,6 +84,7 @@ voidpf ZCALLBACK fopen_mem_func64_32 (voidpf opaque,
                                         const void* filename,
                                         int mode)
 {
+    (void)(opaque);
     ourmemory_t *mem = (ourmemory_t*)malloc(sizeof(ourmemory_t));
 
     if (mem==NULL) return NULL; /* Can't allocate space, so failed */
@@ -127,6 +129,7 @@ voidpf ZCALLBACK fopen_mem_func64_32 (voidpf opaque,
 
 uLong ZCALLBACK fread_mem_func (voidpf opaque, voidpf stream, void* buf, uLong size)
 {
+    (void)(opaque);
     ourmemory_t *mem = (ourmemory_t *)stream;
 
     if (size > mem->size - mem->cur_offset) {
@@ -142,6 +145,7 @@ uLong ZCALLBACK fread_mem_func (voidpf opaque, voidpf stream, void* buf, uLong s
 
 uLong ZCALLBACK fwrite_mem_func (voidpf opaque, voidpf stream, const void* buf, uLong size)
 {
+    (void)(opaque);
     ourmemory_t *mem = (ourmemory_t *)stream;
 
     if (size > mem->size - mem->cur_offset) {
@@ -159,6 +163,7 @@ uLong ZCALLBACK fwrite_mem_func (voidpf opaque, voidpf stream, const void* buf, 
 
 long ZCALLBACK ftell_mem_func (voidpf opaque, voidpf stream)
 {
+    (void)(opaque);
     ourmemory_t *mem = (ourmemory_t *)stream;
 
     return mem->cur_offset;
@@ -166,6 +171,7 @@ long ZCALLBACK ftell_mem_func (voidpf opaque, voidpf stream)
 
 long ZCALLBACK fseek_mem_func (voidpf opaque, voidpf stream, uLong offset, int origin)
 {
+    (void)(opaque);
     ourmemory_t *mem = (ourmemory_t *)stream;
     uLong new_pos;
     switch (origin) {
@@ -198,6 +204,7 @@ long ZCALLBACK fseek_mem_func (voidpf opaque, voidpf stream, uLong offset, int o
 
 int ZCALLBACK fclose_mem_func (voidpf opaque, voidpf stream)
 {
+    (void)(opaque);
     ourmemory_t *mem = (ourmemory_t *)stream;
 
     /* Note that once we've written to the buffer we don't tell anyone
@@ -214,6 +221,8 @@ int ZCALLBACK fclose_mem_func (voidpf opaque, voidpf stream)
 
 int ZCALLBACK ferror_mem_func (voidpf opaque, voidpf stream)
 {
+    (void)(opaque);
+    (void)(stream);
     /* We never return errors */
     return 0;
 }

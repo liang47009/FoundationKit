@@ -59,7 +59,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     std::vector<std::string> files;
     FileUtils::getInstance()->copyFile("C:\\HaxLogs.txt", "D:\\HaxLogs.txt");
-    FileUtils::getInstance()->getFilesFromDir("F:\\Software\\test", files, true);
+    FileUtils::getInstance()->getFilesFromDir("F:\\Software\\", files, true);
 
 
     

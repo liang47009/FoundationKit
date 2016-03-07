@@ -159,9 +159,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\noncopyable.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Types.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Events\EventKeyboard.h">
       <Filter>Events</Filter>
     </ClInclude>
@@ -376,6 +373,9 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\Rect.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Types.h">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>

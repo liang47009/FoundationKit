@@ -391,13 +391,16 @@ void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::str
     {
         finallyPath.append("/");
     }
-    DIR*    dir;
-    dirent* entry;
-    dir = opendir(finallyPath.c_str());
-    while (entry = readdir(dir))
+    DIR* dir =opendir(finallyPath.c_str());
+    dirent* entry = readdir(dir);
+    while (entry)
     {
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+        {
+            entry = readdir(dir);
             continue;
+        }
+            
         if (entry->d_type == DT_REG)
         {
             files.push_back(finallyPath + entry->d_name);
@@ -407,6 +410,8 @@ void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::str
             std::string strChildDir = finallyPath + entry->d_name;
             getFilesFromDir(strChildDir, files, includeChild);
         }
+
+        entry = readdir(dir);
     }
     closedir(dir);
 }

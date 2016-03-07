@@ -795,7 +795,7 @@ dirent_mbstowcs_s(
     size_t count)
 {
     int error;
-
+    setlocale(LC_ALL, "chs");
 #if defined(_MSC_VER)  &&  _MSC_VER >= 1400
 
     /* Microsoft Visual Studio 2005 or later */
@@ -834,7 +834,7 @@ dirent_mbstowcs_s(
     }
 
 #endif
-
+    setlocale(LC_ALL, "C");
     return error;
 }
 
