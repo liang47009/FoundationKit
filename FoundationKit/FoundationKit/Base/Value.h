@@ -21,6 +21,9 @@
       std::string 
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_VALUE_H
+#define LOSEMYMIND_VALUE_H
+
 #pragma once
 
 #include <cstdint>
@@ -149,6 +152,7 @@ private:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_VALUE_H
 
 #include "Value.inl"
 

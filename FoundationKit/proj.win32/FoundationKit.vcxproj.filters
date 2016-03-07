@@ -562,9 +562,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\FoundationKit\Base\Dictionary.inl">
-      <Filter>Base</Filter>
-    </None>
     <None Include="..\FoundationKit\Base\MathUtil.inl">
       <Filter>Base</Filter>
     </None>
@@ -572,9 +569,6 @@
       <Filter>Base</Filter>
     </None>
     <None Include="..\FoundationKit\Base\Matrix.inl">
-      <Filter>Base</Filter>
-    </None>
-    <None Include="..\FoundationKit\Base\Quaternion.inl">
       <Filter>Base</Filter>
     </None>
     <None Include="..\FoundationKit\Base\Value.inl">
@@ -589,10 +583,5 @@
     <None Include="..\FoundationKit\Base\Vector4.inl">
       <Filter>Base</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\FoundationKit\Base\readme_math.txt">
-      <Filter>Base</Filter>
-    </Text>
   </ItemGroup>
 </Project>

@@ -15,6 +15,9 @@
 
  This file was modified to fit the FoundationKit project
  */
+#ifndef LOSEMYMIND_QUATERNION_H
+#define LOSEMYMIND_QUATERNION_H
+
 #pragma once
 #include <string>
 #include "Vector3.h"
@@ -354,7 +357,12 @@ public:
      * @param q The quaternion to multiply.
      * @return The quaternion product.
      */
-    inline const Quaternion operator*(const Quaternion& q) const;
+    inline const Quaternion operator*(const Quaternion& q) const
+    {
+        Quaternion result(*this);
+        result.multiply(q);
+        return result;
+    }
 
     /**
      * Multiplies this quaternion with the given quaternion.
@@ -362,7 +370,11 @@ public:
      * @param q The quaternion to multiply.
      * @return This quaternion, after the multiplication occurs.
      */
-    inline Quaternion& operator*=(const Quaternion& q);
+    inline Quaternion& operator*=(const Quaternion& q)
+    {
+        multiply(q);
+        return *this;
+    }
 
 private:
 
@@ -396,6 +408,9 @@ private:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_QUATERNION_H
 
-#include "Quaternion.inl"
+
+
+
 

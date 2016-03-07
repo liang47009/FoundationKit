@@ -15,7 +15,9 @@
 
  This file was modified to fit the FoundationKit project
  */
-#include "Matrix.h"
+
+#ifndef LOSEMYMIND_MATRIX_INL
+#define LOSEMYMIND_MATRIX_INL
 
 NS_FK_BEGIN
 
@@ -92,3 +94,10 @@ inline const Vector4 operator*(const Matrix& m, const Vector4& v)
 }
 
 NS_FK_END
+#endif // LOSEMYMIND_MATRIX_INL
+
+
+
+
+
+

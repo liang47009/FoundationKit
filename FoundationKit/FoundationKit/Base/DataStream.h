@@ -4,6 +4,9 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_DATASTREAM_H
+#define LOSEMYMIND_DATASTREAM_H
+
 #pragma once
 
 #include <cstdint>
@@ -193,3 +196,9 @@ protected:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_DATASTREAM_H
+
+
+
+
+

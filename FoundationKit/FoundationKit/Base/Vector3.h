@@ -15,6 +15,9 @@
 
  This file was modified to fit the FoundationKit project
  */
+#ifndef LOSEMYMIND_VECTOR3_H
+#define LOSEMYMIND_VECTOR3_H
+
 #pragma once
 #include "FoundationKit/FoundationKitDefines.h" // for NS_FK_BEGIN NS_FK_END
 
@@ -496,6 +499,11 @@ public:
 inline const Vector3 operator*(float x, const Vector3& v);
 
 NS_FK_END
+#endif // LOSEMYMIND_VECTOR3_H
+
 
 #include "Vector3.inl"
+
+
+
 

@@ -4,8 +4,9 @@ Copyright (c) 2015 libo All rights reserved.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FOUNDATIONKIT_BASE_SIZE_H
-#define FOUNDATIONKIT_BASE_SIZE_H
+
+#ifndef LOSEMYMIND_SIZE_H
+#define LOSEMYMIND_SIZE_H
 
 #pragma once
 #include <math.h>
@@ -86,8 +87,9 @@ public:
 const Size Size::ZERO = Size(0, 0);
 
 NS_FK_END
+#endif // LOSEMYMIND_SIZE_H
 
 
-#endif // FOUNDATIONKIT_BASE_SIZE_H
+
 
 

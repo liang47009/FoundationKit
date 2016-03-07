@@ -30,6 +30,7 @@
 
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
+#include "FoundationKit/Base/ValueTest.h"
 
 using namespace std;
 USING_NS_FK;
@@ -61,6 +62,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     FileUtils::getInstance()->copyFile("C:\\HaxLogs.txt", "D:\\HaxLogs.txt");
     FileUtils::getInstance()->getFilesFromDir("F:\\Software\\", files, true);
 
+    valueClassTest();
 
     
 	return true;

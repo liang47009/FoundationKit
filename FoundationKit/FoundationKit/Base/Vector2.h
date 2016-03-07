@@ -16,6 +16,9 @@
  This file was modified to fit the FoundationKit project
  */
 
+#ifndef LOSEMYMIND_VECTOR2_H
+#define LOSEMYMIND_VECTOR2_H
+
 #pragma once
 
 #include "FoundationKit/FoundationKitDefines.h"
@@ -465,5 +468,6 @@ public:
 inline const Vector2 operator*(float x, const Vector2& v);
 
 NS_FK_END
+#endif // LOSEMYMIND_VECTOR2_H
 
 #include "Vector2.inl"

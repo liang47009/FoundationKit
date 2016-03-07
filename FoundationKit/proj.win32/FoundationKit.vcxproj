@@ -266,18 +266,13 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\FoundationKit\Base\Dictionary.inl" />
     <None Include="..\FoundationKit\Base\MathUtil.inl" />
     <None Include="..\FoundationKit\Base\MathUtilNeon.inl" />
     <None Include="..\FoundationKit\Base\Matrix.inl" />
-    <None Include="..\FoundationKit\Base\Quaternion.inl" />
     <None Include="..\FoundationKit\Base\Value.inl" />
     <None Include="..\FoundationKit\Base\Vector2.inl" />
     <None Include="..\FoundationKit\Base\Vector3.inl" />
     <None Include="..\FoundationKit\Base\Vector4.inl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\FoundationKit\Base\readme_math.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

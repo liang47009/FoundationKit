@@ -12,6 +12,9 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 
 ****************************************************************************/
 
+#ifndef LOSEMYMIND_ABSTRACTCACHE_H
+#define LOSEMYMIND_ABSTRACTCACHE_H
+
 #pragma once
 #include <unordered_map>
 #include <map>
@@ -317,5 +320,9 @@ private:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_ABSTRACTCACHE_H
+
+
+
 
 

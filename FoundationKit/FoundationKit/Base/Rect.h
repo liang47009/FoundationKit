@@ -4,6 +4,9 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
+#ifndef LOSEMYMIND_RECT_H
+#define LOSEMYMIND_RECT_H
+
 #pragma once
 #include <math.h>
 #include <functional>
@@ -53,3 +56,9 @@ public:
     static const Rect ZERO;
 };
 NS_FK_END
+#endif // LOSEMYMIND_RECT_H
+
+
+
+
+

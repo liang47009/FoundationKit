@@ -4,6 +4,9 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_BUFFER_H
+#define LOSEMYMIND_BUFFER_H
+
 #pragma once
 
 #include <cstring>
@@ -332,4 +335,10 @@ private:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_BUFFER_H
+
+
+
+
+
 

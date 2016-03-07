@@ -15,6 +15,11 @@
 
  This file was modified to fit the FoundationKit project
  */
+
+
+#ifndef LOSEMYMIND_MATHUTIL_H
+#define LOSEMYMIND_MATHUTIL_H
+
 #pragma once
 #include <string>
 #include "FoundationKit/FoundationKitDefines.h"
@@ -87,9 +92,10 @@ private:
     MathUtil();
 };
 
-NS_FK_END
-
 #define MATRIX_SIZE ( sizeof(float) * 16)
+
+NS_FK_END
+#endif // LOSEMYMIND_MATHUTIL_H
 
 #ifdef USE_NEON
 #include "MathUtilNeon.inl"

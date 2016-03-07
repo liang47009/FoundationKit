@@ -13,6 +13,9 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 ****************************************************************************/
 
 
+#ifndef LOSEMYMIND_ABSTRACTSTRATEGY_H
+#define LOSEMYMIND_ABSTRACTSTRATEGY_H
+
 #pragma once
 #include "KeyValueArgs.h"
 #include "FoundationKit/FoundationKitDefines.h"
@@ -65,6 +68,7 @@ public:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_ABSTRACTSTRATEGY_H
 
 
 

@@ -5,6 +5,9 @@
  
  ****************************************************************************/
 
+#ifndef LOSEMYMIND_TYPES_H
+#define LOSEMYMIND_TYPES_H
+
 #pragma once
 
 #include "FoundationKit/FoundationKitDefines.h"
@@ -80,5 +83,6 @@ typedef long               intptr_t;
  *********************************************************************************/
 
 NS_FK_END
+#endif // LOSEMYMIND_TYPES_H
 
 

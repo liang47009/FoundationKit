@@ -1,3 +1,6 @@
+#ifndef LOSEMYMIND_DATASTREAMTEST_H
+#define LOSEMYMIND_DATASTREAMTEST_H
+
 #pragma once
 
 #include "FoundationKit/Foundation/Logger.h"
@@ -47,16 +50,7 @@ void TestDataStream()
 }
 
 
-
-
-
-
-
-
-
-
-
-
+#endif // LOSEMYMIND_DATASTREAMTEST_H
 
 
 

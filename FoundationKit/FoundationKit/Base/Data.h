@@ -4,6 +4,9 @@ Copyright (c) 2013-2014 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_DATA_H
+#define LOSEMYMIND_DATA_H
+
 #pragma once
 #include "FoundationKit/FoundationKitDefines.h"
 #include <string>
@@ -60,3 +63,10 @@ private:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_DATA_H
+
+
+
+
+
+

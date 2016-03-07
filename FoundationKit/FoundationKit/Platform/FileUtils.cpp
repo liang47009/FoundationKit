@@ -392,6 +392,7 @@ void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::str
         finallyPath.append("/");
     }
     DIR* dir =opendir(finallyPath.c_str());
+    if (!dir) return;
     dirent* entry = readdir(dir);
     while (entry)
     {

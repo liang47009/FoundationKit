@@ -15,6 +15,9 @@
 
  This file was modified to fit the FoundationKit project
  */
+#ifndef LOSEMYMIND_VECTOR4_H
+#define LOSEMYMIND_VECTOR4_H
+
 #pragma once
 #include "FoundationKit/FoundationKitDefines.h" // for NS_FK_BEGIN NS_FK_END
 
@@ -472,6 +475,13 @@ public:
 inline const Vector4 operator*(float x, const Vector4& v);
 
 NS_FK_END
+#endif // LOSEMYMIND_VECTOR4_H
+
+
 
 #include "Vector4.inl"
+
+
+
+
 

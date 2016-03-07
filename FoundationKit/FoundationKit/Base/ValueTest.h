@@ -2,6 +2,8 @@
 #include "assert.h"
 #include "Value.h"
 
+USING_NS_FK;
+
 #define EQUAL_PCHAR(a, b) assert(strcmp(a, b)==0)
 #define EQUAL_STR(a,b)    assert(a.compare(b) == 0)
 #define EQUAL_VAL(a, b)   assert(a == b)

@@ -5,7 +5,10 @@
 
 ****************************************************************************/
 //================= Template Method =================
-#include "Value.h"
+
+#ifndef LOSEMYMIND_VALUE_INL
+#define LOSEMYMIND_VALUE_INL
+
 NS_FK_BEGIN
 
 template< typename T >
@@ -121,6 +124,7 @@ inline std::string Value::as<std::string>()
 }
 
 NS_FK_END
+#endif // LOSEMYMIND_VALUE_INL
 
 
 

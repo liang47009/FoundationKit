@@ -15,6 +15,9 @@
 
  This file was modified to fit the FoundationKit project
  */
+#ifndef LOSEMYMIND_MATHUTILNEON_H
+#define LOSEMYMIND_MATHUTILNEON_H
+
 NS_FK_BEGIN
 
 inline void MathUtil::addMatrix(const float* m, float scalar, float* dst)
@@ -243,3 +246,6 @@ inline void MathUtil::crossVector3(const float* v1, const float* v2, float* dst)
 }
 
 NS_FK_END
+
+
+#endif // LOSEMYMIND_MATHUTILNEON_H

@@ -1,1 +1,0 @@
-https://github.com/mosra/magnum/tree/master/src/Magnum/Math

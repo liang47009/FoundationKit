@@ -12,6 +12,9 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 
 ****************************************************************************/
 
+#ifndef LOSEMYMIND_LRUCACHE_H
+#define LOSEMYMIND_LRUCACHE_H
+
 #pragma once
 
 #include "AbstractCache.h"
@@ -41,4 +44,10 @@ private:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_LRUCACHE_H
+
+
+
+
+
 

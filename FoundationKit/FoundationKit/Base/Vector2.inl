@@ -17,6 +17,9 @@
  */
 #include "Vector2.h"
 
+#ifndef LOSEMYMIND_VECTOR2_INL
+#define LOSEMYMIND_VECTOR2_INL
+
 NS_FK_BEGIN
 
 inline const Vector2 Vector2::operator+(const Vector2& v) const
@@ -97,3 +100,4 @@ inline const Vector2 operator*(float x, const Vector2& v)
 }
 
 NS_FK_END
+#endif // LOSEMYMIND_VECTOR2_INL

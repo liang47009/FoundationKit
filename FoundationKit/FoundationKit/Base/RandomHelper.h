@@ -4,6 +4,9 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
+#ifndef LOSEMYMIND_RANDOMHELPER_H
+#define LOSEMYMIND_RANDOMHELPER_H
+
 #pragma once
 #include <random>
 #include <cmath>
@@ -83,5 +86,10 @@ public:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_RANDOMHELPER_H
+
+
+
+
 
 
