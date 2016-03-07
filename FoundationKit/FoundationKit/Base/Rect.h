@@ -8,48 +8,9 @@
 #include <math.h>
 #include <functional>
 #include "Vector2.h"
+#include "Size.h"
 
 NS_FK_BEGIN
-
-class Size
-{
-public:
-    float width;
-    float height;
-public:
-    operator Vector2() const
-    {
-        return Vector2(width, height);
-    }
-
-public:
-
-    Size();
-
-    explicit Size(const Vector2& point);
-
-    Size(float width, float height);
-
-    Size(const Size& other);
-
-    Size& operator= (const Size& other);
-
-    Size& operator= (const Vector2& point);
-
-    Size operator+(const Size& right) const;
-
-    Size operator-(const Size& right) const;
-
-    Size operator*(float a) const;
-
-    Size operator/(float a) const;
-
-    void setSize(float width, float height);
-
-    bool equals(const Size& target) const;
-    
-    static const Size ZERO;
-};
 
 class Rect
 {

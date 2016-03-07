@@ -17,7 +17,7 @@ extern "C"
 };
 #include "LuaStack.h"
 #include "FoundationKit/Foundation/Singleton.h"
-#include "FoundationKit/Data/Value.h"
+#include "FoundationKit/Base/Value.h"
 #include "LuaValue.h"
 
 

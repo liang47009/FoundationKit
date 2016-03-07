@@ -3,7 +3,7 @@
 
 
 #include "FoundationKit/Events/Event.h"
-#include "FoundationKit/Math/Vector2.h"
+#include "FoundationKit/Base/Vector2.h"
 
 #define MOUSE_BUTTON_LEFT       0
 #define MOUSE_BUTTON_RIGHT      1

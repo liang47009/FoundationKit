@@ -3,7 +3,7 @@
 
 
 #include <string>
-#include "FoundationKit/Math/Geometry.h"
+#include "FoundationKit/Base/Rect.h"
 
 NS_FK_BEGIN
 

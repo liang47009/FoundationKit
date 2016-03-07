@@ -2,7 +2,7 @@
 #define FoundationKit_Touch_H
 
 
-#include "FoundationKit/Math/Geometry.h"
+#include "FoundationKit/Base/Vector2.h"
 #include <memory>
 
 NS_FK_BEGIN

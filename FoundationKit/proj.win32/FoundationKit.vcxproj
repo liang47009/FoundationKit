@@ -96,6 +96,24 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\FoundationKit\Base\Buffer.h" />
+    <ClInclude Include="..\FoundationKit\Base\Data.h" />
+    <ClInclude Include="..\FoundationKit\Base\DataStream.h" />
+    <ClInclude Include="..\FoundationKit\Base\DataStreamTest.h" />
+    <ClInclude Include="..\FoundationKit\Base\Dictionary.h" />
+    <ClInclude Include="..\FoundationKit\Base\DictionaryTest.h" />
+    <ClInclude Include="..\FoundationKit\Base\Rect.h" />
+    <ClInclude Include="..\FoundationKit\Base\MathEx.h" />
+    <ClInclude Include="..\FoundationKit\Base\MathUtil.h" />
+    <ClInclude Include="..\FoundationKit\Base\Matrix.h" />
+    <ClInclude Include="..\FoundationKit\Base\Quaternion.h" />
+    <ClInclude Include="..\FoundationKit\Base\RandomHelper.h" />
+    <ClInclude Include="..\FoundationKit\Base\Size.h" />
+    <ClInclude Include="..\FoundationKit\Base\Value.h" />
+    <ClInclude Include="..\FoundationKit\Base\ValueTest.h" />
+    <ClInclude Include="..\FoundationKit\Base\Vector2.h" />
+    <ClInclude Include="..\FoundationKit\Base\Vector3.h" />
+    <ClInclude Include="..\FoundationKit\Base\Vector4.h" />
     <ClInclude Include="..\FoundationKit\Cache\AbstractCache.h" />
     <ClInclude Include="..\FoundationKit\Cache\AbstractStrategy.h" />
     <ClInclude Include="..\FoundationKit\Cache\KeyValueArgs.h" />
@@ -106,14 +124,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Crypto\Base64.h" />
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp" />
-    <ClInclude Include="..\FoundationKit\Data\Buffer.h" />
-    <ClInclude Include="..\FoundationKit\Data\Data.h" />
-    <ClInclude Include="..\FoundationKit\Data\DataStream.h" />
-    <ClInclude Include="..\FoundationKit\Data\DataStreamTest.h" />
-    <ClInclude Include="..\FoundationKit\Data\Dictionary.h" />
-    <ClInclude Include="..\FoundationKit\Data\DictionaryTest.h" />
-    <ClInclude Include="..\FoundationKit\Data\Value.h" />
-    <ClInclude Include="..\FoundationKit\Data\ValueTest.h" />
     <ClInclude Include="..\FoundationKit\Events\Event.h" />
     <ClInclude Include="..\FoundationKit\Events\EventAcceleration.h" />
     <ClInclude Include="..\FoundationKit\Events\EventController.h" />
@@ -175,15 +185,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\LuaEngine\LuaStack.h" />
     <ClInclude Include="..\FoundationKit\LuaEngine\LuaValue.h" />
     <ClInclude Include="..\FoundationKit\LuaEngine\Script.h" />
-    <ClInclude Include="..\FoundationKit\Math\Geometry.h" />
-    <ClInclude Include="..\FoundationKit\Math\MathEx.h" />
-    <ClInclude Include="..\FoundationKit\Math\MathUtil.h" />
-    <ClInclude Include="..\FoundationKit\Math\Matrix.h" />
-    <ClInclude Include="..\FoundationKit\Math\Quaternion.h" />
-    <ClInclude Include="..\FoundationKit\Math\RandomHelper.h" />
-    <ClInclude Include="..\FoundationKit\Math\Vector2.h" />
-    <ClInclude Include="..\FoundationKit\Math\Vector3.h" />
-    <ClInclude Include="..\FoundationKit\Math\Vector4.h" />
     <ClInclude Include="..\FoundationKit\Platform\FileUtils.h" />
     <ClInclude Include="..\FoundationKit\Platform\Platform.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.h" />
@@ -203,11 +204,19 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Thread\thread.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\FoundationKit\Base\Data.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\DataStream.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Rect.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\MathEx.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\MathUtil.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Matrix.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Quaternion.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Value.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Vector2.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Vector3.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Vector4.cpp" />
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp" />
     <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp" />
-    <ClCompile Include="..\FoundationKit\Data\Data.cpp" />
-    <ClCompile Include="..\FoundationKit\Data\DataStream.cpp" />
-    <ClCompile Include="..\FoundationKit\Data\Value.cpp" />
     <ClCompile Include="..\FoundationKit\Events\Event.cpp" />
     <ClCompile Include="..\FoundationKit\Events\EventAcceleration.cpp" />
     <ClCompile Include="..\FoundationKit\Events\EventController.cpp" />
@@ -250,14 +259,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\LuaEngine\LuaStack.cpp" />
     <ClCompile Include="..\FoundationKit\LuaEngine\LuaValue.cpp" />
     <ClCompile Include="..\FoundationKit\LuaEngine\Script.cpp" />
-    <ClCompile Include="..\FoundationKit\Math\Geometry.cpp" />
-    <ClCompile Include="..\FoundationKit\Math\MathEx.cpp" />
-    <ClCompile Include="..\FoundationKit\Math\MathUtil.cpp" />
-    <ClCompile Include="..\FoundationKit\Math\Matrix.cpp" />
-    <ClCompile Include="..\FoundationKit\Math\Quaternion.cpp" />
-    <ClCompile Include="..\FoundationKit\Math\Vector2.cpp" />
-    <ClCompile Include="..\FoundationKit\Math\Vector3.cpp" />
-    <ClCompile Include="..\FoundationKit\Math\Vector4.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\FileUtils.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Platform.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\FileUtils_win32.cpp" />
@@ -265,15 +266,18 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\FoundationKit\Data\Dictionary.inl" />
-    <None Include="..\FoundationKit\Data\Value.inl" />
-    <None Include="..\FoundationKit\Math\MathUtil.inl" />
-    <None Include="..\FoundationKit\Math\MathUtilNeon.inl" />
-    <None Include="..\FoundationKit\Math\Matrix.inl" />
-    <None Include="..\FoundationKit\Math\Quaternion.inl" />
-    <None Include="..\FoundationKit\Math\Vector2.inl" />
-    <None Include="..\FoundationKit\Math\Vector3.inl" />
-    <None Include="..\FoundationKit\Math\Vector4.inl" />
+    <None Include="..\FoundationKit\Base\Dictionary.inl" />
+    <None Include="..\FoundationKit\Base\MathUtil.inl" />
+    <None Include="..\FoundationKit\Base\MathUtilNeon.inl" />
+    <None Include="..\FoundationKit\Base\Matrix.inl" />
+    <None Include="..\FoundationKit\Base\Quaternion.inl" />
+    <None Include="..\FoundationKit\Base\Value.inl" />
+    <None Include="..\FoundationKit\Base\Vector2.inl" />
+    <None Include="..\FoundationKit\Base\Vector3.inl" />
+    <None Include="..\FoundationKit\Base\Vector4.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\FoundationKit\Base\readme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

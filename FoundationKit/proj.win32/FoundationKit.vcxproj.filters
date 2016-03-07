@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Data">
-      <UniqueIdentifier>{8bbace43-c4dd-4e9e-87b0-4d288f1fbe9b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Math">
-      <UniqueIdentifier>{afbd91f7-c42f-45ce-9bbe-dfafd3679d07}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Foundation">
       <UniqueIdentifier>{35bf071e-e06a-4a71-b90b-010242e1a23e}</UniqueIdentifier>
     </Filter>
@@ -61,43 +55,16 @@
     <Filter Include="system">
       <UniqueIdentifier>{d4c872f1-5572-4f9c-b4d2-bb9b001169cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{65b125cc-d559-4605-bbc6-67c151774db0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\FoundationKit\Data\Buffer.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Data\Data.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Data\DataStream.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Data\Value.h">
-      <Filter>Data</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h">
       <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Singleton.h">
       <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Math\Matrix.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Math\Quaternion.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Math\Vector2.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Math\Vector3.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Math\Vector4.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Math\MathUtil.h">
-      <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Crypto\aes.h">
       <Filter>Crypto</Filter>
@@ -110,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp">
       <Filter>Crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Math\Geometry.h">
-      <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Runnable.h">
       <Filter>Foundation</Filter>
@@ -210,12 +174,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\TupleApply.h">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Math\RandomHelper.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Data\Dictionary.h">
-      <Filter>Data</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Events\EventAcceleration.h">
       <Filter>Events</Filter>
     </ClInclude>
@@ -306,9 +264,6 @@
     <ClInclude Include="..\FoundationKit\HttpDownloader\DownloaderTest.h">
       <Filter>HttpDownloader</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Data\ValueTest.h">
-      <Filter>Data</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h">
       <Filter>external\unzip</Filter>
     </ClInclude>
@@ -317,12 +272,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h">
       <Filter>external\unzip</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Data\DataStreamTest.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Data\DictionaryTest.h">
-      <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\stdextensions\aligned_ptr.hpp">
       <Filter>stdextensions</Filter>
@@ -360,9 +309,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\Timer.h">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Math\MathEx.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\stdextensions\delegate.h">
       <Filter>stdextensions</Filter>
     </ClInclude>
@@ -378,46 +324,70 @@
     <ClInclude Include="..\FoundationKit\system\dirent.h">
       <Filter>system</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Buffer.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Data.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\DataStream.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\DataStreamTest.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Dictionary.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\DictionaryTest.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\MathEx.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\MathUtil.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Matrix.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Quaternion.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\RandomHelper.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Value.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\ValueTest.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Vector2.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Vector3.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Vector4.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Size.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Rect.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\FoundationKit\Data\Data.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Data\DataStream.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Data\Value.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
       <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Math\Matrix.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Math\Quaternion.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Math\Vector2.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Math\Vector3.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Math\Vector4.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Math\MathUtil.cpp">
-      <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
       <Filter>Crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp">
       <Filter>Crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Math\Geometry.cpp">
-      <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\WorkQueue.cpp">
       <Filter>Foundation</Filter>
@@ -551,43 +521,78 @@
     <ClCompile Include="..\FoundationKit\external\unzip\unzip.cpp">
       <Filter>external\unzip</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Math\MathEx.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.c">
       <Filter>external\ConvertUTF</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTFWrapper.cpp">
       <Filter>external\ConvertUTF</Filter>
     </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\Data.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\DataStream.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\MathEx.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\MathUtil.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\Matrix.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\Quaternion.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\Value.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\Vector2.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\Vector3.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\Vector4.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\Rect.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\FoundationKit\Math\Matrix.inl">
-      <Filter>Math</Filter>
+    <None Include="..\FoundationKit\Base\Dictionary.inl">
+      <Filter>Base</Filter>
     </None>
-    <None Include="..\FoundationKit\Math\Quaternion.inl">
-      <Filter>Math</Filter>
+    <None Include="..\FoundationKit\Base\MathUtil.inl">
+      <Filter>Base</Filter>
     </None>
-    <None Include="..\FoundationKit\Math\Vector2.inl">
-      <Filter>Math</Filter>
+    <None Include="..\FoundationKit\Base\MathUtilNeon.inl">
+      <Filter>Base</Filter>
     </None>
-    <None Include="..\FoundationKit\Math\Vector3.inl">
-      <Filter>Math</Filter>
+    <None Include="..\FoundationKit\Base\Matrix.inl">
+      <Filter>Base</Filter>
     </None>
-    <None Include="..\FoundationKit\Math\Vector4.inl">
-      <Filter>Math</Filter>
+    <None Include="..\FoundationKit\Base\Quaternion.inl">
+      <Filter>Base</Filter>
     </None>
-    <None Include="..\FoundationKit\Math\MathUtil.inl">
-      <Filter>Math</Filter>
+    <None Include="..\FoundationKit\Base\Value.inl">
+      <Filter>Base</Filter>
     </None>
-    <None Include="..\FoundationKit\Math\MathUtilNeon.inl">
-      <Filter>Math</Filter>
+    <None Include="..\FoundationKit\Base\Vector2.inl">
+      <Filter>Base</Filter>
     </None>
-    <None Include="..\FoundationKit\Data\Dictionary.inl">
-      <Filter>Data</Filter>
+    <None Include="..\FoundationKit\Base\Vector3.inl">
+      <Filter>Base</Filter>
     </None>
-    <None Include="..\FoundationKit\Data\Value.inl">
-      <Filter>Data</Filter>
+    <None Include="..\FoundationKit\Base\Vector4.inl">
+      <Filter>Base</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\FoundationKit\Base\readme.txt">
+      <Filter>Base</Filter>
+    </Text>
   </ItemGroup>
 </Project>
