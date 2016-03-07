@@ -591,7 +591,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\FoundationKit\Base\readme.txt">
+    <Text Include="..\FoundationKit\Base\readme_math.txt">
       <Filter>Base</Filter>
     </Text>
   </ItemGroup>

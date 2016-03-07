@@ -277,7 +277,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <None Include="..\FoundationKit\Base\Vector4.inl" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\FoundationKit\Base\readme.txt" />
+    <Text Include="..\FoundationKit\Base\readme_math.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
