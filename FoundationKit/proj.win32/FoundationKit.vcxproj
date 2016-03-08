@@ -211,6 +211,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Base\MathUtil.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Matrix.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Quaternion.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Size.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Value.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Vector2.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Vector3.cpp" />

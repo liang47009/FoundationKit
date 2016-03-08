@@ -59,7 +59,7 @@
 #endif
 
 // android
-#if defined(ANDROID)
+#if defined(ANDROID) || defined(__ANDROID__)
 #undef  FK_TARGET_PLATFORM
 #define FK_TARGET_PLATFORM         FK_PLATFORM_ANDROID
 #endif
@@ -71,7 +71,7 @@
 #endif
 
 // linux
-#if defined(LINUX)
+#if defined(LINUX) || defined(__linux__)
 #undef  FK_TARGET_PLATFORM
 #define FK_TARGET_PLATFORM         FK_PLATFORM_LINUX
 #endif
@@ -257,7 +257,6 @@ extern void _log_(const char* message, ...);
                                         break;      \
                                         } 
 #define FK_MAX_PATH 512
-#define UNUSED_PARAM(param) do{(void)(param);}while(0)
 
 #ifdef __GNUC__
 #define FK_UNUSED __attribute__ ((unused))
@@ -281,11 +280,7 @@ extern void _log_(const char* message, ...);
 #define FK_ASSERT(cond) assert(cond)
 #endif
 
-//#pragma message(__COMPILE_MSG__ "Show compile message")
-#define __COMPILE_STR1__(s) #s
-#define __COMPILE_STR2__(s) __COMPILE_STR1__(s)
-#define __COMPILE_MSG__ __FILE__ "("__COMPILE_STR2__(__LINE__) "):Warning:" 
-
+#include "FoundationKit/FoundationKitMacros.h"
 
 
 

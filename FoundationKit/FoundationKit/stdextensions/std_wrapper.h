@@ -2,30 +2,12 @@
 
 #ifndef FOUNDATIONKIT_STD_WRAPPER_H
 #define FOUNDATIONKIT_STD_WRAPPER_H
-
 #include <string>
-
-#ifndef _STD_BEGIN
-
-#if defined(__cplusplus)
-#define _STD_BEGIN	namespace std {
-#define _STD_END		}
-#define _STD	::std::
-#else /* __cplusplus */
-#define _STD_BEGIN
-#define _STD_END
-#define _STD
-#endif
-#endif
+#include "FoundationKit/FoundationKitMacros.h"
 
 _STD_BEGIN
 
-
-#if defined(_MSC_VER) && _MSC_VER >= 1600 || __cplusplus >= 201103L
-#define SUPPORT_CPP11 1
-#endif
-
-#if  !defined(SUPPORT_CPP11)
+#if(CPP_TARGET_VERSION < CPP_VERSION_11 )
     typedef unsigned short char16_t;
     typedef unsigned int char32_t;
     typedef basic_string<char16_t, char_traits<char16_t>, allocator<char16_t> > u16string;

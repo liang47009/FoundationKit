@@ -36,55 +36,45 @@ public:
 
     Size(const Size& other) : width(other.width), height(other.height){}
 
-    Size& operator= (const Size& other)
+    inline Size& operator= (const Size& other)
     {
         setSize(other.width, other.height);
         return *this;
     }
 
-    Size& operator= (const Vector2& point)
+    inline Size& operator= (const Vector2& point)
     {
         setSize(point.x, point.y);
         return *this;
     }
 
-    Size operator+(const Size& right) const
+    inline Size operator+(const Size& right) const
     {
         return Size(this->width + right.width, this->height + right.height);
     }
 
-    Size operator-(const Size& right) const
+    inline Size operator-(const Size& right) const
     {
         return Size(this->width - right.width, this->height - right.height);
     }
 
-    Size operator*(float a) const
+    inline Size operator*(float a) const
     {
         return Size(this->width * a, this->height * a);
     }
 
-    Size operator/(float a) const
+    inline Size operator/(float a) const
     {
         FKASSERT(a != 0, "CCSize division by 0.");
         return Size(this->width / a, this->height / a);
     }
 
-    void setSize(float width, float height)
-    {
-        this->width = width;
-        this->height = height;
-    }
+    void setSize(float width, float height);
 
-    bool equals(const Size& target) const
-    {
-        return (fabs(this->width - target.width)  < FLT_EPSILON)
-            && (fabs(this->height - target.height) < FLT_EPSILON);
-    }
+    bool equals(const Size& target) const;
 
     static const Size ZERO;
 };
-
-const Size Size::ZERO = Size(0, 0);
 
 NS_FK_END
 #endif // LOSEMYMIND_SIZE_H

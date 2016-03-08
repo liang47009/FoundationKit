@@ -9,6 +9,15 @@ losemymind.libo@gmail.com
 #include "FoundationKit/Events/EventKeyboard.h"
 NS_FK_BEGIN
 
+enum class CPU_TYPE
+{
+    //https://sourceforge.net/p/predef/wiki/Home/
+    // https://sourceforge.net/p/predef/wiki/Architectures/
+};
+
+
+
+
 class Platform
 {
 public:

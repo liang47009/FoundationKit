@@ -560,6 +560,9 @@
     <ClCompile Include="..\FoundationKit\Base\Rect.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\Size.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\Base\MathUtil.inl">
