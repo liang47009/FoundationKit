@@ -1,3 +1,9 @@
+/****************************************************************************
+Copyright (c) 2015 libo.
+
+losemymind.libo@gmail.com
+
+****************************************************************************/
 #ifndef FoundationKit_ProtectedMemoryAllocator_H
 #define FoundationKit_ProtectedMemoryAllocator_H
 
@@ -66,5 +72,4 @@ private:
     ProtectedMemoryAllocator *_allocator;
 };
 #endif // FoundationKit_ProtectedMemoryAllocator_H
-
 

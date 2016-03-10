@@ -58,13 +58,25 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
 	LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
 
+    /**
     std::vector<std::string> files;
-    FileUtils::getInstance()->copyFile("C:\\HaxLogs.txt", "D:\\HaxLogs.txt");
-    FileUtils::getInstance()->getFilesFromDir("F:\\Software\\", files, true);
+    FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/ApplicationKit", files, true);
+    FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/FoundationKit", files, true);
 
-    valueClassTest();
-
-    
+    std::string result;
+    std::string ext = ".cpp";
+    std::string fileExt;
+    for (auto& str : files)
+    {
+        fileExt = FileUtils::getInstance()->getFileExtension(str);
+        if (fileExt == ext)
+        {
+            size_t npos = str.find("t/");
+            result.append(str.substr(npos + 2, str.size()));
+            result.push_back('\n');
+        }
+    }
+    */
 	return true;
 }
 
