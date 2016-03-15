@@ -1,6 +1,5 @@
-
 /*
-* Copyright 2014 Facebook, Inc.
+* Copyright 2016 Facebook, Inc.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -13,112 +12,85 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*
-* Original file from Facebook : https://github.com/facebook/folly
-*
-* This file was modified to fit the FoundationKit project
-* /
+*/
 
 /*
- * Defines a function folly::applyTuple, which takes a function and a
- * std::tuple of arguments and calls the function with those
- * arguments.
- *
- * Example:
- *
- *    int x = NS_NAME::applyTuple(std::plus<int>(), std::make_tuple(12, 12));
- *    ASSERT(x == 24);
- *    A a;
- *    int x = NS_NAME::applyTuple(&A::fun, std::make_tuple(&a,12, 12));
- */
+* Defines a function folly::applyTuple, which takes a function and a
+* std::tuple of arguments and calls the function with those
+* arguments.
+*
+* Example:
+*
+*    int x = folly::applyTuple(std::plus<int>(), std::make_tuple(12, 12));
+*    ASSERT(x == 24);
+*
+*Original file from folly: https://github.com/facebook/folly/tree/master/folly
+*
+*This file was modified to fit the FoundationKit project
+*/
 
 #pragma once
-
-#include <tuple>
 #include <functional>
-#include <type_traits>
-#include "FoundationKit/FoundationKitDefines.h"
 #include <utility>
+#include "FoundationKit/FoundationKitDefines.h"
+
 NS_FK_BEGIN
 
-//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
 namespace detail {
+    namespace apply_tuple {
 
-// This is to allow using this with pointers to member functions,
-// where the first argument in the tuple will be the this pointer.
-template<class F> F& makeCallable(F& f) { return f; }
-template<class R, class C, class ...A>
-auto makeCallable(R (C::*d)(A...)) -> decltype(std::mem_fn(d)) {
-  return std::mem_fn(d);
-}
+        template <std::size_t...>
+        struct IndexSequence {};
 
-template<class Tuple>
-struct DerefSize
-  : std::tuple_size<typename std::remove_reference<Tuple>::type>
-{};
+        template <std::size_t N, std::size_t... Is>
+        struct MakeIndexSequence : MakeIndexSequence<N - 1, N - 1, Is...> {};
 
-template<class Tuple, class ...Unpacked> struct ExprDoUnpack {
-  enum {
-    value = sizeof...(Unpacked) < DerefSize<Tuple>::value
-  };
-};
+        template <std::size_t... Is>
+        struct MakeIndexSequence<0, Is...> : IndexSequence<Is...>{};
 
-template<class Tuple, class ...Unpacked> struct ExprIsUnpacked {
-  enum {
-    value = sizeof...(Unpacked) == DerefSize<Tuple>::value
-  };
-};
+        template <class Tuple>
+        using MakeIndexSequenceFromTuple =
+            MakeIndexSequence<std::tuple_size<typename std::decay<Tuple>::type>::value>;
 
-// CallTuple recursively unpacks tuple arguments so we can forward
-// them into the function.
-template<class Ret>
-struct CallTuple {
-  template<class F, class Tuple, class ...Unpacked>
-  static typename std::enable_if<ExprDoUnpack<Tuple, Unpacked...>::value,
-    Ret
-  >::type call(const F& f, Tuple&& t, Unpacked&&... unp) {
-    typedef typename std::tuple_element<
-      sizeof...(Unpacked),
-      typename std::remove_reference<Tuple>::type
-    >::type ElementType;
-    return CallTuple<Ret>::call(f, std::forward<Tuple>(t),
-      std::forward<Unpacked>(unp)...,
-      std::forward<ElementType>(std::get<sizeof...(Unpacked)>(t))
-    );
-  }
+        // This is to allow using this with pointers to member functions,
+        // where the first argument in the tuple will be the this pointer.
+        template <class F>
+        inline constexpr F&& makeCallable(F&& f) {
+            return std::forward<F>(f);
+        }
+        template <class M, class C>
+        inline constexpr auto makeCallable(M(C::*d)) -> decltype(std::mem_fn(d)) {
+            return std::mem_fn(d);
+        }
 
-  template<class F, class Tuple, class ...Unpacked>
-  static typename std::enable_if<ExprIsUnpacked<Tuple, Unpacked...>::value,
-    Ret
-  >::type call(const F& f, Tuple&& t, Unpacked&&... unp) {
-    return makeCallable(f)(std::forward<Unpacked>(unp)...);
-  }
-};
+        template <class F, class Tuple, std::size_t... Indexes>
+        inline constexpr auto call(F&& f, Tuple&& t, IndexSequence<Indexes...>)
+            -> decltype(
+            std::forward<F>(f)(std::get<Indexes>(std::forward<Tuple>(t))...)) {
+            return std::forward<F>(f)(std::get<Indexes>(std::forward<Tuple>(t))...);
+        }
 
-// The point of this meta function is to extract the contents of the
-// tuple as a parameter pack so we can pass it into std::result_of<>.
-template<class F, class Args> struct ReturnValue {};
-template<class F, class ...Args>
-struct ReturnValue<F,std::tuple<Args...>> {
-  typedef typename std::result_of<F (Args...)>::type type;
-};
-
-}
+    } // namespace apply_tuple
+} // namespace detail
 
 //////////////////////////////////////////////////////////////////////
 
-template<class Callable, class Tuple>
-typename detail::ReturnValue< typename std::decay<Callable>::type,
-                              typename std::remove_reference<Tuple>::type >::type
-applyTuple(const Callable& c, Tuple&& t) {
-  typedef typename detail::ReturnValue<
-    typename std::decay<Callable>::type,
-    typename std::remove_reference<Tuple>::type
-  >::type RetT;
-  return detail::CallTuple<RetT>::call(c, std::forward<Tuple>(t));
+template <class F, class Tuple>
+inline constexpr auto applyTuple(F&& f, Tuple&& t)
+    -> decltype(detail::apply_tuple::call(
+    detail::apply_tuple::makeCallable(std::forward<F>(f)),
+    std::forward<Tuple>(t),
+    detail::apply_tuple::MakeIndexSequenceFromTuple<Tuple>{})) {
+    return detail::apply_tuple::call(
+        detail::apply_tuple::makeCallable(std::forward<F>(f)),
+        std::forward<Tuple>(t),
+        detail::apply_tuple::MakeIndexSequenceFromTuple<Tuple>{});
 }
 
 //////////////////////////////////////////////////////////////////////
 
 NS_FK_END
+
+
