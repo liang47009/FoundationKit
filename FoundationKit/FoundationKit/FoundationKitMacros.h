@@ -47,9 +47,10 @@
 #error  "C++ Version is not support."
 #endif 
 
-// constexpr support by c++14
+
 #if (CPP_TARGET_VERSION < CPP_VERSION_14)
-#define constexpr
+#define constexpr // constexpr support by c++14
+#define noexcept  // noexcept support by c++14
 #endif
 
 #define UNUSED_PARAM(param) do{(void)(param);}while(0)

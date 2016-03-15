@@ -11,7 +11,7 @@ NS_FK_BEGIN
 //  Private copy constructor and copy assignment ensure classes derived from
 //  class noncopyable cannot be copied.
 
-//  Contributed by Dave Abrahams
+//  Contributed by libo
 
 namespace noncopyable_  // protection from unintended ADL
 {
