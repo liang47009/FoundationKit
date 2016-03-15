@@ -17,14 +17,6 @@
 #endif
 
 
-// VS2005: _MSC_VER=1400  (MSVC++ 8.0 )
-// VS2008: _MSC_VER=1500  (MSVC++ 9.0 )
-// VS2010: _MSC_VER=1600  (MSVC++ 10.0)
-// VS2012: _MSC_VER=1700  (MSVC++ 11.0)
-// VS2013: _MSC_VER=1800  (MSVC++ 12.0)
-// VS2015: _MSC_VER=1900  (MSVC++ 14.0)
-
-// https://sourceforge.net/p/predef/wiki/Standards/
 #define CPP_VERSION_UNKNOWN 0
 #define CPP_VERSION_98      1
 #define CPP_VERSION_11      2
@@ -54,6 +46,11 @@
 #error  "C++ Version is not support."
 #endif 
 
+// constexpr support by c++14
+#if (CPP_TARGET_VERSION < CPP_VERSION_14)
+#define constexpr
+#endif
+
 #define UNUSED_PARAM(param) do{(void)(param);}while(0)
 
 #ifdef __GNUC__
@@ -62,10 +59,20 @@
 #define FK_UNUSED
 #endif
 
+
+//
+// Helper macro DO_STRINGIZE:
+// Converts the parameter X to a string after macro replacement
+// on X has been performed.
+//
+#define _DO_STRINGIZE(X) #X
+#define DO_STRINGIZE(X) _DO_STRINGIZE(X)
+
 //#pragma message(__COMPILE_MSG__ "Show compile message")
-#define __COMPILE_STR1__(s) #s
-#define __COMPILE_STR2__(s) __COMPILE_STR1__(s)
-#define __COMPILE_MSG__ __FILE__ "("__COMPILE_STR2__(__LINE__) "):Warning:" 
+#define __COMPILE_MSG__ __FILE__ "("DO_STRINGIZE(__LINE__) "):Warning:" 
+
+
+
 
 
 #endif // LOSEMYMIND_FOUNDATIONKITMACROS_H

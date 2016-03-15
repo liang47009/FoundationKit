@@ -121,6 +121,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Cache\LRUCache.h" />
     <ClInclude Include="..\FoundationKit\Cache\LRUCacheTest.h" />
     <ClInclude Include="..\FoundationKit\Cache\LRUStrategy.h" />
+    <ClInclude Include="..\FoundationKit\config\compiler\msvc.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\aes.h" />
     <ClInclude Include="..\FoundationKit\Crypto\Base64.h" />
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp" />

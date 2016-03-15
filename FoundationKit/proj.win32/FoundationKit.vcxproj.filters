@@ -58,6 +58,12 @@
     <Filter Include="Base">
       <UniqueIdentifier>{65b125cc-d559-4605-bbc6-67c151774db0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{626a75a1-a0ce-47fb-8455-d75aa8d10af8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config\compiler">
+      <UniqueIdentifier>{8f78f2c4-1afa-4604-9c23-df994788dddf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h">
@@ -377,6 +383,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\Types.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\config\compiler\msvc.hpp">
+      <Filter>config\compiler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
