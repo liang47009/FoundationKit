@@ -84,9 +84,6 @@
     <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp">
       <Filter>Crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Runnable.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\WorkQueue.h">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -160,9 +157,6 @@
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Exception.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\noncopyable.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Events\EventKeyboard.h">
@@ -383,6 +377,15 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\config\compiler\msvc.hpp">
       <Filter>config\compiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\noncopyable.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\nonmovable.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Runnable.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
