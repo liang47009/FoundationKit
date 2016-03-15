@@ -21,6 +21,7 @@
 #define CPP_VERSION_98      1
 #define CPP_VERSION_11      2
 #define CPP_VERSION_14      3
+#define CPP_VERSION_17      4
 #define CPP_TARGET_VERSION  CPP_VERSION_UNKNOWN
 
 #ifdef __cplusplus

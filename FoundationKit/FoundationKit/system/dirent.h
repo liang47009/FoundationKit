@@ -10,6 +10,9 @@
 #ifndef DIRENT_H
 #define DIRENT_H
 
+#include "FoundationKit/FoundationKitDefines.h"
+#if (FK_TARGET_PLATFORM ==FK_PLATFORM_WIN32 )
+
 /*
  * Define architecture flags so we don't need to include windows.h.
  * Avoiding windows.h makes it simpler to use windows sockets in conjunction
@@ -911,5 +914,8 @@ dirent_set_errno(
 #ifdef __cplusplus
 }
 #endif
+
+#endif //#if (FK_TARGET_PLATFORM ==FK_PLATFORM_WIN32 )
+
 #endif /*DIRENT_H*/
 
