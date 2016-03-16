@@ -30,9 +30,10 @@ public:
     template<typename ...Args>
     void postMessage(std::string& name, Args&&... args)
     {
-        GuardLock guard(_messageLock);
+        UniqueLock guard(_messageLock);
         using function_type = std::function < void(Args...) > ;
         auto rangeOfName = _messages.equal_range(name);
+        guard.unlock();
         for (iterator it = rangeOfName.first; it != rangeOfName.second; ++it)
         {
             auto fun = any_cast<function_type>(it->second);

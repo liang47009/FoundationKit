@@ -16,7 +16,6 @@
 #endif
 #endif
 
-
 #define CPP_VERSION_UNKNOWN 0
 #define CPP_VERSION_98      1
 #define CPP_VERSION_11      2
@@ -47,11 +46,21 @@
 #error  "C++ Version is not support."
 #endif 
 
-
 #if (CPP_TARGET_VERSION < CPP_VERSION_14)
 #define constexpr // constexpr support by c++14
 #define noexcept  // noexcept support by c++14
 #endif
+
+/** @def DEPRECATED_ATTRIBUTE
+* Only certain compilers support __attribute__((deprecated)).
+*/
+#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
+#define DEPRECATED_ATTRIBUTE __attribute__((deprecated))
+#elif _MSC_VER >= 1400 //vs 2005 or higher
+#define DEPRECATED_ATTRIBUTE __declspec(deprecated) 
+#else
+#define DEPRECATED_ATTRIBUTE
+#endif 
 
 #define UNUSED_PARAM(param) do{(void)(param);}while(0)
 
@@ -60,7 +69,6 @@
 #else
 #define FK_UNUSED
 #endif
-
 
 //
 // Helper macro DO_STRINGIZE:
@@ -72,9 +80,5 @@
 
 //#pragma message(__COMPILE_MSG__ "Show compile message")
 #define __COMPILE_MSG__ __FILE__ "("DO_STRINGIZE(__LINE__) "):Warning:" 
-
-
-
-
 
 #endif // LOSEMYMIND_FOUNDATIONKITMACROS_H
