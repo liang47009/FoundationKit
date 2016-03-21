@@ -42,3 +42,10 @@ namespace noncopyable_  // protection from unintended ADL
 typedef noncopyable_::noncopyable noncopyable;
 
 NS_FK_END
+
+
+
+
+
+
+
