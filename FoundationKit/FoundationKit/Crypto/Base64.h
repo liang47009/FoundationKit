@@ -8,7 +8,7 @@
 
 #include <string>
 #include <stdio.h>
-#include "FoundationKit/Foundation/noncopyable.hpp"
+#include "FoundationKit/Base/noncopyable.hpp"
 
 NS_FK_BEGIN
 

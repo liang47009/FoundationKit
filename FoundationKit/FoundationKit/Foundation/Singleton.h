@@ -8,7 +8,7 @@
 
 #include <mutex>
 #include <stdlib.h>
-#include "FoundationKit/Foundation/noncopyable.hpp"
+#include "FoundationKit/Base/noncopyable.hpp"
 #include "FoundationKit/FoundationKitDefines.h"
 NS_FK_BEGIN
 
