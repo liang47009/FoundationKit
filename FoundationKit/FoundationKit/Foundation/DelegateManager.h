@@ -8,32 +8,24 @@
 #include <vector>
 #include <string>
 #include <functional>
-#include "public/var_list.h"
+#include <memory>
 #include "FoundationKit/FoundationKitDefines.h"
 #include "FoundationKit/Foundation/Singleton.h"
 
-NS_AK_BEGIN
+NS_FK_BEGIN
 
-#if (CPP_TARGET_VERSION >= CPP_VERSION_11)
-    #define BIND_TARGET(__target__,__selector__) std::bind(__selector__,__target__, std::placeholders::_1)
-    #define BIND_NULL(___selector__) std::bind(__selector__,std::placeholders::_1)
-#else //#if !SUPPORT_CPP11
-    #define BIND_TARGET(__target__,__selector__) std::function<void(const IVarList& args)>(__target__,__selector__)
-    #define BIND_NULL(__selector__) std::function<void(const IVarList& args)>(__selector__)
-#endif //#if SUPPORT_CPP11
-
-
-typedef std::function<void(const IVarList& args)>   DelegateCallbackType;
+typedef std::function<void(const void*)>   DelegateCallbackType;
 class DelegateObserver
 {
 public:
     typedef std::shared_ptr<DelegateObserver> Pointer;
-    /** @brief 创建一个观察者
-     *  @param[in] name     delegate的名称，一个名称可以对应多个观察者
-     *  @param[in] selector DelegateObserver回调的函数。
-     *  @param[in] target   回调函数所在的对象，如果是全局函数，target为nullptr，一个对象可以有多个观察者。
-     *  @param[in] callOnce 如果这个值是true，那么这个观察者将会在回调函数调用后删除。
-     */
+
+   /** @brief 创建一个观察者
+    *  @param[in] name     delegate的名称，一个名称可以对应多个观察者
+    *  @param[in] selector DelegateObserver回调的函数。
+    *  @param[in] target   回调函数所在的对象，如果是全局函数，target为nullptr，一个对象可以有多个观察者。
+    *  @param[in] callOnce 如果这个值是true，那么这个观察者将会在回调函数调用后删除。
+    */
 
     static Pointer create(const std::string& name, DelegateCallbackType& selector, void* target = nullptr, bool callOnce = false);
 
@@ -42,7 +34,7 @@ public:
    /** @brief 调用这个观察者的回调函数。
     *  @param[in] args    The param.
     */
-    void                          invoke(const IVarList& args);
+    void                          invoke(const void* args);
     void*                         getTarget()const;
     const DelegateCallbackType&   getSelector()const;
     const std::string&            getName()const;
@@ -119,7 +111,7 @@ public:
     *  @param[in] args     回调函数需要的参数
     *                       
     */
-    void invokeDelegate(const std::string& name, const IVarList& args);
+    void invokeDelegate(const std::string& name, const void* args);
 
 protected:
     // Check whether the observer exists by the specified target and name.
@@ -133,4 +125,4 @@ private:
 
 
 
-NS_AK_END
+NS_FK_END

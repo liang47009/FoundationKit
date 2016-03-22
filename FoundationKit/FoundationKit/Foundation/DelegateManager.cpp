@@ -6,7 +6,7 @@
  ****************************************************************************/
 
 #include "DelegateManager.h"
-NS_AK_BEGIN
+NS_FK_BEGIN
 
 /************************************************************************/
 /*                          DelegateObserver                            */
@@ -32,7 +32,7 @@ DelegateObserver::~DelegateObserver()
 
 }
 
-void DelegateObserver::invoke(const IVarList& args)
+void DelegateObserver::invoke(const void* args)
 {
     if (_selector)
     {
@@ -99,7 +99,7 @@ void DelegateManager::addObserver(const std::string& name, DelegateCallbackType&
     } while (false);
 }
 
-void ApplicationKit::DelegateManager::removeObserver(const std::string& name)
+void DelegateManager::removeObserver(const std::string& name)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     ObserverList::iterator iter = _observers.begin();
@@ -119,7 +119,7 @@ void ApplicationKit::DelegateManager::removeObserver(const std::string& name)
     }
 }
 
-void ApplicationKit::DelegateManager::removeObserver(const char* name)
+void DelegateManager::removeObserver(const char* name)
 {
     std::string strName = name;
     removeObserver(strName);
@@ -166,7 +166,7 @@ void DelegateManager::removeObserver(const std::string& name, void* target)
     }
 }
 
-void ApplicationKit::DelegateManager::invokeDelegate(const std::string& name, const IVarList& args)
+void DelegateManager::invokeDelegate(const std::string& name, const void* args)
 {
     std::unique_lock<std::mutex> lock(_mutex);
     ObserverList observersToCopy(_observers);
@@ -207,6 +207,6 @@ bool DelegateManager::observerExisted(const std::string& name, void* target /*= 
     return false;
 }
 
-NS_AK_END
+NS_FK_END
 
 
