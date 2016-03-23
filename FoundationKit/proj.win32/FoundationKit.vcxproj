@@ -155,6 +155,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\FoundationKitDefines.h" />
     <ClInclude Include="..\FoundationKit\FoundationKitMacros.h" />
     <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Exception.h" />
     <ClInclude Include="..\FoundationKit\Foundation\FunctionCenter.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Logger.h" />
@@ -243,6 +244,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\external\unzip\ioapi.cpp" />
     <ClCompile Include="..\FoundationKit\external\unzip\ioapi_mem.cpp" />
     <ClCompile Include="..\FoundationKit\external\unzip\unzip.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\DelegateManager.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Exception.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Logger.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\MessageQueue.cpp" />

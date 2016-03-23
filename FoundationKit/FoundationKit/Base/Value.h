@@ -151,6 +151,8 @@ private:
     Type _type;
 };
 
+typedef std::vector<Value>   ValueList;
+
 NS_FK_END
 #endif // LOSEMYMIND_VALUE_H
 

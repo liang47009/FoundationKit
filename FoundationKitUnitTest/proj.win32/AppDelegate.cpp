@@ -58,7 +58,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
 	LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
 
-    /**
+   
     std::vector<std::string> files;
     FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/ApplicationKit", files, true);
     FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/FoundationKit", files, true);
@@ -69,14 +69,14 @@ bool AppDelegate::applicationDidFinishLaunching()
     for (auto& str : files)
     {
         fileExt = FileUtils::getInstance()->getFileExtension(str);
-        if (fileExt == ext)
+        if (fileExt == ext || fileExt == ".c")
         {
             size_t npos = str.find("t/");
             result.append(str.substr(npos + 2, str.size()));
             result.push_back('\n');
         }
     }
-    */
+
 	return true;
 }
 

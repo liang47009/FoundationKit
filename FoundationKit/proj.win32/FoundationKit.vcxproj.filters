@@ -390,6 +390,9 @@
     <ClInclude Include="..\FoundationKit\Foundation\MessageQueue.h">
       <Filter>Foundation</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -576,6 +579,9 @@
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\MessageQueue.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\DelegateManager.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
   </ItemGroup>
