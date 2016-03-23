@@ -54,17 +54,16 @@ _STD_BEGIN
 
  */
 
-//普通函数
-//函数指针
+//Ordinary functions
+//Function pointer
 //function/lambda
-//成员函数
-//函数对象
+//Member functions
+//Callable object
 
-//转换为std::function和函数指针 
 template<typename T>
 struct function_traits;
 
-//普通函数
+//Ordinary functions
 template<typename Ret, typename... Args>
 struct function_traits<Ret(Args...)>
 {
@@ -86,7 +85,7 @@ struct function_traits<Ret(Args...)>
     };
 };
 
-//函数指针
+//Function pointer
 template<typename Ret, typename... Args>
 struct function_traits<Ret(*)(Args...)> : function_traits<Ret(Args...)>{};
 
@@ -104,7 +103,7 @@ FUNCTION_TRAITS(const)
 FUNCTION_TRAITS(volatile)
 FUNCTION_TRAITS(const volatile)
 
-//函数对象
+//Callable object
 template<typename Callable>
 struct function_traits : function_traits<decltype(&Callable::operator())>{};
 

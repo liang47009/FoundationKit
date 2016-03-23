@@ -26,7 +26,7 @@
 #include "FoundationKit/stdextensions/utility.hpp"
 #include "FoundationKit/Foundation/FunctionCenter.hpp"
 #include "FoundationKit/stdextensions/delegate.h"
-
+#include "FoundationKit/Base/CompilerMacros.h"
 
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
@@ -53,12 +53,10 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
 
-   
     std::vector<std::string> files;
     FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/ApplicationKit", files, true);
     FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/FoundationKit", files, true);
