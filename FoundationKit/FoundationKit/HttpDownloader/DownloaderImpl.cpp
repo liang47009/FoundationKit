@@ -37,16 +37,16 @@ namespace network
 
     static size_t _fileWriteFuncForAdapter(void *ptr, size_t size, size_t nmemb, void* userdata)
     {
-        UNUSED_PARAM(ptr);
-        UNUSED_PARAM(size);
-        UNUSED_PARAM(userdata);
+        __unused_arg(ptr);
+        __unused_arg(size);
+        __unused_arg(userdata);
         return nmemb;
     }
 
     static int _downloadProgressFunc(void* userdata, double totalToDownload, double nowDownloaded, double totalToUpLoad, double nowUpLoaded)
     {
-        UNUSED_PARAM(totalToUpLoad);
-        UNUSED_PARAM(nowUpLoaded);
+        __unused_arg(totalToUpLoad);
+        __unused_arg(nowUpLoaded);
         DownloadUnit *downloadUnit = (DownloadUnit*)userdata;
         DownloaderImpl* this_ = (DownloaderImpl*)downloadUnit->_reserved;
 

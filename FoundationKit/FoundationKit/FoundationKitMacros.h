@@ -51,34 +51,46 @@
 #define noexcept  // noexcept support by c++14
 #endif
 
-/** @def DEPRECATED_ATTRIBUTE
+/** @def __deprecated
 * Only certain compilers support __attribute__((deprecated)).
 */
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#define DEPRECATED_ATTRIBUTE __attribute__((deprecated))
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#define DEPRECATED_ATTRIBUTE __declspec(deprecated) 
-#else
-#define DEPRECATED_ATTRIBUTE
-#endif 
-
-#define UNUSED_PARAM(param) do{(void)(param);}while(0)
-
+//#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #ifdef __GNUC__
-#define FK_UNUSED __attribute__ ((unused))
+#define __deprecated     __attribute__((deprecated))
+#define __unused         __attribute__((unused))
+#define __align(n)       __attribute__((aligned(n)))
+#define __align_max      __attribute__((aligned))
+#define __packed         __attribute__((packed))
+
+#elif _MSC_VER
+#define __deprecated __declspec(deprecated)
+#define __unused
+#define __align(n)   __declspec(align(n))
+#define __align_max
+#define __packed
+
 #else
-#define FK_UNUSED
+#define __deprecated
+#define __unused
+#define __align(n)
+#define __align_max
+#define __packed
 #endif
+
+#define __unused_arg(arg) do{(void)(arg);}while(0)
 
 //
 // Helper macro DO_STRINGIZE:
 // Converts the parameter X to a string after macro replacement
 // on X has been performed.
 //
-#define _DO_STRINGIZE(X) #X
-#define DO_STRINGIZE(X) _DO_STRINGIZE(X)
+#define STRINGIZE_HELPER(X) #X
+#define STRINGIZE(X) STRINGIZE_HELPER(X)
 
-//#pragma message(__COMPILE_MSG__ "Show compile message")
-#define __COMPILE_MSG__ __FILE__ "("DO_STRINGIZE(__LINE__) "):Warning:" 
+//#pragma message(COMPILE_MSG "Show compile message")
+#define COMPILE_MSG __FILE__ "("STRINGIZE(__LINE__) "):Warning:" 
+
+#define TEXT_HELPER(a,b)	a ## b
+#define MAKE_TEXT(s)				TEXT_HELPER(L, s)
 
 #endif // LOSEMYMIND_FOUNDATIONKITMACROS_H

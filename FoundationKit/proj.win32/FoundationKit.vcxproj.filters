@@ -393,9 +393,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.h">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\CompilerMacros.h">
-      <Filter>Base</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">

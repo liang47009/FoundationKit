@@ -97,7 +97,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Base\Buffer.h" />
-    <ClInclude Include="..\FoundationKit\Base\CompilerMacros.h" />
     <ClInclude Include="..\FoundationKit\Base\Data.h" />
     <ClInclude Include="..\FoundationKit\Base\DataStream.h" />
     <ClInclude Include="..\FoundationKit\Base\DataStreamTest.h" />

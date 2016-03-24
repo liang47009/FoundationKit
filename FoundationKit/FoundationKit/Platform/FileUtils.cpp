@@ -264,7 +264,7 @@ Data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::strin
         buffer = (unsigned char*)malloc(fileInfo.uncompressed_size);
         int FK_UNUSED readedSize = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
         FKASSERT(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
-        UNUSED_PARAM(readedSize);
+        __unused_arg(readedSize);
         *size = fileInfo.uncompressed_size;
         unzCloseCurrentFile(file);
 
