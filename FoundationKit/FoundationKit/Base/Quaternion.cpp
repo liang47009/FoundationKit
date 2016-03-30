@@ -1,4 +1,4 @@
-/**
+﻿/**
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -15,7 +15,8 @@
 
  This file was modified to fit the FoundationKit project
  */
-#include "MathEx.h"
+
+#include <cmath>
 #include "Matrix.h"
 #include "Quaternion.h"
 

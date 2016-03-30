@@ -102,10 +102,11 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\DataStreamTest.h" />
     <ClInclude Include="..\FoundationKit\Base\Dictionary.h" />
     <ClInclude Include="..\FoundationKit\Base\DictionaryTest.h" />
+    <ClInclude Include="..\FoundationKit\Base\MathContent.h" />
+    <ClInclude Include="..\FoundationKit\Base\MathEx.h" />
     <ClInclude Include="..\FoundationKit\Base\noncopyable.hpp" />
     <ClInclude Include="..\FoundationKit\Base\nonmovable.hpp" />
     <ClInclude Include="..\FoundationKit\Base\Rect.h" />
-    <ClInclude Include="..\FoundationKit\Base\MathEx.h" />
     <ClInclude Include="..\FoundationKit\Base\MathUtil.h" />
     <ClInclude Include="..\FoundationKit\Base\Matrix.h" />
     <ClInclude Include="..\FoundationKit\Base\Quaternion.h" />
@@ -114,7 +115,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\Size.h" />
     <ClInclude Include="..\FoundationKit\Base\Types.h" />
     <ClInclude Include="..\FoundationKit\Base\Value.h" />
-    <ClInclude Include="..\FoundationKit\Base\ValueTest.h" />
     <ClInclude Include="..\FoundationKit\Base\Vector2.h" />
     <ClInclude Include="..\FoundationKit\Base\Vector3.h" />
     <ClInclude Include="..\FoundationKit\Base\Vector4.h" />
@@ -207,8 +207,8 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Base\Data.cpp" />
     <ClCompile Include="..\FoundationKit\Base\DataStream.cpp" />
-    <ClCompile Include="..\FoundationKit\Base\Rect.cpp" />
     <ClCompile Include="..\FoundationKit\Base\MathEx.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Rect.cpp" />
     <ClCompile Include="..\FoundationKit\Base\MathUtil.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Matrix.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Quaternion.cpp" />

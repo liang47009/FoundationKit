@@ -15,7 +15,7 @@
 
  This file was modified to fit the FoundationKit project
  */
-#include "MathEx.h"
+#include "MathContent.h"
 #include "MathUtil.h"
 #include "Matrix.h"
 
@@ -84,7 +84,7 @@ void Matrix::createLookAt(float eyePositionX, float eyePositionY, float eyePosit
                           float targetPositionX, float targetPositionY, float targetPositionZ,
                           float upX, float upY, float upZ, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     Vector3 eye(eyePositionX, eyePositionY, eyePositionZ);
     Vector3 target(targetPositionX, targetPositionY, targetPositionZ);
@@ -127,23 +127,23 @@ void Matrix::createLookAt(float eyePositionX, float eyePositionY, float eyePosit
 void Matrix::createPerspective(float fieldOfView, float aspectRatio,
                                      float zNearPlane, float zFarPlane, Matrix* dst)
 {
-    GP_ASSERT(dst);
-    GP_ASSERT(zFarPlane != zNearPlane);
+    assert(dst);
+    assert(zFarPlane != zNearPlane);
 
     float f_n = 1.0f / (zFarPlane - zNearPlane);
-    float theta = Math::degreesToRadians(fieldOfView) * 0.5f;
+    float theta = fieldOfView *MathEx::Deg2Rad * 0.5f;
     if (fabs(fmod(theta, MATH_PIOVER2)) < MATH_EPSILON)
     {
         //GP_ERROR("Invalid field of view value (%d) causes attempted calculation tan(%d), which is undefined.", fieldOfView, theta);
         return;
     }
     float divisor = tan(theta);
-    GP_ASSERT(divisor);
+    assert(divisor);
     float factor = 1.0f / divisor;
 
     memset(dst, 0, MATRIX_SIZE);
 
-    GP_ASSERT(aspectRatio);
+    assert(aspectRatio);
     dst->m[0] = (1.0f / aspectRatio) * factor;
     dst->m[5] = factor;
     dst->m[10] = (-(zFarPlane + zNearPlane)) * f_n;
@@ -161,10 +161,10 @@ void Matrix::createOrthographic(float width, float height, float zNearPlane, flo
 void Matrix::createOrthographicOffCenter(float left, float right, float bottom, float top,
                                          float zNearPlane, float zFarPlane, Matrix* dst)
 {
-    GP_ASSERT(dst);
-    GP_ASSERT(right != left);
-    GP_ASSERT(top != bottom);
-    GP_ASSERT(zFarPlane != zNearPlane);
+    assert(dst);
+    assert(right != left);
+    assert(top != bottom);
+    assert(zFarPlane != zNearPlane);
 
     memset(dst, 0, MATRIX_SIZE);
     dst->m[0] = 2 / (right - left);
@@ -244,7 +244,7 @@ void Matrix::createReflection(const Plane& plane, Matrix* dst)
 */
 void Matrix::createScale(const Vector3& scale, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     memcpy(dst, MATRIX_IDENTITY, MATRIX_SIZE);
 
@@ -255,7 +255,7 @@ void Matrix::createScale(const Vector3& scale, Matrix* dst)
 
 void Matrix::createScale(float xScale, float yScale, float zScale, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     memcpy(dst, MATRIX_IDENTITY, MATRIX_SIZE);
 
@@ -267,7 +267,7 @@ void Matrix::createScale(float xScale, float yScale, float zScale, Matrix* dst)
 
 void Matrix::createRotation(const Quaternion& q, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     float x2 = q.x + q.x;
     float y2 = q.y + q.y;
@@ -306,7 +306,7 @@ void Matrix::createRotation(const Quaternion& q, Matrix* dst)
 
 void Matrix::createRotation(const Vector3& axis, float angle, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     float x = axis.x;
     float y = axis.y;
@@ -365,7 +365,7 @@ void Matrix::createRotation(const Vector3& axis, float angle, Matrix* dst)
 
 void Matrix::createRotationX(float angle, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     memcpy(dst, MATRIX_IDENTITY, MATRIX_SIZE);
 
@@ -380,7 +380,7 @@ void Matrix::createRotationX(float angle, Matrix* dst)
 
 void Matrix::createRotationY(float angle, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     memcpy(dst, MATRIX_IDENTITY, MATRIX_SIZE);
 
@@ -395,7 +395,7 @@ void Matrix::createRotationY(float angle, Matrix* dst)
 
 void Matrix::createRotationZ(float angle, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     memcpy(dst, MATRIX_IDENTITY, MATRIX_SIZE);
 
@@ -410,7 +410,7 @@ void Matrix::createRotationZ(float angle, Matrix* dst)
 
 void Matrix::createTranslation(const Vector3& translation, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     memcpy(dst, MATRIX_IDENTITY, MATRIX_SIZE);
 
@@ -421,7 +421,7 @@ void Matrix::createTranslation(const Vector3& translation, Matrix* dst)
 
 void Matrix::createTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     memcpy(dst, MATRIX_IDENTITY, MATRIX_SIZE);
 
@@ -437,7 +437,7 @@ void Matrix::add(float scalar)
 
 void Matrix::add(float scalar, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     MathUtil::addMatrix(m, scalar, dst->m);
 }
@@ -449,7 +449,7 @@ void Matrix::add(const Matrix& m)
 
 void Matrix::add(const Matrix& m1, const Matrix& m2, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     MathUtil::addMatrix(m1.m, m2.m, dst->m);
 }
@@ -497,7 +497,7 @@ bool Matrix::decompose(Vector3* scale, Quaternion* rotation, Vector3* translatio
         return true;
 
     // Scale too close to zero, can't decompose rotation.
-    if (scaleX < Math::Tolerance || scaleY < Math::Tolerance || fabs(scaleZ) < Math::Tolerance)
+    if (scaleX < MathEx::Tolerance || scaleY < MathEx::Tolerance || fabs(scaleZ) < MathEx::Tolerance)
         return false;
 
     float rn;
@@ -598,7 +598,7 @@ void Matrix::getTranslation(Vector3* translation) const
 
 void Matrix::getUpVector(Vector3* dst) const
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     dst->x = m[4];
     dst->y = m[5];
@@ -607,7 +607,7 @@ void Matrix::getUpVector(Vector3* dst) const
 
 void Matrix::getDownVector(Vector3* dst) const
 {
-    GP_ASSERT(dst);
+    assert(dst);
     
     dst->x = -m[4];
     dst->y = -m[5];
@@ -616,7 +616,7 @@ void Matrix::getDownVector(Vector3* dst) const
 
 void Matrix::getLeftVector(Vector3* dst) const
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     dst->x = -m[0];
     dst->y = -m[1];
@@ -625,7 +625,7 @@ void Matrix::getLeftVector(Vector3* dst) const
 
 void Matrix::getRightVector(Vector3* dst) const
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     dst->x = m[0];
     dst->y = m[1];
@@ -634,7 +634,7 @@ void Matrix::getRightVector(Vector3* dst) const
 
 void Matrix::getForwardVector(Vector3* dst) const
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     dst->x = -m[8];
     dst->y = -m[9];
@@ -643,7 +643,7 @@ void Matrix::getForwardVector(Vector3* dst) const
 
 void Matrix::getBackVector(Vector3* dst) const
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     dst->x = m[8];
     dst->y = m[9];
@@ -674,7 +674,7 @@ bool Matrix::invert(Matrix* dst) const
     float det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
     // Close to zero, can't invert.
-    if (fabs(det) <= Math::Tolerance)
+    if (fabs(det) <= MathEx::Tolerance)
         return false;
 
     // Support the case where m == dst.
@@ -721,7 +721,7 @@ void Matrix::multiply(float scalar, Matrix* dst) const
 
 void Matrix::multiply(const Matrix& m, float scalar, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     MathUtil::multiplyMatrix(m.m, scalar, dst->m);
 }
@@ -733,7 +733,7 @@ void Matrix::multiply(const Matrix& m)
 
 void Matrix::multiply(const Matrix& m1, const Matrix& m2, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     MathUtil::multiplyMatrix(m1.m, m2.m, dst->m);
 }
@@ -745,7 +745,7 @@ void Matrix::negate()
 
 void Matrix::negate(Matrix* dst) const
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     MathUtil::negateMatrix(m, dst->m);
 }
@@ -865,7 +865,7 @@ void Matrix::set(float m11, float m12, float m13, float m14, float m21, float m2
 
 void Matrix::set(const float* m)
 {
-    GP_ASSERT(m);
+    assert(m);
     memcpy(this->m, m, MATRIX_SIZE);
 }
 
@@ -891,14 +891,14 @@ void Matrix::subtract(const Matrix& m)
 
 void Matrix::subtract(const Matrix& m1, const Matrix& m2, Matrix* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     MathUtil::subtractMatrix(m1.m, m2.m, dst->m);
 }
 
 void Matrix::transformPoint(Vector3* point) const
 {
-    GP_ASSERT(point);
+    assert(point);
     transformVector(point->x, point->y, point->z, 1.0f, point);
 }
 
@@ -909,7 +909,7 @@ void Matrix::transformPoint(const Vector3& point, Vector3* dst) const
 
 void Matrix::transformVector(Vector3* vector) const
 {
-    GP_ASSERT(vector);
+    assert(vector);
     transformVector(vector->x, vector->y, vector->z, 0.0f, vector);
 }
 
@@ -920,20 +920,20 @@ void Matrix::transformVector(const Vector3& vector, Vector3* dst) const
 
 void Matrix::transformVector(float x, float y, float z, float w, Vector3* dst) const
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     MathUtil::transformVector4(m, x, y, z, w, (float*)dst);
 }
 
 void Matrix::transformVector(Vector4* vector) const
 {
-    GP_ASSERT(vector);
+    assert(vector);
     transformVector(*vector, vector);
 }
 
 void Matrix::transformVector(const Vector4& vector, Vector4* dst) const
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     MathUtil::transformVector4(m, (const float*) &vector, (float*)dst);
 }
@@ -967,7 +967,7 @@ void Matrix::transpose()
 
 void Matrix::transpose(Matrix* dst) const
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     MathUtil::transposeMatrix(m, dst->m);
 }

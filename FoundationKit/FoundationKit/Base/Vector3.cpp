@@ -1,4 +1,4 @@
-/**
+﻿/**
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -15,9 +15,10 @@
 
  This file was modified to fit the FoundationKit project
  */
-#include "Vector3.h"
-#include "MathEx.h"
+#include "MathContent.h"
 #include "MathUtil.h"
+#include "Vector3.h"
+
 
 NS_FK_BEGIN
 
@@ -123,7 +124,7 @@ float Vector3::angle(const Vector3& v1, const Vector3& v2)
     float dy = v1.z * v2.x - v1.x * v2.z;
     float dz = v1.x * v2.y - v1.y * v2.x;
 
-    return atan2f(sqrt(dx * dx + dy * dy + dz * dz) + Math::SmailFloat, dot(v1, v2));
+    return atan2f(sqrt(dx * dx + dy * dy + dz * dz) + MathEx::SmailFloat, dot(v1, v2));
 }
 
 void Vector3::add(const Vector3& v)
@@ -276,7 +277,7 @@ void Vector3::normalize(Vector3* dst) const
 
     n = sqrt(n);
     // Too close to zero.
-    if (n < Math::Tolerance)
+    if (n < MathEx::Tolerance)
         return;
 
     n = 1.0f / n;

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
  Copyright (c) 2015 libo All rights reserved.
  
  losemymind.libo@gmail.com
@@ -8,8 +8,10 @@
 #include "MathEx.h"
 NS_FK_BEGIN
 
+namespace MathEx
+{
 
-int Math::nextPowerOfTwo( int val )
+int nextPowerOfTwo( int val )
 {
     if (val < 0)
         return 0;
@@ -21,14 +23,14 @@ int Math::nextPowerOfTwo( int val )
     return val + 1;
 }
 
-int Math::closestPowerOfTwo( int val )
+int closestPowerOfTwo( int val )
 {
     int b = nextPowerOfTwo(val);
     int c = b / 2;
     return val - c < b - val ? c : b;
 }
 
-double Math::standardDeviation( const std::vector<double>& vec )
+double standardDeviation( const std::vector<double>& vec )
 {
     double sd = 0.0;
     double dAverage = average<double>(vec);
@@ -40,4 +42,5 @@ double Math::standardDeviation( const std::vector<double>& vec )
     return sqrt(sd);
 }
 
+} // namespace MathEx
 NS_FK_END

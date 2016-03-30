@@ -22,7 +22,7 @@ NS_FK_BEGIN
 
 void MathUtil::smooth(float* x, float target, float elapsedTime, float responseTime)
 {
-    GP_ASSERT(x);
+    assert(x);
 
     if (elapsedTime > 0)
     {
@@ -32,7 +32,7 @@ void MathUtil::smooth(float* x, float target, float elapsedTime, float responseT
 
 void MathUtil::smooth(float* x, float target, float elapsedTime, float riseTime, float fallTime)
 {
-    GP_ASSERT(x);
+    assert(x);
     
     if (elapsedTime > 0)
     {

@@ -1,4 +1,4 @@
-/**
+﻿/**
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -15,7 +15,7 @@
 
  This file was modified to fit the FoundationKit project
  */
-#include "MathEx.h"
+#include "MathContent.h"
 #include "Vector4.h"
 
 NS_FK_BEGIN
@@ -123,7 +123,7 @@ float Vector4::angle(const Vector4& v1, const Vector4& v2)
     float dy = v1.w * v2.y - v1.y * v2.w - v1.z * v2.x + v1.x * v2.z;
     float dz = v1.w * v2.z - v1.z * v2.w - v1.x * v2.y + v1.y * v2.x;
 
-    return atan2f(sqrt(dx * dx + dy * dy + dz * dz) + Math::SmailFloat, dot(v1, v2));
+    return atan2f(sqrt(dx * dx + dy * dy + dz * dz) + MathEx::SmailFloat, dot(v1, v2));
 }
 
 void Vector4::add(const Vector4& v)
@@ -281,7 +281,7 @@ void Vector4::normalize(Vector4* dst) const
 
     n = sqrt(n);
     // Too close to zero.
-    if (n < Math::Tolerance)
+    if (n < MathEx::Tolerance)
         return;
 
     n = 1.0f / n;

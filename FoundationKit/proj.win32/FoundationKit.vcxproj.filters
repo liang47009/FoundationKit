@@ -327,9 +327,6 @@
     <ClInclude Include="..\FoundationKit\Base\DictionaryTest.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\MathEx.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\MathUtil.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -343,9 +340,6 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\Value.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\ValueTest.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\Vector2.h">
@@ -383,6 +377,12 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.h">
       <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\MathContent.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\MathEx.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -533,9 +533,6 @@
     <ClCompile Include="..\FoundationKit\Base\DataStream.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Base\MathEx.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\MathUtil.cpp">
       <Filter>Base</Filter>
     </ClCompile>
@@ -568,6 +565,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\DelegateManager.cpp">
       <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\MathEx.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -28,7 +28,6 @@
 
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
-#include "FoundationKit/Base/ValueTest.h"
 #include "../../HttpClient/HttpClientTest.h"
 
 using namespace std;

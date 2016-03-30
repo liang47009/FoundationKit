@@ -1,4 +1,4 @@
-/**
+﻿/**
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -15,8 +15,10 @@
 
  This file was modified to fit the FoundationKit project
  */
+
+#include "MathContent.h"
 #include "Vector2.h"
-#include "MathEx.h"
+
 NS_FK_BEGIN
 
 Vector2 Vector2::Zero  = Vector2(0.f, 0.f);
@@ -90,7 +92,7 @@ bool Vector2::isOne() const
 float Vector2::angle(const Vector2& v1, const Vector2& v2)
 {
     float dz = v1.x * v2.y - v1.y * v2.x;
-    return atan2f(fabsf(dz) + Math::SmailFloat, dot(v1, v2));
+    return atan2f(fabsf(dz) + MathEx::SmailFloat, dot(v1, v2));
 }
 
 void Vector2::add(const Vector2& v)
@@ -208,7 +210,7 @@ void Vector2::normalize(Vector2* dst) const
 
     n = sqrt(n);
     // Too close to zero.
-    if (n < Math::Tolerance)
+    if (n < MathEx::Tolerance)
         return;
 
     n = 1.0f / n;
