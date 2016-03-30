@@ -291,6 +291,14 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
 
     // set headers
     curl_slist *curlHeaders = nullptr;
+
+    if (requestPtr->isMultipart())
+    {
+        std::string contentType = "Content-Type:multipart/form-data";
+        curlHeaders = curl_slist_append(curlHeaders, contentType.c_str());
+        curlHeaders = curl_slist_append(curlHeaders, "Expect:");
+    }
+
     HttpRequest::Headers& requestHeaders = requestPtr->getHeaders();
     for (const auto &header : requestHeaders)
     {
@@ -321,13 +329,18 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
             CURLFORM_END);
     }
 
+    curl_easy_setopt(_curl, CURLOPT_HTTPPOST, formPost);
+
     // set post fields
     HttpRequest::Fields& postFields = requestPtr->getPOSTValues();
     if (postFields.size() > 0)
     {
         std::stringbuf buf;
+        bool needAnd = false;
         for (const auto &postField : postFields)
         {
+            if (needAnd)
+                buf.sputc('&');
             char *part = curl_easy_escape(_curl, postField.first.c_str(), 0);
             buf.sputn(part, strlen(part));
             buf.sputc('=');
@@ -335,10 +348,10 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
             part = curl_easy_escape(_curl, postField.second.c_str(), 0);
             buf.sputn(part, strlen(part));
             curl_free(part);
-
-            buf.sputc('&');
+            needAnd = true;
         }
-        curl_easy_setopt(_curl, CURLOPT_COPYPOSTFIELDS, buf.str().c_str());
+        curl_easy_setopt(_curl, CURLOPT_POSTFIELDS, buf.str().c_str());
+        curl_easy_setopt(_curl, CURLOPT_POSTFIELDSIZE, buf.str().size());
     }
 
     // Commit request.
@@ -368,13 +381,18 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
     response->setResponseCookies(responseCookies.c_str());
     response->setErrorBuffer(errorBuffer);
     response->setResponseMessage(curl_easy_strerror(retCode));
+
+    /* always cleanup */
     curl_easy_cleanup(_curl);
+    //curl_multi_cleanup(_multi_handle);
     _curl = nullptr;
     if (formPost)
     {
+        /* then cleanup the formpost chain */
         curl_formfree(formPost);
         formPost = nullptr;
     }
+    /* free slist */
     curl_slist_free_all(curlHeaders);
     response->setSucceed(retCode == CURLE_OK);
     return response;

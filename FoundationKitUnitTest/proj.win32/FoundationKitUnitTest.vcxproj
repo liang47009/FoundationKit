@@ -59,7 +59,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;$(ProjectDir)/../../FoundationKit/FoundationKit/external/;../../FoundationKit/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>

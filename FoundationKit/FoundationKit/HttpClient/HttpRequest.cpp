@@ -12,6 +12,7 @@ NS_FK_BEGIN
 HttpRequest::HttpRequest()
     : _requestType(Type::GET)
     , _acceptEncode(AcceptEncode::Identity)
+    , _isMultipart(false)
 {
 
 }
@@ -48,6 +49,7 @@ HttpRequest::Headers& HttpRequest::getHeaders()
 void HttpRequest::addPOSTValue(const char *key, const char *value)
 {
     _postFields[std::string(key)] = std::string(value ? value : "");
+    _isMultipart = true;
 }
 
 HttpRequest::Fields& HttpRequest::getPOSTValues()
@@ -59,6 +61,7 @@ HttpRequest::Fields& HttpRequest::getPOSTValues()
 void HttpRequest::addFormFile(const char *name, const char *filePath)
 {
     _fileFields[std::string(name)] = std::string(filePath ? filePath : "");
+    _isMultipart = true;
 }
 
 HttpRequest::Fields& HttpRequest::getFormFiles()
@@ -70,6 +73,7 @@ HttpRequest::Fields& HttpRequest::getFormFiles()
 void HttpRequest::addFormContents(const char *name, const char *value)
 {
     _contentFields[std::string(name)] = std::string(value ? value : "");
+    _isMultipart = true;
 }
 
 HttpRequest::Fields& HttpRequest::getFormContents()

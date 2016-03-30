@@ -95,15 +95,11 @@ public:
     /** @brief Get request url. */
     inline const std::string getRequestUrl(void){ return _url; }
 
-    inline void setRequestType(Type type)
-    {
-        _requestType = type;
-    };
+    inline void setRequestType(Type type){ _requestType = type;}
 
-    inline Type getRequestType()
-    {
-        return _requestType;
-    };
+    inline Type getRequestType() {  return _requestType;}
+
+    inline bool isMultipart(){ return _isMultipart; }
 
     RequestDelegate         onRequestFinished;
     RequestProgressDelegate onProgress;
@@ -117,6 +113,7 @@ private:
     Fields              _contentFields;
     std::string         _url;
     std::string         _requestCookies;
+    bool                _isMultipart;
 };
 
 NS_FK_END

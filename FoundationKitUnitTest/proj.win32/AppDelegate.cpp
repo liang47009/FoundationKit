@@ -31,6 +31,7 @@
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
 #include "FoundationKit/Base/ValueTest.h"
+#include "../../HttpClient/HttpClientTest.h"
 
 using namespace std;
 USING_NS_FK;
@@ -53,13 +54,30 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+
+    typedef std::unordered_map<std::string, std::string>  Dictionary;
+    static  Dictionary g_uploadParameters;
+    static std::string g_reportServerAddress;
+
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
 
+
+
+    //TestHttpClientWithUploadDumpInfo();
+
+    //return true;
+
+
     std::vector<std::string> files;
     FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/ApplicationKit", files, true);
     FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/FoundationKit", files, true);
+
+    files.clear();
+
+    FileUtils::getInstance()->getFilesFromDir("E:\\GitHub\\FoundationKit\\FoundationKit\\FoundationKit", files, true);
 
     std::string result;
     std::string ext = ".cpp";
