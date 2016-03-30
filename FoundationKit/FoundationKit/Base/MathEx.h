@@ -10,13 +10,11 @@
 #ifndef LOSEMYMIND_MATHEX_H
 #define LOSEMYMIND_MATHEX_H
 
-#pragma  once
-
+#include "FoundationKit/FoundationKitDefines.h"
 #include <vector>
 #include <limits>
 #include <cmath>
 #include <algorithm>
-#include "FoundationKit/FoundationKitDefines.h"
 
 NS_FK_BEGIN
 

@@ -5,8 +5,6 @@
 #include "FoundationKit/Base/DataStream.h"
 #include "FoundationKit/Base/Data.h"
 #include "FoundationKit/Base/Buffer.h"
-#include "FoundationKit/Foundation/NotificationCenter.h"
-#include "FoundationKit/Foundation/NotificationObserver.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "FoundationKit/Foundation/Scheduler.h"
 #include "FoundationKit/Foundation/Version.h"

@@ -160,8 +160,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\FunctionCenter.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Logger.h" />
     <ClInclude Include="..\FoundationKit\Foundation\MessageQueue.h" />
-    <ClInclude Include="..\FoundationKit\Foundation\NotificationCenter.h" />
-    <ClInclude Include="..\FoundationKit\Foundation\NotificationObserver.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Scheduler.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Singleton.h" />
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h" />
@@ -248,8 +246,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Foundation\Exception.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Logger.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\MessageQueue.cpp" />
-    <ClCompile Include="..\FoundationKit\Foundation\NotificationCenter.cpp" />
-    <ClCompile Include="..\FoundationKit\Foundation\NotificationObserver.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Scheduler.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\ThreadPool.cpp" />

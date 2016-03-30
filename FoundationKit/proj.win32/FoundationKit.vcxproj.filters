@@ -13,9 +13,6 @@
     <Filter Include="FoundationKit">
       <UniqueIdentifier>{70d107ff-a362-4aa7-9bfd-8ba0cd9d78a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Foundation\Notifications">
-      <UniqueIdentifier>{f12c0944-843a-4960-ba3a-47f8cf88aeba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Events">
       <UniqueIdentifier>{7e6f3b5c-7d4c-43b1-a1f7-46a45a616e41}</UniqueIdentifier>
     </Filter>
@@ -101,12 +98,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\FoundationKitDefines.h">
       <Filter>FoundationKit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\NotificationCenter.h">
-      <Filter>Foundation\Notifications</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\NotificationObserver.h">
-      <Filter>Foundation\Notifications</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Scheduler.h">
       <Filter>Foundation</Filter>
@@ -415,12 +406,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Platform.cpp">
       <Filter>Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\NotificationCenter.cpp">
-      <Filter>Foundation\Notifications</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\NotificationObserver.cpp">
-      <Filter>Foundation\Notifications</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Scheduler.cpp">
       <Filter>Foundation</Filter>

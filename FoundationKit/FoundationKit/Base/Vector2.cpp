@@ -101,7 +101,7 @@ void Vector2::add(const Vector2& v)
 
 void Vector2::add(const Vector2& v1, const Vector2& v2, Vector2* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     dst->x = v1.x + v2.x;
     dst->y = v1.y + v2.y;
@@ -109,7 +109,7 @@ void Vector2::add(const Vector2& v1, const Vector2& v2, Vector2* dst)
 
 void Vector2::clamp(const Vector2& min, const Vector2& max)
 {
-    GP_ASSERT(!(min.x > max.x || min.y > max.y ));
+    assert(!(min.x > max.x || min.y > max.y ));
 
     // Clamp the x value.
     if (x < min.x)
@@ -126,8 +126,8 @@ void Vector2::clamp(const Vector2& min, const Vector2& max)
 
 void Vector2::clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2* dst)
 {
-    GP_ASSERT(dst);
-    GP_ASSERT(!(min.x > max.x || min.y > max.y ));
+    assert(dst);
+    assert(!(min.x > max.x || min.y > max.y ));
 
     // Clamp the x value.
     dst->x = v.x;
@@ -193,7 +193,7 @@ Vector2& Vector2::normalize()
 
 void Vector2::normalize(Vector2* dst) const
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     if (dst != this)
     {
@@ -257,7 +257,7 @@ void Vector2::set(float x, float y)
 
 void Vector2::set(const float* array)
 {
-    GP_ASSERT(array);
+    assert(array);
 
     x = array[0];
     y = array[1];
@@ -283,7 +283,7 @@ void Vector2::subtract(const Vector2& v)
 
 void Vector2::subtract(const Vector2& v1, const Vector2& v2, Vector2* dst)
 {
-    GP_ASSERT(dst);
+    assert(dst);
 
     dst->x = v1.x - v2.x;
     dst->y = v1.y - v2.y;
