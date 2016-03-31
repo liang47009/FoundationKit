@@ -144,6 +144,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Events\EventListenerTouch.h" />
     <ClInclude Include="..\FoundationKit\Events\EventMouse.h" />
     <ClInclude Include="..\FoundationKit\Events\EventTouch.h" />
+    <ClInclude Include="..\FoundationKit\Events\GameController.h" />
     <ClInclude Include="..\FoundationKit\Events\IMEDelegate.h" />
     <ClInclude Include="..\FoundationKit\Events\IMEDispatcher.h" />
     <ClInclude Include="..\FoundationKit\Events\KeyboardExampleWindows.h" />
@@ -234,6 +235,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Events\EventListenerTouch.cpp" />
     <ClCompile Include="..\FoundationKit\Events\EventMouse.cpp" />
     <ClCompile Include="..\FoundationKit\Events\EventTouch.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\GameController.cpp" />
     <ClCompile Include="..\FoundationKit\Events\IMEDispatcher.cpp" />
     <ClCompile Include="..\FoundationKit\Events\KeyboardExampleWindows.cpp" />
     <ClCompile Include="..\FoundationKit\Events\Touch.cpp" />

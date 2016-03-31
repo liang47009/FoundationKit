@@ -8,10 +8,11 @@
 #define FoundationKit_utility_H
 
 #pragma once
-#include "FoundationKit/FoundationKitDefines.h"
+#include <map>
+#include <memory>
 #include <utility>
 #include <unordered_map>
-#include <map>
+#include "FoundationKit/FoundationKitDefines.h"
 #include "std_wrapper.h"
 
 _STD_BEGIN

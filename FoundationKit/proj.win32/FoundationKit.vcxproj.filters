@@ -384,6 +384,9 @@
     <ClInclude Include="..\FoundationKit\Base\MathEx.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Events\GameController.h">
+      <Filter>Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -568,6 +571,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\MathEx.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Events\GameController.cpp">
+      <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -23,8 +23,7 @@ _STD_BEGIN
 class any
 {
 public:
-    any() _NOEXCEPT
-        : content(0)
+    any()noexcept : content(0)
     {
     }
 
@@ -42,7 +41,7 @@ public:
     }
 
     // Move constructor
-    any(any&& other) _NOEXCEPT
+    any(any&& other) noexcept
         : content(other.content)
     {
         other.content = 0;
@@ -58,14 +57,14 @@ public:
     }
 
 
-    ~any() _NOEXCEPT
+    ~any() noexcept
     {
         delete content;
     }
 
 public: // modifiers
 
-    any & swap(any & rhs) _NOEXCEPT
+    any & swap(any & rhs) noexcept
     {
         std::swap(content, rhs.content);
         return *this;
@@ -78,7 +77,7 @@ public: // modifiers
     }
 
     // move assignement
-    any & operator=(any&& rhs) _NOEXCEPT
+    any & operator=(any&& rhs) noexcept
     {
         rhs.swap(*this);
         any().swap(rhs);
@@ -95,17 +94,17 @@ public: // modifiers
 
 public: // queries
 
-    bool empty() const _NOEXCEPT
+    bool empty() const noexcept
     {
         return !content;
     }
 
-    void clear() _NOEXCEPT
+    void clear() noexcept
     {
         any().swap(*this);
     }
 
-    const std::type_info& type() const _NOEXCEPT
+    const std::type_info& type() const noexcept
     {
         return content ? content->type() : typeid(void);
     }
@@ -126,7 +125,7 @@ private: // types
 
     public: // queries
 
-        virtual const std::type_info& type() const _NOEXCEPT = 0;
+        virtual const std::type_info& type() const noexcept = 0;
 
         virtual placeholder * clone() const = 0;
 
@@ -148,7 +147,7 @@ private: // types
         }
     public: // queries
 
-        virtual const std::type_info& type() const _NOEXCEPT
+        virtual const std::type_info& type() const noexcept
         {
             return typeid(ValueType);
         }
@@ -171,10 +170,10 @@ private: // types
 private: // representation
 
     template<typename ValueType>
-    friend ValueType * any_cast(any *) _NOEXCEPT;
+    friend ValueType * any_cast(any *) noexcept;
 
     template<typename ValueType>
-    friend ValueType * unsafe_any_cast(any *) _NOEXCEPT;
+    friend ValueType * unsafe_any_cast(any *) noexcept;
 
 //#else
 
@@ -186,7 +185,7 @@ private: // representation
 
 };
 
-inline void swap(any & lhs, any & rhs) _NOEXCEPT
+inline void swap(any & lhs, any & rhs) noexcept
 {
     lhs.swap(rhs);
 }
@@ -195,14 +194,14 @@ class  bad_any_cast : public std::bad_cast
 
 {
 public:
-    virtual const char * what() const _NOEXCEPT
+    virtual const char * what() const noexcept
     {
         return "bad_any_cast: failed conversion using any_cast";
     }
 };
 
 template<typename ValueType>
-ValueType * any_cast(any * operand) _NOEXCEPT
+ValueType * any_cast(any * operand) noexcept
 {
     return operand && operand->type() == typeid(ValueType)
     ? &static_cast<any::holder<typename std::remove_cv<ValueType>::type> *>(operand->content)->held
@@ -210,7 +209,7 @@ ValueType * any_cast(any * operand) _NOEXCEPT
 }
 
 template<typename ValueType>
-inline const ValueType * any_cast(const any * operand) _NOEXCEPT
+inline const ValueType * any_cast(const any * operand) noexcept
 {
     return any_cast<ValueType>(const_cast<any *>(operand));
 }
@@ -264,13 +263,13 @@ inline ValueType any_cast(any&& operand)
 // use typeid() comparison, e.g., when our types may travel across
 // different shared libraries.
 template<typename ValueType>
-inline ValueType * unsafe_any_cast(any * operand) _NOEXCEPT
+inline ValueType * unsafe_any_cast(any * operand) noexcept
 {
     return &static_cast<any::holder<ValueType> *>(operand->content)->held;
 }
 
 template<typename ValueType>
-inline const ValueType* unsafe_any_cast(const any * operand) _NOEXCEPT
+inline const ValueType* unsafe_any_cast(const any * operand) noexcept
 {
     return unsafe_any_cast<ValueType>(const_cast<any *>(operand));
 }

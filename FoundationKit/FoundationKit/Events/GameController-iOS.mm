@@ -1,8 +1,8 @@
 
-#include "Controller.h"
-#include "FoundationKit/Events/EventController.h"
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_IOS)
+#include "GameController.h"
 
+#if (FK_TARGET_PLATFORM == FK_PLATFORM_IOS)
+#include "FoundationKit/Events/EventController.h"
 #import <GameController/GameController.h>
 
 @interface GCControllerConnectionEventHandler : NSObject

@@ -1,7 +1,6 @@
+
 #ifndef FoundationKit_EventDispatcher_H
 #define FoundationKit_EventDispatcher_H
-
-
 
 #include <functional>
 #include <string>

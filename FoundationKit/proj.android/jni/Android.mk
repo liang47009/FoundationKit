@@ -3,9 +3,9 @@ include $(CLEAR_VARS)
 
 $(call import-add-path,$(LOCAL_PATH)/../../FoundationKit)
 
-ifeq (armeabi-v7a,$(TARGET_ARCH_ABI))
-LOCAL_ARM_NEON := true
-endif
+#ifeq (armeabi-v7a,$(TARGET_ARCH_ABI))
+#LOCAL_ARM_NEON := true
+#endif
 
 LOCAL_MODULE := foundationkit
 LOCAL_MODULE_FILENAME := libfoundationkit
@@ -40,6 +40,8 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/Events/EventListenerTouch.cpp \
 ../../FoundationKit/Events/EventMouse.cpp \
 ../../FoundationKit/Events/EventTouch.cpp \
+../../FoundationKit/Events/GameController.cpp \
+../../FoundationKit/Events/GameController-android.cpp \
 ../../FoundationKit/Events/IMEDispatcher.cpp \
 ../../FoundationKit/Events/Touch.cpp \
 ../../FoundationKit/external/ConvertUTF/ConvertUTF.c \
@@ -56,8 +58,6 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/Foundation/ThreadPool.cpp \
 ../../FoundationKit/Foundation/Version.cpp \
 ../../FoundationKit/Foundation/WorkQueue.cpp \
-../../FoundationKit/GameController/Controller-android.cpp \
-../../FoundationKit/GameController/Controller.cpp \
 ../../FoundationKit/HttpClient/HttpClient.cpp \
 ../../FoundationKit/HttpClient/HttpRequest.cpp \
 ../../FoundationKit/HttpClient/MimeTypes.cpp \

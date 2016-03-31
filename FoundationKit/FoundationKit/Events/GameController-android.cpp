@@ -1,6 +1,6 @@
 
 
-#include "Controller.h"
+#include "GameController.h"
 
 #if (FK_TARGET_PLATFORM == FK_PLATFORM_ANDROID)
 

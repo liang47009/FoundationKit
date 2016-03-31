@@ -1,7 +1,7 @@
 
 #include "EventListenerController.h"
 #include "EventController.h"
-#include "FoundationKit/GameController/Controller.h"
+#include "GameController.h"
 
 NS_FK_BEGIN
 

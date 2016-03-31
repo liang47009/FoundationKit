@@ -46,7 +46,7 @@
 #error  "C++ Version is not support."
 #endif 
 
-#if (CPP_TARGET_VERSION < CPP_VERSION_14)
+#if (CPP_TARGET_VERSION < CPP_VERSION_14) && defined(_MSC_VER)
 #define constexpr // constexpr support by c++14
 #define noexcept  // noexcept support by c++14
 #endif
