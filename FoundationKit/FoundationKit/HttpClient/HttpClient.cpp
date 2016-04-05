@@ -11,7 +11,6 @@ losemymind.libo@gmail.com
 #include <sstream>
 #include <iostream>
 #include "FoundationKit/Foundation/Logger.h"
-#include "FoundationKit/Foundation/Scheduler.h"
 
 NS_FK_BEGIN
 
@@ -149,7 +148,8 @@ void HttpClient::networkThread()
             _responseQueue.push_back(response);
             _responseQueueMutex.unlock();
 
-            Scheduler::getInstance()->performFunctionInMainThread([&]
+            _performMutex.lock();
+            _functionsToPerform.push_back([&]
             {
                 if (!_responseQueue.empty())
                 {
@@ -165,6 +165,7 @@ void HttpClient::networkThread()
                     }
                 }
             });
+            _performMutex.unlock();
         }
         else
         {
@@ -172,21 +173,6 @@ void HttpClient::networkThread()
         }
     }
 }
-
-HttpRequest::Pointer HttpClient::getRequest()
-{
-    std::unique_lock<std::mutex> lock(_requestQueueMutex);
-    _requestQueueNotEmpty.wait(lock, [&]{return !_running || !_requestQueue.empty(); });
-    HttpRequest::Pointer requestPtr(nullptr);
-    if (!_requestQueue.empty())
-    {
-        requestPtr = _requestQueue.front();
-        _requestQueue.pop_front();
-    }
-    return requestPtr;
-}
-
-
 
 void HttpClient::setTimeoutForConnect(int value)
 {
@@ -208,6 +194,29 @@ int HttpClient::getTimeoutForRead()
     return _timeoutForRead;
 }
 
+void HttpClient::setDebugMode(bool debugMode)
+{
+    _isDebug = debugMode;
+}
+
+void HttpClient::update(float deltaTime)
+{
+    __unused_arg(deltaTime);
+    // Testing size is faster than locking / unlocking.
+    // And almost never there will be functions scheduled to be called.
+    if (!_functionsToPerform.empty()) 
+    {
+        _performMutex.lock();
+        auto temp = _functionsToPerform;
+        _functionsToPerform.clear();
+        _performMutex.unlock();
+        for (const auto &fun : temp) 
+        {
+            fun();
+        }
+    }
+}
+
 HttpResponse::Pointer HttpClient::sendRequest(HttpRequest::Pointer requestPtr)
 {
     return processRequest(requestPtr);
@@ -218,6 +227,19 @@ void HttpClient::sendRequestAsync(HttpRequest::Pointer requestPtr)
     std::lock_guard<std::mutex> lock(_requestQueueMutex);
     _requestQueue.push_back(requestPtr);
     _requestQueueNotEmpty.notify_one();
+}
+
+HttpRequest::Pointer HttpClient::getRequest()
+{
+    std::unique_lock<std::mutex> lock(_requestQueueMutex);
+    _requestQueueNotEmpty.wait(lock, [&]{return !_running || !_requestQueue.empty(); });
+    HttpRequest::Pointer requestPtr(nullptr);
+    if (!_requestQueue.empty())
+    {
+        requestPtr = _requestQueue.front();
+        _requestQueue.pop_front();
+    }
+    return requestPtr;
 }
 
 HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr)
@@ -399,10 +421,6 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
 }
 
 
-void HttpClient::setDebugMode(bool debugMode)
-{
-    _isDebug = debugMode;
-}
 
 
 NS_FK_END

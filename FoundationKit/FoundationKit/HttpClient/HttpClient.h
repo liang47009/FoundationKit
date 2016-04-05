@@ -64,6 +64,8 @@ public:
 
     void setDebugMode(bool debugMode);
 
+    void update(float deltaTime);
+
 protected:
 
     bool lazyInitThread();
@@ -87,6 +89,10 @@ private:
     ThreadList              _threadList;
 
     static std::once_flag   _callOnceFlag;
+
+    // Used for "perform Function"
+    std::vector<std::function<void()>> _functionsToPerform;
+    std::mutex _performMutex;
 
 };
 
