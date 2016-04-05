@@ -18,7 +18,6 @@
 #include <jni.h>
 #include <android/log.h>
 #include <stdio.h>
-#include "FoundationKit/Platform/Android/AndroidJNIHelper.h"
 #include "FoundationKit/Platform/Android/AndroidSystemInfo.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Platform/Android/AndroidTest.h"
@@ -41,7 +40,7 @@ extern "C"{
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
-	LOGD("============== >>>>> JNI_OnLoad");
+	ANDROID_LOGD("============== >>>>> JNI_OnLoad");
 	AndroidJNIHelper::getInstance()->setJavaVM(vm);
 	//initAndroidCrashDump();
     return JNI_VERSION_1_4;
@@ -62,20 +61,20 @@ void testFunctionCache()
 {
     Timer t1;
      auto v1 = noCache(45);
-     LOGD("=========== noCache value:%d run time:%lld", v1, t1.elapsed_seconds());
+     ANDROID_LOGD("=========== noCache value:%d run time:%lld", v1, t1.elapsed_seconds());
      Timer t2;
      auto v2 = hasCache(45);
-     LOGD("=========== hasCache value:%d run time:%lld", v2, t2.elapsed_seconds());
+     ANDROID_LOGD("=========== hasCache value:%d run time:%lld", v2, t2.elapsed_seconds());
 }
     
 
 JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
 {
-    LOG_TRACE("============== >>>>> foundationInit");
+    ANDROID_LOGD("============== >>>>> foundationInit");
     std::string macaddress = AndroidSystemInfo::getInstance()->getMacAddress();
-    LOG_TRACE("============== >>>>> macaddress = %s",macaddress.c_str());
+    ANDROID_LOGD("============== >>>>> macaddress = %s",macaddress.c_str());
     std::string deviceid = AndroidSystemInfo::getInstance()->getDeviceId();
-    LOG_TRACE("============== >>>>> deviceid = %s",deviceid.c_str());
+    ANDROID_LOGD("============== >>>>> deviceid = %s",deviceid.c_str());
 
     testJavaString();
 
