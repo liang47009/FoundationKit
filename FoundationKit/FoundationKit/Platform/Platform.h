@@ -6,7 +6,6 @@ losemymind.libo@gmail.com
 ****************************************************************************/
 #pragma once
 #include "FoundationKit/FoundationKitDefines.h"
-#include "FoundationKit/Events/EventKeyboard.h"
 NS_FK_BEGIN
 
 enum class CPU_TYPE
