@@ -280,7 +280,7 @@ Data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::strin
     return retData;
 }
 
-bool FileUtils::writeStringToFile(std::string dataStr, const std::string& fullPath)
+bool FileUtils::writeStringToFile(const std::string& dataStr, const std::string& fullPath)
 {
     Data retData;
     retData.copy((unsigned char*)dataStr.c_str(), dataStr.size());
