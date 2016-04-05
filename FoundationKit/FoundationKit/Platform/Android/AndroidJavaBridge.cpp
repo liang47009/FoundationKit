@@ -1,6 +1,5 @@
 #include <jni.h>
 #include "FoundationKit/Foundation/FunctionCenter.hpp"
-#include "AndroidJavaObject.h"
 #include "AndroidJavaBridge.h"
 
 using namespace FoundationKit;
@@ -31,12 +30,12 @@ extern "C"
     JNIEXPORT void JNICALL Java_com_losemymind_foundationkit_AndroidJavaBridge_nativeInvoke(JNIEnv* env, 
         jobject obj, jstring funName, jstring argSig, jobjectArray args)
     {
-        std::string strFunName = AndroidJNIHelper::getInstance()->jstring2string(funName);
-        std::string strArgSig  = AndroidJNIHelper::getInstance()->jstring2string(argSig);
+        std::string strFunName = AndroidJNI::jstring2string(funName);
+        std::string strArgSig  = AndroidJNI::jstring2string(argSig);
         size_t count = strArgSig.size();
-        LOGD("======= nativeInvoke Method strFunName:%s", strFunName.c_str());
-        LOGD("======= nativeInvoke Method strArgSig:%s", strArgSig.c_str());
-        LOGD("======= nativeInvoke Method argcount:%d", count);
+        ANDROID_LOGD("======= nativeInvoke Method strFunName:%s", strFunName.c_str());
+        ANDROID_LOGD("======= nativeInvoke Method strArgSig:%s", strArgSig.c_str());
+        ANDROID_LOGD("======= nativeInvoke Method argcount:%d", count);
         std::vector<AndroidJavaObject>  arguments;
         jsize arrLen = env->GetArrayLength(args);
         for(size_t i = 0; i < arrLen; ++i)

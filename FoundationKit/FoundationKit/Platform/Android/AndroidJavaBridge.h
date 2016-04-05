@@ -3,9 +3,11 @@
 
 #pragma once
 #include <vector>
-#include "AndroidJavaObject.h"
+#include "AndroidJNI/AndroidJavaObject.h"
 
 NS_FK_BEGIN
+
+using namespace AndroidNode;
 
 namespace Android
 {

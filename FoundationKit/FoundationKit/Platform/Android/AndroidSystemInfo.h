@@ -2,7 +2,6 @@
 #define __ANDROIDSYSTEMINFO_H__
 #include <unordered_map>
 #include <string>
-#include "AndroidJNIHelper.h"
 #include "FoundationKit/Foundation/Singleton.h"
 NS_FK_BEGIN
 class AndroidSystemInfo: public Singleton<AndroidSystemInfo>

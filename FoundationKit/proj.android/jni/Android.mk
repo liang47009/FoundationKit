@@ -68,10 +68,7 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/LuaEngine/LuaStack.cpp \
 ../../FoundationKit/LuaEngine/LuaValue.cpp \
 ../../FoundationKit/LuaEngine/Script.cpp \
-../../FoundationKit/Platform/Android/AndroidFunctional.cpp \
 ../../FoundationKit/Platform/Android/AndroidJavaBridge.cpp \
-../../FoundationKit/Platform/Android/AndroidJavaObject.cpp \
-../../FoundationKit/Platform/Android/AndroidJNIHelper.cpp \
 ../../FoundationKit/Platform/Android/AndroidSystemInfo.cpp \
 ../../FoundationKit/Platform/Android/FileUtils_android.cpp \
 ../../FoundationKit/Platform/Android/PlatformAndroid.cpp \
@@ -94,12 +91,16 @@ LOCAL_EXPORT_LDLIBS := -llog \
                        -lz \
                        -landroid
 
-LOCAL_WHOLE_STATIC_LIBRARIES := libluajit_static
+LOCAL_WHOLE_STATIC_LIBRARIES += androidjni
+LOCAL_WHOLE_STATIC_LIBRARIES += libluajit_static
 LOCAL_WHOLE_STATIC_LIBRARIES += libcurl_static
+
 
 include $(BUILD_STATIC_LIBRARY)
 #==============================================================
+$(call import-module,Platform/Android/AndroidJNI)
 $(call import-module,external/android)
+
 
 $(info ----------------- Compile libfoundationkit infomation -------------------)
 $(info TARGET_ARCH     = $(TARGET_ARCH))
