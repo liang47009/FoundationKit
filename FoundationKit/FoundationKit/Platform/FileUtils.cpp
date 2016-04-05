@@ -321,6 +321,51 @@ std::string FileUtils::getFileExtension(const std::string& filePath) const
     return fileExtension;
 }
 
+std::string FileUtils::getFileName(const std::string& filePath)const
+{
+    std::string fileName = "";
+    if (!isDirectory(filePath))
+    {
+        size_t pos = filePath.find_last_of("/");
+        if (pos != std::string::npos)
+        {
+            fileName = filePath.substr(pos + 1);
+        }
+    }
+    return fileName;
+}
+
+std::string FileUtils::getFileNameWithoutSuffix(const std::string& filePath)const
+{
+    std::string fileName = "";
+    if (!isDirectory(filePath))
+    {
+        size_t posStart = filePath.find_last_of("/");
+        size_t posEnd = filePath.find_last_of(".");
+        if (posEnd == std::string::npos)
+            posEnd = filePath.size() - 1;
+        if (posStart != std::string::npos)
+        {
+            fileName = filePath.substr(posStart + 1, posEnd - posStart-1);
+        }
+    }
+    return fileName;
+}
+
+std::string FileUtils::getFilePathWithoutFileName(const std::string& filePath)const
+{
+    std::string fileDir = "";
+    if (!isDirectory(filePath))
+    {
+        size_t pos = filePath.find_last_of("/");
+        if (pos != std::string::npos)
+        {
+            fileDir = filePath.substr(0, pos + 1);
+        }
+    }
+    return fileDir;
+}
+
 long FileUtils::getFileSize(const std::string &filepath)const
 {
     FKASSERT(!filepath.empty(), "Invalid path");
