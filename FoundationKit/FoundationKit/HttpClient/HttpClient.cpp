@@ -144,28 +144,16 @@ void HttpClient::networkThread()
         if (requestPtr != nullptr)
         {
             HttpResponse::Pointer response = processRequest(requestPtr);
-            _responseQueueMutex.lock();
-            _responseQueue.push_back(response);
-            _responseQueueMutex.unlock();
-
-            _performMutex.lock();
-            _functionsToPerform.push_back([&]
+            if (requestPtr->isCallbackInThread() && requestPtr->onRequestFinished)
             {
-                if (!_responseQueue.empty())
-                {
-                    _responseQueueMutex.lock();
-                    auto temp = _responseQueue;
-                    _responseQueue.clear();
-                    _responseQueueMutex.unlock();
-                    for (const auto &responsePtr : temp)
-                    {
-                        auto fun = responsePtr->getHttpRequest()->onRequestFinished;
-                        if (fun)
-                            fun(responsePtr);
-                    }
-                }
-            });
-            _performMutex.unlock();
+                requestPtr->onRequestFinished(response);
+            }
+            else
+            {
+                _responseQueueMutex.lock();
+                _responseQueue.push_back(response);
+                _responseQueueMutex.unlock();
+            }
         }
         else
         {
@@ -202,17 +190,18 @@ void HttpClient::setDebugMode(bool debugMode)
 void HttpClient::update(float deltaTime)
 {
     __unused_arg(deltaTime);
-    // Testing size is faster than locking / unlocking.
-    // And almost never there will be functions scheduled to be called.
-    if (!_functionsToPerform.empty()) 
+
+    if (!_responseQueue.empty())
     {
-        _performMutex.lock();
-        auto temp = _functionsToPerform;
-        _functionsToPerform.clear();
-        _performMutex.unlock();
-        for (const auto &fun : temp) 
+        _responseQueueMutex.lock();
+        auto temp = _responseQueue;
+        _responseQueue.clear();
+        _responseQueueMutex.unlock();
+        for (const auto &responsePtr : temp)
         {
-            fun();
+            auto fun = responsePtr->getHttpRequest()->onRequestFinished;
+            if (fun)
+                fun(responsePtr);
         }
     }
 }

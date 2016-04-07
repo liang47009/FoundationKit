@@ -36,8 +36,7 @@ public:
     // @param[4]   Now   upload size.
     using RequestProgressDelegate = std::function < void(double, double, double, double) > ;
 
-
-    /**
+   /**
     * The HttpRequest type enum used in the HttpRequest::setRequestType.
     */
     enum class Type
@@ -87,8 +86,6 @@ public:
     void setAcceptEncoding(AcceptEncode acceptEncoding);
     std::string getAcceptEncodingString();
 
-
-
     /** @brief Set request url. */
     inline void setRequestUrl(const char *url){ _url = url; }
 
@@ -100,6 +97,11 @@ public:
     inline Type getRequestType() {  return _requestType;}
 
     inline bool isMultipart(){ return _isMultipart; }
+
+    // if callback in thread, used asynchronous request, 
+    // the onRequestFinished is called in the thread.
+    inline void callbackInThread(){ _callbackInThread = true; }
+    inline bool isCallbackInThread(){ return _callbackInThread; }
 
     RequestDelegate         onRequestFinished;
     RequestProgressDelegate onProgress;
@@ -114,6 +116,7 @@ private:
     std::string         _url;
     std::string         _requestCookies;
     bool                _isMultipart;
+    bool                _callbackInThread;
 };
 
 NS_FK_END
