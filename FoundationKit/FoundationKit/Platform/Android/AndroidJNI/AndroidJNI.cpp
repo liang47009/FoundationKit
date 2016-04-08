@@ -36,14 +36,32 @@ void AndroidJNI::initializeJavaEnv(JavaVM* vm, jint version, jobject activityIns
         CurrentJavaVersion = version;
         MainActivityRef = activityInstance;
 
-        JNIEnv* Env = AndroidJNI::getJavaEnv();
-        jclass MainClass = Env->GetObjectClass(activityInstance);
-        jclass classClass = Env->FindClass("java/lang/Class");
-        jclass classLoaderClass = Env->FindClass("java/lang/ClassLoader");
-        jmethodID getClassLoaderMethod = Env->GetMethodID(classClass, "getClassLoader", "()Ljava/lang/ClassLoader;");
-        jobject classLoader = Env->CallObjectMethod(MainClass, getClassLoaderMethod);
-        ClassLoader = Env->NewGlobalRef(classLoader);
-        FindClassMethod = Env->GetMethodID(classLoaderClass, "findClass", "(Ljava/lang/String;)Ljava/lang/Class;");
+        JNIEnv* env = AndroidJNI::getJavaEnv();
+        jclass classLoaderClass = env->FindClass("java/lang/ClassLoader");
+
+        if (activityInstance)
+        {
+            jclass classClass = env->FindClass("java/lang/Class");
+            jmethodID classLoaderMethod = env->GetMethodID(classClass, "getClassLoader", "()Ljava/lang/ClassLoader;");
+            jclass MainClass = env->GetObjectClass(activityInstance);
+            jobject classLoader = env->CallObjectMethod(MainClass, classLoaderMethod);
+            ClassLoader = env->NewGlobalRef(classLoader);
+        }
+        else
+        {
+            jmethodID classLoaderMethod = env->GetStaticMethodID(classLoaderClass, "getSystemClassLoader", "()Ljava/lang/ClassLoader;");
+            jobject classLoader = env->CallStaticObjectMethod(classLoaderClass, classLoaderMethod);
+            ClassLoader = env->NewGlobalRef(classLoader);
+        }
+
+        // The old version of the DexClassLoader SDK has the findClass method, 
+        // the new version of SDK is the loadClass method
+        FindClassMethod = env->GetMethodID(classLoaderClass, "loadClass", "(Ljava/lang/String;)Ljava/lang/Class;");
+        if (FindClassMethod == nullptr)
+        {
+            FindClassMethod = env->GetMethodID(classLoaderClass, "findClass", "(Ljava/lang/String;)Ljava/lang/Class;");
+        }
+        
     }
 }
 
@@ -98,10 +116,10 @@ jclass AndroidJNI::findJavaClass(const char* name)
     }
     std::string className(name);
     std::replace(className.begin(), className.end(), '.', '/');
-    jstring ClassNameObj = env->NewStringUTF(className.c_str());
-    jclass FoundClass = static_cast<jclass>(env->CallObjectMethod(ClassLoader, FindClassMethod, ClassNameObj));
+    jstring jclassName = env->NewStringUTF(className.c_str());
+    jclass FoundClass = static_cast<jclass>(env->CallObjectMethod(ClassLoader, FindClassMethod, jclassName));
     AndroidJNI::checkJavaException();
-    env->DeleteLocalRef(ClassNameObj);
+    env->DeleteLocalRef(jclassName);
     return FoundClass;
 } 
 
