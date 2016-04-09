@@ -98,7 +98,7 @@ float Platform::getProcessMemory()
         return 0.0f;
     }
 
-    auto parseNumber = []->int(char* line)
+    auto parseNumber = [](char* line)->int
     {
         int i = strlen(line);
         while (*line < '0' || *line > '9') line++;
@@ -178,7 +178,7 @@ std::string Platform::getOperatingSystemVersion()
 
 std::string Platform::getCPUArchitecture()
 {
-    return getSystemProperty("ro.product.cpu.abi");
+    return PlatformHelper::getSystemProperty("ro.product.cpu.abi");
 }
 
 NS_FK_END
