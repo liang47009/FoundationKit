@@ -34,15 +34,15 @@ public:
     static float getProcessMemory();
 
 
-    std::string getMacAddress();
+    static std::string getMacAddress();
 
-    std::string getDeviceId();
+    static std::string getDeviceId();
 
-    std::string getDeviceName();
+    static std::string getDeviceName();
 
-    std::string getOperatingSystemVersion();
+    static std::string getOperatingSystemVersion();
 
-    std::string getCPUArchitecture();
+    static std::string getCPUArchitecture();
 
 };
 
