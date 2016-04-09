@@ -23,15 +23,26 @@ public:
 	Platform();
 	~Platform();
 
-	// MemoryUsage
-	// KB
-	static int getTotalMemory();
+	// MB
+	static float getTotalMemory();
 
-	// KB
-	static int getUsedMemory();
+	// MB
+    static float getFreeMemory();
 
-	// KB
-	static int getProcessMemory();
+	// MB
+    static float getProcessMemory();
+
+
+    std::string getMacAddress();
+
+    std::string getDeviceId();
+
+    std::string getDeviceName();
+
+    std::string getOperatingSystemVersion();
+
+    std::string getCPUArchitecture();
+
 };
 
 NS_FK_END
