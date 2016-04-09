@@ -17,6 +17,10 @@
 #include <Windows.h>
 #endif
 
+#if (FK_TARGET_PLATFORM==FK_PLATFORM_IOS)
+#define MINIZIP_FROM_SYSTEM
+#endif
+
 NS_FK_BEGIN
 
 static Data getData(const std::string& filename, bool forString)
