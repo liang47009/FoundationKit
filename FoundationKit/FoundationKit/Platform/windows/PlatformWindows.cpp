@@ -10,8 +10,18 @@ losemymind.libo@gmail.com
 #include <psapi.h>
 #include "FoundationKit/FoundationKitDefines.h"
 #include "FoundationKit/Platform/Platform.h"
+#include "FoundationKit/Foundation/Logger.h"
+#pragma   comment(lib,"Psapi.lib")
 
-USING_NS_FK;
+NS_FK_BEGIN
+
+
+class PlatformHelper
+{
+public:
+
+};
+
 
 
 float Platform::getTotalMemory()
@@ -52,17 +62,71 @@ std::string Platform::getMacAddress()
 
 std::string Platform::getDeviceId()
 {
-    return "";
+    char value[255] = {0};
+    DWORD BufferSize = 255;
+    HKEY key = NULL;
+    auto result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key);
+    if (NO_ERROR != result)
+    {
+        result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE | KEY_WOW64_32KEY, &key);
+    }
+    if (NO_ERROR != result)
+    {
+        LOG_ERROR("===== Cannot open regedit");
+        return "";
+    }
+    result = RegGetValueA(key, "", "ProductId", RRF_RT_ANY, NULL, (PVOID)&value, &BufferSize);
+    if (NO_ERROR != result)
+    {
+        LOG_ERROR("===== Cannot get regedit value for key:ProductId");
+    }
+    return value;
 }
 
 std::string Platform::getDeviceName()
 {
-    return "";
+    char value[255] = { 0 };
+    DWORD BufferSize = 255;
+    HKEY key = NULL;
+    auto result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key);
+    if (NO_ERROR != result)
+    {
+        result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE | KEY_WOW64_32KEY, &key);
+    }
+    if (NO_ERROR != result)
+    {
+        LOG_ERROR("===== Cannot open regedit");
+        return "";
+    }
+    result = RegGetValueA(key, "", "ProductName", RRF_RT_ANY, NULL, (PVOID)&value, &BufferSize);
+    if (NO_ERROR != result)
+    {
+        LOG_ERROR("===== Cannot get regedit value for key:ProductName");
+    }
+    return value;
 }
 
 std::string Platform::getOperatingSystemVersion()
 {
-    return "";
+    char value[255] = { 0 };
+    DWORD BufferSize = 255;
+    HKEY key = NULL;
+    auto result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key);
+    if (NO_ERROR != result)
+    {
+        result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE | KEY_WOW64_32KEY, &key);
+    }
+    if (NO_ERROR != result)
+    {
+        LOG_ERROR("===== Cannot open regedit");
+        return "";
+    }
+    result = RegGetValueA(key, "", "CurrentVersion", RRF_RT_ANY, NULL, (PVOID)&value, &BufferSize);
+    if (NO_ERROR != result)
+    {
+        LOG_ERROR("===== Cannot get regedit value for key:CurrentVersion");
+    }
+    return value;
 }
 
 std::string Platform::getCPUArchitecture()
@@ -70,7 +134,15 @@ std::string Platform::getCPUArchitecture()
     return "";
 }
 
-
-
+NS_FK_END
 
 #endif
+
+
+
+
+
+
+
+
+
