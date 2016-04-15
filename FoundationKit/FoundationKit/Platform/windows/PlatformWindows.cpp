@@ -14,18 +14,10 @@ losemymind.libo@gmail.com
 #include "FoundationKit/Foundation/StringUtils.h"
 #pragma   comment(lib,"Psapi.lib")
 
-// for getMacAddressUseUuidCreate
-#include <rpc.h>
-#include <rpcdce.h>
-#pragma comment(lib, "rpcrt4.lib")
-
 // for getMacAddressUseGetAdaptersInfo
 #include <Iphlpapi.h>
 #pragma comment(lib, "iphlpapi.lib")
 
-// for getMacAddressUseNetBIOS
-#include <lm.h>
-#pragma comment(lib, "Netapi32.lib")
 
 NS_FK_BEGIN
 
@@ -71,67 +63,8 @@ float Platform::getProcessMemory()
 
 std::string Platform::getMacAddress()
 {
-    auto getMacAddressUseUuidCreate = []()
-    {
-        unsigned char MACData[6] = { 0 };
-        UUID uuid;
-        UuidCreateSequential(&uuid);    // Ask OS to create UUID
-        for (int i = 2; i < 8; i++)  // Bytes 2 through 7 inclusive  are MAC address
-            MACData[i - 2] = uuid.Data4[i];
-
-        return StringUtils::format("%02X-%02X-%02X-%02X-%02X-%02X", 
-            MACData[0], MACData[1], MACData[2], MACData[3], MACData[4], MACData[5]);
-    };
-
-    auto getMacAddressUseNetBIOS = []()\
-    {
-        unsigned char MACData[6] = {0};      // Allocate data structure 
-        // for MAC (6 bytes needed)
-
-        WKSTA_TRANSPORT_INFO_0 *pwkti; // Allocate data structure 
-        // for NetBIOS
-        DWORD dwEntriesRead;
-        DWORD dwTotalEntries;
-        BYTE *pbBuffer;
-
-        // Get MAC address via NetBIOS's enumerate function
-        NET_API_STATUS dwStatus = NetWkstaTransportEnum(
-            NULL,                 // [in]  server name
-            0,                    // [in]  data structure to return
-            &pbBuffer,            // [out] pointer to buffer
-            MAX_PREFERRED_LENGTH, // [in]  maximum length
-            &dwEntriesRead,       // [out] counter of elements 
-            //       actually enumerated
-            &dwTotalEntries,      // [out] total number of elements 
-            //       that could be enumerated
-            NULL);                // [in/out] resume handle
-        assert(dwStatus == NERR_Success);
-
-        pwkti = (WKSTA_TRANSPORT_INFO_0 *)pbBuffer; // type cast the buffer
-
-        std::string macAddr;
-        for (DWORD i = 0; i < dwEntriesRead; i++)  // first address is
-            // 00000000, skip it
-        {                                         // enumerate MACs & print
-            swscanf((wchar_t *)pwkti[i].wkti0_transport_address,
-                L"%2hx%2hx%2hx%2hx%2hx%2hx",
-                &MACData[0],
-                &MACData[1],
-                &MACData[2],
-                &MACData[3],
-                &MACData[4],
-                &MACData[5]);
-
-            macAddr = StringUtils::format("%02X-%02X-%02X-%02X-%02X-%02X",
-                MACData[0], MACData[1], MACData[2], MACData[3], MACData[4], MACData[5]);
-            break; // we just need one
-        }
-
-        // Release pbBuffer allocated by above function
-        dwStatus = NetApiBufferFree(pbBuffer);
-        assert(dwStatus == NERR_Success);
-        return macAddr;
-    };
+    // http://www.codeguru.com/cpp/i-n/network/networkinformation/article.php/c5451/Three-ways-to-get-your-MAC-address.htm
+    // http://www.codeguru.com/cpp/i-n/network/networkinformation/article.php/c5437/A-New-Method-to-Get-MACNIC-Statistical-Information.htm
 
     auto getMacAddressUseGetAdaptersInfo = []()
     {
@@ -163,12 +96,7 @@ std::string Platform::getMacAddress()
         return macAddr;
     };
 
-
-    //std::string ma0 = getMacAddressUseUuidCreate();
-    //std::string ma1 = getMacAddressUseNetBIOS();
-    //std::string ma2 = getMacAddressUseGetAdaptersInfo();
-
-    return getMacAddressUseUuidCreate();
+    return getMacAddressUseGetAdaptersInfo();
 }
 
 std::string Platform::getDeviceId()
