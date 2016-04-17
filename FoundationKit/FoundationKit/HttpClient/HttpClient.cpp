@@ -268,9 +268,11 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
     curl_easy_setopt(_curl, CURLOPT_COOKIE, strCookie.c_str());
 
     // set accept encoding type
-    std::string strAcceptEncode = requestPtr->getAcceptEncodingString();
+    HttpRequest::EncodeType acceptEncode = requestPtr->getAcceptEncoding();
+    std::string strAcceptEncode =
+        acceptEncode == HttpRequest::EncodeType::Identity ? "identity" : (acceptEncode == HttpRequest::EncodeType::Gzip ? "gzip" : "deflate");
     curl_easy_setopt(_curl, CURLOPT_ACCEPT_ENCODING, strAcceptEncode.c_str());
-
+ 
     if (_isDebug)
     {
         curl_easy_setopt(_curl, CURLOPT_VERBOSE, 1L);

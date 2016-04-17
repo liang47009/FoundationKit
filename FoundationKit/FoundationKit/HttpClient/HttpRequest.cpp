@@ -11,7 +11,7 @@ NS_FK_BEGIN
 
 HttpRequest::HttpRequest()
     : _requestType(Type::GET)
-    , _acceptEncode(AcceptEncode::Identity)
+    , _acceptEncoding(EncodeType::Identity)
     , _isMultipart(false)
 {
 
@@ -92,26 +92,33 @@ const std::string& HttpRequest::getRequestCookies(void)
     return _requestCookies;
 }
 
-void HttpRequest::setAcceptEncoding(AcceptEncode acceptEncoding)
+void HttpRequest::setAcceptEncoding(EncodeType acceptEncoding)
 {
-    _acceptEncode = acceptEncoding;
+    _acceptEncoding = acceptEncoding;
 }
 
-std::string HttpRequest::getAcceptEncodingString()
+HttpRequest::EncodeType HttpRequest::getAcceptEncoding()
 {
-    std::string aestr = "identity";
-    switch (_acceptEncode)
-    {
-    case HttpRequest::AcceptEncode::Gzip:
-        aestr = "gzip";
-        break;
-    case HttpRequest::AcceptEncode::Deflate:
-        aestr = "deflate";
-        break;
-    default:
-        break;
-    }
-    return aestr;
+    return _acceptEncoding;
+}
+
+void HttpRequest::setContentEncoding(EncodeType contentEncoding)
+{
+    _contentEncoding = contentEncoding;
+    std::string strContentEncoding = "Content-Encoding: ";
+    strContentEncoding +=
+        contentEncoding == HttpRequest::EncodeType::Identity
+        ? "identity"
+        : (contentEncoding == HttpRequest::EncodeType::Gzip
+        ? "gzip"
+        : "deflate");
+
+    addHeader(strContentEncoding.c_str());
+}
+
+HttpRequest::EncodeType HttpRequest::getContentEncoding()
+{
+    return _contentEncoding;
 }
 
 NS_FK_END

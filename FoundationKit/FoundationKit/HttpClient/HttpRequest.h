@@ -48,7 +48,7 @@ public:
         UNKNOWN,
     };
 
-    enum class AcceptEncode
+    enum class EncodeType
     {
         Identity,
         Gzip,
@@ -83,8 +83,11 @@ public:
     const std::string& getRequestCookies(void);
 
     /** @brief Set accept encoding. */
-    void setAcceptEncoding(AcceptEncode acceptEncoding);
-    std::string getAcceptEncodingString();
+    void setAcceptEncoding(EncodeType acceptEncoding);
+    EncodeType getAcceptEncoding();
+
+    void setContentEncoding(EncodeType contentEncoding);
+    EncodeType getContentEncoding();
 
     /** @brief Set request url. */
     inline void setRequestUrl(const char *url){ _url = url; }
@@ -108,7 +111,8 @@ public:
 
 private:
     Type                _requestType;
-    AcceptEncode        _acceptEncode;
+    EncodeType          _acceptEncoding;
+    EncodeType          _contentEncoding;
     Headers             _headers;
     Fields              _postFields;
     Fields              _fileFields;
