@@ -89,6 +89,8 @@ public:
     void setContentEncoding(EncodeType contentEncoding);
     EncodeType getContentEncoding();
 
+    std::string getEncodingString(EncodeType encodeType);
+
     /** @brief Set request url. */
     inline void setRequestUrl(const char *url){ _url = url; }
 

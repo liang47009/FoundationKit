@@ -105,20 +105,31 @@ HttpRequest::EncodeType HttpRequest::getAcceptEncoding()
 void HttpRequest::setContentEncoding(EncodeType contentEncoding)
 {
     _contentEncoding = contentEncoding;
-    std::string strContentEncoding = "Content-Encoding: ";
-    strContentEncoding +=
-        contentEncoding == HttpRequest::EncodeType::Identity
-        ? "identity"
-        : (contentEncoding == HttpRequest::EncodeType::Gzip
-        ? "gzip"
-        : "deflate");
-
-    addHeader(strContentEncoding.c_str());
 }
 
 HttpRequest::EncodeType HttpRequest::getContentEncoding()
 {
     return _contentEncoding;
+}
+
+std::string HttpRequest::getEncodingString(EncodeType encodeType)
+{
+    std::string strEncoding = "identity";
+    switch (encodeType)
+    {
+    case FoundationKit::HttpRequest::EncodeType::Identity:
+        strEncoding = "identity";
+        break;
+    case FoundationKit::HttpRequest::EncodeType::Gzip:
+        strEncoding = "gzip";
+        break;
+    case FoundationKit::HttpRequest::EncodeType::Deflate:
+        strEncoding = "deflate";
+        break;
+    default:
+        break;
+    }
+    return strEncoding;
 }
 
 NS_FK_END

@@ -86,7 +86,8 @@ static void TestHttpClientWithUploadDumpInfo()
     //request->addPOSTValue("params", jsonString.c_str());
     request->addFormContents("params", jsonString.c_str());
     request->addFormFile("file", "E:/dump.txt");
-    request->addFormFile("traceFile", "E:/tracelog.txt");
+    request->addFormFile("traceFile", "E:/tracelog.log");
+    request->setContentEncoding(HttpRequest::EncodeType::Gzip);
 
     request->onProgress = [](double dlTotal, double dlNow, double ulTotal, double ulNow)
     {

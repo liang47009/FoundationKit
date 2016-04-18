@@ -235,44 +235,42 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
 {
     CURL *_curl = curl_easy_init();
     HttpResponse::Pointer response = HttpResponse::create(requestPtr);
-    //设置写入数据的函数
+    // 设置写入数据的函数
     curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, onWriteData);
-    //设置接收数据的对象
+    // 设置接收数据的对象
     curl_easy_setopt(_curl, CURLOPT_WRITEDATA, response->getResponseData());
-    //设置写入response header的函数
+    // 设置写入response header的函数
     curl_easy_setopt(_curl, CURLOPT_HEADERFUNCTION, onWriteHeaderData);
-    //设置接收header数据的对象
+    // 设置接收header数据的对象
     curl_easy_setopt(_curl, CURLOPT_WRITEHEADER, response->getResponseHeader());
-    //允许上报进度
+    // 允许上报进度
     curl_easy_setopt(_curl, CURLOPT_NOPROGRESS, 0L);
-    //设置上报进度的函数
+    // 设置上报进度的函数
     curl_easy_setopt(_curl, CURLOPT_PROGRESSFUNCTION, onProgress);
-    //上报进度函数中UserData
+    // 上报进度函数中UserData
     curl_easy_setopt(_curl, CURLOPT_PROGRESSDATA, requestPtr.get());
-    //设置请求的URL
+    // 设置请求的URL
     curl_easy_setopt(_curl, CURLOPT_URL, requestPtr->getRequestUrl().c_str());
     curl_easy_setopt(_curl, CURLOPT_USERAGENT, "libcurl");
-    //设置连接超时时间(单位:秒)
+    // 设置连接超时时间(单位:秒)
     curl_easy_setopt(_curl, CURLOPT_CONNECTTIMEOUT, this->getTimeoutForConnect());
-    //设置读取超时时间(单位:秒)
+    // 设置读取超时时间(单位:秒)
     curl_easy_setopt(_curl, CURLOPT_TIMEOUT, this->getTimeoutForRead());
     curl_easy_setopt(_curl, CURLOPT_NOSIGNAL, 1L);
     curl_easy_setopt(_curl, CURLOPT_COOKIEFILE, "");
-    //允许连接编码
+    // 允许连接编码
     curl_easy_setopt(_curl, CURLOPT_HTTP_CONTENT_DECODING, 1L);
+    // 保存错误信息
     char errorBuffer[RESPONSE_BUFFER_SIZE] = { 0 };
     curl_easy_setopt(_curl, CURLOPT_ERRORBUFFER, errorBuffer);
+
+    // set accept encoding type
+    curl_easy_setopt(_curl, CURLOPT_ACCEPT_ENCODING, requestPtr->getEncodingString(requestPtr->getAcceptEncoding()).c_str());
 
     // set cookies
     std::string strCookie = requestPtr->getRequestCookies();
     curl_easy_setopt(_curl, CURLOPT_COOKIE, strCookie.c_str());
 
-    // set accept encoding type
-    HttpRequest::EncodeType acceptEncode = requestPtr->getAcceptEncoding();
-    std::string strAcceptEncode =
-        acceptEncode == HttpRequest::EncodeType::Identity ? "identity" : (acceptEncode == HttpRequest::EncodeType::Gzip ? "gzip" : "deflate");
-    curl_easy_setopt(_curl, CURLOPT_ACCEPT_ENCODING, strAcceptEncode.c_str());
- 
     if (_isDebug)
     {
         curl_easy_setopt(_curl, CURLOPT_VERBOSE, 1L);
@@ -317,6 +315,11 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
     {
         curlHeaders = curl_slist_append(curlHeaders, header.c_str());
     }
+    // set content encoding type
+    std::string contentEncoding = "Content-Encoding: ";
+    contentEncoding += requestPtr->getEncodingString(requestPtr->getContentEncoding());
+    curlHeaders = curl_slist_append(curlHeaders, contentEncoding.c_str());
+
     curl_easy_setopt(_curl, CURLOPT_HTTPHEADER, curlHeaders);
 
     //set form files
@@ -397,7 +400,6 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
 
     /* always cleanup */
     curl_easy_cleanup(_curl);
-    //curl_multi_cleanup(_multi_handle);
     _curl = nullptr;
     if (formPost)
     {
