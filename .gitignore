@@ -1,8 +1,5 @@
-
 *.cache
-
 *.class
 FoundationKitFramework.opensdf
-*.sdf
 FoundationKitFramework.v12.suo
 FoundationKitFramework.sdf
