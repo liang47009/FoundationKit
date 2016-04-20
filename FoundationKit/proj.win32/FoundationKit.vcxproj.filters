@@ -49,9 +49,6 @@
     <Filter Include="external\ConvertUTF">
       <UniqueIdentifier>{6e38259a-cf06-416d-86f9-e944221f83b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="system">
-      <UniqueIdentifier>{d4c872f1-5572-4f9c-b4d2-bb9b001169cd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Base">
       <UniqueIdentifier>{65b125cc-d559-4605-bbc6-67c151774db0}</UniqueIdentifier>
     </Filter>
@@ -305,9 +302,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\stdextensions\std_wrapper.h">
       <Filter>stdextensions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\system\dirent.h">
-      <Filter>system</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\Buffer.h">
       <Filter>Base</Filter>

@@ -198,7 +198,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\stdextensions\optional.hpp" />
     <ClInclude Include="..\FoundationKit\stdextensions\std_wrapper.h" />
     <ClInclude Include="..\FoundationKit\stdextensions\utility.hpp" />
-    <ClInclude Include="..\FoundationKit\system\dirent.h" />
     <ClInclude Include="..\FoundationKit\Thread\Impl\thread.h" />
     <ClInclude Include="..\FoundationKit\Thread\Impl\thread_posix.h" />
     <ClInclude Include="..\FoundationKit\Thread\Impl\thread_win32.h" />
