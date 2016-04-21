@@ -113,6 +113,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\RandomHelper.h" />
     <ClInclude Include="..\FoundationKit\Base\Runnable.h" />
     <ClInclude Include="..\FoundationKit\Base\Size.h" />
+    <ClInclude Include="..\FoundationKit\Base\Timer.h" />
     <ClInclude Include="..\FoundationKit\Base\Types.h" />
     <ClInclude Include="..\FoundationKit\Base\Value.h" />
     <ClInclude Include="..\FoundationKit\Base\Vector2.h" />
@@ -165,7 +166,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\Singleton.h" />
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h" />
     <ClInclude Include="..\FoundationKit\Foundation\ThreadPool.h" />
-    <ClInclude Include="..\FoundationKit\Foundation\Timer.h" />
     <ClInclude Include="..\FoundationKit\Foundation\TupleApply.h" />
     <ClInclude Include="..\FoundationKit\Foundation\uthash.h" />
     <ClInclude Include="..\FoundationKit\Foundation\utlist.h" />

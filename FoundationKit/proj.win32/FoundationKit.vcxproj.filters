@@ -291,9 +291,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\FunctionCenter.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Timer.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\FoundationKitMacros.h">
       <Filter>FoundationKit</Filter>
     </ClInclude>
@@ -380,6 +377,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Events\GameController.h">
       <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Timer.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
