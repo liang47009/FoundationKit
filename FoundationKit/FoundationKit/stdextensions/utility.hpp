@@ -14,7 +14,7 @@
 #include <unordered_map>
 #include "FoundationKit/GenericPlatformMacros.h"
 
-_STD_BEGIN
+namespace std{
 
 // stl is not implement disable_if, so we implement it and add to std namespace.
 
@@ -177,6 +177,7 @@ std::function<R(Args...)> function_cache(R(*func) (Args...))
         return (*result_map)[t];  
     });  
 } 
+
 // sugar the function and cache.
 template <typename R, typename...  Args>  
 std::function<R(Args...)> sugar(R(*func)(Args...), bool needClear = false)  
@@ -194,7 +195,9 @@ std::function<R(Args...)> sugar(R(*func)(Args...), bool needClear = false)
 } 
 
 // ============= function cache implement end ==================
-_STD_END
+
+} // namespace std
+
 
 
 #endif // FoundationKit_utility_H

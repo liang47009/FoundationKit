@@ -30,6 +30,7 @@
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
 #include "../../HttpClient/HttpClientTest.h"
+#include "FoundationKit/stdextensions/utility.hpp"
 
 #include <stdint.h>
 

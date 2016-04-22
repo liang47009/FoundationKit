@@ -14,7 +14,7 @@ losemymind.libo@gmail.com
 #include <memory>
 #include "utility.hpp"
 
-_STD_BEGIN
+namespace std{
 
 /**
  * @code
@@ -268,7 +268,7 @@ _STD basic_ostream<_Elem, _Traits>& operator<<(_STD basic_ostream<_Elem, _Traits
     return (_Out << _Px.get());
 }
 
-_STD_END
+} // namespace std
 
 #endif // #ifndef FoundationKit_memory_H
 

@@ -8,7 +8,7 @@
 #include <tuple>
 #include <functional>
 
-_STD_BEGIN
+namespace std{
 
 /** 
  * 
@@ -124,6 +124,6 @@ typename function_traits<Function>::pointer to_function_pointer(const Function& 
     return static_cast<typename function_traits<Function>::pointer>(lambda);
 }
 
-_STD_END
+} // namespace std
 
 

@@ -17,7 +17,7 @@ Original file from boost: http://www.boost.org
 #include <typeinfo>
 #include "utility.hpp"
 
-_STD_BEGIN
+namespace std{
 
 class any
 {
@@ -273,7 +273,7 @@ inline const ValueType* unsafe_any_cast(const any * operand) noexcept
     return unsafe_any_cast<ValueType>(const_cast<any *>(operand));
 }
 
-_STD_END
+} // namespace std
 
 #endif // FoundationKit_any_H
 

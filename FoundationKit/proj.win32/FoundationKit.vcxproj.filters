@@ -282,9 +282,6 @@
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h">
       <Filter>external\ConvertUTF</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\stdextensions\std_wrapper.h">
-      <Filter>stdextensions</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\Buffer.h">
       <Filter>Base</Filter>
     </ClInclude>
