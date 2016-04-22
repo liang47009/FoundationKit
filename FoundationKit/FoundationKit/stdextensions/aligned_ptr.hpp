@@ -12,7 +12,6 @@ losemymind.libo@gmail.com
 #endif
 
 #include <memory>
-#include "std_wrapper.h"
 #include "utility.hpp"
 
 _STD_BEGIN

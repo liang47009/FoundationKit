@@ -1,7 +1,7 @@
 
 #include "GameController.h"
 
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_ANDROID || FK_TARGET_PLATFORM == FK_PLATFORM_IOS)
+#if (TARGET_PLATFORM == PLATFORM_ANDROID || TARGET_PLATFORM == PLATFORM_IOS)
 
 #include "FoundationKit/Events/EventDispatcher.h"
 #include "FoundationKit/Events/EventController.h"
@@ -89,4 +89,4 @@ void Controller::onAxisEvent(int axisCode, float value, bool isAnalog)
 
 NS_FK_END
 
-#endif // #if (FK_TARGET_PLATFORM == FK_PLATFORM_ANDROID)
+#endif // #if (TARGET_PLATFORM == PLATFORM_ANDROID)

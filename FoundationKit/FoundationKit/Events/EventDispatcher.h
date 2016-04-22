@@ -8,7 +8,7 @@
 #include <vector>
 #include <set>
 
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Foundation/Singleton.h"
 #include "EventListener.h"
 #include "EventListenerCustom.h"

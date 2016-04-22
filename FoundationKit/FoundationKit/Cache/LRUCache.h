@@ -19,7 +19,7 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 
 #include "AbstractCache.h"
 #include "LRUStrategy.h"
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 NS_FK_BEGIN
 
 template < typename TKey, typename TValue >

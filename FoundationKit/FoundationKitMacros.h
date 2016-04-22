@@ -93,18 +93,21 @@
 
 #define __unused_arg(arg) do{(void)(arg);}while(0)
 
-//
-// Helper macro DO_STRINGIZE:
+// Make a string to Wide string
+#define TEXT_HELPER(a,b) a ## b
+#define MAKE_TEXT(s) TEXT_HELPER(L, s)
+
+// Helper macro STRINGIZE:
 // Converts the parameter X to a string after macro replacement
 // on X has been performed.
-//
 #define STRINGIZE_HELPER(X) #X
 #define STRINGIZE(X) STRINGIZE_HELPER(X)
 
 //#pragma message(COMPILE_MSG "Show compile message")
 #define COMPILE_MSG __FILE__ "(" STRINGIZE(__LINE__) "):Warning:" 
 
-#define TEXT_HELPER(a,b) a ## b
-#define MAKE_TEXT(s) TEXT_HELPER(L, s)
+// DLL export and import definitions
+#define DLLEXPORT __declspec(dllexport)
+#define DLLIMPORT __declspec(dllimport)
 
 #endif // LOSEMYMIND_FOUNDATIONKITMACROS_H

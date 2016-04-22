@@ -1,5 +1,5 @@
 #pragma once
 #ifdef WIN32
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 #endif

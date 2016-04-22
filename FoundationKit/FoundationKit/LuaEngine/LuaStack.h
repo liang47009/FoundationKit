@@ -6,7 +6,7 @@ extern "C" {
 #include <functional>
 #include <memory>
 #include "LuaValue.h"
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 NS_FK_BEGIN
 

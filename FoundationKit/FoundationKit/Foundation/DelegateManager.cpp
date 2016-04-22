@@ -92,9 +92,9 @@ void DelegateManager::addObserver(const std::string& name, DelegateCallbackType&
     DelegateObserver::Pointer observer;
     do 
     {
-        FK_BREAK_IF(this->observerExisted(name,target));
+        BREAK_IF(this->observerExisted(name,target));
         observer = DelegateObserver::create(name, selector, target, callOnce);
-        FK_BREAK_IF(!observer);
+        BREAK_IF(!observer);
         _observers.push_back(observer);
     } while (false);
 }

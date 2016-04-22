@@ -23,7 +23,7 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 #include <memory>
 #include <iostream>
 #include "KeyValueArgs.h"
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 NS_FK_BEGIN
 
 template<typename TKey, typename TValue, typename TStrategy>

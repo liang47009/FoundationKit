@@ -4,20 +4,23 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
+#include <sys/stat.h>
+#include <algorithm>
+#include <dirent.h> // for DIR
+#include <cassert>
+
 #include "FileUtils.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "unzip.h"
-#include <sys/stat.h>
-#include <algorithm>
-#include <dirent.h> // for DIR
+
 //#include <codecvt> //ndk is not support
 
-#if (FK_TARGET_PLATFORM==FK_PLATFORM_WIN32)
+#if (TARGET_PLATFORM==PLATFORM_WIN32)
 #include <Windows.h>
 #endif
 
-#if (FK_TARGET_PLATFORM==FK_PLATFORM_IOS)
+#if (TARGET_PLATFORM==PLATFORM_IOS)
 #define MINIZIP_FROM_SYSTEM
 #endif
 
@@ -47,7 +50,7 @@ static Data getData(const std::string& filename, bool forString)
         // Read the file from hardware
         std::string fullPath = fileutils->fullPathForFilename(filename);
         FILE *fp = fopen(fullPath.c_str(), mode);
-        FK_BREAK_IF(!fp);
+        BREAK_IF(!fp);
         fseek(fp, 0, SEEK_END);
         size = ftell(fp);
         fseek(fp, 0, SEEK_SET);
@@ -95,7 +98,7 @@ FileUtils::~FileUtils()
 
 void FileUtils::setDefaultResourceRootPath(const std::string& path)
 {
-    FKASSERT(!path.empty(), "setDefaultResourceRootPath:Invalid path.");
+    assert(!path.empty() && "setDefaultResourceRootPath:Invalid path.");
     _resourceRootPath = path;
     if (_resourceRootPath.back() != '/' || _resourceRootPath.back() != '\\')
     {
@@ -177,7 +180,7 @@ void FileUtils::setWritablePath(const std::string& writablePath)
 
 bool FileUtils::isDirectoryExist(const std::string& dirPath) const
 {
-#if (FK_TARGET_PLATFORM==FK_PLATFORM_WIN32)
+#if (TARGET_PLATFORM==PLATFORM_WIN32)
     std::wstring utf16Str = StringUtils::string2UTF8wstring(dirPath);
     unsigned long fAttrib = GetFileAttributes(reinterpret_cast<LPCWSTR>(utf16Str.c_str()));
     if (fAttrib != INVALID_FILE_ATTRIBUTES && (fAttrib & FILE_ATTRIBUTE_DIRECTORY))
@@ -202,7 +205,7 @@ bool FileUtils::isDirectory(const std::string& path)const
 
 bool FileUtils::isAbsolutePath(const std::string& path) const
 {
-#if (FK_TARGET_PLATFORM==FK_PLATFORM_WIN32)
+#if (TARGET_PLATFORM==PLATFORM_WIN32)
     if ((path.length() > 2 && 
         ((path[0] >= 'a' && path[0] <= 'z') || (path[0] >= 'A' && path[0] <= 'Z'))&& 
         path[1] == ':') || (path[0] == '/' && path[1] == '/'))
@@ -215,7 +218,7 @@ bool FileUtils::isAbsolutePath(const std::string& path) const
 #endif
 }
 
-#if (FK_TARGET_PLATFORM==FK_PLATFORM_WIN32)
+#if (TARGET_PLATFORM==PLATFORM_WIN32)
 #else
 #endif
 
@@ -244,10 +247,10 @@ Data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::strin
 
     do
     {
-        FK_BREAK_IF(zipFilePath.empty());
+        BREAK_IF(zipFilePath.empty());
 
         file = unzOpen(zipFilePath.c_str());
-        FK_BREAK_IF(!file);
+        BREAK_IF(!file);
 
         // FIXME: Other platforms should use upstream minizip like mingw-w64
 #ifdef MINIZIP_FROM_SYSTEM
@@ -255,19 +258,19 @@ Data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::strin
 #else
         int ret = unzLocateFile(file, filename.c_str(), 1);
 #endif
-        FK_BREAK_IF(UNZ_OK != ret);
+        BREAK_IF(UNZ_OK != ret);
 
         char filePathA[260];
         unz_file_info fileInfo;
         ret = unzGetCurrentFileInfo(file, &fileInfo, filePathA, sizeof(filePathA), nullptr, 0, nullptr, 0);
-        FK_BREAK_IF(UNZ_OK != ret);
+        BREAK_IF(UNZ_OK != ret);
 
         ret = unzOpenCurrentFile(file);
-        FK_BREAK_IF(UNZ_OK != ret);
+        BREAK_IF(UNZ_OK != ret);
 
         buffer = (unsigned char*)malloc(fileInfo.uncompressed_size);
-        int FK_UNUSED readedSize = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
-        FKASSERT(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
+        int readedSize = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
+        assert(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size && "the file size is wrong");
         __unused_arg(readedSize);
         *size = fileInfo.uncompressed_size;
         unzCloseCurrentFile(file);
@@ -296,12 +299,12 @@ bool FileUtils::writeDataToFile(Data retData, const std::string& fullPath)
     size_t size = 0;
     const char* mode = "wb";
 
-    FKASSERT(!fullPath.empty() && retData.getSize() != 0, "Invalid parameters.");
+    assert(!fullPath.empty() && retData.getSize() != 0 && "Invalid parameters.");
     do
     {
         // Read the file from hardware
         FILE *fp = fopen(fullPath.c_str(), mode);
-        FK_BREAK_IF(!fp);
+        BREAK_IF(!fp);
         size = retData.getSize();
         fwrite(retData.getBytes(), size, 1, fp);
         fclose(fp);
@@ -372,7 +375,7 @@ std::string FileUtils::getFilePathWithoutFileName(const std::string& filePath)co
 
 long FileUtils::getFileSize(const std::string &filepath)const
 {
-    FKASSERT(!filepath.empty(), "Invalid path");
+    assert(!filepath.empty() && "Invalid path");
 
     std::string fullpath = filepath;
     if (!isAbsolutePath(filepath))
@@ -403,12 +406,12 @@ bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newf
     const size_t BUFF_SIZE = 1024;
     do 
     {
-        FK_BREAK_IF(oldfullpath == newfullpath);
+        BREAK_IF(oldfullpath == newfullpath);
         const long srcFileSize = getFileSize(oldfullpath);
         FILE *fpSrc = fopen(oldfullpath.c_str(), "rb");
-        FK_BREAK_IF(!fpSrc);
+        BREAK_IF(!fpSrc);
         FILE *fpDes = fopen(newfullpath.c_str(), "wb");
-        FK_BREAK_IF(!fpDes);
+        BREAK_IF(!fpDes);
         char read_buff[BUFF_SIZE];
         long readedSize = 0;
         long unreadSize = srcFileSize;
@@ -467,7 +470,7 @@ void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::str
 }
 
 
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_WIN32) || (FK_TARGET_PLATFORM == FK_PLATFORM_WINRT)
+#if (TARGET_PLATFORM == PLATFORM_WIN32) || (TARGET_PLATFORM == PLATFORM_WINRT)
 // windows os implement should override in platform specific FileUtiles class
 //bool createDirectory(const std::string& dirPath);
 //bool removeDirectory(const std::string& dirPath);
@@ -482,7 +485,7 @@ void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::str
 
 bool FileUtils::createDirectory(const std::string& path)
 {
-    FKASSERT(!path.empty(), "Invalid path");
+    assert(!path.empty() && "Invalid path");
 
     if (isDirectoryExist(path))
         return true;
@@ -543,7 +546,7 @@ bool FileUtils::createDirectory(const std::string& path)
     return true;
 }
 
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_IOS) || (FK_TARGET_PLATFORM == FK_PLATFORM_MAC)
+#if (TARGET_PLATFORM == PLATFORM_IOS) || (TARGET_PLATFORM == PLATFORM_MAC)
 // IOS MAC implement should override in platform specific FileUtiles class
 // bool FileUtils::removeDirectory(const std::string& path)
 #else
@@ -563,7 +566,7 @@ bool FileUtils::removeDirectory(const std::string& path)
     else
         return false;
 }
-#endif //(FK_TARGET_PLATFORM == FK_PLATFORM_IOS) || (FK_TARGET_PLATFORM == FK_PLATFORM_MAC)
+#endif //(TARGET_PLATFORM == PLATFORM_IOS) || (TARGET_PLATFORM == PLATFORM_MAC)
 
 bool FileUtils::removeFile(const std::string &path)
 {
@@ -577,8 +580,8 @@ bool FileUtils::removeFile(const std::string &path)
 
 bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &newfullpath)
 {
-    FKASSERT(!oldfullpath.empty(), "Invalid path");
-    FKASSERT(!newfullpath.empty(), "Invalid path");
+    assert(!oldfullpath.empty() && "Invalid path");
+    assert(!newfullpath.empty() && "Invalid path");
 
     int errorCode = rename(oldfullpath.c_str(), newfullpath.c_str());
 
@@ -592,7 +595,7 @@ bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &ne
 
 bool FileUtils::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
 {
-    FKASSERT(!path.empty(), "Invalid path");
+    assert(!path.empty() && "Invalid path");
     std::string oldPath = path + oldname;
     std::string newPath = path + name;
 
@@ -601,7 +604,7 @@ bool FileUtils::renameFile(const std::string &path, const std::string &oldname, 
 
 
 
-#endif //(FK_TARGET_PLATFORM == FK_PLATFORM_WIN32) || (FK_TARGET_PLATFORM == FK_PLATFORM_WINRT)
+#endif //(TARGET_PLATFORM == PLATFORM_WIN32) || (TARGET_PLATFORM == PLATFORM_WINRT)
 
 
 NS_FK_END

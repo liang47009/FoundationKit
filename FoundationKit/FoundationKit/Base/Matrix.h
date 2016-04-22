@@ -23,7 +23,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Quaternion.h"
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 NS_FK_BEGIN
 

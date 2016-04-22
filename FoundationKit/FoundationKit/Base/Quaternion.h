@@ -21,7 +21,7 @@
 #pragma once
 #include <string>
 #include "Vector3.h"
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 NS_FK_BEGIN
 
 class Matrix;

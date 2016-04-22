@@ -45,7 +45,7 @@ extern "C"
         size_t begin = 0;
         size_t next = searchpath.find_first_of(";", 0);
         std::string chunkName;
-        NS_NAME::Data  chunkData;
+        Data  chunkData;
         do
         {
             if (next == std::string::npos)
@@ -81,7 +81,7 @@ extern "C"
 
         if (!chunkData.isNull())
         {
-            NS_NAME::LuaStack::Pointer stack = NS_NAME::LuaEngine::getInstance()->getLuaStack();
+            LuaStack::Pointer stack = LuaEngine::getInstance()->getLuaStack();
             stack->luaLoadBuffer(L, (char*)chunkData.getBytes(), (int)chunkData.getSize(), chunkName.c_str());
         }
         else

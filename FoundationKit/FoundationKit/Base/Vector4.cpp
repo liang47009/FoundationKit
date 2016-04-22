@@ -15,6 +15,7 @@
 
  This file was modified to fit the FoundationKit project
  */
+#include <cassert>
 #include "MathContent.h"
 #include "Vector4.h"
 

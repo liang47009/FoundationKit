@@ -9,7 +9,7 @@ losemymind.libo@gmail.com
 #include <string>
 #include <memory>
 #include "HttpRequest.h"
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 NS_FK_BEGIN
 

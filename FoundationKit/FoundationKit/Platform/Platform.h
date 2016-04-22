@@ -6,17 +6,8 @@ losemymind.libo@gmail.com
 ****************************************************************************/
 #pragma once
 #include <string>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 NS_FK_BEGIN
-
-enum class CPU_TYPE
-{
-    //https://sourceforge.net/p/predef/wiki/Home/
-    // https://sourceforge.net/p/predef/wiki/Architectures/
-};
-
-
-
 
 class Platform
 {

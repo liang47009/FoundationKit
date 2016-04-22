@@ -15,7 +15,7 @@
 #include <cmath>
 #include <algorithm>
 #include "FoundationKit/Base/MathContent.h"
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 
 NS_FK_BEGIN

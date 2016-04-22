@@ -65,7 +65,6 @@ public:
 
     inline Size operator/(float a) const
     {
-        FKASSERT(a != 0, "CCSize division by 0.");
         return Size(this->width / a, this->height / a);
     }
 

@@ -52,12 +52,6 @@
     <Filter Include="Base">
       <UniqueIdentifier>{65b125cc-d559-4605-bbc6-67c151774db0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="config">
-      <UniqueIdentifier>{626a75a1-a0ce-47fb-8455-d75aa8d10af8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="config\compiler">
-      <UniqueIdentifier>{8f78f2c4-1afa-4604-9c23-df994788dddf}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h">
@@ -81,9 +75,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\WorkQueue.h">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\ThreadPool.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Logger.h">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -91,9 +82,6 @@
       <Filter>Platform</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\FunctionHelper.h">
-      <Filter>FoundationKit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\FoundationKitDefines.h">
       <Filter>FoundationKit</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Scheduler.h">
@@ -291,9 +279,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\FunctionCenter.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\FoundationKitMacros.h">
-      <Filter>FoundationKit</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h">
       <Filter>external\ConvertUTF</Filter>
     </ClInclude>
@@ -351,9 +336,6 @@
     <ClInclude Include="..\FoundationKit\Base\Types.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\config\compiler\msvc.hpp">
-      <Filter>config\compiler</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\noncopyable.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -381,6 +363,9 @@
     <ClInclude Include="..\FoundationKit\Base\Timer.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\GenericPlatformMacros.h">
+      <Filter>FoundationKit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -393,9 +378,6 @@
       <Filter>Crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\WorkQueue.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\ThreadPool.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Logger.cpp">

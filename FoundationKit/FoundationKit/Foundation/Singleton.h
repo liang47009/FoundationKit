@@ -9,7 +9,7 @@
 #include <mutex>
 #include <stdlib.h>
 #include "FoundationKit/Base/noncopyable.hpp"
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 NS_FK_BEGIN
 
 template< typename T, bool destroy_on_exit = true >

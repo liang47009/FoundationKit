@@ -19,7 +19,7 @@
 #define LOSEMYMIND_VECTOR4_H
 
 #pragma once
-#include "FoundationKit/FoundationKitDefines.h" // for NS_FK_BEGIN NS_FK_END
+#include "FoundationKit/GenericPlatformMacros.h" // for NS_FK_BEGIN NS_FK_END
 
 NS_FK_BEGIN
 

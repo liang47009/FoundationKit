@@ -19,7 +19,7 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 #include <list>
 #include <unordered_map>
 #include "AbstractStrategy.h"
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 NS_FK_BEGIN
 
 // An LRUStrategy implements least recently used cache replacement.

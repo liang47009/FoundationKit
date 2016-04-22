@@ -26,7 +26,7 @@ EventListenerAcceleration::Pointer EventListenerAcceleration::create(const std::
     }
     else
     {
-        FK_SAFE_DELETE(ret);
+        SAFE_DELETE(ret);
     }
     
     return EventListenerAcceleration::Pointer(ret);
@@ -51,8 +51,6 @@ bool EventListenerAcceleration::init(const std::function<void(Acceleration*, Eve
 
 bool EventListenerAcceleration::checkAvailable()
 {
-    FKASSERT(onAccelerationEvent, "onAccelerationEvent can't be nullptr!");
-    
     return true;
 }
 

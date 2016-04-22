@@ -4,8 +4,8 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
-#include "FoundationKit/FoundationKitDefines.h"
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_WIN32)
+#include "FoundationKit/GenericPlatformMacros.h"
+#if (TARGET_PLATFORM == PLATFORM_WIN32)
 
 #include <codecvt>
 #include <regex>
@@ -55,8 +55,6 @@ bool FileUtils::isFileExist(const std::string& filename) const
 
 bool FileUtils::createDirectory(const std::string& dirPath)
 {
-    FKASSERT(!dirPath.empty(), "Invalid path");
-
     if (isDirectoryExist(dirPath))
         return true;
 
@@ -165,7 +163,6 @@ bool FileUtils::removeFile(const std::string &filepath)
 
 bool FileUtils::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
 {
-    FKASSERT(!path.empty(), "Invalid path");
     std::string oldPath = path + oldname;
     std::string newPath = path + name;
 
@@ -178,9 +175,6 @@ bool FileUtils::renameFile(const std::string &path, const std::string &oldname, 
 
 bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &newfullpath)
 {
-    FKASSERT(!oldfullpath.empty(), "Invalid path");
-    FKASSERT(!newfullpath.empty(), "Invalid path");
-
     std::wstring _wNew = StringUtils::string2UTF8wstring(newfullpath);
     std::wstring _wOld = StringUtils::string2UTF8wstring(oldfullpath);
 

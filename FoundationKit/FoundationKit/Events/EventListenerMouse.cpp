@@ -20,7 +20,7 @@ EventListenerMouse::Pointer EventListenerMouse::create()
     }
     else
     {
-        FK_SAFE_DELETE(ret);
+        SAFE_DELETE(ret);
     }
     return EventListenerMouse::Pointer(ret);
 }

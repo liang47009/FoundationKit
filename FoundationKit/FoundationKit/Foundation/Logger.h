@@ -70,14 +70,14 @@ NS_FK_END
 extern void _log_(const char* message, ...);
 
 #ifdef FK_DEBUG
-#define LOG_DEBUG(format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_DEBUG, format, ##__VA_ARGS__)
+#define LOG_DEBUG(format, ...) Logger::getInstance()->log(Logger::Level::LV_DEBUG, format, ##__VA_ARGS__)
 #else
 #define LOG_DEBUG(format, ...)
 #endif
-#define LOG_TRACE(format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_TRACE, format, ##__VA_ARGS__)
-#define LOG_INFO( format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_INFO, format, ##__VA_ARGS__)
-#define LOG_WARN( format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_WARN, format, ##__VA_ARGS__)
-#define LOG_ERROR(format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_ERROR, format, ##__VA_ARGS__)
-#define LOG_FATAL(format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_FATAL, format, ##__VA_ARGS__)
+#define LOG_TRACE(format, ...) Logger::getInstance()->log(Logger::Level::LV_TRACE, format, ##__VA_ARGS__)
+#define LOG_INFO( format, ...) Logger::getInstance()->log(Logger::Level::LV_INFO, format, ##__VA_ARGS__)
+#define LOG_WARN( format, ...) Logger::getInstance()->log(Logger::Level::LV_WARN, format, ##__VA_ARGS__)
+#define LOG_ERROR(format, ...) Logger::getInstance()->log(Logger::Level::LV_ERROR, format, ##__VA_ARGS__)
+#define LOG_FATAL(format, ...) Logger::getInstance()->log(Logger::Level::LV_FATAL, format, ##__VA_ARGS__)
 
 

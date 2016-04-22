@@ -15,6 +15,7 @@
 
  This file was modified to fit the FoundationKit project
  */
+#include <cassert>
 #include <memory>
 #include "MathUtil.h"
 

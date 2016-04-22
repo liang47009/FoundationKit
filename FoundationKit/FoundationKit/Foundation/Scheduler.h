@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 #include "uthash.h"
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Foundation/Singleton.h"
 
 NS_FK_BEGIN

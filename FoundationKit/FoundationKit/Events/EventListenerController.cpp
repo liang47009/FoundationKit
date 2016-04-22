@@ -16,7 +16,7 @@ EventListenerController::Pointer EventListenerController::create()
     }
     else
     {
-        FK_SAFE_DELETE(ret);
+        SAFE_DELETE(ret);
     }
     return EventListenerController::Pointer(ret);
 
@@ -68,7 +68,6 @@ bool EventListenerController::init()
             }
             break;
         default:
-            FKASSERT(false, "Invalid EventController type");
             break;
         }
     };

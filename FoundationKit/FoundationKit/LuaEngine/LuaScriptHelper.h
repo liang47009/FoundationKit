@@ -12,9 +12,9 @@ extern "C"
 #include <lualib.h>
 #include <lauxlib.h>
 }
-
+#include <stdexcept>
 #include <string>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 

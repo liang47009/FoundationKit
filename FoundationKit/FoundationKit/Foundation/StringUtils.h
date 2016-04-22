@@ -9,8 +9,7 @@
 #include <vector>
 #include <sstream>
 #include <iomanip>
-#include "FoundationKit/stdextensions/std_wrapper.h"
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 NS_FK_BEGIN
 

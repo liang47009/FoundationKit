@@ -18,7 +18,7 @@
 #include <stddef.h>
 #include <string>
 #include <cstring>
-#include "FoundationKit/FoundationKitDefines.h" // for NS_FK_BEGIN NS_FK_END
+#include "FoundationKit/GenericPlatformMacros.h" // for NS_FK_BEGIN NS_FK_END
 
 /// Provides MD5 hashing functionality
 NS_FK_BEGIN

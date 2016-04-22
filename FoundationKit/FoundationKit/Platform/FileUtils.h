@@ -8,7 +8,7 @@
 #define FoundationKit_FileUtils_H
 #pragma once
 
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Data.h"
 #include "FoundationKit/Foundation/Singleton.h"
 #include <string>

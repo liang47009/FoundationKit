@@ -8,7 +8,8 @@ losemymind.libo@gmail.com
 #include <windows.h>
 #include <WindowsX.h>
 #include <psapi.h>
-#include "FoundationKit/FoundationKitDefines.h"
+#include <cassert>
+#include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Platform/Platform.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Foundation/StringUtils.h"
@@ -37,7 +38,7 @@ float Platform::getTotalMemory()
 	memInfo.dwLength = sizeof(MEMORYSTATUSEX);
 	GlobalMemoryStatusEx(&memInfo);
 	DWORDLONG physical_memory = memInfo.ullTotalPhys;
-    return static_cast<int>((physical_memory / megabyte));
+    return static_cast<float>((physical_memory / megabyte));
 }
 
 float Platform::getFreeMemory()
@@ -47,7 +48,7 @@ float Platform::getFreeMemory()
 	memInfo.dwLength = sizeof(MEMORYSTATUSEX);
 	GlobalMemoryStatusEx(&memInfo);
 	DWORDLONG free_memory = memInfo.ullAvailPhys;
-    return static_cast<int>((free_memory / megabyte));
+    return static_cast<float>(free_memory / megabyte);
 }
 
 float Platform::getProcessMemory()
@@ -56,7 +57,7 @@ float Platform::getProcessMemory()
 	PROCESS_MEMORY_COUNTERS_EX pmc;
 	GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
 	SIZE_T used_memory = pmc.WorkingSetSize;
-    return (used_memory / megabyte);
+    return static_cast<float>(used_memory / megabyte);
 }
 
 
@@ -91,7 +92,8 @@ std::string Platform::getMacAddress()
             pAdapterInfo = pAdapterInfo->Next;    // Progress through 
             break; // we just need one
             // linked list
-        } while (pAdapterInfo);                    // Terminate if last adapter
+        } while (false);                        // Terminate if last adapter
+        //} while (pAdapterInfo);                    // Terminate if last adapter
 
         return macAddr;
     };

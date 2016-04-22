@@ -10,7 +10,6 @@ losemymind.libo@gmail.com
 
 #include "function_traits.hpp"
 #include <vector>
-#include "std_wrapper.h"
 #include "utility.hpp"
 
 _STD_BEGIN

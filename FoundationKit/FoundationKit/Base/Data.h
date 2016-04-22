@@ -8,7 +8,7 @@ losemymind.libo@gmail.com
 #define LOSEMYMIND_DATA_H
 
 #pragma once
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 #include <string>
 
 NS_FK_BEGIN

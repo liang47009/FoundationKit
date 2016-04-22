@@ -5,11 +5,14 @@ extern "C" {
 #include "lauxlib.h"
 }
 
-#include "LuaStack.h"
+#include <cassert>
 #include "FoundationKit/Foundation/Logger.h"
+#include "FoundationKit/Platform/FileUtils.h"
+#include "LuaStack.h"
 #include "LuaLoader.h"
 #include "LuaScriptHelper.h"
-#include "FoundationKit/Platform/FileUtils.h"
+
+USING_NS_FK;
 
 namespace {
     int lua_print(lua_State * luastate)
@@ -206,7 +209,7 @@ int LuaStack::executeString(const char *codes)
 
 int LuaStack::executeScriptFile(const char* filename)
 {
-    FKASSERT(filename, "CCLuaStack::executeScriptFile() - invalid filename");
+    assert(filename && "CCLuaStack::executeScriptFile() - invalid filename");
 
     static const std::string BYTECODE_FILE_EXT = ".luac";
     static const std::string NOT_BYTECODE_FILE_EXT = ".lua";

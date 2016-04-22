@@ -5,7 +5,7 @@ losemymind.libo@gmail.com
 
 ****************************************************************************/
 #pragma once
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 NS_FK_BEGIN
 //  Private move constructor and move assignment ensure classes derived from
@@ -15,18 +15,6 @@ NS_FK_BEGIN
 
 namespace nonmovable_  // protection from unintended ADL
 {
-#if (CPP_TARGET_VERSION < CPP_VERSION_11)
-    class nonmovable
-    {
-    protected:
-        nonmovable(){};
-        ~nonmovable() {}
-    private:
-        nonmovable(nonmovable&&);
-        nonmovable& operator=(nonmovable&&);
-
-    };
-#else
     class nonmovable
     {
     protected:
@@ -36,7 +24,6 @@ namespace nonmovable_  // protection from unintended ADL
         nonmovable& operator=(nonmovable&&) = delete;
 
     };
-#endif
 }
 
 typedef nonmovable_::nonmovable nonmovable;

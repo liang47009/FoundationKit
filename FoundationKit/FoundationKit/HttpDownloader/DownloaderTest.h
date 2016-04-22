@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/HttpDownloader/Downloader.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Platform/FileUtils.h"

@@ -1,7 +1,7 @@
 
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_ANDROID || FK_TARGET_PLATFORM == FK_PLATFORM_LINUX)
+#if (TARGET_PLATFORM == PLATFORM_ANDROID || TARGET_PLATFORM == PLATFORM_LINUX)
 
 #include "FoundationKit/Platform/FileUtils.h"
 #include <unistd.h>

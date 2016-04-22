@@ -5,6 +5,7 @@ Copyright (c) 2013-2014 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
+#include <cassert>
 #include <algorithm>
 #include "Script.h"
 #include "FoundationKit/Foundation/Logger.h"
@@ -55,7 +56,7 @@ Script::~Script()
 
 void Script::open(LuaStack* stack)
 {
-    FKASSERT(stack != NULL, " >>>> Invalid luaState for Script::setup ");
+    assert(stack != NULL && " >>>> Invalid luaState for Script::setup ");
     m_stack = stack;
     ::luaL_register(m_stack->getLuaState(), "_G", scriptlib);
 }
@@ -114,7 +115,7 @@ int Script::executeEvent( lua_State* L )
 
 int Script::executeEvent(const char* pEventName, LuaValueArray& params)
 {
-    FKASSERT(pEventName != NULL, " >>>> Invalid pEventName for Script::executeEvent ");
+    assert(pEventName != NULL && " >>>> Invalid pEventName for Script::executeEvent ");
     auto iter = m_eventMap.find(pEventName);
     if (iter != m_eventMap.end())
     {
@@ -222,7 +223,7 @@ int Script::executeCppEvent( lua_State* L )
 
 int Script::executeCppEvent(const char* pEventName, LuaValueArray& args, LuaValueArray& result)
 {
-    FKASSERT(pEventName != NULL, " >>>> Invalid pEventName for Script::executeEvent ");
+    assert(pEventName != NULL && " >>>> Invalid pEventName for Script::executeEvent ");
     auto iter = m_funMap.find(pEventName);
     if (iter != m_funMap.end())
     {

@@ -18,7 +18,7 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 
 #pragma once
 #include "KeyValueArgs.h"
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 NS_FK_BEGIN
 
 template <class TKey, class TValue>

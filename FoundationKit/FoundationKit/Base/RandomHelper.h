@@ -10,7 +10,7 @@
 #pragma once
 #include <random>
 #include <cmath>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 NS_FK_BEGIN
 

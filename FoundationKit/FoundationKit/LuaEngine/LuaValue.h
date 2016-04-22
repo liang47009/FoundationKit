@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include <list>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 extern "C" {
 #include "lua.h"

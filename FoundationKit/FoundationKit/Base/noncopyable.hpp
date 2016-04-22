@@ -5,7 +5,7 @@
 
 ****************************************************************************/
 #pragma once
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 NS_FK_BEGIN
 //  Private copy constructor and copy assignment ensure classes derived from
@@ -15,19 +15,6 @@ NS_FK_BEGIN
 
 namespace noncopyable_  // protection from unintended ADL
 {
-#if (CPP_TARGET_VERSION < CPP_VERSION_11)
-
-    class noncopyable
-    {
-    protected:
-
-        noncopyable() {}
-        ~noncopyable() {}
-    private:  // emphasize the following members are private
-        noncopyable(const noncopyable&);
-        noncopyable& operator=(const noncopyable&);
-    };
-#else
     class noncopyable
     {
     protected:
@@ -36,7 +23,6 @@ namespace noncopyable_  // protection from unintended ADL
         noncopyable(const noncopyable&) = delete;
         noncopyable& operator=(const noncopyable&) = delete;
     };
-#endif
 }
 
 typedef noncopyable_::noncopyable noncopyable;

@@ -12,8 +12,7 @@
 #include <memory>
 #include <utility>
 #include <unordered_map>
-#include "FoundationKit/FoundationKitDefines.h"
-#include "std_wrapper.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 _STD_BEGIN
 

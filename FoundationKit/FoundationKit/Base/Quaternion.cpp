@@ -16,6 +16,7 @@
  This file was modified to fit the FoundationKit project
  */
 
+#include <cassert>
 #include <cmath>
 #include "Matrix.h"
 #include "Quaternion.h"

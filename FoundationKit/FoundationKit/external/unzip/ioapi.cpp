@@ -187,13 +187,6 @@ static long ZCALLBACK fseek_file_func (voidpf  opaque, voidpf stream, uLong offs
 
 static long ZCALLBACK fseek64_file_func (voidpf  opaque, voidpf stream, ZPOS64_T offset, int origin)
 {
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_MARMALADE || FK_TARGET_PLATFORM == FK_PLATFORM_BADA || FK_TARGET_PLATFORM == FK_PLATFORM_BLACKBERRY || FK_TARGET_PLATFORM == FK_PLATFORM_NACL || FK_TARGET_PLATFORM == FK_PLATFORM_EMSCRIPTEN)
-    (void)(opaque);
-    (void)(stream);
-    (void)(offset);
-    (void)(origin);
-    return -1;
-#else
     int fseek_origin=0;
     switch (origin)
     {
@@ -211,7 +204,7 @@ static long ZCALLBACK fseek64_file_func (voidpf  opaque, voidpf stream, ZPOS64_T
     if(fseeko64((FILE *)stream, offset, fseek_origin) != 0)
         return -1;
     return 0;
-#endif
+
 }
 
 

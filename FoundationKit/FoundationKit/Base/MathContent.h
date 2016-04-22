@@ -3,7 +3,7 @@
 
 #include <limits>
 #include <cmath>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 #define MATH_PIOVER2                1.57079632679489661923f
 #define MATH_PIOVER4                0.785398163397448309616f

@@ -10,8 +10,8 @@
 #ifndef DIRENT_H
 #define DIRENT_H
 
-#include "FoundationKit/FoundationKitDefines.h"
-#if (FK_TARGET_PLATFORM ==FK_PLATFORM_WIN32 )
+#include "FoundationKit/GenericPlatformMacros.h"
+#if (TARGET_PLATFORM ==PLATFORM_WIN32 )
 
 /*
  * Define architecture flags so we don't need to include windows.h.
@@ -915,7 +915,7 @@ dirent_set_errno(
 }
 #endif
 
-#endif //#if (FK_TARGET_PLATFORM ==FK_PLATFORM_WIN32 )
+#endif //#if (TARGET_PLATFORM ==PLATFORM_WIN32 )
 
 #endif /*DIRENT_H*/
 

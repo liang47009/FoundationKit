@@ -6,6 +6,8 @@
 ****************************************************************************/
 //================= Template Method =================
 
+#include <cassert>
+
 #ifndef LOSEMYMIND_VALUE_INL
 #define LOSEMYMIND_VALUE_INL
 

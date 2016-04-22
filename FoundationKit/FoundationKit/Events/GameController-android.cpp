@@ -2,18 +2,13 @@
 
 #include "GameController.h"
 
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_ANDROID)
+#if (TARGET_PLATFORM == PLATFORM_ANDROID)
 
 #include <functional>
 #include <algorithm>
 #include "FoundationKit/Events/EventController.h"
-#include "FoundationKit/Platform/Android/AndroidJavaObject.h"
-#include "FoundationKit/Platform/Android/AndroidJNIHelper.h"
-
-
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.h"
 NS_FK_BEGIN
-
-using namespace FoundationKit::Android;
 
 class ControllerImpl
 {
@@ -130,15 +125,13 @@ Controller::Controller()
 
 void Controller::receiveExternalKeyEvent(int externalKeyCode,bool receive)
 {
-    JniMethodInfo t;
-    if (AndroidJNIHelper::getInstance()->getStaticMethodInfo(t, 
-        "com/gamecontroller/lib/GameControllerHelper", 
-        "receiveExternalKeyEvent", 
-        "(IIZ)V")) {
+    AndroidNode::JavaClassMethod jcm = AndroidNode::AndroidJNI::getClassMethod(
+        "com/gamecontroller/lib/GameControllerHelper",
+        "receiveExternalKeyEvent",
+        "(IIZ)V");
 
-        t.env->CallStaticVoidMethod(t.classID, t.methodID, _deviceId, externalKeyCode, receive);
-        t.env->DeleteLocalRef(t.classID);
-    }
+    jcm.env->CallStaticVoidMethod(jcm.clazz, jcm.method, _deviceId, externalKeyCode, receive);
+    jcm.env->DeleteLocalRef(jcm.clazz);
 }
 
 NS_FK_END
@@ -147,25 +140,25 @@ extern "C" {
 
     void Java_com_gamecontroller_lib_GameControllerAdapter_nativeControllerConnected(JNIEnv*  env, jobject thiz, jstring deviceName, jint controllerID)
     {
-        FoundationKit::ControllerImpl::onConnected(JNIHELPER->jstring2string(deviceName), controllerID);
+        FoundationKit::ControllerImpl::onConnected(AndroidNode::AndroidJNI::jstring2string(deviceName), controllerID);
     }
 
     void Java_com_gamecontroller_lib_GameControllerAdapter_nativeControllerDisconnected(JNIEnv*  env, jobject thiz, jstring deviceName, jint controllerID)
     {
-        FoundationKit::ControllerImpl::onDisconnected(JNIHELPER->jstring2string(deviceName), controllerID);
+        FoundationKit::ControllerImpl::onDisconnected(AndroidNode::AndroidJNI::jstring2string(deviceName), controllerID);
     }
 
     void Java_com_gamecontroller_lib_GameControllerAdapter_nativeControllerButtonEvent(JNIEnv*  env, jobject thiz, jstring deviceName, jint controllerID, jint button, jboolean isPressed, jfloat value, jboolean isAnalog)
     {
-        FoundationKit::ControllerImpl::onButtonEvent(JNIHELPER->jstring2string(deviceName), controllerID, button, isPressed, value, isAnalog);
+        FoundationKit::ControllerImpl::onButtonEvent(AndroidNode::AndroidJNI::jstring2string(deviceName), controllerID, button, isPressed, value, isAnalog);
     }
 
     void Java_com_gamecontroller_lib_GameControllerAdapter_nativeControllerAxisEvent(JNIEnv*  env, jobject thiz, jstring deviceName, jint controllerID, jint axis, jfloat value, jboolean isAnalog)
     {
-        FoundationKit::ControllerImpl::onAxisEvent(JNIHELPER->jstring2string(deviceName), controllerID, axis, value, isAnalog);
+        FoundationKit::ControllerImpl::onAxisEvent(AndroidNode::AndroidJNI::jstring2string(deviceName), controllerID, axis, value, isAnalog);
     }
 
 } // extern "C" {
 
 
-#endif // #if (FK_TARGET_PLATFORM == FK_PLATFORM_ANDROID)
+#endif // #if (TARGET_PLATFORM == PLATFORM_ANDROID)

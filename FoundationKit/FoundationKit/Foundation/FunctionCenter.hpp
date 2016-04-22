@@ -11,7 +11,7 @@ losemymind.libo@gmail.com
 #include <unordered_map>
 #include <string>
 #include <mutex>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Foundation/Singleton.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/stdextensions/function_traits.hpp"

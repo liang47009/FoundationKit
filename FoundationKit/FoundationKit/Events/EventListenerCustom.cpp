@@ -19,7 +19,7 @@ EventListenerCustom::Pointer EventListenerCustom::create(const std::string& even
     }
     else
     {
-        FK_SAFE_DELETE(ret);
+        SAFE_DELETE(ret);
     }
     return EventListenerCustom::Pointer(ret);
 }

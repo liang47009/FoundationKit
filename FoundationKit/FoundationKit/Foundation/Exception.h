@@ -8,7 +8,7 @@
 
 #include <stdexcept>
 #include <string>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 NS_FK_BEGIN
 

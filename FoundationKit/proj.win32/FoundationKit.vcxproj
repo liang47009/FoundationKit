@@ -125,7 +125,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Cache\LRUCache.h" />
     <ClInclude Include="..\FoundationKit\Cache\LRUCacheTest.h" />
     <ClInclude Include="..\FoundationKit\Cache\LRUStrategy.h" />
-    <ClInclude Include="..\FoundationKit\config\compiler\msvc.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\aes.h" />
     <ClInclude Include="..\FoundationKit\Crypto\Base64.h" />
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp" />
@@ -154,8 +153,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h" />
-    <ClInclude Include="..\FoundationKit\FoundationKitDefines.h" />
-    <ClInclude Include="..\FoundationKit\FoundationKitMacros.h" />
     <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.h" />
     <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Exception.h" />
@@ -165,13 +162,13 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\Scheduler.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Singleton.h" />
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h" />
-    <ClInclude Include="..\FoundationKit\Foundation\ThreadPool.h" />
     <ClInclude Include="..\FoundationKit\Foundation\TupleApply.h" />
     <ClInclude Include="..\FoundationKit\Foundation\uthash.h" />
     <ClInclude Include="..\FoundationKit\Foundation\utlist.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Version.h" />
     <ClInclude Include="..\FoundationKit\Foundation\WorkQueue.h" />
     <ClInclude Include="..\FoundationKit\FunctionHelper.h" />
+    <ClInclude Include="..\FoundationKit\GenericPlatformMacros.h" />
     <ClInclude Include="..\FoundationKit\HttpClient\HttpClient.h" />
     <ClInclude Include="..\FoundationKit\HttpClient\HttpClientTest.h" />
     <ClInclude Include="..\FoundationKit\HttpClient\HttpRequest.h" />
@@ -249,7 +246,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Foundation\MessageQueue.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Scheduler.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp" />
-    <ClCompile Include="..\FoundationKit\Foundation\ThreadPool.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Version.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\WorkQueue.cpp" />
     <ClCompile Include="..\FoundationKit\HttpClient\HttpClient.cpp" />

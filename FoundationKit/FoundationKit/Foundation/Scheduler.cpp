@@ -1,4 +1,5 @@
 
+#include <cassert>
 #include <memory>
 #include <algorithm>
 #include "Scheduler.h"
@@ -201,8 +202,8 @@ void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, float in
 
 void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key)
 {
-    FKASSERT(target, "Argument target must be non-nullptr");
-    FKASSERT(!key.empty(), "key should not be empty!");
+    assert(target && "Argument target must be non-nullptr");
+    assert(!key.empty()&& "key should not be empty!");
 
     tHashTimerEntry *element = nullptr;
     HASH_FIND_PTR(_hashForTimers, &target, element);
@@ -219,7 +220,7 @@ void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, float in
     }
     else
     {
-        FKASSERT(element->paused == paused, "");
+        assert(element->paused == paused);
     }
 
     if (element->timers->empty())
@@ -422,8 +423,8 @@ void Scheduler::schedulePerFrame(const ccSchedulerFunc& callback, void *target, 
 
 bool Scheduler::isScheduled(const std::string& key, void *target)
 {
-    FKASSERT(!key.empty(), "Argument key must not be empty");
-    FKASSERT(target, "Argument target must be non-nullptr");
+    assert(!key.empty() && "Argument key must not be empty");
+    assert(target && "Argument target must be non-nullptr");
     
     tHashTimerEntry *element = nullptr;
     HASH_FIND_PTR(_hashForTimers, &target, element);
@@ -460,7 +461,7 @@ void Scheduler::removeUpdateFromHash(struct _listEntry *entry)
     {
         // list entry
         DL_DELETE(*element->list, element->entry);
-        FK_SAFE_DELETE(element->entry);
+        SAFE_DELETE(element->entry);
         // hash entry
         HASH_DEL(_hashForUpdates, element);
         free(element);
@@ -577,7 +578,7 @@ void Scheduler::unscheduleAllForTarget(void *target)
 
 void Scheduler::resumeTarget(void *target)
 {
-    FKASSERT(target != nullptr, "");
+    assert(target != nullptr);
 
     // custom selectors
     tHashTimerEntry *element = nullptr;
@@ -592,14 +593,14 @@ void Scheduler::resumeTarget(void *target)
     HASH_FIND_PTR(_hashForUpdates, &target, elementUpdate);
     if (elementUpdate)
     {
-        FKASSERT(elementUpdate->entry != nullptr, "");
+        assert(elementUpdate->entry != nullptr);
         elementUpdate->entry->paused = false;
     }
 }
 
 void Scheduler::pauseTarget(void *target)
 {
-    FKASSERT(target != nullptr, "");
+    assert(target != nullptr);
 
     // custom selectors
     tHashTimerEntry *element = nullptr;
@@ -614,14 +615,14 @@ void Scheduler::pauseTarget(void *target)
     HASH_FIND_PTR(_hashForUpdates, &target, elementUpdate);
     if (elementUpdate)
     {
-        FKASSERT(elementUpdate->entry != nullptr, "");
+        assert(elementUpdate->entry != nullptr);
         elementUpdate->entry->paused = true;
     }
 }
 
 bool Scheduler::isTargetPaused(void *target)
 {
-    FKASSERT(target != nullptr, "target must be non nil");
+    assert(target != nullptr && "target must be non nil");
 
     // Custom selectors
     tHashTimerEntry *element = nullptr;

@@ -1,7 +1,7 @@
 
 #pragma once
 #include <chrono>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 NS_FK_BEGIN
 
 using namespace std;

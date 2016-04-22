@@ -1,3 +1,4 @@
+
 /****************************************************************************
  Copyright (c) 2016 libo All rights reserved.
  
@@ -9,7 +10,7 @@
 #include <string>
 #include <functional>
 #include <memory>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Foundation/Singleton.h"
 
 NS_FK_BEGIN
@@ -126,3 +127,15 @@ private:
 
 
 NS_FK_END
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,11 +9,11 @@
 #include "Logger.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_WIN32)
+#if (TARGET_PLATFORM == PLATFORM_WIN32)
 #include <Winsock2.h>
 #endif
 
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_ANDROID)
+#if (TARGET_PLATFORM == PLATFORM_ANDROID)
 #include <android/log.h>
 #endif
 
@@ -62,9 +62,9 @@ void Logger::log( Level level, const char* message, ... )
     strPreMsg += str;
     strPreMsg += "\n";
 
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_ANDROID)
+#if (TARGET_PLATFORM == PLATFORM_ANDROID)
     __android_log_print(ANDROID_LOG_DEBUG, "FoundationKit", "%s", strPreMsg.c_str());
-#elif FK_TARGET_PLATFORM ==  FK_PLATFORM_WIN32 || FK_TARGET_PLATFORM == FK_PLATFORM_WINRT || FK_TARGET_PLATFORM == FK_PLATFORM_WP8
+#elif TARGET_PLATFORM ==  PLATFORM_WIN32 || TARGET_PLATFORM == PLATFORM_WINRT || TARGET_PLATFORM == PLATFORM_WP8
     std::wstring wstr = StringUtils::string2UTF8wstring(strPreMsg.c_str());
     OutputDebugStringW(wstr.c_str());
     printf("%s", strPreMsg.c_str());
@@ -89,47 +89,4 @@ void Logger::setEnabled( Level level, bool enabled )
 
 NS_FK_END
 
-extern void _log_(const char* message, ...)
-{
-    std::string strPreMsg;
-    va_list args;
-    // Declare a moderately sized buffer on the stack that should be
-    // large enough to accommodate most log requests.
-    int size = NS_NAME::MAX_LOG_LENGTH;
-    //char stackBuffer[MAX_LOG_LENGTH] = { 0 };
-    std::vector<char> dynamicBuffer(NS_NAME::MAX_LOG_LENGTH);
-    char* str = &dynamicBuffer[0];
-    for (;;)
-    {
-        va_start(args, message);
-        // Pass one less than size to leave room for NULL terminator
-        int needed = vsnprintf(str, size - 1, message, args);
-        va_end(args);
-        // NOTE: Some platforms return -1 when vsnprintf runs out of room, while others return
-        // the number of characters actually needed to fill the buffer.
-        if (needed >= 0 && needed < size)
-        {
-            // Successfully wrote buffer. Added a NULL terminator in case it wasn't written.
-            str[needed] = '\0';
-            break;
-        }
-        size = needed > 0 ? (needed + 1) : (size * 2);
-        dynamicBuffer.resize(size);
-        str = &dynamicBuffer[0];
-    }
-    strPreMsg += str;
-    strPreMsg += "\n";
 
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_ANDROID)
-    __android_log_print(ANDROID_LOG_DEBUG, "FoundationKit", "%s", strPreMsg.c_str());
-#elif FK_TARGET_PLATFORM ==  FK_PLATFORM_WIN32 || FK_TARGET_PLATFORM == FK_PLATFORM_WINRT || FK_TARGET_PLATFORM == FK_PLATFORM_WP8
-    std::wstring wstr = NS_NAME::StringUtils::string2UTF8wstring(strPreMsg.c_str());
-    OutputDebugStringW(wstr.c_str());
-    printf("%s", strPreMsg.c_str());
-    fflush(stdout);
-#else
-    // Linux, Mac, iOS, etc
-    fprintf(stdout, "%s", strPreMsg.c_str());
-    fflush(stdout);
-#endif
-}

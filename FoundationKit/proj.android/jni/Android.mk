@@ -55,7 +55,6 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/Foundation/MessageQueue.cpp \
 ../../FoundationKit/Foundation/Scheduler.cpp \
 ../../FoundationKit/Foundation/StringUtils.cpp \
-../../FoundationKit/Foundation/ThreadPool.cpp \
 ../../FoundationKit/Foundation/Version.cpp \
 ../../FoundationKit/Foundation/WorkQueue.cpp \
 ../../FoundationKit/HttpClient/HttpClient.cpp \
@@ -69,7 +68,6 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/LuaEngine/LuaValue.cpp \
 ../../FoundationKit/LuaEngine/Script.cpp \
 ../../FoundationKit/Platform/Android/AndroidJavaBridge.cpp \
-../../FoundationKit/Platform/Android/AndroidSystemInfo.cpp \
 ../../FoundationKit/Platform/Android/FileUtils_android.cpp \
 ../../FoundationKit/Platform/Android/PlatformAndroid.cpp \
 ../../FoundationKit/Platform/Android/ProtectedMemoryAllocator.cpp \
@@ -85,6 +83,9 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../ \
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../../FoundationKit/external/unzip \
 
+LOCAL_CFLAGS   :=  -DUSE_FILE32API
+
+LOCAL_EXPORT_CFLAGS   := -DUSE_FILE32API
 LOCAL_EXPORT_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11
 
 LOCAL_EXPORT_LDLIBS := -llog \

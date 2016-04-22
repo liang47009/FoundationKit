@@ -1,4 +1,5 @@
 
+
 #include "EventListenerKeyboard.h"
 
 
@@ -10,7 +11,6 @@ bool EventListenerKeyboard::checkAvailable()
 {
 	if (onKeyPressed == nullptr && onKeyReleased == nullptr && onKeyChar == nullptr)
 	{
-		FKASSERT(false, "Invalid EventListenerKeyboard!");
 		return false;
 	}
 	
@@ -26,7 +26,7 @@ EventListenerKeyboard::Pointer EventListenerKeyboard::create()
 	}
 	else
 	{
-		FK_SAFE_DELETE(ret);
+		SAFE_DELETE(ret);
 	}
 	return EventListenerKeyboard::Pointer(ret);
 }

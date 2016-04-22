@@ -7,7 +7,6 @@
 #pragma once
 #include <tuple>
 #include <functional>
-#include "std_wrapper.h"
 
 _STD_BEGIN
 

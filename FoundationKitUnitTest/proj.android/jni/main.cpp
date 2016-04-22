@@ -18,17 +18,17 @@
 #include <jni.h>
 #include <android/log.h>
 #include <stdio.h>
-#include "FoundationKit/Platform/Android/AndroidSystemInfo.h"
 #include "FoundationKit/Foundation/Logger.h"
-#include "FoundationKit/Platform/Android/AndroidTest.h"
+//#include "FoundationKit/Platform/Android/AndroidTest.h"
 #include "FoundationKit/stdextensions/utility.hpp"
-#include "FoundationKit/Foundation/Timer.h"
+#include "FoundationKit/Base/Timer.h"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.h"
+
 #include <vector>
 #include <stdarg.h>
 
 
 using namespace FoundationKit;
-using namespace FoundationKit::Android;
 
 /* This is a trivial JNI example where we use a native method
  * to return a new VM String. See the corresponding Java source
@@ -41,8 +41,7 @@ extern "C"{
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
 	ANDROID_LOGD("============== >>>>> JNI_OnLoad");
-	AndroidJNIHelper::getInstance()->setJavaVM(vm);
-	//initAndroidCrashDump();
+
     return JNI_VERSION_1_4;
 }
 
@@ -71,12 +70,6 @@ void testFunctionCache()
 JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
 {
     ANDROID_LOGD("============== >>>>> foundationInit");
-    std::string macaddress = AndroidSystemInfo::getInstance()->getMacAddress();
-    ANDROID_LOGD("============== >>>>> macaddress = %s",macaddress.c_str());
-    std::string deviceid = AndroidSystemInfo::getInstance()->getDeviceId();
-    ANDROID_LOGD("============== >>>>> deviceid = %s",deviceid.c_str());
-
-    testJavaString();
 
     testFunctionCache();
 }

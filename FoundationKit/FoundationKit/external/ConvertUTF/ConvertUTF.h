@@ -176,7 +176,6 @@ int getUTF8StringLength(const UTF8* utf8);
 
 #include <vector>
 #include <string>
-#include "FoundationKit/stdextensions/std_wrapper.h"
 namespace llvm {
 
 /**

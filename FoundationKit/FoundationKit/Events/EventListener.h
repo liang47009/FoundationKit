@@ -3,7 +3,7 @@
 #include <functional>
 #include <string>
 #include <memory>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 NS_FK_BEGIN
 

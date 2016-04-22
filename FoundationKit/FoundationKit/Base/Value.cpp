@@ -341,7 +341,7 @@ void Value::copy(Value& other)
         break;
     case Value::Type::PCHAR:
         {
-            FK_SAFE_DELETE(_field._pcharVal);
+            SAFE_DELETE(_field._pcharVal);
             char* val = other.as<char*>();
             size_t len = strlen(val);
             _field._pcharVal = new char[len + 1];
@@ -351,7 +351,7 @@ void Value::copy(Value& other)
         break;
     case Value::Type::STRING:
         {
-            FK_SAFE_DELETE(_field._stringVal);
+            SAFE_DELETE(_field._stringVal);
             std::string val = other.as<std::string>();
             _field._stringVal = new char[val.size() + 1];
             memcpy(_field._stringVal, val.c_str(), val.size());
@@ -385,10 +385,10 @@ void Value::clear()
     switch (_type)
     {
     case Value::Type::PCHAR:
-        FK_SAFE_DELETE(_field._pcharVal);
+        SAFE_DELETE(_field._pcharVal);
         break;
     case Value::Type::STRING:
-        FK_SAFE_DELETE(_field._stringVal);
+        SAFE_DELETE(_field._stringVal);
         break;
     default:
         break;
@@ -404,11 +404,11 @@ void Value::reset(Type valType)
         return;
     if (_type == Type::PCHAR)
     {
-        FK_SAFE_DELETE(_field._pcharVal);
+        SAFE_DELETE(_field._pcharVal);
     }
     else if (_type == Type::STRING)
     {
-        FK_SAFE_DELETE(_field._stringVal);
+        SAFE_DELETE(_field._stringVal);
     }
     _type = valType;
 }

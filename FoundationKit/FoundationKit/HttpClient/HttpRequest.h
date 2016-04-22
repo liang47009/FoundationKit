@@ -11,7 +11,7 @@ losemymind.libo@gmail.com
 #include <string>
 #include <memory>
 #include <functional>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 NS_FK_BEGIN
 
 #ifdef DELETE

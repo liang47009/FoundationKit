@@ -1,4 +1,5 @@
 
+#include <cassert>
 #include "EventListenerTouch.h"
 #include "EventDispatcher.h"
 #include "EventTouch.h"
@@ -52,7 +53,7 @@ EventListenerTouchOneByOne::Pointer EventListenerTouchOneByOne::create()
     }
     else
     {
-        FK_SAFE_DELETE(ret);
+        SAFE_DELETE(ret);
     }
     return EventListenerTouchOneByOne::Pointer(ret);
 
@@ -64,7 +65,7 @@ bool EventListenerTouchOneByOne::checkAvailable()
     // message to 'EventListenerTouchOneByOne' or not. So 'onTouchBegan' needs to be set.
     if (onTouchBegan == nullptr)
     {
-        FKASSERT(false, "Invalid EventListenerTouchOneByOne!");
+        assert(false && "Invalid EventListenerTouchOneByOne!");
         return false;
     }
     
@@ -104,7 +105,7 @@ EventListenerTouchAllAtOnce::Pointer EventListenerTouchAllAtOnce::create()
     }
     else
     {
-        FK_SAFE_DELETE(ret);
+        SAFE_DELETE(ret);
     }
     return EventListenerTouchAllAtOnce::Pointer(ret);
 }
@@ -114,7 +115,7 @@ bool EventListenerTouchAllAtOnce::checkAvailable()
     if (onTouchesBegan == nullptr && onTouchesMoved == nullptr
         && onTouchesEnded == nullptr && onTouchesCancelled == nullptr)
     {
-        FKASSERT(false, "Invalid EventListenerTouchAllAtOnce!");
+        assert(false && "Invalid EventListenerTouchAllAtOnce!");
         return false;
     }
     

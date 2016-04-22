@@ -7,7 +7,7 @@
 #pragma once
 #include <string>
 #include <sstream>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 NS_FK_BEGIN
 
 class Version

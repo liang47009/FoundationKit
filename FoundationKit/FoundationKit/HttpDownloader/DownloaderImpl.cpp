@@ -8,7 +8,7 @@ losemymind.libo@gmail.com
 #include "DownloaderImpl.h"
 #include <curl.h>
 #include <cassert>
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "FoundationKit/Platform/FileUtils.h"
 
@@ -89,7 +89,7 @@ namespace network
         const WriterCallback& writerCallback,
         const ProgressCallback& progressCallback)
     {
-        FK_ASSERT(_initialized && "must be initialized");
+        assert(_initialized && "must be initialized");
 
         // for callbacks
         unit->_reserved = this;
@@ -229,7 +229,7 @@ namespace network
                 FD_ZERO(&fdwrite);
                 FD_ZERO(&fdexcep);
                 // FIXME: when jenkins migrate to ubuntu, we should remove this hack code
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_LINUX)
+#if (TARGET_PLATFORM == PLATFORM_LINUX)
                 curl_multi_fdset(multi_handle, &fdread, &fdwrite, &fdexcep, &maxfd);
                 rc = select(maxfd + 1, &fdread, &fdwrite, &fdexcep, &select_tv);
 #else

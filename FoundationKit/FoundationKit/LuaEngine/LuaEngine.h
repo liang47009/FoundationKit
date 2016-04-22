@@ -1,5 +1,5 @@
 #pragma once
-#include "FoundationKit/FoundationKitDefines.h"
+#include "FoundationKit/GenericPlatformMacros.h"
 
 
 extern "C" {
