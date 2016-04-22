@@ -25,10 +25,16 @@
 #include "FoundationKit/Foundation/FunctionCenter.hpp"
 #include "FoundationKit/stdextensions/delegate.h"
 #include "FoundationKit/Base/CompilerMacros.h"
+#include "FoundationKit/Base/Timer.h"
 
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
 #include "../../HttpClient/HttpClientTest.h"
+
+#include <stdint.h>
+
+#include <chrono>
+using namespace std::chrono;
 
 using namespace std;
 USING_NS_FK;
@@ -52,16 +58,11 @@ void AppDelegate::applicationDidLaunching()
 }
 
 
-    typedef std::unordered_map<std::string, std::string>  Dictionary;
-    static  Dictionary g_uploadParameters;
-    static std::string g_reportServerAddress;
-
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
     //TestHttpClientWithUploadDumpInfo();
-    //return true;
+
 
     std::vector<std::string> files;
     FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/ApplicationKit", files, true);
