@@ -16,21 +16,19 @@
 #include "FoundationKit/Foundation/ApplyTuple.h"
 #include "FoundationKit/Foundation/TupleApply.h"
 #include "FoundationKit/Platform/Platform.h"
-#include "FoundationKit/stdextensions/aligned_ptr.hpp"
-#include "FoundationKit/stdextensions/any.hpp"
-#include "FoundationKit/stdextensions/function_traits.hpp"
-#include "FoundationKit/stdextensions/optional.hpp"
-#include "FoundationKit/stdextensions/utility.hpp"
-#include "FoundationKit/stdextensions/utility.hpp"
+#include "FoundationKit/experimental/aligned_ptr.hpp"
+#include "FoundationKit/experimental/any.hpp"
+#include "FoundationKit/experimental/optional.hpp"
+#include "FoundationKit/std/utility.hpp"
+#include "FoundationKit/std/function_traits.hpp"
 #include "FoundationKit/Foundation/FunctionCenter.hpp"
-#include "FoundationKit/stdextensions/delegate.h"
 #include "FoundationKit/Base/CompilerMacros.h"
 #include "FoundationKit/Base/Timer.h"
 
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
 #include "../../HttpClient/HttpClientTest.h"
-#include "FoundationKit/stdextensions/utility.hpp"
+
 
 #include <stdint.h>
 

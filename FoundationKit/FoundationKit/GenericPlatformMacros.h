@@ -41,7 +41,12 @@
 
 #define TARGET_PLATFORM PLATFORM_UNKNOWN
 
-#if defined(IOS)
+#if defined(__APPLE__)
+// TARGET_OS_IPHONE inlcudes TARGET_OS_IOS TARGET_OS_TV and TARGET_OS_WATCH. see TargetConditionals.h
+#include <TargetConditionals.h>
+#endif
+
+#if (TARGET_OS_IPHONE )
     #undef TARGET_PLATFORM
     #define TARGET_PLATFORM PLATFORM_IOS
    /**
@@ -96,7 +101,7 @@
     #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
 
 
-#elif defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
+#elif defined(_WIN32) && defined(_WINDOWS)
     #undef TARGET_PLATFORM
     #define TARGET_PLATFORM PLATFORM_WIN32
     #define DEPRECATED(VERSION, MESSAGE) __declspec(deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile."))
@@ -124,7 +129,7 @@
     #define FORCEINLINE inline __attribute__ ((always_inline)) /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
 
-#elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
+#elif(TARGET_OS_MAC)
     #undef TARGET_PLATFORM
     #define TARGET_PLATFORM PLATFORM_MAC
     #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
@@ -139,7 +144,7 @@
     #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
 
 #else
-    #error Unknown Compiler
+    #error Unknown platform
 #endif
 
 #if __cplusplus < 201103L
