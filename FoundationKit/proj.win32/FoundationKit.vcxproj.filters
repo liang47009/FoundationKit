@@ -37,9 +37,6 @@
     <Filter Include="external\unzip">
       <UniqueIdentifier>{49aba178-7de0-4404-b102-a25107d2b7da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="stdextensions">
-      <UniqueIdentifier>{c3eebad2-fd7a-4ad4-b611-23fd3c8b1281}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Thread">
       <UniqueIdentifier>{6d13a433-c1f4-453e-a084-f25fa1e92b63}</UniqueIdentifier>
     </Filter>
@@ -51,6 +48,12 @@
     </Filter>
     <Filter Include="Base">
       <UniqueIdentifier>{65b125cc-d559-4605-bbc6-67c151774db0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="experimental">
+      <UniqueIdentifier>{48e7a118-d5a1-47a1-b07c-a2b36376ed07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="std">
+      <UniqueIdentifier>{113270e5-ac52-439c-a315-9677c3f83638}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -246,21 +249,6 @@
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h">
       <Filter>external\unzip</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\stdextensions\aligned_ptr.hpp">
-      <Filter>stdextensions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\stdextensions\any.hpp">
-      <Filter>stdextensions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\stdextensions\function_traits.hpp">
-      <Filter>stdextensions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\stdextensions\optional.hpp">
-      <Filter>stdextensions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\stdextensions\utility.hpp">
-      <Filter>stdextensions</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Thread\thread.h">
       <Filter>Thread</Filter>
     </ClInclude>
@@ -362,6 +350,24 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\GenericPlatformMacros.h">
       <Filter>FoundationKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\aligned_ptr.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\any.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\memory.h">
+      <Filter>experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\optional.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\function_traits.hpp">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\utility.hpp">
+      <Filter>std</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -547,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Events\GameController.cpp">
       <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\experimental\memory.cpp">
+      <Filter>experimental</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
