@@ -48,6 +48,10 @@ typedef signed short int	int16;		// 16-bit signed.
 typedef signed int	 		int32;		// 32-bit signed.
 typedef signed long long	int64;		// 64-bit signed.
 
+typedef float		        float32;    // 32-bit signed.
+typedef double		        float64;    // 64-bit signed.
+typedef long double         float128;   // 128-bit signed.
+
 // Character types.
 typedef char				ANSICHAR;	// An ANSI character       -                  8-bit fixed-width representation of 7-bit characters.
 typedef wchar_t				WIDECHAR;	// A wide character        - In-memory only.  ?-bit fixed-width representation of the platform's natural wide character set.  Could be different sizes on different platforms.
