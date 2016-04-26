@@ -1,38 +1,16 @@
-/****************************************************************************
-  Copyright (c) 2015 libo All rights reserved.
-
-  losemymind.libo@gmail.com
-
-****************************************************************************/
-#include <vector>
-#include <stdarg.h>
-#include "Logger.h"
+#include "GenericPlatformMacros.h"
 #include "FoundationKit/Foundation/StringUtils.h"
-
-#if (TARGET_PLATFORM == PLATFORM_WIN32)
-#include <Winsock2.h>
-#endif
-
+#include <cstdarg>
+#include <cstdio>
 #if (TARGET_PLATFORM == PLATFORM_ANDROID)
 #include <android/log.h>
+#elif (TARGET_PLATFORM == PLATFORM_WIN32)
+#include <Windows.h>
 #endif
-
-
-NS_FK_BEGIN
-
-static const size_t MAX_LOG_LENGTH = 1024;
-static const char*  LevelMsg[] = {"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"};
-
-
-Logger::State::State():enabled(true){}
-
-void Logger::log( Level level, const char* message, ... )
+USING_NS_FK;
+void __log__(const char* message, ...)
 {
-    Logger::State& state = _states[level];
-    if (!state.enabled)
-        return;
-    std::string strPreMsg = LevelMsg[level];
-    strPreMsg += ":";
+    static const size_t MAX_LOG_LENGTH = 1024;
     va_list args;
 
     // Declare a moderately sized buffer on the stack that should be
@@ -59,34 +37,22 @@ void Logger::log( Level level, const char* message, ... )
         dynamicBuffer.resize(size);
         str = &dynamicBuffer[0];
     }
-    strPreMsg += str;
-    strPreMsg += "\n";
+
 
 #if (TARGET_PLATFORM == PLATFORM_ANDROID)
-    __android_log_print(ANDROID_LOG_DEBUG, "FoundationKit", "%s", strPreMsg.c_str());
+    __android_log_print(ANDROID_LOG_INFO, "LoseMyMind", str);
 #elif TARGET_PLATFORM ==  PLATFORM_WIN32
-    std::wstring wstr = StringUtils::string2UTF8wstring(strPreMsg.c_str());
+    std::wstring wstr = StringUtils::string2UTF8wstring(str);
     OutputDebugStringW(wstr.c_str());
-    printf("%s", strPreMsg.c_str());
+    printf(str);
     fflush(stdout);
 #else
     // Linux, Mac, iOS, etc
-    fprintf(stdout, "%s", strPreMsg.c_str());
+    fprintf(stdout, str);
     fflush(stdout);
 #endif
 }
 
-bool Logger::isEnabled( Level level )
-{
-    return _states[level].enabled;
-}
 
-void Logger::setEnabled( Level level, bool enabled )
-{
-    _states[level].enabled = enabled;
-}
-
-
-NS_FK_END
 
 

@@ -3,20 +3,6 @@
 #define LOSEMYMIND_GENERICPLATFORMMACROS_H
 #pragma once
 
-#include <string> // for check _STD_BEGIN
-#ifndef _STD_BEGIN
-
-#if defined(__cplusplus)
-#define _STD_BEGIN	namespace std {
-#define _STD_END		}
-#define _STD	::std::
-#else /* __cplusplus */
-#define _STD_BEGIN
-#define _STD_END
-#define _STD
-#endif
-#endif
-
 // namespace FoundationKit {}
 #ifdef __cplusplus
 #define NS_FK_BEGIN                     namespace FoundationKit {
@@ -147,16 +133,22 @@
     #error Unknown platform
 #endif
 
+#if (TARGET_PLATFORM == PLATFORM_WIN32)
+__pragma (warning(disable:4127))
+#define _XKEYCHECK_H // disable windows xkeycheck.h
+#endif
+
+extern void __log__(const char* message, ...);
+#if defined(DEBUG) || defined(_DEBUG)
+#define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(msg, ##__VA_ARGS__);}} while (false)
+#else
+#define LOG_ASSERT(cond, msg) do{}while(false)
+#endif
+
 #if __cplusplus < 201103L
 #define constexpr
 #define noexcept
 #endif
-
-#if (TARGET_PLATFORM == PLATFORM_WIN32)
-__pragma (warning(disable:4127))
-#endif
-
-
 
 #define __unused_arg(arg) do{(void)(arg);}while(0)
 

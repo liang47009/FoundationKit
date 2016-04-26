@@ -31,6 +31,7 @@ public:
     typedef typename dictionary::allocator_type allocator_type;
     typedef typename dictionary::mapped_type mapped_type;
     typedef std::pair<TKey, size_t> ki_pair;
+    typedef std::pair< typename dictionary::iterator, typename dictionary::iterator > dictionary_pair;
 
     Dictionary()
         : _MultiMap()
@@ -83,7 +84,7 @@ public:
     TValue & at(const TKey & key)
     {
         auto it = _MultiMap.find(key);
-        FKASSERT(it != _MultiMap.end(), "Dictionary::at: Couldn't find key '");
+        LOG_ASSERT(it != _MultiMap.end(), "Dictionary::at: Couldn't find key '");
         return ((*it).second);
     }
 
@@ -96,7 +97,7 @@ public:
         {
             ++i;
             ++it;
-            FKASSERT(it != range.second, "Dictionary::at: The value with key '");
+            LOG_ASSERT(it != range.second, "Dictionary::at: The value with key and index couldn't be found.");
         }
         return ((*it).second);
         
@@ -165,20 +166,14 @@ public:
 
     const_interator lower_bound(const TKey & key) const
     {
-//#ifdef DESKTOP
         return (_MultiMap.lower_bound(key));
-//#else
-//        return _MultiMap.equal_range(key).first;
-//#endif
+//      return _MultiMap.equal_range(key).first;
     }
 
     const_interator upper_bound(const TKey & key) const
     {
-//#ifdef DESKTOP
         return (_MultiMap.upper_bound(key));
-//#else
-//        return _MultiMap.equal_range(key).second;
-//#endif
+//      return _MultiMap.equal_range(key).second;
     }
     
     iterator insert(const value_type & kv_pair)
@@ -218,9 +213,9 @@ public:
         _MultiMap.clear();
     }
 
-    void swap(Dictionary<TKey, TValue> & yRef)
+    void swap(Dictionary<TKey, TValue> & refDict)
     {
-        _MultiMap.swap(yRef._MultiMap);
+        _MultiMap.swap(refDict._MultiMap);
     }
 
     bool empty() const

@@ -557,6 +557,9 @@
     <ClCompile Include="..\FoundationKit\experimental\memory.cpp">
       <Filter>experimental</Filter>
     </ClCompile>
+    <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp">
+      <Filter>FoundationKit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\Base\MathUtil.inl">

@@ -22,9 +22,8 @@
 #include "FoundationKit/std/utility.hpp"
 #include "FoundationKit/std/function_traits.hpp"
 #include "FoundationKit/Foundation/FunctionCenter.hpp"
-#include "FoundationKit/Base/CompilerMacros.h"
 #include "FoundationKit/Base/Timer.h"
-
+#include "FoundationKit/Base/Dictionary.h"
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
 #include "../../HttpClient/HttpClientTest.h"
@@ -61,7 +60,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
 	LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
     //TestHttpClientWithUploadDumpInfo();
-
 
     std::vector<std::string> files;
     FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/ApplicationKit", files, true);
