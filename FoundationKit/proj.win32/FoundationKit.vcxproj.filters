@@ -279,13 +279,7 @@
     <ClInclude Include="..\FoundationKit\Base\DataStream.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\DataStreamTest.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\Dictionary.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\DictionaryTest.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\MathUtil.h">
@@ -345,9 +339,6 @@
     <ClInclude Include="..\FoundationKit\Events\GameController.h">
       <Filter>Events</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\Timer.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\GenericPlatformMacros.h">
       <Filter>FoundationKit</Filter>
     </ClInclude>
@@ -368,6 +359,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\std\utility.hpp">
       <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Time.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -559,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp">
       <Filter>FoundationKit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\Time.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
