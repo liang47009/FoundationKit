@@ -2,7 +2,7 @@
 #ifndef LOSEMYMIND_GENERICPLATFORMMACROS_H
 #define LOSEMYMIND_GENERICPLATFORMMACROS_H
 #pragma once
-
+#include <cassert>
 // namespace FoundationKit {}
 #ifdef __cplusplus
 #define NS_FK_BEGIN                     namespace FoundationKit {
@@ -140,7 +140,7 @@ __pragma (warning(disable:4127))
 
 extern void __log__(const char* message, ...);
 #if defined(DEBUG) || defined(_DEBUG)
-#define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(msg, ##__VA_ARGS__);}} while (false)
+#define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(msg, ##__VA_ARGS__);assert(cond);}} while (false)
 #else
 #define LOG_ASSERT(cond, msg) do{}while(false)
 #endif

@@ -12,6 +12,7 @@
 #include <unordered_map>
 #include <vector>
 #include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/Foundation/StringUtils.h"
 
 NS_FK_BEGIN
 
@@ -84,7 +85,7 @@ public:
     TValue & at(const TKey & key)
     {
         auto it = _MultiMap.find(key);
-        LOG_ASSERT(it != _MultiMap.end(), "Dictionary::at: Couldn't find key '");
+        LOG_ASSERT(it != _MultiMap.end(), "Dictionary::at: Couldn't find key:%s", StringUtils::to_string(key).c_str());
         return ((*it).second);
     }
 
@@ -97,7 +98,9 @@ public:
         {
             ++i;
             ++it;
-            LOG_ASSERT(it != range.second, "Dictionary::at: The value with key and index couldn't be found.");
+            LOG_ASSERT(it != range.second, "Dictionary::at: The value with key:%s and index:%s couldn't be found.",
+                StringUtils::to_string(key).c_str(),
+                StringUtils::to_string(index).c_str());
         }
         return ((*it).second);
         
