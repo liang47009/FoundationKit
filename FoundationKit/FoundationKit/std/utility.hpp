@@ -12,31 +12,19 @@
 #include <memory>
 #include <utility>
 #include <unordered_map>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/Base/Types.h"
+USING_NS_FK;
 
+/*-----------------------------------------------------------------------------
+Standard templates.
+-----------------------------------------------------------------------------*/
 namespace std{
 
-// stl is not implement disable_if, so we implement it and add to std namespace.
-
 /**
- // TEMPLATE CLASS disable_if
- template<bool _Test,
- class _Ty = void>
- struct disable_if
- {	// type is undefined for assumed !_Test
- typedef _Ty type;
- };
- 
- template<class _Ty>
- struct disable_if < true, _Ty >
- {	// type is _Ty for _Test
- 
- };
+ * stl is not implement disable_if, so we implement it and add to std namespace.
+ * written more simply as
  */
-
-//written more simply as
-template < bool _Test, class _Ty = void >
-using disable_if = std::enable_if < !_Test, _Ty > ;
+template < bool _Test, class _Ty = void > using disable_if = std::enable_if < !_Test, _Ty > ;
 
 /** 
  * this can detect inherited member functions!
@@ -82,6 +70,48 @@ private:\
 public:\
 	enum{value = std::is_same<decltype(check<T>(0)), std::true_type>::value};\
 };
+
+/**
+ * @code
+ * struct MyStruct
+ * {
+ *     int a;
+ *     double b;
+ * };
+ * memory_aligned<MyStruct>::type pMyStruct;
+ * new(&pMyStruct)MyStruct();
+ * MyStruct *pRawMyStruct = reinterpret_cast<MyStruct*>(&pMyStruct);
+ * pRawMyStruct-> a = pRawMyStruct->b *10;
+ * pRawMyStruct->~MyStruct();
+ * @endcode
+ */
+template<typename T>
+struct memory_aligned
+{
+    using type = typename std::aligned_storage<sizeof(T), std::alignment_of<T>::value>::type;
+};
+
+/**
+ * Aligns a value to the nearest higher multiple of 'Alignment', which must be a power of two.
+ *
+ * @param Ptr			Value to align
+ * @param Alignment		Alignment, must be a power of two
+ * @return				Aligned value
+ */
+template <typename T>
+inline constexpr T align(const T Ptr, int32_t Alignment)
+{
+    return (T)(((PTRINT)Ptr + Alignment - 1) & ~(Alignment - 1));
+}
+/**
+ * Checks if a pointer is aligned to the specified alignment.
+ * @param Ptr - The pointer to check.
+ * @return true if the pointer is aligned, false otherwise.
+ */
+static FORCEINLINE bool isAligned(const volatile void* Ptr, const uint32_t Alignment)
+{
+    return !(UPTRINT(Ptr) & (Alignment - 1));
+}
 
 /**
  * Get max integer
@@ -137,29 +167,6 @@ template <class _Ty>
 struct always_false : std::false_type{};
 
 // ============= function cache implement ==================
-/** 
- * @code
- *     size_t noCache(size_t n)  
- *     {  
- *        return (n < 2) ? n : noCache(n - 1) + noCache(n - 2);  
- *     }
- *     
- *     size_t hasCache(size_t n)  
- *     {  
- *         return (n < 2) ? n : sugar(hasCache)(n - 1) + sugar(hasCache)(n - 2);  
- *     } 
- *     
- *     void testFunctionCache()
- *     {
- *         Timer t1;
- *         auto v1 = noCache(45);
- *         LOGD("=========== noCache value:%d run time:%lld", v1, t1.elapsed_seconds());
- *         Timer t2;
- *         auto v2 = hasCache(45);
- *         LOGD("=========== hasCache value:%d run time:%lld", v2, t2.elapsed_seconds());
- *     }
- * @endcode
- */
 // sugar helper method.
 template <typename R, typename... Args>  
 std::function<R(Args...)> function_cache(R(*func) (Args...))  
@@ -175,7 +182,30 @@ std::function<R(Args...)> function_cache(R(*func) (Args...))
     });  
 } 
 
-// sugar the function and cache.
+/**
+ * sugar the function and cache.
+ * @code
+ *     size_t noCache(size_t n)
+ *     {
+ *        return (n < 2) ? n : noCache(n - 1) + noCache(n - 2);
+ *     }
+ *
+ *     size_t hasCache(size_t n)
+ *     {
+ *         return (n < 2) ? n : sugar(hasCache)(n - 1) + sugar(hasCache)(n - 2);
+ *     }
+ *
+ *     void testFunctionCache()
+ *     {
+ *         Timer t1;
+ *         auto v1 = noCache(45);
+ *         LOGD("=========== noCache value:%d run time:%lld", v1, t1.elapsed_seconds());
+ *         Timer t2;
+ *         auto v2 = hasCache(45);
+ *         LOGD("=========== hasCache value:%d run time:%lld", v2, t2.elapsed_seconds());
+ *     }
+ * @endcode
+ */
 template <typename R, typename...  Args>  
 std::function<R(Args...)> sugar(R(*func)(Args...), bool needClear = false)  
 {  

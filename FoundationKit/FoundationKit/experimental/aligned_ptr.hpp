@@ -18,29 +18,6 @@ namespace std{
 
 /**
  * @code
-     struct MyStruct
-     {
-        int a;
-        double b;
-     };
-     memory_aligned<MyStruct>::type _pMyStruct;
-     new(&_pMyStruct)MyStruct();
-     MyStruct *_pRawMyStruct = reinterpret_cast<MyStruct*>(&_pMyStruct);
-     _pRawMyStruct-> a = _pRawMyStruct->b *10;
-
-     _pRawMyStruct->~MyStruct();
-
- * @endcode
- */
-template<typename T>
-struct memory_aligned
-{
-    using type = typename _STD aligned_storage<sizeof(T), _STD alignment_of<T>::value>::type;
-};
-
-
-/**
- * @code
     aligned_ptr<Value> _pMyStruct1;
     {
         aligned_ptr<Value> _pMyStruct;
