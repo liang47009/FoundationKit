@@ -89,11 +89,6 @@ public:
 
     TValue & at(const TKey & key, size_type index)
     {
-        return (at(keyIndexPair.first, keyIndexPair.second));
-    }
-
-    TValue & at(ki_pair& keyIndexPair)
-    {
         std::pair<iterator, iterator> range = _MultiMap.equal_range(key);
         auto it = range.first;
         size_type i(0);
@@ -104,6 +99,12 @@ public:
             FKASSERT(it != range.second, "Dictionary::at: The value with key '");
         }
         return ((*it).second);
+        
+    }
+
+    TValue & at(ki_pair& keyIndexPair)
+    {
+        return (at(keyIndexPair.first, keyIndexPair.second));
     }
     
     std::vector<TValue> valuesOfKey(const TKey &key)

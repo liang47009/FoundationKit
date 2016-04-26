@@ -4,8 +4,9 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
-#include "FoundationKit/FoundationKitDefines.h"
-#if (FK_TARGET_PLATFORM == FK_PLATFORM_IOS || FK_TARGET_PLATFORM == FK_PLATFORM_MAC)
+#include "FoundationKit/GenericPlatformMacros.h"
+
+#if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
 #include "FileUtils.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include <ftw.h>

@@ -9,14 +9,12 @@
 #import "AppDelegate.h"
 #include "FoundationKit/Foundation/Scheduler.h"
 #include "FoundationKit/Foundation/Logger.h"
-#include "FoundationKit/Data/Dictionary.h"
-#include "FoundationKit/Data/DictionaryTest.h"
-#include "FoundationKit/Data/DataStreamTest.h"
-#include "FoundationKit/stdextensions/function_traits.hpp"
-#include "FoundationKit/stdextensions/aligned_ptr.hpp"
-#include "FoundationKit/stdextensions/any.hpp"
-#include "FoundationKit/stdextensions/optional.hpp"
-#include "FoundationKit/stdextensions/utility.hpp"
+#include "FoundationKit/Base/Dictionary.h"
+#include "FoundationKit/experimental/aligned_ptr.hpp"
+#include "FoundationKit/experimental/any.hpp"
+#include "FoundationKit/experimental/optional.hpp"
+#include "FoundationKit/std/utility.hpp"
+#include "FoundationKit/std/function_traits.hpp"
 #include "FoundationKit/Thread/thread.h"
 
 
@@ -34,9 +32,7 @@ using namespace FoundationKit;
 
     LOG_INFO("======= didFinishLaunchingWithOptions ");
     Scheduler::getInstance()->setTimeScale(1.0f);
-    
-    TestDictionary();
-    TestDataStream();
+
     
     return YES;
 }
