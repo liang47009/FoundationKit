@@ -96,7 +96,6 @@
 /* Begin PBXFileReference section */
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		09745B2A1CB8F6E8009D350F /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
-		09745B2B1CB8F6E8009D350F /* CompilerMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompilerMacros.h; sourceTree = "<group>"; };
 		09745B2C1CB8F6E8009D350F /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Data.cpp; sourceTree = "<group>"; };
 		09745B2D1CB8F6E8009D350F /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		09745B2E1CB8F6E8009D350F /* DataStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataStream.cpp; sourceTree = "<group>"; };
@@ -415,7 +414,6 @@
 			children = (
 				099B38421CCF38A60035F42A /* Timer.h */,
 				09745B2A1CB8F6E8009D350F /* Buffer.h */,
-				09745B2B1CB8F6E8009D350F /* CompilerMacros.h */,
 				09745B2C1CB8F6E8009D350F /* Data.cpp */,
 				09745B2D1CB8F6E8009D350F /* Data.h */,
 				09745B2E1CB8F6E8009D350F /* DataStream.cpp */,
