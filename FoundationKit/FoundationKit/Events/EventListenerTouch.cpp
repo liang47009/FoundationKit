@@ -1,5 +1,5 @@
 
-#include <cassert>
+
 #include "EventListenerTouch.h"
 #include "EventDispatcher.h"
 #include "EventTouch.h"
@@ -65,7 +65,7 @@ bool EventListenerTouchOneByOne::checkAvailable()
     // message to 'EventListenerTouchOneByOne' or not. So 'onTouchBegan' needs to be set.
     if (onTouchBegan == nullptr)
     {
-        assert(false && "Invalid EventListenerTouchOneByOne!");
+        LOG_ASSERT(false, "Invalid EventListenerTouchOneByOne!");
         return false;
     }
     
@@ -115,7 +115,7 @@ bool EventListenerTouchAllAtOnce::checkAvailable()
     if (onTouchesBegan == nullptr && onTouchesMoved == nullptr
         && onTouchesEnded == nullptr && onTouchesCancelled == nullptr)
     {
-        assert(false && "Invalid EventListenerTouchAllAtOnce!");
+        LOG_ASSERT(false, "Invalid EventListenerTouchAllAtOnce!");
         return false;
     }
     

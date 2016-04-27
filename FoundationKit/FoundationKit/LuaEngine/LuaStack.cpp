@@ -5,7 +5,6 @@ extern "C" {
 #include "lauxlib.h"
 }
 
-#include <cassert>
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Platform/FileUtils.h"
 #include "LuaStack.h"
@@ -209,7 +208,7 @@ int LuaStack::executeString(const char *codes)
 
 int LuaStack::executeScriptFile(const char* filename)
 {
-    assert(filename && "CCLuaStack::executeScriptFile() - invalid filename");
+    LOG_ASSERT(filename, "CCLuaStack::executeScriptFile() - invalid filename");
 
     static const std::string BYTECODE_FILE_EXT = ".luac";
     static const std::string NOT_BYTECODE_FILE_EXT = ".lua";

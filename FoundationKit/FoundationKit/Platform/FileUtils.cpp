@@ -7,8 +7,6 @@
 #include <sys/stat.h>
 #include <algorithm>
 #include <dirent.h> // for DIR
-#include <cassert>
-
 #include "FileUtils.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Foundation/StringUtils.h"
@@ -98,7 +96,7 @@ FileUtils::~FileUtils()
 
 void FileUtils::setDefaultResourceRootPath(const std::string& path)
 {
-    assert(!path.empty() && "setDefaultResourceRootPath:Invalid path.");
+    LOG_ASSERT(!path.empty(), "setDefaultResourceRootPath:Invalid path.");
     _resourceRootPath = path;
     if (_resourceRootPath.back() != '/' || _resourceRootPath.back() != '\\')
     {
@@ -270,7 +268,7 @@ Data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::strin
 
         buffer = (unsigned char*)malloc(fileInfo.uncompressed_size);
         int readedSize = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
-        assert(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size && "the file size is wrong");
+        LOG_ASSERT(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
         __unused_arg(readedSize);
         *size = fileInfo.uncompressed_size;
         unzCloseCurrentFile(file);
@@ -299,7 +297,7 @@ bool FileUtils::writeDataToFile(Data retData, const std::string& fullPath)
     size_t size = 0;
     const char* mode = "wb";
 
-    assert(!fullPath.empty() && retData.getSize() != 0 && "Invalid parameters.");
+    LOG_ASSERT(!fullPath.empty() && retData.getSize() != 0, "Invalid parameters.");
     do
     {
         // Read the file from hardware
@@ -375,7 +373,7 @@ std::string FileUtils::getFilePathWithoutFileName(const std::string& filePath)co
 
 long FileUtils::getFileSize(const std::string &filepath)const
 {
-    assert(!filepath.empty() && "Invalid path");
+    LOG_ASSERT(!filepath.empty(), "Invalid path");
 
     std::string fullpath = filepath;
     if (!isAbsolutePath(filepath))
@@ -485,7 +483,7 @@ void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::str
 
 bool FileUtils::createDirectory(const std::string& path)
 {
-    assert(!path.empty() && "Invalid path");
+    LOG_ASSERT(!path.empty(), "Invalid path");
 
     if (isDirectoryExist(path))
         return true;
@@ -580,8 +578,8 @@ bool FileUtils::removeFile(const std::string &path)
 
 bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &newfullpath)
 {
-    assert(!oldfullpath.empty() && "Invalid path");
-    assert(!newfullpath.empty() && "Invalid path");
+    LOG_ASSERT(!oldfullpath.empty(), "Invalid path");
+    LOG_ASSERT(!newfullpath.empty(), "Invalid path");
 
     int errorCode = rename(oldfullpath.c_str(), newfullpath.c_str());
 
@@ -595,7 +593,7 @@ bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &ne
 
 bool FileUtils::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
 {
-    assert(!path.empty() && "Invalid path");
+    assert(!path.empty(), "Invalid path");
     std::string oldPath = path + oldname;
     std::string newPath = path + name;
 

@@ -7,7 +7,6 @@ losemymind.libo@gmail.com
 
 #include "DownloaderImpl.h"
 #include <curl.h>
-#include <cassert>
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "FoundationKit/Platform/FileUtils.h"
@@ -89,7 +88,7 @@ namespace network
         const WriterCallback& writerCallback,
         const ProgressCallback& progressCallback)
     {
-        assert(_initialized && "must be initialized");
+        LOG_ASSERT(_initialized, "must be initialized");
 
         // for callbacks
         unit->_reserved = this;
@@ -122,7 +121,7 @@ namespace network
         const ProgressCallback& batchProgressCallback,
         const ErrorCallback& errorCallback)
     {
-        assert(_initialized && "must be initialized");
+        LOG_ASSERT(_initialized, "must be initialized");
 
         if (units.size() == 0)
             return -1;
@@ -273,7 +272,7 @@ namespace network
     {
 
         void *curlHandle = curl_easy_init();
-        assert(headerInfo && "headerInfo must not be null");
+        LOG_ASSERT(headerInfo, "headerInfo must not be null");
 
         curl_easy_setopt(curlHandle, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curlHandle, CURLOPT_HEADER, 1);
@@ -311,7 +310,7 @@ namespace network
 
     bool DownloaderImpl::supportsResume(const std::string& url)
     {
-        assert(_initialized && "must be initialized");
+        LOG_ASSERT(_initialized, "must be initialized");
 
         HeaderInfo headerInfo;
         // Make a resume request

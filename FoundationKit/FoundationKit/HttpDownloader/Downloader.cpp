@@ -9,7 +9,6 @@ losemymind.libo@gmail.com
 #include <cstdio>
 #include <cerrno>
 #include <thread>
-#include <cassert>
 #include "Downloader.h"
 #include "DownloaderImpl.h"
 #include "FoundationKit/Foundation/Scheduler.h"
@@ -174,9 +173,9 @@ void Downloader::downloadToBufferSync(const std::string& srcUrl, unsigned char *
 
 void Downloader::downloadToBuffer(const std::string& srcUrl, const std::string& customId, unsigned char* buffer, long size)
 {
-    assert(buffer && "must not be nill");
+    LOG_ASSERT(buffer, "must not be nill");
 
-    assert(_downloaderImpl && "Cannot instanciate more than one instance of DownloaderImpl");
+    LOG_ASSERT(_downloaderImpl, "Cannot instanciate more than one instance of DownloaderImpl");
 
     std::weak_ptr<Downloader> ptr = shared_from_this();
     std::shared_ptr<Downloader> shared = ptr.lock();
@@ -231,7 +230,7 @@ void Downloader::downloadSync(const std::string& srcUrl, const std::string& stor
 
 void Downloader::downloadToFP(const std::string& srcUrl, const std::string& customId, const std::string& storagePath)
 {
-    assert(_downloaderImpl && "Cannot instanciate more than one instance of DownloaderImpl");
+    LOG_ASSERT(_downloaderImpl, "Cannot instanciate more than one instance of DownloaderImpl");
 
     std::weak_ptr<Downloader> ptr = shared_from_this();
     std::shared_ptr<Downloader> shared = ptr.lock();
@@ -394,21 +393,21 @@ HeaderInfo Downloader::getHeader(const std::string &srcUrl)
 // callbacks
 size_t Downloader::fileWriteFunc(void *ptr, size_t size, size_t nmemb, void *userdata)
 {
-    assert(userdata && "Invalid userdata");
+    LOG_ASSERT(userdata, "Invalid userdata");
     DownloadUnit* unit = (DownloadUnit*)userdata;
     FILE *fp = (FILE*)(unit->fp);
     
-    assert(fp && "Invalid FP");
+    LOG_ASSERT(fp, "Invalid FP");
     size_t written = fwrite(ptr, size, nmemb, fp);
     return written;
 }
 
 size_t Downloader::bufferWriteFunc(void *ptr, size_t size, size_t nmemb, void *userdata)
 {
-    assert(userdata && "Invalid userdata");
+    LOG_ASSERT(userdata, "Invalid userdata");
     Downloader::StreamData* streamBuffer = (Downloader::StreamData*)((DownloadUnit*)userdata)->fp;
 
-    assert(streamBuffer && "Invalid streamBuffer");
+    LOG_ASSERT(streamBuffer, "Invalid streamBuffer");
 
     size_t written = size * nmemb;
     // Avoid pointer overflow
@@ -448,7 +447,7 @@ void Downloader::reportProgressInProgress(double totalToDownload, double nowDown
 // This is only for batchDownload process, will notify file succeed event in progress function
 int Downloader::batchDownloadProgressFunc(void *userdata, double totalToDownload, double nowDownloaded)
 {
-    assert(userdata && "Invalid userdata");
+    LOG_ASSERT(userdata, "Invalid userdata");
 
     DownloadUnit* ptr = (DownloadUnit*) userdata;
     if (ptr->totalToDownload == 0)
@@ -492,7 +491,7 @@ int Downloader::batchDownloadProgressFunc(void *userdata, double totalToDownload
 // Compare to batchDownloadProgressFunc, this only handles progress information notification
 int Downloader::downloadProgressFunc(void *userdata, double totalToDownload, double nowDownloaded)
 {
-    assert(userdata && "Invalid userdata");
+    LOG_ASSERT(userdata, "Invalid userdata");
 
     DownloadUnit* ptr = (DownloadUnit*)userdata;
     if (ptr->totalToDownload == 0)

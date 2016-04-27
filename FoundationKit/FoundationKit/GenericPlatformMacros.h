@@ -16,7 +16,6 @@
 
 
 // https://sourceforge.net/p/predef/wiki/Compilers/
-
 // define supported target platform macro which to uses.
 #define PLATFORM_UNKNOWN            0
 #define PLATFORM_IOS                1
@@ -32,7 +31,7 @@
 #include <TargetConditionals.h>
 #endif
 
-#if (TARGET_OS_IPHONE )
+#if (TARGET_OS_IOS )
     #undef TARGET_PLATFORM
     #define TARGET_PLATFORM PLATFORM_IOS
    /**
@@ -72,7 +71,7 @@
     #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
 
 
-#elif defined(__ANDROID__)
+#elif defined(__ANDROID__) || defined(ANDROID)
     #undef TARGET_PLATFORM
     #define TARGET_PLATFORM PLATFORM_ANDROID
     #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
@@ -139,10 +138,14 @@ __pragma (warning(disable:4127))
 #endif
 
 extern void __log__(const char* message, ...);
-#if defined(DEBUG) || defined(_DEBUG)
+#if defined(_DEBUG) || defined(DEBUG)
 #define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(msg, ##__VA_ARGS__);assert(cond);}} while (false)
+#define DEBUG_MODE 1
+
 #else
 #define LOG_ASSERT(cond, msg) do{}while(false)
+#define DEBUG_MODE 0
+
 #endif
 
 #if __cplusplus < 201103L

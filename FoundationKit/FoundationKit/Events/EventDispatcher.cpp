@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <memory>
-#include <cassert>
 #include "EventDispatcher.h"
 #include "EventCustom.h"
 #include "EventTouch.h"
@@ -22,7 +21,7 @@ static EventListener::ListenerID __getListenerID(Event* event)
     case FoundationKit::Event::Type::TOUCH:
         // Touch listener is very special, it contains two kinds of listeners, EventListenerTouchOneByOne and EventListenerTouchAllAtOnce.
         // return UNKNOWN instead.
-        assert(false && "Don't call this method if the event is for touch.");
+        LOG_ASSERT(false,"Don't call this method if the event is for touch.");
         break;
     case FoundationKit::Event::Type::KEYBOARD:
         ret = EventListenerKeyboard::LISTENER_ID;
@@ -43,7 +42,7 @@ static EventListener::ListenerID __getListenerID(Event* event)
     }
         break;
     default:
-        assert(false && "Invalid type!");
+        LOG_ASSERT(false , "Invalid type!");
         break;
     }
     return ret;
@@ -143,8 +142,8 @@ void EventDispatcher::dissociateTargetAndEventListener(void* target, EventListen
 
 void EventDispatcher::addEventListener(EventListener::Pointer listener, void* target /*= nullptr*/,int priority/* = 1*/)
 {
-    assert(listener && "Invalid parameters.");
-    assert(!listener->isRegistered() && "The listener has been registered.");
+    LOG_ASSERT(listener, "Invalid parameters.");
+    LOG_ASSERT(!listener->isRegistered(), "The listener has been registered.");
     
     if (!listener->checkAvailable())
         return;
@@ -390,7 +389,7 @@ void EventDispatcher::dispatchTouchEvent(EventTouch* event)
                             }
                             break;
                         default:
-                            assert(false && "The eventcode is invalid.");
+                            LOG_ASSERT(false, "The eventcode is invalid.");
                             break;
                     }
                 }
@@ -402,7 +401,7 @@ void EventDispatcher::dispatchTouchEvent(EventTouch* event)
                     return true;
                 }
                 
-                assert((*touchesIter)->getID() == (*mutableTouchesIter)->getID()&&
+                LOG_ASSERT((*touchesIter)->getID() == (*mutableTouchesIter)->getID(),
                          "touchesIter ID should be equal to mutableTouchesIter's ID.");
                 
                 if (isClaimed && listener->_isRegistered && listener->_needSwallow)
@@ -471,7 +470,7 @@ void EventDispatcher::dispatchTouchEvent(EventTouch* event)
                     }
                     break;
                 default:
-                    assert(false && "The eventcode is invalid.");
+                    LOG_ASSERT(false, "The eventcode is invalid.");
                     break;
             }
             
@@ -632,10 +631,10 @@ void EventDispatcher::removeEventListenersForType(EventListener::Type listenerTy
         removeEventListenersForListenerID(EventListenerController::LISTENER_ID);
         break;
     case FoundationKit::EventListener::Type::CUSTOM:
-        assert(false && "Please call EventDispatcher::removeCustomEventListeners.");
+        LOG_ASSERT(false, "Please call EventDispatcher::removeCustomEventListeners.");
         break;
     default:
-        assert(false && "Invalid listener type!");
+        LOG_ASSERT(false, "Invalid listener type!");
         break;
     }
 }

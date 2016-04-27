@@ -1,5 +1,4 @@
 
-#include <cassert>
 #include <memory>
 #include <algorithm>
 #include "Scheduler.h"
@@ -202,8 +201,8 @@ void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, float in
 
 void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key)
 {
-    assert(target && "Argument target must be non-nullptr");
-    assert(!key.empty()&& "key should not be empty!");
+    LOG_ASSERT(target, "Argument target must be non-nullptr");
+    LOG_ASSERT(!key.empty(), "key should not be empty!");
 
     tHashTimerEntry *element = nullptr;
     HASH_FIND_PTR(_hashForTimers, &target, element);
@@ -423,8 +422,8 @@ void Scheduler::schedulePerFrame(const ccSchedulerFunc& callback, void *target, 
 
 bool Scheduler::isScheduled(const std::string& key, void *target)
 {
-    assert(!key.empty() && "Argument key must not be empty");
-    assert(target && "Argument target must be non-nullptr");
+    LOG_ASSERT(!key.empty(), "Argument key must not be empty");
+    LOG_ASSERT(target, "Argument target must be non-nullptr");
     
     tHashTimerEntry *element = nullptr;
     HASH_FIND_PTR(_hashForTimers, &target, element);
@@ -622,7 +621,7 @@ void Scheduler::pauseTarget(void *target)
 
 bool Scheduler::isTargetPaused(void *target)
 {
-    assert(target != nullptr && "target must be non nil");
+    LOG_ASSERT(target != nullptr, "target must be non nil");
 
     // Custom selectors
     tHashTimerEntry *element = nullptr;
