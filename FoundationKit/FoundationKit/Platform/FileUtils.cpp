@@ -468,8 +468,9 @@ void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::str
 }
 
 
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || (TARGET_PLATFORM == PLATFORM_WINRT)
+#if (TARGET_PLATFORM == PLATFORM_WIN32)
 // windows os implement should override in platform specific FileUtiles class
+//bool moveFile(const std::string &oldfullpath, const std::string &newfullpath)const;
 //bool createDirectory(const std::string& dirPath);
 //bool removeDirectory(const std::string& dirPath);
 //bool removeFile(const std::string &filepath);
@@ -480,6 +481,12 @@ void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::str
 #include <sys/types.h>
 #include <errno.h>
 #include <dirent.h>
+
+bool FileUtils::moveFile(const std::string &oldfullpath, const std::string &newfullpath)const
+{
+    return rename(oldfullpath.c_str(), oldfullpath.c_str()) != -1;
+}
+
 
 bool FileUtils::createDirectory(const std::string& path)
 {

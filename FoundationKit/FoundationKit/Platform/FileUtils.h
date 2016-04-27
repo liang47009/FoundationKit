@@ -133,6 +133,15 @@ public:
     */
     bool copyFile(const std::string &oldfullpath, const std::string &newfullpath)const;
 
+   /**
+    *  move a file
+    *
+    *  @param oldfullpath  The current fullpath of the file. Includes path and name.
+    *  @param newfullpath  The new fullpath of the file. Includes path and name.
+    *  @return True if the file have been move successfully, false if not.
+    */
+    bool moveFile(const std::string &oldfullpath, const std::string &newfullpath)const;
+
 
    /**
     *  get all files from a directory

@@ -52,6 +52,10 @@ bool FileUtils::isFileExist(const std::string& filename) const
     return true;
 }
 
+bool FileUtils::moveFile(const std::string &oldfullpath, const std::string &newfullpath)const
+{
+    return MoveFileA(oldfullpath.c_str(), newfullpath.c_str());
+}
 
 bool FileUtils::createDirectory(const std::string& dirPath)
 {
@@ -175,18 +179,15 @@ bool FileUtils::renameFile(const std::string &path, const std::string &oldname, 
 
 bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &newfullpath)
 {
-    std::wstring _wNew = StringUtils::string2UTF8wstring(newfullpath);
-    std::wstring _wOld = StringUtils::string2UTF8wstring(oldfullpath);
-
     if (FileUtils::getInstance()->isFileExist(newfullpath))
     {
-        if (!DeleteFile(_wNew.c_str()))
+        if (!DeleteFileA(newfullpath.c_str()))
         {
             LOG_ERROR("Fail to delete file %s !Error code is 0x%x", newfullpath.c_str(), GetLastError());
         }
     }
 
-    if (MoveFile(_wOld.c_str(), _wNew.c_str()))
+    if (MoveFileA(oldfullpath.c_str(), newfullpath.c_str()))
     {
         return true;
     }
