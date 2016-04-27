@@ -1,6 +1,5 @@
 #ifdef ANDROID
-#include "FoundationKit/Platform/Platform.h"
-#include "FoundationKit/Foundation/Logger.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -9,6 +8,10 @@
 #include <sys/system_properties.h>//for __system_property_get
 #include <string>
 #include <unordered_map>
+#include "FoundationKit/Crypto/md5.hpp"
+#include "FoundationKit/Platform/Platform.h"
+#include "FoundationKit/Foundation/Logger.h"
+
 NS_FK_BEGIN
 
 typedef std::unordered_map<std::string, unsigned long long> MemInfo;
@@ -145,7 +148,7 @@ std::string Platform::getMacAddress()
             if (sscanf(line_buf, "%[^:]:%[^:]:%[^:]:%[^:]:%[^:]:%[^:]", mac0, mac1, mac2, mac3, mac4, mac5) != 6)
                 continue;
 
-            sprintf(mac_addr, "%s%s%s%s%s%s", mac0, mac1, mac2, mac3, mac4, mac5);
+            sprintf(mac_addr, "%02X%02X%02X%02X%02X%02X", mac0, mac1, mac2, mac3, mac4, mac5);
         }
         fclose(fp);
     }
@@ -161,7 +164,7 @@ std::string Platform::getDeviceId()
     if (strDeviceId.empty())
         strDeviceId = PlatformHelper::getSystemProperty("ro.serialno");
     if (strDeviceId.empty())
-        strDeviceId = getMacAddress();
+        strDeviceId = MD5::md5_hash_hex(getMacAddress().c_str());
     return strDeviceId;
 }
 

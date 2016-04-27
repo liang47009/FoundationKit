@@ -8,11 +8,14 @@ losemymind.libo@gmail.com
 #include <windows.h>
 #include <WindowsX.h>
 #include <psapi.h>
-#include <cassert>
+#include <vector>
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Platform/Platform.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Foundation/StringUtils.h"
+#include "FoundationKit/Base/Types.h"
+#include "FoundationKit/Crypto/md5.hpp"
+
 #pragma   comment(lib,"Psapi.lib")
 
 // for getMacAddressUseGetAdaptersInfo
@@ -64,64 +67,39 @@ float Platform::getProcessMemory()
 
 std::string Platform::getMacAddress()
 {
-    // http://www.codeguru.com/cpp/i-n/network/networkinformation/article.php/c5451/Three-ways-to-get-your-MAC-address.htm
-    // http://www.codeguru.com/cpp/i-n/network/networkinformation/article.php/c5437/A-New-Method-to-Get-MACNIC-Statistical-Information.htm
-
-    auto getMacAddressUseGetAdaptersInfo = []()
+    std::string result;
+    IP_ADAPTER_INFO IpAddresses[16];
+    ULONG OutBufferLength = sizeof(IP_ADAPTER_INFO) * 16;
+    // Read the adapters
+    uint32 RetVal = GetAdaptersInfo(IpAddresses, &OutBufferLength);
+    if (RetVal == NO_ERROR)
     {
-        IP_ADAPTER_INFO AdapterInfo[16] = {0};       // Allocate information 
-        // for up to 16 NICs
-        DWORD dwBufLen = sizeof(AdapterInfo);  // Save memory size of buffer
-
-        DWORD dwStatus = GetAdaptersInfo(      // Call GetAdapterInfo
-            AdapterInfo,                 // [out] buffer to receive data
-            &dwBufLen);                  // [in] size of receive data buffer
-        assert(dwStatus == ERROR_SUCCESS);  // Verify return value is 
-        // valid, no buffer overflow
-
-        PIP_ADAPTER_INFO pAdapterInfo = AdapterInfo; // Contains pointer to
-        std::string macAddr;
-        do {
-            macAddr = StringUtils::format("%02X-%02X-%02X-%02X-%02X-%02X"
-                , pAdapterInfo->Address[0]
-                , pAdapterInfo->Address[1]
-                , pAdapterInfo->Address[2]
-                , pAdapterInfo->Address[3]
-                , pAdapterInfo->Address[4]
-                , pAdapterInfo->Address[5]);
-            pAdapterInfo = pAdapterInfo->Next;    // Progress through 
-            break; // we just need one
-            // linked list
-        } while (false);                        // Terminate if last adapter
-        //} while (pAdapterInfo);                    // Terminate if last adapter
-
-        return macAddr;
-    };
-
-    return getMacAddressUseGetAdaptersInfo();
+        PIP_ADAPTER_INFO AdapterList = IpAddresses;
+        // Walk the set of addresses copying each one
+        while (AdapterList)
+        {
+            // If there is an address to read
+            if (AdapterList->AddressLength > 0)
+            {
+                // Copy the data and say we did
+                result = StringUtils::format("%02X%02X%02X%02X%02X%02X"
+                    , AdapterList->Address[0]
+                    , AdapterList->Address[1]
+                    , AdapterList->Address[2]
+                    , AdapterList->Address[3]
+                    , AdapterList->Address[4]
+                    , AdapterList->Address[5]);
+                break;
+            }
+            AdapterList = AdapterList->Next;
+        }
+    }
+    return result;
 }
 
 std::string Platform::getDeviceId()
 {
-    char value[255] = {0};
-    DWORD BufferSize = 255;
-    HKEY key = NULL;
-    auto result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key);
-    if (NO_ERROR != result)
-    {
-        result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE | KEY_WOW64_32KEY, &key);
-    }
-    if (NO_ERROR != result)
-    {
-        LOG_ERROR("===== Cannot open regedit");
-        return "";
-    }
-    result = RegGetValueA(key, "", "ProductId", RRF_RT_ANY, NULL, (PVOID)&value, &BufferSize);
-    if (NO_ERROR != result)
-    {
-        LOG_ERROR("===== Cannot get regedit value for key:ProductId");
-    }
-    return value;
+    return MD5::md5_hash_hex(getMacAddress().c_str());
 }
 
 std::string Platform::getDeviceName()

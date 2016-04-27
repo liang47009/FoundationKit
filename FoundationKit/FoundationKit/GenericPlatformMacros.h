@@ -69,6 +69,7 @@
     #define ATTRIBUTE_UNUSED __attribute__((unused))
     #define FORCEINLINE inline __attribute__ ((always_inline))	/* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
+    #define PLATFORM_MAX_FILEPATH_LENGTH MAX_PATH
 
 
 #elif defined(__ANDROID__) || defined(ANDROID)
@@ -84,6 +85,7 @@
     #define ATTRIBUTE_UNUSED __attribute__((unused))
     #define FORCEINLINE inline __attribute__ ((always_inline)) /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
+    #define PLATFORM_MAX_FILEPATH_LENGTH PATH_MAX
 
 
 #elif defined(_WIN32) && defined(_WINDOWS)
@@ -99,6 +101,7 @@
     #define ATTRIBUTE_UNUSED
     #define FORCEINLINE __forceinline				  /* Force code to be inline */
     #define FORCENOINLINE __declspec(noinline)        /* Force code to NOT be inline */	
+    #define PLATFORM_MAX_FILEPATH_LENGTH MAX_PATH
 
 #elif (defined(linux) || defined(__linux) || defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(_CRAYC)
     #undef TARGET_PLATFORM    
@@ -113,6 +116,7 @@
     #define ATTRIBUTE_UNUSED __attribute__((unused))
     #define FORCEINLINE inline __attribute__ ((always_inline)) /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
+    #define PLATFORM_MAX_FILEPATH_LENGTH PATH_MAX
 
 #elif(TARGET_OS_MAC)
     #undef TARGET_PLATFORM
@@ -127,6 +131,7 @@
     #define ATTRIBUTE_UNUSED __attribute__((unused))
     #define FORCEINLINE inline __attribute__ ((always_inline))  /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
+    #define PLATFORM_MAX_FILEPATH_LENGTH MAX_PATH
 
 #else
     #error Unknown platform

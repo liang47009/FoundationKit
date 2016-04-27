@@ -4,7 +4,9 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
-#ifdef FK_TARGET_OS_IPHONE
+ #include "FoundationKit/GenericPlatformMacros.h"
+ #if TARGET_PLATFORM == PLATFORM_IOS
+
 #include "Platform.h"
 #include <sys/types.h>
 #include <sys/sysctl.h>
@@ -23,6 +25,7 @@
 #import <UIKit/UIKit.h>
 #import <AdSupport/AdSupport.h>
 #include "FoundationKit/Foundation/StringUtils.h"
+#include "FoundationKit/Crypto/md5.hpp"
 
 NS_FK_BEGIN
 
@@ -198,7 +201,7 @@ std::string Platform::getMacAddress()
         memcpy(&macAddress, socketStruct->sdl_data + socketStruct->sdl_nlen, 6);
         
         // Read from char array into a string object, into traditional Mac address format
-        NSString *macAddressString = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+        NSString *macAddressString = [NSString stringWithFormat:@"%02X%02X%02X%02X%02X%02X",
                                       macAddress[0], macAddress[1], macAddress[2], macAddress[3], macAddress[4], macAddress[5]];
         NSLog(@"Mac Address: %@", macAddressString);
         
@@ -220,7 +223,7 @@ std::string Platform::getDeviceId()
     float systemVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
     if(systemVersion < 7.0f)
     {
-        return getMacAddress();
+        return MD5::md5_hash_hex(getMacAddress().c_str());
     }
     else
     {
@@ -299,11 +302,15 @@ std::string Platform::getCPUArchitecture()
     return cpuTypeString;
 }
 
-
-
-
 NS_FK_END
-#endif
+
+#endif //TARGET_PLATFORM == PLATFORM_IOS
+
+
+
+
+
+
 
 
 
