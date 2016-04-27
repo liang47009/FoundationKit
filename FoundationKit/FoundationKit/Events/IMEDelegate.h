@@ -71,7 +71,7 @@ protected:
     /**
     @brief    Called by IMEDispatcher when text input received from the IME.
     */
-    virtual void insertText(const char * text, size_t len) { __unused_arg(text); __unused_arg(len); }
+    virtual void insertText(const char * text, size_t len) { UNUSED_ARG(text); UNUSED_ARG(len); }
 
     /**
     @brief    Called by IMEDispatcher after the user clicks the backward key.
@@ -88,13 +88,13 @@ protected:
     //////////////////////////////////////////////////////////////////////////
     /**
      */
-    virtual void keyboardWillShow(IMEKeyboardNotificationInfo& info)   { __unused_arg(info); }
+    virtual void keyboardWillShow(IMEKeyboardNotificationInfo& info)   { UNUSED_ARG(info); }
 
-    virtual void keyboardDidShow(IMEKeyboardNotificationInfo& info)    { __unused_arg(info); }
+    virtual void keyboardDidShow(IMEKeyboardNotificationInfo& info)    { UNUSED_ARG(info); }
 
-    virtual void keyboardWillHide(IMEKeyboardNotificationInfo& info)   { __unused_arg(info); }
+    virtual void keyboardWillHide(IMEKeyboardNotificationInfo& info)   { UNUSED_ARG(info); }
 
-    virtual void keyboardDidHide(IMEKeyboardNotificationInfo& info)    { __unused_arg(info); }
+    virtual void keyboardDidHide(IMEKeyboardNotificationInfo& info)    { UNUSED_ARG(info); }
 
 protected:
     IMEDelegate();

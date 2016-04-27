@@ -189,7 +189,7 @@ void HttpClient::setDebugMode(bool debugMode)
 
 void HttpClient::update(float deltaTime)
 {
-    __unused_arg(deltaTime);
+    UNUSED_ARG(deltaTime);
 
     if (!_responseQueue.empty())
     {

@@ -30,7 +30,7 @@ static inline void luaevent_open(lua_State * L)
 
 static int luaevent_ref_function(lua_State* L, int lo, int def)
 {
-    __unused_arg(def);
+    UNUSED_ARG(def);
     // function at lo
     if (!lua_isfunction(L, lo)) return 0;
 

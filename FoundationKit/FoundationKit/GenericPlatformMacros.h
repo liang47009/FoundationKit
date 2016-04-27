@@ -132,28 +132,7 @@
     #error Unknown platform
 #endif
 
-#if (TARGET_PLATFORM == PLATFORM_WIN32)
-__pragma (warning(disable:4127))
-#define _XKEYCHECK_H // disable windows xkeycheck.h
-#endif
-
-extern void __log__(const char* message, ...);
-#if defined(_DEBUG) || defined(DEBUG)
-#define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(msg, ##__VA_ARGS__);assert(cond);}} while (false)
-#define DEBUG_MODE 1
-
-#else
-#define LOG_ASSERT(cond, msg) do{}while(false)
-#define DEBUG_MODE 0
-
-#endif
-
-#if __cplusplus < 201103L
-#define constexpr
-#define noexcept
-#endif
-
-#define __unused_arg(arg) do{(void)(arg);}while(0)
+#define UNUSED_ARG(arg) do{(void)(arg);}while(0)
 
 #define SAFE_DELETE(p)           do { delete (p); (p) = nullptr; } while(0)
 #define SAFE_DELETE_ARRAY(p)     do { if(p) { delete[] (p); (p) = nullptr; } } while(0)
@@ -186,6 +165,48 @@ extern void __log__(const char* message, ...);
 #define SWAP_INT16_BIG_TO_HOST(i)    ((HOST_IS_BIG_ENDIAN == true)? (i):  ENDIAN_SWAP16(i) )
 
 
+extern void __log__(const char* message, ...);
+#if defined(_DEBUG) || defined(DEBUG)
+#define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(msg, ##__VA_ARGS__);assert(cond);}} while (false)
+#define DEBUG_MODE 1
+
+#else
+#define LOG_ASSERT(cond, msg) do{}while(false)
+#define DEBUG_MODE 0
+
+#endif
+
+#if __cplusplus < 201103L
+#define constexpr
+#define noexcept
+#endif
+
+//===============================================================================================
+// Platform Pre-Setup
+//===============================================================================================
+#if (TARGET_PLATFORM == PLATFORM_WIN32)
+__pragma (warning(disable:4127))
+#define _XKEYCHECK_H // disable windows xkeycheck.h
+
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
+#ifndef _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
+#ifndef _SCL_SECURE_NO_WARNINGS
+#define _SCL_SECURE_NO_WARNINGS
+#endif
+
+#include <windows.h>
+
+#endif //(TARGET_PLATFORM == PLATFORM_WIN32)
 
 #endif // #ifndef LOSEMYMIND_GENERICPLATFORMMACROS_H
 

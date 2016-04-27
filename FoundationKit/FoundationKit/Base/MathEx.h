@@ -14,12 +14,10 @@
 #include <limits>
 #include <cmath>
 #include <algorithm>
-#include "FoundationKit/Base/MathContent.h"
 #include "FoundationKit/GenericPlatformMacros.h"
-
+#include "FoundationKit/Base/MathContent.h"
 
 NS_FK_BEGIN
-
 
 /// Provides constants and static methods for trigonometric, 
 /// logarithmic and other common mathematical functions.

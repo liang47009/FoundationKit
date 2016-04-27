@@ -269,7 +269,7 @@ Data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::strin
         buffer = (unsigned char*)malloc(fileInfo.uncompressed_size);
         int readedSize = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
         LOG_ASSERT(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
-        __unused_arg(readedSize);
+        UNUSED_ARG(readedSize);
         *size = fileInfo.uncompressed_size;
         unzCloseCurrentFile(file);
 
