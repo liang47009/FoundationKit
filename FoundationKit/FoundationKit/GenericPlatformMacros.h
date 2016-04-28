@@ -170,9 +170,9 @@
 #define SWAP_INT16_BIG_TO_HOST(i)    ((HOST_IS_BIG_ENDIAN == true)? (i):  ENDIAN_SWAP16(i) )
 
 
-extern void __log__(const char* message, ...);
+extern void __log__(const char* file, int line, const char* message, ...);
 #if defined(_DEBUG) || defined(DEBUG)
-#define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(msg, ##__VA_ARGS__);assert(cond);}} while (false)
+#define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(__FILE__, __LINE__, msg, ##__VA_ARGS__);assert(cond);}} while (false)
 #define DEBUG_MODE 1
 
 #else
