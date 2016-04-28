@@ -20,6 +20,8 @@
 #include <mach/mach_init.h>
 #include <mach/mach_host.h>
 #include <mach/mach.h>
+#include <sys/time.h>
+#include <sched.h>  // maybe the BSD time and sched.h need to be independent, but they are normally available together
 
 #include <unordered_map>
 #import <UIKit/UIKit.h>
@@ -300,6 +302,48 @@ std::string Platform::getCPUArchitecture()
             break;
     }
     return cpuTypeString;
+}
+
+void Platform::systemTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+{
+    // query for calendar time
+    struct timeval tmVal;
+    gettimeofday(&tmVal, NULL);
+
+    // convert it to local time
+    struct tm localTime;
+    localtime_r(&tmVal.tv_sec, &localTime);
+
+    // pull out data/time
+    year = localTime.tm_year + 1900;
+    month = localTime.tm_mon + 1;
+    dayOfWeek = localTime.tm_wday;
+    day = localTime.tm_mday;
+    hour = localTime.tm_hour;
+    min = localTime.tm_min;
+    sec = localTime.tm_sec;
+    msec = tmVal.tv_usec / 1000;
+}
+
+void Platform::utcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+{
+    // query for calendar time
+    struct timeval tmVal;
+    gettimeofday(&tmVal, NULL);
+
+    // convert it to UTC
+    struct tm localTime;
+    gmtime_r(&tmVal.tv_sec, &localTime);
+
+    // pull out data/time
+    year = localTime.tm_year + 1900;
+    month = localTime.tm_mon + 1;
+    dayOfWeek = localTime.tm_wday;
+    day = localTime.tm_mday;
+    hour = localTime.tm_hour;
+    min = localTime.tm_min;
+    sec = localTime.tm_sec;
+    msec = tmVal.tv_usec / 1000;
 }
 
 NS_FK_END

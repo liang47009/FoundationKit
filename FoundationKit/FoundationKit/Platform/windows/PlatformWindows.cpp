@@ -169,6 +169,36 @@ std::string Platform::getCPUArchitecture()
     return "Unknown";
 }
 
+void Platform::systemTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+{
+    SYSTEMTIME st;
+    GetLocalTime(&st);
+    year = st.wYear;
+    month = st.wMonth;
+    dayOfWeek = st.wDayOfWeek;
+    day = st.wDay;
+    hour = st.wHour;
+    min = st.wMinute;
+    sec = st.wSecond;
+    msec = st.wMilliseconds;
+}
+
+void Platform::utcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+{
+    SYSTEMTIME st;
+    GetSystemTime(&st);
+
+    year = st.wYear;
+    month = st.wMonth;
+    dayOfWeek = st.wDayOfWeek;
+    day = st.wDay;
+    hour = st.wHour;
+    min = st.wMinute;
+    sec = st.wSecond;
+    msec = st.wMilliseconds;
+}
+
+
 NS_FK_END
 
 #endif
