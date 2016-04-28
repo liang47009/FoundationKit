@@ -363,6 +363,12 @@
     <ClInclude Include="..\FoundationKit\Base\Time.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\DateTime.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Timespan.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -555,6 +561,12 @@
       <Filter>FoundationKit</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\Time.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\DateTime.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\Timespan.cpp">
       <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>

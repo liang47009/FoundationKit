@@ -99,6 +99,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\Buffer.h" />
     <ClInclude Include="..\FoundationKit\Base\Data.h" />
     <ClInclude Include="..\FoundationKit\Base\DataStream.h" />
+    <ClInclude Include="..\FoundationKit\Base\DateTime.h" />
     <ClInclude Include="..\FoundationKit\Base\Dictionary.h" />
     <ClInclude Include="..\FoundationKit\Base\MathContent.h" />
     <ClInclude Include="..\FoundationKit\Base\MathEx.h" />
@@ -112,6 +113,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\Runnable.h" />
     <ClInclude Include="..\FoundationKit\Base\Size.h" />
     <ClInclude Include="..\FoundationKit\Base\Time.h" />
+    <ClInclude Include="..\FoundationKit\Base\Timespan.h" />
     <ClInclude Include="..\FoundationKit\Base\Types.h" />
     <ClInclude Include="..\FoundationKit\Base\Value.h" />
     <ClInclude Include="..\FoundationKit\Base\Vector2.h" />
@@ -202,6 +204,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Base\Data.cpp" />
     <ClCompile Include="..\FoundationKit\Base\DataStream.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\DateTime.cpp" />
     <ClCompile Include="..\FoundationKit\Base\MathEx.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Rect.cpp" />
     <ClCompile Include="..\FoundationKit\Base\MathUtil.cpp" />
@@ -209,6 +212,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Base\Quaternion.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Size.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Time.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Timespan.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Value.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Vector2.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Vector3.cpp" />
