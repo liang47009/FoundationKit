@@ -54,7 +54,7 @@ bool FileUtils::isFileExist(const std::string& filename) const
 
 bool FileUtils::moveFile(const std::string &oldfullpath, const std::string &newfullpath)const
 {
-    return MoveFileA(oldfullpath.c_str(), newfullpath.c_str());
+    return MoveFileA(oldfullpath.c_str(), newfullpath.c_str()) != 0;
 }
 
 bool FileUtils::createDirectory(const std::string& dirPath)
