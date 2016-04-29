@@ -13,12 +13,15 @@ LOCAL_MODULE_FILENAME := libfoundationkit
 LOCAL_SRC_FILES := \
 ../../FoundationKit/Base/Data.cpp \
 ../../FoundationKit/Base/DataStream.cpp \
+../../FoundationKit/Base/DateTime.cpp \
 ../../FoundationKit/Base/MathEx.cpp \
 ../../FoundationKit/Base/MathUtil.cpp \
 ../../FoundationKit/Base/Matrix.cpp \
 ../../FoundationKit/Base/Quaternion.cpp \
 ../../FoundationKit/Base/Rect.cpp \
 ../../FoundationKit/Base/Size.cpp \
+../../FoundationKit/Base/Time.cpp \
+../../FoundationKit/Base/TimeSpan.cpp \
 ../../FoundationKit/Base/Value.cpp \
 ../../FoundationKit/Base/Vector2.cpp \
 ../../FoundationKit/Base/Vector3.cpp \
