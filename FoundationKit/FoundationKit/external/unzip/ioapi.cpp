@@ -187,6 +187,7 @@ static long ZCALLBACK fseek_file_func (voidpf  opaque, voidpf stream, uLong offs
 
 static long ZCALLBACK fseek64_file_func (voidpf  opaque, voidpf stream, ZPOS64_T offset, int origin)
 {
+    (void)(opaque);
     int fseek_origin=0;
     switch (origin)
     {
