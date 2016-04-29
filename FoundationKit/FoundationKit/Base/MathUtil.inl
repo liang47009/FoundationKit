@@ -17,6 +17,7 @@
  */
 #ifndef LOSEMYMIND_MATHUTIL_INL
 #define LOSEMYMIND_MATHUTIL_INL
+#include "FoundationKit/GenericPlatformMacros.h"
 
 NS_FK_BEGIN
 

@@ -17,6 +17,8 @@
  */
 #ifndef LOSEMYMIND_MATHUTILNEON_H
 #define LOSEMYMIND_MATHUTILNEON_H
+#include "FoundationKit/GenericPlatformMacros.h"
+#ifdef USE_NEON
 
 NS_FK_BEGIN
 
@@ -246,6 +248,8 @@ inline void MathUtil::crossVector3(const float* v1, const float* v2, float* dst)
 }
 
 NS_FK_END
+
+#endif // #ifdef USE_NEON
 
 
 #endif // LOSEMYMIND_MATHUTILNEON_H
