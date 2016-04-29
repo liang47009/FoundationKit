@@ -69,6 +69,7 @@
     #define ATTRIBUTE_UNUSED __attribute__((unused))
     #define FORCEINLINE inline __attribute__ ((always_inline))	/* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
+    #define THREAD_LOCAL __thread
     #define FILEPATH_MAX MAX_PATH
 
 
@@ -85,6 +86,7 @@
     #define ATTRIBUTE_UNUSED __attribute__((unused))
     #define FORCEINLINE inline __attribute__ ((always_inline)) /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
+    #define THREAD_LOCAL __thread
     #define FILEPATH_MAX PATH_MAX
 
 
@@ -101,6 +103,7 @@
     #define ATTRIBUTE_UNUSED
     #define FORCEINLINE __forceinline				  /* Force code to be inline */
     #define FORCENOINLINE __declspec(noinline)        /* Force code to NOT be inline */	
+    #define THREAD_LOCAL __declspec(thread)
     #define FILEPATH_MAX MAX_PATH
 
 #elif (defined(linux) || defined(__linux) || defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(_CRAYC)
@@ -116,6 +119,7 @@
     #define ATTRIBUTE_UNUSED __attribute__((unused))
     #define FORCEINLINE inline __attribute__ ((always_inline)) /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
+    #define THREAD_LOCAL __thread
     #define FILEPATH_MAX PATH_MAX
 
 #elif(TARGET_OS_MAC)
@@ -131,6 +135,7 @@
     #define ATTRIBUTE_UNUSED __attribute__((unused))
     #define FORCEINLINE inline __attribute__ ((always_inline))  /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
+    #define THREAD_LOCAL __thread
     #define FILEPATH_MAX MAX_PATH
 
 #else
