@@ -8,6 +8,7 @@ LOCAL_MODULE := foundationkit
 LOCAL_MODULE_FILENAME := libfoundationkit
 
 LOCAL_SRC_FILES := \
+../../FoundationKit/GenericPlatformMacros.cpp \
 ../../FoundationKit/Base/Data.cpp \
 ../../FoundationKit/Base/DataStream.cpp \
 ../../FoundationKit/Base/DateTime.cpp \
@@ -88,6 +89,14 @@ LOCAL_CFLAGS   :=  -DUSE_FILE32API
 LOCAL_EXPORT_CFLAGS   := -DUSE_FILE32API
 LOCAL_EXPORT_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11
 
+ifeq ($(NDK_DEBUG),1)
+  LOCAL_CPPFLAGS += -DDEBUG
+  LOCAL_EXPORT_CPPFLAGS += -DDEBUG
+else
+  LOCAL_CPPFLAGS += -DNDEBUG
+  LOCAL_EXPORT_CPPFLAGS += -DNDEBUG
+endif
+
 LOCAL_EXPORT_LDLIBS := -llog \
                        -lz \
                        -landroid
@@ -108,5 +117,6 @@ $(info TARGET_ARCH     = $(TARGET_ARCH))
 $(info TARGET_ARCH_ABI = $(TARGET_ARCH_ABI))
 $(info TARGET_ABI      = $(TARGET_ABI))
 $(info APP_ABI         = $(APP_ABI))
+$(info NDK_DEBUG       = $(NDK_DEBUG))
 $(info --------------------------------------------------------------------------)
 

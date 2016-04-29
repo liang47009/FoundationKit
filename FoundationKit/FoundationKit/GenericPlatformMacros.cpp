@@ -20,7 +20,7 @@ void __log__(const char* file, int line, const char* message, ...)
     std::string logMessage;
     logMessage += file ? file : "";
     logMessage += ":";
-    logMessage += std::to_string(line);
+    logMessage += StringUtils::to_string(line);
     va_list args;
     for (;;)
     {
@@ -43,15 +43,15 @@ void __log__(const char* file, int line, const char* message, ...)
     logMessage += str;
 
 #if (TARGET_PLATFORM == PLATFORM_ANDROID)
-    __android_log_print(ANDROID_LOG_INFO, "LoseMyMind", logMessage.c_str());
+    __android_log_print(ANDROID_LOG_INFO, "LoseMyMind", "%s", logMessage.c_str());
 #elif TARGET_PLATFORM ==  PLATFORM_WIN32
     std::wstring wstr = StringUtils::string2UTF8wstring(logMessage.c_str());
     OutputDebugStringW(wstr.c_str());
-    printf(logMessage.c_str());
+    printf("%s", logMessage.c_str());
     fflush(stdout);
 #else
     // Linux, Mac, iOS, etc
-    fprintf(stdout, logMessage.c_str());
+    fprintf(stdout, "%s", logMessage.c_str());
     fflush(stdout);
 #endif
 }

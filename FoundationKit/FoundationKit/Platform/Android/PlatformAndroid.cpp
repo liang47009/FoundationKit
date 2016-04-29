@@ -129,28 +129,25 @@ float Platform::getProcessMemory()
 std::string Platform::getMacAddress()
 {
     char line_buf[LINE_BUF_SIZE] = { 0 };
-
     char mac_addr[16] = { 0 };
-
     FILE *fp = nullptr;
     if ((fp = fopen("/sys/class/net/wlan0/address", "r")) == NULL)
     {
-        LOG_ERROR("/sys/class/net/wlan0/address !");
+        LOG_ERROR("====== cannot read /sys/class/net/wlan0/address !");
     }
     else
     {
         while (fgets(line_buf, sizeof(line_buf), fp) != NULL)
         {
-            char mac0[3] = { 0 };
-            char mac1[3] = { 0 };
-            char mac2[3] = { 0 };
-            char mac3[3] = { 0 };
-            char mac4[3] = { 0 };
-            char mac5[3] = { 0 };
+            char mac0[4] = { 0 };
+            char mac1[4] = { 0 };
+            char mac2[4] = { 0 };
+            char mac3[4] = { 0 };
+            char mac4[4] = { 0 };
+            char mac5[4] = { 0 };
             if (sscanf(line_buf, "%[^:]:%[^:]:%[^:]:%[^:]:%[^:]:%[^:]", mac0, mac1, mac2, mac3, mac4, mac5) != 6)
                 continue;
-
-            sprintf(mac_addr, "%02X%02X%02X%02X%02X%02X", mac0, mac1, mac2, mac3, mac4, mac5);
+            sprintf(mac_addr, "%s%s%s%s%s%s", mac0, mac1, mac2, mac3, mac4, mac5);
         }
         fclose(fp);
     }
