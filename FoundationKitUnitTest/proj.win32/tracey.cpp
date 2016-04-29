@@ -1796,8 +1796,8 @@ void die( int errorcode, const std::string &reason )
 std::string hexdump( const void *data, size_t num_bytes, const void *self )
 {
 #   ifdef _MSC_VER
-#       pragma warning( push )
-#       pragma warning( disable : 4996 )
+//#       pragma warning( push )
+//#       pragma warning( disable : 4996 )
 #       define $vsnprintf _vsnprintf
 #   else
 #       define $vsnprintf  vsnprintf
@@ -1948,8 +1948,8 @@ std::string prompt( const std::string &current_value, const std::string &title, 
 #endif
 
 #if $on($msvc)
-#   pragma warning( push )
-#   pragma warning( disable : 4996 )
+//#   pragma warning( push )
+//#   pragma warning( disable : 4996 )
 #endif
 
 #if $on($windows)
