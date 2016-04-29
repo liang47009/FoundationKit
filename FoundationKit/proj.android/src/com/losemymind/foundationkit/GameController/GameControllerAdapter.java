@@ -1,8 +1,7 @@
-package com.snailgames.GameController;
+package com.losemymind.foundationkit.GameController;
 
 import java.util.ArrayList;
 
-import com.snailgames.libapplicationkit.ApplicationAdapter;
 
 public class GameControllerAdapter {
     private static ArrayList<Runnable> sRunnableFrameStartList = null;
@@ -28,9 +27,13 @@ public class GameControllerAdapter {
         }
     }
     
+    public static void runOnGLThread(final Runnable r) {
+    	GameControllerActivity.runOnGLThread(r);
+    }
+    
     public static void onConnected(final String vendorName, final int controller)
     {
-    	ApplicationAdapter.runOnGLThread(new Runnable() {
+    	runOnGLThread(new Runnable() {
 
             @Override
             public void run() {
@@ -41,7 +44,7 @@ public class GameControllerAdapter {
     
     public static void onDisconnected(final String vendorName, final int controller)
     {
-    	ApplicationAdapter.runOnGLThread(new Runnable() {
+    	runOnGLThread(new Runnable() {
 
             @Override
             public void run() {
@@ -52,7 +55,7 @@ public class GameControllerAdapter {
     
     public static void onButtonEvent(final String vendorName, final int controller, final int button, final boolean isPressed, final float value, final boolean isAnalog)
     {
-    	ApplicationAdapter.runOnGLThread(new Runnable() {
+    	runOnGLThread(new Runnable() {
 
             @Override
             public void run() {
@@ -63,7 +66,7 @@ public class GameControllerAdapter {
     
     public static void onAxisEvent(final String vendorName, final int controller, final int axisID, final float value, final boolean isAnalog)
     {
-    	ApplicationAdapter.runOnGLThread(new Runnable() {
+    	runOnGLThread(new Runnable() {
 
             @Override
             public void run() {

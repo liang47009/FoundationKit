@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.snailgames.GameController.InputManagerCompat;
+package com.losemymind.foundationkit.GameController.InputManagerCompat;
 
 import android.os.Handler;
 import android.os.Message;

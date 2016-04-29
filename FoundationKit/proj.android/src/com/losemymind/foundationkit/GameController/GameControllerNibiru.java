@@ -1,4 +1,4 @@
-package com.snailgames.GameController;
+package com.losemymind.foundationkit.GameController;
 
 import com.nibiru.lib.controller.AccEvent;
 import com.nibiru.lib.controller.Controller;

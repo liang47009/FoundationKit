@@ -1,8 +1,5 @@
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
-
-$(call import-add-path,$(LOCAL_PATH)/../../FoundationKit)
-
 #ifeq (armeabi-v7a,$(TARGET_ARCH_ABI))
 #LOCAL_ARM_NEON := true
 #endif
@@ -101,11 +98,11 @@ LOCAL_WHOLE_STATIC_LIBRARIES += libcurl_static
 
 
 include $(BUILD_STATIC_LIBRARY)
-#==============================================================
+$(call import-add-path,$(LOCAL_PATH)/../../FoundationKit)
 $(call import-module,Platform/Android/AndroidJNI)
 $(call import-module,external/android)
 
-
+#==============================================================
 $(info ----------------- Compile libfoundationkit infomation -------------------)
 $(info TARGET_ARCH     = $(TARGET_ARCH))
 $(info TARGET_ARCH_ABI = $(TARGET_ARCH_ABI))

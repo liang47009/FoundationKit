@@ -8,7 +8,8 @@ NDK_TOOLCHAIN_VERSION := clang
 
 #设置编译架构
 #APP_ABI := all
-APP_ABI := armeabi armeabi-v7a x86
+#APP_ABI := armeabi armeabi-v7a x86
+APP_ABI := armeabi-v7a
 
 #设置编译选项
 APP_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11
@@ -23,4 +24,6 @@ else
   APP_OPTIM := release
 endif
 
+
+$(info NDK_DEBUG         = $(NDK_DEBUG))
 

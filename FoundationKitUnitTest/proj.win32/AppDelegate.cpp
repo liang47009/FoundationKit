@@ -1,5 +1,7 @@
 #include "tracey.hpp"
 #include <string>
+#include <stdint.h>
+
 #include "AppDelegate.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Base/DataStream.h"
@@ -22,17 +24,15 @@
 #include "FoundationKit/std/utility.hpp"
 #include "FoundationKit/std/function_traits.hpp"
 #include "FoundationKit/Foundation/FunctionCenter.hpp"
-#include "FoundationKit/Base/Timer.h"
 #include "FoundationKit/Base/Dictionary.h"
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
 #include "../../HttpClient/HttpClientTest.h"
 
+#include "FoundationKit/Base/Time.h"
+#include "FoundationKit/Base/DateTime.h"
 
-#include <stdint.h>
-
-#include <chrono>
-using namespace std::chrono;
+#include "FoundationKit/experimental/memory.h"
 
 using namespace std;
 USING_NS_FK;
@@ -55,11 +55,11 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
     //TestHttpClientWithUploadDumpInfo();
+    justForLoadSym();
 
     std::vector<std::string> files;
     FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/ApplicationKit", files, true);

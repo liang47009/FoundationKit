@@ -1,4 +1,4 @@
-package com.snailgames.GameController;
+package com.losemymind.foundationkit.GameController;
 
 import java.util.ArrayList;
 

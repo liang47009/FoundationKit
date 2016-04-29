@@ -1,5 +1,7 @@
 #pragma once
 #include "Application.h"
+#include "FoundationKit/GenericPlatformMacros.h"
+
 
 class  AppDelegate : private Application
 {
@@ -17,6 +19,7 @@ public:
 	@return true    Initialize success, app continue.
 	@return false   Initialize failed, app terminate.
 	*/
+    DEPRECATED(1.0.2, "This is Test applicationDidFinishLaunching deprecated.")
 	virtual bool applicationDidFinishLaunching();
 
 	/**

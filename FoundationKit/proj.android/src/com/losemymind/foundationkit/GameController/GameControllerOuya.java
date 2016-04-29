@@ -1,4 +1,4 @@
-package com.snailgames.GameController;
+package com.losemymind.foundationkit.GameController;
 
 import tv.ouya.console.api.OuyaController;
 import android.content.Context;

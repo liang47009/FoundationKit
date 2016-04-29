@@ -20,15 +20,16 @@
 #include <stdio.h>
 #include "FoundationKit/Foundation/Logger.h"
 //#include "FoundationKit/Platform/Android/AndroidTest.h"
-#include "FoundationKit/stdextensions/utility.hpp"
-#include "FoundationKit/Base/Timer.h"
+#include "FoundationKit/std/utility.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.h"
+#include "FoundationKit/Platform/Platform.h"
 
 #include <vector>
 #include <stdarg.h>
 
 
 using namespace FoundationKit;
+using namespace AndroidNode;
 
 /* This is a trivial JNI example where we use a native method
  * to return a new VM String. See the corresponding Java source
@@ -38,11 +39,13 @@ using namespace FoundationKit;
  */
 extern "C"{
 
+static JavaVM* g_vm = nullptr;
+
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
 	ANDROID_LOGD("============== >>>>> JNI_OnLoad");
-
-    return JNI_VERSION_1_4;
+    g_vm = vm;
+    return JNI_VERSION_1_6;
 }
 
 
@@ -53,25 +56,22 @@ size_t noCache(size_t n)
 
 size_t hasCache(size_t n)  
 {  
-     return (n < 2) ? n : sugar(hasCache)(n - 1) + sugar(hasCache)(n - 2);  
+     return (n < 2) ? n : std::sugar(hasCache)(n - 1) + std::sugar(hasCache)(n - 2);  
 } 
 
 void testFunctionCache()
 {
-    Timer t1;
      auto v1 = noCache(45);
-     ANDROID_LOGD("=========== noCache value:%d run time:%lld", v1, t1.elapsed_seconds());
-     Timer t2;
      auto v2 = hasCache(45);
-     ANDROID_LOGD("=========== hasCache value:%d run time:%lld", v2, t2.elapsed_seconds());
 }
     
 
 JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
 {
     ANDROID_LOGD("============== >>>>> foundationInit");
-
-    testFunctionCache();
+     AndroidJNI::initializeJavaEnv(g_vm, JNI_VERSION_1_6, context);
+    ANDROID_LOGD("========== MAC ADDRESS: %s", Platform::getMacAddress().c_str());
+    //testFunctionCache();
 }
 
 }//extern "C"{

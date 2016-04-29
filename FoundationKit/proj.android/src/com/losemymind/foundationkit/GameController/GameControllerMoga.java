@@ -1,4 +1,4 @@
-package com.snailgames.GameController;
+package com.losemymind.foundationkit.GameController;
 
 import android.content.Context;
 import android.os.Handler;

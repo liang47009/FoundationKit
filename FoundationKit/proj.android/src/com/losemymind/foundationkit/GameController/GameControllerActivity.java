@@ -21,20 +21,20 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  ****************************************************************************/
-package com.snailgames.GameController;
+package com.losemymind.foundationkit.GameController;
 
 import java.lang.reflect.Method;
+
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.util.Log;
 
-import com.snailgames.GameController.InputManagerCompat.InputManagerCompat.InputDeviceListener;
-import com.snailgames.GameController.InputManagerCompat.InputManagerCompat;
-import com.snailgames.GameController.GameControllerDelegate;
-import com.snailgames.libapplicationkit.ApplicationActivity;
+import com.losemymind.foundationkit.GameController.InputManagerCompat.InputManagerCompat;
+import com.losemymind.foundationkit.GameController.InputManagerCompat.InputManagerCompat.InputDeviceListener;
 
-public abstract class GameControllerActivity extends ApplicationActivity implements InputDeviceListener {
+public abstract class GameControllerActivity extends Activity implements InputDeviceListener {
     // ===========================================================
     // Constants
     // ===========================================================
@@ -58,6 +58,12 @@ public abstract class GameControllerActivity extends ApplicationActivity impleme
     protected GameControllerDelegate mControllerNibiru = null;
     protected GameControllerDelegate mControllerMoga = null;
     protected GameControllerDelegate mControllerOuya = null;
+    
+    
+    public static void runOnGLThread(final Runnable pRunnable) {
+        //this._GLSurfaceView.queueEvent(pRunnable);
+    	Log.e("TAG", "****** runOnGLThread does not working.");
+    }
     
     public void connectController(int driveType){
         try {

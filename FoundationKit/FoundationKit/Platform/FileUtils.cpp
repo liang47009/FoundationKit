@@ -600,7 +600,7 @@ bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &ne
 
 bool FileUtils::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
 {
-    assert(!path.empty(), "Invalid path");
+    LOG_ASSERT(!path.empty(), "Invalid path");
     std::string oldPath = path + oldname;
     std::string newPath = path + name;
 

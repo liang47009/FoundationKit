@@ -8,12 +8,13 @@ LOCAL_MODULE_FILENAME := libfoundationkittest
 LOCAL_SRC_FILES := main.cpp \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH) \
-                    $(LOCAL_PATH)/../../../FoundationKit \
-                    $(LOCAL_PATH)/jemalloc/$(TARGET_ARCH_ABI)/include
+                    $(LOCAL_PATH)/../../../FoundationKit
 
-LOCAL_WHOLE_STATIC_LIBRARIES += foundationkit_static
-LOCAL_STATIC_LIBRARIES := foundationkittest_static
+LOCAL_WHOLE_STATIC_LIBRARIES += foundationkit
 
 include $(BUILD_SHARED_LIBRARY)
-include $(LOCAL_PATH)/../../../FoundationKit/proj.android/jni/Android.mk
+$(call import-add-path,$(LOCAL_PATH)/../../../)
+
+$(call import-module,FoundationKit/proj.android/jni)
+
 
