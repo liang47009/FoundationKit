@@ -372,6 +372,9 @@
     <ClInclude Include="..\FoundationKit\experimental\BufferTest.h">
       <Filter>experimental</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\match.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">

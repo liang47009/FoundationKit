@@ -80,6 +80,7 @@ struct function_traits<Ret(Args...)>
     struct args
     {
         static_assert(I < arity::value, "index is out of range, index must less than sizeof Args");
+        // C++14 is std::tuple_element
         using type = typename std::tuple_element<I, args_tuple>::type;
     };
 
@@ -98,7 +99,7 @@ struct function_traits<std::function<Ret(Args...)>> : function_traits<Ret(Args..
 //member function
 #define FUNCTION_TRAITS(...)\
 template <typename ReturnType, typename ClassType, typename... Args>\
-struct function_traits<ReturnType(ClassType::*)(Args...) __VA_ARGS__> : function_traits<ReturnType(Args...)>{};\
+struct function_traits<ReturnType(ClassType::*)(Args...) __VA_ARGS__> : function_traits<ReturnType(Args...)>{};
 
 FUNCTION_TRAITS()
 FUNCTION_TRAITS(const)
