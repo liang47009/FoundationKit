@@ -369,6 +369,9 @@
     <ClInclude Include="..\FoundationKit\Base\Timespan.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\BufferTest.h">
+      <Filter>experimental</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">

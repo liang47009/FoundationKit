@@ -1,256 +1,295 @@
 /****************************************************************************
-  Copyright (c) 2013-2014 libo.
- 
-  losemymind.libo@gmail.com
+Copyright (c) 2013-2014 libo.
+
+losemymind.libo@gmail.com
 
 ****************************************************************************/
 #ifndef LOSEMYMIND_BUFFER_H
 #define LOSEMYMIND_BUFFER_H
-
 #pragma once
-
-#include <cstring>
-#include <cstddef>
-#include <memory>
-#include "FoundationKit/Foundation/Exception.h"
-
+#include <stdexcept>
+#include <initializer_list>
+#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/Base/Types.h"
 NS_FK_BEGIN
-
-/** 
- * A buffer class that allocates a buffer of a given type and size 
- * in the constructor and deallocates the buffer in the destructor.
- *
- * This class is useful everywhere where a temporary buffer
- * is needed.
- */
-template <class T = unsigned char>
+/**
+* A buffer class that allocates a buffer of a given type and size
+* in the constructor and deallocates the buffer in the destructor.
+*
+* This class is useful everywhere where a temporary buffer
+* is needed.
+*/
+template <class _Elem = unsigned char>
 class Buffer
 {
- /** Creates and allocates the Buffer. */
 public:
-    // default capacity is 8 byte.
-    Buffer():
-        _capacity(8),
-        _used(0),
-        _ptr(new T[_capacity]),
-        _ownMem(true)
+    typedef Buffer<_Elem> _Myt;
+    typedef uint32        size_type;
+
+    Buffer()
+        : _ptr(nullptr)
+        , _capacity(0)
+        , _readIndex(0)
+        , _writeIndex(0)
     {
-        memset(_ptr, 0, _capacity);
+
     }
 
-    Buffer(std::size_t capacity):
-        _capacity(capacity),
-        _used(0),
-        _ptr(nullptr),
-        _ownMem(true)
+    Buffer(size_type _Capacity) : Buffer()
     {
-        if (capacity > 0)
-        {
-            _ptr = new T[capacity];
-            memset(_ptr, 0, _capacity);
-        }
+        _ptr      = new _Elem[_Capacity];
+        _capacity = _Capacity;
     }
 
-    /** 
-     * Creates the Buffer. Length argument specifies the length
-     * of the supplied memory pointed to by pMem in the number
-     * of elements of type T. Supplied pointer is considered
-     * blank and not owned by Buffer, so in this case Buffer 
-     * only acts as a wrapper around externally supplied 
-     * (and lifetime-managed) memory.
-     */
-    explicit Buffer(T* pMem, std::size_t length):
-        _capacity(length),
-        _used(length),
-        _ptr(pMem),
-        _ownMem(false)
+    Buffer(_Myt&& _Right) : Buffer()
     {
+        move(std::forward<_Myt>(_Right));
     }
 
-    /** 
-     * Creates and allocates the Buffer; copies the contents of
-     * the supplied memory into the buffer. Length argument specifies
-     * the length of the supplied memory pointed to by pMem in the
-     * number of elements of type T.
-     */
-    Buffer(const T* pMem, std::size_t length):
-        _capacity(length),
-        _used(length),
-        _ptr(nullptr),
-        _ownMem(true)
+    Buffer(const _Myt& _Right) : Buffer()
     {
-        if (_used > 0)
-        {
-            _ptr = new T[_capacity];
-            std::memcpy(_ptr, pMem, _used * sizeof(T));
-        }
+        assign(_Right);
     }
 
-    /**  Copy constructor. */
-    Buffer(const Buffer& other):
-        _capacity(other._used),
-        _used(other._used),
-        _ptr(nullptr),
-        _ownMem(true)
+    Buffer(const _Elem *_Ptr, size_type _Count) : Buffer()
     {
-        if (_used)
-        {
-            _ptr = new T[_used];
-            std::memcpy(_ptr, other._ptr, _used * sizeof(T));
-        }
+        assign(_Ptr, _Count);
     }
 
-    /** Assignment operator. */
-    Buffer& operator =(const Buffer& other)
+    Buffer(size_type _Count, _Elem _El) : Buffer()
     {
-        if (this != &other)
-        {
-            Buffer tmp(other);
-            swap(tmp);
-            _ownMem = true;
-        }
-        return *this;
+        assign(_Count, _El);
     }
 
-    ~Buffer()
+    const _Elem *data() const
     {
-        if (_ownMem) delete [] _ptr;
+        return _ptr;
     }
 
-    /** 
-     * Resizes the buffer capacity and size. If preserveContent is true,
-     * the content of the old buffer is copied over to the
-     * new buffer. The new capacity can be larger or smaller than
-     * the current one; if it is smaller, capacity will remain intact.
-     * Size will always be set to the new capacity.
-     *  
-     * Buffers only wrapping externally owned storage can not be 
-     * resized. If resize is attempted on those, IllegalAccessException
-     * is thrown.
-     */
-    void resize(std::size_t newCapacity, bool preserveContent = true)
-    {
-        if (!_ownMem)
-            throw InvalidAccessException("Cannot resize buffer which does not own its storage.");
-
-        if (newCapacity > _capacity)
-        {
-            T* ptr = new T[newCapacity];
-            if (preserveContent)
-                std::memcpy(ptr, _ptr, _used * sizeof(T));
-
-            delete [] _ptr;
-            _ptr = ptr;
-            _capacity = newCapacity;
-        }
-
-        //_used = newCapacity;
-    }
-
-    /** 
-     * Sets the buffer capacity. If preserveContent is true,
-     * the content of the old buffer is copied over to the
-     * new buffer. The new capacity can be larger or smaller than
-     * the current one; size will be set to the new capacity only if 
-     * new capacity is smaller than the current size, otherwise it will
-     * remain intact.
-     * 
-     * Buffers only wrapping externally owned storage can not be 
-     * resized. If resize is attempted on those, IllegalAccessException
-     * is thrown.
-     */
-    void setCapacity(std::size_t newCapacity, bool preserveContent = true)
-    {
-        if (!_ownMem)
-            throw InvalidAccessException("Cannot resize buffer which does not own its storage.");
-
-        if (newCapacity != _capacity)
-        {
-            T* ptr = nullptr;
-            if (newCapacity > 0)
-            {
-                ptr = new T[newCapacity];
-                if (preserveContent)
-                {
-                    std::size_t newSz = _used < newCapacity ? _used : newCapacity;
-                    std::memcpy(ptr, _ptr, newSz * sizeof(T));
-                }
-            }
-
-            delete [] _ptr;
-            _ptr = ptr;
-            _capacity = newCapacity;
-
-            if (newCapacity < _used) _used = newCapacity;
-        }
-    }
-    /** 
-     * Assigns the argument buffer to this buffer.
-     * If necessary, resizes the buffer.
-     */
-    void assign(const T* buf, std::size_t sz)
-    {
-        if (0 == sz) return;
-        if (sz > _capacity) 
-            resize(sz, false);
-        std::memcpy(_ptr, buf, sz * sizeof(T));
-        _used = sz;
-    }
-
-    /** Resizes this buffer and appends the argument buffer.*/
-    const T* append(const T* buf, std::size_t sz)
-    {
-        if (0 == sz) return nullptr;
-        resize(_used + sz, true);
-        std::memcpy(_ptr + _used, buf, sz * sizeof(T));
-        _used += sz;
-        return (_ptr + _used - sz);
-    }
-
-    /** Resizes this buffer by one element and appends the argument value. */
-    const T* append(T val)
-    {
-        resize(_used + sizeof(T), true);
-        _ptr[_used] = val;
-        _used += sizeof(T);
-        return (_ptr + _used - sizeof(T));
-    }
-
-    // Resizes this buffer and appends the argument buffer.
-    const T* append(const Buffer& buf)
-    {
-        return append(buf.begin(), buf.size());
-    }
-
-    // Returns the allocated memory size in elements.
-    std::size_t capacity() const 
+    size_type capacity() const
     {
         return _capacity;
     }
 
-    // Returns the allocated memory size in bytes.
-    std::size_t capacityBytes() const 
+    size_type capacityBytes() const
     {
-        return _capacity * sizeof(T);
+        return _capacity*sizeof(_Elem);
     }
 
-    // Swaps the buffer with another one.
-    void swap(Buffer& other) 
+    size_type size() const
     {
-        using std::swap;
-        swap(_ptr, other._ptr);
-        swap(_capacity, other._capacity);
-        swap(_used, other._used);
+        return _writeIndex;
     }
+
+    size_type sizeBytes()const
+    {
+        return _writeIndex * sizeof(_Elem);
+    }
+
+    size_type readSize() const 
+    {
+        return _readIndex;
+    }
+
+    size_type readSizeBytes() const
+    {
+        return _readIndex * sizeof(_Elem);
+    }
+
+    size_type writeSize() const
+    {
+        return _writeIndex;
+    }
+
+    size_type writeSizeBytes() const
+    {
+        return _writeIndex * sizeof(_Elem);
+    }
+
+    bool readable() const
+    {
+        return ((_writeIndex - _readIndex) > 0);
+    }
+
+    bool writeable()const
+    {
+        return ((_capacity - _writeIndex) > 0);
+    }
+
+    void setReadSize(size_type _ReadSize)
+    {
+        LOG_ASSERT(_ReadSize < _writeIndex, "_ReadSize out of range.");
+        _readIndex = _ReadSize;
+    }
+
+    void write(_Elem _elem)
+    {
+        LOG_ASSERT(writeable(), "Write out of range.");
+        _ptr[_writeIndex++] = _elem;
+    }
+
+    _Elem read()
+    {
+        LOG_ASSERT(readable(), "No data can be read.");
+        return _ptr[_readIndex++];
+    }
+
+   /**
+    * Resizes the buffer capacity and size. If _PreserveContent is true,
+    * the content of the old buffer is copied over to the
+    * new buffer. The new capacity can be larger or smaller than
+    * the current one; if it is smaller, capacity will remain intact.
+    * Size will always be set to the new capacity.
+    *
+    * Buffers only wrapping externally owned storage can not be
+    * resized. If resize is attempted on those, IllegalAccessException
+    * is thrown.
+    */
+    void resize(size_type _Newsize, bool _PreserveContent = true)
+    {
+        if (_Newsize > _capacity)
+        {
+            _Elem* ptr = new _Elem[_Newsize];
+            memset(ptr, 0x00, _Newsize * sizeof(_Elem));
+            if (_PreserveContent)
+                std::memcpy(ptr, _ptr, _writeIndex * sizeof(_Elem));
+
+            delete[] _ptr;
+            _ptr = ptr;
+            _capacity = _Newsize;
+        }
+    }
+
+
+    bool empty() const
+    {
+        return (this->_writeIndex == 0);
+    }
+
+    void swap(_Myt& _Right)
+    {
+        if (this == &_Right) return;	// same object, do nothing
+        std::swap(this->_ptr,        _Right._ptr);
+        std::swap(this->_capacity,   _Right._capacity);
+        std::swap(this->_readIndex,  _Right._readIndex);
+        std::swap(this->_writeIndex, _Right._writeIndex);
+    }
+
+    void move(_Myt&& _Right)
+    {
+        _Tidy();
+        swap(_Right);
+    }
+
+    void clear()
+    {
+        _Tidy();
+    }
+
+    _Myt& assign(_Myt&& _Right)
+    {
+        _Tidy();
+        std::swap(this->_ptr, _Right._ptr);
+        std::swap(this->_capacity, _Right._capacity);
+        std::swap(this->_writeIndex, _Right._writeIndex);
+        _Right._Tidy();
+        return (*this);
+    }
+
+    _Myt& assign(const _Myt& _Right)
+    {
+        _Tidy();
+        _safeNewPtr(_Right.capacity());
+        _capacity = _Right.capacity();
+        _writeIndex = _Right._writeIndex;
+        memcpy(_ptr, _Right._ptr, _Right.capacityBytes());
+        return (*this);
+    }
+
+    _Myt& assign(const _Elem *_Ptr, size_type _Count)
+    {
+        _Tidy();
+        _safeNewPtr(_Count);
+        _capacity = _Count;
+        _writeIndex = _Count;
+        memcpy(_ptr, _Ptr, _Count*sizeof(_Elem));
+        return (*this);
+    }
+
+    _Myt& assign(size_type _Count, _Elem _El)
+    {
+        _Tidy();
+        _safeNewPtr(_Count);
+        _capacity = _Count;
+        for (size_type i = 0; i < _Count; ++i)
+            write(_El);
+
+        return (*this);
+    }
+
+    _Myt& operator=(_Myt&& _Right)
+    {
+        return assign(std::forward<_Myt>(_Right));
+    }
+
+    _Myt& operator=(const _Myt& _Right)
+    {
+        return assign(_Right);
+    }
+
+    _Myt& operator=(_Elem _Ch)
+    {	// assign 1 * _Ch
+        return (assign(1, _Ch));
+    }
+
+
+    _Myt& append(const _Myt& _Right)
+    {	// append _Right
+        return (append(_Right._ptr, _Right.writeSize()));
+    }
+
+    _Myt& append(const _Elem *_Ptr, size_type _Count)
+    {
+        if (_writeIndex + _Count > _capacity)
+            resize(_writeIndex + _Count);
+        memcpy(_ptr + _writeIndex, _Ptr, _Count*sizeof(_Elem));
+        _writeIndex += _Count;
+        return (*this);
+    }
+
+    _Myt& append(size_type _Count, _Elem _El)
+    {
+        if (_writeIndex + _Count > _capacity)
+            resize(_writeIndex + _Count);
+        for (size_type i = 0; i < _Count; ++i)
+            write(_El);
+        return (*this);
+    }
+
+    _Myt& append(_Elem _El)
+    {
+        return (append((size_type)1, _El));
+    }
+
+    _Myt& operator+=(const _Myt& _Right)
+    {	// append _Right
+        return (append(_Right));
+    }
+
+    _Myt& operator+=(_Elem _Ch)
+    {	// append 1 * _Ch
+        return (append((size_type)1, _Ch));
+    }
+
 
     // Compare operator.
     bool operator ==(const Buffer& other) const
     {
         if (this != &other)
         {
-            if (_used == other._used)
+            if (_writeIndex == other._writeIndex)
             {
-                if (std::memcmp(_ptr, other._ptr, _used * sizeof(T)) == 0)
+                if (std::memcmp(_ptr, other._ptr, _writeIndex * sizeof(_Elem)) == 0)
                 {
                     return true;
                 }
@@ -266,79 +305,74 @@ public:
         return !(*this == other);
     }
 
-    // Sets the contents of the bufer to zero.
-    void clear()
+    _Elem& operator [] (size_type index)
     {
-        std::memset(_ptr, 0, _used * sizeof(T));
-        _used = 0£»
+        LOG_ASSERT(index < _writeIndex, "Out of range.");
+        return _ptr[index];
     }
 
-    // Returns the used size of the buffer in elements.
-    std::size_t size() const
+    const _Elem& operator [] (size_type index) const
     {
-        return _used;
+        LOG_ASSERT(index < _writeIndex, "Out of range.");
+        return _ptr[index];
     }
 
-    // Returns the used size of the buffer in bytes.
-    std::size_t sizeBytes() const  
-    {
-        return _used * sizeof(T);
-    }
 
     // Returns a pointer to the beginning of the buffer.
-    T* begin()
+    _Elem* begin()
     {
         return _ptr;
     }
 
     // Returns a pointer to the beginning of the buffer.
-    const T* begin() const
+    const _Elem* begin() const
     {
         return _ptr;
     }
 
     // Returns a pointer to end of the buffer.
-    T* end()
+    _Elem* end()
     {
-        return _ptr + _used;
+        return _ptr + _writeIndex;
     }
 
     // Returns a pointer to the end of the buffer.
-    const T* end() const
+    const _Elem* end() const
     {
-        return _ptr + _used;
+        return _ptr + _writeIndex;
     }
 
-    // Return true if buffer is empty.
-    bool empty() const
+    ~Buffer()
     {
-        return 0 == _used;
+        _Tidy();
+    }
+protected:
+    void _Tidy()
+    {
+        SAFE_DELETE_ARRAY(_ptr);
+        _capacity = 0;
+        _readIndex = 0;
+        _writeIndex = 0;
     }
 
-    T& operator [] (std::size_t index)
+    void _safeNewPtr(size_type n)
     {
-        assert (index < _used);
-        return _ptr[index];
+        _ptr = new _Elem[n];
+        memset(_ptr, 0x00, n*sizeof(_Elem));
     }
-
-    const T& operator [] (std::size_t index) const
-    {
-        assert (index < _used);
-        return _ptr[index];
-    }
-
 private:
-    std::size_t _capacity;
-    std::size_t _used;
-    T*          _ptr;
-    bool        _ownMem;
+    _Elem*     _ptr;
+    size_type  _capacity;
+    size_type  _readIndex;
+    size_type  _writeIndex;
 };
+
+
+template <class T = unsigned char>
+inline void swap(Buffer<T>& _Left, Buffer<T>& _Right)
+{	// swap _Left and _Right strings
+    _Left.swap(_Right);
+}
 
 NS_FK_END
 #endif // LOSEMYMIND_BUFFER_H
-
-
-
-
-
-
