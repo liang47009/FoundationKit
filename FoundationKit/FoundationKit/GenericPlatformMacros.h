@@ -15,7 +15,8 @@
 #endif 
 
 
-// https://sourceforge.net/p/predef/wiki/Compilers/
+// see https://sourceforge.net/p/predef/wiki/Compilers/
+// or boost\config\select_platform_config.hpp
 // define supported target platform macro which to uses.
 #define PLATFORM_UNKNOWN            0
 #define PLATFORM_IOS                1
@@ -26,7 +27,7 @@
 
 #define TARGET_PLATFORM PLATFORM_UNKNOWN
 
-#if defined(__APPLE__)
+#if defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
 // TARGET_OS_IPHONE inlcudes TARGET_OS_IOS TARGET_OS_TV and TARGET_OS_WATCH. see TargetConditionals.h
 #include <TargetConditionals.h>
 #endif
@@ -60,13 +61,13 @@
     * @param MESSAGE A message containing upgrade notes.
     */
     #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
-    // DLL export and import definitions
-    #define DLLEXPORT
-    #define DLLIMPORT
+    // Symbol export and import definitions
+    #define SYMBOL_EXPORT
+    #define SYMBOL_IMPORT
     // Alignment.
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
-    #define ATTRIBUTE_UNUSED __attribute__((unused))
+    #define ATTRIBUTE_UNUSED __attribute__((unused))//__attribute__((__unused__)) ?
     #define FORCEINLINE inline __attribute__ ((always_inline))	/* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
     #define THREAD_LOCAL __thread
@@ -77,13 +78,13 @@
     #undef TARGET_PLATFORM
     #define TARGET_PLATFORM PLATFORM_ANDROID
     #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
-    // DLL export and import definitions
-    #define DLLEXPORT			__attribute__((visibility("default")))
-    #define DLLIMPORT			__attribute__((visibility("default")))
+    // Symbol export and import definitions
+    #define SYMBOL_EXPORT		__attribute__((visibility("default")))
+    #define SYMBOL_IMPORT		__attribute__((visibility("default")))
     // Alignment.
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
-    #define ATTRIBUTE_UNUSED __attribute__((unused))
+    #define ATTRIBUTE_UNUSED __attribute__((unused))//__attribute__((__unused__)) ?
     #define FORCEINLINE inline __attribute__ ((always_inline)) /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
     #define THREAD_LOCAL __thread
@@ -94,9 +95,9 @@
     #undef TARGET_PLATFORM
     #define TARGET_PLATFORM PLATFORM_WIN32
     #define DEPRECATED(VERSION, MESSAGE) __declspec(deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile."))
-    // DLL export and import definitions
-    #define DLLEXPORT __declspec(dllexport)
-    #define DLLIMPORT __declspec(dllimport)
+    // Symbol export and import definitions
+    #define SYMBOL_EXPORT __declspec(dllexport)
+    #define SYMBOL_IMPORT __declspec(dllimport)
     // Alignment.
     #define ATTRIBUTE_PACK(n)
     #define ATTRIBUTE_ALIGN(n) __declspec(align(n))
@@ -110,13 +111,13 @@
     #undef TARGET_PLATFORM    
     #define TARGET_PLATFORM PLATFORM_LINUX
     #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
-    // DLL export and import definitions
-    #define DLLEXPORT			__attribute__((visibility("default")))
-    #define DLLIMPORT			__attribute__((visibility("default")))
+    // Symbol export and import definitions
+    #define SYMBOL_EXPORT			__attribute__((visibility("default")))
+    #define SYMBOL_IMPORT			__attribute__((visibility("default")))
     // Alignment.
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
-    #define ATTRIBUTE_UNUSED __attribute__((unused))
+    #define ATTRIBUTE_UNUSED __attribute__((unused))//__attribute__((__unused__)) ?
     #define FORCEINLINE inline __attribute__ ((always_inline)) /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
     #define THREAD_LOCAL __thread
@@ -126,13 +127,13 @@
     #undef TARGET_PLATFORM
     #define TARGET_PLATFORM PLATFORM_MAC
     #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
-    // DLL export and import definitions
-    #define DLLEXPORT
-    #define DLLIMPORT
+    // Symbol export and import definitions
+    #define SYMBOL_EXPORT
+    #define SYMBOL_IMPORT
     // Alignment.
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
-    #define ATTRIBUTE_UNUSED __attribute__((unused))
+    #define ATTRIBUTE_UNUSED __attribute__((unused)) //__attribute__((__unused__)) ?
     #define FORCEINLINE inline __attribute__ ((always_inline))  /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
     #define THREAD_LOCAL __thread
