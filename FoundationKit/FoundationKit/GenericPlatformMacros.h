@@ -182,7 +182,7 @@ extern void __log__(const char* file, int line, const char* message, ...);
 #define DEBUG_MODE 1
 
 #else
-#define LOG_ASSERT(cond, msg) do{}while(false)
+#define LOG_ASSERT(cond, msg,...) do{}while(false)
 #define DEBUG_MODE 0
 
 #endif

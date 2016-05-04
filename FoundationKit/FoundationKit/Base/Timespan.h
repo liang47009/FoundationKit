@@ -518,7 +518,7 @@ public:
 	 * @param Timespan The timespan to get the hash for.
 	 * @return Hash value.
 	 */
-	uint32 getHash()
+	size_t getHash()
 	{
         return std::hash<int64>()(this->_ticks);
 	}

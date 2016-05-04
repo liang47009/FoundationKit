@@ -2,7 +2,7 @@
 #pragma once
 #include "FoundationKit/std/function_traits.hpp"
 
-#if (__cplusplus && (__cplusplus == 201103L)) || (_MSC_VER && _MSC_VER > 1800)
+#if (__cplusplus && (__cplusplus > 201103L)) || (_MSC_VER && _MSC_VER > 1800)
 
 // forward declarations
 template<class T, class Case, class ...Cases>

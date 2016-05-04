@@ -336,7 +336,7 @@ bool DateTime::parseIso8601( const char* dateTimeString, DateTime& outDateTime )
 				return false;
 			}
 
-            for (int32 Digits = next - dtPtr; Digits < 3; ++Digits)
+            for (PTRINT Digits = next - dtPtr; Digits < 3; ++Digits)
 			{
 				millisecond *= 10;
 			}

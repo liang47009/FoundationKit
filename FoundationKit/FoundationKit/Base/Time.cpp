@@ -19,7 +19,7 @@ NS_FK_BEGIN
 
 	}
 
-    Time::Time(const std::chrono::system_clock::time_point& timePoint)
+    Time::Time(const std::chrono::high_resolution_clock::time_point& timePoint)
         : m_TimeDuration(timePoint.time_since_epoch())
     {
 
@@ -54,19 +54,19 @@ NS_FK_BEGIN
 		return * this;
 	}
 
-	Time & Time::operator*=(const std::chrono::system_clock::duration::rep & t)
+	Time & Time::operator*=(const std::chrono::high_resolution_clock::duration::rep & t)
 	{
 		m_TimeDuration *= t;
 		return * this;
 	}
 
-	Time & Time::operator/=(const std::chrono::system_clock::duration::rep & t)
+	Time & Time::operator/=(const std::chrono::high_resolution_clock::duration::rep & t)
 	{
 		m_TimeDuration /= t;
 		return * this;
 	}
 
-	Time & Time::operator%=(const std::chrono::system_clock::duration::rep & t)
+	Time & Time::operator%=(const std::chrono::high_resolution_clock::duration::rep & t)
 	{
 		m_TimeDuration %= t;
 		return * this;

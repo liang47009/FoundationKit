@@ -10,7 +10,7 @@ public:
 	Time();
 	Time(const Time & t);
 	Time(Time && t);
-    Time(const std::chrono::system_clock::time_point& timePoint);
+    Time(const std::chrono::high_resolution_clock::time_point& timePoint);
 
 	~Time();
 	
@@ -19,9 +19,9 @@ public:
 
 	Time & operator+=(const Time & t);
 	Time & operator-=(const Time & t);
-	Time & operator*=(const std::chrono::system_clock::duration::rep & t);
-	Time & operator/=(const std::chrono::system_clock::duration::rep & t);
-	Time & operator%=(const std::chrono::system_clock::duration::rep & t);
+	Time & operator*=(const std::chrono::high_resolution_clock::duration::rep & t);
+	Time & operator/=(const std::chrono::high_resolution_clock::duration::rep & t);
+	Time & operator%=(const std::chrono::high_resolution_clock::duration::rep & t);
 	Time & operator%=(const Time & t);
 
 	Time   operator+(const Time & t) const;
@@ -41,7 +41,7 @@ public:
 
     static Time now();
 private:
-	std::chrono::system_clock::duration m_TimeDuration;
+	std::chrono::high_resolution_clock::duration m_TimeDuration;
 
 };
 

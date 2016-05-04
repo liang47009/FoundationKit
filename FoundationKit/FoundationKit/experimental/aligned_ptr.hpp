@@ -47,7 +47,7 @@ class aligned_ptr
 public:
     typedef aligned_ptr<_Ty>   _Myt;
     typedef aligned_ptr_holder<_Ty>  _HolderType;
-    typedef _STD shared_ptr<_HolderType> _ContextType;
+    typedef std::shared_ptr<_HolderType> _ContextType;
 
     template<typename... Args>
     aligned_ptr(Args&&... args) _NOEXCEPT
@@ -64,7 +64,7 @@ public:
 
     aligned_ptr(_Myt&& _Other)
     {
-        _content = _STD move(_Other._content);
+        _content = std::move(_Other._content);
 
     }
     ~aligned_ptr() _NOEXCEPT
@@ -73,14 +73,14 @@ public:
 
     _Myt& operator=(_Myt&& _Right) _NOEXCEPT
     {
-        aligned_ptr(_STD move(_Right)).swap(*this);
+        aligned_ptr(std::move(_Right)).swap(*this);
         return (*this);
     }
 
      template<class _Ty2>
     _Myt& operator=(aligned_ptr<_Ty2>&& _Right) _NOEXCEPT
     {
-        aligned_ptr(_STD move(_Right)).swap(*this);
+        aligned_ptr(std::move(_Right)).swap(*this);
         return (*this);
     }
 
@@ -240,7 +240,7 @@ bool operator<=(nullptr_t _Left, const aligned_ptr<_Ty>& _Right) _NOEXCEPT
 }
 
 template<class _Elem,class _Traits,class _Ty>
-_STD basic_ostream<_Elem, _Traits>& operator<<(_STD basic_ostream<_Elem, _Traits>& _Out, const aligned_ptr<_Ty>& _Px)
+std::basic_ostream<_Elem, _Traits>& operator<<(std::basic_ostream<_Elem, _Traits>& _Out, const aligned_ptr<_Ty>& _Px)
 {	// write contained pointer to stream
     return (_Out << _Px.get());
 }
