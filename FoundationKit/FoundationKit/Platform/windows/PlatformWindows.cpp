@@ -25,15 +25,6 @@ losemymind.libo@gmail.com
 
 NS_FK_BEGIN
 
-
-class PlatformHelper
-{
-public:
-
-};
-
-
-
 float Platform::getTotalMemory()
 {
     long megabyte = 1024 * 1024;
