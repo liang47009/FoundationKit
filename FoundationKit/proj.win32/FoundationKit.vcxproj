@@ -196,6 +196,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h" />
     <ClInclude Include="..\FoundationKit\std\function_traits.hpp" />
+    <ClInclude Include="..\FoundationKit\std\hex.hpp" />
     <ClInclude Include="..\FoundationKit\std\utility.hpp" />
     <ClInclude Include="..\FoundationKit\Thread\Impl\thread.h" />
     <ClInclude Include="..\FoundationKit\Thread\Impl\thread_posix.h" />
