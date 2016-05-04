@@ -91,7 +91,7 @@
     #define FILEPATH_MAX PATH_MAX
 
 
-#elif defined(_WIN32) && defined(_WINDOWS)
+#elif defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
     #undef TARGET_PLATFORM
     #define TARGET_PLATFORM PLATFORM_WIN32
     #define DEPRECATED(VERSION, MESSAGE) __declspec(deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile."))
@@ -218,6 +218,12 @@ __pragma (warning(disable:4127))
 #include <windows.h>
 
 #endif //(TARGET_PLATFORM == PLATFORM_WIN32)
+
+// IOS,ANDROID,MAC platform must be defined USE_FILE32API
+//#ifndef USE_FILE32API
+//#define USE_FILE32API 1
+//#endif
+
 
 #endif // #ifndef LOSEMYMIND_GENERICPLATFORMMACROS_H
 
