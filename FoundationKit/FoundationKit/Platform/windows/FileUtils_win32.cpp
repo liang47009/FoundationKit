@@ -30,7 +30,7 @@ void FileUtils::initRootPath()
         // We need only directory part without exe
         WCHAR *pUtf16DirEnd = wcsrchr(pUtf16ExePath, L'\\');
         char utf8ExeDir[MAX_PATH] = { 0 };
-        WideCharToMultiByte(CP_UTF8, 0, pUtf16ExePath, pUtf16DirEnd - pUtf16ExePath + 1, utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
+        WideCharToMultiByte(CP_ACP, 0, pUtf16ExePath, pUtf16DirEnd - pUtf16ExePath + 1, utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
         _resourceRootPath = convertPathFormatToUnixStyle(utf8ExeDir);
     }
 }
