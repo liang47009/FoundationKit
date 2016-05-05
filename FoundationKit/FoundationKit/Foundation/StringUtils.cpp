@@ -10,6 +10,7 @@
 #include <functional>
 #include <cctype>
 #include <sstream>
+//#include <codecvt>
 #include "StringUtils.h"
 #include "FoundationKit/external/ConvertUTF/ConvertUTF.h"
 
@@ -130,133 +131,35 @@ bool StringUtils::isNumber( const std::string& val )
 	return !str.fail() && str.eof();
 }
 
-// by Marius Bancila
-// http://www.codeguru.com/cpp/misc/misc/multi-lingualsupport/article.php/c10451/
-#define         MASKBITS                0x3F
-#define         MASKBYTE                0x80
-#define         MASK2BYTES              0xC0
-#define         MASK3BYTES              0xE0
-#define         MASK4BYTES              0xF0
-#define         MASK5BYTES              0xF8
-#define         MASK6BYTES              0xFC
 
-typedef unsigned short   Unicode2Bytes;
-typedef unsigned int     Unicode4Bytes;
-typedef unsigned char    byte;
+// Other impl see:http://blog.poxiao.me/p/unicode-character-encoding-conversion-in-cpp11/
+
 std::string StringUtils::wstring2UTF8string(const std::wstring &input)
 {
-	std::string output;
-
-	for(unsigned int i=0; i < input.size(); i++)
-	{
-		// 0xxxxxxx
-		if(input[i] < 0x80)
-		{
-			output.push_back((byte)input[i]);
-		}
-		// 110xxxxx 10xxxxxx
-		else if(input[i] < 0x800)
-		{
-			output.push_back((byte)(MASK2BYTES | input[i] >> 6));
-			output.push_back((byte)(MASKBYTE   | (input[i] & MASKBITS)));
-		}
-		// 1110xxxx 10xxxxxx 10xxxxxx
-		else if(input[i] < 0x10000)
-		{
-			output.push_back((byte)(MASK3BYTES | input[i] >> 12));
-			output.push_back((byte)(MASKBYTE   | (input[i] >> 6 & MASKBITS)));
-			output.push_back((byte)(MASKBYTE   | (input[i] & MASKBITS)));
-		}
-		// 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-		else if(input[i] < 0x200000)
-		{
-			output.push_back((byte)(MASK4BYTES | input[i] >> 18));
-			output.push_back((byte)(MASKBYTE   | (input[i] >> 12 & MASKBITS)));
-			output.push_back((byte)(MASKBYTE   | (input[i] >> 6 & MASKBITS)));
-			output.push_back((byte)(MASKBYTE   | (input[i] & MASKBITS)));
-		}
-		// 111110xx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
-		else if(input[i] < 0x4000000)
-		{
-			output.push_back((byte)(MASK5BYTES | input[i] >> 24));
-			output.push_back((byte)(MASKBYTE   | (input[i] >> 18 & MASKBITS)));
-			output.push_back((byte)(MASKBYTE   | (input[i] >> 12 & MASKBITS)));
-			output.push_back((byte)(MASKBYTE   | (input[i] >> 6 & MASKBITS)));
-			output.push_back((byte)(MASKBYTE   | (input[i] & MASKBITS)));
-		}
-		// 1111110x 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
-		else if(input[i] < 0x8000000)
-		{
-			output.push_back((byte)(MASK6BYTES | input[i] >> 30));
-			output.push_back((byte)(MASKBYTE   | (input[i] >> 18 & MASKBITS)));
-			output.push_back((byte)(MASKBYTE   | (input[i] >> 12 & MASKBITS)));
-			output.push_back((byte)(MASKBYTE   | (input[i] >> 6 & MASKBITS)));
-			output.push_back((byte)(MASKBYTE   | (input[i] & MASKBITS)));
-		}
-	}
-	return output;
+    std::locale old_loc = std::locale::global(std::locale(""));
+    const wchar_t* src_wstr = input.c_str();
+    size_t buffer_size = input.size() * 4 + 1;
+    char* dst_str = new char[buffer_size];
+    memset(dst_str, 0, buffer_size);
+    wcstombs(dst_str, src_wstr, buffer_size);
+    std::string result = dst_str;
+    delete[]dst_str;
+    std::locale::global(old_loc);
+    return result;
 }
 
 std::wstring StringUtils::string2UTF8wstring(const std::string &input)
 {
-	std::wstring output;
-	for(unsigned int i=0; i < input.size();)
-	{
-		Unicode4Bytes ch;
-
-		// 1111110x 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
-		if((input[i] & MASK6BYTES) == MASK6BYTES)
-		{
-			ch = ((input[i] & 0x01) << 30) 
-				| ((input[i+1] & MASKBITS) << 24)
-				| ((input[i+2] & MASKBITS) << 18) 
-				| ((input[i+3]& MASKBITS)  << 12)
-				| ((input[i+4] & MASKBITS) << 6) 
-				| (input[i+5] & MASKBITS);
-			i += 6;
-		}
-		// 111110xx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
-		else if((input[i] & MASK5BYTES) == MASK5BYTES)
-		{
-			ch = ((input[i] & 0x03) << 24) 
-				| ((input[i+1] & MASKBITS) << 18)
-				| ((input[i+2] & MASKBITS) << 12) 
-				| ((input[i+3] & MASKBITS) << 6)
-				| (input[i+4] & MASKBITS);
-			i += 5;
-		}
-		// 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-		else if((input[i] & MASK4BYTES) == MASK4BYTES)
-		{
-			ch = ((input[i] & 0x07) << 18) 
-				| ((input[i+1]& MASKBITS)  << 12)
-				| ((input[i+2] & MASKBITS) << 6) 
-				| (input[i+3] & MASKBITS);
-			i += 4;
-		}
-		// 1110xxxx 10xxxxxx 10xxxxxx
-		else if((input[i] & MASK3BYTES) == MASK3BYTES)
-		{
-			ch = ((input[i] & 0x0F) << 12) 
-				| ((input[i+1] & MASKBITS) << 6)
-				| (input[i+2] & MASKBITS);
-			i += 3;
-		}
-		// 110xxxxx 10xxxxxx
-		else if((input[i] & MASK2BYTES) == MASK2BYTES)
-		{
-			ch = ((input[i] & 0x1F) << 6) | (input[i+1] & MASKBITS);
-			i += 2;
-		}
-		// 0xxxxxxx
-		else //if(input[i] < MASKBYTE)
-		{
-			ch = input[i];
-			i += 1;
-		}
-		output.push_back(static_cast<wchar_t>(ch));
-	}
-	return output;
+    std::locale old_loc = std::locale::global(std::locale(""));
+    const char* src_str = input.c_str();
+    const size_t buffer_size = input.size() + 1;
+    wchar_t* dst_wstr = new wchar_t[buffer_size];
+    wmemset(dst_wstr, 0, buffer_size);
+    mbstowcs(dst_wstr, src_str, buffer_size);
+    std::wstring result = dst_wstr;
+    delete[]dst_wstr;
+    std::locale::global(old_loc);
+    return result;
 }
 
 
@@ -282,9 +185,7 @@ bool StringUtils::UTF8ToUTF16(const std::string& utf8, std::u16string& outUtf16)
         outUtf16 = utf16;
         ret = true;
     }
-
     free(utf16);
-
     return ret;
 }
 
@@ -299,4 +200,44 @@ bool StringUtils::UTF16ToUTF8(const std::u16string& utf16, std::string& outUtf8)
     return llvm::convertUTF16ToUTF8String(utf16, outUtf8);
 }
 
+/*
+std::u16string StringUtils::UTF8ToUTF16(const std::string &s)
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> conv;
+    return conv.from_bytes(s);
+}
+
+std::u32string StringUtils::UTF8ToUTF32(const std::string &s)
+{
+    std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
+    return conv.from_bytes(s);
+}
+
+std::string StringUtils::UTF16ToUTF8(const std::u16string &s)
+{
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> conv;
+    return conv.to_bytes(s);
+}
+
+std::u32string StringUtils::UTF16ToUTF32(const std::u16string &s)
+{
+    const char16_t *pData = s.c_str();
+    std::wstring_convert<std::codecvt_utf16<char32_t>, char32_t> conv;
+    return conv.from_bytes(reinterpret_cast<const char*>(pData), reinterpret_cast<const char*>(pData + s.length()));
+}
+
+std::string StringUtils::UTF32ToUTF8(const std::u32string &s)
+{
+    std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
+    return conv.to_bytes(s);
+}
+
+
+std::u16string StringUtils::UTF32ToUTF16(const std::u32string &s)
+{
+    std::wstring_convert<std::codecvt_utf16<char32_t>, char32_t> conv;
+    std::string bytes = conv.to_bytes(s);
+    return std::u16string(reinterpret_cast<const char16_t*>(bytes.c_str()), bytes.length() / sizeof(char16_t));
+}
+*/
 NS_FK_END

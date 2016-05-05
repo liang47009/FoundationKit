@@ -131,6 +131,17 @@ public:
     *  @endcode
     */
     static bool UTF16ToUTF8(const std::u16string& utf16, std::string& outUtf8);
+
+    /**
+    static std::u16string UTF8ToUTF16(const std::string &s);
+    static std::u32string UTF8ToUTF32(const std::string &s);
+    static std::string    UTF16ToUTF8(const std::u16string &s);
+    static std::u32string UTF16ToUTF32(const std::u16string &s);
+    static std::string    UTF32ToUTF8(const std::u32string &s);
+    static std::u16string UTF32ToUTF16(const std::u32string &s);
+    */
+
+
 };
 
 NS_FK_END
