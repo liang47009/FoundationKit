@@ -65,7 +65,7 @@ void Logger::log( Level level, const char* message, ... )
 #if (TARGET_PLATFORM == PLATFORM_ANDROID)
     __android_log_print(ANDROID_LOG_DEBUG, "FoundationKit", "%s", strPreMsg.c_str());
 #elif TARGET_PLATFORM ==  PLATFORM_WIN32
-    std::wstring wstr = StringUtils::string2UTF8wstring(strPreMsg.c_str());
+    std::wstring wstr = StringUtils::string2UTF8wstring(strPreMsg);
     OutputDebugStringW(wstr.c_str());
     printf("%s", strPreMsg.c_str());
     fflush(stdout);
