@@ -1,8 +1,6 @@
+
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
-#ifeq (armeabi-v7a,$(TARGET_ARCH_ABI))
-#LOCAL_ARM_NEON := true
-#endif
 
 LOCAL_MODULE := foundationkit
 LOCAL_MODULE_FILENAME := libfoundationkit
@@ -82,12 +80,12 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../ \
                     $(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/curl\
                     $(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/luajit
 
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../../FoundationKit/external/unzip \
-
 LOCAL_CFLAGS   :=  -DUSE_FILE32API
 
-LOCAL_EXPORT_CFLAGS   := -DUSE_FILE32API
-LOCAL_EXPORT_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11
+LOCAL_EXPORT_C_INCLUDES += $(LOCAL_PATH)/../../FoundationKit/external/unzip
+LOCAL_EXPORT_CFLAGS     += -DUSE_FILE32API
+LOCAL_EXPORT_CPPFLAGS   += -frtti -fexceptions -fsigned-char -std=c++11
+LOCAL_EXPORT_LDLIBS     += -llog -lz -landroid
 
 ifeq ($(NDK_DEBUG),1)
   LOCAL_CPPFLAGS += -DDEBUG
@@ -97,9 +95,9 @@ else
   LOCAL_EXPORT_CPPFLAGS += -DNDEBUG
 endif
 
-LOCAL_EXPORT_LDLIBS := -llog \
-                       -lz \
-                       -landroid
+ifeq (armeabi-v7a,$(TARGET_ARCH_ABI))
+LOCAL_EXPORT_CPPFLAGS += -DUSE_NEON
+endif
 
 LOCAL_WHOLE_STATIC_LIBRARIES += androidjni
 LOCAL_WHOLE_STATIC_LIBRARIES += libluajit_static

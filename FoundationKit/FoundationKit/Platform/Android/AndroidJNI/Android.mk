@@ -12,8 +12,7 @@ LOCAL_EXPORT_C_INCLUDES := ./../
 
 LOCAL_EXPORT_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11
 
-LOCAL_EXPORT_LDLIBS := -llog \
-                       -landroid
+LOCAL_EXPORT_LDLIBS := -llog -landroid
 
 include $(BUILD_STATIC_LIBRARY)
 
