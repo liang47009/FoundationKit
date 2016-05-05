@@ -166,16 +166,6 @@
 //#pragma message(COMPILE_MSG "Show compile message")
 #define COMPILE_MSG __FILE__ "(" STRINGIZE(__LINE__) "):Warning:" 
 
-/// when define returns true it means that our architecture uses big endian
-#define HOST_IS_BIG_ENDIAN (bool)(*(unsigned short *)"\0\xff" < 0x100) 
-#define ENDIAN_SWAP32(i)  ((i & 0x000000ff) << 24 | (i & 0x0000ff00) << 8 | (i & 0x00ff0000) >> 8 | (i & 0xff000000) >> 24)
-#define ENDIAN_SWAP16(i)  ((i & 0x00ff) << 8 | (i &0xff00) >> 8)   
-#define SWAP_INT32_LITTLE_TO_HOST(i) ((HOST_IS_BIG_ENDIAN == true)? ENDIAN_SWAP32(i) : (i) )
-#define SWAP_INT16_LITTLE_TO_HOST(i) ((HOST_IS_BIG_ENDIAN == true)? ENDIAN_SWAP16(i) : (i) )
-#define SWAP_INT32_BIG_TO_HOST(i)    ((HOST_IS_BIG_ENDIAN == true)? (i) : ENDIAN_SWAP32(i) )
-#define SWAP_INT16_BIG_TO_HOST(i)    ((HOST_IS_BIG_ENDIAN == true)? (i):  ENDIAN_SWAP16(i) )
-
-
 extern void __log__(const char* file, int line, const char* message, ...);
 #if defined(_DEBUG) || defined(DEBUG)
 #define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(__FILE__, __LINE__, msg, ##__VA_ARGS__);assert(cond);}} while (false)
