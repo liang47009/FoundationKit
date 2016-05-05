@@ -21,7 +21,6 @@ NS_FK_BEGIN
 class  DataStream
 {
 public:
-
     typedef std::string::size_type size_type;
 	DataStream();
 	DataStream(const DataStream& pDataStream);
@@ -117,8 +116,10 @@ public:
 			data = 0;
 			return;
 		}
-		memcpy(&data, &_buffer[0], sizeof(T));
-		_buffer.erase(0, sizeof(T));
+        memcpy(&data, &_buffer[getReadIndex()], sizeof(T));
+        readIndexIncrement(sizeof(T));
+		//memcpy(&data, &_buffer[0], sizeof(T));
+		//_buffer.erase(0, sizeof(T));
 	}
 
 	template< typename T >
@@ -135,10 +136,10 @@ public:
 	void   clear();
 	void   reset(const std::string& data);
 	size_t size();
-
 	const char* c_str();
-
 	const std::string&	getBuffer()const;
+
+    void  setBurnAfterReading(bool val){ _burnAfterReading = val; }
 private:
 	template<typename C>
 	DataStream& writeSequenceContainer(const C& data)
@@ -193,9 +194,14 @@ private:
 		return *this;
 	}
 
+    size_type getReadIndex();
+
+    void readIndexIncrement(size_type count);
+
 protected:
 	std::string _buffer;
     size_type   _readIndex;
+    bool        _burnAfterReading;
 };
 
 NS_FK_END

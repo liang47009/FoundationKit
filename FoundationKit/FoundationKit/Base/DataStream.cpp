@@ -225,9 +225,11 @@ DataStream& DataStream::operator>>(std::string& data)
 		return *this;
 	}
 
-	data = _buffer.substr(0,size);
+	//data = _buffer.substr(0,size);
+    data = _buffer.substr(getReadIndex(), size);
 	data.shrink_to_fit();
-	_buffer.erase(0,size);
+	//_buffer.erase(0,size);
+    readIndexIncrement(size);
 	return *this;
 }
 
@@ -251,19 +253,23 @@ void DataStream::write(unsigned char* data, size_t pSize, int pPos)
 
 void DataStream::read( unsigned char* data, size_t dataSize )
 {
-	memcpy(&data,&_buffer[0],dataSize);
-	_buffer.erase(0,dataSize);
+	//memcpy(&data,&_buffer[0],dataSize);
+	//_buffer.erase(0,dataSize);
+    memcpy(&data, &_buffer[getReadIndex()], dataSize);
+    readIndexIncrement(dataSize);
 }
 
 void DataStream::clear()
 {
 	_buffer.clear();
+    _readIndex = 0;
 }
 
 void DataStream::reset(const std::string& data)
 {
 	_buffer.clear();
 	_buffer.append(&data[0], data.size());
+    _readIndex = 0;
 }
 
 size_t DataStream::size()
@@ -279,6 +285,21 @@ const std::string& DataStream::getBuffer()const
 const char* DataStream::c_str()
 {
 	return _buffer.c_str();
+}
+
+DataStream::size_type DataStream::getReadIndex()
+{
+    if (_burnAfterReading)
+       return 0;
+    return _readIndex;
+}
+
+void DataStream::readIndexIncrement(size_type count)
+{
+    if (_burnAfterReading)
+        _buffer.erase(0, count);
+    else
+        _readIndex += count;
 }
 
 NS_FK_END
