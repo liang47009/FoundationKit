@@ -17,9 +17,12 @@
 #include <string>
 #include "FoundationKit/GenericPlatformMacros.h"
 NS_FK_BEGIN
+
 class  DataStream
 {
 public:
+
+    typedef std::string::size_type size_type;
 	DataStream();
 	DataStream(const DataStream& pDataStream);
 	DataStream(DataStream&& pDataStream);
@@ -109,7 +112,7 @@ public:
 	template< typename T >
 	void read(T& data)
 	{
-		if (_buffer.size() < sizeof(T))
+		if (size() < sizeof(T))
 		{
 			data = 0;
 			return;
@@ -191,8 +194,8 @@ private:
 	}
 
 protected:
-	std::string		                  _buffer;
-
+	std::string _buffer;
+    size_type   _readIndex;
 };
 
 NS_FK_END

@@ -268,7 +268,7 @@ void DataStream::reset(const std::string& data)
 
 size_t DataStream::size()
 {
-	return (int)_buffer.size();
+	return _buffer.size();
 }
 
 const std::string& DataStream::getBuffer()const
