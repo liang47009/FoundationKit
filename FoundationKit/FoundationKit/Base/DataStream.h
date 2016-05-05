@@ -27,36 +27,29 @@ public:
 	DataStream(DataStream&& pDataStream);
 	DataStream& operator=(const DataStream& pDataStream);
 	DataStream& operator=(DataStream&& pDataStream);
-	DataStream& operator<<(const unsigned char data);
-	DataStream& operator<<(const unsigned short data);
-	DataStream& operator<<(const unsigned int data);
-	DataStream& operator<<(const unsigned long data);
-	DataStream& operator<<(const unsigned long long data);
-	DataStream& operator<<(bool data);
-	DataStream& operator<<(const char data);
-	DataStream& operator<<(const short data);
-	DataStream& operator<<(const int data);
-	DataStream& operator<<(const long data);
-	DataStream& operator<<(const long long data);
-	DataStream& operator<<(const float data);
-	DataStream& operator<<(const double data);
-	DataStream& operator<<(const char* data);
-	DataStream& operator<<(const std::string& data);
 
-	DataStream& operator>>(unsigned char& data);
-	DataStream& operator>>(unsigned short& data);
-	DataStream& operator>>(unsigned int& data);
-	DataStream& operator>>(unsigned long& data);
-	DataStream& operator>>(unsigned long long& data);
-	DataStream& operator>>(bool& data);
-	DataStream& operator>>(char& data);
-	DataStream& operator>>(short& data);
-	DataStream& operator>>(int& data);
-	DataStream& operator>>(long& data);
-	DataStream& operator>>(long long& data);
-	DataStream& operator>>(float& data);
-	DataStream& operator>>(double& data);
+    template<typename T, typename std::enable_if< std::is_fundamental<T>::value >::type* = nullptr >
+    DataStream& operator<<(T data)
+    {
+        _buffer.append((char*)&data, sizeof(T));
+        return *this;
+    }
+
+    DataStream& operator<<(bool data);
+    DataStream& operator<<(const char* data);
+    DataStream& operator<<(const std::string& data);
+
+    template<typename T, typename std::enable_if< std::is_fundamental<T>::value >::type* = nullptr >
+    DataStream& operator>>(T& data)
+    {
+        read(data);
+        return *this;
+    }
+
+    DataStream& operator>>(bool& data);
+    DataStream& operator>>(const char* data);
 	DataStream& operator>>(std::string& data);
+    
 
 	template <typename K, typename V>
 	DataStream& operator<<(const std::map<K, V>& data)
@@ -113,7 +106,7 @@ public:
 	{
 		if (size() < sizeof(T))
 		{
-			data = 0;
+			data = T();
 			return;
 		}
         memcpy(&data, &_buffer[getReadIndex()], sizeof(T));
