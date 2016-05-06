@@ -41,9 +41,9 @@ public class MainActivity extends Activity {
 		AndroidJavaBridge.getInstance().invoke("CallAndroidJavaBridge", 10, "This is test");
 	}
 	
-	public void debugPrint(int line, String fileName, String message)
+	public void debug_Print(int line, String fileName, String message)
 	{
-		Log.d("TAG", "debugPrint line:" + line + " file:" + fileName + " msg:"+message);
+		Log.d("TAG", "=====debugPrint line:" + line + " file:" + fileName + " msg:"+message);
 	}
 	
 	public native void  foundationInit(Context context);

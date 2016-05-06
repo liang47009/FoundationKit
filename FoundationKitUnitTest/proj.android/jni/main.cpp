@@ -23,6 +23,7 @@
 #include "FoundationKit/std/utility.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.h"
 #include "FoundationKit/Platform/Platform.h"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.h"
 
 #include <vector>
 #include <stdarg.h>
@@ -70,7 +71,12 @@ JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_found
 {
     ANDROID_LOGD("============== >>>>> foundationInit");
      AndroidJNI::initializeJavaEnv(g_vm, JNI_VERSION_1_6, context);
+     AndroidJavaObject  mainActive(context);
+     mainActive.call("debug_Print", 100,"======", "========");
     ANDROID_LOGD("========== MAC ADDRESS: %s", Platform::getMacAddress().c_str());
+
+
+
     //testFunctionCache();
 }
 
