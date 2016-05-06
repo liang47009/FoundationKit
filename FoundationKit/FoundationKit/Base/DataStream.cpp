@@ -41,12 +41,6 @@ DataStream& DataStream::operator=(DataStream&& pDataStream)
 	return *this;
 }
 
-DataStream& DataStream::operator << (bool data)
-{
-    *this << (data ? 1 : 0);
-    return *this;
-}
-
 DataStream& DataStream::operator << (const char* data)
 {
     *this << std::string(data);
@@ -58,14 +52,6 @@ DataStream& DataStream::operator << (const std::string& data)
     *this << data.size();
     _buffer.append(data.c_str(), data.size());
     return *this;
-}
-
-DataStream& DataStream::operator>>(bool& data)
-{
-	int i;
-	*this >> i;
-	data = i ? true : false;
-	return *this;
 }
 
 DataStream& DataStream::operator >> (const char* data)

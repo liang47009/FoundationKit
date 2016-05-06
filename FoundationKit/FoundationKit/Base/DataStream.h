@@ -28,29 +28,26 @@ public:
 	DataStream& operator=(const DataStream& pDataStream);
 	DataStream& operator=(DataStream&& pDataStream);
 
-    template<typename T, typename std::enable_if< std::is_fundamental<T>::value >::type* = nullptr >
+    template<typename T, typename = std::enable_if_t<std::is_fundamental<T>::value> >
     DataStream& operator<<(T data)
     {
         _buffer.append((char*)&data, sizeof(T));
         return *this;
     }
 
-    DataStream& operator<<(bool data);
     DataStream& operator<<(const char* data);
     DataStream& operator<<(const std::string& data);
 
-    template<typename T, typename std::enable_if< std::is_fundamental<T>::value >::type* = nullptr >
+    template<typename T, typename = std::enable_if_t<std::is_fundamental<T>::value> >
     DataStream& operator>>(T& data)
     {
         read(data);
         return *this;
     }
 
-    DataStream& operator>>(bool& data);
     DataStream& operator>>(const char* data);
 	DataStream& operator>>(std::string& data);
     
-
 	template <typename K, typename V>
 	DataStream& operator<<(const std::map<K, V>& data)
 	{
