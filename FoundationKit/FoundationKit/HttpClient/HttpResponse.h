@@ -4,6 +4,9 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_HTTPRESPONSE_H
+#define LOSEMYMIND_HTTPRESPONSE_H
+
 #pragma once
 #include <vector>
 #include <string>
@@ -205,4 +208,7 @@ protected:
 };
 
 NS_FK_END
+
+#endif // LOSEMYMIND_HTTPRESPONSE_H
+
 

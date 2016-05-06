@@ -4,6 +4,9 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_MIMETYPES_H
+#define LOSEMYMIND_MIMETYPES_H
+
 #pragma once
 #include <string>
 
@@ -17,3 +20,5 @@ namespace MimeTypes
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_MIMETYPES_H
+

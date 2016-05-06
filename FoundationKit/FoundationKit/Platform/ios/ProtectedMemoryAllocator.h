@@ -4,8 +4,9 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
-#ifndef FoundationKit_ProtectedMemoryAllocator_H
-#define FoundationKit_ProtectedMemoryAllocator_H
+#ifndef LOSEMYMIND_PROTECTEDMEMORYALLOCATOR_H
+#define LOSEMYMIND_PROTECTEDMEMORYALLOCATOR_H
+
 
 #pragma once
 
@@ -89,6 +90,6 @@ private:
     pthread_mutex_t           *_mutex;
     ProtectedMemoryAllocator  *_allocator;
 };
+#endif // LOSEMYMIND_PROTECTEDMEMORYALLOCATOR_H
 
-#endif // FoundationKit_ProtectedMemoryAllocator_H
 

@@ -4,8 +4,9 @@ Copyright (c) 2015 libo All rights reserved.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FoundationKit_FunctionCenter_H
-#define FoundationKit_FunctionCenter_H
+
+#ifndef LOSEMYMIND_FUNCTIONCENTER_H
+#define LOSEMYMIND_FUNCTIONCENTER_H
 
 #pragma once
 #include <unordered_map>
@@ -151,7 +152,7 @@ private:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_FUNCTIONCENTER_H
 
-#endif // FoundationKit_FunctionCenter_H
 
 

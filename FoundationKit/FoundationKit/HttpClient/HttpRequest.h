@@ -4,6 +4,9 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_HTTPREQUEST_H
+#define LOSEMYMIND_HTTPREQUEST_H
+
 #pragma once
 
 #include <vector>
@@ -127,5 +130,5 @@ private:
 
 NS_FK_END
 
-
+#endif // LOSEMYMIND_HTTPREQUEST_H
 

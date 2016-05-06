@@ -9,7 +9,7 @@
 
 #ifndef LOSEMYMIND_MATHEX_H
 #define LOSEMYMIND_MATHEX_H
-
+#pragma once
 #include <vector>
 #include <limits>
 #include <cmath>

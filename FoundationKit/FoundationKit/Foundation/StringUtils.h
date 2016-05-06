@@ -4,6 +4,9 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_STRINGUTILS_H
+#define LOSEMYMIND_STRINGUTILS_H
+
 #pragma once
 #include <string>
 #include <vector>
@@ -145,3 +148,6 @@ public:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_STRINGUTILS_H
+
+

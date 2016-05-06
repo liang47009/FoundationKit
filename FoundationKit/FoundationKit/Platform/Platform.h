@@ -4,6 +4,9 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_PLATFORM_H
+#define LOSEMYMIND_PLATFORM_H
+
 #pragma once
 #include <string>
 #include "FoundationKit/GenericPlatformMacros.h"
@@ -43,3 +46,6 @@ public:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_PLATFORM_H
+
+

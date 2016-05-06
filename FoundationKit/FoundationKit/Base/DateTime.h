@@ -1,3 +1,6 @@
+#ifndef LOSEMYMIND_DATETIME_H
+#define LOSEMYMIND_DATETIME_H
+
 
 #pragma once
 #include <string>
@@ -642,5 +645,8 @@ private:
 
 
 NS_FK_END
+
+
+#endif // LOSEMYMIND_DATETIME_H
 
 

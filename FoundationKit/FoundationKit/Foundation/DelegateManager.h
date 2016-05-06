@@ -5,7 +5,10 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
+#ifndef LOSEMYMIND_DELEGATEMANAGER_H
+#define LOSEMYMIND_DELEGATEMANAGER_H
 
+#pragma once
 #include <vector>
 #include <string>
 #include <functional>
@@ -125,8 +128,9 @@ private:
 };
 
 
-
 NS_FK_END
+
+#endif // LOSEMYMIND_DELEGATEMANAGER_H
 
 
 

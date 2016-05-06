@@ -4,6 +4,9 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_NONCOPYABLE_H
+#define LOSEMYMIND_NONCOPYABLE_H
+
 #pragma once
 #include "FoundationKit/GenericPlatformMacros.h"
 
@@ -28,6 +31,7 @@ namespace noncopyable_  // protection from unintended ADL
 typedef noncopyable_::noncopyable noncopyable;
 
 NS_FK_END
+#endif // LOSEMYMIND_NONCOPYABLE_H
 
 
 

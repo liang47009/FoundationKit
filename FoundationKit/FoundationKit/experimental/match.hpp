@@ -1,3 +1,6 @@
+#ifndef LOSEMYMIND_MATCH_H
+#define LOSEMYMIND_MATCH_H
+
 
 #pragma once
 #include "FoundationKit/std/function_traits.hpp"
@@ -86,4 +89,6 @@ void matchTest()
 
 
 #endif
+
+#endif // LOSEMYMIND_MATCH_H
 

@@ -1,3 +1,6 @@
+#ifndef LOSEMYMIND_GENERICPLATFORMDEFINES_H
+#define LOSEMYMIND_GENERICPLATFORMDEFINES_H
+
 
 #pragma once
 #include "FoundationKit/Base/Types.h"
@@ -59,5 +62,8 @@ char *ENDIAN_SWAP128(char *val)
 //=============== Endian End =================
 
 NS_FK_END
+
+
+#endif // LOSEMYMIND_GENERICPLATFORMDEFINES_H
 
 
