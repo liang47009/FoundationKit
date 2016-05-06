@@ -28,7 +28,7 @@ public:
 	DataStream& operator=(const DataStream& pDataStream);
 	DataStream& operator=(DataStream&& pDataStream);
 
-    template<typename T, typename = std::enable_if_t<std::is_fundamental<T>::value> >
+    template<typename T, typename = typename std::enable_if<std::is_fundamental<T>::value>::type >
     DataStream& operator<<(T data)
     {
         _buffer.append((char*)&data, sizeof(T));
@@ -38,7 +38,7 @@ public:
     DataStream& operator<<(const char* data);
     DataStream& operator<<(const std::string& data);
 
-    template<typename T, typename = std::enable_if_t<std::is_fundamental<T>::value> >
+    template<typename T, typename = typename std::enable_if<std::is_fundamental<T>::value>::type >
     DataStream& operator>>(T& data)
     {
         read(data);
