@@ -378,6 +378,9 @@
     <ClInclude Include="..\FoundationKit\std\hex.hpp">
       <Filter>std</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\GenericPlatformDefines.h">
+      <Filter>FoundationKit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
