@@ -12,6 +12,7 @@ NDK_TOOLCHAIN_VERSION := clang
 
 #设置编译架构
 #APP_ABI := all
+#APP_ABI := armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64
 APP_ABI := armeabi armeabi-v7a x86
 
 #设置编译选项
