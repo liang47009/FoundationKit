@@ -16,6 +16,9 @@
 #include "FoundationKit/std/utility.hpp"
 #include "FoundationKit/std/function_traits.hpp"
 #include "FoundationKit/Thread/thread.h"
+#include "FoundationKit/Platform/Platform.h"
+#include "FoundationKit/Base/DateTime.h"
+#include "FoundationKit/Base/Rect.h"
 
 
 using namespace FoundationKit;
@@ -45,6 +48,17 @@ using namespace FoundationKit;
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    DateTime dateTime = DateTime::now();
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    FoundationKit::Rect rc(0,0, screenRect.size.width, screenRect.size.height);
+    Platform::captureScreen(rc, dateTime.toString(), [](bool succeed, const std::string & filePath)
+    {
+        if (succeed) {
+            NSLog(@"===== SUCCEED FOR SAVE FILE:%s", filePath.c_str());
+        }else{
+            NSLog(@"===== FAILED FOR SAVE FILE:%s", filePath.c_str());
+        }
+    });
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

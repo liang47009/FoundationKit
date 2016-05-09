@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0907E8421CE0940900A65A3C /* AdSupport.framework */; };
 		09C19B011BABB760007A8C99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B001BABB760007A8C99 /* main.m */; };
 		09C19B041BABB760007A8C99 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B031BABB760007A8C99 /* AppDelegate.mm */; };
 		09C19B071BABB760007A8C99 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B061BABB760007A8C99 /* ViewController.m */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0907E8421CE0940900A65A3C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		09C19AFB1BABB760007A8C99 /* FoundationKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoundationKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C19AFF1BABB760007A8C99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		09C19B001BABB760007A8C99 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -35,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */,
 				09C19B251BABB7FC007A8C99 /* libFoundationKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -45,6 +48,7 @@
 		09C19AF21BABB760007A8C99 = {
 			isa = PBXGroup;
 			children = (
+				0907E8421CE0940900A65A3C /* AdSupport.framework */,
 				09C19B241BABB7FC007A8C99 /* libFoundationKit.a */,
 				09C19AFD1BABB760007A8C99 /* FoundationKitTest */,
 				09C19AFC1BABB760007A8C99 /* Products */,
@@ -217,7 +221,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -255,7 +259,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -270,6 +274,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -282,14 +287,14 @@
 					../../FoundationKit,
 				);
 				INFOPLIST_FILE = FoundationKitTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/DevelopmentFramework-fuuadyvxzevfhybsvwcaaycwclyi/Build/Products/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8a8d11a6-8ec2-4d21-9776-f423ec4a240e";
+				PROVISIONING_PROFILE = "06fdb22a-1efa-45c7-8e36-f42f14f2607d";
 			};
 			name = Debug;
 		};
@@ -300,6 +305,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -312,14 +318,14 @@
 					../../FoundationKit,
 				);
 				INFOPLIST_FILE = FoundationKitTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/DevelopmentFramework-fuuadyvxzevfhybsvwcaaycwclyi/Build/Products/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8a8d11a6-8ec2-4d21-9776-f423ec4a240e";
+				PROVISIONING_PROFILE = "06fdb22a-1efa-45c7-8e36-f42f14f2607d";
 			};
 			name = Release;
 		};
