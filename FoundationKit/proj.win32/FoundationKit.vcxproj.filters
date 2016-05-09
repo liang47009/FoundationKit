@@ -55,6 +55,9 @@
     <Filter Include="std">
       <UniqueIdentifier>{113270e5-ac52-439c-a315-9677c3f83638}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external\TinyJPEG">
+      <UniqueIdentifier>{13274377-373b-4e41-873e-2df0afad0183}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h">
@@ -383,6 +386,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\OpenGL.h">
       <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\external\TinyJPEG\tiny_jpeg.h">
+      <Filter>external\TinyJPEG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

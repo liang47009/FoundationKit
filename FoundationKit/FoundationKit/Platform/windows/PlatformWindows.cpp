@@ -17,6 +17,8 @@ losemymind.libo@gmail.com
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "FoundationKit/Base/Types.h"
 #include "FoundationKit/Crypto/md5.hpp"
+#define TJE_IMPLEMENTATION
+#include "FoundationKit/external/TinyJPEG/tiny_jpeg.h"
 
 #pragma   comment(lib,"Psapi.lib")
 
@@ -223,8 +225,18 @@ void Platform::captureScreen(const Rect& rect, const std::string& filename, cons
             memcpy(flippedBuffer.get() + (buff_height - row - 1) * buff_width * 4, buffer.get() + row * buff_width * 4, buff_width * 4);
         }
 
-        if (afterCaptured)
-            afterCaptured(true, filename);
+        int ret = tje_encode_to_file_at_quality(filename.c_str(), 3, buff_width, buff_height, 4, flippedBuffer.get());
+
+        if (ret)
+        {
+            if (afterCaptured)
+                afterCaptured(true, filename);
+        }
+        else
+        {
+            if (afterCaptured)
+                afterCaptured(false, filename);
+        }
     } while (false);
 }
 
