@@ -1,5 +1,7 @@
-#ifndef FoundationKit_ProtectedMemoryAllocatorTest_H
-#define FoundationKit_ProtectedMemoryAllocatorTest_H
+#ifndef LOSEMYMIND_PROTECTEDMEMORYALLOCATORTEST_H
+#define LOSEMYMIND_PROTECTEDMEMORYALLOCATORTEST_H
+
+
 
 #pragma once
 
@@ -39,5 +41,6 @@ void TestProtectedMemoryAllocator()
 }
 
 
-#endif // FoundationKit_ProtectedMemoryAllocatorTest_H
+#endif // LOSEMYMIND_PROTECTEDMEMORYALLOCATORTEST_H
+
 

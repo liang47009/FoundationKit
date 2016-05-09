@@ -4,6 +4,9 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_FUNCTION_TRAITS_H
+#define LOSEMYMIND_FUNCTION_TRAITS_H
+
 #pragma once
 #include <tuple>
 #include <functional>
@@ -130,4 +133,6 @@ typename function_traits<Function>::pointer to_function_pointer(const Function& 
 
 } // namespace std
 
+
+#endif // LOSEMYMIND_FUNCTION_TRAITS_H
 

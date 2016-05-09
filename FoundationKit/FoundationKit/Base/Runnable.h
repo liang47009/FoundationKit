@@ -4,6 +4,9 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_RUNNABLE_H
+#define LOSEMYMIND_RUNNABLE_H
+
 #pragma once
 #include "FoundationKit/GenericPlatformMacros.h" // for NS_FK_BEGIN / NS_FK_END
 
@@ -28,3 +31,6 @@ public:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_RUNNABLE_H
+
+

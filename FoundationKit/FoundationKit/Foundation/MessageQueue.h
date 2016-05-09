@@ -1,5 +1,7 @@
-#ifndef FoundationKit_MessageQueue_H
-#define FoundationKit_MessageQueue_H
+#ifndef LOSEMYMIND_MESSAGEQUEUE_H
+#define LOSEMYMIND_MESSAGEQUEUE_H
+
+
 #pragma once
 
 #include <mutex>
@@ -52,8 +54,4 @@ private:
     MessageMultiMap           _messages;
     std::mutex                _messageLock;
 };
-
-
-
-
-#endif // FoundationKit_MessageQueue_H
+#endif // LOSEMYMIND_MESSAGEQUEUE_H

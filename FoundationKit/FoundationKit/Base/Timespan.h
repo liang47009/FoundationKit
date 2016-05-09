@@ -1,5 +1,14 @@
+/****************************************************************************
+Copyright (c) 2016 libo All rights reserved.
 
+losemymind.libo@gmail.com
+
+****************************************************************************/
+
+#ifndef LOSEMYMIND_TIMESPAN_H
+#define LOSEMYMIND_TIMESPAN_H
 #pragma once
+
 #include <functional>
 #include <string>
 #include "FoundationKit/GenericPlatformMacros.h"
@@ -559,3 +568,4 @@ NS_FK_END
 
 
 
+#endif // LOSEMYMIND_TIMESPAN_H

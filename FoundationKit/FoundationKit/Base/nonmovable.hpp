@@ -4,6 +4,9 @@ Copyright (c) 2015 libo All rights reserved.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_NONMOVABLE_H
+#define LOSEMYMIND_NONMOVABLE_H
+
 #pragma once
 #include "FoundationKit/GenericPlatformMacros.h"
 
@@ -29,6 +32,7 @@ namespace nonmovable_  // protection from unintended ADL
 typedef nonmovable_::nonmovable nonmovable;
 
 NS_FK_END
+#endif // LOSEMYMIND_NONMOVABLE_H
 
 
 

@@ -4,6 +4,9 @@
 #include <c++-gtk-utils/param.h>
 */
 
+#ifndef LOSEMYMIND_TUPLEAPPLY_H
+#define LOSEMYMIND_TUPLEAPPLY_H
+
 
 #pragma once
 
@@ -338,3 +341,6 @@ Ret tuple_apply(const Obj& obj,
 				       List(),
 				       std::forward<OtherArgs>(args)...);
 }
+#endif // LOSEMYMIND_TUPLEAPPLY_H
+
+

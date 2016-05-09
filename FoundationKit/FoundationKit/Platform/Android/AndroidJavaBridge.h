@@ -1,5 +1,6 @@
-#ifndef FoundationKit_AndroidJavaBridge_H
-#define FoundationKit_AndroidJavaBridge_H
+#ifndef LOSEMYMIND_ANDROIDJAVABRIDGE_H
+#define LOSEMYMIND_ANDROIDJAVABRIDGE_H
+
 
 #pragma once
 #include <vector>
@@ -15,4 +16,4 @@ namespace Android
 } //namespace Android
 
 NS_FK_END
-#endif // FoundationKit_AndroidJavaBridge_H
+#endif // LOSEMYMIND_ANDROIDJAVABRIDGE_H

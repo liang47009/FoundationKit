@@ -1,3 +1,12 @@
+/****************************************************************************
+Copyright (c) 2016 libo All rights reserved.
+
+losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef LOSEMYMIND_TIME_H
+#define LOSEMYMIND_TIME_H
+
 #pragma once
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Types.h"
@@ -49,3 +58,4 @@ NS_FK_END
 
 
 
+#endif // LOSEMYMIND_TIME_H

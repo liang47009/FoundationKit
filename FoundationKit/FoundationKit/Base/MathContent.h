@@ -1,6 +1,6 @@
 #ifndef LOSEMYMIND_MATHCONTENT_H
 #define LOSEMYMIND_MATHCONTENT_H
-
+#pragma once
 #include <limits>
 #include <cmath>
 #include "FoundationKit/GenericPlatformMacros.h"

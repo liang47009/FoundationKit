@@ -4,9 +4,8 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FoundationKit_ProtectedMemoryAllocator_H
-#define FoundationKit_ProtectedMemoryAllocator_H
-
+#ifndef LOSEMYMIND_PROTECTEDMEMORYALLOCATOR_H
+#define LOSEMYMIND_PROTECTEDMEMORYALLOCATOR_H
 #pragma once
 #include <mutex>
 
@@ -71,5 +70,6 @@ private:
 	std::mutex                _mutex;
 	ProtectedMemoryAllocator *_allocator;
 };
-#endif // FoundationKit_ProtectedMemoryAllocator_H
+#endif // LOSEMYMIND_PROTECTEDMEMORYALLOCATOR_H
+
 

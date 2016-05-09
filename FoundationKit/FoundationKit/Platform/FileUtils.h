@@ -4,8 +4,10 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
-#ifndef FoundationKit_FileUtils_H
-#define FoundationKit_FileUtils_H
+#ifndef LOSEMYMIND_FILEUTILS_H
+#define LOSEMYMIND_FILEUTILS_H
+
+
 #pragma once
 
 #include "FoundationKit/GenericPlatformMacros.h"
@@ -234,6 +236,7 @@ static inline std::string convertPathFormatToUnixStyle(const std::string& path)
 }
 
 NS_FK_END
+#endif // LOSEMYMIND_FILEUTILS_H
 
-#endif // FoundationKit_FileUtils_H
+
 

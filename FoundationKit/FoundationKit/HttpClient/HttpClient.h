@@ -4,6 +4,9 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_HTTPCLIENT_H
+#define LOSEMYMIND_HTTPCLIENT_H
+
 #pragma once
 #include <thread>
 #include <mutex>
@@ -92,4 +95,5 @@ private:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_HTTPCLIENT_H
 

@@ -4,6 +4,9 @@
  losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef LOSEMYMIND_VERSION_H
+#define LOSEMYMIND_VERSION_H
+
 #pragma once
 #include <string>
 #include <sstream>
@@ -92,3 +95,6 @@ private:
 };
 
 NS_FK_END
+#endif // LOSEMYMIND_VERSION_H
+
+

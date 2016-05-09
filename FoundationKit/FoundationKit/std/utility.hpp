@@ -4,8 +4,9 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
-#ifndef FoundationKit_utility_H
-#define FoundationKit_utility_H
+#ifndef LOSEMYMIND_UTILITY_H
+#define LOSEMYMIND_UTILITY_H
+
 
 #pragma once
 #include <map>
@@ -224,10 +225,7 @@ std::function<R(Args...)> sugar(R(*func)(Args...), bool needClear = false)
 // ============= function cache implement end ==================
 
 } // namespace std
-
-
-
-#endif // FoundationKit_utility_H
+#endif // LOSEMYMIND_UTILITY_H
 
 
 

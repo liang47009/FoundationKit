@@ -29,6 +29,9 @@
 *This file was modified to fit the FoundationKit project
 */
 
+#ifndef LOSEMYMIND_APPLYTUPLE_H
+#define LOSEMYMIND_APPLYTUPLE_H
+
 #pragma once
 #include <functional>
 #include <utility>
@@ -92,5 +95,6 @@ inline constexpr auto applyTuple(F&& f, Tuple&& t)
 //////////////////////////////////////////////////////////////////////
 
 NS_FK_END
+#endif // LOSEMYMIND_APPLYTUPLE_H
 
 

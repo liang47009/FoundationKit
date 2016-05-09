@@ -1,3 +1,6 @@
+#ifndef LOSEMYMIND_HEX_H
+#define LOSEMYMIND_HEX_H
+
 #pragma once
 #include <stdexcept>
 #include <utility>
@@ -258,7 +261,7 @@ void hexTest()
 
 
 
-
+#endif // LOSEMYMIND_HEX_H
 
 
 
