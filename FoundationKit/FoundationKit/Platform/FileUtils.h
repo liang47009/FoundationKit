@@ -6,8 +6,6 @@
  ****************************************************************************/
 #ifndef LOSEMYMIND_FILEUTILS_H
 #define LOSEMYMIND_FILEUTILS_H
-
-
 #pragma once
 
 #include "FoundationKit/GenericPlatformMacros.h"

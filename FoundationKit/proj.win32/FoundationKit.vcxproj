@@ -193,6 +193,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\LuaEngine\LuaValue.h" />
     <ClInclude Include="..\FoundationKit\LuaEngine\Script.h" />
     <ClInclude Include="..\FoundationKit\Platform\FileUtils.h" />
+    <ClInclude Include="..\FoundationKit\Platform\OpenGL.h" />
     <ClInclude Include="..\FoundationKit\Platform\Platform.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h" />

@@ -190,7 +190,7 @@ __pragma (warning(disable:4127))
 #define _XKEYCHECK_H // disable windows xkeycheck.h
 
 #ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN 1
 #endif
 
 #ifndef NOMINMAX
@@ -198,11 +198,11 @@ __pragma (warning(disable:4127))
 #endif
 
 #ifndef _CRT_SECURE_NO_WARNINGS
-#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS 1
 #endif
 
 #ifndef _SCL_SECURE_NO_WARNINGS
-#define _SCL_SECURE_NO_WARNINGS
+#define _SCL_SECURE_NO_WARNINGS 1
 #endif
 
 #include <windows.h>

@@ -346,6 +346,11 @@ void Platform::utcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, 
     msec = tmVal.tv_usec / 1000;
 }
 
+int64 Platform::getTickCount()
+{
+    return (int64)mach_absolute_time();
+}
+
 NS_FK_END
 
 #endif //TARGET_PLATFORM == PLATFORM_IOS

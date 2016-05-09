@@ -9,8 +9,10 @@ losemymind.libo@gmail.com
 #include <WindowsX.h>
 #include <psapi.h>
 #include <vector>
+#include <memory>
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Platform/Platform.h"
+#include "FoundationKit/Platform/OpenGL.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "FoundationKit/Base/Types.h"
@@ -187,6 +189,43 @@ void Platform::utcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, 
     min = st.wMinute;
     sec = st.wSecond;
     msec = st.wMilliseconds;
+}
+
+int64 Platform::getTickCount()
+{
+    LARGE_INTEGER counter;
+    QueryPerformanceCounter(&counter);
+    return (int64)counter.QuadPart;
+}
+
+void Platform::captureScreen(const Rect& rect, const std::string& filename, const std::function<void(bool, const std::string&)>& afterCaptured)
+{
+    do
+    {
+        int posx = static_cast<int>(rect.origin.x);
+        int posy = static_cast<int>(rect.origin.y);
+        int width  = static_cast<int>(rect.size.width);
+        int height = static_cast<int>(rect.size.height);
+        int buff_width = width - posx;
+        int buff_height = height - posy;
+
+        std::shared_ptr<GLubyte> buffer(new GLubyte[buff_width * buff_height * 4], [](GLubyte* p){ SAFE_DELETE_ARRAY(p); });
+        BREAK_IF(!buffer);
+
+        glPixelStorei(GL_PACK_ALIGNMENT, 1);
+        glReadPixels(posx, posy, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer.get());
+
+        std::shared_ptr<GLubyte> flippedBuffer(new GLubyte[buff_width * buff_height * 4], [](GLubyte* p) { SAFE_DELETE_ARRAY(p); });
+        BREAK_IF(!flippedBuffer);
+
+        for (int row = 0; row < buff_height; ++row)
+        {
+            memcpy(flippedBuffer.get() + (buff_height - row - 1) * buff_width * 4, buffer.get() + row * buff_width * 4, buff_width * 4);
+        }
+
+        if (afterCaptured)
+            afterCaptured(true, filename);
+    } while (false);
 }
 
 

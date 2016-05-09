@@ -75,31 +75,24 @@ public:
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
-    //TestHttpClientWithUploadDumpInfo();
-    DataStream  dataStream;
-    dataStream << 10 << 100.f;
-    dataStream << "sfsdfsd";
-    dataStream << true;
-    dataStream << std::string("Libo");
-    this->m_windowsize.height = 1000;
-    this->m_windowsize.width = 500;
-    //dataStream << this;
-    aaaa  MyA;
-    MyA.i = 10000;
-    //dataStream << MyA;
-    AppDelegate* pApp = nullptr;
-    aaaa MyA2;
-    int v0;
-    float v1;
-    unsigned char  v2[7] = { 0 };
-    bool v3 = false;
-    std::string  v4;
-    dataStream >> v0 >> v1;
-    dataStream >> (const char*)v2;
-    dataStream >> v3;
+    Platform::captureScreen(Rect(100, 100, 1024, 768), "c:/aa.jpg", nullptr);
+
+    DateTime  dateTime = DateTime::now();
+
+    int year = dateTime.getYear();
+    int day  = dateTime.getDay();
+    int hour = dateTime.getHour();
+    int minu = dateTime.getMinute();
+    int seco = dateTime.getSecond();
+
+    Timespan timeSpan(dateTime.getTicks());
+
+    day = timeSpan.getDays();
+    hour = timeSpan.getHours();
+
+
+
     std::vector<std::string> files;
-
-
     FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/ApplicationKit", files, true);
     FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/FoundationKit", files, true);
 

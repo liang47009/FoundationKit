@@ -225,6 +225,13 @@ void Platform::utcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, 
     msec = tmVal.tv_usec / 1000;
 }
 
+int64 Platform::getTickCount()
+{
+    struct timespec tp;
+    clock_gettime(CLOCK_MONOTONIC, &tp);
+    return (int64)tp.tv_sec * 1000000000 + tp.tv_nsec;
+}
+
 NS_FK_END
 
 #endif
