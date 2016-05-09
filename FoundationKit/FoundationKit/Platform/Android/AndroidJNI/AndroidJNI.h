@@ -35,9 +35,9 @@ struct JavaClassMethod
 class AndroidJNI
 {
 public:
-    // Returns the java environment
-    static void            initializeJavaEnv(JavaVM* vm, jint version, jobject activityInstance);
+    static void            initializeJavaEnv(JavaVM* vm, jint version, jobject activityInstance = nullptr);
     static jobject         getMainActivity();
+    // Returns the java environment
     static JNIEnv*         getJavaEnv();
     static jclass          findJavaClass(const char* name);
     static JavaClassMethod getClassMethod(jclass clazz, const char* methodName, const char* funcSig, bool isStatic = false);

@@ -28,7 +28,7 @@ AndroidJNI::~AndroidJNI()
 
 }
 
-void AndroidJNI::initializeJavaEnv(JavaVM* vm, jint version, jobject activityInstance)
+void AndroidJNI::initializeJavaEnv(JavaVM* vm, jint version, jobject activityInstance/* = nullptr*/)
 {
     if (CurrentJavaVM == nullptr)
     {
