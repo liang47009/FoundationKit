@@ -6,8 +6,6 @@
  ****************************************************************************/
  #include "FoundationKit/GenericPlatformMacros.h"
  #if TARGET_PLATFORM == PLATFORM_IOS
-
-#include "Platform.h"
 #include <sys/types.h>
 #include <sys/sysctl.h>
 #include <sys/utsname.h>
@@ -27,8 +25,11 @@
 #include <unordered_map>
 #import <UIKit/UIKit.h>
 #import <AdSupport/AdSupport.h>
+#include "Platform.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "FoundationKit/Crypto/md5.hpp"
+#include "FoundationKit/Platform/OpenGL.h"
+
 
 NS_FK_BEGIN
 
@@ -110,7 +111,7 @@ namespace PlatformHelper {
         return platformName;
     }
 
-}
+} //namespace PlatformHelper
 
 
 float Platform::getTotalMemory()
@@ -352,9 +353,68 @@ int64 Platform::getTickCount()
     return (int64)mach_absolute_time();
 }
 
+void Platform::captureScreen(const Rect& rect, const std::string& filename, const std::function<void(bool, const std::string&)>& afterCaptured)
+{
+    do
+    {
+        int posx = static_cast<int>(rect.origin.x);
+        int posy = static_cast<int>(rect.origin.y);
+        int width  = static_cast<int>(rect.size.width);
+        int height = static_cast<int>(rect.size.height);
+        int buff_width = width - posx;
+        int buff_height = height - posy;
+        int data_size = buff_width * buff_height * 4;
+        
+        std::shared_ptr<GLubyte> buffer(new GLubyte[data_size], [](GLubyte* p){ SAFE_DELETE_ARRAY(p); });
+        BREAK_IF(!buffer);
+        
+        glPixelStorei(GL_PACK_ALIGNMENT, 1);
+        glReadPixels(posx, posy, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer.get());
+        
+        std::shared_ptr<GLubyte> flippedBuffer(new GLubyte[data_size], [](GLubyte* p) { SAFE_DELETE_ARRAY(p); });
+        BREAK_IF(!flippedBuffer);
+        
+        for (int row = 0; row < buff_height; ++row)
+        {
+            memcpy(flippedBuffer.get() + (buff_height - row - 1) * buff_width * 4, buffer.get() + row * buff_width * 4, buff_width * 4);
+        }
+        
+        CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, flippedBuffer.get(), data_size, NULL);
+        CGImageRef imageRef = CGImageCreate(buff_width
+                                            , buff_height
+                                            , 8
+                                            , 32
+                                            , 4*buff_width
+                                            , CGColorSpaceCreateDeviceRGB()
+                                            , kCGBitmapByteOrderDefault
+                                            , provider
+                                            , NULL
+                                            , NO
+                                            , kCGRenderingIntentDefault);
+        UIImage* image = [UIImage imageWithCGImage:imageRef];
+        NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/GameAutomation/scripts/"];
+        NSString *imageName = [NSString stringWithUTF8String:filename.c_str()];
+        [path stringByAppendingPathComponent:imageName];
+        //[UIImageJPEGRepresentation(image,1.0) writeToFile:path atomically:YES];
+        NSData * imageData = UIImageJPEGRepresentation(image,1.0);
+        if (imageData && [imageData writeToFile:path atomically:YES])
+        {
+            if (afterCaptured)
+                afterCaptured(true, [path UTF8String]);
+        }
+        else
+        {
+            if (afterCaptured)
+                afterCaptured(false, [path UTF8String]);
+        }
+
+    } while (false);
+}
+
 NS_FK_END
 
 #endif //TARGET_PLATFORM == PLATFORM_IOS
+
 
 
 
