@@ -98,6 +98,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0907E8411CE0838F00A65A3C /* OpenGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGL.h; sourceTree = "<group>"; };
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		09745B2A1CB8F6E8009D350F /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
 		09745B2C1CB8F6E8009D350F /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Data.cpp; sourceTree = "<group>"; };
@@ -828,6 +829,7 @@
 		09745D531CB8F6EC009D350F /* Platform */ = {
 			isa = PBXGroup;
 			children = (
+				0907E8411CE0838F00A65A3C /* OpenGL.h */,
 				09745D651CB8F6EC009D350F /* FileUtils.cpp */,
 				09745D661CB8F6EC009D350F /* FileUtils.h */,
 				09745D671CB8F6EC009D350F /* ios */,
