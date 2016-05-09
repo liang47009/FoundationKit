@@ -270,6 +270,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -289,7 +290,7 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/DevelopmentFramework-fuuadyvxzevfhybsvwcaaycwclyi/Build/Products/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8a8d11a6-8ec2-4d21-9776-f423ec4a240e";
+				PROVISIONING_PROFILE = "06fdb22a-1efa-45c7-8e36-f42f14f2607d";
 			};
 			name = Debug;
 		};
@@ -300,6 +301,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -319,7 +321,7 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/DevelopmentFramework-fuuadyvxzevfhybsvwcaaycwclyi/Build/Products/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8a8d11a6-8ec2-4d21-9776-f423ec4a240e";
+				PROVISIONING_PROFILE = "06fdb22a-1efa-45c7-8e36-f42f14f2607d";
 			};
 			name = Release;
 		};
