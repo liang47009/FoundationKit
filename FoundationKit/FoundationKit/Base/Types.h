@@ -7,10 +7,11 @@
 
 #ifndef LOSEMYMIND_TYPES_H
 #define LOSEMYMIND_TYPES_H
-
 #pragma once
 
+#include <string>
 #include "FoundationKit/GenericPlatformMacros.h"
+
 NS_FK_BEGIN
 
 
@@ -35,6 +36,7 @@ struct SelectIntPointerType<T32BITS, T64BITS, 4>
 {
     typedef T32BITS type; // select the 32 bit type
 };
+
 
 // Unsigned base types.
 typedef unsigned char 		uint8;		// 8-bit  unsigned.
@@ -61,8 +63,9 @@ typedef uint32				CHAR32;		// A 32-bit character type - In-memory only.  32-bit 
 typedef WIDECHAR			TCHAR;		// A switchable character  - In-memory only.  Either ANSICHAR or WIDECHAR, depending on a licensee's requirements.
 
 typedef SelectIntPointerType<uint32, uint64, sizeof(void*)>::type UPTRINT;	// unsigned int the same size as a pointer
-typedef SelectIntPointerType<int32, int64, sizeof(void*)>::type PTRINT;		// signed int the same size as a pointer
-														// unsigned int the same size as a pointer
+typedef SelectIntPointerType<int32, int64, sizeof(void*)>::type PTRINT;   // signed int the same size as a pointer
+
+typedef std::basic_string<uint8, std::char_traits<uint8>, std::allocator<uint8> > ustring;
 
 /********************************************************************************
  http://zh.cppreference.com/w/cpp/language/types

@@ -69,9 +69,6 @@
     <ClInclude Include="..\FoundationKit\Crypto\aes.h">
       <Filter>Crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Crypto\Base64.h">
-      <Filter>Crypto</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp">
       <Filter>Crypto</Filter>
     </ClInclude>
@@ -390,15 +387,15 @@
     <ClInclude Include="..\FoundationKit\external\TinyJPEG\tiny_jpeg.h">
       <Filter>external\TinyJPEG</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Crypto\Base64.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
-      <Filter>Crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp">
       <Filter>Crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\WorkQueue.cpp">
@@ -589,6 +586,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\Timespan.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp">
+      <Filter>Crypto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

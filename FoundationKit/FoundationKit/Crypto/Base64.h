@@ -1,95 +1,90 @@
-/****************************************************************************
-  Copyright (c) 2013-2014 libo.
- 
-  losemymind.libo@gmail.com
 
-****************************************************************************/
 #pragma once
-
 #include <string>
-#include <stdio.h>
-#include "FoundationKit/Base/noncopyable.hpp"
+#include <vector>
+#include "FoundationKit/Base/Types.h"
 
 NS_FK_BEGIN
 
-/** 
- * Encode/Decode data using Base64.
- */
-class Base64 : private noncopyable
+    /**
+     * Class for encoding/decoding Base64 data (RFC 4648)
+     */
+class Base64
 {
+    /**
+     * Base64 supports encoding any 3 uint8 chunk of binary data into a 4 uint8 set of characters from the alphabet below
+     */
+    static uint8 EncodingAlphabet[64];
+
+    /**
+     * Used to do a reverse look up from the encoded alphabet to the original 6 bit value
+     */
+    static uint8 DecodingAlphabet[256];
+
+    /** Ctor hidden on purpose, use static methods only */
+    Base64();
+
+    /**
+     * Encodes the source into a Base64 string
+     *
+     * @param source the binary payload to stringify
+     * @param length the length of the payload that needs encoding
+     *
+     * @return the stringified form of the binary data
+     */
+    static std::string encode(const uint8* source, uint32 length);
+
+    /**
+     * Decodes a Base64 string into an array of bytes
+     *
+     * @param source the stringified data to convert
+     * @param length the length of the buffer being converted
+     * @param dest the out buffer that will be filled with the decoded data
+     * @param padCount the out count of the padding on the orignal buffer (0 to 2)
+     *
+     * @return TRUE if the buffer was decoded, FALSE if it failed to decode
+     */
+    static bool decode(const char* source, uint32 length, uint8* dest, uint32& padCount);
+
 public:
 
-	/**
-	 * Encode a block of data using Base64.
-	 * 
-	 * @param[in] str_in  A string to the data to be Encoded.
-	 * @return The cipher string of Encoded.
-	 * 
-	 *   @code
-	 * 	  std::string plaintext("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+-");
-	 * 	  std::string cipherbuf = Foundation::Base64::base64Encode(plaintext);
-	 * 	 @endcode
-	 */
-	static std::string base64Encode(const std::string& str_in);
+    /**
+     * Encodes a binary uint8 array into a Base64 string
+     *
+     * @param source the binary data to convert
+     *
+     * @return a string that encodes the binary data in a way that can be safely transmitted via various Internet protocols
+     */
+    static std::string encode(const ustring& source);
 
-	/**
-	 * Decode a block of Base64 encrypted data.
-	 * 
-	 * @param[in] str_in  A string to the encrypted block to be decoded.
-	 * @return The plain string of decoded.
-	 * 
-	 *   @code
-	 * 	  std::string plaintext("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890+-");
-	 * 	  std::string cipherbuf = Foundation::Base64::base64Encode(plaintext);
-	 * 	  std::string plainbuf = Foundation::Base64::base64Decode(cipherbuf);
-	 * 	 @endcode
-	 */
-	static std::string base64Decode(const std::string& str_in);
+    /**
+     * Decodes a Base64 string into an array of bytes
+     *
+     * @param source the stringified data to convert
+     * @param dest the out buffer that will be filled with the decoded data
+     */
+    static bool decode(const std::string& source, ustring& dest);
 
+    /**
+     * Encodes a std::string into a Base64 string
+     *
+     * @param source the string data to convert
+     *
+     * @return a string that encodes the binary data in a way that can be safely transmitted via various Internet protocols
+     */
+    static std::string encode(const std::string& source);
 
-	/** 
-	 * Encode data of file using Base64.
-	 * @param[in]  fileHander     The file handler.
-	 * @param[out] output         The cipher string of Encoded.
-	 * @param[in]  add_crlf       Add cr/lf?
-	 */
-	static void encode(FILE* fileHander, std::string& output , bool add_crlf = true);
-
-	/** 
-	 * Encode data of string using Base64.
-	 * @param[in]  input          A string to the data to be Encoded.
-	 * @param[out] output         The cipher string of Encoded.
-	 * @param[in]  add_crlf       Add cr/lf?
-	 */
-	static void encode(const std::string& input, std::string& output, bool add_crlf = true);
-
-	/** 
-	 * Encode data of char* using Base64.
-	 * @param[in]  input          A pointer to the data to be encrypted.
-	 * @param[in]  len            The data len.
-	 * @param[out] output         The cipher string of Encoded.
-	 * @param[in]  add_crlf       Add cr/lf?
-	 */
-	static void encode(const char* input, size_t len, std::string& output, bool add_crlf = true);
-
-	static void encode(const unsigned char* input, size_t len, std::string& output, bool add_crlf = true);
-
-	static void decode(const std::string& input, std::string& output);
-
-	static void decode(const std::string& input, unsigned char* output, size_t& sz);
-
-	/**
-	 * Get size of base64 string, if the string is not Encoded using base64,
-	 * it will return 0.
-	 */
-	static size_t      decode_length(const std::string& str64);
-
-private:
-	static	const char *bstr;
-	static	const char rstr[128];
+    /**
+     * Decodes a Base64 string into a std::string
+     *
+     * @param source the stringified data to convert
+     * @param dest the out buffer that will be filled with the decoded data
+     */
+    static bool decode(const std::string& source, std::string& dest);
 };
 
 NS_FK_END
+
 
 
 
