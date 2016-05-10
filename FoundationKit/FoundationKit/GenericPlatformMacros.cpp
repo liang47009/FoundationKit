@@ -8,6 +8,26 @@
 #include <Windows.h>
 #endif
 USING_NS_FK;
+
+void __fail__(const char* expr, const char* file, int line)
+{
+# if defined(EMSCRIPTEN) && EMSCRIPTEN
+    __assert_fail(expr, file, line, "");
+# elif defined __native_client__
+    __assert(expr, line, file); // WHY.
+# elif defined __ANDROID__
+    __assert(file, line, expr);
+# elif defined __clang__ || defined __GNU_LIBRARY__ || (defined __GNUC__ && defined __APPLE__)
+    __assert(expr, file, line);
+# elif defined __GNUC__
+    _assert(expr, file, line);
+# elif defined _MSC_VER
+    _CrtDbgReport(_CRT_ASSERT, file, line, expr, "");
+# else
+#   error UNSUPPORTED COMPILER
+# endif
+}
+
 void __log__(const char* file, int line, const char* message, ...)
 {
     static const size_t MAX_LOG_LENGTH = 1024;

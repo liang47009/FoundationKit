@@ -5,13 +5,13 @@
 #include <cassert>
 // namespace FoundationKit {}
 #ifdef __cplusplus
-#define NS_FK_BEGIN                     namespace FoundationKit {
-#define NS_FK_END                       }
-#define USING_NS_FK                     using namespace FoundationKit
+    #define NS_FK_BEGIN                     namespace FoundationKit {
+    #define NS_FK_END                       }
+    #define USING_NS_FK                     using namespace FoundationKit
 #else
-#define NS_FK_BEGIN 
-#define NS_FK_END 
-#define USING_NS_FK 
+    #define NS_FK_BEGIN 
+    #define NS_FK_END 
+    #define USING_NS_FK 
 #endif 
 
 
@@ -166,15 +166,16 @@
 //#pragma message(COMPILE_MSG "Show compile message")
 #define COMPILE_MSG __FILE__ "(" STRINGIZE(__LINE__) "):Warning:" 
 
+extern void __fail__(const char* expr, const char* file, int line);
 extern void __log__(const char* file, int line, const char* message, ...);
 #if defined(_DEBUG) || defined(DEBUG)
-#define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(__FILE__, __LINE__, msg, ##__VA_ARGS__);assert(cond);}} while (false)
-#define DEBUG_MODE 1
-
+    #define ASSERTED_EXPRESSION(CHECK, EXPR) ((CHECK) ? (EXPR) : (__fail__(#CHECK, __FILE__, __LINE__), (EXPR)))
+    #define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(__FILE__, __LINE__, msg, ##__VA_ARGS__);assert(cond);}} while (false)
+    #define DEBUG_MODE 1
 #else
-#define LOG_ASSERT(cond, msg,...) do{}while(false)
-#define DEBUG_MODE 0
-
+    #define ASSERTED_EXPRESSION(CHECK, EXPR) (EXPR)
+    #define LOG_ASSERT(cond, msg,...) do{}while(false)
+    #define DEBUG_MODE 0
 #endif
 
 #if __cplusplus < 201103L
