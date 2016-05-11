@@ -48,6 +48,7 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/external/unzip/ioapi.cpp \
 ../../FoundationKit/external/unzip/ioapi_mem.cpp \
 ../../FoundationKit/external/unzip/unzip.cpp \
+../../FoundationKit/Foundation/Compression.cpp \
 ../../FoundationKit/Foundation/DelegateManager.cpp \
 ../../FoundationKit/Foundation/Exception.cpp \
 ../../FoundationKit/Foundation/Logger.cpp \
