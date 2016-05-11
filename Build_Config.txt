@@ -1,0 +1,8 @@
+Build-->Environment
+Android SDK
+path=
+Android NDK
+path=
+Java SE Development Kit
+path
+Apache Ant

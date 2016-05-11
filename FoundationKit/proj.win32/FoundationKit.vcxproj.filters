@@ -378,9 +378,6 @@
     <ClInclude Include="..\FoundationKit\std\hex.hpp">
       <Filter>std</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\GenericPlatformDefines.h">
-      <Filter>FoundationKit</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\OpenGL.h">
       <Filter>Platform</Filter>
     </ClInclude>
@@ -391,6 +388,9 @@
       <Filter>Crypto</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Compression.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\ByteSwap.h">
       <Filter>Foundation</Filter>
     </ClInclude>
   </ItemGroup>

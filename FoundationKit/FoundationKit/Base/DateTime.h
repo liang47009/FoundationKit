@@ -557,6 +557,20 @@ public:
 	 */
 	static DateTime now();
 
+    /**
+     * Gets the UTC date and time on this computer.
+     *
+     * This method returns the Coordinated Universal Time (UTC), which does not take the
+     * local computer's time zone and daylight savings settings into account. It should be
+     * used when comparing dates and times that should be independent of the user's locale.
+     * To get the date and time in the current locale, use Now() instead.
+     *
+     * @return Current date and time.
+     * @see Now
+     */
+    static DateTime utcNow();
+
+
 	/**
 	 * Converts a string to a date and time.
 	 *
@@ -591,19 +605,6 @@ public:
 	{
 		return now().getDate();
 	}
-
-	/**
-	 * Gets the UTC date and time on this computer.
-	 *
-	 * This method returns the Coordinated Universal Time (UTC), which does not take the
-	 * local computer's time zone and daylight savings settings into account. It should be
-	 * used when comparing dates and times that should be independent of the user's locale.
-	 * To get the date and time in the current locale, use Now() instead.
-	 *
-	 * @return Current date and time.
-	 * @see Now
-	 */
-	static DateTime utcNow();
 
 	/**
 	 * Validates the given components of a date and time value.

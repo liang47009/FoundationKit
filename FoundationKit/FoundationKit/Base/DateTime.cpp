@@ -225,6 +225,13 @@ DateTime DateTime::now()
     return DateTime(year, month, day, hour, minute, second, millisecond);
 }
 
+DateTime DateTime::utcNow()
+{
+    int32 year, month, day, dayOfWeek;
+    int32 hour, minute, second, millisecond;
+    Platform::utcTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
+    return DateTime(year, month, day, hour, minute, second, millisecond);
+}
 
 bool DateTime::parse( const std::string& dateTimeString, DateTime& outDateTime )
 {
@@ -393,16 +400,6 @@ bool DateTime::parseIso8601( const char* dateTimeString, DateTime& outDateTime )
 
 	return true;
 }
-
-
-DateTime DateTime::utcNow()
-{
-    int32 year, month, day, dayOfWeek;
-    int32 hour, minute, second, millisecond;
-    Platform::utcTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
-    return DateTime(year, month, day, hour, minute, second, millisecond);
-}
-
 
 bool DateTime::validate( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond )
 {
