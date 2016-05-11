@@ -1,4 +1,9 @@
-﻿
+﻿/****************************************************************************
+Copyright (c) 2016 libo All rights reserved.
+
+losemymind.libo@gmail.com
+
+****************************************************************************/
 #include <vector>
 #include <cstdlib>
 #include "FoundationKit/Foundation/StringUtils.h"

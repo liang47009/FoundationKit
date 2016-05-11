@@ -1,4 +1,5 @@
-
+#ifndef LOSEMYMIND_BASE64_H
+#define LOSEMYMIND_BASE64_H
 #pragma once
 #include <string>
 #include <vector>
@@ -84,6 +85,8 @@ public:
 };
 
 NS_FK_END
+
+#endif // LOSEMYMIND_BASE64_H
 
 
 

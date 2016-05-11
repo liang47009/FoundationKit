@@ -390,6 +390,9 @@
     <ClInclude Include="..\FoundationKit\Crypto\Base64.h">
       <Filter>Crypto</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Compression.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -589,6 +592,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp">
       <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Compression.cpp">
+      <Filter>Foundation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

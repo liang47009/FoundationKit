@@ -1,3 +1,9 @@
+/****************************************************************************
+Copyright (c) 2016 libo All rights reserved.
+
+losemymind.libo@gmail.com
+
+****************************************************************************/
 #include <vector>
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "FoundationKit/Base/MathEx.h"

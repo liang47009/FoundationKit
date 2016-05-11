@@ -3,8 +3,6 @@
 
 NS_FK_BEGIN
 
-
-
 /** The table used to encode a 6 bit value as an ascii character */
 uint8 Base64::EncodingAlphabet[64] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
     'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e',

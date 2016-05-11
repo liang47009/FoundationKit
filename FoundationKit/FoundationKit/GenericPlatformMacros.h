@@ -171,10 +171,12 @@ extern void __log__(const char* file, int line, const char* message, ...);
 #if defined(_DEBUG) || defined(DEBUG)
     #define ASSERTED_EXPRESSION(CHECK, EXPR) ((CHECK) ? (EXPR) : (__fail__(#CHECK, __FILE__, __LINE__), (EXPR)))
     #define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(__FILE__, __LINE__, msg, ##__VA_ARGS__);assert(cond);}} while (false)
+    #define LOG_CONDITION(cond,msg,...) do{if ((cond)){ __log__(__FILE__, __LINE__, msg, ##__VA_ARGS__);}} while (false)
     #define DEBUG_MODE 1
 #else
     #define ASSERTED_EXPRESSION(CHECK, EXPR) (EXPR)
     #define LOG_ASSERT(cond, msg,...) do{}while(false)
+    #define LOG_CONDITION(cond,msg,...)do{}while(false)
     #define DEBUG_MODE 0
 #endif
 

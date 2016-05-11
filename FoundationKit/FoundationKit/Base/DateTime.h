@@ -1,6 +1,11 @@
+/****************************************************************************
+Copyright (c) 2016 libo All rights reserved.
+
+losemymind.libo@gmail.com
+
+****************************************************************************/
 #ifndef LOSEMYMIND_DATETIME_H
 #define LOSEMYMIND_DATETIME_H
-
 
 #pragma once
 #include <string>
