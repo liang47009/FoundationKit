@@ -29,6 +29,7 @@
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "FoundationKit/Crypto/md5.hpp"
 #include "FoundationKit/Platform/OpenGL.h"
+#include "FoundationKit/Platform/FileUtils.h"
 
 
 NS_FK_BEGIN
@@ -393,8 +394,9 @@ void Platform::captureScreen(const Rect& rect, const std::string& filename, cons
                                             , kCGRenderingIntentDefault);
         UIImage* image = [UIImage imageWithCGImage:imageRef];
         NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/GameAutomation/scripts/"];
+        FileUtils::getInstance()->createDirectory([path UTF8String]);
         NSString *imageName = [NSString stringWithUTF8String:filename.c_str()];
-        [path stringByAppendingPathComponent:imageName];
+        path = [path stringByAppendingPathComponent:imageName];
         //[UIImageJPEGRepresentation(image,1.0) writeToFile:path atomically:YES];
         NSData * imageData = UIImageJPEGRepresentation(image,1.0);
         if (imageData && [imageData writeToFile:path atomically:YES])

@@ -49,9 +49,11 @@ using namespace FoundationKit;
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     DateTime dateTime = DateTime::now();
+    std::string fileName = dateTime.toString();
+    fileName += ".jpg";
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     FoundationKit::Rect rc(0,0, screenRect.size.width, screenRect.size.height);
-    Platform::captureScreen(rc, dateTime.toString(), [](bool succeed, const std::string & filePath)
+    Platform::captureScreen(rc, fileName, [](bool succeed, const std::string & filePath)
     {
         if (succeed) {
             NSLog(@"===== SUCCEED FOR SAVE FILE:%s", filePath.c_str());
