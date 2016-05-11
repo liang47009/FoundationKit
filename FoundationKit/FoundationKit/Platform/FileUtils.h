@@ -112,7 +112,7 @@ public:
     std::string getFileExtension(const std::string& filePath) const;
 
     std::string getFileName(const std::string& filePath)const;
-    std::string getFileNameWithoutSuffix(const std::string& filePath)const;
+    std::string getFileNameWithoutExtension(const std::string& filePath)const;
     std::string getFilePathWithoutFileName(const std::string& filePath)const;
 
    /**

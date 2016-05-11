@@ -340,7 +340,7 @@ std::string FileUtils::getFileName(const std::string& filePath)const
     return fileName;
 }
 
-std::string FileUtils::getFileNameWithoutSuffix(const std::string& filePath)const
+std::string FileUtils::getFileNameWithoutExtension(const std::string& filePath)const
 {
     std::string fileName = "";
     if (!isDirectory(filePath))
