@@ -169,7 +169,7 @@ bool Base64::decode(const char* source, uint32 length, uint8* dest, uint32& padC
  */
 std::string Base64::encode(const ustring& source)
 {
-    return encode(source.c_str(), source.size());
+    return encode(source.c_str(), static_cast<uint32>(source.size()));
 }
 
 /**
@@ -182,7 +182,7 @@ std::string Base64::encode(const ustring& source)
  */
 bool Base64::decode(const std::string& source, ustring& dest)
 {
-    uint32 length = source.length();
+    uint32 length = static_cast<uint32>(source.length());
     // Size must be a multiple of 4
     if (length % 4)
     {
@@ -214,7 +214,7 @@ bool Base64::decode(const std::string& source, ustring& dest)
  */
 std::string Base64::encode(const std::string& source)
 {
-    return encode(reinterpret_cast<const uint8*>(source.c_str()), source.size());
+    return encode(reinterpret_cast<const uint8*>(source.c_str()), static_cast<uint32>(source.size()));
 }
 
 /**
@@ -225,7 +225,7 @@ std::string Base64::encode(const std::string& source)
  */
 bool Base64::decode(const std::string& source, std::string& dest)
 {
-    uint32 length = source.size();
+    uint32 length = static_cast<uint32>(source.size());
     // Size must be a multiple of 4
     if (length % 4)
     {

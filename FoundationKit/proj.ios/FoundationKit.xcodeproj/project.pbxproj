@@ -83,6 +83,7 @@
 		09B322031CD9BE6900D11961 /* DateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09B321FD1CD9BE6900D11961 /* DateTime.cpp */; };
 		09B322041CD9BE6900D11961 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09B321FF1CD9BE6900D11961 /* Time.cpp */; };
 		09B322051CD9BE6900D11961 /* Timespan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09B322011CD9BE6900D11961 /* Timespan.cpp */; };
+		09B377A21CE319DA00252204 /* Compression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09B377A01CE319DA00252204 /* Compression.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -375,7 +376,9 @@
 		09B322001CD9BE6900D11961 /* Time.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Time.h; sourceTree = "<group>"; };
 		09B322011CD9BE6900D11961 /* Timespan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timespan.cpp; sourceTree = "<group>"; };
 		09B322021CD9BE6900D11961 /* Timespan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timespan.h; sourceTree = "<group>"; };
-		09B322061CDB0DB600D11961 /* GenericPlatformDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericPlatformDefines.h; sourceTree = "<group>"; };
+		09B3779F1CE319DA00252204 /* ByteSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteSwap.h; sourceTree = "<group>"; };
+		09B377A01CE319DA00252204 /* Compression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compression.cpp; sourceTree = "<group>"; };
+		09B377A11CE319DA00252204 /* Compression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compression.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -399,7 +402,6 @@
 		09745B281CB8F6E8009D350F /* FoundationKit */ = {
 			isa = PBXGroup;
 			children = (
-				09B322061CDB0DB600D11961 /* GenericPlatformDefines.h */,
 				09B321F71CD9BDE800D11961 /* GenericPlatformMacros.cpp */,
 				099B384E1CCF39610035F42A /* GenericPlatformMacros.h */,
 				099B384B1CCF38C60035F42A /* std */,
@@ -753,6 +755,9 @@
 		09745CBB1CB8F6EB009D350F /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				09B3779F1CE319DA00252204 /* ByteSwap.h */,
+				09B377A01CE319DA00252204 /* Compression.cpp */,
+				09B377A11CE319DA00252204 /* Compression.h */,
 				09745CBC1CB8F6EB009D350F /* ApplyTuple.h */,
 				09745CBD1CB8F6EB009D350F /* DelegateManager.cpp */,
 				09745CBE1CB8F6EB009D350F /* DelegateManager.h */,
@@ -1063,6 +1068,7 @@
 				09745DF61CB8F6EC009D350F /* DelegateManager.cpp in Sources */,
 				09745E141CB8F6EC009D350F /* HttpRequest.cpp in Sources */,
 				09745DBD1CB8F6EC009D350F /* EventListenerTouch.cpp in Sources */,
+				09B377A21CE319DA00252204 /* Compression.cpp in Sources */,
 				09745DFB1CB8F6EC009D350F /* StringUtils.cpp in Sources */,
 				09745DA91CB8F6EC009D350F /* Rect.cpp in Sources */,
 				09745DA81CB8F6EC009D350F /* Quaternion.cpp in Sources */,

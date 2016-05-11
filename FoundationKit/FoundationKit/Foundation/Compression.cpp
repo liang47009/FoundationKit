@@ -25,7 +25,7 @@ static bool compressMemoryZLIB(void* CompressedBuffer, int32& CompressedSize, co
     // Compress data
     bool bOperationSucceeded = compress((uint8*)CompressedBuffer, &ZCompressedSize, (const uint8*)UncompressedBuffer, ZUncompressedSize) == Z_OK ? true : false;
     // Propagate compressed size from intermediate variable back into out variable.
-    CompressedSize = ZCompressedSize;
+    CompressedSize = static_cast<int32>(ZCompressedSize);
     return bOperationSucceeded;
 }
 
@@ -83,7 +83,7 @@ static bool compressMemoryGZIP(void* CompressedBuffer, int32& CompressedSize, co
     }
 
     // Propagate compressed size from intermediate variable back into out variable.
-    CompressedSize = gzipstream.total_out;
+    CompressedSize = static_cast<int32>(gzipstream.total_out);
     return bOperationSucceeded;
 }
 
@@ -103,8 +103,8 @@ bool uncompressMemoryZLIB(void* UncompressedBuffer, int32 UncompressedSize, cons
     std::lock_guard<std::mutex> scopeLock(zlibScopeMutex);
 
     // Zlib wants to use unsigned long.
-    unsigned long ZCompressedSize = CompressedSize;
-    unsigned long ZUncompressedSize = UncompressedSize;
+    unsigned int ZCompressedSize = CompressedSize;
+    unsigned int ZUncompressedSize = UncompressedSize;
 
     z_stream stream;
     stream.zalloc = &zipAlloc;
@@ -125,7 +125,7 @@ bool uncompressMemoryZLIB(void* UncompressedBuffer, int32 UncompressedSize, cons
 
     if (Result == Z_STREAM_END)
     {
-        ZUncompressedSize = stream.total_out;
+        ZUncompressedSize = static_cast<int32>(stream.total_out);
     }
 
     Result = inflateEnd(&stream);
@@ -172,7 +172,7 @@ int32 Compression::compressMemoryBound(CompressionFlags Flags, int32 Uncompresse
     switch (Flags & COMPRESSION_FLAGS_TYPE_MASK)
     {
     case COMPRESS_ZLIB:
-        CompressionBound = compressBound(UncompressedSize);
+        CompressionBound = static_cast<int32>(compressBound(UncompressedSize));
         break;
     default:
         break;
