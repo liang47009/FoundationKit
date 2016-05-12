@@ -72,47 +72,6 @@ public:\
 	enum{value = std::is_same<decltype(check<T>(0)), std::true_type>::value};\
 };
 
-/**
- * @code
- * struct MyStruct
- * {
- *     int a;
- *     double b;
- * };
- * memory_aligned<MyStruct>::type pMyStruct;
- * new(&pMyStruct)MyStruct();
- * MyStruct *pRawMyStruct = reinterpret_cast<MyStruct*>(&pMyStruct);
- * pRawMyStruct-> a = pRawMyStruct->b *10;
- * pRawMyStruct->~MyStruct();
- * @endcode
- */
-template<typename T>
-struct memory_aligned
-{
-    using type = typename std::aligned_storage<sizeof(T), std::alignment_of<T>::value>::type;
-};
-
-/**
- * Aligns a value to the nearest higher multiple of 'Alignment', which must be a power of two.
- *
- * @param Ptr			Value to align
- * @param Alignment		Alignment, must be a power of two
- * @return				Aligned value
- */
-template <typename T>
-inline constexpr T align(const T Ptr, int32_t Alignment)
-{
-    return (T)(((PTRINT)Ptr + Alignment - 1) & ~(Alignment - 1));
-}
-/**
- * Checks if a pointer is aligned to the specified alignment.
- * @param Ptr - The pointer to check.
- * @return true if the pointer is aligned, false otherwise.
- */
-static FORCEINLINE bool isAligned(const volatile void* Ptr, const uint32_t Alignment)
-{
-    return !(UPTRINT(Ptr) & (Alignment - 1));
-}
 
 /**
  * Get max integer

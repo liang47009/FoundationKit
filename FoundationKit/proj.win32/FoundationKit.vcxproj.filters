@@ -342,9 +342,6 @@
     <ClInclude Include="..\FoundationKit\GenericPlatformMacros.h">
       <Filter>FoundationKit</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\aligned_ptr.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\any.hpp">
       <Filter>experimental</Filter>
     </ClInclude>
@@ -392,6 +389,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\ByteSwap.h">
       <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\memory_aligned.hpp">
+      <Filter>std</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
