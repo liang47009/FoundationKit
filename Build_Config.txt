@@ -1,8 +1,9 @@
 Build-->Environment
 Android SDK
-path=
+path=ANDROID_HOME/ANDROID_SDK
 Android NDK
-path=
+path=NDKROOT/NDK_ROOT/NDK_HOME/ANDROID_NDK
 Java SE Development Kit
-path
+path=JAVA_HOME
 Apache Ant
+path=ANT_HOME/ANT_ROOT

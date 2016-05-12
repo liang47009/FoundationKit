@@ -19,9 +19,9 @@ enum CompressionFlags
     /** Compress with GZIP															*/
     COMPRESS_GZIP = 0x02,
     /** Prefer compression that compresses smaller (ONLY VALID FOR COMPRESSION)		*/
-    COMPRESS_BiasMemory = 0x10,
+    BAST_COMPRESSION = 0x10,
     /** Prefer compression that compresses faster (ONLY VALID FOR COMPRESSION)		*/
-    COMPRESS_BiasSpeed = 0x20,
+    BAST_SPEED = 0x20,
 };
 
 

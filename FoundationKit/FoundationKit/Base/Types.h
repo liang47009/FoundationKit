@@ -14,9 +14,9 @@
 
 NS_FK_BEGIN
 
-
 //---------------------------------------------------------------------
 // Utility for automatically setting up the pointer-sized integer type
+// http://zh.cppreference.com/w/cpp/language/types
 //---------------------------------------------------------------------
 
 template<typename T32BITS, typename T64BITS, int PointerSize>
@@ -67,44 +67,14 @@ typedef SelectIntPointerType<int32, int64, sizeof(void*)>::type PTRINT;   // sig
 
 typedef std::basic_string<uint8, std::char_traits<uint8>, std::allocator<uint8> > ustring;
 
-/********************************************************************************
- http://zh.cppreference.com/w/cpp/language/types
- Base types
- bool
- signed char
- unsigned char
- wchar_t
- char16_t
- char32_t
- short
- short int
- signed short int
- unsigned short
- unsigned short int
- int 
- signed
- signed int
- unsigned
- unsigned int
- long
- long int
- signed long
- signed long int
- unsigned long
- unsigned long int
- long long
- long long int
- signed long long
- signed long long int
- unsigned long long
- unsigned long long int
- float
- double
- long double
- size_t
- nullptr
- nullptr_t
- *********************************************************************************/
+template<typename _Ty>
+struct allocator_traits 
+{
+    typedef std::allocator<_Ty> type;
+};
+
+template<class _Ty>
+using allocator_traits_t = typename allocator_traits<_Ty>::type;
 
 NS_FK_END
 #endif // LOSEMYMIND_TYPES_H
