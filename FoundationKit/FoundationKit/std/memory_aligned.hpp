@@ -1,3 +1,12 @@
+/****************************************************************************
+Copyright (c) 2016 libo All rights reserved.
+
+losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef LOSEMYMIND_MEMORY_ALIGNED_H
+#define LOSEMYMIND_MEMORY_ALIGNED_H
+#pragma once
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Types.h"
 #include <utility>
@@ -125,3 +134,4 @@ public:
 
 } // namespace std
 
+#endif // LOSEMYMIND_MEMORY_ALIGNED_H
