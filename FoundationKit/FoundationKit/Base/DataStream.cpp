@@ -17,27 +17,31 @@ DataStream::DataStream()
 }
 DataStream::DataStream(const DataStream& pDataStream)
 	: _buffer(pDataStream.getBuffer())
-    , _readIndex(0)
-    , _burnAfterReading(false)
+    , _readIndex(pDataStream._readIndex)
+    , _burnAfterReading(pDataStream._burnAfterReading)
 {
 }
 
 DataStream::DataStream(DataStream&& pDataStream)
 	: _buffer(std::move(pDataStream._buffer))
-    , _readIndex(0)
-    , _burnAfterReading(false)
+    , _readIndex(pDataStream._readIndex)
+    , _burnAfterReading(pDataStream._burnAfterReading)
 {
 }
 
 DataStream& DataStream::operator=(const DataStream& pDataStream)
 {
 	_buffer = pDataStream.getBuffer();
+    _burnAfterReading = pDataStream._burnAfterReading;
+    _readIndex = pDataStream._readIndex;
 	return *this;
 }
 
 DataStream& DataStream::operator=(DataStream&& pDataStream)
 {
 	_buffer = std::move(pDataStream._buffer);
+    _burnAfterReading = pDataStream._burnAfterReading;
+    _readIndex = pDataStream._readIndex;
 	return *this;
 }
 

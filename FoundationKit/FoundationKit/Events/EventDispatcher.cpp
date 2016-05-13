@@ -119,11 +119,10 @@ void EventDispatcher::associateTargetAndEventListener(void* target, EventListene
 
 void EventDispatcher::dissociateTargetAndEventListener(void* target, EventListener::Pointer listener)
 {
-    std::vector<EventListener::Pointer>* listeners = nullptr;
     auto found = _targetListenersMap.find(target);
     if (found != _targetListenersMap.end())
     {
-        listeners = found->second;
+        std::vector<EventListener::Pointer>* listeners = found->second;
         auto iter = std::find(listeners->begin(), listeners->end(), listener);
         if (iter != listeners->end())
         {

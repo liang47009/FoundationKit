@@ -21,7 +21,7 @@ Version::Version()
     
 }
 
-Version::Version(std::string version)
+Version::Version(const std::string& version)
     : Major(0)
     , Minor(0)
     , Build(-1)
@@ -192,14 +192,14 @@ std::string Version::toString(int fieldCount)
     return result;
 }
 
-FoundationKit::Version Version::parse(std::string input)
+FoundationKit::Version Version::parse(const std::string& input)
 {
     Version version;
     Version::tryParse(input, version);
     return version;
 }
 
-bool Version::tryParse(std::string input, Version& result)
+bool Version::tryParse(const std::string& input, Version& result)
 {
     bool successed = false;
     do 

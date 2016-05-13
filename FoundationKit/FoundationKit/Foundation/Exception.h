@@ -41,7 +41,7 @@ public:
 	Exception(const std::string& msg, const Exception& nested, int code = 0);
 
 
-	Exception(const Exception& exc);
+	explicit Exception(const Exception& exc);
 
 	/** 
 	 * Destroys the exception and deletes the nested exception.
@@ -154,7 +154,7 @@ inline int Exception::code() const
 		CLS(const std::string& msg, int code = CODE);								    \
 		CLS(const std::string& msg, const std::string& arg, int code = CODE);		    \
 		CLS(const std::string& msg, const Exception& exc, int code = CODE);	            \
-		CLS(const CLS& exc);														    \
+		explicit CLS(const CLS& exc);													\
 		~CLS() throw();																    \
 		CLS& operator = (const CLS& exc);											    \
 		const char* name() const throw();											    \

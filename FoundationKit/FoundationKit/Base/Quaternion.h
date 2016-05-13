@@ -98,14 +98,14 @@ public:
      *
      * @param array The values for the new quaternion.
      */
-    Quaternion(float* array);
+    explicit Quaternion(float* array);
 
     /**
      * Constructs a quaternion equal to the rotational part of the specified matrix.
      *
      * @param m The matrix.
      */
-    Quaternion(const Matrix& m);
+    explicit Quaternion(const Matrix& m);
 
     /**
      * Constructs a quaternion equal to the rotation from the specified axis and angle.

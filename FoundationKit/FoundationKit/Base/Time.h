@@ -16,8 +16,8 @@ NS_FK_BEGIN
 class Time final
 {
 public:
+    explicit Time(const Time & t);
 	Time();
-	Time(const Time & t);
 	Time(Time && t);
     Time(const std::chrono::high_resolution_clock::time_point& timePoint);
 

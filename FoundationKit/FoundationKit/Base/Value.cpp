@@ -16,7 +16,7 @@ const Value Value::Null;
 Value::Value(Type valType)
     : _type(valType)
 {
-    memset(&_field, 0, sizeof(_field));
+    memset(&_field, 0x00, sizeof(_field));
 }
 
 

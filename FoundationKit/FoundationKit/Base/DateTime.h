@@ -83,7 +83,7 @@ public:
 	 *
 	 * @param Ticks The ticks representing the date and time.
 	 */
-	DateTime( int64 inTicks )
+	explicit DateTime( int64 inTicks )
         : _ticks(inTicks)
 	{ }
 

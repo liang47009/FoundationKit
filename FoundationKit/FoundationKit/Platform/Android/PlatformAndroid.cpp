@@ -31,13 +31,12 @@ public:
             LOG_ERROR("Cannot open /proc/meminfo file!");
             return 0;
         }
-
-        char *line_ptr = nullptr;
+        
         char line_buf[LINE_BUF_SIZE] = { 0 };
         char key_buf[MEMKEY_BUF_SIZE] = { 0 };
         unsigned long long value = 0;
         unsigned long long resultValue = 0;
-        while ((line_ptr = fgets(line_buf, sizeof(line_buf), fp)) != NULL)
+        while (fgets(line_buf, sizeof(line_buf), fp) != NULL)
         {
             if (sscanf(line_buf, "%[^:]%*s %llu kB", key_buf, &value) != 2)
                 continue;
@@ -128,7 +127,6 @@ float Platform::getProcessMemory()
 
 std::string Platform::getMacAddress()
 {
-    char line_buf[LINE_BUF_SIZE] = { 0 };
     char mac_addr[16] = { 0 };
     FILE *fp = nullptr;
     if ((fp = fopen("/sys/class/net/wlan0/address", "r")) == NULL)
@@ -137,6 +135,7 @@ std::string Platform::getMacAddress()
     }
     else
     {
+        char line_buf[LINE_BUF_SIZE] = { 0 };
         while (fgets(line_buf, sizeof(line_buf), fp) != NULL)
         {
             char mac0[4] = { 0 };

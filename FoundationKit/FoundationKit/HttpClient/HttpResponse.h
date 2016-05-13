@@ -32,7 +32,7 @@ public:
     * Constructor, it's used by HttpClient internal, users don't need to create HttpResponse manually.
     * @param request the corresponding HttpRequest which leads to this response.
     */
-    HttpResponse(HttpRequest::Pointer request)
+    explicit HttpResponse(HttpRequest::Pointer request)
         :_succeed(false)
         , _responseCode(0)
         , _pHttpRequest(request)

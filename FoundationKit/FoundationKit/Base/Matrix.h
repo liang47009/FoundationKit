@@ -112,7 +112,7 @@ public:
      *
      * @param m An array containing 16 elements in column-major order.
      */
-    Matrix(const float* m);
+    explicit Matrix(const float* m);
 
     /**
      * Constructs a new matrix by copying the values from the specified matrix.

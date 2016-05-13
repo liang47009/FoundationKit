@@ -64,7 +64,7 @@ public:
 	 *
 	 * @param inTicks The number of ticks.
 	 */
-    Timespan(int64 inTicks)
+    explicit Timespan(int64 inTicks)
         : _ticks(inTicks)
 	{ }
 

@@ -25,7 +25,7 @@ public:
 public:
     Version();
 
-    Version(std::string version);
+    Version(const std::string& version);
 
     Version(int major, int minor);
 
@@ -45,9 +45,9 @@ public:
 
     std::string toString(int fieldCount);
 
-    static Version parse(std::string input);
+    static Version parse(const std::string& input);
 
-    static bool tryParse(std::string input, Version& result);
+    static bool tryParse(const std::string& input, Version& result);
 
     inline bool operator !=(Version& other)
     {

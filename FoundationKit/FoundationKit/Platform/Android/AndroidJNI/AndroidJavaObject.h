@@ -18,6 +18,7 @@ class AndroidJavaObject
 public:
 
     AndroidJavaObject()
+    : _object(nullptr)
     {
 
     }
@@ -27,11 +28,12 @@ public:
     }
 
     AndroidJavaObject(const AndroidJavaObject& other)
+    : _object(other._object)
     {
-        _object = other._object;
+
     }
 
-    AndroidJavaObject(jobject jobj)
+    explicit AndroidJavaObject(jobject jobj)
     {
         JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
         _object = std::shared_ptr<_jobject>(jniEnv->NewGlobalRef(jobj), jobjectDeleter);

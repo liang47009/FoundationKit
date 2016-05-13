@@ -82,7 +82,7 @@ public:
      *
      * @param array An array containing the elements of the vector in the order x, y, z.
      */
-    Vector3(const float* array);
+    explicit Vector3(const float* array);
 
     /**
      * Constructs a vector that describes the direction between the specified points.

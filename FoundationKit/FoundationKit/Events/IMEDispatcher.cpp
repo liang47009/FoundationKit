@@ -234,11 +234,10 @@ void IMEDispatcher::dispatchKeyboardWillShow(IMEKeyboardNotificationInfo& info)
 {
     if (_impl)
     {
-        IMEDelegate * delegate = 0;
         DelegateIter last = _impl->_delegateList.end();
         for (DelegateIter first = _impl->_delegateList.begin(); first != last; ++first)
         {
-            delegate = *(first);
+            IMEDelegate * delegate = *(first);
             if (delegate)
             {
                 delegate->keyboardWillShow(info);
@@ -251,11 +250,10 @@ void IMEDispatcher::dispatchKeyboardDidShow(IMEKeyboardNotificationInfo& info)
 {
     if (_impl)
     {
-        IMEDelegate * delegate = 0;
         DelegateIter last = _impl->_delegateList.end();
         for (DelegateIter first = _impl->_delegateList.begin(); first != last; ++first)
         {
-            delegate = *(first);
+            IMEDelegate *delegate = *(first);
             if (delegate)
             {
                 delegate->keyboardDidShow(info);
@@ -268,11 +266,10 @@ void IMEDispatcher::dispatchKeyboardWillHide(IMEKeyboardNotificationInfo& info)
 {
     if (_impl)
     {
-        IMEDelegate * delegate = 0;
         DelegateIter last = _impl->_delegateList.end();
         for (DelegateIter first = _impl->_delegateList.begin(); first != last; ++first)
         {
-            delegate = *(first);
+            IMEDelegate *delegate = *(first);
             if (delegate)
             {
                 delegate->keyboardWillHide(info);
@@ -285,11 +282,10 @@ void IMEDispatcher::dispatchKeyboardDidHide(IMEKeyboardNotificationInfo& info)
 {
     if (_impl)
     {
-        IMEDelegate * delegate = 0;
         DelegateIter last = _impl->_delegateList.end();
         for (DelegateIter first = _impl->_delegateList.begin(); first != last; ++first)
         {
-            delegate = *(first);
+            IMEDelegate *delegate = *(first);
             if (delegate)
             {
                 delegate->keyboardDidHide(info);

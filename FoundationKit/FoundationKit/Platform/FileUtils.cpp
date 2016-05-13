@@ -124,11 +124,6 @@ std::string FileUtils::fullPathForFilename(const std::string &filename) const
         return filename;
     }
 
-    // Get the new file name.
-    const std::string newFilename = filename;
-
-    std::string fullpath;
-
     for (const auto& searchIt : _searchPaths)
     {
         std::string fullPath = _resourceRootPath + searchIt + filename;
@@ -239,7 +234,6 @@ Data FileUtils::readDataFromFile(const std::string& filename)
 Data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::string& filename, size_t *size)
 {
     Data retData;
-    unsigned char * buffer = nullptr;
     unzFile file = nullptr;
     *size = 0;
 
@@ -265,8 +259,7 @@ Data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::strin
 
         ret = unzOpenCurrentFile(file);
         BREAK_IF(UNZ_OK != ret);
-
-        buffer = (unsigned char*)malloc(fileInfo.uncompressed_size);
+        unsigned char * buffer = (unsigned char*)malloc(fileInfo.uncompressed_size);
         int readedSize = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
         LOG_ASSERT(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
         UNUSED_ARG(readedSize);
@@ -294,12 +287,11 @@ bool FileUtils::writeStringToFile(const std::string& dataStr, const std::string&
 
 bool FileUtils::writeDataToFile(Data retData, const std::string& fullPath)
 {
-    size_t size = 0;
-    const char* mode = "wb";
-
     LOG_ASSERT(!fullPath.empty() && retData.getSize() != 0, "Invalid parameters.");
     do
     {
+        size_t size = 0;
+        const char* mode = "wb";
         // Read the file from hardware
         FILE *fp = fopen(fullPath.c_str(), mode);
         BREAK_IF(!fp);
@@ -521,14 +513,12 @@ bool FileUtils::createDirectory(const std::string& path)
         }
     }
 
-    DIR *dir = NULL;
-
     // Create path recursively
     subpath = "";
     for (int i = 0; i < dirs.size(); ++i)
     {
         subpath += dirs[i];
-        dir = opendir(subpath.c_str());
+        DIR *dir = opendir(subpath.c_str());
 
         if (!dir)
         {
