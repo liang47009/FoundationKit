@@ -13,6 +13,7 @@ losemymind.libo@gmail.com
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Platform/Platform.h"
 #include "FoundationKit/Platform/OpenGL.h"
+#include "FoundationKit/Platform/Environment.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "FoundationKit/Base/Types.h"
@@ -99,48 +100,12 @@ std::string Platform::getDeviceId()
 
 std::string Platform::getDeviceName()
 {
-    char value[255] = { 0 };
-    DWORD BufferSize = 255;
-    HKEY key = NULL;
-    auto result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key);
-    if (NO_ERROR != result)
-    {
-        result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE | KEY_WOW64_32KEY, &key);
-    }
-    if (NO_ERROR != result)
-    {
-        LOG_ERROR("===== Cannot open regedit");
-        return "";
-    }
-    result = RegGetValueA(key, "", "ProductName", RRF_RT_ANY, NULL, (PVOID)&value, &BufferSize);
-    if (NO_ERROR != result)
-    {
-        LOG_ERROR("===== Cannot get regedit value for key:ProductName");
-    }
-    return value;
+    return Environment::GetMachineName();
 }
 
 std::string Platform::getOperatingSystemVersion()
 {
-    char value[255] = { 0 };
-    DWORD BufferSize = 255;
-    HKEY key = NULL;
-    auto result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE | KEY_WOW64_64KEY, &key);
-    if (NO_ERROR != result)
-    {
-        result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_QUERY_VALUE | KEY_WOW64_32KEY, &key);
-    }
-    if (NO_ERROR != result)
-    {
-        LOG_ERROR("===== Cannot open regedit");
-        return "";
-    }
-    result = RegGetValueA(key, "", "CurrentVersion", RRF_RT_ANY, NULL, (PVOID)&value, &BufferSize);
-    if (NO_ERROR != result)
-    {
-        LOG_ERROR("===== Cannot get regedit value for key:CurrentVersion");
-    }
-    return value;
+    return Environment::GetOSVersion();
 }
 
 std::string Platform::getCPUArchitecture()

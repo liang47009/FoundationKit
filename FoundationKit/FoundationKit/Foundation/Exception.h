@@ -41,7 +41,7 @@ public:
 	Exception(const std::string& msg, const Exception& nested, int code = 0);
 
 
-	explicit Exception(const Exception& exc);
+	Exception(const Exception& exc);
 
 	/** 
 	 * Destroys the exception and deletes the nested exception.
@@ -154,7 +154,7 @@ inline int Exception::code() const
 		CLS(const std::string& msg, int code = CODE);								    \
 		CLS(const std::string& msg, const std::string& arg, int code = CODE);		    \
 		CLS(const std::string& msg, const Exception& exc, int code = CODE);	            \
-		explicit CLS(const CLS& exc);													\
+		CLS(const CLS& exc);													        \
 		~CLS() throw();																    \
 		CLS& operator = (const CLS& exc);											    \
 		const char* name() const throw();											    \
@@ -217,7 +217,6 @@ DECLARE_EXCEPTION(NullPointerException, LogicException)
 DECLARE_EXCEPTION(NullValueException, LogicException)
 DECLARE_EXCEPTION(BugcheckException, LogicException)
 DECLARE_EXCEPTION(InvalidArgumentException, LogicException)
-DECLARE_EXCEPTION(InvalidOperationException, LogicException)
 DECLARE_EXCEPTION(NotImplementedException, LogicException)
 DECLARE_EXCEPTION(RangeException, LogicException)
 DECLARE_EXCEPTION(IllegalStateException, LogicException)
@@ -239,6 +238,12 @@ DECLARE_EXCEPTION(PoolOverflowException, RuntimeException)
 DECLARE_EXCEPTION(NoPermissionException, RuntimeException)
 DECLARE_EXCEPTION(OutOfMemoryException, RuntimeException)
 DECLARE_EXCEPTION(DataException, RuntimeException)
+DECLARE_EXCEPTION(InterruptedException, RuntimeException)
+DECLARE_EXCEPTION(IndexOutOfBoundsException, RuntimeException)
+DECLARE_EXCEPTION(UnsupportedOperationException, RuntimeException)
+DECLARE_EXCEPTION(EmptyStackException, RuntimeException)
+DECLARE_EXCEPTION(StackOverflowException, RuntimeException)
+DECLARE_EXCEPTION(ArithmeticException, RuntimeException)
 
 DECLARE_EXCEPTION(DataFormatException, DataException)
 DECLARE_EXCEPTION(SyntaxException, DataException)
@@ -256,6 +261,7 @@ DECLARE_EXCEPTION(CreateFileException, FileException)
 DECLARE_EXCEPTION(OpenFileException, FileException)
 DECLARE_EXCEPTION(WriteFileException, FileException)
 DECLARE_EXCEPTION(ReadFileException, FileException)
+DECLARE_EXCEPTION(UnknownURISchemeException, RuntimeException)
 
 DECLARE_EXCEPTION(ApplicationException, Exception)
 DECLARE_EXCEPTION(BadCastException, RuntimeException)

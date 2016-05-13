@@ -68,6 +68,7 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/LuaEngine/LuaValue.cpp \
 ../../FoundationKit/LuaEngine/Script.cpp \
 ../../FoundationKit/Platform/Android/AndroidJavaBridge.cpp \
+../../FoundationKit/Platform/Android/EnvironmentAndroid.cpp \
 ../../FoundationKit/Platform/Android/FileUtils_android.cpp \
 ../../FoundationKit/Platform/Android/PlatformAndroid.cpp \
 ../../FoundationKit/Platform/Android/ProtectedMemoryAllocator.cpp \
