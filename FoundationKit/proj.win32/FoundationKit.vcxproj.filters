@@ -393,6 +393,9 @@
     <ClInclude Include="..\FoundationKit\std\memory_aligned.hpp">
       <Filter>std</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Environment.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -595,6 +598,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Compression.cpp">
       <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp">
+      <Filter>Platform\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
