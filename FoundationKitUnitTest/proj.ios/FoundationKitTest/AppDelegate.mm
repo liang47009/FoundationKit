@@ -10,7 +10,6 @@
 #include "FoundationKit/Foundation/Scheduler.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Base/Dictionary.h"
-#include "FoundationKit/experimental/aligned_ptr.hpp"
 #include "FoundationKit/experimental/any.hpp"
 #include "FoundationKit/experimental/optional.hpp"
 #include "FoundationKit/std/utility.hpp"

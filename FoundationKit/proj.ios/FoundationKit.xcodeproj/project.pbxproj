@@ -84,6 +84,7 @@
 		09B322041CD9BE6900D11961 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09B321FF1CD9BE6900D11961 /* Time.cpp */; };
 		09B322051CD9BE6900D11961 /* Timespan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09B322011CD9BE6900D11961 /* Timespan.cpp */; };
 		09B377A21CE319DA00252204 /* Compression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09B377A01CE319DA00252204 /* Compression.cpp */; };
+		09B377A51CE5D86700252204 /* EnvironmentIos.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09B377A41CE5D86700252204 /* EnvironmentIos.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -357,7 +358,6 @@
 		09745DA11CB8F6EC009D350F /* thread_wp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread_wp.h; sourceTree = "<group>"; };
 		09745DA21CB8F6EC009D350F /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread.h; sourceTree = "<group>"; };
 		0977BAF61AB6CC31006BC260 /* libFoundationKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundationKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		099B38441CCF38BA0035F42A /* aligned_ptr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = aligned_ptr.hpp; sourceTree = "<group>"; };
 		099B38451CCF38BA0035F42A /* any.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = any.hpp; sourceTree = "<group>"; };
 		099B38461CCF38BA0035F42A /* memory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = memory.cpp; sourceTree = "<group>"; };
 		099B38471CCF38BA0035F42A /* memory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memory.h; sourceTree = "<group>"; };
@@ -379,6 +379,9 @@
 		09B3779F1CE319DA00252204 /* ByteSwap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteSwap.h; sourceTree = "<group>"; };
 		09B377A01CE319DA00252204 /* Compression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compression.cpp; sourceTree = "<group>"; };
 		09B377A11CE319DA00252204 /* Compression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compression.h; sourceTree = "<group>"; };
+		09B377A31CE5D85A00252204 /* Environment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Environment.h; sourceTree = "<group>"; };
+		09B377A41CE5D86700252204 /* EnvironmentIos.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EnvironmentIos.mm; sourceTree = "<group>"; };
+		09B377A61CE5DAB100252204 /* memory_aligned.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = memory_aligned.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -834,6 +837,7 @@
 		09745D531CB8F6EC009D350F /* Platform */ = {
 			isa = PBXGroup;
 			children = (
+				09B377A31CE5D85A00252204 /* Environment.h */,
 				0907E8411CE0838F00A65A3C /* OpenGL.h */,
 				09745D651CB8F6EC009D350F /* FileUtils.cpp */,
 				09745D661CB8F6EC009D350F /* FileUtils.h */,
@@ -847,6 +851,7 @@
 		09745D671CB8F6EC009D350F /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				09B377A41CE5D86700252204 /* EnvironmentIos.mm */,
 				09745D681CB8F6EC009D350F /* FileUtils_apple.mm */,
 				09745D691CB8F6EC009D350F /* PlatformIos.mm */,
 				09745D6A1CB8F6EC009D350F /* ProtectedMemoryAllocator.h */,
@@ -946,7 +951,6 @@
 			children = (
 				09B321FB1CD9BE1700D11961 /* BufferTest.h */,
 				09B321FC1CD9BE1700D11961 /* match.hpp */,
-				099B38441CCF38BA0035F42A /* aligned_ptr.hpp */,
 				099B38451CCF38BA0035F42A /* any.hpp */,
 				099B38461CCF38BA0035F42A /* memory.cpp */,
 				099B38471CCF38BA0035F42A /* memory.h */,
@@ -959,6 +963,7 @@
 		099B384B1CCF38C60035F42A /* std */ = {
 			isa = PBXGroup;
 			children = (
+				09B377A61CE5DAB100252204 /* memory_aligned.hpp */,
 				09B321F61CD9BDD800D11961 /* hex.hpp */,
 				099B384C1CCF38C60035F42A /* function_traits.hpp */,
 				099B384D1CCF38C60035F42A /* utility.hpp */,
@@ -1092,6 +1097,7 @@
 				09745DAF1CB8F6EC009D350F /* aes.cpp in Sources */,
 				09745DC01CB8F6EC009D350F /* GameController-android.cpp in Sources */,
 				09745DC11CB8F6EC009D350F /* GameController-iOS.mm in Sources */,
+				09B377A51CE5D86700252204 /* EnvironmentIos.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

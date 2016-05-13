@@ -1,4 +1,12 @@
-
+/****************************************************************************
+ Copyright (c) 2016 libo All rights reserved.
+ 
+ losemymind.libo@gmail.com
+ 
+ ****************************************************************************/
+#ifndef LOSEMYMIND_ENVIRONMENT_H
+#define LOSEMYMIND_ENVIRONMENT_H
+#pragma once
 
 #include <string>
 #include "FoundationKit/GenericPlatformMacros.h"
@@ -17,5 +25,8 @@ public:
 
 
 NS_FK_END
+
+
+#endif // LOSEMYMIND_ENVIRONMENT_H
 
 
