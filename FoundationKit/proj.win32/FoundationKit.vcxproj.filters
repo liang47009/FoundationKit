@@ -408,6 +408,9 @@
     <ClInclude Include="..\FoundationKit\std\function_cache.hpp">
       <Filter>std</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Timer.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">

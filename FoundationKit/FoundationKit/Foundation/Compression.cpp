@@ -215,7 +215,7 @@ bool Compression::compressMemory(CompressionFlags Flags, void* CompressedBuffer,
     }
 
     // Keep track of compression time and stats.
-    compressorTime += (Time::now() - CompressorStartTime).getSeconds();
+    compressorTime += (Time::now() - CompressorStartTime).seconds();
     if (bCompressSucceeded)
     {
         compressorSrcBytes += UncompressedSize;
@@ -260,7 +260,7 @@ bool Compression::uncompressMemory(CompressionFlags Flags, void* UncompressedBuf
         LOG_CONDITION(true,"Compression::uncompressMemory - This compression type not supported");
         bUncompressSucceeded = false;
     }
-    uncompressorTime += (Time::now() - UncompressorStartTime).getSeconds();
+    uncompressorTime += (Time::now() - UncompressorStartTime).seconds();
     if (bUncompressSucceeded)
     {
         uncompressorSrcBytes += CompressedSize;
