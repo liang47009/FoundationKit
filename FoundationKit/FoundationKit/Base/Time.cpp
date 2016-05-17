@@ -124,34 +124,40 @@ NS_FK_BEGIN
 		return time;
 	}
 
-    int32 Time::getHours() const
+    double Time::hours() const
 	{
-        return (std::chrono::duration_cast<std::chrono::hours> (m_TimeDuration).count());
+        //return (std::chrono::duration_cast<std::chrono::hours> (m_TimeDuration).count());
+        return (std::chrono::duration_cast<hours_f> (m_TimeDuration).count());
 	}
 
-    int32 Time::getMinutes() const
+    double Time::minutes() const
 	{
-        return (std::chrono::duration_cast<std::chrono::minutes> (m_TimeDuration).count());
+        //return (std::chrono::duration_cast<std::chrono::minutes> (m_TimeDuration).count());
+        return (std::chrono::duration_cast<minutes_f> (m_TimeDuration).count());
 	}
 
-    int32 Time::getSeconds() const
+    double Time::seconds() const
 	{
-        return (std::chrono::duration_cast<std::chrono::seconds> (m_TimeDuration).count());
+        //return (std::chrono::duration_cast<std::chrono::seconds> (m_TimeDuration).count());
+        return (std::chrono::duration_cast<seconds_f> (m_TimeDuration).count());
 	}
 
-    int32 Time::getMilliSeconds() const
+    double Time::milliseconds() const
 	{
-        return (std::chrono::duration_cast<std::chrono::milliseconds> (m_TimeDuration).count());
+        //return (std::chrono::duration_cast<std::chrono::milliseconds> (m_TimeDuration).count());
+        return (std::chrono::duration_cast<milliseconds_f> (m_TimeDuration).count());
 	}
 
-    int32 Time::getMicroSeconds() const
+    double Time::microseconds() const
 	{
-        return (std::chrono::duration_cast<std::chrono::microseconds> (m_TimeDuration).count());
+        //return (std::chrono::duration_cast<std::chrono::microseconds> (m_TimeDuration).count());
+        return (std::chrono::duration_cast<microseconds_f> (m_TimeDuration).count());
 	}
 
-    int32 Time::getNanoSeconds() const
+    double Time::nanoseconds() const
 	{
-        return (std::chrono::duration_cast<std::chrono::nanoseconds> (m_TimeDuration).count());
+        //return (std::chrono::duration_cast<std::chrono::nanoseconds> (m_TimeDuration).count());
+        return (std::chrono::duration_cast<nanoseconds_f> (m_TimeDuration).count());
 	}
 
     Time Time::now()
