@@ -15,7 +15,8 @@ Original file from boost: http://www.boost.org
 #endif
 #include <algorithm>
 #include <typeinfo>
-#include "FoundationKit/std/utility.hpp"
+#include "FoundationKit/std/disable_if.hpp"
+#include "FoundationKit/GenericPlatformMacros.h" // for noexcept
 
 namespace std{
 

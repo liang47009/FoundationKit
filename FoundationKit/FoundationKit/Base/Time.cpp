@@ -124,34 +124,34 @@ NS_FK_BEGIN
 		return time;
 	}
 
-	float64 Time::getHours() const
+    int32 Time::getHours() const
 	{
-        return static_cast<float64>(std::chrono::duration_cast<std::chrono::hours> (m_TimeDuration).count());
+        return (std::chrono::duration_cast<std::chrono::hours> (m_TimeDuration).count());
 	}
 
-	float64 Time::getMinutes() const
+    int32 Time::getMinutes() const
 	{
-        return static_cast<float64>(std::chrono::duration_cast<std::chrono::minutes> (m_TimeDuration).count());
+        return (std::chrono::duration_cast<std::chrono::minutes> (m_TimeDuration).count());
 	}
 
-	float64 Time::getSeconds() const
+    int32 Time::getSeconds() const
 	{
-        return static_cast<float64>(std::chrono::duration_cast<std::chrono::seconds> (m_TimeDuration).count());
+        return (std::chrono::duration_cast<std::chrono::seconds> (m_TimeDuration).count());
 	}
 
-	float64 Time::getMilliSeconds() const
+    int32 Time::getMilliSeconds() const
 	{
-        return static_cast<float64>(std::chrono::duration_cast<std::chrono::milliseconds> (m_TimeDuration).count());
+        return (std::chrono::duration_cast<std::chrono::milliseconds> (m_TimeDuration).count());
 	}
 
-	float64 Time::getMicroSeconds() const
+    int32 Time::getMicroSeconds() const
 	{
-        return static_cast<float64>(std::chrono::duration_cast<std::chrono::microseconds> (m_TimeDuration).count());
+        return (std::chrono::duration_cast<std::chrono::microseconds> (m_TimeDuration).count());
 	}
 
-	float64 Time::getNanoSeconds() const
+    int32 Time::getNanoSeconds() const
 	{
-        return static_cast<float64>(std::chrono::duration_cast<std::chrono::nanoseconds> (m_TimeDuration).count());
+        return (std::chrono::duration_cast<std::chrono::nanoseconds> (m_TimeDuration).count());
 	}
 
     Time Time::now()

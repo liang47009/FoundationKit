@@ -136,3 +136,12 @@ typename function_traits<Function>::pointer to_function_pointer(const Function& 
 
 #endif // LOSEMYMIND_FUNCTION_TRAITS_H
 
+
+
+
+
+
+
+
+
+

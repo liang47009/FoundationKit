@@ -9,6 +9,7 @@ losemymind.libo@gmail.com
 #pragma once
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Types.h"
+#include "FoundationKit/std/max_integer_of.hpp"
 #include <utility>
 #include <type_traits>
 
@@ -23,29 +24,48 @@ using memory_aligned_t = typename std::aligned_storage<sizeof(T), std::alignment
 // Max memory align value
 const std::size_t alignment_of_max_align = std::alignment_of<std::max_align_t>::value;
 
+/**
+ * Get memory aligned size
+ * @code
+ *   size_t len = max_aligned<int, std::string, double, char[4], long long, long long int>::value;
+ * @endcode
+ * len is 8
+ */
+template<typename... Args>
+struct max_aligned : std::integral_constant < int, max_integer_of<std::alignment_of<Args>::value...>::value > {};
 
 /**
  * Aligns a value to the nearest higher multiple of 'Alignment', which must be a power of two.
- *
  * @param Ptr			Value to align
- * @param Alignment		Alignment, must be a power of two
+ * @param Alignment		alignment, must be a power of two
  * @return				Aligned value
  */
 template <typename T>
-inline constexpr T* align(const T* Ptr, int32_t Alignment)
+inline constexpr T* align(const T* Ptr, int32_t alignment)
 {
-    return (T*)(((PTRINT)Ptr + Alignment - 1) & ~(Alignment - 1));
+    return (T*)((address(Ptr) + alignment - 1) & ~(alignment - 1));
 }
+
+/**
+ * Checks if a value is alignment.
+ * @param value - The value to check.
+ * @return true if the value is alignment, false otherwise.
+ */
+constexpr inline bool is_alignment(std::size_t value) noexcept
+{
+    return (value > 0) && ((value & (value - 1)) == 0);
+}
+
 /**
  * Checks if a pointer is aligned to the specified alignment.
  * @param Ptr - The pointer to check.
  * @return true if the pointer is aligned, false otherwise.
  */
-static FORCEINLINE bool isAligned(const volatile void* Ptr, const uint32 Alignment)
+inline bool is_aligned(const /*volatile*/ void* ptr, std::size_t alignment)noexcept
 {
-    return !(UPTRINT(Ptr) & (Alignment - 1));
+    LOG_ASSERT(is_alignment(alignment),"alignment must be is ");
+    return (address(ptr) & (alignment - 1)) == 0;
 }
-
 
 template< typename _Ty >
 class aligned_ptr final 
@@ -135,3 +155,12 @@ public:
 } // namespace std
 
 #endif // LOSEMYMIND_MEMORY_ALIGNED_H
+
+
+
+
+
+
+
+
+

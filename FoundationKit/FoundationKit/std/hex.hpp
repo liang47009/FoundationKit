@@ -255,11 +255,7 @@ void hexTest()
 
 }
 
-
-
 #endif // #if ENABLE_TEXT_STD_HEX
-
-
 
 #endif // LOSEMYMIND_HEX_H
 

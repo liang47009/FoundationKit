@@ -354,9 +354,6 @@
     <ClInclude Include="..\FoundationKit\std\function_traits.hpp">
       <Filter>std</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\std\utility.hpp">
-      <Filter>std</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\Time.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -395,6 +392,21 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\Environment.h">
       <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\contains_of_type.hpp">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\disable_if.hpp">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\has_member.hpp">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\max_integer_of.hpp">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\function_cache.hpp">
+      <Filter>std</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -41,12 +41,12 @@ public:
 	Time & operator--();
 	Time   operator--(int32 t);
 
-	float64 getHours() const;
-	float64 getMinutes() const;
-	float64 getSeconds() const;
-	float64 getMilliSeconds() const;
-	float64 getMicroSeconds() const;
-	float64 getNanoSeconds() const;
+    int32 getHours() const;
+    int32 getMinutes() const;
+    int32 getSeconds() const;
+    int32 getMilliSeconds() const;
+    int32 getMicroSeconds() const;
+    int32 getNanoSeconds() const;
 
     static Time now();
 private:
