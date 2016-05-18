@@ -22,6 +22,7 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 #include <mutex>
 #include <memory>
 #include <iostream>
+#include <list>
 #include "KeyValueArgs.h"
 #include "FoundationKit/GenericPlatformMacros.h"
 NS_FK_BEGIN
