@@ -7,11 +7,12 @@ NS_FK_BEGIN
 class Timer
 {
 public:
-    Timer() : _begin(std::chrono::high_resolution_clock::now()){}
+    typedef std::chrono::high_resolution_clock clock_type;
+    Timer() : _begin(clock_type::now()){}
 
     void reset()
     {
-        _begin = std::chrono::high_resolution_clock::now();
+        _begin = clock_type::now();
     }
 
     double nanoseconds()const
@@ -52,10 +53,11 @@ protected:
     template<typename Duration = milliseconds_f>
     double elapsed()const
     {
-        return std::chrono::duration_cast<Duration>(std::chrono::high_resolution_clock::now() - _begin).count();
+        return std::chrono::duration_cast<Duration>(clock_type::now() - _begin).count();
     }
 private:
-    std::chrono::time_point<std::chrono::high_resolution_clock>   _begin;
+    //std::chrono::time_point<clock_type>   _begin;
+    clock_type::time_point _begin;
 };
 
 NS_FK_END

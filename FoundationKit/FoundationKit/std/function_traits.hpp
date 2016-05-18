@@ -12,7 +12,31 @@
 #include <functional>
 
 namespace std{
+/**
+    define function pointer
+    typedef ReturnType(*FunctionName)(Parameter1Type, Parameter2Type, ...);
+    typedef ReturnType(ClassType::*FunctionName)(Parameter1Type, Parameter2Type, ...);
+example:
+    // Normal function
+    int add(int a, int b){ return a + b; }
+    typedef int(*FunAddPtr)(int, int);
+    FunAddPtr funAdd = &add;
+    int ret = funAdd(10,20);
 
+    //Menber function
+    class Foo
+    {
+    public:
+        double One(long inVal, long inVal1){ return inVal / inVal1; };
+        double Two(long inVal){ return 0; };
+    };
+
+    typedef double(Foo::*FooFun)(long, long);
+    Foo aFoo;
+    FooFun fone = &Foo::One;
+    double ret1 = (aFoo.*fone)(10, 30);
+*/
+     
 /** 
  * 
  *
@@ -53,15 +77,12 @@ namespace std{
  *       printType<function_traits<decltype(&AA::f)>::signature>();
  *   }
  * @endcode
-
  */
-
-//Ordinary functions
+//Normal functions
 //Function pointer
 //function/lambda
 //Member functions
 //Callable object
-
 template<typename T>
 struct function_traits;
 
@@ -86,9 +107,6 @@ struct function_traits<Ret(Args...)>
         // C++14 is std::tuple_element
         using type = typename std::tuple_element<I, args_tuple>::type;
     };
-
-
-
 };
 
 //Function pointer
