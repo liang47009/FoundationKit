@@ -1,3 +1,6 @@
++#ifndef _MSC_VER
++#error "Use this header only with Microsoft Visual C++ compiles!."
++#endif
 #ifndef DIRENT_H
 #define DIRENT_H
 +#include "FoundationKit/GenericPlatformMacros.h"

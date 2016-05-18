@@ -7,6 +7,9 @@
 * under the MIT license.  For all details and documentation, see
 * https://github.com/tronkko/dirent
 */
+#ifndef _MSC_VER
+#error "Use this header only with Microsoft Visual C++ compiles!."
+#endif
 #ifndef DIRENT_H
 #define DIRENT_H
 #include "FoundationKit/GenericPlatformMacros.h"
