@@ -39,7 +39,7 @@ namespace std{
  *
  *     size_t hasCache(size_t n)
  *     {
- *         return (n < 2) ? n : sugar(hasCache)(n - 1) + sugar(hasCache)(n - 2);
+ *         return (n < 2) ? n : function_cache(hasCache)(n - 1) + function_cache(hasCache)(n - 2);
  *     }
  *
  *     void testFunctionCache()
