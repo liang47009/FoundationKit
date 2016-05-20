@@ -9,6 +9,7 @@ losemymind.libo@gmail.com
 #pragma once
 #include <stdexcept>
 #include <initializer_list>
+#include <memory>
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Types.h"
 NS_FK_BEGIN
@@ -24,7 +25,7 @@ class Buffer
 {
 public:
     typedef Buffer<_Elem> _Myt;
-    typedef uint32        size_type;
+    typedef size_t        size_type;
 
     Buffer()
         : _ptr(nullptr)
