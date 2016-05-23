@@ -106,6 +106,8 @@ jclass AndroidJNI::findJavaClass(const char* name)
         ANDROID_CHECKF(false, "*** Unable to find Java class %s, Env:%p", name, env);
         return nullptr;
     }
+    ANDROID_CHECKF(ClassLoader, "*** ClassLoader:%p", ClassLoader);
+    ANDROID_CHECKF(FindClassMethod, "*** FindClassMethod:%p", FindClassMethod);
     std::string className(name);
     std::replace(className.begin(), className.end(), '.', '/');
     jclass FoundClass = nullptr;
