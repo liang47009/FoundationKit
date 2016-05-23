@@ -152,6 +152,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Events\Touch.h" />
     <ClInclude Include="..\FoundationKit\experimental\any.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\BufferTest.h" />
+    <ClInclude Include="..\FoundationKit\experimental\BuildSystem\AndroidBuildTool.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\match.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\memory.h" />
     <ClInclude Include="..\FoundationKit\experimental\optional.hpp" />

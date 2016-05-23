@@ -14,6 +14,10 @@
     #define USING_NS_FK 
 #endif 
 
+#if __cplusplus < 201103L
+#define constexpr
+#define noexcept
+#endif
 
 // see https://sourceforge.net/p/predef/wiki/Compilers/
 // or boost\config\select_platform_config.hpp
@@ -171,19 +175,13 @@ extern void __log__(const char* file, int line, const char* message, ...);
 #if defined(_DEBUG) || defined(DEBUG)
     #define ASSERTED_EXPRESSION(CHECK, EXPR) ((CHECK) ? (EXPR) : (__fail__(#CHECK, __FILE__, __LINE__), (EXPR)))
     #define LOG_ASSERT(cond, msg,...) do{if (!(cond)){ __log__(__FILE__, __LINE__, msg, ##__VA_ARGS__);assert(cond);}} while (false)
-    #define LOG_CONDITION(cond,msg,...) do{if ((cond)){ __log__(__FILE__, __LINE__, msg, ##__VA_ARGS__);}} while (false)
     #define DEBUG_MODE 1
 #else
     #define ASSERTED_EXPRESSION(CHECK, EXPR) (EXPR)
     #define LOG_ASSERT(cond, msg,...) do{}while(false)
-    #define LOG_CONDITION(cond,msg,...)do{}while(false)
     #define DEBUG_MODE 0
 #endif
-
-#if __cplusplus < 201103L
-#define constexpr
-#define noexcept
-#endif
+#define LOG_CONDITION(cond,msg,...) do{if ((cond)){ __log__(__FILE__, __LINE__, msg, ##__VA_ARGS__);}} while (false)
 
 //===============================================================================================
 // Platform Pre-Setup

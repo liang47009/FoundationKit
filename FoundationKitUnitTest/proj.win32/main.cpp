@@ -3,8 +3,6 @@
 #include <iostream>
 #include <atomic>
 
-
-
 bool bCanExit = false;
 static std::atomic<int> command = -1;
 static std::atomic<bool> bCreateCmd = false;
@@ -25,7 +23,6 @@ void createCommand()
 }
 int wmain()
 {
-
 
     AppDelegate app;
     Application::getInstance()->applicationDidLaunching();

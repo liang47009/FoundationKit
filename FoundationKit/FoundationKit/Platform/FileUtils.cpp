@@ -459,6 +459,50 @@ void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::str
     closedir(dir);
 }
 
+void FileUtils::getDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild)const
+{
+    std::string finallyPath = dirPath;
+    if (*(finallyPath.end() - 1) != '/' && *(finallyPath.end() - 1) != '\\')
+    {
+        finallyPath.append("/");
+    }
+    DIR* dir = opendir(finallyPath.c_str());
+    if (!dir) return;
+    dirent* entry = readdir(dir);
+    while (entry)
+    {
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+        {
+            entry = readdir(dir);
+            continue;
+        }
+        if (entry->d_type == DT_DIR)
+        {
+            dirs.push_back(finallyPath+entry->d_name);
+            if (includeChild)
+            {
+                getDirs(finallyPath + entry->d_name, dirs, includeChild);
+            }
+        }
+
+        entry = readdir(dir);
+    }
+    closedir(dir);
+}
+
+std::string FileUtils::getDirName(const std::string& dirPath)const
+{
+    std::string tempPath = convertPathFormatToUnixStyle(dirPath);
+    std::string dirName;
+    size_t pos = tempPath.find_last_of('/');
+    if (pos != std::string::npos)
+    {
+        dirName = tempPath.substr(pos+1, tempPath.length());
+    }
+
+    return dirName;
+}
+
 
 #if (TARGET_PLATFORM == PLATFORM_WIN32)
 // windows os implement should override in platform specific FileUtiles class

@@ -9,8 +9,7 @@ NS_FK_BEGIN
 std::string Environment::GetEnvironmentVariable(const std::string& variable)
 {
     DWORD len = GetEnvironmentVariableA(variable.c_str(), 0, 0);
-    //LOG_ASSERT(len != 0, "The environment variable:%s not found", variable.c_str());
-    if (len == 0) throw NotFoundException(variable);
+    if (len == 0) return ""; //throw NotFoundException(variable);
     char* buffer = new char[len];
     GetEnvironmentVariableA(variable.c_str(), buffer, len);
     std::string result(buffer);

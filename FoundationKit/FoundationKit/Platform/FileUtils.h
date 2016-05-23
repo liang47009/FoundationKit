@@ -150,6 +150,15 @@ public:
     */
     void getFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild = false)const;
 
+    /**
+     *  get all files from a directory
+     *
+     *  @param dirPath The path of the directory.
+     */
+    void getDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild = false)const;
+
+    std::string getDirName(const std::string& dirPath)const ;
+
     //=====================================================================
     //                         Implementation in platform 
     //=====================================================================

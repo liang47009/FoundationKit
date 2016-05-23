@@ -98,7 +98,7 @@ std::string Environment::GetEnvironmentVariable(const std::string& variable)
     if (val)
         return std::string(val);
     else
-        throw NotFoundException(variable);
+        return "";//throw NotFoundException(variable);
 }
 
 bool Environment::HasEnvironmentVariable(const std::string& variable)
