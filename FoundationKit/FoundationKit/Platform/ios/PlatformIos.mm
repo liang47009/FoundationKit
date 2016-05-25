@@ -253,10 +253,12 @@ int64 Platform::getTickCount()
     return (int64)mach_absolute_time();
 }
 
+#define USE_OPENGL_CAPTURE 0
 void Platform::captureScreen(const Rect& rect, const std::string& filename, const std::function<void(bool, const std::string&)>& afterCaptured)
 {
     do
     {
+#if(USE_OPENGL_CAPTURE)
         int posx = static_cast<int>(rect.origin.x);
         int posy = static_cast<int>(rect.origin.y);
         int width  = static_cast<int>(rect.size.width);
@@ -292,6 +294,25 @@ void Platform::captureScreen(const Rect& rect, const std::string& filename, cons
                                             , NO
                                             , kCGRenderingIntentDefault);
         UIImage* image = [UIImage imageWithCGImage:imageRef];
+#else
+        
+        UIGraphicsBeginImageContextWithOptions([[windows objectAtIndex:0] bounds].size, YES, 0);
+        for (UIWindow *window in windows) {
+            //avoid https://github.com/kif-framework/KIF/issues/679
+            if (window.hidden) {
+                continue;
+            }
+            
+            if ([window respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+                [window drawViewHierarchyInRect:window.bounds afterScreenUpdates:YES];
+            } else {
+                [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+            }
+        }
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+#endif
+        
         NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/GameAutomation/scripts/"];
         FileUtils::getInstance()->createDirectory([path UTF8String]);
         NSString *imageName = [NSString stringWithUTF8String:filename.c_str()];
