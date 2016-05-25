@@ -1,7 +1,7 @@
 #pragma once
 #include <chrono>
 #include "FoundationKit/GenericPlatformMacros.h"
-#include "FoundationKit/Base/Time.h"
+#include "FoundationKit/Base/TimeEx.h"
 NS_FK_BEGIN
 
 class Timer

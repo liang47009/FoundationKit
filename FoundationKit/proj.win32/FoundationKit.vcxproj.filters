@@ -357,9 +357,6 @@
     <ClInclude Include="..\FoundationKit\std\function_traits.hpp">
       <Filter>std</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\Time.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\DateTime.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -416,6 +413,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\BuildSystem\AndroidBuildTool.hpp">
       <Filter>experimental\BuildSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\TimeEx.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -605,9 +605,6 @@
     <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp">
       <Filter>FoundationKit</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Base\Time.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\DateTime.cpp">
       <Filter>Base</Filter>
     </ClCompile>
@@ -622,6 +619,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp">
       <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\TimeEx.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
