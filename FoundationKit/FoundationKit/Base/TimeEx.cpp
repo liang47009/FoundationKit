@@ -4,7 +4,7 @@ Copyright (c) 2016 libo All rights reserved.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
-#include "Time.h"
+#include "TimeEx.h"
 NS_FK_BEGIN
 
 	Time::Time()
