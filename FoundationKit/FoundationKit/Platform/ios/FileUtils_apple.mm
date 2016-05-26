@@ -17,7 +17,12 @@ void FileUtils::initRootPath()
 {
     if (0 == _resourceRootPath.length())
     {
-        
+        @autoreleasepool
+        {
+            NSString * bundlPath = [[NSBundle mainBundle] bundlePath];
+            _resourceRootPath = [bundlPath UTF8String];
+            _resourceRootPath.append("/");
+        }
     }
 }
 
