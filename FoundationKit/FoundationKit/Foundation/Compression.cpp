@@ -1,7 +1,7 @@
 #include <mutex>
 #include "Compression.h"
 #include "zlib.h"
-#include "FoundationKit/Base/Time.h"
+#include "FoundationKit/Base/TimeEx.h"
 NS_FK_BEGIN
 
 /**

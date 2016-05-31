@@ -81,10 +81,26 @@ HttpRequest::Fields& HttpRequest::getFormContents()
     return _contentFields;
 }
 
+void HttpRequest::setRequestData(const char* buf, size_t len)
+{
+    _requestData.assign(buf, buf + len);
+}
 
 void HttpRequest::setRequestCookies(const char *cookie)
 {
     _requestCookies = cookie;
+}
+
+char* HttpRequest::getRequestData()
+{
+    if (_requestData.size() != 0)
+        return &(_requestData.front());
+    return nullptr;
+}
+
+size_t HttpRequest::getRequestDataSize()
+{
+    return _requestData.size();
 }
 
 const std::string& HttpRequest::getRequestCookies(void)
