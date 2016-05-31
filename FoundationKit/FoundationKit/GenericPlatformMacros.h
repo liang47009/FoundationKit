@@ -147,6 +147,9 @@
     #error Unknown platform
 #endif
 
+//  Compile time assertion
+#define ASSERT_ON_COMPILE(expr) extern char AssertOnCompile[(expr) ? 1 : -1]
+
 #define UNUSED_ARG(arg) do{(void)(arg);}while(0)
 
 #define SAFE_DELETE(p)           do { delete (p); (p) = nullptr; } while(0)

@@ -52,7 +52,7 @@ typedef signed long long	int64;		// 64-bit signed.
 
 typedef float		        float32;    // 32-bit signed.
 typedef double		        float64;    // 64-bit signed.
-typedef long double         float128;   // 128-bit signed.
+typedef long double         float128;   // 80-bit signed.
 
 // Character types.
 typedef char				ANSICHAR;	// An ANSI character       -                  8-bit fixed-width representation of 7-bit characters.
@@ -77,6 +77,18 @@ struct allocator_traits
 
 template<class _Ty>
 using allocator_traits_t = typename allocator_traits<_Ty>::type;
+
+ASSERT_ON_COMPILE(sizeof(uint8) == 1);
+ASSERT_ON_COMPILE(sizeof(uint16) == 2);
+ASSERT_ON_COMPILE(sizeof(uint32) == 4);
+ASSERT_ON_COMPILE(sizeof(uint64) == 8);
+ASSERT_ON_COMPILE(sizeof(int8) == 1);
+ASSERT_ON_COMPILE(sizeof(int16) == 2);
+ASSERT_ON_COMPILE(sizeof(int32) == 4);
+ASSERT_ON_COMPILE(sizeof(int64) == 8);
+ASSERT_ON_COMPILE(sizeof(float32) == 4);
+ASSERT_ON_COMPILE(sizeof(float64) == 8);
+ASSERT_ON_COMPILE(sizeof(float128) == 8);//”–¥˝…Ã»∂
 
 NS_FK_END
 #endif // LOSEMYMIND_TYPES_H
