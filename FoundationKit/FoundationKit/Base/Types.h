@@ -109,5 +109,5 @@ namespace TypeTest
 
 NS_FK_END
 #endif // LOSEMYMIND_TYPES_H
-
+ 
 
