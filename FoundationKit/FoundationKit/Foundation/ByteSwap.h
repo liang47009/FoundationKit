@@ -8,22 +8,20 @@ NS_FK_BEGIN
 
 //=============== Endian ====================
 //Other impl see:https://sourceforge.net/p/predef/wiki/Endianness/
-//if (endianness::ENDIAN_ORDER == endianness::LITTLE_ENDIAN)
+//if (ENDIANNESS_ORDER == ENDIANNESS_LITTLE_ENDIAN)
 //    std::cout << "Is little system" << std::endl;
-//else if (endianness::ENDIAN_ORDER == endianness::BIG_ENDIAN)
+//else if (ENDIANNESS_ORDER == ENDIANNESS_BIG_ENDIAN)
 //    std::cout << "Is big system" << std::endl;
-//else if (endianness::ENDIAN_ORDER == endianness::PDP_ENDIAN)
+//else if (ENDIANNESS_ORDER == ENDIANNESS_PDP_ENDIAN)
 //    std::cout << "Is pop system" << std::endl;
 //else
 //    std::cout << "Is unknow system" << std::endl;
-enum class endianness : uint32
-{
-    ENDIAN_ORDER = 0xFFFFFFFF & 1,
-    LITTLE_ENDIAN = 0x00000001,
-    BIG_ENDIAN = 0x01000000,
-    PDP_ENDIAN = 0x00010000,
-    UNKNOWN_ENDIAN = 0xFFFFFFFF
-};
+
+const int ENDIANNESS_ORDER = 0xFFFFFFFF & 1;
+const int ENDIANNESS_LITTLE_ENDIAN = 0x00000001;
+const int ENDIANNESS_BIG_ENDIAN = 0x01000000;
+const int ENDIANNESS_PDP_ENDIAN = 0x00010000;
+const int ENDIANNESS_UNKNOWN_ENDIAN = 0xFFFFFFFF;
 
 char *ENDIAN_SWAP128(char *val)
 {
