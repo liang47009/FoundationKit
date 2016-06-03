@@ -257,7 +257,6 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
     // 设置读取超时时间(单位:秒)
     curl_easy_setopt(_curl, CURLOPT_TIMEOUT, this->getTimeoutForRead());
     curl_easy_setopt(_curl, CURLOPT_NOSIGNAL, 1L);
-    curl_easy_setopt(_curl, CURLOPT_COOKIEFILE, "");
     // 允许连接编码
     curl_easy_setopt(_curl, CURLOPT_HTTP_CONTENT_DECODING, 1L);
     // 保存错误信息
@@ -270,7 +269,7 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
     // set cookies
     std::string strCookie = requestPtr->getRequestCookies();
     curl_easy_setopt(_curl, CURLOPT_COOKIE, strCookie.c_str());
-
+    curl_easy_setopt(_curl, CURLOPT_COOKIEFILE, "");
     if (_isDebug)
     {
         curl_easy_setopt(_curl, CURLOPT_VERBOSE, 1L);
@@ -287,6 +286,11 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
         break;
     case HttpRequest::Type::POST:
         curl_easy_setopt(_curl, CURLOPT_POST, 1L);
+        if (requestPtr->getRequestDataSize() > 0)
+        {
+            curl_easy_setopt(_curl, CURLOPT_POSTFIELDS, requestPtr->getRequestData());
+            curl_easy_setopt(_curl, CURLOPT_POSTFIELDSIZE, requestPtr->getRequestDataSize());
+        }
         break;
     case HttpRequest::Type::PUT:
         curl_easy_setopt(_curl, CURLOPT_PUT, 1L);

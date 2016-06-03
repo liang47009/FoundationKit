@@ -153,6 +153,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\experimental\any.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\BufferTest.h" />
     <ClInclude Include="..\FoundationKit\experimental\BuildSystem\AndroidBuildTool.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\Gamepad.h" />
     <ClInclude Include="..\FoundationKit\experimental\match.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\memory.h" />
     <ClInclude Include="..\FoundationKit\experimental\optional.hpp" />
@@ -252,6 +253,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Events\IMEDispatcher.cpp" />
     <ClCompile Include="..\FoundationKit\Events\KeyboardExampleWindows.cpp" />
     <ClCompile Include="..\FoundationKit\Events\Touch.cpp" />
+    <ClCompile Include="..\FoundationKit\experimental\Gamepad.cpp" />
     <ClCompile Include="..\FoundationKit\experimental\memory.cpp" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.c" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTFWrapper.cpp" />

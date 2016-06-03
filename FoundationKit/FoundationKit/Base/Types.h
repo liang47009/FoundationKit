@@ -52,7 +52,7 @@ typedef signed long long	int64;		// 64-bit signed.
 
 typedef float		        float32;    // 32-bit signed.
 typedef double		        float64;    // 64-bit signed.
-typedef long double         float128;   // 128-bit signed.
+typedef long double         float128;   // 80-bit signed.
 
 // Character types.
 typedef char				ANSICHAR;	// An ANSI character       -                  8-bit fixed-width representation of 7-bit characters.
@@ -74,11 +74,40 @@ struct allocator_traits
 {
     typedef std::allocator<_Ty> type;
 };
-
 template<class _Ty>
 using allocator_traits_t = typename allocator_traits<_Ty>::type;
 
+namespace TypeTest
+{
+    static_assert(sizeof(uint8)  == 1, "uint8 type size test failed.");
+    static_assert(sizeof(uint16) == 2, "uint16 type size test failed.");
+    static_assert(sizeof(uint32) == 4, "uint32 type size test failed.");
+    static_assert(sizeof(uint64) == 8, "uint64 type size test failed.");
+    static_assert(sizeof(int8) == 1, "int8 type size test failed.");
+    static_assert(sizeof(int16) == 2, "int16 type size test failed.");
+    static_assert(sizeof(int32) == 4, "int32 type size test failed.");
+    static_assert(sizeof(int64) == 8, "int64 type size test failed.");
+    static_assert(sizeof(float32) == 4, "float32 type size test failed.");
+    static_assert(sizeof(float64) == 8, "float64 type size test failed.");
+    static_assert(sizeof(float128) == 8, "float128 type size test failed.");//ÓÐ´ýÉÌÈ¶
+    static_assert(sizeof(PTRINT) == sizeof(void *), "PTRINT type size test failed.");
+    static_assert(sizeof(UPTRINT) == sizeof(void *), "UPTRINT type size test failed.");
+
+    static_assert(int32(uint8(-1)) == 0xFF, "uint8 type sign test failed.");
+    static_assert(int32(uint16(-1)) == 0xFFFF, "uint16 type sign test failed.");
+    static_assert(int64(uint32(-1)) == int64(0xFFFFFFFF), "uint32 type sign test failed.");
+    static_assert(uint64(-1) > uint64(0), "uint64 type sign test failed.");
+    static_assert(int32(int8(-1)) == -1, "int8 type sign test failed.");
+    static_assert(int32(int16(-1)) == -1, "int16 type sign test failed.");
+    static_assert(int64(int32(-1)) == int64(-1), "int32 type sign test failed.");
+    static_assert(int64(-1) < int64(0), "int64 type sign test failed.");
+    static_assert(int32(ANSICHAR(-1)) == -1, "ANSICHAR type sign test failed.");
+    static_assert(sizeof(WIDECHAR) == 2 || sizeof(WIDECHAR) == 4, "WIDECHAR type size test failed.");
+    static_assert(PTRINT(-1) < PTRINT(0), "PTRINT type sign test failed.");
+    static_assert(UPTRINT(-1) > UPTRINT(0), "UPTRINT type sign test failed.");
+}
+
 NS_FK_END
 #endif // LOSEMYMIND_TYPES_H
-
+ 
 

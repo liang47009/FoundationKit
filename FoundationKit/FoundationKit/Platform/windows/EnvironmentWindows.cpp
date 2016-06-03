@@ -3,6 +3,7 @@
 #include <sstream>
 #include "FoundationKit/Platform/Environment.h"
 #include "FoundationKit/Foundation/Exception.h"
+#include "FoundationKit/Foundation/Logger.h"
 
 NS_FK_BEGIN
 
@@ -33,36 +34,39 @@ void Environment::SetEnvironmentVariable(const std::string& variable, const std:
     }
 }
 
-
+typedef LONG(NTAPI* fnRtlGetVersion)(PRTL_OSVERSIONINFOW lpVersionInformation);
 std::string Environment::GetMachineName()
 {
-    OSVERSIONINFOEX vi;	// OSVERSIONINFOEX is supported starting at Windows 2000 
-    vi.dwOSVersionInfoSize = sizeof(vi);
-    if (GetVersionEx((OSVERSIONINFO*)&vi) == 0) throw SystemException("Cannot get OS version information");
-    switch (vi.dwMajorVersion)
+    RTL_OSVERSIONINFOEXW verInfo = { 0 };
+    verInfo.dwOSVersionInfoSize = sizeof(verInfo);
+    static auto RtlGetVersion = (fnRtlGetVersion)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
+    if (RtlGetVersion != 0)
+        RtlGetVersion((PRTL_OSVERSIONINFOW)&verInfo);
+
+    switch (verInfo.dwMajorVersion)
     {
     case 10:
-        switch (vi.dwMinorVersion)
+        switch (verInfo.dwMinorVersion)
         {
         case 0:
-            return vi.wProductType == VER_NT_WORKSTATION ? "Windows 10" : "Windows Server 2016";
+            return verInfo.wProductType == VER_NT_WORKSTATION ? "Windows 10" : "Windows Server 2016";
         }
     case 6:
-        switch (vi.dwMinorVersion)
+        switch (verInfo.dwMinorVersion)
         {
         case 0:
-            return vi.wProductType == VER_NT_WORKSTATION ? "Windows Vista" : "Windows Server 2008";
+            return verInfo.wProductType == VER_NT_WORKSTATION ? "Windows Vista" : "Windows Server 2008";
         case 1:
-            return vi.wProductType == VER_NT_WORKSTATION ? "Windows 7" : "Windows Server 2008 R2";
+            return verInfo.wProductType == VER_NT_WORKSTATION ? "Windows 7" : "Windows Server 2008 R2";
         case 2:
-            return vi.wProductType == VER_NT_WORKSTATION ? "Windows 8" : "Windows Server 2012";
+            return verInfo.wProductType == VER_NT_WORKSTATION ? "Windows 8" : "Windows Server 2012";
         case 3:
-            return vi.wProductType == VER_NT_WORKSTATION ? "Windows 8.1" : "Windows Server 2012 R2";
+            return verInfo.wProductType == VER_NT_WORKSTATION ? "Windows 8.1" : "Windows Server 2012 R2";
         default:
             return "Unknown";
         }
     case 5:
-        switch (vi.dwMinorVersion)
+        switch (verInfo.dwMinorVersion)
         {
         case 0:
             return "Windows 2000";
@@ -78,17 +82,25 @@ std::string Environment::GetMachineName()
     }
 }
 
-
 std::string Environment::GetOSVersion()
 {
-    OSVERSIONINFO vi;
-    vi.dwOSVersionInfoSize = sizeof(vi);
-    if (GetVersionEx(&vi) == 0) throw SystemException("Cannot get OS version information");
-    std::ostringstream str;
-    str << vi.dwMajorVersion << "." << vi.dwMinorVersion << " (Build " << (vi.dwBuildNumber & 0xFFFF);
-    if (vi.szCSDVersion[0]) str << ": " << vi.szCSDVersion;
-    str << ")";
-    return str.str();
+    RTL_OSVERSIONINFOEXW verInfo = { 0 };
+    verInfo.dwOSVersionInfoSize = sizeof(verInfo);
+    static auto RtlGetVersion = (fnRtlGetVersion)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
+    if (RtlGetVersion != 0 && RtlGetVersion((PRTL_OSVERSIONINFOW)&verInfo) == 0)
+    {
+        std::ostringstream str;
+        str << verInfo.dwMajorVersion << "." << verInfo.dwMinorVersion << " (Build " << (verInfo.dwBuildNumber & 0xFFFF);
+        if (verInfo.szCSDVersion[0]) str << ": " << verInfo.szCSDVersion;
+        str << ")";
+        return str.str();
+    }
+    else
+    {
+        //throw SystemException("Cannot get OS version information");
+        LOG_ERROR("***** Cannot get OS version information.");
+    }
+    return "";
 }
 
 

@@ -417,6 +417,9 @@
     <ClInclude Include="..\FoundationKit\Base\TimeEx.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\Gamepad.h">
+      <Filter>experimental</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -622,6 +625,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\TimeEx.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\experimental\Gamepad.cpp">
+      <Filter>experimental</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

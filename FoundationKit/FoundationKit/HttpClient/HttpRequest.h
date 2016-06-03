@@ -80,6 +80,9 @@ public:
     void addFormContents(const char *name, const char *value);
     Fields& getFormContents();
 
+    void   setRequestData(const char* buf, size_t len);
+    char*  getRequestData();
+    size_t getRequestDataSize();
 
     /** @brief Set/Get cookie string. */
     void setRequestCookies(const char *cookies);
@@ -126,6 +129,7 @@ private:
     std::string         _requestCookies;
     bool                _isMultipart;
     bool                _callbackInThread;
+    std::vector<char>   _requestData;    /// used for POST
 };
 
 NS_FK_END

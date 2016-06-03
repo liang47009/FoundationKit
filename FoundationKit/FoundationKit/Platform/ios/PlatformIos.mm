@@ -295,7 +295,11 @@ void Platform::captureScreen(const Rect& rect, const std::string& filename, cons
                                             , kCGRenderingIntentDefault);
         UIImage* image = [UIImage imageWithCGImage:imageRef];
 #else
-        
+        NSMutableArray *windows = [UIApplication sharedApplication].windows.mutableCopy;
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        if (![windows containsObject:keyWindow]) {
+            [windows addObject:keyWindow];
+        }
         UIGraphicsBeginImageContextWithOptions([[windows objectAtIndex:0] bounds].size, YES, 0);
         for (UIWindow *window in windows) {
             //avoid https://github.com/kif-framework/KIF/issues/679
