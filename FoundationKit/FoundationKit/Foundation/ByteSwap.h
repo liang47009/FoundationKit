@@ -25,7 +25,7 @@ const int ENDIANNESS_UNKNOWN_ENDIAN = 0xFFFFFFFF;
 
 char *ENDIAN_SWAP128(char *val)
 {
-    char swp[16];
+    static char swp[16];
     swp[0] = val[15];
     swp[1] = val[14];
     swp[2] = val[13];

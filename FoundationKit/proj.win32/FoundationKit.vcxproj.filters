@@ -420,6 +420,9 @@
     <ClInclude Include="..\FoundationKit\experimental\Gamepad.h">
       <Filter>experimental</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\unique_id.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">

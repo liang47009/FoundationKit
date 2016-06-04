@@ -10,6 +10,7 @@ losemymind.libo@gmail.com
 #pragma once
 #include <string>
 #include <functional>
+#include <vector>
 #include "FoundationKit/Base/Rect.h"
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Types.h"
@@ -49,6 +50,8 @@ public:
     
     
     static void captureScreen(const Rect& rect, const std::string& filename, const std::function<void(bool, const std::string&)>& afterCaptured);
+
+    static std::vector<uint8> getMacAddressRaw();
 };
 
 NS_FK_END

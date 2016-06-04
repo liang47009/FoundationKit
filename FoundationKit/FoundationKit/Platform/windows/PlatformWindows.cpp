@@ -206,6 +206,33 @@ void Platform::captureScreen(const Rect& rect, const std::string& filename, cons
 }
 
 
+std::vector<uint8> Platform::getMacAddressRaw()
+{
+    std::vector<uint8> result;
+    IP_ADAPTER_INFO IpAddresses[16];
+    ULONG OutBufferLength = sizeof(IP_ADAPTER_INFO) * 16;
+    // Read the adapters
+    uint32 RetVal = GetAdaptersInfo(IpAddresses, &OutBufferLength);
+    if (RetVal == NO_ERROR)
+    {
+        PIP_ADAPTER_INFO AdapterList = IpAddresses;
+        // Walk the set of addresses copying each one
+        while (AdapterList)
+        {
+            // If there is an address to read
+            if (AdapterList->AddressLength > 0)
+            {
+                result.resize(AdapterList->AddressLength);
+                std::memcpy(result.data(), AdapterList->Address, result.size());
+                break;
+            }
+            AdapterList = AdapterList->Next;
+        }
+    }
+    return result;
+}
+
+
 NS_FK_END
 
 #endif
