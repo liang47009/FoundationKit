@@ -58,7 +58,7 @@ DataStream& DataStream::operator << (const std::string& data)
     return *this;
 }
 
-DataStream& DataStream::operator >> (const char* data)
+DataStream& DataStream::operator >> (char* data)
 {
     unsigned int size = 0;
     *this >> size;

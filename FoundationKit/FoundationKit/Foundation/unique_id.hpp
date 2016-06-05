@@ -46,8 +46,6 @@ struct unique_id
     }
 };
 
-uint64_t unique_id::sequence = 0;
-uint64_t unique_id::machineid = 0;
 
 
 NS_FK_END

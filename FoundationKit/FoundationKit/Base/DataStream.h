@@ -45,7 +45,7 @@ public:
         return *this;
     }
 
-    DataStream& operator>>(const char* data);
+    DataStream& operator>>(char* data);
 	DataStream& operator>>(std::string& data);
     
 	template <typename K, typename V>
