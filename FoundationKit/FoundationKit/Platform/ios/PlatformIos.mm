@@ -84,8 +84,10 @@ float Platform::getProcessMemory()
 	return static_cast<int>((t_info.resident_size/megabyte));
 }
 
-std::string Platform::getMacAddress()
+static std::vector<uint8> Platform::getMacAddressRaw()
 {
+    std::vector<uint8>  result;
+	result.resize(6);
     int                 mgmtInfoBase[6];
     char                *msgBuffer = NULL;
     NSString            *errorFlag = NULL;
@@ -124,23 +126,22 @@ std::string Platform::getMacAddress()
         // Copy link layer address data in socket structure to an array
         unsigned char macAddress[6];
         memcpy(&macAddress, socketStruct->sdl_data + socketStruct->sdl_nlen, 6);
-        
-        // Read from char array into a string object, into traditional Mac address format
-        NSString *macAddressString = [NSString stringWithFormat:@"%02X%02X%02X%02X%02X%02X",
-                                      macAddress[0], macAddress[1], macAddress[2], macAddress[3], macAddress[4], macAddress[5]];
-        NSLog(@"Mac Address: %@", macAddressString);
-        
+        std::memcpy(result.data(), socketStruct->sdl_data + socketStruct->sdl_nlen, 6);
         // Release the buffer memory
         free(msgBuffer);
-        
-        return [macAddressString UTF8String];
     }
-    
     // Error...
     NSLog(@"Error: %@", errorFlag);
-    
-    return "";
-    
+    return result;
+}
+
+std::string Platform::getMacAddress()
+{
+	std::vector<uint8> result = getMacAddressRaw();
+    // Read from char array into a string object, into traditional Mac address format
+    NSString *macAddressString = [NSString stringWithFormat:@"%02X%02X%02X%02X%02X%02X",
+                                    result[0], result[1], result[2], result[3], result[4], result[5]];
+    return [macAddressString UTF8String];
 }
 
 std::string Platform::getDeviceId()

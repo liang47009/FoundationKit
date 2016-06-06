@@ -59,11 +59,9 @@ float Platform::getProcessMemory()
     return static_cast<float>(used_memory / megabyte);
 }
 
-
-
-std::string Platform::getMacAddress()
+std::vector<uint8> Platform::getMacAddressRaw()
 {
-    std::string result;
+    std::vector<uint8> result;
     IP_ADAPTER_INFO IpAddresses[16];
     ULONG OutBufferLength = sizeof(IP_ADAPTER_INFO) * 16;
     // Read the adapters
@@ -77,19 +75,28 @@ std::string Platform::getMacAddress()
             // If there is an address to read
             if (AdapterList->AddressLength > 0)
             {
-                // Copy the data and say we did
-                result = StringUtils::format("%02X%02X%02X%02X%02X%02X"
-                    , AdapterList->Address[0]
-                    , AdapterList->Address[1]
-                    , AdapterList->Address[2]
-                    , AdapterList->Address[3]
-                    , AdapterList->Address[4]
-                    , AdapterList->Address[5]);
+                result.resize(AdapterList->AddressLength);
+                std::memcpy(result.data(), AdapterList->Address, result.size());
                 break;
             }
             AdapterList = AdapterList->Next;
         }
     }
+    return result;
+}
+
+std::string Platform::getMacAddress()
+{
+    std::vector<uint8> macVec = getMacAddressRaw();
+    std::string result;
+    // Copy the data and say we did
+    result = StringUtils::format("%02X%02X%02X%02X%02X%02X"
+        , macVec[0]
+        , macVec[1]
+        , macVec[2]
+        , macVec[3]
+        , macVec[4]
+        , macVec[5]);
     return result;
 }
 
@@ -204,34 +211,6 @@ void Platform::captureScreen(const Rect& rect, const std::string& filename, cons
         }
     } while (false);
 }
-
-
-std::vector<uint8> Platform::getMacAddressRaw()
-{
-    std::vector<uint8> result;
-    IP_ADAPTER_INFO IpAddresses[16];
-    ULONG OutBufferLength = sizeof(IP_ADAPTER_INFO) * 16;
-    // Read the adapters
-    uint32 RetVal = GetAdaptersInfo(IpAddresses, &OutBufferLength);
-    if (RetVal == NO_ERROR)
-    {
-        PIP_ADAPTER_INFO AdapterList = IpAddresses;
-        // Walk the set of addresses copying each one
-        while (AdapterList)
-        {
-            // If there is an address to read
-            if (AdapterList->AddressLength > 0)
-            {
-                result.resize(AdapterList->AddressLength);
-                std::memcpy(result.data(), AdapterList->Address, result.size());
-                break;
-            }
-            AdapterList = AdapterList->Next;
-        }
-    }
-    return result;
-}
-
 
 NS_FK_END
 

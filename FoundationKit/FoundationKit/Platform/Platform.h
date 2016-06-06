@@ -32,7 +32,7 @@ public:
 	// MB
     static float getProcessMemory();
 
-
+    static std::vector<uint8> getMacAddressRaw();
     static std::string getMacAddress();
 
     static std::string getDeviceId();
@@ -47,11 +47,8 @@ public:
     static void utcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
     static int64 getTickCount();
     static int64 getCPUTickCount();
-    
-    
     static void captureScreen(const Rect& rect, const std::string& filename, const std::function<void(bool, const std::string&)>& afterCaptured);
 
-    static std::vector<uint8> getMacAddressRaw();
 };
 
 NS_FK_END
