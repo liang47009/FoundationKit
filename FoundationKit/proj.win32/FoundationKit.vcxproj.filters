@@ -632,6 +632,9 @@
     <ClCompile Include="..\FoundationKit\experimental\Gamepad.cpp">
       <Filter>experimental</Filter>
     </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\unique_id.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\Base\MathUtil.inl">
