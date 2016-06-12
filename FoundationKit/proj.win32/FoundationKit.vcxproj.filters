@@ -58,9 +58,6 @@
     <Filter Include="external\TinyJPEG">
       <UniqueIdentifier>{13274377-373b-4e41-873e-2df0afad0183}</UniqueIdentifier>
     </Filter>
-    <Filter Include="experimental\BuildSystem">
-      <UniqueIdentifier>{9afef46d-b8cc-4dbb-ab99-8f88561a0a10}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h">
@@ -410,9 +407,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\Timer.h">
       <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\BuildSystem\AndroidBuildTool.hpp">
-      <Filter>experimental\BuildSystem</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\TimeEx.h">
       <Filter>Base</Filter>

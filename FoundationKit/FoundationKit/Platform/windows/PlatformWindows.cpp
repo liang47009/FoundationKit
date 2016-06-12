@@ -62,6 +62,7 @@ float Platform::getProcessMemory()
 std::vector<uint8> Platform::getMacAddressRaw()
 {
     std::vector<uint8> result;
+    result.resize(6);
     IP_ADAPTER_INFO IpAddresses[16];
     ULONG OutBufferLength = sizeof(IP_ADAPTER_INFO) * 16;
     // Read the adapters
@@ -75,7 +76,7 @@ std::vector<uint8> Platform::getMacAddressRaw()
             // If there is an address to read
             if (AdapterList->AddressLength > 0)
             {
-                result.resize(AdapterList->AddressLength);
+                //result.resize(AdapterList->AddressLength);
                 std::memcpy(result.data(), AdapterList->Address, result.size());
                 break;
             }

@@ -16,7 +16,7 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/Base/Quaternion.cpp \
 ../../FoundationKit/Base/Rect.cpp \
 ../../FoundationKit/Base/Size.cpp \
-../../FoundationKit/Base/Time.cpp \
+../../FoundationKit/Base/TimeEx.cpp \
 ../../FoundationKit/Base/TimeSpan.cpp \
 ../../FoundationKit/Base/Value.cpp \
 ../../FoundationKit/Base/Vector2.cpp \

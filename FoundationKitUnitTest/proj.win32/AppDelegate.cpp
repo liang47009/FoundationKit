@@ -18,18 +18,24 @@
 #include "FoundationKit/Foundation/ApplyTuple.h"
 #include "FoundationKit/Foundation/TupleApply.h"
 #include "FoundationKit/Platform/Platform.h"
-#include "FoundationKit/experimental/aligned_ptr.hpp"
+#include "FoundationKit/std/memory_aligned.hpp"
+#include "FoundationKit/std/function_cache.hpp"
 #include "FoundationKit/experimental/any.hpp"
 #include "FoundationKit/experimental/optional.hpp"
-#include "FoundationKit/std/utility.hpp"
 #include "FoundationKit/std/function_traits.hpp"
+#include "FoundationKit/std/function_cache.hpp"
 #include "FoundationKit/Foundation/FunctionCenter.hpp"
 #include "FoundationKit/Base/Dictionary.h"
+#include "FoundationKit/Base/MathEx.h"
+#include "FoundationKit/Base/Timer.h"
+#include "FoundationKit/Crypto/Base64.h"
+#include "FoundationKit/Foundation/Compression.h"
+#include "FoundationKit/Platform/Environment.h"
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
 #include "../../HttpClient/HttpClientTest.h"
 
-#include "FoundationKit/Base/Time.h"
+#include "FoundationKit/Base/TimeEx.h"
 #include "FoundationKit/Base/DateTime.h"
 
 #include "FoundationKit/experimental/memory.h"
@@ -55,42 +61,9 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-class aaaa
-{
-public:
-    aaaa()
-    {
-    }
-
-    ~aaaa()
-    {
-    }
-
-
-
-    int i;
-};
-
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
-	LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
-    Platform::captureScreen(Rect(100, 100, 1024, 768), "c:/aa.jpg", nullptr);
-
-    DateTime  dateTime = DateTime::now();
-
-    int year = dateTime.getYear();
-    int day  = dateTime.getDay();
-    int hour = dateTime.getHour();
-    int minu = dateTime.getMinute();
-    int seco = dateTime.getSecond();
-
-    Timespan timeSpan(dateTime.getTicks());
-
-    day = timeSpan.getDays();
-    hour = timeSpan.getHours();
-
-
+    LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
 
     std::vector<std::string> files;
     FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/ApplicationKit", files, true);

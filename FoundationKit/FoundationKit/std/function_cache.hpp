@@ -8,7 +8,7 @@ losemymind.libo@gmail.com
 #define LOSEMYMIND_FUNCTION_CACHE_H
 
 #include <utility>
-
+#include <map>
 namespace std{
     namespace detail {
 
@@ -57,7 +57,7 @@ template <typename R, typename...  Args>
 std::function<R(Args...)> function_cache(R(*func)(Args...), bool needClear = false)
 {  
     using fun_type = std::function<R(Args...)>;  
-    static std::unordered_map<decltype(func), fun_type> functor_map;
+    static std::map<decltype(func), fun_type> functor_map;
 
     if (needClear)  
         return functor_map[func] = detail::function_cache(func);

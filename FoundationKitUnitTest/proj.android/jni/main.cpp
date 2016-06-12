@@ -19,12 +19,10 @@
 #include <android/log.h>
 #include <stdio.h>
 #include "FoundationKit/Foundation/Logger.h"
-//#include "FoundationKit/Platform/Android/AndroidTest.h"
-#include "FoundationKit/std/utility.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.h"
 #include "FoundationKit/Platform/Platform.h"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.h"
-
+#include "FoundationKit/std/function_cache.hpp"
 #include <vector>
 #include <stdarg.h>
 
@@ -57,7 +55,7 @@ size_t noCache(size_t n)
 
 size_t hasCache(size_t n)  
 {  
-     return (n < 2) ? n : std::sugar(hasCache)(n - 1) + std::sugar(hasCache)(n - 2);  
+     return (n < 2) ? n : std::function_cache(hasCache)(n - 1) + std::function_cache(hasCache)(n - 2);  
 } 
 
 void testFunctionCache()

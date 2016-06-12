@@ -115,6 +115,7 @@ jclass AndroidJNI::findJavaClass(const char* name)
     {
         jstring jclassName = env->NewStringUTF(className.c_str());
         FoundClass = static_cast<jclass>(env->CallObjectMethod(ClassLoader, FindClassMethod, jclassName));
+        env->DeleteLocalRef(jclassName);
     }
     else
     {
@@ -122,7 +123,6 @@ jclass AndroidJNI::findJavaClass(const char* name)
     }
     ANDROID_CHECKF(FoundClass, "*** Failed to find java class:%s", name);
     AndroidJNI::checkJavaException();
-    env->DeleteLocalRef(jclassName);
     return FoundClass;
 } 
 

@@ -1,5 +1,10 @@
 #ifdef ANDROID
 
+#include <unistd.h>   //close
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <net/if.h> 
+#include <netinet/in.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -14,6 +19,7 @@
 #include "FoundationKit/Platform/Platform.h"
 #include "FoundationKit/Platform/Environment.h"
 #include "FoundationKit/Foundation/Logger.h"
+#include "FoundationKit/Foundation/StringUtils.h"
 
 NS_FK_BEGIN
 
@@ -125,36 +131,77 @@ float Platform::getProcessMemory()
 	return result/1024;
 }
 
+std::vector<uint8> Platform::getMacAddressRaw()
+{
+    std::vector<uint8> result;
+    result.resize(6);
+    struct ifreq ifr;
+    struct ifconf ifc;
+    char buf[1024] = {0};
+    do 
+    {
+        int sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
+        if (sock == -1)
+        {
+            LOG_ERROR("====== sock == -1");
+            break;
+        }
+
+        ifc.ifc_len = sizeof(buf);
+        ifc.ifc_buf = buf;
+        if (ioctl(sock, SIOCGIFCONF, &ifc) == -1)
+        {
+            LOG_ERROR("====== ioctl falied");
+            break;
+        }
+ 
+        struct ifreq* it = ifc.ifc_req;
+        const struct ifreq* const end = it + (ifc.ifc_len / sizeof(struct ifreq));
+        for (; it != end; ++it) 
+        {
+            strcpy(ifr.ifr_name, it->ifr_name);
+            if (ioctl(sock, SIOCGIFFLAGS, &ifr) == 0)
+            {
+                if (!(ifr.ifr_flags & IFF_LOOPBACK)) 
+                { 
+                    // don't count loopback
+                    if (ioctl(sock, SIOCGIFHWADDR, &ifr) == 0) 
+                    {
+                        std::memcpy(result.data(), ifr.ifr_hwaddr.sa_data, result.size());
+                        break;
+                    }
+                    else
+                    {
+                        LOG_ERROR("===== ioctl: %s [%s:%d]\n", strerror(errno), __FILE__, __LINE__);
+                    }
+                }
+            }
+        }
+
+        if (sock != -1)
+        {
+            close(sock);
+        }
+    } while (false);
+
+    
+    return result;
+}
 
 std::string Platform::getMacAddress()
 {
-    char mac_addr[16] = { 0 };
-    FILE *fp = nullptr;
-    if ((fp = fopen("/sys/class/net/wlan0/address", "r")) == NULL)
-    {
-        LOG_ERROR("====== cannot read /sys/class/net/wlan0/address !");
-    }
-    else
-    {
-        char line_buf[LINE_BUF_SIZE] = { 0 };
-        while (fgets(line_buf, sizeof(line_buf), fp) != NULL)
-        {
-            char mac0[4] = { 0 };
-            char mac1[4] = { 0 };
-            char mac2[4] = { 0 };
-            char mac3[4] = { 0 };
-            char mac4[4] = { 0 };
-            char mac5[4] = { 0 };
-            if (sscanf(line_buf, "%[^:]:%[^:]:%[^:]:%[^:]:%[^:]:%[^:]", mac0, mac1, mac2, mac3, mac4, mac5) != 6)
-                continue;
-            sprintf(mac_addr, "%s%s%s%s%s%s", mac0, mac1, mac2, mac3, mac4, mac5);
-        }
-        fclose(fp);
-    }
-    return mac_addr;
+    std::vector<uint8> macVec = getMacAddressRaw();
+    std::string result;
+    // Copy the data and say we did
+    result = StringUtils::format("%02X%02X%02X%02X%02X%02X"
+        , macVec[0]
+        , macVec[1]
+        , macVec[2]
+        , macVec[3]
+        , macVec[4]
+        , macVec[5]);
+    return result;
 }
-
-
 
 std::string Platform::getDeviceId()
 {
