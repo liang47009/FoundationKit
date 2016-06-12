@@ -33,6 +33,7 @@ using namespace FoundationKit;
 
     LOG_INFO("======= didFinishLaunchingWithOptions ");
     Scheduler::getInstance()->setTimeScale(1.0f);
+    LOG_INFO("==== mac address:%s", Platform::getMacAddress().c_str());
 
     
     return YES;

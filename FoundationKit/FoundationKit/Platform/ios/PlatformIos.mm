@@ -84,7 +84,7 @@ float Platform::getProcessMemory()
 	return static_cast<int>((t_info.resident_size/megabyte));
 }
 
-static std::vector<uint8> Platform::getMacAddressRaw()
+std::vector<uint8> Platform::getMacAddressRaw()
 {
     std::vector<uint8>  result;
 	result.resize(6);
