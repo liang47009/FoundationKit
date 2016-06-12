@@ -31,6 +31,7 @@
 #include "FoundationKit/Crypto/Base64.h"
 #include "FoundationKit/Foundation/Compression.h"
 #include "FoundationKit/Platform/Environment.h"
+#include "FoundationKit/Foundation/unique_id.hpp"
 //Test header
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
 #include "../../HttpClient/HttpClientTest.h"
