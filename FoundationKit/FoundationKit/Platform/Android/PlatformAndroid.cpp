@@ -205,12 +205,17 @@ std::string Platform::getMacAddress()
 
 std::string Platform::getDeviceId()
 {
-    std::string strDeviceId;
-    strDeviceId = PlatformHelper::getSystemProperty("gsm.sim.imei");
-    if (strDeviceId.empty())
-        strDeviceId = PlatformHelper::getSystemProperty("ro.serialno");
-    if (strDeviceId.empty())
+    std::string strDeviceId = strDeviceId = PlatformHelper::getSystemProperty("ro.serialno");
+    do 
+    {
+        if (!strDeviceId.empty()) break;
+        strDeviceId = PlatformHelper::getSystemProperty("ro.boot.serialno");
+        if (!strDeviceId.empty()) break;
+        strDeviceId = PlatformHelper::getSystemProperty("gsm.sim.imei");
+        if (!strDeviceId.empty()) break;
         strDeviceId = MD5::md5_hash_hex(getMacAddress().c_str());
+    } while (false);
+
     return strDeviceId;
 }
 
