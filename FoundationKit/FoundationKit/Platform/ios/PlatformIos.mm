@@ -67,6 +67,18 @@ float Platform::getFreeMemory()
 		mb = static_cast<int>((free_memory/megabyte));
 	}
 	return mb;
+
+	/*
+    // get free memory,from UE4 IOSPlatformMisc.cpp GetFreeMemoryMB
+	vm_size_t PageSize;
+	host_page_size(mach_host_self(), &PageSize);
+
+	// get memory stats
+	vm_statistics Stats;
+	mach_msg_type_number_t StatsSize = sizeof(Stats);
+	host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&Stats, &StatsSize);
+	return (Stats.free_count * PageSize) / 1024 / 1024;
+	*/
 }
 
 float Platform::getProcessMemory()

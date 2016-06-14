@@ -22,7 +22,7 @@ namespace PlatformHelper {
         memset(machine, 0, size+1);
         sysctlbyname(name, machine, &size, NULL, 0);
         std::string platformName = machine;
-        delete machine;
+        delete[] machine;
         return platformName;
     }
     
@@ -147,7 +147,7 @@ std::string Environment::GetOSVersion()
         strVersion += sysVersion;
         strVersion += ")";
     }
-    delete sysVersion;
+    delete[] sysVersion;
     return strVersion;
 }
 
