@@ -17,6 +17,16 @@ losemymind.libo@gmail.com
 
 NS_FK_BEGIN
 
+enum class UnitOfMemory : int64
+{
+    Kb = 1 * 1024,
+    Mb = Kb * 1024,
+    Gb = Mb * 1024,
+    Tb = Gb * 1024,
+    Pb = Tb * 1024,
+    Eb = Pb * 1024
+};
+
 class Platform
 {
 public:
