@@ -58,6 +58,27 @@
     <Filter Include="external\TinyJPEG">
       <UniqueIdentifier>{13274377-373b-4e41-873e-2df0afad0183}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Networking">
+      <UniqueIdentifier>{6bcacd3a-0ffd-4363-8489-61262d2c890f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking\ip">
+      <UniqueIdentifier>{6f6388bb-2bf6-4e1f-aad4-fa107da5d908}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking\ip\impl">
+      <UniqueIdentifier>{4006beed-6123-42a2-864f-62367fa803e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking\ip\detail">
+      <UniqueIdentifier>{6805c71e-fcf0-498e-ad0d-be2241eb7539}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking\ip\detail\impl">
+      <UniqueIdentifier>{fb818a06-43a8-4e0a-af07-2f2130ee9ba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking\detail">
+      <UniqueIdentifier>{6d63824b-d6bb-4fa0-bac5-ba5bd41acf12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking\detail\impl">
+      <UniqueIdentifier>{afd807ce-841d-4df9-baf5-6cc4cfa326e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h">
@@ -417,6 +438,84 @@
     <ClInclude Include="..\FoundationKit\Foundation\unique_id.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\winsock_init.hpp">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\IProtocol.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\socket_types.hpp">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\error_code.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\mutable_data.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\detail\endpoint.hpp">
+      <Filter>Networking\ip\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\impl\address.hpp">
+      <Filter>Networking\ip\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\impl\address_v4.hpp">
+      <Filter>Networking\ip\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\impl\address_v6.hpp">
+      <Filter>Networking\ip\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\impl\basic_endpoint.hpp">
+      <Filter>Networking\ip\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\address.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\address_v4.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\address_v4_iterator.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\address_v4_range.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\address_v6.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\address_v6_iterator.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\address_v6_range.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\bad_address_cast.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\basic_endpoint.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\tcp.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\udp.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\detail\socket_base.hpp">
+      <Filter>Networking\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\detail\socket_ops.hpp">
+      <Filter>Networking\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\detail\socket_option.hpp">
+      <Filter>Networking\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\basic_socket.hpp">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\network.hpp">
+      <Filter>Networking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -629,6 +728,9 @@
     <ClCompile Include="..\FoundationKit\Foundation\unique_id.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
+    <ClCompile Include="..\FoundationKit\Networking\IProtocol.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\Base\MathUtil.inl">
@@ -651,6 +753,24 @@
     </None>
     <None Include="..\FoundationKit\Base\Vector4.inl">
       <Filter>Base</Filter>
+    </None>
+    <None Include="..\FoundationKit\Networking\winsock_init.ipp">
+      <Filter>Networking</Filter>
+    </None>
+    <None Include="..\FoundationKit\Networking\ip\detail\impl\endpoint.ipp">
+      <Filter>Networking\ip\detail\impl</Filter>
+    </None>
+    <None Include="..\FoundationKit\Networking\ip\impl\address.ipp">
+      <Filter>Networking\ip\impl</Filter>
+    </None>
+    <None Include="..\FoundationKit\Networking\ip\impl\address_v4.ipp">
+      <Filter>Networking\ip\impl</Filter>
+    </None>
+    <None Include="..\FoundationKit\Networking\ip\impl\address_v6.ipp">
+      <Filter>Networking\ip\impl</Filter>
+    </None>
+    <None Include="..\FoundationKit\Networking\detail\impl\socket_ops.ipp">
+      <Filter>Networking\detail\impl</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -10,9 +10,24 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
 #include "FoundationKit/GenericPlatformMacros.h"
 
 NS_FK_BEGIN
+
+using std::int16_t;
+using std::int_least16_t;
+using std::uint16_t;
+using std::uint_least16_t;
+using std::int32_t;
+using std::int_least32_t;
+using std::uint32_t;
+using std::uint_least32_t;
+using std::int64_t;
+using std::int_least64_t;
+using std::uint64_t;
+using std::uint_least64_t;
+using std::uintmax_t;
 
 //---------------------------------------------------------------------
 // Utility for automatically setting up the pointer-sized integer type
