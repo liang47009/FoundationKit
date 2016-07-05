@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8F5A5344-1249-4C82-BA4D-8B4733161585}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>FoundationKit</RootNamespace>
+    <ProjectName>FoundationKit</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="FoundationKit_headers.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="FoundationKit_headers.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ExecutablePath>$(WindowsSdk_71A_ExecutablePath);$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(WindowsSdk_71A_IncludePath);$(IncludePath)</IncludePath>
+    <LibraryPath>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)..\Rubbish\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(SolutionDir)..\Rubbish\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(ProjectDir)/../FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../FoundationKit/external/unzip;$(ProjectDir)/../FoundationKit/external/;$(FoundationKitHeaders)FoundationKit/Platform/windows/system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreLinkEvent>
+      <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*" "$(OutDir)"</Command>
+      <Message>拷贝依赖库到输出目录</Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(ProjectDir)/../FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../FoundationKit/external/unzip;$(ProjectDir)/../FoundationKit/external/;$(FoundationKitHeaders)FoundationKit/Platform/windows/system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreLinkEvent>
+      <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*" "$(OutDir)"</Command>
+      <Message>拷贝依赖库到输出目录</Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\FoundationKit\Base\Buffer.h" />
+    <ClInclude Include="..\FoundationKit\Base\Data.h" />
+    <ClInclude Include="..\FoundationKit\Base\DataStream.h" />
+    <ClInclude Include="..\FoundationKit\Base\DateTime.h" />
+    <ClInclude Include="..\FoundationKit\Base\Dictionary.h" />
+    <ClInclude Include="..\FoundationKit\Base\error_code.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\MathContent.h" />
+    <ClInclude Include="..\FoundationKit\Base\MathEx.h" />
+    <ClInclude Include="..\FoundationKit\Base\mutable_data.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\noncopyable.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\nonmovable.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\Rect.h" />
+    <ClInclude Include="..\FoundationKit\Base\MathUtil.h" />
+    <ClInclude Include="..\FoundationKit\Base\Matrix.h" />
+    <ClInclude Include="..\FoundationKit\Base\Quaternion.h" />
+    <ClInclude Include="..\FoundationKit\Base\RandomHelper.h" />
+    <ClInclude Include="..\FoundationKit\Base\Runnable.h" />
+    <ClInclude Include="..\FoundationKit\Base\Size.h" />
+    <ClInclude Include="..\FoundationKit\Base\TimeEx.h" />
+    <ClInclude Include="..\FoundationKit\Base\Timer.h" />
+    <ClInclude Include="..\FoundationKit\Base\timer_scheduler.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\Timespan.h" />
+    <ClInclude Include="..\FoundationKit\Base\Types.h" />
+    <ClInclude Include="..\FoundationKit\Base\Value.h" />
+    <ClInclude Include="..\FoundationKit\Base\Vector2.h" />
+    <ClInclude Include="..\FoundationKit\Base\Vector3.h" />
+    <ClInclude Include="..\FoundationKit\Base\Vector4.h" />
+    <ClInclude Include="..\FoundationKit\Cache\AbstractCache.h" />
+    <ClInclude Include="..\FoundationKit\Cache\AbstractStrategy.h" />
+    <ClInclude Include="..\FoundationKit\Cache\KeyValueArgs.h" />
+    <ClInclude Include="..\FoundationKit\Cache\LRUCache.h" />
+    <ClInclude Include="..\FoundationKit\Cache\LRUCacheTest.h" />
+    <ClInclude Include="..\FoundationKit\Cache\LRUStrategy.h" />
+    <ClInclude Include="..\FoundationKit\Crypto\aes.h" />
+    <ClInclude Include="..\FoundationKit\Crypto\Base64.h" />
+    <ClInclude Include="..\FoundationKit\Crypto\md5.hpp" />
+    <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp" />
+    <ClInclude Include="..\FoundationKit\Events\Event.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventAcceleration.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventController.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventCustom.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventDispatcher.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventKeyboard.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventListener.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventListenerAcceleration.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventListenerController.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventListenerCustom.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventListenerKeyboard.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventListenerMouse.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventListenerTouch.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventMouse.h" />
+    <ClInclude Include="..\FoundationKit\Events\EventTouch.h" />
+    <ClInclude Include="..\FoundationKit\Events\GameController.h" />
+    <ClInclude Include="..\FoundationKit\Events\IMEDelegate.h" />
+    <ClInclude Include="..\FoundationKit\Events\IMEDispatcher.h" />
+    <ClInclude Include="..\FoundationKit\Events\KeyboardExampleWindows.h" />
+    <ClInclude Include="..\FoundationKit\Events\Touch.h" />
+    <ClInclude Include="..\FoundationKit\experimental\any.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\BufferTest.h" />
+    <ClInclude Include="..\FoundationKit\experimental\Gamepad.h" />
+    <ClInclude Include="..\FoundationKit\experimental\match.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\memory.h" />
+    <ClInclude Include="..\FoundationKit\experimental\optional.hpp" />
+    <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h" />
+    <ClInclude Include="..\FoundationKit\external\TinyJPEG\tiny_jpeg.h" />
+    <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
+    <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
+    <ClInclude Include="..\FoundationKit\external\unzip\unzip.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\ByteSwap.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\Compression.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\Exception.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\FunctionCenter.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Logger.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\MessageQueue.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\Scheduler.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\Singleton.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\TupleApply.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\unique_id.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\uthash.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\utlist.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\Version.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\WorkQueue.h" />
+    <ClInclude Include="..\FoundationKit\FunctionHelper.h" />
+    <ClInclude Include="..\FoundationKit\GenericPlatformMacros.h" />
+    <ClInclude Include="..\FoundationKit\HttpClient\HttpClient.h" />
+    <ClInclude Include="..\FoundationKit\HttpClient\HttpClientTest.h" />
+    <ClInclude Include="..\FoundationKit\HttpClient\HttpRequest.h" />
+    <ClInclude Include="..\FoundationKit\HttpClient\HttpResponse.h" />
+    <ClInclude Include="..\FoundationKit\HttpClient\MimeTypes.h" />
+    <ClInclude Include="..\FoundationKit\HttpDownloader\Downloader.h" />
+    <ClInclude Include="..\FoundationKit\HttpDownloader\DownloaderImpl.h" />
+    <ClInclude Include="..\FoundationKit\HttpDownloader\DownloaderTest.h" />
+    <ClInclude Include="..\FoundationKit\HttpDownloader\IDownloaderImpl.h" />
+    <ClInclude Include="..\FoundationKit\LuaEngine\LuaEngine.h" />
+    <ClInclude Include="..\FoundationKit\LuaEngine\LuaLoader.h" />
+    <ClInclude Include="..\FoundationKit\LuaEngine\LuaScriptHelper.h" />
+    <ClInclude Include="..\FoundationKit\LuaEngine\LuaScriptor.h" />
+    <ClInclude Include="..\FoundationKit\LuaEngine\LuaStack.h" />
+    <ClInclude Include="..\FoundationKit\LuaEngine\LuaValue.h" />
+    <ClInclude Include="..\FoundationKit\LuaEngine\Script.h" />
+    <ClInclude Include="..\FoundationKit\Networking\basic_socket.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\detail\socket_base.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\detail\socket_ops.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\detail\socket_option.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\IProtocol.h" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\address.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\address_v4.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\address_v4_iterator.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\address_v4_range.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\address_v6.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\address_v6_iterator.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\address_v6_range.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\bad_address_cast.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\basic_endpoint.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\detail\endpoint.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\impl\address.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\impl\address_v4.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\impl\address_v6.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\impl\basic_endpoint.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\tcp.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\udp.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\network.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\socket_types.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\winsock_init.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Environment.h" />
+    <ClInclude Include="..\FoundationKit\Platform\FileUtils.h" />
+    <ClInclude Include="..\FoundationKit\Platform\OpenGL.h" />
+    <ClInclude Include="..\FoundationKit\Platform\Platform.h" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.h" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h" />
+    <ClInclude Include="..\FoundationKit\std\contains_of_type.hpp" />
+    <ClInclude Include="..\FoundationKit\std\disable_if.hpp" />
+    <ClInclude Include="..\FoundationKit\std\function_cache.hpp" />
+    <ClInclude Include="..\FoundationKit\std\function_traits.hpp" />
+    <ClInclude Include="..\FoundationKit\std\has_member.hpp" />
+    <ClInclude Include="..\FoundationKit\std\hex.hpp" />
+    <ClInclude Include="..\FoundationKit\std\max_integer_of.hpp" />
+    <ClInclude Include="..\FoundationKit\std\memory_aligned.hpp" />
+    <ClInclude Include="..\FoundationKit\Thread\Impl\thread.h" />
+    <ClInclude Include="..\FoundationKit\Thread\Impl\thread_posix.h" />
+    <ClInclude Include="..\FoundationKit\Thread\Impl\thread_win32.h" />
+    <ClInclude Include="..\FoundationKit\Thread\Impl\thread_wp.h" />
+    <ClInclude Include="..\FoundationKit\Thread\thread.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\FoundationKit\Base\Data.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\DataStream.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\DateTime.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\MathEx.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Rect.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\MathUtil.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Matrix.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Quaternion.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Size.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\TimeEx.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Timespan.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Value.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Vector2.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Vector3.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\Vector4.cpp" />
+    <ClCompile Include="..\FoundationKit\Crypto\aes.cpp" />
+    <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\Event.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventAcceleration.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventController.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventCustom.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventDispatcher.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventKeyboard.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventListener.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventListenerAcceleration.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventListenerController.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventListenerCustom.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventListenerKeyboard.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventListenerMouse.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventListenerTouch.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventMouse.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\EventTouch.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\GameController.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\IMEDispatcher.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\KeyboardExampleWindows.cpp" />
+    <ClCompile Include="..\FoundationKit\Events\Touch.cpp" />
+    <ClCompile Include="..\FoundationKit\experimental\Gamepad.cpp" />
+    <ClCompile Include="..\FoundationKit\experimental\memory.cpp" />
+    <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.c" />
+    <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTFWrapper.cpp" />
+    <ClCompile Include="..\FoundationKit\external\unzip\ioapi.cpp" />
+    <ClCompile Include="..\FoundationKit\external\unzip\ioapi_mem.cpp" />
+    <ClCompile Include="..\FoundationKit\external\unzip\unzip.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Compression.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\DelegateManager.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Exception.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Logger.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\MessageQueue.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Scheduler.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\unique_id.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Version.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\WorkQueue.cpp" />
+    <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp" />
+    <ClCompile Include="..\FoundationKit\HttpClient\HttpClient.cpp" />
+    <ClCompile Include="..\FoundationKit\HttpClient\HttpRequest.cpp" />
+    <ClCompile Include="..\FoundationKit\HttpClient\MimeTypes.cpp" />
+    <ClCompile Include="..\FoundationKit\HttpDownloader\Downloader.cpp" />
+    <ClCompile Include="..\FoundationKit\HttpDownloader\DownloaderImpl.cpp" />
+    <ClCompile Include="..\FoundationKit\LuaEngine\LuaEngine.cpp" />
+    <ClCompile Include="..\FoundationKit\LuaEngine\LuaLoader.cpp" />
+    <ClCompile Include="..\FoundationKit\LuaEngine\LuaStack.cpp" />
+    <ClCompile Include="..\FoundationKit\LuaEngine\LuaValue.cpp" />
+    <ClCompile Include="..\FoundationKit\LuaEngine\Script.cpp" />
+    <ClCompile Include="..\FoundationKit\Networking\IProtocol.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\FileUtils.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Platform.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\FileUtils_win32.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\PlatformWindows.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\FoundationKit\Base\MathUtil.inl" />
+    <None Include="..\FoundationKit\Base\MathUtilNeon.inl" />
+    <None Include="..\FoundationKit\Base\Matrix.inl" />
+    <None Include="..\FoundationKit\Base\Value.inl" />
+    <None Include="..\FoundationKit\Base\Vector2.inl" />
+    <None Include="..\FoundationKit\Base\Vector3.inl" />
+    <None Include="..\FoundationKit\Base\Vector4.inl" />
+    <None Include="..\FoundationKit\Networking\detail\impl\socket_ops.ipp" />
+    <None Include="..\FoundationKit\Networking\ip\detail\impl\endpoint.ipp" />
+    <None Include="..\FoundationKit\Networking\ip\impl\address.ipp" />
+    <None Include="..\FoundationKit\Networking\ip\impl\address_v4.ipp" />
+    <None Include="..\FoundationKit\Networking\ip\impl\address_v6.ipp" />
+    <None Include="..\FoundationKit\Networking\winsock_init.ipp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

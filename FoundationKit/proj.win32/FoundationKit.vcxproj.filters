@@ -516,6 +516,9 @@
     <ClInclude Include="..\FoundationKit\Networking\network.hpp">
       <Filter>Networking</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\timer_scheduler.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">

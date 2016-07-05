@@ -40,6 +40,9 @@
 #include "FoundationKit/Base/DateTime.h"
 
 #include "FoundationKit/experimental/memory.h"
+#include "FoundationKit/Networking/network.hpp"
+
+
 
 using namespace std;
 USING_NS_FK;
@@ -66,23 +69,14 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
 
-    std::vector<std::string> files;
-    FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/ApplicationKit", files, true);
-    FileUtils::getInstance()->getFilesFromDir("D:/UAF/UniversalApplicationFramework_C99/libapplicationkit/FoundationKit", files, true);
-
-    std::string result;
-    std::string ext = ".cpp";
-    std::string fileExt;
-    for (auto& str : files)
-    {
-        fileExt = FileUtils::getInstance()->getFileExtension(str);
-        if (fileExt == ext || fileExt == ".c")
-        {
-            size_t npos = str.find("t/");
-            result.append(str.substr(npos + 2, str.size()));
-            result.push_back('\n');
-        }
-    }
+    network::ip::tcp::socket client;
+  
+    client.open(network::ip::tcp::v4());
+    ip::tcp::endpoint endpoint(ip::address::from_string("172.17.14.116"), 2001);
+    client.connect(endpoint);
+    char* pbuf = "this is first message";
+    mutable_data md(pbuf, strlen(pbuf));
+    client.send(md);
 
 	return true;
 }
@@ -115,3 +109,4 @@ void AppDelegate::mainLoop()
 {
 	shared_Scheduler->update(1/60);
 }
+
