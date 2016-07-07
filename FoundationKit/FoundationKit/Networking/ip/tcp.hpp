@@ -10,6 +10,7 @@
 #include "FoundationKit/Networking/detail/socket_option.hpp"
 #include "FoundationKit/Networking/detail/socket_base.hpp"
 #include "FoundationKit/Networking/basic_socket.hpp"
+#include "FoundationKit/Networking/async_socket.hpp"
 NS_FK_BEGIN
 namespace network{
 namespace ip{
@@ -31,6 +32,8 @@ public:
     typedef basic_endpoint<tcp> endpoint;
     /// The TCP socket type.
     typedef basic_socket<tcp> socket;
+
+    typedef async_socket<tcp> async_socket;
 
     tcp()
         : family_(NET_OS_DEF(AF_INET))

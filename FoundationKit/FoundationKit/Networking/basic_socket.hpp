@@ -31,19 +31,13 @@ public:
 
     /// The endpoint type.
     typedef typename Protocol::endpoint endpoint_type;
-
-    typedef std::function<void(const std::error_code)>              async_connect_handler;
-    typedef std::function<void(const std::error_code, std::size_t)> async_send_handler;
-    typedef std::function<void(const std::error_code, std::size_t)> async_recv_handler;
-    typedef std::function<void(const std::error_code, typename Protocol::socket)> async_accept_handler;
-public:
-    async_connect_handler   onConnected;
-
-
 public:
 
     basic_socket()
         : _native_socket(invalid_socket)
+        , _state(0)
+        , _open(false)
+
     {
 
     }
@@ -68,7 +62,7 @@ public:
         }
     }
 
-    void poll()
+    virtual void poll()
     {
 
     }
@@ -250,46 +244,6 @@ public:
     }
 
     /**
-     * Start an asynchronous connect.
-     * This function is used to asynchronously connect a socket to the specified
-     * remote endpoint. The function call always returns immediately.
-     *
-     * The socket is automatically opened if it is not already open. If the
-     * connect fails, and the socket was automatically opened, the socket is
-     * not returned to the closed state.
-     *
-     * @param peer_endpoint The remote endpoint to which the socket will be
-     * connected. Copies will be made of the endpoint object as required.
-     *
-     * @param handler The handler to be called when the connection operation
-     * completes. Copies will be made of the handler as required. The function
-     * signature of the handler must be:
-     * @code void handler(
-     *   const std::error_code& error // Result of operation
-     * ); @endcode
-     * @par Example
-     * @code
-     * void connect_handler(const std::error_code& error)
-     * {
-     *   if (!error)
-     *   {
-     *     // Connect succeeded.
-     *   }
-     * }
-     *
-     * ...
-     *
-     * ip::tcp::socket socket();
-     * ip::tcp::endpoint endpoint(ip::address::from_string("1.2.3.4"), 12345);
-     * socket.async_connect(endpoint, connect_handler);
-     * @endcode
-     */
-    std::error_code async_connect(const endpoint_type& peer_endpoint, async_connect_handler& handler)
-    {
-        LOG_ERROR("***** Not Implementation.");
-    }
-
-    /**
      * Bind the socket to the given local endpoint.
      * This function binds the socket to the specified endpoint on the local
      * machine.
@@ -415,88 +369,6 @@ public:
     }
 
     /**
-     * Start an asynchronous send.
-     * This function is used to asynchronously send data on the stream socket.
-     * The function call always returns immediately.
-     *
-     * @param buffers One or more data buffers to be sent on the socket. Although
-     * the buffers object may be copied as necessary, ownership of the underlying
-     * memory blocks is retained by the caller, which must guarantee that they
-     * remain valid until the handler is called.
-     *
-     * @param handler The handler to be called when the send operation completes.
-     * Copies will be made of the handler as required. The function signature of
-     * the handler must be:
-     * @code void handler(
-     *   const std::error_code& error,     // Result of operation.
-     *   std::size_t sendBytes             // Number of bytes sent.
-     * ); @endcode
-     *
-     * @note The send operation may not transmit all of the data to the peer.
-     * Consider using the @ref async_write function if you need to ensure that all
-     * data is written before the asynchronous operation completes.
-     *
-     * @par Example
-     * To send a single data buffer use the @ref buffer function as follows:
-     * @code
-     * socket.async_send(mutable_data(data, size), handler);
-     * @endcode
-     * See the @ref buffer documentation for information on sending multiple
-     * buffers in one go, and how to use it with arrays, std::array or
-     * std::vector.
-     */
-    void async_send(const mutable_data& buffers, async_send_handler& handler)
-    {
-        this->async_send(buffers, 0, handler);
-    }
-
-    /**
-     * Start an asynchronous send.
-     * This function is used to asynchronously send data on the stream socket.
-     * The function call always returns immediately.
-     *
-     * @param buffers One or more data buffers to be sent on the socket. Although
-     * the buffers object may be copied as necessary, ownership of the underlying
-     * memory blocks is retained by the caller, which must guarantee that they
-     * remain valid until the handler is called.
-     *
-     * @param flags Flags specifying how the send call is to be made.
-     *
-     * @param handler The handler to be called when the send operation completes.
-     * Copies will be made of the handler as required. The function signature of
-     * the handler must be:
-     * @code void handler(
-     *   const std::error_code& error, // Result of operation.
-     *   std::size_t sendBytes           // Number of bytes sent.
-     * ); @endcode
-     *
-     * @note The send operation may not transmit all of the data to the peer.
-     * Consider using the @ref async_write function if you need to ensure that all
-     * data is written before the asynchronous operation completes.
-     *
-     * @par Example
-     * To send a single data buffer use the @ref buffer function as follows:
-     * @code
-     * socket.async_send(mutable_data(data, size), 0, handler);
-     * @endcode
-     * See the @ref buffer documentation for information on sending multiple
-     * buffers in one go, and how to use it with arrays, std::array or
-     * std::vector.
-     */
-    void async_send(const mutable_data& buffers, socket_base::message_flags flags, async_send_handler& handler)
-    {
-        if ((_state & socket_ops::stream_oriented))
-        {
-            LOG_ERROR("***** Not Implementation.");
-        }
-        else
-        {
-            std::error_code ec = make_error_code(std::errc::address_family_not_supported);
-            throw_error_if(ec, "async_send");
-        }
-    }
-
-    /**
      * Receive some data on the socket.
      * This function is used to receive data on the stream socket. The function
      * call will block until one or more bytes of data has been received
@@ -568,93 +440,6 @@ public:
     }
 
     /**
-     * Start an asynchronous receive.
-     * This function is used to asynchronously receive data from the stream
-     * socket. The function call always returns immediately.
-     *
-     * @param buffers One or more buffers into which the data will be received.
-     * Although the buffers object may be copied as necessary, ownership of the
-     * underlying memory blocks is retained by the caller, which must guarantee
-     * that they remain valid until the handler is called.
-     *
-     * @param handler The handler to be called when the receive operation
-     * completes. Copies will be made of the handler as required. The function
-     * signature of the handler must be:
-     * @code void handler(
-     *   const std::error_code& error,  // Result of operation.
-     *   std::size_t bytes_transferred  // Number of bytes received.
-     * ); @endcode
-     *
-     * @note The receive operation may not receive all of the requested number of
-     * bytes. Consider using the @ref async_read function if you need to ensure
-     * that the requested amount of data is received before the asynchronous
-     * operation completes.
-     *
-     * @par Example
-     * To receive into a single data buffer use the @ref buffer function as
-     * follows:
-     * @code
-     * socket.async_receive(mutable_data(data, size), handler);
-     * @endcode
-     * See the @ref buffer documentation for information on receiving into
-     * multiple buffers in one go, and how to use it with arrays, boost::array or
-     * std::vector.
-     */
-    void async_receive(const mutable_data& buffers, async_recv_handler& handler)
-    {
-        
-        this->async_receive(buffers, 0, handler);
-    }
-
-    /**
-     * Start an asynchronous receive.
-     * This function is used to asynchronously receive data from the stream
-     * socket. The function call always returns immediately.
-     *
-     * @param buffers One or more buffers into which the data will be received.
-     * Although the buffers object may be copied as necessary, ownership of the
-     * underlying memory blocks is retained by the caller, which must guarantee
-     * that they remain valid until the handler is called.
-     *
-     * @param flags Flags specifying how the receive call is to be made.
-     *
-     * @param handler The handler to be called when the receive operation
-     * completes. Copies will be made of the handler as required. The function
-     * signature of the handler must be:
-     * @code void handler(
-     *   const std::error_code& error,     // Result of operation.
-     *   std::size_t bytes_transferred     // Number of bytes received.
-     * ); @endcode
-     *
-     * @note The receive operation may not receive all of the requested number of
-     * bytes. Consider using the @ref async_read function if you need to ensure
-     * that the requested amount of data is received before the asynchronous
-     * operation completes.
-     *
-     * @par Example
-     * To receive into a single data buffer use the @ref buffer function as
-     * follows:
-     * @code
-     * socket.async_receive(mutable_data(data, size), 0, handler);
-     * @endcode
-     * See the @ref buffer documentation for information on receiving into
-     * multiple buffers in one go, and how to use it with arrays, boost::array or
-     * std::vector.
-     */
-    void async_receive(const mutable_data& buffers, socket_base::message_flags flags, async_recv_handler& handler)
-    {
-        if ((_state & socket_ops::stream_oriented))
-        {
-            LOG_ERROR("***** Not Implementation.");
-        }
-        else
-        {
-            std::error_code ec = make_error_code(std::errc::address_family_not_supported);
-            throw_error_if(ec, "saync_send");
-        }
-    }
-
-    /**
      * Send a datagram to the specified endpoint.
      * This function is used to send a datagram to the specified remote endpoint.
      * The function call will block until the data has been sent successfully or
@@ -721,88 +506,6 @@ public:
     }
 
     /**
-     * Start an asynchronous send.
-     * This function is used to asynchronously send a datagram to the specified
-     * remote endpoint. The function call always returns immediately.
-     *
-     * @param buffers One or more data buffers to be sent to the remote endpoint.
-     * Although the buffers object may be copied as necessary, ownership of the
-     * underlying memory blocks is retained by the caller, which must guarantee
-     * that they remain valid until the handler is called.
-     *
-     * @param destination The remote endpoint to which the data will be sent.
-     * Copies will be made of the endpoint as required.
-     *
-     * @param handler The handler to be called when the send operation completes.
-     * Copies will be made of the handler as required. The function signature of
-     * the handler must be:
-     * @code void handler(
-     *   const std::error_code& error, // Result of operation.
-     *   std::size_t bytes_transferred  // Number of bytes sent.
-     * );
-     * @endcode
-     *
-     * @par Example
-     * To send a single data buffer use the @ref buffer function as follows:
-     * @code
-     * ip::udp::endpoint destination(
-     *     ip::address::from_string("1.2.3.4"), 12345);
-     * socket.async_send_to(
-     *     mutable_data(data, size), destination, handler);
-     * @endcode
-     * See the @ref buffer documentation for information on sending multiple
-     * buffers in one go, and how to use it with arrays, std::array or
-     * std::vector.
-     */
-    void async_send_to(const mutable_data& buffers
-        , const endpoint_type& destination
-        , async_send_handler& handler)
-    {
-        this->async_send_to(buffers, destination, 0, handler);
-    }
-
-
-    /**
-     * Start an asynchronous send.
-     * This function is used to asynchronously send a datagram to the specified
-     * remote endpoint. The function call always returns immediately.
-     *
-     * @param buffers One or more data buffers to be sent to the remote endpoint.
-     * Although the buffers object may be copied as necessary, ownership of the
-     * underlying memory blocks is retained by the caller, which must guarantee
-     * that they remain valid until the handler is called.
-     *
-     * @param flags Flags specifying how the send call is to be made.
-     *
-     * @param destination The remote endpoint to which the data will be sent.
-     * Copies will be made of the endpoint as required.
-     *
-     * @param handler The handler to be called when the send operation completes.
-     * Copies will be made of the handler as required. The function signature of
-     * the handler must be:
-     * @code void handler(
-     *   const std::error_code& error,  // Result of operation.
-     *   std::size_t bytes_transferred  // Number of bytes sent.
-     * );
-     * @endcode
-     */
-    void async_send_to(const mutable_data& buffers
-        , const endpoint_type& destination
-        , socket_base::message_flags flags
-        , async_send_handler& handler)
-    {
-        if ((_state & socket_ops::datagram_oriented))
-        {
-            LOG_ERROR("***** Not Implementation.");
-        }
-        else
-        {
-            std::error_code ec = make_error_code(std::errc::address_family_not_supported);
-            throw_error_if(ec, "async_send_to");
-        }
-    }
-
-    /**
      * Receive a datagram with the endpoint of the sender.
      * This function is used to receive a datagram. The function call will block
      * until data has been received successfully or an error occurs.
@@ -866,88 +569,6 @@ public:
             throw_error_if(ec, "receive_from");
         }
         return 0;
-    }
-
-    /**
-     * Start an asynchronous receive.
-     * This function is used to asynchronously receive a datagram. The function
-     * call always returns immediately.
-     *
-     * @param buffers One or more buffers into which the data will be received.
-     * Although the buffers object may be copied as necessary, ownership of the
-     * underlying memory blocks is retained by the caller, which must guarantee
-     * that they remain valid until the handler is called.
-     *
-     * @param sender_endpoint An endpoint object that receives the endpoint of
-     * the remote sender of the datagram. Ownership of the sender_endpoint object
-     * is retained by the caller, which must guarantee that it is valid until the
-     * handler is called.
-     *
-     * @param handler The handler to be called when the receive operation
-     * completes. Copies will be made of the handler as required. The function
-     * signature of the handler must be:
-     * @code void handler(
-     *   const std::error_code& error, // Result of operation.
-     *   std::size_t bytes_transferred           // Number of bytes received.
-     * ); @endcode
-     *
-     * @par Example
-     * To receive into a single data buffer use the @ref buffer function as
-     * follows:
-     * @code socket.async_receive_from(
-     *     mutable_data(data, size), sender_endpoint, handler);
-     * @endcode
-     * See the @ref buffer documentation for information on receiving into
-     * multiple buffers in one go, and how to use it with arrays, std::array or
-     * std::vector.
-     */
-    void async_receive_from(const mutable_data& buffers
-        , endpoint_type& sender_endpoint
-        , async_recv_handler& handler)
-    {
-        this->async_receive_from(buffers, sender_endpoint, 0, handler);
-    }
-
-    /**
-     * Start an asynchronous receive.
-     * This function is used to asynchronously receive a datagram. The function
-     * call always returns immediately.
-     *
-     * @param buffers One or more buffers into which the data will be received.
-     * Although the buffers object may be copied as necessary, ownership of the
-     * underlying memory blocks is retained by the caller, which must guarantee
-     * that they remain valid until the handler is called.
-     *
-     * @param sender_endpoint An endpoint object that receives the endpoint of
-     * the remote sender of the datagram. Ownership of the sender_endpoint object
-     * is retained by the caller, which must guarantee that it is valid until the
-     * handler is called.
-     *
-     * @param flags Flags specifying how the receive call is to be made.
-     *
-     * @param handler The handler to be called when the receive operation
-     * completes. Copies will be made of the handler as required. The function
-     * signature of the handler must be:
-     * @code void handler(
-     *   const std::error_code& error, // Result of operation.
-     *   std::size_t bytes_transferred // Number of bytes received.
-     * ); @endcode
-     */
-    void async_receive_from(const mutable_data& buffers
-        , endpoint_type& sender_endpoint
-        , socket_base::message_flags flags
-        , async_recv_handler& handler)
-    {
-        if ((_state & socket_ops::datagram_oriented))
-        {
-            LOG_ERROR("***** Not Implementation.");
-        }
-        else
-        {
-            std::error_code ec = make_error_code(std::errc::address_family_not_supported);
-            throw_error_if(ec, "async_receive_from");
-        }
-        
     }
 
     /**
@@ -1059,52 +680,6 @@ public:
     }
 
     /**
-     * Start an asynchronous accept.
-     * This function is used to asynchronously accept a new connection. The
-     * function call always returns immediately.
-     *
-     * This overload requires that the Protocol template parameter satisfy the
-     * AcceptableProtocol type requirements.
-     *
-     * @param peer_endpoint An endpoint object into which the endpoint of the
-     * remote peer will be written. Ownership of the peer_endpoint object is
-     * retained by the caller, which must guarantee that it is valid until the
-     * handler is called.
-     *
-     * @param handler The handler to be called when the accept operation
-     * completes. Copies will be made of the handler as required. The function
-     * signature of the handler must be:
-     * @code void handler(
-     *   const std::error_code& error, // Result of operation.
-     *   typename Protocol::socket peer // On success, the newly accepted socket.
-     * ); @endcode
-     *
-     * @par Example
-     * @code
-     * void accept_handler(const std::error_code& error,
-     *     network::ip::tcp::socket peer)
-     * {
-     *   if (!error)
-     *   {
-     *     // Accept succeeded.
-     *   }
-     * }
-     *
-     * ...
-     *
-     * network::ip::tcp::acceptor acceptor(io_context);
-     * ...
-     * network::ip::tcp::endpoint endpoint;
-     * acceptor.async_accept(endpoint, accept_handler);
-     * @endcode
-     */
-    void async_accept(endpoint_type& peer_endpoint, async_accept_handler& handler)
-    {
-        LOG_ERROR("***** Not Implementation.");
-    }
-
-
-    /**
      * Determine the number of bytes available for reading.
      * This function is used to determine the number of bytes that may be read
      * without blocking.
@@ -1198,45 +773,6 @@ public:
         }
         return ec;
     }
-
-    /**
-     * Asynchronously wait for the socket to become ready to read, ready to
-     * write, or to have pending error conditions.
-     *
-     * This function is used to perform an asynchronous wait for a socket to enter
-     * a ready to read, write or error condition state.
-     *
-     * @param w Specifies the desired socket state.
-     *
-     * @param handler The handler to be called when the wait operation completes.
-     * Copies will be made of the handler as required. The function signature of
-     * the handler must be:
-     * @code void handler(
-     *   const std::error_code& error // Result of operation
-     * ); @endcode
-     *
-     * @par Example
-     * @code
-     * void wait_handler(const std::error_code& error)
-     * {
-     *   if (!error)
-     *   {
-     *     // Wait succeeded.
-     *   }
-     * }
-     *
-     * ...
-     *
-     * ip::tcp::socket socket();
-     * ...
-     * socket.async_wait(ip::tcp::socket::wait_read, wait_handler);
-     * @endcode
-     */
-    void async_wait(wait_type w, std::function<void(std::error_code)>& handler)
-    {
-        LOG_ERROR("***** Not Implementation.");
-    }
-
 
     /**
      * Disable sends or receives on the socket.
@@ -1460,25 +996,15 @@ public:
         return _native_socket;
     }
 
-    socket_ops::state_type& state()
+    explicit operator bool() const
     {
-        return _state;
+        return (_native_socket != invalid_socket);
     }
 
 private:
 
     /**
-     * Queries the socket to determine if there is a pending connection
-     * @return true if successful, false otherwise
-     * @throws std::system_error Thrown on failure.
-     */
-    bool has_pending_connection()
-    {
-        return true;
-    }
-
-    /**
-     * Queries the socket to determine if there is a pending connection
+     * Queries the socket to determine if there is a pending accept
      * @param bHasPendingConnection out parameter indicating whether a connection is pending or not
      * @return true if successful, false otherwise
      *
@@ -1487,46 +1013,78 @@ private:
      * ip::tcp::socket socket();
      * ...
      * std::error_code ec;
-     * socket.has_pending_connection(ec);
+     * socket.has_pending_accept(ec);
      * if (ec)
      * {
      *   // An error occurred.
      * }
      * @endcode
      */
-    bool has_pending_connection(std::error_code& ec)
+    bool has_pending_accept(std::error_code& ec)
     {
-        return true;
+        bool bHasPendingConnection = false;
+        // make sure socket has no error state
+        if (has_state(socket_state::haserror, ec) == state_return::No)
+        {
+            // get the read state
+            state_return State = has_state(socket_state::readable, ec);
+            // turn the result into the outputs
+            bHasPendingConnection = State == state_return::Yes;
+        }
+        return bHasPendingConnection;
     }
 
-    /**
-     * Queries the socket to determine if there is pending data on the queue
-     * @return How much data is on the pipe for a single recv call
-     * @throws std::system_error Thrown on failure.
-     */
-    std::size_t has_pending_data()
+    bool has_state(socket_state state, std::error_code& ec)
     {
-        return 0;
+        // Check the status of the state
+        int32 SelectStatus = 0;
+        switch (state)
+        {
+        case socket_state::readable:
+            SelectStatus = poll_read(_native_socket, _state, ec);
+            break;
+
+        case socket_state::writable:
+            SelectStatus = poll_write(_native_socket, _state, ec);
+            break;
+
+        case socket_state::haserror:
+            SelectStatus = poll_error(_native_socket, _state, ec);
+            break;
+        }
+
+        // if the select returns a positive number,
+        // the socket had the state, 
+        // 0 means didn't have it, 
+        // and negative is API error condition (not socket's error state)
+        return SelectStatus > 0 ? state_return::Yes :
+            SelectStatus == 0 ? state_return::No :
+            state_return::EncounteredError;
     }
 
-    /**
-     * Queries the socket to determine if there is pending data on the queue
-     * @return How much data is on the pipe for a single recv call.
-     *     * @par Example
-     * @code
-     * ip::tcp::socket socket();
-     * ...
-     * std::error_code ec;
-     * socket.has_pending_data(ec);
-     * if (ec)
-     * {
-     *   // An error occurred.
-     * }
-     * @endcode
-     */
-    std::size_t has_pending_data(std::error_code& ec)
+    connection_state getConnectionState(std::error_code& ec)
     {
-        return 0;
+        connection_state currentState = connection_state::ConnectionError;
+
+        // look for an existing error
+        if (has_state(socket_state::haserror, ec) == state_return::No)
+        {
+            // get the write state
+            state_return writeState = has_state(socket_state::writable,ec);
+            if (ec) return currentState;
+            state_return readState  = has_state(socket_state::readable, ec);
+            if (ec) return currentState;
+            // translate yes or no (error is already set)
+            if (writeState == state_return::Yes || readState == state_return::Yes)
+            {
+                currentState = connection_state::Connected;
+            }
+            else if (writeState == ESocketBSDReturn::No && readState == ESocketBSDReturn::No)
+            {
+                currentState = connection_state::NotConnected;
+            }
+        }
+        return currentState;
     }
 
 private:

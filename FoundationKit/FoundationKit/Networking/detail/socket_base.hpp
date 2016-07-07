@@ -54,6 +54,25 @@ public:
         haserror,
     };
 
+    /**
+    * Enumerates socket state return values.
+    */
+    enum class state_return
+    {
+        Yes,
+        No,
+        EncounteredError,
+    };
+
+    /** Indicates the connection state of the socket */
+    enum class connection_state
+    {
+        NotConnected,
+        Connected,
+        /** Indicates that the end point refused the connection or couldn't be reached */
+        ConnectionError
+    };
+
 
     /// Bitmask type for flags that can be passed to send and receive operations.
     typedef int message_flags;

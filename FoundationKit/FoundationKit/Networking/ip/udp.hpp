@@ -5,6 +5,7 @@
 #include "FoundationKit/Networking/ip/basic_endpoint.hpp"
 #include "FoundationKit/Networking/detail/socket_base.hpp"
 #include "FoundationKit/Networking/basic_socket.hpp"
+#include "FoundationKit/Networking/async_socket.hpp"
 
 NS_FK_BEGIN
 namespace network{
@@ -28,6 +29,8 @@ public:
     typedef basic_endpoint<udp> endpoint;
     /// The UDP socket type.
     typedef basic_socket<udp> socket;
+
+    typedef async_socket<udp> async_socket;
 
     udp()
         : family_(NET_OS_DEF(AF_INET))
