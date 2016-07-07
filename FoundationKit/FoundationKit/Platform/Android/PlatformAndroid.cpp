@@ -23,7 +23,6 @@
 
 NS_FK_BEGIN
 
-typedef std::unordered_map<std::string, unsigned long long> MemInfo;
 static const int LINE_BUF_SIZE = 256;
 
 class PlatformHelper
