@@ -15,12 +15,12 @@
 #include "FoundationKit/Networking/socket_types.hpp"
 #include "FoundationKit/Networking/detail/socket_base.hpp"
 #include "FoundationKit/Networking/detail/socket_ops.hpp"
-
+#include "FoundationKit/Base/noncopyable.hpp"
 NS_FK_BEGIN
 namespace network{
 
 template<typename Protocol>
-class basic_socket : public socket_base
+class basic_socket : public socket_base, public noncopyable
 {
 public:
     /// The protocol type.
@@ -49,8 +49,37 @@ public:
     }
 
     /**
-    * Virtual destructor
+     * Move-construct a basic_socket from another.
+     * This constructor moves a socket from one object to another.
+     *
+     * @param other The other basic_socket object from which the move will
+     * occur.
+     *
+     * @note Following the move, the moved-from object is in the same state as if
+     * constructed using the @c basic_socket(io_context&) constructor.
+     */
+    basic_socket(basic_socket&& other)
+    {
+    }
+
+    /// Move-assign a basic_socket from another.
+    /**
+    * This assignment operator moves a socket from one object to another.
+    *
+    * @param other The other basic_socket object from which the move will
+    * occur.
+    *
+    * @note Following the move, the moved-from object is in the same state as if
+    * constructed using the @c basic_socket(io_context&) constructor.
     */
+    basic_socket& operator=(basic_socket&& other)
+    {
+        return *this;
+    }
+
+    /**
+     * Virtual destructor
+     */
     virtual ~basic_socket()
     {
         this->shutdown(socket_base::shutdown_both);
