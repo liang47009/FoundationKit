@@ -110,7 +110,7 @@ public:
      * socket.open(ip::tcp::v4());
      * @endcode
      */
-    void open(const protocol_type& protocol = protocol_type())
+    virtual void open(const protocol_type& protocol = protocol_type())
     {
         std::error_code ec;
         this->open(protocol, ec);
@@ -136,7 +136,7 @@ public:
      * }
      * @endcode
      */
-    std::error_code open(const protocol_type& protocol, std::error_code& ec)
+    virtual std::error_code open(const protocol_type& protocol, std::error_code& ec)
     {
         _native_socket = socket_ops::socket(protocol.family(), protocol.type(), protocol.protocol(), ec);
         switch (protocol.type())
@@ -1028,92 +1028,6 @@ public:
     explicit operator bool() const
     {
         return (_native_socket != invalid_socket);
-    }
-
-private:
-
-    /**
-     * Queries the socket to determine if there is a pending accept
-     * @param bHasPendingConnection out parameter indicating whether a connection is pending or not
-     * @return true if successful, false otherwise
-     *
-     * @par Example
-     * @code
-     * ip::tcp::socket socket();
-     * ...
-     * std::error_code ec;
-     * socket.has_pending_accept(ec);
-     * if (ec)
-     * {
-     *   // An error occurred.
-     * }
-     * @endcode
-     */
-    bool has_pending_accept(std::error_code& ec)
-    {
-        bool bHasPendingConnection = false;
-        // make sure socket has no error state
-        if (has_state(socket_state::haserror, ec) == state_return::No)
-        {
-            // get the read state
-            state_return State = has_state(socket_state::readable, ec);
-            // turn the result into the outputs
-            bHasPendingConnection = State == state_return::Yes;
-        }
-        return bHasPendingConnection;
-    }
-
-    bool has_state(socket_state state, std::error_code& ec)
-    {
-        // Check the status of the state
-        int32 SelectStatus = 0;
-        switch (state)
-        {
-        case socket_state::readable:
-            SelectStatus = poll_read(_native_socket, _state, ec);
-            break;
-
-        case socket_state::writable:
-            SelectStatus = poll_write(_native_socket, _state, ec);
-            break;
-
-        case socket_state::haserror:
-            SelectStatus = poll_error(_native_socket, _state, ec);
-            break;
-        }
-
-        // if the select returns a positive number,
-        // the socket had the state, 
-        // 0 means didn't have it, 
-        // and negative is API error condition (not socket's error state)
-        return SelectStatus > 0 ? state_return::Yes :
-            SelectStatus == 0 ? state_return::No :
-            state_return::EncounteredError;
-    }
-
-    connection_state getConnectionState(std::error_code& ec)
-    {
-        connection_state currentState = connection_state::ConnectionError;
-
-        // look for an existing error
-        if (has_state(socket_state::haserror, ec) == state_return::No)
-        {
-            // get the write state
-            state_return writeState = has_state(socket_state::writable,ec);
-            if (ec) return currentState;
-            state_return readState  = has_state(socket_state::readable, ec);
-            if (ec) return currentState;
-            // translate yes or no (error is already set)
-            if (writeState == state_return::Yes || readState == state_return::Yes)
-            {
-                currentState = connection_state::Connected;
-            }
-            else if (writeState == ESocketBSDReturn::No && readState == ESocketBSDReturn::No)
-            {
-                currentState = connection_state::NotConnected;
-            }
-        }
-        return currentState;
     }
 
 private:

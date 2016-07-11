@@ -7,6 +7,7 @@
 #include <string>
 #include <functional>
 #include <algorithm>
+#include <vector>
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Timespan.h"
 #include "FoundationKit/Base/DateTime.h"
@@ -24,7 +25,7 @@ template<typename Protocol>
 class async_socket : public basic_socket<Protocol>
 {
 public:
-    typedef std::function<void()>                                   handler_function;
+    typedef std::function<bool()>                                   handle_method_type;
     typedef std::function<void(const std::error_code)>              async_connect_handler;
     typedef std::function<void(const std::error_code, std::size_t)> async_send_handler;
     typedef std::function<void(const std::error_code, std::size_t)> async_recv_handler;
@@ -34,10 +35,6 @@ public:
 
     async_socket()
         : basic_socket()
-        , _handlerAsyncAccept(nullptr)
-        , _handlerAsyncConnect(nullptr)
-        , _handlerAsyncRecv(nullptr)
-        , _handlerAsyncSend(nullptr)
     {
 
     }
@@ -49,19 +46,60 @@ public:
     }
 
     /**
-    * Virtual destructor
-    */
+     * Virtual destructor
+     */
     virtual ~async_socket()
     {
 
     }
 
+    /**
+     * Open the socket using the specified protocol.
+     * This function opens the socket so that it will use the specified protocol.
+     *
+     * @param protocol An object specifying which protocol is to be used.
+     *
+     * @param ec Set to indicate what error occurred, if any.
+     *
+     * @par Example
+     * @code
+     * ip::tcp::socket socket();
+     * std::error_code ec;
+     * socket.open(ip::tcp::v4(), ec);
+     * if (ec)
+     * {
+     *   // An error occurred.
+     * }
+     * @endcode
+     */
+    virtual std::error_code open(const protocol_type& protocol, std::error_code& ec)
+    {
+        _native_socket = socket_ops::socket(protocol.family(), protocol.type(), protocol.protocol(), ec);
+        switch (protocol.type())
+        {
+        case SOCK_STREAM: _state = socket_ops::stream_oriented; break;
+        case SOCK_DGRAM: _state = socket_ops::datagram_oriented; break;
+        default: _state = 0; break;
+        }
+        if (_native_socket != invalid_socket && !ec)
+        {
+            socket_ops::set_non_blocking(_native_socket, _state, true, ec);
+            _open = true;
+        }
+        return ec;
+    }
+
     virtual void poll()
     {
-        if (_handlerAsyncAccept)  _handlerAsyncAccept();
-        if (_handlerAsyncConnect) _handlerAsyncConnect();
-        if (_handlerAsyncRecv)    _handlerAsyncRecv();
-        if (_handlerAsyncSend)    _handlerAsyncSend();
+        auto iter = _handleMethods.begin();
+        for (iter; iter != _handleMethods.end(); ++iter)
+        {
+            bool bRemove = (*iter)();
+            if (bRemove)
+            {
+                iter = _handleMethods.erase(iter);
+            }
+        }
     }
 
     /**
@@ -101,7 +139,28 @@ public:
      */
     std::error_code async_connect(const endpoint_type& peer_endpoint, async_connect_handler& handler)
     {
-        LOG_ERROR("***** Not Implementation.");
+        std::error_code ec;
+        if (!(_state & socket_ops::non_blocking))
+        {
+            set_non_blocking(_native_socket, _state, true, ec);
+            if (ec)
+            {
+                handler(ec);
+                return ec;
+            }
+        }
+
+        _handleMethods.push_back([=]()
+        {
+            std::error_code connectEc;
+            bool isConnected = non_blocking_connect(_native_socket, connectEc);
+            if (isConnected)
+            {
+                handler(connectEc);
+            }
+            return isConnected;
+        });
+        return ec;
     }
 
     /**
@@ -264,7 +323,7 @@ public:
     {
         if ((_state & socket_ops::stream_oriented))
         {
-            _handlerAsyncRecv = [=]()
+            _handleMethods.push_back([=]()
             {
                 std::error_code ec;
                 if (getConnectionState(ec) == connection_state::Connected)
@@ -273,17 +332,21 @@ public:
                     {
                         std::size_t readBytes = this->receive(buffers, flags, ec);
                         handler(ec, readBytes);
+                        return true;
                     }
                     else if (ec)
                     {
                         handler(ec, 0);
+                        return true;
                     }
                 }
                 else if (ec)
                 {
                     handler(ec, 0);
+                    return true;
                 }
-            }
+                return false;
+            });
         }
         else
         {
@@ -494,7 +557,7 @@ public:
      */
     void async_accept(endpoint_type& peer_endpoint, async_accept_handler& handler)
     {
-        _handlerAsyncAccept = [=]()
+        _handleMethods.push_back([=]()
         {
             std::error_code ec;
            // async_accept_handler
@@ -502,13 +565,16 @@ public:
             {
                 auto new_socket = accept(peer_endpoint, ec);
                 handler(ec, new_socket);
+                return true;
             }
             else if (ec)
             {
                 typename Protocol::socket new_socket(invalid_socket);
                 handler(ec, new_socket);
+                return true;
             }
-        }
+            return false;
+        });
     }
 
     /**
@@ -555,6 +621,91 @@ public:
     }
 private:
 
+    /**
+     * Queries the socket to determine if there is a pending accept
+     * @param bHasPendingConnection out parameter indicating whether a connection is pending or not
+     * @return true if successful, false otherwise
+     *
+     * @par Example
+     * @code
+     * ip::tcp::socket socket();
+     * ...
+     * std::error_code ec;
+     * socket.has_pending_accept(ec);
+     * if (ec)
+     * {
+     *   // An error occurred.
+     * }
+     * @endcode
+     */
+    bool has_pending_accept(std::error_code& ec)
+    {
+        bool bHasPendingConnection = false;
+        // make sure socket has no error state
+        if (has_state(socket_state::haserror, ec) == state_return::No)
+        {
+            // get the read state
+            state_return State = has_state(socket_state::readable, ec);
+            // turn the result into the outputs
+            bHasPendingConnection = State == state_return::Yes;
+        }
+        return bHasPendingConnection;
+    }
+
+    bool has_state(socket_state state, std::error_code& ec)
+    {
+        // Check the status of the state
+        int32 SelectStatus = 0;
+        switch (state)
+        {
+        case socket_state::readable:
+            SelectStatus = poll_read(_native_socket, _state, ec);
+            break;
+
+        case socket_state::writable:
+            SelectStatus = poll_write(_native_socket, _state, ec);
+            break;
+
+        case socket_state::haserror:
+            SelectStatus = poll_error(_native_socket, _state, ec);
+            break;
+        }
+
+        // if the select returns a positive number,
+        // the socket had the state, 
+        // 0 means didn't have it, 
+        // and negative is API error condition (not socket's error state)
+        return SelectStatus > 0 ? state_return::Yes :
+            SelectStatus == 0 ? state_return::No :
+            state_return::EncounteredError;
+    }
+
+    connection_state getConnectionState(std::error_code& ec)
+    {
+        connection_state currentState = connection_state::ConnectionError;
+
+        // look for an existing error
+        if (has_state(socket_state::haserror, ec) == state_return::No)
+        {
+            // get the write state
+            state_return writeState = has_state(socket_state::writable, ec);
+            if (ec) return currentState;
+            state_return readState = has_state(socket_state::readable, ec);
+            if (ec) return currentState;
+            // translate yes or no (error is already set)
+            if (writeState == state_return::Yes || readState == state_return::Yes)
+            {
+                currentState = connection_state::Connected;
+            }
+            else if (writeState == ESocketBSDReturn::No && readState == ESocketBSDReturn::No)
+            {
+                currentState = connection_state::NotConnected;
+            }
+        }
+        return currentState;
+    }
+private:
+
     /// Holds the BSD socket object. */
     native_handle_type      _native_socket;
 
@@ -567,10 +718,7 @@ private:
     /// The socket is open ?
     bool                    _open;
 
-    handler_function        _handlerAsyncAccept;
-    handler_function        _handlerAsyncConnect;
-    handler_function        _handlerAsyncRecv;
-    handler_function        _handlerAsyncSend;
+    std::vector<handle_method_type> _handleMethods;
 };
 
 } // namespace network
