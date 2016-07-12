@@ -204,7 +204,7 @@ std::string Platform::getMacAddress()
 
 std::string Platform::getDeviceId()
 {
-    std::string strDeviceId = strDeviceId = PlatformHelper::getSystemProperty("ro.serialno");
+    std::string strDeviceId = PlatformHelper::getSystemProperty("ro.serialno");
     do 
     {
         if (!strDeviceId.empty()) break;
@@ -234,48 +234,6 @@ std::string Platform::getOperatingSystemVersion()
 std::string Platform::getCPUArchitecture()
 {
     return PlatformHelper::getSystemProperty("ro.product.cpu.abi");
-}
-
-void Platform::systemTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
-{
-    // query for calendar time
-    struct timeval tmVal;
-    gettimeofday(&tmVal, NULL);
-
-    // convert it to local time
-    struct tm localTime;
-    localtime_r(&tmVal.tv_sec, &localTime);
-
-    // pull out data/time
-    year = localTime.tm_year + 1900;
-    month = localTime.tm_mon + 1;
-    dayOfWeek = localTime.tm_wday;
-    day = localTime.tm_mday;
-    hour = localTime.tm_hour;
-    min = localTime.tm_min;
-    sec = localTime.tm_sec;
-    msec = tmVal.tv_usec / 1000;
-}
-
-void Platform::utcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
-{
-    // query for calendar time
-    struct timeval tmVal;
-    gettimeofday(&tmVal, NULL);
-
-    // convert it to UTC
-    struct tm localTime;
-    gmtime_r(&tmVal.tv_sec, &localTime);
-
-    // pull out data/time
-    year = localTime.tm_year + 1900;
-    month = localTime.tm_mon + 1;
-    dayOfWeek = localTime.tm_wday;
-    day = localTime.tm_mday;
-    hour = localTime.tm_hour;
-    min = localTime.tm_min;
-    sec = localTime.tm_sec;
-    msec = tmVal.tv_usec / 1000;
 }
 
 int64 Platform::getTickCount()

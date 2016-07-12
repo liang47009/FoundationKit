@@ -53,12 +53,7 @@ public:
 
     static std::string getCPUArchitecture();
 
-    static void systemTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
-    static void utcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
     static int64 getTickCount();
-    static int64 getCPUTickCount();
-    static void captureScreen(const Rect& rect, const std::string& filename, const std::function<void(bool, const std::string&)>& afterCaptured);
-
 };
 
 NS_FK_END

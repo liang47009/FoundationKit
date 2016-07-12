@@ -570,6 +570,15 @@ public:
      */
     static DateTime utcNow();
 
+    /**
+     * Get the local date and time on this computer
+     */
+    static void systemTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
+
+    /**
+     * Get the UTC date and time on this computer
+     */
+    static void utcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
 
 	/**
 	 * Converts a string to a date and time.

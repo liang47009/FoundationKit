@@ -42,7 +42,7 @@ namespace socket_ops
     void sync_connect(socket_type s, const socket_addr_type* addr,
         int addrlen, std::error_code& ec);
 
-    bool non_blocking_connect(socket_type s, asio::error_code& ec);
+    bool non_blocking_connect(socket_type s, std::error_code& ec);
 
     socket_type accept(socket_type s, socket_addr_type* addr, 
         int* addrlen, std::error_code& ec);

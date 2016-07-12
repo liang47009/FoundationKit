@@ -8,7 +8,6 @@ losemymind.libo@gmail.com
 #include <cstdlib>
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "FoundationKit/Base/MathEx.h"
-#include "FoundationKit/Platform/Platform.h"
 #include "DateTime.h"
 
 NS_FK_BEGIN
@@ -221,7 +220,7 @@ DateTime DateTime::now()
 {
 	int32 year, month, day, dayOfWeek;
 	int32 hour, minute, second, millisecond;
-    Platform::systemTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
+    systemTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
     return DateTime(year, month, day, hour, minute, second, millisecond);
 }
 
@@ -229,8 +228,112 @@ DateTime DateTime::utcNow()
 {
     int32 year, month, day, dayOfWeek;
     int32 hour, minute, second, millisecond;
-    Platform::utcTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
+    utcTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
     return DateTime(year, month, day, hour, minute, second, millisecond);
+}
+
+void DateTime::systemTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+{
+#if TARGET_PLATFORM == PLATFORM_WIN32
+    SYSTEMTIME st;
+    GetLocalTime(&st);
+    year = st.wYear;
+    month = st.wMonth;
+    dayOfWeek = st.wDayOfWeek;
+    day = st.wDay;
+    hour = st.wHour;
+    min = st.wMinute;
+    sec = st.wSecond;
+    msec = st.wMilliseconds;
+#elif TARGET_PLATFORM == PLATFORM_ANDROID
+    // query for calendar time
+    struct timeval tmVal;
+    gettimeofday(&tmVal, NULL);
+
+    // convert it to local time
+    struct tm localTime;
+    localtime_r(&tmVal.tv_sec, &localTime);
+
+    // pull out data/time
+    year = localTime.tm_year + 1900;
+    month = localTime.tm_mon + 1;
+    dayOfWeek = localTime.tm_wday;
+    day = localTime.tm_mday;
+    hour = localTime.tm_hour;
+    min = localTime.tm_min;
+    sec = localTime.tm_sec;
+    msec = tmVal.tv_usec / 1000;
+#elif TARGET_PLATFORM == PLATFORM_IOS
+    // query for calendar time
+    struct timeval tmVal;
+    gettimeofday(&tmVal, NULL);
+
+    // convert it to local time
+    struct tm localTime;
+    localtime_r(&tmVal.tv_sec, &localTime);
+
+    // pull out data/time
+    year = localTime.tm_year + 1900;
+    month = localTime.tm_mon + 1;
+    dayOfWeek = localTime.tm_wday;
+    day = localTime.tm_mday;
+    hour = localTime.tm_hour;
+    min = localTime.tm_min;
+    sec = localTime.tm_sec;
+    msec = tmVal.tv_usec / 1000;
+#endif
+}
+
+void DateTime::utcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+{
+#if TARGET_PLATFORM == PLATFORM_WIN32
+    SYSTEMTIME st;
+    GetSystemTime(&st);
+    year = st.wYear;
+    month = st.wMonth;
+    dayOfWeek = st.wDayOfWeek;
+    day = st.wDay;
+    hour = st.wHour;
+    min = st.wMinute;
+    sec = st.wSecond;
+    msec = st.wMilliseconds;
+#elif TARGET_PLATFORM == PLATFORM_ANDROID
+    // query for calendar time
+    struct timeval tmVal;
+    gettimeofday(&tmVal, NULL);
+
+    // convert it to UTC
+    struct tm localTime;
+    gmtime_r(&tmVal.tv_sec, &localTime);
+
+    // pull out data/time
+    year = localTime.tm_year + 1900;
+    month = localTime.tm_mon + 1;
+    dayOfWeek = localTime.tm_wday;
+    day = localTime.tm_mday;
+    hour = localTime.tm_hour;
+    min = localTime.tm_min;
+    sec = localTime.tm_sec;
+    msec = tmVal.tv_usec / 1000;
+#elif TARGET_PLATFORM == PLATFORM_IOS
+    // query for calendar time
+    struct timeval tmVal;
+    gettimeofday(&tmVal, NULL);
+
+    // convert it to UTC
+    struct tm localTime;
+    gmtime_r(&tmVal.tv_sec, &localTime);
+
+    // pull out data/time
+    year = localTime.tm_year + 1900;
+    month = localTime.tm_mon + 1;
+    dayOfWeek = localTime.tm_wday;
+    day = localTime.tm_mday;
+    hour = localTime.tm_hour;
+    min = localTime.tm_min;
+    sec = localTime.tm_sec;
+    msec = tmVal.tv_usec / 1000;
+#endif
 }
 
 bool DateTime::parse( const std::string& dateTimeString, DateTime& outDateTime )
