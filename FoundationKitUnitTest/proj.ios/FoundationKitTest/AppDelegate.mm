@@ -52,14 +52,6 @@ using namespace FoundationKit;
     fileName += ".jpg";
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     FoundationKit::Rect rc(0,0, screenRect.size.width, screenRect.size.height);
-    Platform::captureScreen(rc, fileName, [](bool succeed, const std::string & filePath)
-    {
-        if (succeed) {
-            NSLog(@"===== SUCCEED FOR SAVE FILE:%s", filePath.c_str());
-        }else{
-            NSLog(@"===== FAILED FOR SAVE FILE:%s", filePath.c_str());
-        }
-    });
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

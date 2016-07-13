@@ -18,7 +18,7 @@
 #include <mach/mach_host.h>
 #include <mach/mach.h>
 #include <mach/mach_time.h>
-#include <sys/time.h>
+
 #include <sched.h>  // maybe the BSD time and sched.h need to be independent, but they are normally available together
 
 #include <unordered_map>

@@ -10,6 +10,10 @@ losemymind.libo@gmail.com
 #include "FoundationKit/Base/MathEx.h"
 #include "DateTime.h"
 
+#if TARGET_PLATFORM == PLATFORM_IOS
+#include <sys/time.h>
+#endif
+
 NS_FK_BEGIN
 
 /* DateTime constants
