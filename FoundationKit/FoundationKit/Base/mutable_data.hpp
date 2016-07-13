@@ -90,6 +90,15 @@ public:
         return static_cast<const char*>(data_);
     }
 
+    void reserve(std::size_t size)
+    {
+        clear();
+        char* pBuf = new char[size];
+        data_ = pBuf;
+        size_ = size;
+        owner_ = true;
+    }
+
     /// Get the size of the memory range.
     std::size_t size() const
     {
@@ -98,10 +107,7 @@ public:
 
     ~mutable_data()
     {
-        if (owner_ && data_ != nullptr)
-        {
-            delete data_;
-        }
+        clear();
     }
 
 private:
@@ -131,6 +137,17 @@ private:
         other.data_ = nullptr;
         other.size_ = 0;
         other.owner_ = false;
+    }
+
+    void clear()
+    {
+        if (owner_ && data_ != nullptr)
+        {
+            delete[] data_;
+        }
+        data_ = nullptr;
+        size_ = 0;
+        owner_ = false;
     }
 
 private:

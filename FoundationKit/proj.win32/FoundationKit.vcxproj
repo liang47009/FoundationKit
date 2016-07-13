@@ -160,7 +160,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\experimental\memory.h" />
     <ClInclude Include="..\FoundationKit\experimental\optional.hpp" />
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h" />
-    <ClInclude Include="..\FoundationKit\external\TinyJPEG\tiny_jpeg.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h" />
