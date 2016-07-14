@@ -197,7 +197,7 @@ bool Compression::uncompressMemory(CompressionFlags Flags, mutable_data& Uncompr
         });
 
         //constexpr uint32_t defaultBufferLength = uint32_t(4) << 20;     // 4MiB
-        constexpr uint32_t defaultBufferLength = 1024;     // 1MiB
+        constexpr uint32_t defaultBufferLength = uint32_t(1) << 20;       // 1MiB
         stream.next_in = static_cast<uint8*>(CompressedBuffer.data());
         stream.avail_in = CompressedBuffer.size();
         stream.next_out = nullptr;
@@ -226,15 +226,15 @@ bool Compression::compressFile(const char* srcFilePath, const char* desFilePath)
 {
     gzFile gFile = gzopen(desFilePath, "wb");
     FILE* srcFp = fopen(srcFilePath, "rb");
-    int64 size = 0;
+    size_t size = 0;
 
     fseek(srcFp, 0, SEEK_END);
     size = ftell(srcFp);
     fseek(srcFp, 0, SEEK_SET);
 
-    const uint32_t defaultBufferLength = 1024;     // 1MiB
-    int64 leftSize = size;
-    int64 readsize = 0;
+    const uint32_t defaultBufferLength = uint32_t(1) << 20;       // 1MiB
+    size_t leftSize = size;
+    size_t readsize = 0;
     char buffer[defaultBufferLength] = {0};
     while (leftSize > 0)
     {
