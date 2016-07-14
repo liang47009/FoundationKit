@@ -99,10 +99,29 @@ public:
         owner_ = true;
     }
 
+    void assign(void* data, std::size_t size, bool need_del = false)
+    {
+        clear();
+        data_ = data;
+        size_ = size;
+        owner_ = need_del;
+    }
+
     /// Get the size of the memory range.
     std::size_t size() const
     {
         return size_;
+    }
+
+    void clear()
+    {
+        if (owner_ && data_ != nullptr)
+        {
+            delete[] data_;
+        }
+        data_ = nullptr;
+        size_ = 0;
+        owner_ = false;
     }
 
     ~mutable_data()
@@ -139,39 +158,28 @@ private:
         other.owner_ = false;
     }
 
-    void clear()
-    {
-        if (owner_ && data_ != nullptr)
-        {
-            delete[] data_;
-        }
-        data_ = nullptr;
-        size_ = 0;
-        owner_ = false;
-    }
-
 private:
     void* data_;
     std::size_t size_;
     bool owner_;
 };
 
-mutable_data make_mutable_data(std::vector<char>& buffers)
+inline mutable_data make_mutable_data(std::vector<char>& buffers)
 {
     return std::move(mutable_data(&(buffers[0]), buffers.size()));
 }
 
-mutable_data make_mutable_data(std::vector<unsigned char>& buffers)
+inline mutable_data make_mutable_data(std::vector<unsigned char>& buffers)
 {
     return std::move(mutable_data(&(buffers[0]), buffers.size()));
 }
 
-mutable_data make_mutable_data(std::basic_string<char>& buffers)
+inline mutable_data make_mutable_data(std::basic_string<char>& buffers)
 {
     return std::move(mutable_data(&(buffers[0]), buffers.size()));
 }
 
-mutable_data make_mutable_data(std::basic_string<unsigned char>& buffers)
+inline mutable_data make_mutable_data(std::basic_string<unsigned char>& buffers)
 {
     return std::move(mutable_data(&(buffers[0]), buffers.size()));
 }

@@ -31,6 +31,9 @@ enum CompressionLevel
     COMPRESSION_LEVEL_BEST = -3
 };
 
+static constexpr uint64_t UNKNOWN_UNCOMPRESSED_LENGTH = uint64_t(-1);
+static constexpr uint64_t UNLIMITED_UNCOMPRESSED_LENGTH = uint64_t(-2);
+
 struct Compression
 {
     /** Time spent compressing data in seconds. */
@@ -60,6 +63,10 @@ struct Compression
      * @return true if compression succeeds, false if it fails because CompressedBuffer was too small or other reasons
      */
     static bool uncompressMemory(CompressionFlags Flags, mutable_data& UncompressedBuffer, const mutable_data& CompressedBuffer);
+
+    static bool compressFile(const char* srcFilePath, const char* desFilePath);
+
+    static bool uncompressFile(const char* srcFilePath, const char* desFilePath);
 };
 
 NS_FK_END

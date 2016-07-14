@@ -1,8 +1,11 @@
 #include <mutex>
+#include <vector>
+#include <stdio.h>
 #include "Compression.h"
 #include "zlib.h"
 #include "FoundationKit/Base/TimeEx.h"
 #include "FoundationKit/Foundation/Logger.h"
+
 NS_FK_BEGIN
 
 static void *zipAlloc(void *opaque, unsigned int size, unsigned int num)
@@ -33,6 +36,53 @@ static int transformLevel(CompressionLevel level)
     }
     return retLevel;
 }
+
+static int doInflate(z_stream* stream, std::vector<uint8>& head, size_t blockSize) {
+    if (stream->avail_out == 0) 
+    {
+        int index = head.size();
+        head.resize(head.size() + blockSize);
+        stream->next_out = &head[index];
+        stream->avail_out = blockSize;
+    }
+
+    int status = inflate(stream, Z_NO_FLUSH);
+
+    switch (status)
+    {
+    case Z_OK:
+    case Z_STREAM_END:
+        break;
+    case Z_BUF_ERROR:
+    case Z_NEED_DICT:
+    case Z_DATA_ERROR:
+    case Z_MEM_ERROR:
+        LOG_ERROR("doInflate inflate error:%d, msg:%s", status, stream->msg);
+    default:
+        LOG_ERROR("uncompressMemory inflate error:%d, msg:%s", status, stream->msg);
+    }
+    return status;
+}
+
+struct scope_exit
+{
+    typedef std::function<void()> _Fun;
+    scope_exit(const _Fun& fun)
+        :_fun(fun)
+    {
+
+    }
+
+    ~scope_exit()
+    {
+        if (_fun)
+        {
+            _fun();
+        }
+    }
+    _Fun   _fun;
+};
+
 
 /** Time spent compressing data in seconds. */
 double Compression::compressorTime = 0;
@@ -79,29 +129,31 @@ bool Compression::compressMemory(CompressionFlags Flags, mutable_data& Compresse
             break;
         }
 
+        scope_exit se([&]()
+        {
+            status = deflateEnd(&stream);
+            if (status != Z_OK)
+            {
+                LOG_ERROR("compressMemory deflateEnd error:%d, msg:%s", status, stream.msg);
+            }
+        });
+
         uLong uncompressedLength = UncompressedBuffer.size();
-        uLong compressedLength = deflateBound(&stream, uncompressedLength);
-        // Max 64MiB in one go
-        //constexpr uint32_t maxSingleStepLength = uint32_t(64) << 20;    // 64MiB
-        //constexpr uint32_t defaultBufferLength = uint32_t(4) << 20;     // 4MiB
+
         stream.next_in  = static_cast<uint8*>(UncompressedBuffer.data());
         stream.avail_in = uncompressedLength;
-        CompressedBuffer.reserve(compressedLength);
-        stream.next_out = static_cast<uint8*>(CompressedBuffer.data());;
-        stream.avail_out = compressedLength;
-
+        mutable_data tempData;
+        tempData.reserve(uncompressedLength);
+        stream.next_out = static_cast<uint8*>(tempData.data());;
+        stream.avail_out = uncompressedLength;
         while ((status = deflate(&stream, Z_FINISH)) == Z_OK);
-        if (status == Z_STREAM_END)
+        if (status != Z_STREAM_END)
         {
-            bCompressSucceeded = true;
-        }
-
-        status = deflateEnd(&stream);
-        if (status != Z_OK)
-        {
-            LOG_ERROR("compressMemory deflateEnd error:%d, msg:%s", status, stream.msg);
+            LOG_ERROR("compressMemory deflate error:%d, msg:%s", status, stream.msg);
             break;
         }
+        CompressedBuffer.reserve(stream.total_out);
+        memcpy(CompressedBuffer.data(), tempData.data(), stream.total_out);
         bCompressSucceeded = true;
     } while (false);
     // Keep track of compression time and stats.
@@ -135,43 +187,78 @@ bool Compression::uncompressMemory(CompressionFlags Flags, mutable_data& Uncompr
             break;
         }
 
-        constexpr uint32_t defaultBufferLength = uint32_t(4) << 20;     // 4MiB
+        scope_exit se([&]()
+        {
+            status = inflateEnd(&stream);
+            if (status != Z_OK)
+            {
+                LOG_ERROR("uncompressMemory inflateEnd error:%d, msg:%s", status, stream.msg);
+            }
+        });
 
+        //constexpr uint32_t defaultBufferLength = uint32_t(4) << 20;     // 4MiB
+        constexpr uint32_t defaultBufferLength = 1024;     // 1MiB
         stream.next_in = static_cast<uint8*>(CompressedBuffer.data());
         stream.avail_in = CompressedBuffer.size();
-        if (UncompressedBuffer.size() == 0)
-        {
-            UncompressedBuffer.reserve(defaultBufferLength);
-        }
-        stream.next_out = static_cast<uint8*>(UncompressedBuffer.data());;
-        stream.avail_out = UncompressedBuffer.size();
+        stream.next_out = nullptr;
+        stream.avail_out = 0;
+        stream.total_in = 0;
+        stream.total_out = 0;
 
-        size_t uncompressedSize = UncompressedBuffer.size();
-        // Uncompress data.
-        status = inflate(&stream, Z_FINISH);
-
-        if (status == Z_STREAM_END)
+        std::vector<uint8>  UncompressedData;
+        do 
         {
-            uncompressedSize = stream.total_out;
-        }
+            status = doInflate(&stream, UncompressedData, defaultBufferLength);
+        } while (status == Z_OK);
 
-        status = inflateEnd(&stream);
-        if (status != Z_OK)
-        {
-            LOG_ERROR("uncompressMemory inflateEnd error:%d, msg:%s", status, stream.msg);
-            break;
-        }
-        // These warnings will be compiled out in shipping.
-        LOG_CONDITION(status == Z_MEM_ERROR, "uncompressMemoryZLIB failed: Error: Z_MEM_ERROR, not enough memory!");
-        LOG_CONDITION(status == Z_BUF_ERROR, "uncompressMemoryZLIB failed: Error: Z_BUF_ERROR, not enough room in the output buffer!");
-        LOG_CONDITION(status == Z_DATA_ERROR, "uncompressMemoryZLIB failed: Error: Z_DATA_ERROR, input data was corrupted or incomplete!");
-        // Sanity check to make sure we uncompressed as much data as we expected to.
-        LOG_ASSERT(UncompressedBuffer.size() == uncompressedSize, " uncompressMemory - Failed to uncompress memory (%d/%d)", UncompressedBuffer.size(), uncompressedSize);
+        UncompressedBuffer.reserve(stream.total_out);
+        memcpy(UncompressedBuffer.data(), &UncompressedData[0], stream.total_out);
         bUncompressSucceeded = true;
     } while (false);
 
     uncompressorTime += (Time::now() - UncompressorStartTime).seconds();
     return bUncompressSucceeded;
+}
+
+
+
+bool Compression::compressFile(const char* srcFilePath, const char* desFilePath)
+{
+    gzFile gFile = gzopen(desFilePath, "wb");
+    FILE* srcFp = fopen(srcFilePath, "rb");
+    int64 size = 0;
+
+    fseek(srcFp, 0, SEEK_END);
+    size = ftell(srcFp);
+    fseek(srcFp, 0, SEEK_SET);
+
+    const uint32_t defaultBufferLength = 1024;     // 1MiB
+    int64 leftSize = size;
+    int64 readsize = 0;
+    char buffer[defaultBufferLength] = {0};
+    while (leftSize > 0)
+    {
+        if (leftSize > defaultBufferLength)
+        {
+            readsize = fread(buffer, 1, defaultBufferLength, srcFp);
+        }
+        else
+        {
+            readsize = fread(buffer, 1, leftSize, srcFp);
+        }
+        leftSize -= readsize;
+        fseek(srcFp, size - leftSize, SEEK_SET);
+        gzwrite(gFile, buffer, readsize);
+
+    }
+    fclose(srcFp);
+    gzclose(gFile);
+    return true;
+}
+
+bool Compression::uncompressFile(const char* srcFilePath, const char* desFilePath)
+{
+    return true;
 }
 
 NS_FK_END
