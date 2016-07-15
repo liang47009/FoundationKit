@@ -2,6 +2,7 @@
 #define LOSEMYMIND_COMPRESSION_H
 #pragma once
 
+#include <string>
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Types.h"
 #include "FoundationKit/Base/mutable_data.hpp"
@@ -64,9 +65,18 @@ struct Compression
      */
     static bool uncompressMemory(CompressionFlags Flags, mutable_data& UncompressedBuffer, const mutable_data& CompressedBuffer);
 
-    static bool compressFile(const char* srcFilePath, const char* desFilePath);
+    /**
+     * Thread-safe abstract compression routine. Compresses file from uncompressed file and writes it to compressed
+     * file. Updates CompressedSize with size of compressed data. Compression controlled by the passed in flags.
+     *
+     * @param	Flags						Flags to control what method to use and optionally control memory vs speed
+     * @param	CompressedBuffer			Buffer compressed data is going to be written to
+     * @param	UncompressedBuffer			Buffer containing uncompressed data
+     * @return true if compression succeeds, false if it fails because CompressedBuffer was too small or other reasons
+     */
+    static bool compressFile(const std::string& srcFilePath, const std::string& desFilePath);
 
-    static bool uncompressFile(const char* srcFilePath, const char* desFilePath);
+    static bool uncompressFile(const std::string& srcFilePath, const std::string& desFilePath);
 };
 
 NS_FK_END
