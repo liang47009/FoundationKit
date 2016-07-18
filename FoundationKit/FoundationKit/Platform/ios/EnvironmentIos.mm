@@ -46,6 +46,7 @@ namespace PlatformHelper {
         if (platformName == "iPhone7,2")    return "iPhone 6";
         if (platformName == "iPhone8,1")    return "iPhone 6s";
         if (platformName == "iPhone8,2")    return "iPhone 6s Plus";
+		if (platformName == "iPhone8,4")    return "iPhone SE";
         
         if (platformName == "iPod1,1")      return "iPod Touch 1G";
         if (platformName == "iPod2,1")      return "iPod Touch 2G";
@@ -80,8 +81,11 @@ namespace PlatformHelper {
         if (platformName == "iPad5,2")      return "iPad Mini 4 (Cellular)";
         if (platformName == "iPad5,3")      return "iPad Air 2 (WiFi)";
         if (platformName == "iPad5,4")      return "iPad Air 2 (Cellular)";
-        if (platformName == "iPad6,7")      return "iPad Pro (WiFi)";
-        if (platformName == "iPad6,8")      return "iPad Pro (Cellular)";
+
+		if (platformName == "iPad6,3")      return "iPad Pro 9.7-inch (WiFi)";
+		if (platformName == "iPad6,4")      return "iPad Pro 9.7-inch (Cellular)";
+		if (platformName == "iPad6,7")      return "iPad Pro 12.9-inch (WiFi)";
+		if (platformName == "iPad6,8")      return "iPad Pro 12.9-inch (Cellular)";
         
         if (platformName == "i386")         return getHardwareProperty("hw.model");
         if (platformName == "x86_64")       return getHardwareProperty("hw.model");
