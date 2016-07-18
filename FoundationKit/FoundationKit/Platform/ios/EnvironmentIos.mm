@@ -26,7 +26,8 @@ namespace PlatformHelper {
         return platformName;
     }
     
-    //code from https://github.com/fahrulazmi/UIDeviceHardware
+	// Other device info: http://www.blakespot.com/ios_device_specifications_grid.html
+    //Based on https://github.com/fahrulazmi/UIDeviceHardware
     std::string platformString()
     {
         std::string platformName = getHardwareProperty("hw.machine");
