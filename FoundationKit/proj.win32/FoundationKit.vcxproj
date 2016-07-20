@@ -160,6 +160,10 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\experimental\memory.h" />
     <ClInclude Include="..\FoundationKit\experimental\optional.hpp" />
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h" />
+    <ClInclude Include="..\FoundationKit\external\epoll_windows\sys\epoll.h" />
+    <ClInclude Include="..\FoundationKit\external\epoll_windows\sys\msafd.h" />
+    <ClInclude Include="..\FoundationKit\external\epoll_windows\sys\ntapi.h" />
+    <ClInclude Include="..\FoundationKit\external\epoll_windows\sys\tree.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h" />
@@ -203,6 +207,9 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Networking\detail\socket_base.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\detail\socket_ops.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\detail\socket_option.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\epoll_reactor.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\kqueue_reactor.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\select_reactor.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\IProtocol.h" />
     <ClInclude Include="..\FoundationKit\Networking\ip\address.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\ip\address_v4.hpp" />
@@ -284,6 +291,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\experimental\memory.cpp" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.c" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTFWrapper.cpp" />
+    <ClCompile Include="..\FoundationKit\external\epoll_windows\sys\epoll.c" />
     <ClCompile Include="..\FoundationKit\external\unzip\ioapi.cpp" />
     <ClCompile Include="..\FoundationKit\external\unzip\ioapi_mem.cpp" />
     <ClCompile Include="..\FoundationKit\external\unzip\unzip.cpp" />

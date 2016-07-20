@@ -31,7 +31,8 @@
 #   pragma comment(lib, "ws2_32.lib")
 #  endif // defined(_MSC_VER) || defined(__BORLANDC__)
 
-#else
+#else // (TARGET_PLATFORM != PLATFORM_WIN32)
+
 # include <sys/ioctl.h>
 # if !defined(__SYMBIAN32__)
 #  include <sys/poll.h>

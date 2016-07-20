@@ -76,6 +76,12 @@
     <Filter Include="Networking\detail\impl">
       <UniqueIdentifier>{afd807ce-841d-4df9-baf5-6cc4cfa326e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external\epoll_windows">
+      <UniqueIdentifier>{bc459921-c6e7-4a22-9001-6df35482b083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking\EventsReactor">
+      <UniqueIdentifier>{40e00d0e-e5d2-4edc-8a04-60962da3b1a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h">
@@ -516,6 +522,27 @@
     <ClInclude Include="..\FoundationKit\Networking\async_socket.hpp">
       <Filter>Networking</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\external\epoll_windows\sys\epoll.h">
+      <Filter>external\epoll_windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\external\epoll_windows\sys\msafd.h">
+      <Filter>external\epoll_windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\external\epoll_windows\sys\ntapi.h">
+      <Filter>external\epoll_windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\external\epoll_windows\sys\tree.h">
+      <Filter>external\epoll_windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\epoll_reactor.hpp">
+      <Filter>Networking\EventsReactor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\kqueue_reactor.hpp">
+      <Filter>Networking\EventsReactor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\select_reactor.hpp">
+      <Filter>Networking\EventsReactor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -730,6 +757,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Networking\IProtocol.cpp">
       <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\external\epoll_windows\sys\epoll.c">
+      <Filter>external\epoll_windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
