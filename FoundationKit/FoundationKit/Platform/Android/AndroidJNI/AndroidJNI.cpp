@@ -17,6 +17,7 @@ static JavaVM*   CurrentJavaVM      = nullptr;
 static jobject   MainActivityRef    = nullptr;
 static jobject   ClassLoader        = nullptr;
 static jmethodID FindClassMethod    = nullptr;
+static pthread_key_t TlsSlot;
 
 AndroidJNI::AndroidJNI()
 {
@@ -28,6 +29,12 @@ AndroidJNI::~AndroidJNI()
 
 }
 
+static void JavaEnvDestructor(void*)
+{
+    ANDROID_LOGI("*** JavaEnvDestructor: %ld", pthread_self());
+    AndroidJNI::detachJavaEnv();
+}
+
 void AndroidJNI::initializeJavaEnv(JavaVM* vm, jint version, jobject activityInstance/* = nullptr*/)
 {
     if (CurrentJavaVM == nullptr)
@@ -35,7 +42,7 @@ void AndroidJNI::initializeJavaEnv(JavaVM* vm, jint version, jobject activityIns
         CurrentJavaVM = vm;
         CurrentJavaVersion = version;
         MainActivityRef = activityInstance;
-
+        pthread_key_create(&TlsSlot, &JavaEnvDestructor);
         JNIEnv* env = AndroidJNI::getJavaEnv();
         jclass classLoaderClass = env->FindClass("java/lang/ClassLoader");
 
@@ -57,43 +64,34 @@ void AndroidJNI::initializeJavaEnv(JavaVM* vm, jint version, jobject activityIns
     }
 }
 
-
 jobject AndroidJNI::getMainActivity()
 {
     return MainActivityRef;
 }
 
-static void JavaEnvDestructor(void*)
-{
-    ANDROID_LOGI("*** JavaEnvDestructor: %ld", pthread_self());
-    AndroidJNI::detachJavaEnv();
-}
 JNIEnv* AndroidJNI::getJavaEnv()
 {
     // register a destructor to detach this thread
-    static unsigned int TlsSlot = 0;
-    if (TlsSlot == 0)
+    JNIEnv* Env = = (JNIEnv *)pthread_getspecific(TlsSlot);
+    if (Env == nullptr)
     {
-        pthread_key_create((pthread_key_t*)&TlsSlot, &JavaEnvDestructor);
-    }
-
-    JNIEnv* Env = nullptr;
-    jint GetEnvResult = CurrentJavaVM->GetEnv((void **)&Env, CurrentJavaVersion);
-    if (GetEnvResult == JNI_EDETACHED)
-    {
-        // attach to this thread
-        jint AttachResult = CurrentJavaVM->AttachCurrentThread(&Env, NULL);
-        if (AttachResult == JNI_ERR)
+        jint GetEnvResult = CurrentJavaVM->GetEnv((void **)&Env, CurrentJavaVersion);
+        if (GetEnvResult == JNI_EDETACHED)
         {
-            ANDROID_CHECKF(false, "*** UNIT TEST -- Failed to attach thread to get the JNI environment!");
+            // attach to this thread
+            jint AttachResult = CurrentJavaVM->AttachCurrentThread(&Env, NULL);
+            if (AttachResult == JNI_ERR)
+            {
+                ANDROID_CHECKF(false, "*** UNIT TEST -- Failed to attach thread to get the JNI environment!");
+                return nullptr;
+            }
+            pthread_setspecific(TlsSlot, (void*)Env);
+        }
+        else if (GetEnvResult != JNI_OK)
+        {
+            ANDROID_CHECKF(false, "*** UNIT TEST -- Failed to get the JNI environment! Result = %d", GetEnvResult);
             return nullptr;
         }
-        pthread_setspecific(TlsSlot, (void*)Env);
-    }
-    else if (GetEnvResult != JNI_OK)
-    {
-        ANDROID_CHECKF(false, "*** UNIT TEST -- Failed to get the JNI environment! Result = %d", GetEnvResult);
-        return nullptr;
     }
     return Env;
 }
