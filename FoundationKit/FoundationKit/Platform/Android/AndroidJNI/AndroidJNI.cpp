@@ -72,7 +72,7 @@ jobject AndroidJNI::getMainActivity()
 JNIEnv* AndroidJNI::getJavaEnv()
 {
     // register a destructor to detach this thread
-    JNIEnv* Env = = (JNIEnv *)pthread_getspecific(TlsSlot);
+    JNIEnv* Env = (JNIEnv *)pthread_getspecific(TlsSlot);
     if (Env == nullptr)
     {
         jint GetEnvResult = CurrentJavaVM->GetEnv((void **)&Env, CurrentJavaVersion);
