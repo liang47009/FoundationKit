@@ -100,8 +100,7 @@ public:
     void reserve(std::size_t size)
     {
         clear();
-        uint8* pBuf = new uint8[size];
-        data_ = pBuf;
+        data_ = new uint8[size];
         size_ = size;
         owner_ = true;
     }

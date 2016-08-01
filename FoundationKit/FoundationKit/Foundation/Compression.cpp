@@ -40,10 +40,10 @@ static int transformLevel(CompressionLevel level)
 static int doInflate(z_stream* stream, std::vector<uint8>& head, size_t blockSize) {
     if (stream->avail_out == 0) 
     {
-        int index = head.size();
+        size_t index = head.size();
         head.resize(head.size() + blockSize);
         stream->next_out = &head[index];
-        stream->avail_out = blockSize;
+        stream->avail_out = static_cast<uInt>(blockSize);
     }
 
     int status = inflate(stream, Z_NO_FLUSH);
@@ -141,11 +141,11 @@ bool Compression::compressMemory(CompressionFlags Flags, mutable_data& Compresse
         uLong uncompressedLength = UncompressedBuffer.size();
 
         stream.next_in  = static_cast<uint8*>(UncompressedBuffer.data());
-        stream.avail_in = uncompressedLength;
+        stream.avail_in = static_cast<uInt>(uncompressedLength);
         mutable_data tempData;
         tempData.reserve(uncompressedLength);
         stream.next_out = static_cast<uint8*>(tempData.data());;
-        stream.avail_out = uncompressedLength;
+        stream.avail_out = static_cast<uInt>(uncompressedLength);
         while ((status = deflate(&stream, Z_FINISH)) == Z_OK);
         if (status != Z_STREAM_END)
         {
@@ -199,7 +199,7 @@ bool Compression::uncompressMemory(CompressionFlags Flags, mutable_data& Uncompr
         //constexpr uint32_t defaultBufferLength = uint32_t(4) << 20;     // 4MiB
         constexpr uint32_t defaultBufferLength = uint32_t(1) << 20;       // 1MiB
         stream.next_in = static_cast<uint8*>(CompressedBuffer.data());
-        stream.avail_in = CompressedBuffer.size();
+        stream.avail_in = static_cast<uInt>(CompressedBuffer.size());
         stream.next_out = nullptr;
         stream.avail_out = 0;
         stream.total_in = 0;

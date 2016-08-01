@@ -17,7 +17,7 @@
 #include "FoundationKit/Platform/Platform.h"
 #include "FoundationKit/Base/DateTime.h"
 #include "FoundationKit/Base/Rect.h"
-
+#include "FoundationKit/Platform/PlatformTLS.h"
 
 using namespace FoundationKit;
 
@@ -35,7 +35,7 @@ using namespace FoundationKit;
     Scheduler::getInstance()->setTimeScale(1.0f);
     LOG_INFO("==== mac address:%s", Platform::getMacAddress().c_str());
 
-    
+    LOG_INFO("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());
     return YES;
 }
 

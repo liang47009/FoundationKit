@@ -103,6 +103,11 @@
 
 /* Begin PBXFileReference section */
 		0907E8411CE0838F00A65A3C /* OpenGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGL.h; sourceTree = "<group>"; };
+		0932D5B31D4EFE680004E055 /* error_code.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = error_code.hpp; sourceTree = "<group>"; };
+		0932D5B41D4EFE680004E055 /* mutable_data.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mutable_data.hpp; sourceTree = "<group>"; };
+		0932D5B51D4EFE680004E055 /* timer_scheduler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = timer_scheduler.hpp; sourceTree = "<group>"; };
+		0932D5B61D4EFE880004E055 /* ApplePlatformTLS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplePlatformTLS.h; sourceTree = "<group>"; };
+		0932D5B71D4EFE8F0004E055 /* PlatformTLS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformTLS.h; sourceTree = "<group>"; };
 		094617BC1CFBCE8C002A55EC /* TimeEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimeEx.cpp; sourceTree = "<group>"; };
 		094617BD1CFBCE8C002A55EC /* TimeEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeEx.h; sourceTree = "<group>"; };
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -472,6 +477,9 @@
 		09745B291CB8F6E8009D350F /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				0932D5B31D4EFE680004E055 /* error_code.hpp */,
+				0932D5B41D4EFE680004E055 /* mutable_data.hpp */,
+				0932D5B51D4EFE680004E055 /* timer_scheduler.hpp */,
 				094617BC1CFBCE8C002A55EC /* TimeEx.cpp */,
 				094617BD1CFBCE8C002A55EC /* TimeEx.h */,
 				0987AF231CEC1D5A0097DD97 /* Timer.h */,
@@ -864,6 +872,7 @@
 		09745D531CB8F6EC009D350F /* Platform */ = {
 			isa = PBXGroup;
 			children = (
+				0932D5B71D4EFE8F0004E055 /* PlatformTLS.h */,
 				09B377A31CE5D85A00252204 /* Environment.h */,
 				0907E8411CE0838F00A65A3C /* OpenGL.h */,
 				09745D651CB8F6EC009D350F /* FileUtils.cpp */,
@@ -878,6 +887,7 @@
 		09745D671CB8F6EC009D350F /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				0932D5B61D4EFE880004E055 /* ApplePlatformTLS.h */,
 				09B377A41CE5D86700252204 /* EnvironmentIos.mm */,
 				09745D681CB8F6EC009D350F /* FileUtils_apple.mm */,
 				09745D691CB8F6EC009D350F /* PlatformIos.mm */,

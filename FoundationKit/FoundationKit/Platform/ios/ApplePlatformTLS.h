@@ -7,7 +7,7 @@
 
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Types.h"
-
+#include <pthread.h>
 NS_FK_BEGIN
 
 /**
@@ -15,6 +15,7 @@ NS_FK_BEGIN
  **/
 class ApplePlatformTLS
 {
+public:
     /**
      * Return false if this is an invalid TLS slot
      * @param SlotIndex the TLS index to check
@@ -43,7 +44,7 @@ class ApplePlatformTLS
 		{
 			SlotKey = 0xFFFFFFFF;  // matches the Windows TlsAlloc() retval.
 		}
-		return SlotKey;
+		return (uint32)SlotKey;
 	}
 
 	/**

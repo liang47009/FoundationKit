@@ -72,7 +72,7 @@ DataStream& DataStream::operator >> (char* data)
     }
     if (size == 0)
     {
-        data = (char*)"";
+        //data = (char*)"";
         return *this;
     }
     read((unsigned char*)data, size);
