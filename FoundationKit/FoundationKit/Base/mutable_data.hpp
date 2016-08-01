@@ -2,7 +2,7 @@
 #define LOSEMYMIND_MUTABLE_DATA_HPP
 
 #include "FoundationKit/GenericPlatformMacros.h"
-
+#include "FoundationKit/Base/Types.h"
 #include <type_traits>
 #include <string>
 #include <vector>
@@ -54,7 +54,7 @@ public:
     }
 
     mutable_data(char* data, std::size_t size, bool need_del = false)
-        : data_(static_cast<void*>(data))
+        : data_(reinterpret_cast<uint8*>(data))
         , size_(size)
         , owner_(need_del)
     {
@@ -62,7 +62,7 @@ public:
 
     /// Construct a buffer to represent a given memory range.
     mutable_data(void* data, std::size_t size, bool need_del = false)
-        : data_(data)
+        : data_(reinterpret_cast<uint8*>(data))
         , size_(size)
         , owner_(need_del)
     {
@@ -72,11 +72,13 @@ public:
     mutable_data& operator= (const mutable_data& other)
     {
         copy(other);
+        return *this;
     }
 
     mutable_data& operator= (mutable_data&& other)
     {
         move(std::forward<mutable_data&&>(other));
+        return *this;
     }
 
     /// Get a pointer to the beginning of the memory range.
@@ -87,13 +89,18 @@ public:
 
     const char* c_str()
     {
-        return static_cast<const char*>(data_);
+        return reinterpret_cast<const char*>(data_);
+    }
+
+    const unsigned char* uc_str()
+    {
+        return data_;
     }
 
     void reserve(std::size_t size)
     {
         clear();
-        char* pBuf = new char[size];
+        uint8* pBuf = new uint8[size];
         data_ = pBuf;
         size_ = size;
         owner_ = true;
@@ -102,7 +109,7 @@ public:
     void assign(void* data, std::size_t size, bool need_del = false)
     {
         clear();
-        data_ = data;
+        data_ = reinterpret_cast<uint8*>(data);
         size_ = size;
         owner_ = need_del;
     }
@@ -141,9 +148,9 @@ private:
         {
             if (this->data_ != nullptr && owner_ == true)
             {
-                delete data_;
+                delete[] data_;
             }
-            data_ = new char[other.size_];
+            data_ = new uint8[other.size_];
             memcpy(data_, other.data_, other.size_);
         }
     }
@@ -159,7 +166,7 @@ private:
     }
 
 private:
-    void* data_;
+    uint8* data_;
     std::size_t size_;
     bool owner_;
 };
