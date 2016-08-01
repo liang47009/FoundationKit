@@ -7,7 +7,8 @@
 #define LOSEMYMIND_ANDROIDPLATFORMTLS_H
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Types.h"
-
+#include <pthread.h>
+#include <fcntl.h> // for gettid
 NS_FK_BEGIN
 
 

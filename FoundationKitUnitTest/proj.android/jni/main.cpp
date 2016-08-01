@@ -23,6 +23,7 @@
 #include "FoundationKit/Platform/Platform.h"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.h"
 #include "FoundationKit/std/function_cache.hpp"
+#include "FoundationKit/Platform/PlatformTLS.h"
 #include <vector>
 #include <stdarg.h>
 
