@@ -528,6 +528,12 @@
     <ClInclude Include="..\FoundationKit\Networking\EventsReactor\select_reactor.hpp">
       <Filter>Networking\EventsReactor</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.h">
+      <Filter>Platform\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">

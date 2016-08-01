@@ -42,8 +42,6 @@
 #include "FoundationKit/experimental/memory.h"
 #include "FoundationKit/Networking/network.hpp"
 
-
-
 using namespace std;
 USING_NS_FK;
 
@@ -65,18 +63,12 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+
+
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
-
-    network::ip::tcp::socket client;
-  
-    client.open(network::ip::tcp::v4());
-    ip::tcp::endpoint endpoint(ip::address::from_string("172.17.14.116"), 2001);
-    client.connect(endpoint);
-    char* pbuf = "this is first message";
-    mutable_data md(pbuf, strlen(pbuf));
-    client.send(md);
 
 	return true;
 }

@@ -230,8 +230,10 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Platform\FileUtils.h" />
     <ClInclude Include="..\FoundationKit\Platform\OpenGL.h" />
     <ClInclude Include="..\FoundationKit\Platform\Platform.h" />
+    <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.h" />
     <ClInclude Include="..\FoundationKit\std\contains_of_type.hpp" />
     <ClInclude Include="..\FoundationKit\std\disable_if.hpp" />
     <ClInclude Include="..\FoundationKit\std\function_cache.hpp" />
