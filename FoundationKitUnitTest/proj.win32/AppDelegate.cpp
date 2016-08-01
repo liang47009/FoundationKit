@@ -41,6 +41,7 @@
 
 #include "FoundationKit/experimental/memory.h"
 #include "FoundationKit/Networking/network.hpp"
+#include "FoundationKit/Platform/PlatformTLS.h"
 
 using namespace std;
 USING_NS_FK;

@@ -11,6 +11,7 @@ NS_FK_BEGIN
  */
 class WindowsPlatformTLS
 {
+public:
     /**
      * Return false if this is an invalid TLS slot
      * @param SlotIndex the TLS index to check
