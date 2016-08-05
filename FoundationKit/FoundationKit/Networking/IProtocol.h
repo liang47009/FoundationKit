@@ -23,7 +23,7 @@ public:
 
     static void DispathStreamProtocol(uint64 clientID, DataStream & stream);
         
-    virtual void ProcessStreamProtocol(uint64 clientID, DataStream & stream) {}
+    virtual void ProcessStreamProtocol(uint64 clientID, DataStream & stream) { UNUSED_ARG(clientID); UNUSED_ARG(stream); }
 };
 
 #define IMPLEMENT_PROTOCOL(CLS,IDX) CLS G_PROTOCOL_##CLS(IDX)
