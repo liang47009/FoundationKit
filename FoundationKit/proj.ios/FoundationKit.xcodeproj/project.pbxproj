@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		094617BE1CFBCE8C002A55EC /* TimeEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094617BC1CFBCE8C002A55EC /* TimeEx.cpp */; };
 		095286721ACA31DB00718FA9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 095286711ACA31DB00718FA9 /* Foundation.framework */; };
-		09745DA31CB8F6EC009D350F /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B2C1CB8F6E8009D350F /* Data.cpp */; };
 		09745DA41CB8F6EC009D350F /* DataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B2E1CB8F6E8009D350F /* DataStream.cpp */; };
 		09745DA51CB8F6EC009D350F /* MathEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B321CB8F6E8009D350F /* MathEx.cpp */; };
 		09745DA61CB8F6EC009D350F /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B341CB8F6E8009D350F /* MathUtil.cpp */; };
@@ -112,8 +111,6 @@
 		094617BD1CFBCE8C002A55EC /* TimeEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeEx.h; sourceTree = "<group>"; };
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		09745B2A1CB8F6E8009D350F /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
-		09745B2C1CB8F6E8009D350F /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Data.cpp; sourceTree = "<group>"; };
-		09745B2D1CB8F6E8009D350F /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		09745B2E1CB8F6E8009D350F /* DataStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataStream.cpp; sourceTree = "<group>"; };
 		09745B2F1CB8F6E8009D350F /* DataStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStream.h; sourceTree = "<group>"; };
 		09745B301CB8F6E8009D350F /* Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
@@ -488,8 +485,6 @@
 				09B322011CD9BE6900D11961 /* Timespan.cpp */,
 				09B322021CD9BE6900D11961 /* Timespan.h */,
 				09745B2A1CB8F6E8009D350F /* Buffer.h */,
-				09745B2C1CB8F6E8009D350F /* Data.cpp */,
-				09745B2D1CB8F6E8009D350F /* Data.h */,
 				09745B2E1CB8F6E8009D350F /* DataStream.cpp */,
 				09745B2F1CB8F6E8009D350F /* DataStream.h */,
 				09745B301CB8F6E8009D350F /* Dictionary.h */,
@@ -1177,7 +1172,6 @@
 				09745DED1CB8F6EC009D350F /* ioapi_mem.cpp in Sources */,
 				09745DF91CB8F6EC009D350F /* MessageQueue.cpp in Sources */,
 				09745DAB1CB8F6EC009D350F /* Value.cpp in Sources */,
-				09745DA31CB8F6EC009D350F /* Data.cpp in Sources */,
 				09745DB31CB8F6EC009D350F /* EventController.cpp in Sources */,
 				09745DC51CB8F6EC009D350F /* Touch.cpp in Sources */,
 				09745DC41CB8F6EC009D350F /* KeyboardExampleWindows.cpp in Sources */,
