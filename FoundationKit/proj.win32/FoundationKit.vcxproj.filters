@@ -531,9 +531,6 @@
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.h">
       <Filter>Platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\RunLoop.h">
-      <Filter>Platform</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -745,9 +742,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Networking\IProtocol.cpp">
       <Filter>Networking</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\RunLoop.cpp">
-      <Filter>Platform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
