@@ -9,7 +9,7 @@
 #pragma once
 
 #include "FoundationKit/GenericPlatformMacros.h"
-#include "FoundationKit/Base/Data.h"
+#include "FoundationKit/Base/mutable_data.hpp"
 #include "FoundationKit/Foundation/Singleton.h"
 #include <string>
 #include <vector>
@@ -73,7 +73,7 @@ public:
     *  Creates binary data from a file.
     *  @return A data object.
     */
-    Data readDataFromFile(const std::string& filename);
+    mutable_data readDataFromFile(const std::string& filename);
 
    /**
     *  Gets resource file data from a zip file.
@@ -83,7 +83,7 @@ public:
     *  @return Upon success, a pointer to the data is returned, otherwise nullptr.
     *  @warning Recall: you are responsible for calling free() on any Non-nullptr pointer returned.
     */
-    Data readDataFromZip(const std::string& zipFilePath, const std::string& filename, size_t *size);
+    mutable_data readDataFromZip(const std::string& zipFilePath, const std::string& filename, size_t *size);
 
    /**
     *  write a string into a file
@@ -101,7 +101,7 @@ public:
     *@param fullPath The full path to the file you want to save a string
     *@return bool
     */
-    bool writeDataToFile(Data retData, const std::string& fullPath);
+    bool writeDataToFile(mutable_data retData, const std::string& fullPath);
 
    /**
     *  Gets filename extension is a suffix (separated from the base filename by a dot) in lower case.

@@ -1,5 +1,5 @@
-#ifndef LOSEMYMIND_MUTABLE_DATA_HPP
-#define LOSEMYMIND_MUTABLE_DATA_HPP
+#ifndef LOSEMYMIND_MUTABLE__dataHPP
+#define LOSEMYMIND_MUTABLE__dataHPP
 
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Types.h"
@@ -25,7 +25,7 @@ NS_FK_BEGIN
 * member functions:
 *
 * @code mutable_buffer b1 = ...;
-* std::size_t s1 = b1.size();
+* std::_sizet s1 = b1.size();
 * unsigned char* p1 = static_cast<unsigned char*>(b1.data());
 * @endcode
 *
@@ -35,11 +35,10 @@ NS_FK_BEGIN
 class mutable_data
 {
 public:
-
     /// Construct an empty buffer.
     mutable_data()
-        : data_(nullptr)
-        , size_(0)
+        : _data(nullptr)
+        , _size(0)
     {
     }
 
@@ -54,17 +53,17 @@ public:
     }
 
     mutable_data(char* data, std::size_t size, bool need_del = false)
-        : data_(reinterpret_cast<uint8*>(data))
-        , size_(size)
-        , owner_(need_del)
+        : _data(reinterpret_cast<uint8*>(data))
+        , _size(size)
+        , _owner(need_del)
     {
     }
 
     /// Construct a buffer to represent a given memory range.
     mutable_data(void* data, std::size_t size, bool need_del = false)
-        : data_(reinterpret_cast<uint8*>(data))
-        , size_(size)
-        , owner_(need_del)
+        : _data(reinterpret_cast<uint8*>(data))
+        , _size(size)
+        , _owner(need_del)
     {
     }
 
@@ -84,50 +83,55 @@ public:
     /// Get a pointer to the beginning of the memory range.
     void* data() const
     {
-        return data_;
+        return _data;
     }
 
     const char* c_str()
     {
-        return reinterpret_cast<const char*>(data_);
+        return reinterpret_cast<const char*>(_data);
     }
 
     const unsigned char* uc_str()
     {
-        return data_;
+        return _data;
     }
 
     void reserve(std::size_t size)
     {
         clear();
-        data_ = new uint8[size];
-        size_ = size;
-        owner_ = true;
+        _data = new uint8[size];
+        _size = size;
+        _owner = true;
     }
 
     void assign(void* data, std::size_t size, bool need_del = false)
     {
         clear();
-        data_ = reinterpret_cast<uint8*>(data);
-        size_ = size;
-        owner_ = need_del;
+        _data = reinterpret_cast<uint8*>(data);
+        _size = size;
+        _owner = need_del;
     }
 
     /// Get the size of the memory range.
     std::size_t size() const
     {
-        return size_;
+        return _size;
     }
 
     void clear()
     {
-        if (owner_ && data_ != nullptr)
+        if (_owner && _data != nullptr)
         {
-            delete[] data_;
+            delete[] _data;
         }
-        data_ = nullptr;
-        size_ = 0;
-        owner_ = false;
+        _data = nullptr;
+        _size = 0;
+        _owner = false;
+    }
+
+    bool isNull()
+    {
+        return (_data == nullptr || _size == 0);
     }
 
     ~mutable_data()
@@ -138,36 +142,36 @@ public:
 private:
     void copy(const mutable_data& other)
     {
-        this->size_ = other.size_;
-        if (!other.owner_)
+        this->_size = other._size;
+        if (!other._owner)
         {
-            this->data_ = other.data_;
+            this->_data = other._data;
         }
         else
         {
-            if (this->data_ != nullptr && owner_ == true)
+            if (this->_data != nullptr && _owner == true)
             {
-                delete[] data_;
+                delete[] _data;
             }
-            data_ = new uint8[other.size_];
-            memcpy(data_, other.data_, other.size_);
+            _data = new uint8[other._size];
+            memcpy(_data, other._data, other._size);
         }
     }
 
     void move(mutable_data&& other)
     {
-        this->data_ = other.data_;
-        this->size_ = other.size_;
-        this->owner_ = other.owner_;
-        other.data_ = nullptr;
-        other.size_ = 0;
-        other.owner_ = false;
+        this->_data = other._data;
+        this->_size = other._size;
+        this->_owner = other._owner;
+        other._data = nullptr;
+        other._size = 0;
+        other._owner = false;
     }
 
 private:
-    uint8* data_;
-    std::size_t size_;
-    bool owner_;
+    uint8* _data;
+    std::size_t _size;
+    bool _owner;
 };
 
 inline mutable_data make_mutable_data(std::vector<char>& buffers)
@@ -190,6 +194,7 @@ inline mutable_data make_mutable_data(std::basic_string<unsigned char>& buffers)
     return std::move(mutable_data(&(buffers[0]), buffers.size()));
 }
 
+
 NS_FK_END
 
-#endif // LOSEMYMIND_MUTABLE_DATA_HPP
+#endif // LOSEMYMIND_MUTABLE__dataHPP

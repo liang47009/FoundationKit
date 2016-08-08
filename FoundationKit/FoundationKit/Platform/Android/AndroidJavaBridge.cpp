@@ -1,5 +1,5 @@
 #include <jni.h>
-#include "FoundationKit/Foundation/FunctionCenter.hpp"
+#include "FoundationKit/Foundation/DelegateManager.h"
 #include "AndroidJavaBridge.h"
 
 using namespace FoundationKit;
@@ -42,7 +42,7 @@ extern "C"
         {
             arguments.emplace_back(env->GetObjectArrayElement(args, i));
         }
-        FoundationKit::FunctionCenter::getInstance()->invoke(strFunName, arguments);
+        FoundationKit::DelegateManager::getInstance()->invokeDelegate(strFunName, &arguments);
 
 
         /**

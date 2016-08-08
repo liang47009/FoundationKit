@@ -294,9 +294,6 @@
     <ClInclude Include="..\FoundationKit\Base\Buffer.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\Data.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\DataStream.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -670,9 +667,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTFWrapper.cpp">
       <Filter>external\ConvertUTF</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Base\Data.cpp">
-      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\DataStream.cpp">
       <Filter>Base</Filter>

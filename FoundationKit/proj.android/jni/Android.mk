@@ -7,7 +7,6 @@ LOCAL_MODULE_FILENAME := libfoundationkit
 
 LOCAL_SRC_FILES := \
 ../../FoundationKit/GenericPlatformMacros.cpp \
-../../FoundationKit/Base/Data.cpp \
 ../../FoundationKit/Base/DataStream.cpp \
 ../../FoundationKit/Base/DateTime.cpp \
 ../../FoundationKit/Base/MathEx.cpp \

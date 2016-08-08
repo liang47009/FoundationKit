@@ -24,14 +24,14 @@
 
 NS_FK_BEGIN
 
-static Data getData(const std::string& filename, bool forString)
+static mutable_data getData(const std::string& filename, bool forString)
 {
     if (filename.empty())
     {
-        return Data::Null;
+        return mutable_data();
     }
 
-    Data ret;
+    mutable_data ret;
     unsigned char* buffer = nullptr;
     size_t size = 0;
     size_t readsize = 0;
@@ -78,7 +78,7 @@ static Data getData(const std::string& filename, bool forString)
     }
     else
     {
-        ret.fastSet(buffer, readsize, true);
+        ret.assign(buffer, readsize, true);
     }
 
     return ret;
@@ -218,22 +218,22 @@ bool FileUtils::isAbsolutePath(const std::string& path) const
 
 std::string FileUtils::readStringFromFile(const std::string& filename)
 {
-    Data data = getData(filename, true);
+    mutable_data data = getData(filename, true);
     if (data.isNull())
         return "";
 
-    std::string ret((const char*)data.getBytes());
+    std::string ret(data.c_str());
     return ret;
 }
 
-Data FileUtils::readDataFromFile(const std::string& filename)
+mutable_data FileUtils::readDataFromFile(const std::string& filename)
 {
     return getData(filename, false);
 }
 
-Data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::string& filename, size_t *size)
+mutable_data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::string& filename, size_t *size)
 {
-    Data retData;
+    mutable_data retData;
     unzFile file = nullptr;
     *size = 0;
 
@@ -266,7 +266,7 @@ Data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::strin
         *size = fileInfo.uncompressed_size;
         unzCloseCurrentFile(file);
 
-        retData.fastSet(buffer, *size, true);
+        retData.assign(buffer, *size, true);
 
     } while (0);
 
@@ -280,23 +280,21 @@ Data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::strin
 
 bool FileUtils::writeStringToFile(const std::string& dataStr, const std::string& fullPath)
 {
-    Data retData;
-    retData.copy((unsigned char*)dataStr.c_str(), dataStr.size());
+    mutable_data retData((unsigned char*)dataStr.c_str(), dataStr.size());
     return writeDataToFile(retData, fullPath);
 }
 
-bool FileUtils::writeDataToFile(Data retData, const std::string& fullPath)
+bool FileUtils::writeDataToFile(mutable_data retData, const std::string& fullPath)
 {
-    LOG_ASSERT(!fullPath.empty() && retData.getSize() != 0, "Invalid parameters.");
+    LOG_ASSERT(!fullPath.empty() && retData.size() != 0, "Invalid parameters.");
     do
     {
-        size_t size = 0;
+
         const char* mode = "wb";
         // Read the file from hardware
         FILE *fp = fopen(fullPath.c_str(), mode);
         BREAK_IF(!fp);
-        size = retData.getSize();
-        fwrite(retData.getBytes(), size, 1, fp);
+        fwrite(retData.data(), retData.size(), 1, fp);
         fclose(fp);
         return true;
     } while (0);

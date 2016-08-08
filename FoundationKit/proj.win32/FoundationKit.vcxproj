@@ -97,7 +97,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Base\Buffer.h" />
-    <ClInclude Include="..\FoundationKit\Base\Data.h" />
     <ClInclude Include="..\FoundationKit\Base\DataStream.h" />
     <ClInclude Include="..\FoundationKit\Base\DateTime.h" />
     <ClInclude Include="..\FoundationKit\Base\Dictionary.h" />
@@ -249,7 +248,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Thread\thread.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\FoundationKit\Base\Data.cpp" />
     <ClCompile Include="..\FoundationKit\Base\DataStream.cpp" />
     <ClCompile Include="..\FoundationKit\Base\DateTime.cpp" />
     <ClCompile Include="..\FoundationKit\Base\MathEx.cpp" />
