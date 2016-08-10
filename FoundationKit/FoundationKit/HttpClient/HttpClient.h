@@ -20,7 +20,7 @@ losemymind.libo@gmail.com
 
 NS_FK_BEGIN
 
-class HttpClient
+class HTTPClient
 {
 public:
     static const int RESPONSE_BUFFER_SIZE = 256;
@@ -28,11 +28,11 @@ public:
     typedef std::list<HTTPResponse::Pointer>         ResponseQueue;
     typedef std::list<std::shared_ptr<std::thread> > ThreadList;
 
-    static HttpClient* getInstance();
+    static HTTPClient* getInstance();
 
 
-    HttpClient();
-    ~HttpClient();
+    HTTPClient();
+    ~HTTPClient();
 
     HTTPResponse::Pointer sendRequest(HTTPRequest::Pointer requestPtr);
     void sendRequestAsync(HTTPRequest::Pointer requestPtr, bool callbackInUpdateThread = false);

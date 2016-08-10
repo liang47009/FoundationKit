@@ -58,7 +58,7 @@ static int onProgress(void *userdata, double dltotal, double dlnow, double ultot
 
 static int onDebug(CURL *handle, curl_infotype type, char *data, size_t size, void *userptr)
 {
-    HttpClient* pHttpClient = reinterpret_cast<HttpClient*>(userptr);
+    HTTPClient* pHttpClient = reinterpret_cast<HTTPClient*>(userptr);
     LOG_INFO(">>>>> HttpClient:%p CURL Handle:%p", pHttpClient, handle);
     switch (type)
     {
@@ -92,7 +92,7 @@ static int onDebug(CURL *handle, curl_infotype type, char *data, size_t size, vo
 // ==                          CURL CALLBACK END                           ==
 // ==========================================================================
 
-HttpClient::HttpClient()
+HTTPClient::HTTPClient()
 {
     _timeoutForConnect = 30;
     _timeoutForRead = 30;
@@ -102,7 +102,7 @@ HttpClient::HttpClient()
     curl_global_init(CURL_GLOBAL_ALL);
 }
 
-HttpClient::~HttpClient()
+HTTPClient::~HTTPClient()
 {
     _running = false;
     _requestQueueNotEmpty.notify_all();
@@ -113,31 +113,31 @@ HttpClient::~HttpClient()
     curl_global_cleanup();
 }
 
-std::once_flag HttpClient::_callOnceFlag;
-static HttpClient* shared_HttpClientInstance = nullptr;
-HttpClient* HttpClient::getInstance()
+std::once_flag HTTPClient::_callOnceFlag;
+static HTTPClient* shared_HttpClientInstance = nullptr;
+HTTPClient* HTTPClient::getInstance()
 {
     std::call_once(_callOnceFlag, []()
     {
-        static HttpClient  httpClient;
+        static HTTPClient  httpClient;
         httpClient.lazyInitThread();
         shared_HttpClientInstance = &httpClient;
     });
     return shared_HttpClientInstance;
 }
 
-bool HttpClient::lazyInitThread()
+bool HTTPClient::lazyInitThread()
 {
     _running = true;
     size_t numThreads = std::thread::hardware_concurrency();
     for (size_t i = 0; i < numThreads; ++i)
     {
-        _threadList.push_back(std::make_shared<std::thread>(&HttpClient::networkThread, this));
+        _threadList.push_back(std::make_shared<std::thread>(&HTTPClient::networkThread, this));
     }
     return true;
 }
 
-void HttpClient::networkThread()
+void HTTPClient::networkThread()
 {
     while (_running)
     {
@@ -159,32 +159,32 @@ void HttpClient::networkThread()
     }
 }
 
-void HttpClient::setTimeoutForConnect(int value)
+void HTTPClient::setTimeoutForConnect(int value)
 {
     _timeoutForConnect = value;
 }
 
-int HttpClient::getTimeoutForConnect()
+int HTTPClient::getTimeoutForConnect()
 {
     return _timeoutForConnect;
 }
 
-void HttpClient::setTimeoutForRead(int value)
+void HTTPClient::setTimeoutForRead(int value)
 {
     _timeoutForRead = value;
 }
 
-int HttpClient::getTimeoutForRead()
+int HTTPClient::getTimeoutForRead()
 {
     return _timeoutForRead;
 }
 
-void HttpClient::setDebugMode(bool debugMode)
+void HTTPClient::setDebugMode(bool debugMode)
 {
     _isDebug = debugMode;
 }
 
-void HttpClient::update(float deltaTime)
+void HTTPClient::update(float deltaTime)
 {
     UNUSED_ARG(deltaTime);
 
@@ -203,12 +203,12 @@ void HttpClient::update(float deltaTime)
     }
 }
 
-HTTPResponse::Pointer HttpClient::sendRequest(HTTPRequest::Pointer requestPtr)
+HTTPResponse::Pointer HTTPClient::sendRequest(HTTPRequest::Pointer requestPtr)
 {
     return processRequest(requestPtr);
 }
 
-void HttpClient::sendRequestAsync(HTTPRequest::Pointer requestPtr, bool callbackInUpdateThread/* = false*/)
+void HTTPClient::sendRequestAsync(HTTPRequest::Pointer requestPtr, bool callbackInUpdateThread/* = false*/)
 {
     std::lock_guard<std::mutex> lock(_requestQueueMutex);
     _requestQueue.push_back(requestPtr);
@@ -216,7 +216,7 @@ void HttpClient::sendRequestAsync(HTTPRequest::Pointer requestPtr, bool callback
     _bCallbackInUpdateThread = callbackInUpdateThread;
 }
 
-HTTPRequest::Pointer HttpClient::getRequest()
+HTTPRequest::Pointer HTTPClient::getRequest()
 {
     std::unique_lock<std::mutex> lock(_requestQueueMutex);
     _requestQueueNotEmpty.wait(lock, [&]{return !_running || !_requestQueue.empty(); });
@@ -229,7 +229,7 @@ HTTPRequest::Pointer HttpClient::getRequest()
     return requestPtr;
 }
 
-HTTPResponse::Pointer HttpClient::processRequest(HTTPRequest::Pointer requestPtr)
+HTTPResponse::Pointer HTTPClient::processRequest(HTTPRequest::Pointer requestPtr)
 {
     CURL *_curl = curl_easy_init();
     HTTPResponse::Pointer response = HTTPResponse::create(requestPtr);

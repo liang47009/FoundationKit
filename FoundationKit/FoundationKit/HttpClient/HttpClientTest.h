@@ -42,11 +42,11 @@ static void TestHttpClient()
         //LOG_INFO("=========onProgress: %f/%f, %f/%f ", dlTotal, dlNow, ulTotal, ulNow);
     };
 
-    HttpClient::getInstance()->sendRequestAsync(request);
-    HttpClient::getInstance()->sendRequestAsync(request);
-    HttpClient::getInstance()->sendRequestAsync(request);
-    HttpClient::getInstance()->sendRequestAsync(request);
-    HTTPResponse::Pointer response = HttpClient::getInstance()->sendRequest(request);
+    HTTPClient::getInstance()->sendRequestAsync(request);
+    HTTPClient::getInstance()->sendRequestAsync(request);
+    HTTPClient::getInstance()->sendRequestAsync(request);
+    HTTPClient::getInstance()->sendRequestAsync(request);
+    HTTPResponse::Pointer response = HTTPClient::getInstance()->sendRequest(request);
     if (response->getHTTPRequest()->onRequestFinished)
     {
         response->getHTTPRequest()->onRequestFinished(response);
@@ -79,7 +79,7 @@ static void TestHttpClientWithUploadDumpInfo()
     writer.EndObject();
     std::string jsonString = sb.GetString();
 
-    HttpClient::getInstance()->setDebugMode(true);
+    HTTPClient::getInstance()->setDebugMode(true);
     // http://172.19.10.135:8080/bgmgt/api/comm/cpp2
     // http://172.19.10.135:8080/bgmgt/api/comm/cpp
     HTTPRequest::Pointer request = HTTPRequest::create("http://172.19.10.135:8080/bgmgt/api/comm/cpp", HTTPRequest::Type::POST);
@@ -94,7 +94,7 @@ static void TestHttpClientWithUploadDumpInfo()
         LOG_INFO("=========onProgress: %f/%f, %f/%f ", dlTotal, dlNow, ulTotal, ulNow);
     };
 
-    HTTPResponse::Pointer response = HttpClient::getInstance()->sendRequest(request);
+    HTTPResponse::Pointer response = HTTPClient::getInstance()->sendRequest(request);
     if (response->isSucceed())
     {
         std::vector<char> vdata = *response->getResponseHeader();
