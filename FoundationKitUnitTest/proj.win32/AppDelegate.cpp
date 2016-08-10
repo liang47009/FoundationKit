@@ -68,7 +68,7 @@ void AppDelegate::applicationDidLaunching()
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
-
+    TestHttpClient();
 	return true;
 }
 

@@ -16,11 +16,11 @@ static void TestHttpClient()
 {
     LOG_INFO("======= TestHttpClient =======");
     //HttpClient::getInstance()->setDebugMode(true);
-    HttpRequest::Pointer request = HttpRequest::createWithUrl("wiki.mysnail.com/", HttpRequest::Type::POST);
-    request->addPOSTValue("username", "libo");
-    request->addFormContents("upload", "test.txt");
-    request->addFormFile("googlebreakpad.zip", "C:/Users/libo/Downloads/googlebreakpad.zip");
-    request->onRequestFinished = [](HttpResponse::Pointer responsePtr)
+    HTTPRequest::Pointer request = HTTPRequest::create("http://wiki.mysnail.com/", HTTPRequest::Type::POST);
+    request->addPostField("username", "libo");
+    request->addContent("upload", "test.txt");
+    request->addFile("googlebreakpad.zip", "C:/Users/libo/Downloads/googlebreakpad.zip");
+    request->onRequestFinished = [](HTTPResponse::Pointer responsePtr)
     {
         if (responsePtr->isSucceed())
         {
@@ -46,10 +46,10 @@ static void TestHttpClient()
     HttpClient::getInstance()->sendRequestAsync(request);
     HttpClient::getInstance()->sendRequestAsync(request);
     HttpClient::getInstance()->sendRequestAsync(request);
-    HttpResponse::Pointer response = HttpClient::getInstance()->sendRequest(request);
-    if (response->getHttpRequest()->onRequestFinished)
+    HTTPResponse::Pointer response = HttpClient::getInstance()->sendRequest(request);
+    if (response->getHTTPRequest()->onRequestFinished)
     {
-        response->getHttpRequest()->onRequestFinished(response);
+        response->getHTTPRequest()->onRequestFinished(response);
     }
 }
 
@@ -82,19 +82,19 @@ static void TestHttpClientWithUploadDumpInfo()
     HttpClient::getInstance()->setDebugMode(true);
     // http://172.19.10.135:8080/bgmgt/api/comm/cpp2
     // http://172.19.10.135:8080/bgmgt/api/comm/cpp
-    HttpRequest::Pointer request = HttpRequest::createWithUrl("http://172.19.10.135:8080/bgmgt/api/comm/cpp", HttpRequest::Type::POST);
+    HTTPRequest::Pointer request = HTTPRequest::create("http://172.19.10.135:8080/bgmgt/api/comm/cpp", HTTPRequest::Type::POST);
     //request->addPOSTValue("params", jsonString.c_str());
-    request->addFormContents("params", jsonString.c_str());
-    request->addFormFile("file", "E:/dump.txt");
-    request->addFormFile("traceFile", "E:/tracelog.log");
-    request->setContentEncoding(HttpRequest::EncodeType::Gzip);
+    request->addContent("params", jsonString.c_str());
+    request->addFile("file", "E:/dump.txt");
+    request->addFile("traceFile", "E:/tracelog.log");
+    request->setContentEncoding(HTTPRequest::DataEncodingType::Gzip);
 
     request->onProgress = [](double dlTotal, double dlNow, double ulTotal, double ulNow)
     {
         LOG_INFO("=========onProgress: %f/%f, %f/%f ", dlTotal, dlNow, ulTotal, ulNow);
     };
 
-    HttpResponse::Pointer response = HttpClient::getInstance()->sendRequest(request);
+    HTTPResponse::Pointer response = HttpClient::getInstance()->sendRequest(request);
     if (response->isSucceed())
     {
         std::vector<char> vdata = *response->getResponseHeader();

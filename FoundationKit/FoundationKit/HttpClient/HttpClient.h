@@ -15,8 +15,8 @@ losemymind.libo@gmail.com
 #include <list>
 #include <condition_variable>
 #include "curl.h"
-#include "HttpRequest.h"
-#include "HttpResponse.h"
+#include "HTTPRequest.hpp"
+#include "HTTPResponse.hpp"
 
 NS_FK_BEGIN
 
@@ -24,8 +24,8 @@ class HttpClient
 {
 public:
     static const int RESPONSE_BUFFER_SIZE = 256;
-    typedef std::list<HttpRequest::Pointer>          RequestQueue;
-    typedef std::list<HttpResponse::Pointer>         ResponseQueue;
+    typedef std::list<HTTPRequest::Pointer>          RequestQueue;
+    typedef std::list<HTTPResponse::Pointer>         ResponseQueue;
     typedef std::list<std::shared_ptr<std::thread> > ThreadList;
 
     static HttpClient* getInstance();
@@ -34,8 +34,8 @@ public:
     HttpClient();
     ~HttpClient();
 
-    HttpResponse::Pointer sendRequest(HttpRequest::Pointer requestPtr);
-    void sendRequestAsync(HttpRequest::Pointer requestPtr);
+    HTTPResponse::Pointer sendRequest(HTTPRequest::Pointer requestPtr);
+    void sendRequestAsync(HTTPRequest::Pointer requestPtr, bool callbackInUpdateThread = false);
 
     /**
     * Set the timeout value for connecting.
@@ -73,14 +73,15 @@ protected:
 
     bool lazyInitThread();
     void networkThread();
-    HttpRequest::Pointer getRequest();
-    HttpResponse::Pointer processRequest(HttpRequest::Pointer requestPtr);
+    HTTPRequest::Pointer getRequest();
+    HTTPResponse::Pointer processRequest(HTTPRequest::Pointer requestPtr);
 
 private:
     std::atomic_int         _timeoutForConnect;
-    std::atomic_int         _timeoutForRead; 
+    std::atomic_int         _timeoutForRead;
     std::atomic_bool        _running;
     std::atomic_bool        _isDebug;
+    std::atomic_bool        _bCallbackInUpdateThread;
 
     RequestQueue            _requestQueue;
     std::mutex              _requestQueueMutex;
@@ -92,6 +93,8 @@ private:
     ThreadList              _threadList;
 
     static std::once_flag   _callOnceFlag;
+
+
 };
 
 NS_FK_END

@@ -25,9 +25,6 @@
     <Filter Include="Cache">
       <UniqueIdentifier>{343e3eed-76f8-47bf-8ed7-6d3d3d563667}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HttpClient">
-      <UniqueIdentifier>{f7729063-e97c-463a-98c2-5a126d1a3610}</UniqueIdentifier>
-    </Filter>
     <Filter Include="HttpDownloader">
       <UniqueIdentifier>{9b73b001-5a84-449c-abff-f57e2a9df195}</UniqueIdentifier>
     </Filter>
@@ -78,6 +75,9 @@
     </Filter>
     <Filter Include="Networking\EventsReactor">
       <UniqueIdentifier>{40e00d0e-e5d2-4edc-8a04-60962da3b1a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HTTPClient">
+      <UniqueIdentifier>{e3217e24-c381-4188-81ed-22211f82d2f8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -233,21 +233,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h">
       <Filter>Platform\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HttpClient\HttpClient.h">
-      <Filter>HttpClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HttpClient\HttpClientTest.h">
-      <Filter>HttpClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HttpClient\HttpRequest.h">
-      <Filter>HttpClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HttpClient\HttpResponse.h">
-      <Filter>HttpClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HttpClient\MimeTypes.h">
-      <Filter>HttpClient</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\HttpDownloader\Downloader.h">
       <Filter>HttpDownloader</Filter>
@@ -531,6 +516,21 @@
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.h">
       <Filter>Platform</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPClient.h">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPRequest.hpp">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPResponse.hpp">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HTTPClient\MimeTypes.h">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HTTPClient\HttpClientTest.h">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -638,15 +638,6 @@
     <ClCompile Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp">
       <Filter>Platform\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\HttpClient\HttpClient.cpp">
-      <Filter>HttpClient</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\HttpClient\HttpRequest.cpp">
-      <Filter>HttpClient</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\HttpClient\MimeTypes.cpp">
-      <Filter>HttpClient</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\HttpDownloader\Downloader.cpp">
       <Filter>HttpDownloader</Filter>
     </ClCompile>
@@ -742,6 +733,12 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Networking\IProtocol.cpp">
       <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\HTTPClient\HTTPClient.cpp">
+      <Filter>HTTPClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\HTTPClient\MimeTypes.cpp">
+      <Filter>HTTPClient</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

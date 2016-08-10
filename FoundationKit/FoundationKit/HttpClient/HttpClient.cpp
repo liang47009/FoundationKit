@@ -6,7 +6,6 @@ losemymind.libo@gmail.com
 ****************************************************************************/
 
 #include "HttpClient.h"
-#include "HttpResponse.h"
 #include "MimeTypes.h"
 #include <sstream>
 #include <iostream>
@@ -49,7 +48,7 @@ static size_t onWriteHeaderData(void *ptr, size_t size, size_t nmemb, void *stre
 // @param[5]   Now   upload size.
 static int onProgress(void *userdata, double dltotal, double dlnow, double ultotal, double ulnow)
 {
-    HttpRequest* pHttpRequest = reinterpret_cast<HttpRequest*>(userdata);
+    HTTPRequest* pHttpRequest = reinterpret_cast<HTTPRequest*>(userdata);
     if (pHttpRequest && pHttpRequest->onProgress)
     {
         pHttpRequest->onProgress(dltotal, dlnow, ultotal, ulnow);
@@ -57,7 +56,7 @@ static int onProgress(void *userdata, double dltotal, double dlnow, double ultot
     return 0;
 }
 
-static int onDebug(CURL *handle,curl_infotype type, char *data, size_t size, void *userptr)
+static int onDebug(CURL *handle, curl_infotype type, char *data, size_t size, void *userptr)
 {
     HttpClient* pHttpClient = reinterpret_cast<HttpClient*>(userptr);
     LOG_INFO(">>>>> HttpClient:%p CURL Handle:%p", pHttpClient, handle);
@@ -97,7 +96,9 @@ HttpClient::HttpClient()
 {
     _timeoutForConnect = 30;
     _timeoutForRead = 30;
+    _running = false;
     _isDebug = false;
+    _bCallbackInUpdateThread = false;
     curl_global_init(CURL_GLOBAL_ALL);
 }
 
@@ -140,11 +141,11 @@ void HttpClient::networkThread()
 {
     while (_running)
     {
-        HttpRequest::Pointer requestPtr = getRequest();
+        HTTPRequest::Pointer requestPtr = getRequest();
         if (requestPtr != nullptr)
         {
-            HttpResponse::Pointer response = processRequest(requestPtr);
-            if (requestPtr->isCallbackInThread() && requestPtr->onRequestFinished)
+            HTTPResponse::Pointer response = processRequest(requestPtr);
+            if (_bCallbackInUpdateThread && requestPtr->onRequestFinished)
             {
                 requestPtr->onRequestFinished(response);
             }
@@ -154,10 +155,6 @@ void HttpClient::networkThread()
                 _responseQueue.push_back(response);
                 _responseQueueMutex.unlock();
             }
-        }
-        else
-        {
-            break;
         }
     }
 }
@@ -199,30 +196,31 @@ void HttpClient::update(float deltaTime)
         _responseQueueMutex.unlock();
         for (const auto &responsePtr : temp)
         {
-            auto fun = responsePtr->getHttpRequest()->onRequestFinished;
+            auto fun = responsePtr->getHTTPRequest()->onRequestFinished;
             if (fun)
                 fun(responsePtr);
         }
     }
 }
 
-HttpResponse::Pointer HttpClient::sendRequest(HttpRequest::Pointer requestPtr)
+HTTPResponse::Pointer HttpClient::sendRequest(HTTPRequest::Pointer requestPtr)
 {
     return processRequest(requestPtr);
 }
 
-void HttpClient::sendRequestAsync(HttpRequest::Pointer requestPtr)
+void HttpClient::sendRequestAsync(HTTPRequest::Pointer requestPtr, bool callbackInUpdateThread/* = false*/)
 {
     std::lock_guard<std::mutex> lock(_requestQueueMutex);
     _requestQueue.push_back(requestPtr);
     _requestQueueNotEmpty.notify_one();
+    _bCallbackInUpdateThread = callbackInUpdateThread;
 }
 
-HttpRequest::Pointer HttpClient::getRequest()
+HTTPRequest::Pointer HttpClient::getRequest()
 {
     std::unique_lock<std::mutex> lock(_requestQueueMutex);
     _requestQueueNotEmpty.wait(lock, [&]{return !_running || !_requestQueue.empty(); });
-    HttpRequest::Pointer requestPtr(nullptr);
+    HTTPRequest::Pointer requestPtr(nullptr);
     if (!_requestQueue.empty())
     {
         requestPtr = _requestQueue.front();
@@ -231,10 +229,10 @@ HttpRequest::Pointer HttpClient::getRequest()
     return requestPtr;
 }
 
-HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr)
+HTTPResponse::Pointer HttpClient::processRequest(HTTPRequest::Pointer requestPtr)
 {
     CURL *_curl = curl_easy_init();
-    HttpResponse::Pointer response = HttpResponse::create(requestPtr);
+    HTTPResponse::Pointer response = HTTPResponse::create(requestPtr);
     // 设置写入数据的函数
     curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, onWriteData);
     // 设置接收数据的对象
@@ -264,7 +262,7 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
     curl_easy_setopt(_curl, CURLOPT_ERRORBUFFER, errorBuffer);
 
     // set accept encoding type
-    curl_easy_setopt(_curl, CURLOPT_ACCEPT_ENCODING, requestPtr->getEncodingString(requestPtr->getAcceptEncoding()).c_str());
+    curl_easy_setopt(_curl, CURLOPT_ACCEPT_ENCODING, requestPtr->getEncodingAsString(requestPtr->getAcceptEncoding()).c_str());
 
     // set cookies
     std::string strCookie = requestPtr->getRequestCookies();
@@ -280,11 +278,11 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
     // GET/POST/PUT/DELETE OPT
     switch (requestPtr->getRequestType())
     {
-    case HttpRequest::Type::GET:
+    case HTTPRequest::Type::GET:
         curl_easy_setopt(_curl, CURLOPT_HTTPGET, 1L);
         curl_easy_setopt(_curl, CURLOPT_FOLLOWLOCATION, 1L);
         break;
-    case HttpRequest::Type::POST:
+    case HTTPRequest::Type::POST:
         curl_easy_setopt(_curl, CURLOPT_POST, 1L);
         if (requestPtr->getRequestDataSize() > 0)
         {
@@ -292,11 +290,11 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
             curl_easy_setopt(_curl, CURLOPT_POSTFIELDSIZE, requestPtr->getRequestDataSize());
         }
         break;
-    case HttpRequest::Type::PUT:
+    case HTTPRequest::Type::PUT:
         curl_easy_setopt(_curl, CURLOPT_PUT, 1L);
         curl_easy_setopt(_curl, CURLOPT_CUSTOMREQUEST, "PUT");
         break;
-    case HttpRequest::Type::DELETE:
+    case HTTPRequest::Type::DELETE:
         curl_easy_setopt(_curl, CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(_curl, CURLOPT_CUSTOMREQUEST, "DELETE");
         break;
@@ -304,24 +302,27 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
         break;
     }
 
+    HTTPRequest::Fields& fileFields = requestPtr->getFiles();
+    HTTPRequest::Fields& contentFields = requestPtr->getContents();
+
     // set headers
     curl_slist *curlHeaders = nullptr;
 
-    if (requestPtr->isMultipart())
+    if (!fileFields.empty() || !contentFields.empty())
     {
         std::string contentType = "Content-Type:multipart/form-data";
         curlHeaders = curl_slist_append(curlHeaders, contentType.c_str());
         curlHeaders = curl_slist_append(curlHeaders, "Expect:");
     }
 
-    HttpRequest::Headers& requestHeaders = requestPtr->getHeaders();
+    HTTPRequest::Headers& requestHeaders = requestPtr->getHeaders();
     for (const auto &header : requestHeaders)
     {
         curlHeaders = curl_slist_append(curlHeaders, header.c_str());
     }
     // set content encoding type
     std::string contentEncoding = "Content-Encoding: ";
-    contentEncoding += requestPtr->getEncodingString(requestPtr->getContentEncoding());
+    contentEncoding += requestPtr->getEncodingAsString(requestPtr->getContentEncoding());
     curlHeaders = curl_slist_append(curlHeaders, contentEncoding.c_str());
 
     curl_easy_setopt(_curl, CURLOPT_HTTPHEADER, curlHeaders);
@@ -329,7 +330,6 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
     //set form files
     curl_httppost      *formPost = nullptr;
     curl_httppost      *lastPost = nullptr;
-    HttpRequest::Fields& fileFields = requestPtr->getFormFiles();
     for (const auto &fileItem : fileFields)
     {
         curl_formadd(&formPost, &lastPost,
@@ -340,7 +340,6 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
     }
 
     //set form contents
-    HttpRequest::Fields& contentFields = requestPtr->getFormContents();
     for (const auto &contentItem : contentFields)
     {
         curl_formadd(&formPost, &lastPost,
@@ -352,7 +351,7 @@ HttpResponse::Pointer HttpClient::processRequest(HttpRequest::Pointer requestPtr
     curl_easy_setopt(_curl, CURLOPT_HTTPPOST, formPost);
 
     // set post fields
-    HttpRequest::Fields& postFields = requestPtr->getPOSTValues();
+    HTTPRequest::Fields& postFields = requestPtr->getPostFields();
     if (postFields.size() > 0)
     {
         std::stringbuf buf;
