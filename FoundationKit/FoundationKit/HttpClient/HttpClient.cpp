@@ -155,6 +155,17 @@ void HTTPClient::networkThread()
                 _responseQueue.push_back(response);
                 _responseQueueMutex.unlock();
             }
+
+            if (_isDebug)
+            {
+                std::vector<char> vdata = *response->getResponseHeader();
+                std::string strHeader(&vdata[0], vdata.size());
+                int errorCode = response->getResponseCode();
+                LOG_INFO("=== CODE:%d, HEADER:%s", errorCode, strHeader.c_str());
+                vdata = *response->getResponseData();
+                std::string strData(&vdata[0], vdata.size());
+                LOG_INFO("=== Msg:%s, Data:%s", response->getResponseMessage(), strData.c_str());
+            }
         }
     }
 }

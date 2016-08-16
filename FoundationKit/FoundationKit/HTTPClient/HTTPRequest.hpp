@@ -67,10 +67,10 @@ public:
 
     }
 
-    static Pointer create(const char* szURL, HTTPRequest::Type method = HTTPRequest::Type::GET)
+    static Pointer create(const std::string& strURL, HTTPRequest::Type method = HTTPRequest::Type::GET)
     {
         HTTPRequest::Pointer shared_httprequest(new HTTPRequest());
-        shared_httprequest->setRequestUrl(szURL);
+        shared_httprequest->setRequestUrl(strURL);
         shared_httprequest->setRequestType(method);
         return shared_httprequest;
     }
@@ -152,7 +152,7 @@ public:
     }
 
     /** @brief Set request url. */
-    inline void setRequestUrl(const char *url){ _url = url; }
+    inline void setRequestUrl(const std::string& url){ _url = url; }
 
     /** @brief Get request url. */
     inline const std::string getRequestUrl(void){ return _url; }
