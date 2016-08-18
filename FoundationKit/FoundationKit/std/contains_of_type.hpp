@@ -32,3 +32,14 @@ struct contains_of_type<T, H, R...>
 } //namespace std
 
 #endif // LOSEMYMIND_CONTAINS_OF_TYPE_H
+
+
+
+
+
+
+
+
+
+
+
