@@ -13,9 +13,6 @@
     <Filter Include="FoundationKit">
       <UniqueIdentifier>{70d107ff-a362-4aa7-9bfd-8ba0cd9d78a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Events">
-      <UniqueIdentifier>{7e6f3b5c-7d4c-43b1-a1f7-46a45a616e41}</UniqueIdentifier>
-    </Filter>
     <Filter Include="LuaEngine">
       <UniqueIdentifier>{67cb3701-5643-444b-a8f9-6d0bbee9cda9}</UniqueIdentifier>
     </Filter>
@@ -33,12 +30,6 @@
     </Filter>
     <Filter Include="external\unzip">
       <UniqueIdentifier>{49aba178-7de0-4404-b102-a25107d2b7da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Thread">
-      <UniqueIdentifier>{6d13a433-c1f4-453e-a084-f25fa1e92b63}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Thread\Impl">
-      <UniqueIdentifier>{8b68b36b-2bee-40df-b21a-8d10a0dc9aee}</UniqueIdentifier>
     </Filter>
     <Filter Include="external\ConvertUTF">
       <UniqueIdentifier>{6e38259a-cf06-416d-86f9-e944221f83b2}</UniqueIdentifier>
@@ -141,71 +132,14 @@
     <ClInclude Include="..\FoundationKit\LuaEngine\Script.h">
       <Filter>LuaEngine</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\Event.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventCustom.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventDispatcher.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventListener.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventListenerCustom.h">
-      <Filter>Events</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Exception.h">
       <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventKeyboard.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventListenerKeyboard.h">
-      <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.h">
       <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\TupleApply.h">
       <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventAcceleration.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventController.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventListenerAcceleration.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventListenerController.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventListenerMouse.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventListenerTouch.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventMouse.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\EventTouch.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\IMEDelegate.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\IMEDispatcher.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\KeyboardExampleWindows.h">
-      <Filter>Events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\Touch.h">
-      <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Cache\AbstractCache.h">
       <Filter>Cache</Filter>
@@ -254,21 +188,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h">
       <Filter>external\unzip</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Thread\thread.h">
-      <Filter>Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Thread\Impl\thread.h">
-      <Filter>Thread\Impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Thread\Impl\thread_posix.h">
-      <Filter>Thread\Impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Thread\Impl\thread_win32.h">
-      <Filter>Thread\Impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Thread\Impl\thread_wp.h">
-      <Filter>Thread\Impl</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\FunctionCenter.hpp">
       <Filter>Foundation</Filter>
@@ -338,9 +257,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\MathEx.h">
       <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Events\GameController.h">
-      <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\GenericPlatformMacros.h">
       <Filter>FoundationKit</Filter>
@@ -569,62 +485,8 @@
     <ClCompile Include="..\FoundationKit\LuaEngine\Script.cpp">
       <Filter>LuaEngine</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\Event.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventCustom.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventDispatcher.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventListener.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventListenerCustom.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Exception.cpp">
       <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventKeyboard.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventListenerKeyboard.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventAcceleration.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventController.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventListenerAcceleration.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventListenerController.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventListenerMouse.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventListenerTouch.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventMouse.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\EventTouch.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\IMEDispatcher.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\KeyboardExampleWindows.cpp">
-      <Filter>Events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\Touch.cpp">
-      <Filter>Events</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\FileUtils.cpp">
       <Filter>Platform</Filter>
@@ -697,9 +559,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\MathEx.cpp">
       <Filter>Base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Events\GameController.cpp">
-      <Filter>Events</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\experimental\memory.cpp">
       <Filter>experimental</Filter>
