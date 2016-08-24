@@ -13,7 +13,6 @@
 #include "FoundationKit/experimental/any.hpp"
 #include "FoundationKit/experimental/optional.hpp"
 #include "FoundationKit/std/function_traits.hpp"
-#include "FoundationKit/Thread/thread.h"
 #include "FoundationKit/Platform/Platform.h"
 #include "FoundationKit/Base/DateTime.h"
 #include "FoundationKit/Base/Rect.h"

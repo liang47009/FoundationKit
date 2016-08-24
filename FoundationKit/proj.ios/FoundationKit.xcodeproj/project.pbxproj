@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		091555011D6DAA4B00A77571 /* HTTPClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 091554FA1D6DAA4B00A77571 /* HTTPClient.cpp */; };
+		091555021D6DAA4B00A77571 /* MimeTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 091554FF1D6DAA4B00A77571 /* MimeTypes.cpp */; };
 		094617BE1CFBCE8C002A55EC /* TimeEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094617BC1CFBCE8C002A55EC /* TimeEx.cpp */; };
 		095286721ACA31DB00718FA9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 095286711ACA31DB00718FA9 /* Foundation.framework */; };
 		09745DA41CB8F6EC009D350F /* DataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B2E1CB8F6E8009D350F /* DataStream.cpp */; };
@@ -22,27 +24,6 @@
 		09745DAE1CB8F6EC009D350F /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B4F1CB8F6E8009D350F /* Vector4.cpp */; };
 		09745DAF1CB8F6EC009D350F /* aes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B5D1CB8F6E8009D350F /* aes.cpp */; };
 		09745DB01CB8F6EC009D350F /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B5F1CB8F6E8009D350F /* Base64.cpp */; };
-		09745DB11CB8F6EC009D350F /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B641CB8F6E8009D350F /* Event.cpp */; };
-		09745DB21CB8F6EC009D350F /* EventAcceleration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B661CB8F6E8009D350F /* EventAcceleration.cpp */; };
-		09745DB31CB8F6EC009D350F /* EventController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B681CB8F6E8009D350F /* EventController.cpp */; };
-		09745DB41CB8F6EC009D350F /* EventCustom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B6A1CB8F6E8009D350F /* EventCustom.cpp */; };
-		09745DB51CB8F6EC009D350F /* EventDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B6C1CB8F6E8009D350F /* EventDispatcher.cpp */; };
-		09745DB61CB8F6EC009D350F /* EventKeyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B6E1CB8F6E8009D350F /* EventKeyboard.cpp */; };
-		09745DB71CB8F6EC009D350F /* EventListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B701CB8F6E8009D350F /* EventListener.cpp */; };
-		09745DB81CB8F6EC009D350F /* EventListenerAcceleration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B721CB8F6E8009D350F /* EventListenerAcceleration.cpp */; };
-		09745DB91CB8F6EC009D350F /* EventListenerController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B741CB8F6E8009D350F /* EventListenerController.cpp */; };
-		09745DBA1CB8F6EC009D350F /* EventListenerCustom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B761CB8F6E8009D350F /* EventListenerCustom.cpp */; };
-		09745DBB1CB8F6EC009D350F /* EventListenerKeyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B781CB8F6E8009D350F /* EventListenerKeyboard.cpp */; };
-		09745DBC1CB8F6EC009D350F /* EventListenerMouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B7A1CB8F6E8009D350F /* EventListenerMouse.cpp */; };
-		09745DBD1CB8F6EC009D350F /* EventListenerTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B7C1CB8F6E8009D350F /* EventListenerTouch.cpp */; };
-		09745DBE1CB8F6EC009D350F /* EventMouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B7E1CB8F6E8009D350F /* EventMouse.cpp */; };
-		09745DBF1CB8F6EC009D350F /* EventTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B801CB8F6E8009D350F /* EventTouch.cpp */; };
-		09745DC01CB8F6EC009D350F /* GameController-android.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B821CB8F6E8009D350F /* GameController-android.cpp */; };
-		09745DC11CB8F6EC009D350F /* GameController-iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09745B831CB8F6E8009D350F /* GameController-iOS.mm */; };
-		09745DC21CB8F6EC009D350F /* GameController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B841CB8F6E8009D350F /* GameController.cpp */; };
-		09745DC31CB8F6EC009D350F /* IMEDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B871CB8F6E8009D350F /* IMEDispatcher.cpp */; };
-		09745DC41CB8F6EC009D350F /* KeyboardExampleWindows.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B891CB8F6E8009D350F /* KeyboardExampleWindows.cpp */; };
-		09745DC51CB8F6EC009D350F /* Touch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745B8B1CB8F6E8009D350F /* Touch.cpp */; };
 		09745DD81CB8F6EC009D350F /* ConvertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = 09745BF91CB8F6E8009D350F /* ConvertUTF.c */; };
 		09745DD91CB8F6EC009D350F /* ConvertUTFWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745BFB1CB8F6E8009D350F /* ConvertUTFWrapper.cpp */; };
 		09745DDA1CB8F6EC009D350F /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09745C1A1CB8F6E9009D350F /* libcrypto.a */; };
@@ -62,9 +43,6 @@
 		09745DFB1CB8F6EC009D350F /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745CC91CB8F6EB009D350F /* StringUtils.cpp */; };
 		09745DFD1CB8F6EC009D350F /* Version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745CD11CB8F6EB009D350F /* Version.cpp */; };
 		09745DFE1CB8F6EC009D350F /* WorkQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745CD31CB8F6EB009D350F /* WorkQueue.cpp */; };
-		09745E131CB8F6EC009D350F /* HttpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745D371CB8F6EC009D350F /* HttpClient.cpp */; };
-		09745E141CB8F6EC009D350F /* HttpRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745D3A1CB8F6EC009D350F /* HttpRequest.cpp */; };
-		09745E151CB8F6EC009D350F /* MimeTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745D3D1CB8F6EC009D350F /* MimeTypes.cpp */; };
 		09745E161CB8F6EC009D350F /* Downloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745D401CB8F6EC009D350F /* Downloader.cpp */; };
 		09745E171CB8F6EC009D350F /* DownloaderImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745D421CB8F6EC009D350F /* DownloaderImpl.cpp */; };
 		09745E181CB8F6EC009D350F /* LuaEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09745D471CB8F6EC009D350F /* LuaEngine.cpp */; };
@@ -102,6 +80,13 @@
 
 /* Begin PBXFileReference section */
 		0907E8411CE0838F00A65A3C /* OpenGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGL.h; sourceTree = "<group>"; };
+		091554FA1D6DAA4B00A77571 /* HTTPClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HTTPClient.cpp; sourceTree = "<group>"; };
+		091554FB1D6DAA4B00A77571 /* HTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPClient.h; sourceTree = "<group>"; };
+		091554FC1D6DAA4B00A77571 /* HttpClientTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClientTest.h; sourceTree = "<group>"; };
+		091554FD1D6DAA4B00A77571 /* HTTPRequest.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HTTPRequest.hpp; sourceTree = "<group>"; };
+		091554FE1D6DAA4B00A77571 /* HTTPResponse.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HTTPResponse.hpp; sourceTree = "<group>"; };
+		091554FF1D6DAA4B00A77571 /* MimeTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MimeTypes.cpp; sourceTree = "<group>"; };
+		091555001D6DAA4B00A77571 /* MimeTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MimeTypes.h; sourceTree = "<group>"; };
 		0932D5B31D4EFE680004E055 /* error_code.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = error_code.hpp; sourceTree = "<group>"; };
 		0932D5B41D4EFE680004E055 /* mutable_data.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mutable_data.hpp; sourceTree = "<group>"; };
 		0932D5B51D4EFE680004E055 /* timer_scheduler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = timer_scheduler.hpp; sourceTree = "<group>"; };
@@ -159,47 +144,6 @@
 		09745B601CB8F6E8009D350F /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
 		09745B611CB8F6E8009D350F /* md5.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = md5.hpp; sourceTree = "<group>"; };
 		09745B621CB8F6E8009D350F /* sha1.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sha1.hpp; sourceTree = "<group>"; };
-		09745B641CB8F6E8009D350F /* Event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cpp; sourceTree = "<group>"; };
-		09745B651CB8F6E8009D350F /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
-		09745B661CB8F6E8009D350F /* EventAcceleration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventAcceleration.cpp; sourceTree = "<group>"; };
-		09745B671CB8F6E8009D350F /* EventAcceleration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventAcceleration.h; sourceTree = "<group>"; };
-		09745B681CB8F6E8009D350F /* EventController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventController.cpp; sourceTree = "<group>"; };
-		09745B691CB8F6E8009D350F /* EventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventController.h; sourceTree = "<group>"; };
-		09745B6A1CB8F6E8009D350F /* EventCustom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventCustom.cpp; sourceTree = "<group>"; };
-		09745B6B1CB8F6E8009D350F /* EventCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventCustom.h; sourceTree = "<group>"; };
-		09745B6C1CB8F6E8009D350F /* EventDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventDispatcher.cpp; sourceTree = "<group>"; };
-		09745B6D1CB8F6E8009D350F /* EventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDispatcher.h; sourceTree = "<group>"; };
-		09745B6E1CB8F6E8009D350F /* EventKeyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventKeyboard.cpp; sourceTree = "<group>"; };
-		09745B6F1CB8F6E8009D350F /* EventKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventKeyboard.h; sourceTree = "<group>"; };
-		09745B701CB8F6E8009D350F /* EventListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventListener.cpp; sourceTree = "<group>"; };
-		09745B711CB8F6E8009D350F /* EventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventListener.h; sourceTree = "<group>"; };
-		09745B721CB8F6E8009D350F /* EventListenerAcceleration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventListenerAcceleration.cpp; sourceTree = "<group>"; };
-		09745B731CB8F6E8009D350F /* EventListenerAcceleration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventListenerAcceleration.h; sourceTree = "<group>"; };
-		09745B741CB8F6E8009D350F /* EventListenerController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventListenerController.cpp; sourceTree = "<group>"; };
-		09745B751CB8F6E8009D350F /* EventListenerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventListenerController.h; sourceTree = "<group>"; };
-		09745B761CB8F6E8009D350F /* EventListenerCustom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventListenerCustom.cpp; sourceTree = "<group>"; };
-		09745B771CB8F6E8009D350F /* EventListenerCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventListenerCustom.h; sourceTree = "<group>"; };
-		09745B781CB8F6E8009D350F /* EventListenerKeyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventListenerKeyboard.cpp; sourceTree = "<group>"; };
-		09745B791CB8F6E8009D350F /* EventListenerKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventListenerKeyboard.h; sourceTree = "<group>"; };
-		09745B7A1CB8F6E8009D350F /* EventListenerMouse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventListenerMouse.cpp; sourceTree = "<group>"; };
-		09745B7B1CB8F6E8009D350F /* EventListenerMouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventListenerMouse.h; sourceTree = "<group>"; };
-		09745B7C1CB8F6E8009D350F /* EventListenerTouch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventListenerTouch.cpp; sourceTree = "<group>"; };
-		09745B7D1CB8F6E8009D350F /* EventListenerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventListenerTouch.h; sourceTree = "<group>"; };
-		09745B7E1CB8F6E8009D350F /* EventMouse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventMouse.cpp; sourceTree = "<group>"; };
-		09745B7F1CB8F6E8009D350F /* EventMouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventMouse.h; sourceTree = "<group>"; };
-		09745B801CB8F6E8009D350F /* EventTouch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventTouch.cpp; sourceTree = "<group>"; };
-		09745B811CB8F6E8009D350F /* EventTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventTouch.h; sourceTree = "<group>"; };
-		09745B821CB8F6E8009D350F /* GameController-android.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "GameController-android.cpp"; sourceTree = "<group>"; };
-		09745B831CB8F6E8009D350F /* GameController-iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "GameController-iOS.mm"; sourceTree = "<group>"; };
-		09745B841CB8F6E8009D350F /* GameController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameController.cpp; sourceTree = "<group>"; };
-		09745B851CB8F6E8009D350F /* GameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameController.h; sourceTree = "<group>"; };
-		09745B861CB8F6E8009D350F /* IMEDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMEDelegate.h; sourceTree = "<group>"; };
-		09745B871CB8F6E8009D350F /* IMEDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IMEDispatcher.cpp; sourceTree = "<group>"; };
-		09745B881CB8F6E8009D350F /* IMEDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMEDispatcher.h; sourceTree = "<group>"; };
-		09745B891CB8F6E8009D350F /* KeyboardExampleWindows.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KeyboardExampleWindows.cpp; sourceTree = "<group>"; };
-		09745B8A1CB8F6E8009D350F /* KeyboardExampleWindows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardExampleWindows.h; sourceTree = "<group>"; };
-		09745B8B1CB8F6E8009D350F /* Touch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Touch.cpp; sourceTree = "<group>"; };
-		09745B8C1CB8F6E8009D350F /* Touch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Touch.h; sourceTree = "<group>"; };
 		09745BF91CB8F6E8009D350F /* ConvertUTF.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConvertUTF.c; sourceTree = "<group>"; };
 		09745BFA1CB8F6E8009D350F /* ConvertUTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvertUTF.h; sourceTree = "<group>"; };
 		09745BFB1CB8F6E8009D350F /* ConvertUTFWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConvertUTFWrapper.cpp; sourceTree = "<group>"; };
@@ -296,14 +240,6 @@
 		09745CD31CB8F6EB009D350F /* WorkQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorkQueue.cpp; sourceTree = "<group>"; };
 		09745CD41CB8F6EB009D350F /* WorkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkQueue.h; sourceTree = "<group>"; };
 		09745CD71CB8F6EB009D350F /* FunctionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionHelper.h; sourceTree = "<group>"; };
-		09745D371CB8F6EC009D350F /* HttpClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpClient.cpp; sourceTree = "<group>"; };
-		09745D381CB8F6EC009D350F /* HttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
-		09745D391CB8F6EC009D350F /* HttpClientTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClientTest.h; sourceTree = "<group>"; };
-		09745D3A1CB8F6EC009D350F /* HttpRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpRequest.cpp; sourceTree = "<group>"; };
-		09745D3B1CB8F6EC009D350F /* HttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequest.h; sourceTree = "<group>"; };
-		09745D3C1CB8F6EC009D350F /* HttpResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpResponse.h; sourceTree = "<group>"; };
-		09745D3D1CB8F6EC009D350F /* MimeTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MimeTypes.cpp; sourceTree = "<group>"; };
-		09745D3E1CB8F6EC009D350F /* MimeTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MimeTypes.h; sourceTree = "<group>"; };
 		09745D401CB8F6EC009D350F /* Downloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Downloader.cpp; sourceTree = "<group>"; };
 		09745D411CB8F6EC009D350F /* Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
 		09745D421CB8F6EC009D350F /* DownloaderImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DownloaderImpl.cpp; sourceTree = "<group>"; };
@@ -444,9 +380,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		091554F91D6DAA4B00A77571 /* HTTPClient */ = {
+			isa = PBXGroup;
+			children = (
+				091554FA1D6DAA4B00A77571 /* HTTPClient.cpp */,
+				091554FB1D6DAA4B00A77571 /* HTTPClient.h */,
+				091554FC1D6DAA4B00A77571 /* HttpClientTest.h */,
+				091554FD1D6DAA4B00A77571 /* HTTPRequest.hpp */,
+				091554FE1D6DAA4B00A77571 /* HTTPResponse.hpp */,
+				091554FF1D6DAA4B00A77571 /* MimeTypes.cpp */,
+				091555001D6DAA4B00A77571 /* MimeTypes.h */,
+			);
+			path = HTTPClient;
+			sourceTree = "<group>";
+		};
 		09745B281CB8F6E8009D350F /* FoundationKit */ = {
 			isa = PBXGroup;
 			children = (
+				091554F91D6DAA4B00A77571 /* HTTPClient */,
 				09B1E9B51D35D6E10046D959 /* Networking */,
 				09B321F71CD9BDE800D11961 /* GenericPlatformMacros.cpp */,
 				099B384E1CCF39610035F42A /* GenericPlatformMacros.h */,
@@ -455,11 +406,9 @@
 				09745B291CB8F6E8009D350F /* Base */,
 				09745B521CB8F6E8009D350F /* Cache */,
 				09745B5C1CB8F6E8009D350F /* Crypto */,
-				09745B631CB8F6E8009D350F /* Events */,
 				09745B8F1CB8F6E8009D350F /* external */,
 				09745CBB1CB8F6EB009D350F /* Foundation */,
 				09745CD71CB8F6EB009D350F /* FunctionHelper.h */,
-				09745D361CB8F6EC009D350F /* HttpClient */,
 				09745D3F1CB8F6EC009D350F /* HttpDownloader */,
 				09745D461CB8F6EC009D350F /* LuaEngine */,
 				09745D531CB8F6EC009D350F /* Platform */,
@@ -549,54 +498,6 @@
 				09745B621CB8F6E8009D350F /* sha1.hpp */,
 			);
 			path = Crypto;
-			sourceTree = "<group>";
-		};
-		09745B631CB8F6E8009D350F /* Events */ = {
-			isa = PBXGroup;
-			children = (
-				09745B641CB8F6E8009D350F /* Event.cpp */,
-				09745B651CB8F6E8009D350F /* Event.h */,
-				09745B661CB8F6E8009D350F /* EventAcceleration.cpp */,
-				09745B671CB8F6E8009D350F /* EventAcceleration.h */,
-				09745B681CB8F6E8009D350F /* EventController.cpp */,
-				09745B691CB8F6E8009D350F /* EventController.h */,
-				09745B6A1CB8F6E8009D350F /* EventCustom.cpp */,
-				09745B6B1CB8F6E8009D350F /* EventCustom.h */,
-				09745B6C1CB8F6E8009D350F /* EventDispatcher.cpp */,
-				09745B6D1CB8F6E8009D350F /* EventDispatcher.h */,
-				09745B6E1CB8F6E8009D350F /* EventKeyboard.cpp */,
-				09745B6F1CB8F6E8009D350F /* EventKeyboard.h */,
-				09745B701CB8F6E8009D350F /* EventListener.cpp */,
-				09745B711CB8F6E8009D350F /* EventListener.h */,
-				09745B721CB8F6E8009D350F /* EventListenerAcceleration.cpp */,
-				09745B731CB8F6E8009D350F /* EventListenerAcceleration.h */,
-				09745B741CB8F6E8009D350F /* EventListenerController.cpp */,
-				09745B751CB8F6E8009D350F /* EventListenerController.h */,
-				09745B761CB8F6E8009D350F /* EventListenerCustom.cpp */,
-				09745B771CB8F6E8009D350F /* EventListenerCustom.h */,
-				09745B781CB8F6E8009D350F /* EventListenerKeyboard.cpp */,
-				09745B791CB8F6E8009D350F /* EventListenerKeyboard.h */,
-				09745B7A1CB8F6E8009D350F /* EventListenerMouse.cpp */,
-				09745B7B1CB8F6E8009D350F /* EventListenerMouse.h */,
-				09745B7C1CB8F6E8009D350F /* EventListenerTouch.cpp */,
-				09745B7D1CB8F6E8009D350F /* EventListenerTouch.h */,
-				09745B7E1CB8F6E8009D350F /* EventMouse.cpp */,
-				09745B7F1CB8F6E8009D350F /* EventMouse.h */,
-				09745B801CB8F6E8009D350F /* EventTouch.cpp */,
-				09745B811CB8F6E8009D350F /* EventTouch.h */,
-				09745B821CB8F6E8009D350F /* GameController-android.cpp */,
-				09745B831CB8F6E8009D350F /* GameController-iOS.mm */,
-				09745B841CB8F6E8009D350F /* GameController.cpp */,
-				09745B851CB8F6E8009D350F /* GameController.h */,
-				09745B861CB8F6E8009D350F /* IMEDelegate.h */,
-				09745B871CB8F6E8009D350F /* IMEDispatcher.cpp */,
-				09745B881CB8F6E8009D350F /* IMEDispatcher.h */,
-				09745B891CB8F6E8009D350F /* KeyboardExampleWindows.cpp */,
-				09745B8A1CB8F6E8009D350F /* KeyboardExampleWindows.h */,
-				09745B8B1CB8F6E8009D350F /* Touch.cpp */,
-				09745B8C1CB8F6E8009D350F /* Touch.h */,
-			);
-			path = Events;
 			sourceTree = "<group>";
 		};
 		09745B8F1CB8F6E8009D350F /* external */ = {
@@ -815,21 +716,6 @@
 				09745CD41CB8F6EB009D350F /* WorkQueue.h */,
 			);
 			path = Foundation;
-			sourceTree = "<group>";
-		};
-		09745D361CB8F6EC009D350F /* HttpClient */ = {
-			isa = PBXGroup;
-			children = (
-				09745D371CB8F6EC009D350F /* HttpClient.cpp */,
-				09745D381CB8F6EC009D350F /* HttpClient.h */,
-				09745D391CB8F6EC009D350F /* HttpClientTest.h */,
-				09745D3A1CB8F6EC009D350F /* HttpRequest.cpp */,
-				09745D3B1CB8F6EC009D350F /* HttpRequest.h */,
-				09745D3C1CB8F6EC009D350F /* HttpResponse.h */,
-				09745D3D1CB8F6EC009D350F /* MimeTypes.cpp */,
-				09745D3E1CB8F6EC009D350F /* MimeTypes.h */,
-			);
-			path = HttpClient;
 			sourceTree = "<group>";
 		};
 		09745D3F1CB8F6EC009D350F /* HttpDownloader */ = {
@@ -1152,62 +1038,43 @@
 			files = (
 				09745DAD1CB8F6EC009D350F /* Vector3.cpp in Sources */,
 				09745E231CB8F6EC009D350F /* FileUtils.cpp in Sources */,
-				09745DC21CB8F6EC009D350F /* GameController.cpp in Sources */,
 				09745DFD1CB8F6EC009D350F /* Version.cpp in Sources */,
 				094617BE1CFBCE8C002A55EC /* TimeEx.cpp in Sources */,
-				09745E151CB8F6EC009D350F /* MimeTypes.cpp in Sources */,
-				09745DB41CB8F6EC009D350F /* EventCustom.cpp in Sources */,
 				09745E181CB8F6EC009D350F /* LuaEngine.cpp in Sources */,
 				09745DA51CB8F6EC009D350F /* MathEx.cpp in Sources */,
 				09745DFE1CB8F6EC009D350F /* WorkQueue.cpp in Sources */,
 				09745E251CB8F6EC009D350F /* PlatformIos.mm in Sources */,
-				09745DBA1CB8F6EC009D350F /* EventListenerCustom.cpp in Sources */,
-				09745DB71CB8F6EC009D350F /* EventListener.cpp in Sources */,
-				09745DB21CB8F6EC009D350F /* EventAcceleration.cpp in Sources */,
 				09B322031CD9BE6900D11961 /* DateTime.cpp in Sources */,
+				091555011D6DAA4B00A77571 /* HTTPClient.cpp in Sources */,
 				09B321F81CD9BDE800D11961 /* GenericPlatformMacros.cpp in Sources */,
-				09745DB91CB8F6EC009D350F /* EventListenerController.cpp in Sources */,
 				09745DA61CB8F6EC009D350F /* MathUtil.cpp in Sources */,
-				09745DC31CB8F6EC009D350F /* IMEDispatcher.cpp in Sources */,
 				09745DED1CB8F6EC009D350F /* ioapi_mem.cpp in Sources */,
 				09745DF91CB8F6EC009D350F /* MessageQueue.cpp in Sources */,
 				09745DAB1CB8F6EC009D350F /* Value.cpp in Sources */,
-				09745DB31CB8F6EC009D350F /* EventController.cpp in Sources */,
-				09745DC51CB8F6EC009D350F /* Touch.cpp in Sources */,
-				09745DC41CB8F6EC009D350F /* KeyboardExampleWindows.cpp in Sources */,
 				09745DA41CB8F6EC009D350F /* DataStream.cpp in Sources */,
-				09745DBF1CB8F6EC009D350F /* EventTouch.cpp in Sources */,
 				09745DFA1CB8F6EC009D350F /* Scheduler.cpp in Sources */,
 				09745DD81CB8F6EC009D350F /* ConvertUTF.c in Sources */,
-				09745E131CB8F6EC009D350F /* HttpClient.cpp in Sources */,
 				09745DAA1CB8F6EC009D350F /* Size.cpp in Sources */,
 				09745E191CB8F6EC009D350F /* LuaLoader.cpp in Sources */,
 				09745E241CB8F6EC009D350F /* FileUtils_apple.mm in Sources */,
-				09745DBB1CB8F6EC009D350F /* EventListenerKeyboard.cpp in Sources */,
 				09745DAE1CB8F6EC009D350F /* Vector4.cpp in Sources */,
 				09745DA71CB8F6EC009D350F /* Matrix.cpp in Sources */,
 				09745DF81CB8F6EC009D350F /* Logger.cpp in Sources */,
 				09745DAC1CB8F6EC009D350F /* Vector2.cpp in Sources */,
-				09745DB81CB8F6EC009D350F /* EventListenerAcceleration.cpp in Sources */,
 				09745DF71CB8F6EC009D350F /* Exception.cpp in Sources */,
 				09745E271CB8F6EC009D350F /* Platform.cpp in Sources */,
-				09745DBC1CB8F6EC009D350F /* EventListenerMouse.cpp in Sources */,
 				09745DF61CB8F6EC009D350F /* DelegateManager.cpp in Sources */,
-				09745E141CB8F6EC009D350F /* HttpRequest.cpp in Sources */,
-				09745DBD1CB8F6EC009D350F /* EventListenerTouch.cpp in Sources */,
 				09B377A21CE319DA00252204 /* Compression.cpp in Sources */,
 				09745DFB1CB8F6EC009D350F /* StringUtils.cpp in Sources */,
 				09745DA91CB8F6EC009D350F /* Rect.cpp in Sources */,
+				091555021D6DAA4B00A77571 /* MimeTypes.cpp in Sources */,
 				09745DA81CB8F6EC009D350F /* Quaternion.cpp in Sources */,
-				09745DB51CB8F6EC009D350F /* EventDispatcher.cpp in Sources */,
 				09745E1C1CB8F6EC009D350F /* Script.cpp in Sources */,
 				09745E1A1CB8F6EC009D350F /* LuaStack.cpp in Sources */,
 				09745E2B1CB8F6EC009D350F /* ApplyTupleTest.cpp in Sources */,
-				09745DB11CB8F6EC009D350F /* Event.cpp in Sources */,
 				09745E261CB8F6EC009D350F /* ProtectedMemoryAllocator.mm in Sources */,
 				09745E161CB8F6EC009D350F /* Downloader.cpp in Sources */,
 				09E9872A1D0D255100CF3152 /* unique_id.cpp in Sources */,
-				09745DB61CB8F6EC009D350F /* EventKeyboard.cpp in Sources */,
 				09745E171CB8F6EC009D350F /* DownloaderImpl.cpp in Sources */,
 				099B384A1CCF38BA0035F42A /* memory.cpp in Sources */,
 				09745DEE1CB8F6EC009D350F /* unzip.cpp in Sources */,
@@ -1216,11 +1083,8 @@
 				09745E1B1CB8F6EC009D350F /* LuaValue.cpp in Sources */,
 				09745DB01CB8F6EC009D350F /* Base64.cpp in Sources */,
 				09B1E9DC1D35D6E10046D959 /* IProtocol.cpp in Sources */,
-				09745DBE1CB8F6EC009D350F /* EventMouse.cpp in Sources */,
 				09B322051CD9BE6900D11961 /* Timespan.cpp in Sources */,
 				09745DAF1CB8F6EC009D350F /* aes.cpp in Sources */,
-				09745DC01CB8F6EC009D350F /* GameController-android.cpp in Sources */,
-				09745DC11CB8F6EC009D350F /* GameController-iOS.mm in Sources */,
 				09B377A51CE5D86700252204 /* EnvironmentIos.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
