@@ -66,8 +66,8 @@
     */
     #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
     // Symbol export and import definitions
-    #define SYMBOL_EXPORT
-    #define SYMBOL_IMPORT
+    #define DLL_EXPORT
+    #define DLL_IMPORT
     // Alignment.
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
@@ -83,8 +83,8 @@
     #define TARGET_PLATFORM PLATFORM_ANDROID
     #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
     // Symbol export and import definitions
-    #define SYMBOL_EXPORT		__attribute__((visibility("default")))
-    #define SYMBOL_IMPORT		__attribute__((visibility("default")))
+    #define DLL_EXPORT		__attribute__((visibility("default")))
+    #define DLL_IMPORT		__attribute__((visibility("default")))
     // Alignment.
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
@@ -100,8 +100,8 @@
     #define TARGET_PLATFORM PLATFORM_WIN32
     #define DEPRECATED(VERSION, MESSAGE) __declspec(deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile."))
     // Symbol export and import definitions
-    #define SYMBOL_EXPORT __declspec(dllexport)
-    #define SYMBOL_IMPORT __declspec(dllimport)
+    #define DLL_EXPORT __declspec(dllexport)
+    #define DLL_IMPORT __declspec(dllimport)
     // Alignment.
     #define ATTRIBUTE_PACK(n)
     #define ATTRIBUTE_ALIGN(n) __declspec(align(n))
@@ -116,8 +116,8 @@
     #define TARGET_PLATFORM PLATFORM_LINUX
     #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
     // Symbol export and import definitions
-    #define SYMBOL_EXPORT			__attribute__((visibility("default")))
-    #define SYMBOL_IMPORT			__attribute__((visibility("default")))
+    #define DLL_EXPORT			__attribute__((visibility("default")))
+    #define DLL_IMPORT			__attribute__((visibility("default")))
     // Alignment.
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
@@ -132,8 +132,8 @@
     #define TARGET_PLATFORM PLATFORM_MAC
     #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
     // Symbol export and import definitions
-    #define SYMBOL_EXPORT
-    #define SYMBOL_IMPORT
+    #define DLL_EXPORT
+    #define DLL_IMPORT
     // Alignment.
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
