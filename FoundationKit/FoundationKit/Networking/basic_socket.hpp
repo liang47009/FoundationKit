@@ -797,7 +797,7 @@ public:
             socket_ops::poll_error(_native_socket, _state, ec);
             break;
         default:
-            ec = asio::error::invalid_argument;
+            ec = std::errc::invalid_argument;
             break;
         }
         return ec;
