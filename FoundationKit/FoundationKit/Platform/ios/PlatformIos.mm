@@ -224,6 +224,27 @@ int64 Platform::getTickCount()
     return (int64)mach_absolute_time();
 }
 
+std::string Platform::executeSystemCommand(const std::string& command)
+{
+    char buffer[128];
+    std::string result = "";
+    FILE* pipe = popen(command.c_str(), "r");
+    if (!pipe) throw std::runtime_error("popen() failed!");
+    try {
+        while (!feof(pipe))
+        {
+            if (fgets(buffer, 128, pipe) != NULL)
+                result += buffer;
+        }
+    }
+    catch (...) 
+    {
+        pclose(pipe);
+        throw;
+    }
+    pclose(pipe);
+    return result;
+}
 
 NS_FK_END
 

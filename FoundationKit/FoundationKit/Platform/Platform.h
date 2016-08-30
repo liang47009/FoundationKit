@@ -54,6 +54,8 @@ public:
     static std::string getCPUArchitecture();
 
     static int64 getTickCount();
+
+    static std::string executeSystemCommand(const std::string& command);
 };
 
 NS_FK_END
