@@ -57,7 +57,7 @@ public:
 
     struct StreamData
     {
-        long offset;
+        size_t offset;
         long total;
         unsigned char *buffer;
     };

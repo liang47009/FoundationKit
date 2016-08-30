@@ -22,7 +22,9 @@ void __fail__(const char* expr, const char* file, int line)
 # elif defined __GNUC__
     _assert(expr, file, line);
 # elif defined _MSC_VER
-    _CrtDbgReport(_CRT_ASSERT, file, line, expr, "");
+    #ifdef DEBUG
+        _CrtDbgReport(_CRT_ASSERT, file, line, expr, "");
+    #endif // DEBUG
 # else
 #   error UNSUPPORTED COMPILER
 # endif

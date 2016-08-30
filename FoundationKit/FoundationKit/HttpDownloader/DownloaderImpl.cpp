@@ -30,7 +30,7 @@ namespace network
     {
         DownloadUnit *unit = (DownloadUnit*)userdata;
         DownloaderImpl* this_ = (DownloaderImpl*)unit->_reserved;
-        int ret = this_->getWriterCallback()(ptr, size, nmemb, unit);
+        size_t ret = this_->getWriterCallback()(ptr, size, nmemb, unit);
         return ret;
     }
 

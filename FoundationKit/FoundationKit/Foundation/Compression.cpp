@@ -138,7 +138,7 @@ bool Compression::compressMemory(CompressionFlags Flags, mutable_data& Compresse
             }
         });
 
-        uLong uncompressedLength = UncompressedBuffer.size();
+        uLong uncompressedLength = static_cast<uLong>(UncompressedBuffer.size());
 
         stream.next_in  = static_cast<uint8*>(UncompressedBuffer.data());
         stream.avail_in = static_cast<uInt>(uncompressedLength);

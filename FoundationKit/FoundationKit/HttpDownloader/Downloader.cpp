@@ -92,7 +92,7 @@ std::string Downloader::getFileNameFromUrl(const std::string& srcUrl)
 {
     // Find file name and file extension
     std::string filename;
-    unsigned long found = srcUrl.find_last_of("/\\");
+    size_t found = srcUrl.find_last_of("/\\");
     if (found != std::string::npos)
         filename = srcUrl.substr(found+1);
     return filename;
@@ -113,7 +113,7 @@ void Downloader::prepareDownload(const DownloadUnit& downloadUnit)
     
     // Asserts
     // Find file name and file extension
-    unsigned long found = downloadUnit.storagePath.find_last_of("/\\");
+    size_t found = downloadUnit.storagePath.find_last_of("/\\");
     if (found != std::string::npos)
     {
         name = downloadUnit.storagePath.substr(found+1);
@@ -417,7 +417,8 @@ size_t Downloader::bufferWriteFunc(void *ptr, size_t size, size_t nmemb, void *u
         streamBuffer->offset += written;
         return written;
     }
-    else return 0;
+    else
+        return 0;
 }
 
 void Downloader::reportDownloadFinished(const std::string& url, const std::string& path, const std::string& customid)

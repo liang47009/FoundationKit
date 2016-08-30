@@ -401,8 +401,8 @@ bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newf
         FILE *fpDes = fopen(newfullpath.c_str(), "wb");
         BREAK_IF(!fpDes);
         char read_buff[BUFF_SIZE];
-        long readedSize = 0;
-        long unreadSize = srcFileSize;
+        size_t readedSize = 0;
+        size_t unreadSize = srcFileSize;
         while (readedSize < srcFileSize)
         {
             if (unreadSize > BUFF_SIZE)
