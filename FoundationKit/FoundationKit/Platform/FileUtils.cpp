@@ -14,7 +14,7 @@
 
 //#include <codecvt> //ndk is not support
 
-#if (TARGET_PLATFORM==PLATFORM_WIN32)
+#if (TARGET_PLATFORM==PLATFORM_WINDOWS)
 #include <Windows.h>
 #endif
 
@@ -173,7 +173,7 @@ void FileUtils::setWritablePath(const std::string& writablePath)
 
 bool FileUtils::isDirectoryExist(const std::string& dirPath) const
 {
-#if (TARGET_PLATFORM==PLATFORM_WIN32)
+#if (TARGET_PLATFORM==PLATFORM_WINDOWS)
     std::wstring utf16Str = StringUtils::string2UTF8wstring(dirPath);
     unsigned long fAttrib = GetFileAttributes(reinterpret_cast<LPCWSTR>(utf16Str.c_str()));
     if (fAttrib != INVALID_FILE_ATTRIBUTES && (fAttrib & FILE_ATTRIBUTE_DIRECTORY))
@@ -198,7 +198,7 @@ bool FileUtils::isDirectory(const std::string& path)const
 
 bool FileUtils::isAbsolutePath(const std::string& path) const
 {
-#if (TARGET_PLATFORM==PLATFORM_WIN32)
+#if (TARGET_PLATFORM==PLATFORM_WINDOWS)
     if ((path.length() > 2 && 
         ((path[0] >= 'a' && path[0] <= 'z') || (path[0] >= 'A' && path[0] <= 'Z'))&& 
         path[1] == ':') || (path[0] == '/' && path[1] == '/'))
@@ -211,7 +211,7 @@ bool FileUtils::isAbsolutePath(const std::string& path) const
 #endif
 }
 
-#if (TARGET_PLATFORM==PLATFORM_WIN32)
+#if (TARGET_PLATFORM==PLATFORM_WINDOWS)
 #else
 #endif
 
@@ -502,7 +502,7 @@ std::string FileUtils::getDirName(const std::string& dirPath)const
 }
 
 
-#if (TARGET_PLATFORM == PLATFORM_WIN32)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 // windows os implement should override in platform specific FileUtiles class
 //bool moveFile(const std::string &oldfullpath, const std::string &newfullpath)const;
 //bool createDirectory(const std::string& dirPath);
@@ -641,7 +641,7 @@ bool FileUtils::renameFile(const std::string &path, const std::string &oldname, 
 
 
 
-#endif //(TARGET_PLATFORM == PLATFORM_WIN32) || (TARGET_PLATFORM == PLATFORM_WINRT)
+#endif //(TARGET_PLATFORM == PLATFORM_WINDOWS) || (TARGET_PLATFORM == PLATFORM_WINRT)
 
 
 NS_FK_END

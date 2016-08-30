@@ -9,7 +9,7 @@
 #include "Logger.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 
-#if (TARGET_PLATFORM == PLATFORM_WIN32)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 #include <Winsock2.h>
 #endif
 
@@ -64,7 +64,7 @@ void Logger::log( Level level, const char* message, ... )
 
 #if (TARGET_PLATFORM == PLATFORM_ANDROID)
     __android_log_print(ANDROID_LOG_DEBUG, "FoundationKit", "%s", strPreMsg.c_str());
-#elif TARGET_PLATFORM ==  PLATFORM_WIN32
+#elif TARGET_PLATFORM ==  PLATFORM_WINDOWS
     std::wstring wstr = StringUtils::string2UTF8wstring(strPreMsg);
     OutputDebugStringW(wstr.c_str());
     printf("%s", strPreMsg.c_str());

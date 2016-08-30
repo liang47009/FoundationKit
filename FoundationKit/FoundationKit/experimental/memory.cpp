@@ -6,7 +6,7 @@ USING_NS_FK;
 
 void justForLoadSym(){}
 
-#if TARGET_PLATFORM == PLATFORM_WIN32
+#if TARGET_PLATFORM == PLATFORM_WINDOWS
 
 typedef int(__cdecl *_PVFV)();
 #define INIRETSUCCESS 0

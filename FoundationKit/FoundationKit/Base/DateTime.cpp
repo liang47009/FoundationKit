@@ -12,7 +12,7 @@ losemymind.libo@gmail.com
 
 NS_FK_BEGIN
 
-#if TARGET_PLATFORM == PLATFORM_WIN32
+#if TARGET_PLATFORM == PLATFORM_WINDOWS
 void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     SYSTEMTIME st;

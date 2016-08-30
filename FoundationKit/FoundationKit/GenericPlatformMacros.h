@@ -25,7 +25,7 @@
 #define PLATFORM_UNKNOWN            0
 #define PLATFORM_IOS                1
 #define PLATFORM_ANDROID            2
-#define PLATFORM_WIN32              3
+#define PLATFORM_WINDOWS            3
 #define PLATFORM_LINUX              4
 #define PLATFORM_MAC                5
 
@@ -95,9 +95,9 @@
     #define FILEPATH_MAX PATH_MAX
 
 
-#elif defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
+#elif defined(_WIN32) || defined(__WIN32__) || defined(WIN32) || defined(WIN64) || defined(_WIN64)
     #undef TARGET_PLATFORM
-    #define TARGET_PLATFORM PLATFORM_WIN32
+    #define TARGET_PLATFORM PLATFORM_WINDOWS
     #define DEPRECATED(VERSION, MESSAGE) __declspec(deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile."))
     // Symbol export and import definitions
     #define DLL_EXPORT __declspec(dllexport)
@@ -186,7 +186,7 @@ extern void __log__(const char* file, int line, const char* message, ...);
 //===============================================================================================
 // Platform Pre-Setup
 //===============================================================================================
-#if (TARGET_PLATFORM == PLATFORM_WIN32)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 __pragma (warning(disable:4127))
 #define _XKEYCHECK_H // disable windows xkeycheck.h
 
@@ -208,7 +208,7 @@ __pragma (warning(disable:4127))
 
 #include <windows.h>
 
-#endif //(TARGET_PLATFORM == PLATFORM_WIN32)
+#endif //(TARGET_PLATFORM == PLATFORM_WINDOWS)
 
 // IOS,ANDROID,MAC platform must be defined USE_FILE32API
 //#ifndef USE_FILE32API

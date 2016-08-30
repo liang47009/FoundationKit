@@ -38,7 +38,7 @@ namespace socket_ops
 
     inline void clear_last_error()
     {
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         WSASetLastError(0);
 #else
         errno = 0;
@@ -49,7 +49,7 @@ namespace socket_ops
     inline ReturnType error_wrapper(ReturnType return_value,
         std::error_code& ec)
     {
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         ec = std::error_code(WSAGetLastError(), std::system_category());
 #else
         ec = std::error_code(errno, std::system_category());
@@ -65,7 +65,7 @@ namespace socket_ops
         if (s == invalid_socket)
             return s;
 
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         if (af == NET_OS_DEF(AF_INET6))
         {
             int optval = 0;
@@ -131,7 +131,7 @@ namespace socket_ops
     {
         // Check if the connect operation has finished. This is required since we may
         // get spurious readiness notifications from the reactor.
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__) || defined(__SYMBIAN32__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__) || defined(__SYMBIAN32__)
         fd_set write_fds;
         FD_ZERO(&write_fds);
         FD_SET(s, &write_fds);
@@ -142,13 +142,13 @@ namespace socket_ops
         zero_timeout.tv_sec = 0;
         zero_timeout.tv_usec = 0;
         int ready = ::select(s + 1, 0, &write_fds, &except_fds, &zero_timeout);
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__) || defined(__SYMBIAN32__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__) || defined(__SYMBIAN32__)
         pollfd fds;
         fds.fd = s;
         fds.events = POLLOUT;
         fds.revents = 0;
         int ready = ::poll(&fds, 1, 0);
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__) || defined(__SYMBIAN32__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__) || defined(__SYMBIAN32__)
 
         if (ready == 0)
         {
@@ -218,7 +218,7 @@ namespace socket_ops
         int flags, std::error_code& ec)
     {
         clear_last_error();
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         // Receive some data.
         signed_size_type result = error_wrapper(::recv(s, bufs, count, flags), ec);
         if (ec.value() == ERROR_NETNAME_DELETED)
@@ -228,7 +228,7 @@ namespace socket_ops
         if (result >= 0)
             ec = std::error_code();
         return result;
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         msghdr msg = msghdr();
         msg.msg_iov = bufs;
         msg.msg_iovlen = count;
@@ -236,7 +236,7 @@ namespace socket_ops
         if (result >= 0)
             ec = std::error_code();
         return result;
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
     }
 
     signed_size_type recvfrom(socket_type s, char* bufs, int count,
@@ -244,7 +244,7 @@ namespace socket_ops
         std::error_code& ec)
     {
         clear_last_error();
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         // Receive some data.
         signed_size_type result = error_wrapper(::recvfrom(s, bufs, count, flags, addr, addrlen), ec);
         if (ec.value() == ERROR_NETNAME_DELETED)
@@ -254,7 +254,7 @@ namespace socket_ops
         if (result >= 0)
             ec = std::error_code();
         return result;
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         msghdr msg = msghdr();
         init_msghdr_msg_name(msg.msg_name, addr);
         msg.msg_namelen = *addrlen;
@@ -265,7 +265,7 @@ namespace socket_ops
         if (result >= 0)
             ec = std::error_code();
         return result;
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
     }
 
 
@@ -273,10 +273,10 @@ namespace socket_ops
         int in_flags, int& out_flags, std::error_code& ec)
     {
         clear_last_error();
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         out_flags = 0;
         return socket_ops::recv(s, bufs, count, in_flags, ec);
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         msghdr msg = msghdr();
         msg.msg_iov = bufs;
         msg.msg_iovlen = count;
@@ -289,14 +289,14 @@ namespace socket_ops
         else
             out_flags = 0;
         return result;
-#endif //(TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif //(TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
     }
 
     signed_size_type send(socket_type s, const char* bufs, int count,
         int flags, std::error_code& ec)
     {
         clear_last_error();
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         // Send the data.
         signed_size_type result = error_wrapper(::send(s, bufs, count, flags), ec);
         if (ec.value() == ERROR_NETNAME_DELETED)
@@ -306,7 +306,7 @@ namespace socket_ops
         if (result >= 0)
             ec = std::error_code();
         return result;
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         msghdr msg = msghdr();
         msg.msg_iov = const_cast<char*>(bufs);
         msg.msg_iovlen = count;
@@ -315,7 +315,7 @@ namespace socket_ops
         if (result >= 0)
             ec = std::error_code();
         return result;
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
     }
 
     signed_size_type sendto(socket_type s, const char* bufs, int count,
@@ -323,7 +323,7 @@ namespace socket_ops
         std::error_code& ec)
     {
         clear_last_error();
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         // Send the data.
         signed_size_type result = error_wrapper(::sendto(s, bufs, count, flags, addr, addrlen), ec);
         if (ec.value() == ERROR_NETNAME_DELETED)
@@ -333,7 +333,7 @@ namespace socket_ops
         if (result >= 0)
             ec = std::error_code();
         return result;
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         msghdr msg = msghdr();
         init_msghdr_msg_name(msg.msg_name, addr);
         msg.msg_namelen = addrlen;
@@ -344,7 +344,7 @@ namespace socket_ops
         if (result >= 0)
             ec = std::error_code();
         return result;
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
     }
 
     int shutdown(socket_type s, int what, std::error_code& ec)
@@ -379,11 +379,11 @@ namespace socket_ops
             }
 
             clear_last_error();
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
             result = error_wrapper(::closesocket(s), ec);
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
             result = error_wrapper(::close(s), ec);
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
 
             if (result != 0
                 && (ec == std::errc::operation_would_block
@@ -395,10 +395,10 @@ namespace socket_ops
                 // current OS where this behaviour is seen, Windows, says that the socket
                 // remains open. Therefore we'll put the descriptor back into blocking
                 // mode and have another attempt at closing it.
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
                 ioctl_arg_type arg = 0;
                 ::ioctlsocket(s, FIONBIO, &arg);
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
 # if defined(__SYMBIAN32__)
                 int flags = ::fcntl(s, F_GETFL, 0);
                 if (flags >= 0)
@@ -407,15 +407,15 @@ namespace socket_ops
                 ioctl_arg_type arg = 0;
                 ::ioctl(s, FIONBIO, &arg);
 # endif // defined(__SYMBIAN32__)
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
                 state &= ~non_blocking;
 
                 clear_last_error();
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
                 result = error_wrapper(::closesocket(s), ec);
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
                 result = error_wrapper(::close(s), ec);
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
             }
         }
 
@@ -497,7 +497,7 @@ namespace socket_ops
             return 0;
         }
 
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         clear_last_error();
         int tmp_optlen = *optlen;
         int result = error_wrapper(::getsockopt(s, level, optname, (char*)optval, &tmp_optlen), ec);
@@ -515,7 +515,7 @@ namespace socket_ops
         if (result == 0)
             ec = std::error_code();
         return result;
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         clear_last_error();
         int tmp_optlen = *optlen;
         int result = error_wrapper(getsockopt(s, level, optname, (char*)optval, &tmp_optlen), ec);
@@ -534,7 +534,7 @@ namespace socket_ops
         if (result == 0)
             ec = std::error_code();
         return result;
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
     }
 
 
@@ -547,7 +547,7 @@ namespace socket_ops
             return socket_error_retval;
         }
 
-#if (TARGET_PLATFORM == PLATFORM_WIN32)|| defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS)|| defined(__CYGWIN__)
         if (cached)
         {
             // Check if socket is still connected.
@@ -568,9 +568,9 @@ namespace socket_ops
             ec = std::error_code();
             return 0;
         }
-#else // (TARGET_PLATFORM == PLATFORM_WIN32)|| defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS)|| defined(__CYGWIN__)
         (void)cached;
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32)|| defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS)|| defined(__CYGWIN__)
 
         clear_last_error();
         int result = error_wrapper(::getpeername(s, addr, addrlen), ec);
@@ -605,7 +605,7 @@ namespace socket_ops
         }
 
         clear_last_error();
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         ioctl_arg_type arg = (value ? 1 : 0);
         int result = error_wrapper(::ioctlsocket(s, FIONBIO, &arg), ec);
 #else
@@ -633,7 +633,7 @@ namespace socket_ops
 
     int socketpair(int af, int type, int protocol, socket_type sv[2], std::error_code& ec)
     {
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         (void)(af);
         (void)(type);
         (void)(protocol);
@@ -659,11 +659,11 @@ namespace socket_ops
 
 #if defined(SIOCATMARK)
         ioctl_arg_type value = 0;
-# if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+# if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         int result = error_wrapper(::ioctlsocket(s, SIOCATMARK, &value), ec);
-# else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+# else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         int result = error_wrapper(::ioctl(s, SIOCATMARK, &value), ec);
-# endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+# endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         if (result == 0)
             ec = std::error_code();
 # if defined(ENOTTY)
@@ -688,11 +688,11 @@ namespace socket_ops
         }
 
         ioctl_arg_type value = 0;
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         int result = error_wrapper(::ioctlsocket(s, FIONREAD, &value), ec);
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         int result = error_wrapper(::ioctl(s, FIONREAD, &value), ec);
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         if (result == 0)
             ec = std::error_code();
 #if defined(ENOTTY)
@@ -713,7 +713,7 @@ namespace socket_ops
         }
 
         clear_last_error();
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         int result = error_wrapper(::ioctlsocket(s, cmd, arg), ec);
 #elif defined(__MACH__) && defined(__APPLE__) || defined(__NetBSD__) || defined(__FreeBSD__) || defined(__OpenBSD__)
         int result = error_wrapper(::ioctl(s,static_cast<unsigned int>(cmd), arg), ec);
@@ -752,7 +752,7 @@ namespace socket_ops
         fd_set* exceptfds, timeval* timeout, std::error_code& ec)
     {
         clear_last_error();
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         if (!readfds && !writefds && !exceptfds && timeout)
         {
             DWORD milliseconds = timeout->tv_sec * 1000 + timeout->tv_usec / 1000;
@@ -772,7 +772,7 @@ namespace socket_ops
         if (timeout && timeout->tv_sec == 0
             && timeout->tv_usec > 0 && timeout->tv_usec < 1000)
             timeout->tv_usec = 1000;
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
 
 #if defined(__hpux) && defined(__SELECT)
         timespec ts;
@@ -797,7 +797,7 @@ namespace socket_ops
             return socket_error_retval;
         }
 
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
         fd_set fds;
         FD_ZERO(&fds);
         FD_SET(s, &fds);
@@ -808,7 +808,7 @@ namespace socket_ops
         clear_last_error();
         int result = error_wrapper(::select(s + 1, &fds, 0, 0, timeout), ec);
 
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
         pollfd fds;
         fds.fd = s;
         fds.events = POLLIN;
@@ -817,7 +817,7 @@ namespace socket_ops
         clear_last_error();
         int result = error_wrapper(::poll(&fds, 1, timeout), ec);
 
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
 
         if (result == 0)
             ec = (state & non_blocking)
@@ -835,7 +835,7 @@ namespace socket_ops
             return socket_error_retval;
         }
 
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
         fd_set fds;
         FD_ZERO(&fds);
         FD_SET(s, &fds);
@@ -846,7 +846,7 @@ namespace socket_ops
         clear_last_error();
         int result = error_wrapper(::select(s + 1, 0, &fds, 0, timeout), ec);
 
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
         pollfd fds;
         fds.fd = s;
         fds.events = POLLOUT;
@@ -855,7 +855,7 @@ namespace socket_ops
         clear_last_error();
         int result = error_wrapper(::poll(&fds, 1, timeout), ec);
 
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
 
         if (result == 0)
             ec = (state & non_blocking)
@@ -873,7 +873,7 @@ namespace socket_ops
             return socket_error_retval;
         }
 
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
         fd_set fds;
         FD_ZERO(&fds);
         FD_SET(s, &fds);
@@ -884,7 +884,7 @@ namespace socket_ops
         clear_last_error();
         int result = error_wrapper(::select(s + 1, 0, 0, &fds, timeout), ec);
 
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
         pollfd fds;
         fds.fd = s;
         fds.events = POLLPRI | POLLERR | POLLHUP;
@@ -893,7 +893,7 @@ namespace socket_ops
         clear_last_error();
         int result = error_wrapper(::poll(&fds, 1, timeout), ec);
 
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
         if (result == 0)
             ec = (state & non_blocking)
             ? make_error_code(std::errc::operation_would_block) : std::error_code();
@@ -910,7 +910,7 @@ namespace socket_ops
             return socket_error_retval;
         }
 
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
         fd_set write_fds;
         FD_ZERO(&write_fds);
         FD_SET(s, &write_fds);
@@ -924,7 +924,7 @@ namespace socket_ops
             ec = std::error_code();
         return result;
 
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
         pollfd fds;
         fds.fd = s;
         fds.events = POLLOUT;
@@ -934,7 +934,7 @@ namespace socket_ops
         if (result >= 0)
             ec = asio::error_code();
         return result;
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
     }
 
 
@@ -942,7 +942,7 @@ namespace socket_ops
         unsigned long scope_id, std::error_code& ec)
     {
         clear_last_error();
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         if (af != NET_OS_DEF(AF_INET) && af != NET_OS_DEF(AF_INET6))
         {
             ec = make_error_code(std::errc::address_family_not_supported);
@@ -995,7 +995,7 @@ namespace socket_ops
             ec = make_error_code(std::errc::invalid_argument);
 
         return result == socket_error_retval ? 0 : dest;
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         const char* result = error_wrapper(::inet_ntop(
             af, src, dest, static_cast<int>(length)), ec);
         if (result == 0 && !ec)
@@ -1015,14 +1015,14 @@ namespace socket_ops
             strcat(dest, if_name);
         }
         return result;
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
     }
 
     int inet_pton(int af, const char* src, void* dest,
         unsigned long* scope_id, std::error_code& ec)
     {
         clear_last_error();
-#if (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         using namespace std; // For memcpy and strcmp.
 
         if (af != NET_OS_DEF(AF_INET) && af != NET_OS_DEF(AF_INET6))
@@ -1082,7 +1082,7 @@ namespace socket_ops
             ec = std::error_code();
 
         return result == socket_error_retval ? -1 : 1;
-#else // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         using namespace std; // For strchr, memcpy and atoi.
 
         // On some platforms, inet_pton fails if an address string contains a scope
@@ -1124,17 +1124,17 @@ namespace socket_ops
             }
         }
         return result;
-#endif // (TARGET_PLATFORM == PLATFORM_WIN32) || defined(__CYGWIN__)
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
     }
 
     int gethostname(char* name, int namelen, std::error_code& ec)
     {
         clear_last_error();
         int result = error_wrapper(::gethostname(name, namelen), ec);
-# if (TARGET_PLATFORM == PLATFORM_WIN32)
+# if (TARGET_PLATFORM == PLATFORM_WINDOWS)
         if (result == 0)
             ec = std::error_code();
-# endif // (TARGET_PLATFORM == PLATFORM_WIN32)
+# endif // (TARGET_PLATFORM == PLATFORM_WINDOWS)
         return result;
     }
 

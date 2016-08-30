@@ -5,7 +5,7 @@ losemymind.libo@gmail.com
 
 ****************************************************************************/
 #include "FoundationKit/GenericPlatformMacros.h"
-#if (TARGET_PLATFORM == PLATFORM_WIN32)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 
 #include <codecvt>
 #include <regex>

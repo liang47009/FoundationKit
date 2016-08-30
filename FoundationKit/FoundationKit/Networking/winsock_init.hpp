@@ -3,7 +3,7 @@
 # pragma once
 #include "FoundationKit/GenericPlatformMacros.h"
 
-#if (TARGET_PLATFORM == PLATFORM_WIN32)
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 
 NS_FK_BEGIN
 
@@ -59,7 +59,7 @@ NS_FK_END
 
 # include "winsock_init.ipp"
 
-#endif //TARGET_PLATFORM == PLATFORM_WIN32
+#endif //TARGET_PLATFORM == PLATFORM_WINDOWS
 
 #endif // LOSEMYMIND_WINSOCK_INIT_HPP
 

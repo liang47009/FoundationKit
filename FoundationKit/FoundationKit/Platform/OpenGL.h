@@ -55,7 +55,7 @@ losemymind.libo@gmail.com
     #define glDeleteVertexArraysOES glDeleteVertexArraysOESEXT
 
 
-#elif (TARGET_PLATFORM == PLATFORM_WIN32)
+#elif (TARGET_PLATFORM == PLATFORM_WINDOWS)
     #include <GL/GL.h>
     #define CC_GL_DEPTH24_STENCIL8      GL_DEPTH24_STENCIL8
 

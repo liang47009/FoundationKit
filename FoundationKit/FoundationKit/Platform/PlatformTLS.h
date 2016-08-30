@@ -7,7 +7,7 @@
 #include "FoundationKit/Platform/Android/AndroidPlatformTLS.h"
 #elif TARGET_PLATFORM == PLATFORM_IOS
 #include "FoundationKit/Platform/ios/ApplePlatformTLS.h"
-#elif TARGET_PLATFORM == PLATFORM_WIN32
+#elif TARGET_PLATFORM == PLATFORM_WINDOWS
 #include "FoundationKit/Platform/windows/WindowsPlatformTLS.h"
 #endif
 

@@ -4,14 +4,15 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifdef WIN32
+#include "FoundationKit/Platform/Platform.h"
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+
 #include <windows.h>
 #include <WindowsX.h>
 #include <psapi.h>
 #include <vector>
 #include <memory>
 #include "FoundationKit/GenericPlatformMacros.h"
-#include "FoundationKit/Platform/Platform.h"
 #include "FoundationKit/Platform/OpenGL.h"
 #include "FoundationKit/Platform/Environment.h"
 #include "FoundationKit/Foundation/Logger.h"
