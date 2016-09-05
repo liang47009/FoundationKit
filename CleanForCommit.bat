@@ -1,3 +1,15 @@
+IF EXIST "Win32" (
+    rmdir "Win32" /s /q
+)
+
+IF EXIST "x64" (
+    rmdir "x64" /s /q
+)
+
+IF EXIST "Release" (
+    rmdir "Release" /s /q
+)
+
 IF EXIST "Debug" (
     rmdir "Debug" /s /q
 )

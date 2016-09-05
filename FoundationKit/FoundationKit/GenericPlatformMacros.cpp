@@ -4,7 +4,7 @@
 #include <cstdio>
 #if (TARGET_PLATFORM == PLATFORM_ANDROID)
 #include <android/log.h>
-#elif (TARGET_PLATFORM == PLATFORM_WIN32)
+#elif (TARGET_PLATFORM == PLATFORM_WINDOWS)
 #include <Windows.h>
 #endif
 USING_NS_FK;
@@ -22,7 +22,9 @@ void __fail__(const char* expr, const char* file, int line)
 # elif defined __GNUC__
     _assert(expr, file, line);
 # elif defined _MSC_VER
-    _CrtDbgReport(_CRT_ASSERT, file, line, expr, "");
+    #ifdef DEBUG
+        _CrtDbgReport(_CRT_ASSERT, file, line, expr, "");
+    #endif // DEBUG
 # else
 #   error UNSUPPORTED COMPILER
 # endif
@@ -64,7 +66,7 @@ void __log__(const char* file, int line, const char* message, ...)
 
 #if (TARGET_PLATFORM == PLATFORM_ANDROID)
     __android_log_print(ANDROID_LOG_INFO, "LoseMyMind", "%s", logMessage.c_str());
-#elif TARGET_PLATFORM ==  PLATFORM_WIN32
+#elif TARGET_PLATFORM ==  PLATFORM_WINDOWS
     std::wstring wstr = StringUtils::string2UTF8wstring(logMessage.c_str());
     OutputDebugStringW(wstr.c_str());
     printf("%s", logMessage.c_str());

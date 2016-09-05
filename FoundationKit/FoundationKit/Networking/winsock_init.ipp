@@ -5,7 +5,7 @@
 #include "socket_types.hpp"
 #include "winsock_init.hpp"
 
-#if TARGET_PLATFORM == PLATFORM_WIN32
+#if TARGET_PLATFORM == PLATFORM_WINDOWS
 NS_FK_BEGIN
 
 void winsock_init_base::startup(data& d,
@@ -39,6 +39,6 @@ void winsock_init_base::throw_on_error(data& d)
 
 NS_FK_END
 
-#endif //TARGET_PLATFORM == PLATFORM_WIN32
+#endif //TARGET_PLATFORM == PLATFORM_WINDOWS
 
 #endif //LOSEMYMIND_WINSOCK_INIT_IPP

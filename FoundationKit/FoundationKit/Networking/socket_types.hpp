@@ -9,7 +9,7 @@
 
 #if (TARGET_PLATFORM == PLATFORM_WINRT)
 // Empty.
-#elif (TARGET_PLATFORM == PLATFORM_WIN32)
+#elif (TARGET_PLATFORM == PLATFORM_WINDOWS)
 # if defined(_WINSOCKAPI_) && !defined(_WINSOCK2API_)
 #  error WinSock.h has already been included
 # endif // defined(_WINSOCKAPI_) && !defined(_WINSOCK2API_)
@@ -31,7 +31,7 @@
 #   pragma comment(lib, "ws2_32.lib")
 #  endif // defined(_MSC_VER) || defined(__BORLANDC__)
 
-#else // (TARGET_PLATFORM != PLATFORM_WIN32)
+#else // (TARGET_PLATFORM != PLATFORM_WINDOWS)
 
 # include <sys/ioctl.h>
 # if !defined(__SYMBIAN32__)
@@ -155,7 +155,7 @@
 # define NET_OS_DEF_AI_ALL 0x100
 # define NET_OS_DEF_AI_ADDRCONFIG 0x400
 
-#elif (TARGET_PLATFORM == PLATFORM_WIN32)
+#elif (TARGET_PLATFORM == PLATFORM_WINDOWS)
         typedef SOCKET socket_type;
         const SOCKET invalid_socket = INVALID_SOCKET;
         const int socket_error_retval = SOCKET_ERROR;

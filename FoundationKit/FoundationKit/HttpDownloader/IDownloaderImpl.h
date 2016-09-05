@@ -46,7 +46,7 @@ namespace network
     class IDownloaderImpl
     {
     public:
-        typedef std::function<int(void* ptr, size_t, size_t, void* userdata)> WriterCallback;
+        typedef std::function<size_t(void* ptr, size_t, size_t, void* userdata)> WriterCallback;
         typedef std::function<int(void* userdata, double, double)> ProgressCallback;
         typedef std::function<void(const std::string&, int, const std::string&)> ErrorCallback;
 

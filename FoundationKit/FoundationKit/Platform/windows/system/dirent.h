@@ -13,7 +13,7 @@
 #ifndef DIRENT_H
 #define DIRENT_H
 #include "FoundationKit/GenericPlatformMacros.h"
-#if (TARGET_PLATFORM ==PLATFORM_WIN32 )
+#if (TARGET_PLATFORM ==PLATFORM_WINDOWS )
 #pragma warning( push )  
 #pragma warning( disable : 4505 ) 
 #include <locale>
@@ -956,5 +956,5 @@ extern "C" {
 #endif
 
 //#pragma warning( pop )
-#endif //#if (TARGET_PLATFORM ==PLATFORM_WIN32 )
+#endif //#if (TARGET_PLATFORM ==PLATFORM_WINDOWS )
 #endif /*DIRENT_H*/

@@ -3,7 +3,7 @@
 #include "FoundationKit/GenericPlatformMacros.h"
 
 void justForLoadSym();
-#if TARGET_PLATFORM==PLATFORM_WIN32
+#if TARGET_PLATFORM==PLATFORM_WINDOWS
 
 #endif
 
