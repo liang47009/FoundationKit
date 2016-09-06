@@ -447,6 +447,9 @@
     <ClInclude Include="..\FoundationKit\HTTPClient\HttpClientTest.h">
       <Filter>HTTPClient</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\LanguageFeatures.h">
+      <Filter>FoundationKit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">

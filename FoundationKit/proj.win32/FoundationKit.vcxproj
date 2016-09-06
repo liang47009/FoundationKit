@@ -246,6 +246,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\HttpDownloader\DownloaderImpl.h" />
     <ClInclude Include="..\FoundationKit\HttpDownloader\DownloaderTest.h" />
     <ClInclude Include="..\FoundationKit\HttpDownloader\IDownloaderImpl.h" />
+    <ClInclude Include="..\FoundationKit\LanguageFeatures.h" />
     <ClInclude Include="..\FoundationKit\LuaEngine\LuaEngine.h" />
     <ClInclude Include="..\FoundationKit\LuaEngine\LuaLoader.h" />
     <ClInclude Include="..\FoundationKit\LuaEngine\LuaScriptHelper.h" />
