@@ -114,6 +114,7 @@ float Platform::getProcessMemory()
         while (*line < '0' || *line > '9') line++;
         line[i - 3] = '\0';
         i = atoi(line);
+        fclose(fp);
         return i;
     };
 
