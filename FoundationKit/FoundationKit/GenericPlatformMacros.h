@@ -3,6 +3,7 @@
 #define LOSEMYMIND_GENERICPLATFORMMACROS_H
 #pragma once
 #include <cassert>
+#include "LanguageFeatures.h"
 // namespace FoundationKit {}
 #ifdef __cplusplus
     #define NS_FK_BEGIN                     namespace FoundationKit {
@@ -13,11 +14,6 @@
     #define NS_FK_END 
     #define USING_NS_FK 
 #endif 
-
-#if __cplusplus < 201103L
-#define constexpr
-#define noexcept
-#endif
 
 // see https://sourceforge.net/p/predef/wiki/Compilers/
 // or boost\config\select_platform_config.hpp
