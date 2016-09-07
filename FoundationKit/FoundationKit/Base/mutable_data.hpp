@@ -35,6 +35,9 @@ NS_FK_BEGIN
 class mutable_data
 {
 public:
+
+    typedef uint8* pointer;
+
     /// Construct an empty buffer.
     mutable_data()
         : _data(nullptr)
@@ -70,13 +73,19 @@ public:
     // Assignment operator
     mutable_data& operator= (const mutable_data& other)
     {
-        copy(other);
+        if (this != &other)
+        {
+            copy(other);
+        }
         return *this;
     }
 
     mutable_data& operator= (mutable_data&& other)
     {
-        move(std::forward<mutable_data&&>(other));
+        if (this != &other)
+        {
+            move(std::forward<mutable_data&&>(other));
+        }
         return *this;
     }
 
@@ -96,7 +105,7 @@ public:
         return _data;
     }
 
-    void reserve(std::size_t size)
+    void reallocate(std::size_t size)
     {
         clear();
         _data = new uint8[size];
@@ -129,7 +138,7 @@ public:
         _owner = false;
     }
 
-    bool isNull()
+    bool empty()
     {
         return (_data == nullptr || _size == 0);
     }

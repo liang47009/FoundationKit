@@ -253,7 +253,7 @@ int LuaStack::executeScriptFile(const char* filename)
     std::string fullPath = utils->fullPathForFilename(buf);
     mutable_data data = utils->readDataFromFile(fullPath);
     int rn = 0;
-    if (!data.isNull())
+    if (!data.empty())
     {
         if (luaLoadBuffer(_state, data.c_str(), (int)data.size(), fullPath.c_str()) == 0)
         {

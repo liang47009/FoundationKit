@@ -219,7 +219,7 @@ bool FileUtils::isAbsolutePath(const std::string& path) const
 std::string FileUtils::readStringFromFile(const std::string& filename)
 {
     mutable_data data = getData(filename, true);
-    if (data.isNull())
+    if (data.empty())
         return "";
 
     std::string ret(data.c_str());
@@ -370,7 +370,7 @@ long FileUtils::getFileSize(const std::string &filepath)const
     {
         fullpath = fullPathForFilename(filepath);
         if (fullpath.empty())
-            return 0;
+            return -1;
     }
 
     struct stat info;
@@ -391,19 +391,25 @@ long FileUtils::getFileSize(const std::string &filepath)const
 bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newfullpath)const
 {
     bool ret = false;
-    const size_t BUFF_SIZE = 1024;
     do 
     {
-        BREAK_IF(oldfullpath == newfullpath);
+        if (oldfullpath == newfullpath)
+        {
+            ret = true;
+            break;
+        }
         const long srcFileSize = getFileSize(oldfullpath);
+        BREAK_IF(srcFileSize == -1);
         FILE *fpSrc = fopen(oldfullpath.c_str(), "rb");
         BREAK_IF(!fpSrc);
         FILE *fpDes = fopen(newfullpath.c_str(), "wb");
         BREAK_IF(!fpDes);
+        const size_t BUFF_SIZE = 1024;
         char read_buff[BUFF_SIZE];
+        size_t fileOriginalSize = static_cast<size_t>(srcFileSize);
         size_t readedSize = 0;
-        size_t unreadSize = srcFileSize;
-        while (readedSize < srcFileSize)
+        size_t unreadSize = fileOriginalSize;
+        while (readedSize < fileOriginalSize)
         {
             if (unreadSize > BUFF_SIZE)
             {
@@ -415,7 +421,7 @@ bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newf
                 readedSize += fread(read_buff, sizeof(char), unreadSize, fpSrc);
                 fwrite(read_buff, 1, unreadSize, fpDes);
             }
-            unreadSize = srcFileSize - readedSize;
+            unreadSize = fileOriginalSize - readedSize;
         }
         fclose(fpSrc);
         fclose(fpDes);

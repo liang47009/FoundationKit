@@ -120,7 +120,7 @@ public:
     *
     *  @note If a relative path was passed in, it will be inserted a default root path at the beginning.
     *  @param filepath The path of the file, it could be a relative or absolute path.
-    *  @return The file size.
+    *  @return The file size, if failed, return -1;
     */
     long getFileSize(const std::string &filepath)const;
 

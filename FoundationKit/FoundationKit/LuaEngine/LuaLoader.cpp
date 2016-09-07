@@ -79,7 +79,7 @@ extern "C"
             next = searchpath.find_first_of(";", begin);
         } while (begin < (int)searchpath.length());
 
-        if (!chunkData.isNull())
+        if (!chunkData.empty())
         {
             LuaStack::Pointer stack = LuaEngine::getInstance()->getLuaStack();
             stack->luaLoadBuffer(L, chunkData.c_str(), (int)chunkData.size(), chunkName.c_str());
