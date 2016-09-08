@@ -21,7 +21,7 @@
 NS_FK_BEGIN
 
 static const size_t MAX_LOG_LENGTH = 1024;
-static const char*  LevelMsg[] = {"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"};
+static const char*  LevelMsg[] = {"VERBOSE","DEBUG", "INFO", "WARN", "ERROR", "ASSERT"};
 
 
 Logger::State::State():enabled(true){}

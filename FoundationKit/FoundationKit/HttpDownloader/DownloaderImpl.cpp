@@ -9,6 +9,7 @@ losemymind.libo@gmail.com
 #include <curl.h>
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Foundation/StringUtils.h"
+#include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Platform/FileUtils.h"
 
 

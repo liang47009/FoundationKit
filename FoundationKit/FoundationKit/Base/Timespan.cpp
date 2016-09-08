@@ -6,6 +6,7 @@ losemymind.libo@gmail.com
 ****************************************************************************/
 #include <vector>
 #include "FoundationKit/Foundation/StringUtils.h"
+#include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Base/MathEx.h"
 #include "Timespan.h"
 

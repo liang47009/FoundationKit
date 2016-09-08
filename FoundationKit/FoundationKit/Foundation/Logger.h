@@ -19,12 +19,12 @@ public:
      */
     enum Level
     {
-        LV_TRACE = 0,
+        LV_VERBOSE,
         LV_DEBUG,
         LV_INFO,
         LV_WARN,
         LV_ERROR,
-        LV_FATAL,
+        LV_ASSERT,
     };
 private:
     struct State
@@ -74,10 +74,17 @@ extern void _log_(const char* message, ...);
 #else
 #define LOG_DEBUG(format, ...)
 #endif
-#define LOG_TRACE(format, ...) Logger::getInstance()->log(Logger::Level::LV_TRACE, format, ##__VA_ARGS__)
 #define LOG_INFO( format, ...) Logger::getInstance()->log(Logger::Level::LV_INFO, format, ##__VA_ARGS__)
 #define LOG_WARN( format, ...) Logger::getInstance()->log(Logger::Level::LV_WARN, format, ##__VA_ARGS__)
 #define LOG_ERROR(format, ...) Logger::getInstance()->log(Logger::Level::LV_ERROR, format, ##__VA_ARGS__)
-#define LOG_FATAL(format, ...) Logger::getInstance()->log(Logger::Level::LV_FATAL, format, ##__VA_ARGS__)
+#define LOG_ASSERT(cond, format,...) \
+do{ \
+    if (!(cond)) { \
+        Logger::getInstance()->log(Logger::Level::LV_ASSERT, format, ##__VA_ARGS__); \
+        assert(cond); \
+        } \
+} \
+while (false)
+
 
 

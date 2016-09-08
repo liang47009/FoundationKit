@@ -13,6 +13,7 @@ losemymind.libo@gmail.com
 #include "DownloaderImpl.h"
 #include "FoundationKit/Foundation/Scheduler.h"
 #include "FoundationKit/Foundation/StringUtils.h"
+#include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Platform/FileUtils.h"
 
 
