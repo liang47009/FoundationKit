@@ -37,12 +37,43 @@
 #include "FoundationKit/experimental/memory.h"
 #include "FoundationKit/Networking/network.hpp"
 #include "FoundationKit/Platform/PlatformTLS.h"
-
+#include <iostream>
 using namespace std;
 USING_NS_FK;
 
 
 static Scheduler* shared_Scheduler = nullptr;
+
+
+void printNum(int n)
+{
+    int left = 1;
+    int  right = n*(n + 1);
+    int curLine = n;
+    for (int i = n; i > 0; --i){
+
+        for (int l = 0; l < (n - curLine); ++l){
+            std::cout << "-";
+        }
+
+        for (int j = left; j <= (left+curLine-1); j++){
+            std::cout << j << "*";
+ 
+        }
+
+        for (int k = (right - curLine + 1); k <= right; ++k){
+            std::cout << k;
+            if (k != right){
+               std::cout<<"*";
+            }
+        }
+
+        right = right - curLine;
+        left = left + curLine;
+        --curLine;
+        std::cout <<std::endl;
+    }
+}
 
 AppDelegate::AppDelegate() {
 
@@ -65,7 +96,8 @@ void AppDelegate::applicationDidLaunching()
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
-    TestHttpClient();
+    printNum(6);
+    //TestHttpClient();
 	return true;
 }
 
