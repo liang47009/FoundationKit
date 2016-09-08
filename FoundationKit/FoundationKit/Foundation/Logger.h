@@ -69,7 +69,7 @@ NS_FK_END
 
 extern void _log_(const char* message, ...);
 
-#ifdef FK_DEBUG
+#if DEBUG_MODE
 #define LOG_DEBUG(format, ...) Logger::getInstance()->log(Logger::Level::LV_DEBUG, format, ##__VA_ARGS__)
 #else
 #define LOG_DEBUG(format, ...)

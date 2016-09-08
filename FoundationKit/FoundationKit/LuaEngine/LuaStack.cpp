@@ -635,7 +635,6 @@ int LuaStack::luaLoadBuffer(lua_State *L, const char *chunk, int chunkSize, cons
     int r = 0;
     r = luaL_loadbuffer(L, chunk, chunkSize, chunkName);
 
-#if defined(FK_DEBUG)
     if (r)
     {
         switch (r)
@@ -656,7 +655,6 @@ int LuaStack::luaLoadBuffer(lua_State *L, const char *chunk, int chunkSize, cons
             LOG_INFO("[LUA ERROR] load \"%s\", error: unknown.", chunkName);
         }
     }
-#endif
     return r;
 }
 
