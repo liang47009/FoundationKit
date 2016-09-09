@@ -189,9 +189,6 @@
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h">
       <Filter>external\unzip</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\FunctionCenter.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h">
       <Filter>external\ConvertUTF</Filter>
     </ClInclude>

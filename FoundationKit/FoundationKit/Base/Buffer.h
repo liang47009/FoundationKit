@@ -11,6 +11,7 @@ losemymind.libo@gmail.com
 #include <initializer_list>
 #include <memory>
 #include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Base/Types.h"
 NS_FK_BEGIN
 /**

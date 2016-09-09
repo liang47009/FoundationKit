@@ -223,7 +223,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\Compression.h" />
     <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Exception.h" />
-    <ClInclude Include="..\FoundationKit\Foundation\FunctionCenter.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Logger.h" />
     <ClInclude Include="..\FoundationKit\Foundation\MessageQueue.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Scheduler.h" />

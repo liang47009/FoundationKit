@@ -36,9 +36,6 @@ Rect& Rect::operator= (const Rect& other)
 
 void Rect::setRect(float x, float y, float width, float height)
 {
-    // CGRect can support width<0 or height<0
-    // CCASSERT(width >= 0.0f && height >= 0.0f, "width and height of Rect must not less than 0.");
-
     origin.x = x;
     origin.y = y;
 

@@ -72,7 +72,6 @@ DataStream& DataStream::operator >> (char* data)
     }
     if (size == 0)
     {
-        //data = (char*)"";
         return *this;
     }
     read((unsigned char*)data, size);
@@ -96,11 +95,8 @@ DataStream& DataStream::operator>>(std::string& data)
 		data = "";
 		return *this;
 	}
-
-	//data = _buffer.substr(0,size);
     data = _buffer.substr(getReadIndex(), size);
 	data.shrink_to_fit();
-	//_buffer.erase(0,size);
     readIndexIncrement(size);
 	return *this;
 }
@@ -125,8 +121,6 @@ void DataStream::write(unsigned char* data, size_t pSize, int pPos)
 
 void DataStream::read( unsigned char* data, size_t dataSize )
 {
-	//memcpy(data,&_buffer[0],dataSize);
-	//_buffer.erase(0,dataSize);
     memcpy(data, &_buffer[getReadIndex()], dataSize);
     readIndexIncrement(dataSize);
 }
@@ -175,3 +169,5 @@ void DataStream::readIndexIncrement(size_type count)
 }
 
 NS_FK_END
+
+

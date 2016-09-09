@@ -98,9 +98,6 @@ public:
         {
             ++i;
             ++it;
-            LOG_ASSERT(it != range.second, "Dictionary::at: The value with key:%s and index:%s couldn't be found.",
-                StringUtils::to_string(key).c_str(),
-                StringUtils::to_string(index).c_str());
         }
         return ((*it).second);
         
@@ -189,7 +186,6 @@ public:
         return _MultiMap.insert(_Ilist);
     }
 
-
     iterator insert(const TKey& key, const TValue& value)
     {
         return _MultiMap.insert({ key, value });
@@ -210,7 +206,6 @@ public:
         return (_MultiMap.erase(first, last));
     }
 
-    
     void clear()
     {
         _MultiMap.clear();

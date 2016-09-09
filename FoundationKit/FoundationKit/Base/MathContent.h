@@ -14,11 +14,11 @@ NS_FK_BEGIN
 namespace MathEx
 {
     /// A few useful constants
-    const int     MaxInt = (std::numeric_limits<int>::max)();
+    const int     MaxInt    = (std::numeric_limits<int>::max)();
     const double  MaxDouble = (std::numeric_limits<double>::max)();
     const double  MinDouble = (std::numeric_limits<double>::min)();
-    const float   MaxFloat = (std::numeric_limits<float>::max)();
-    const float   MinFloat = (std::numeric_limits<float>::min)();
+    const float   MaxFloat  = (std::numeric_limits<float>::max)();
+    const float   MinFloat  = (std::numeric_limits<float>::min)();
 
     const float   SmailFloat = 1.0e-37f;
     const float   Tolerance = 2e-37f;

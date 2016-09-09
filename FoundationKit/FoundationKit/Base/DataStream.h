@@ -108,8 +108,6 @@ public:
 		}
         memcpy(&data, &_buffer[getReadIndex()], sizeof(T));
         readIndexIncrement(sizeof(T));
-		//memcpy(&data, &_buffer[0], sizeof(T));
-		//_buffer.erase(0, sizeof(T));
 	}
 
 	template< typename T >
