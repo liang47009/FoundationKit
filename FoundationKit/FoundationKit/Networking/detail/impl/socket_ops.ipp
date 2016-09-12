@@ -213,6 +213,20 @@ namespace socket_ops
         return result;
     }
 
+    int bind(socket_type s, const socket_addr_type* addr, std::size_t addrlen, std::error_code& ec)
+    {
+        if (s == invalid_socket)
+        {
+            ec = make_error_code(std::errc::bad_file_descriptor);
+            return socket_error_retval;
+        }
+
+        clear_last_error();
+        int result = error_wrapper(::bind(s, addr,addrlen), ec);
+        if (result == 0)
+            ec = std::error_code();
+        return result;
+    }
 
     signed_size_type recv(socket_type s, char* bufs, int count,
         int flags, std::error_code& ec)

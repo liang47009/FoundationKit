@@ -1,6 +1,8 @@
 #include "tracey.hpp"
 #include <string>
 #include <stdint.h>
+#include <chrono>
+#include <thread>
 
 #include "AppDelegate.h"
 #include "FoundationKit/Foundation/Logger.h"
@@ -41,39 +43,10 @@
 using namespace std;
 USING_NS_FK;
 
-
 static Scheduler* shared_Scheduler = nullptr;
 
-
-void printNum(int n)
-{
-    int left = 1;
-    int  right = n*(n + 1);
-    int curLine = n;
-    for (int i = n; i > 0; --i){
-
-        for (int l = 0; l < (n - curLine); ++l){
-            std::cout << "-";
-        }
-
-        for (int j = left; j <= (left+curLine-1); j++){
-            std::cout << j << "*";
- 
-        }
-
-        for (int k = (right - curLine + 1); k <= right; ++k){
-            std::cout << k;
-            if (k != right){
-               std::cout<<"*";
-            }
-        }
-
-        right = right - curLine;
-        left = left + curLine;
-        --curLine;
-        std::cout <<std::endl;
-    }
-}
+void runServer();
+void runClient();
 
 AppDelegate::AppDelegate() {
 
@@ -96,8 +69,17 @@ void AppDelegate::applicationDidLaunching()
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
-    printNum(6);
     //TestHttpClient();
+
+    std::thread serverThread([]()
+    {
+        runServer();
+    });
+
+    serverThread.detach();
+
+    runClient();
+
 	return true;
 }
 
@@ -130,3 +112,32 @@ void AppDelegate::mainLoop()
 	shared_Scheduler->update(1/60);
 }
 
+void runServer()
+{
+    network::ip::tcp::socket serverSocket;
+    serverSocket.open(network::ip::tcp::v4());
+    serverSocket.bind(network::ip::tcp::endpoint(ip::tcp::v4(), 4215));
+    serverSocket.listen();
+    while (true)
+    {
+        ip::tcp::endpoint endpoint;
+        network::ip::tcp::socket clientSocket = serverSocket.accept(endpoint);
+        LOG_INFO("===== Client: %d, ip:%s", clientSocket.native_handle(), endpoint.address().to_string().c_str());
+    }
+
+}
+
+void runClient()
+{
+    std::vector<network::ip::tcp::socket> clientList;
+    while (true)
+    {
+        network::ip::tcp::socket clientSocket;
+        clientSocket.open(network::ip::tcp::v4());
+        ip::tcp::endpoint endpoint(network::ip::address::from_string("127.0.0.1"), 4215);
+        clientSocket.connect(endpoint);
+        clientList.push_back(std::move(clientSocket));
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+
+}

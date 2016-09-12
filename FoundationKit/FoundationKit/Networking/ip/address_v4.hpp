@@ -204,7 +204,7 @@ public:
 
 private:
     // The underlying IPv4 address.
-    in4_addr_type addr_;
+    network::in4_addr_type addr_;
 };
 
 /// Create an IPv4 address from raw bytes in network order.

@@ -42,7 +42,7 @@ public:
 
     }
 
-    basic_socket(native_handle_type new_socket)
+    explicit basic_socket(native_handle_type new_socket)
         : _native_socket(new_socket)
     {
 
@@ -60,6 +60,12 @@ public:
      */
     basic_socket(basic_socket&& other)
     {
+        this->_native_socket = other._native_socket;
+        this->_open = other._open;
+        this->_state = other._state;
+        this->_protocol = other._protocol;
+        other._native_socket = invalid_socket;
+        other._open = false;
     }
 
     /// Move-assign a basic_socket from another.
@@ -74,6 +80,12 @@ public:
     */
     basic_socket& operator=(basic_socket&& other)
     {
+        this->_native_socket = other._native_socket;
+        this->_open = other._open;
+        this->_state = other._state;
+        this->_protocol = other._protocol;
+        other._native_socket = invalid_socket;
+        other._open = false;
         return *this;
     }
 
@@ -82,12 +94,11 @@ public:
      */
     virtual ~basic_socket()
     {
-        this->shutdown(socket_base::shutdown_both);
-        std::error_code ec;
-        socket_ops::close(_native_socket, _state, true, ec);
-        if (ec)
+        if (is_open())
         {
-
+            this->shutdown(socket_base::shutdown_both);
+            std::error_code ec;
+            socket_ops::close(_native_socket, _state, true, ec);
         }
     }
 
@@ -292,7 +303,7 @@ public:
     void bind(const endpoint_type& endpoint)
     {
         std::error_code ec;
-        this->bind(ec);
+        this->bind(endpoint,ec);
         throw_error_if(ec, "bind");
     }
 
@@ -320,7 +331,7 @@ public:
      */
     std::error_code bind(const endpoint_type& endpoint, std::error_code& ec)
     {
-        socket_ops::bind(_native_socket, peer_endpoint.data(), peer_endpoint.size(), ec);
+        socket_ops::bind(_native_socket, endpoint.data(), endpoint.size(), ec);
         return ec;
     }
 
@@ -636,7 +647,8 @@ public:
      */
     std::error_code listen(int backlog, std::error_code& ec)
     {
-        return socket_ops::listen(_native_socket, backlog, ec);
+        socket_ops::listen(_native_socket, backlog, ec);
+        return ec;
     }
 
     /**
@@ -700,9 +712,10 @@ public:
      */
     typename Protocol::socket accept(endpoint_type& peer_endpoint, std::error_code& ec)
     {
+        int addrLen = static_cast<int>(peer_endpoint.size());
         native_handle_type new_native_socket = socket_ops::accept(_native_socket
             , peer_endpoint.data()
-            , peer_endpoint.size()
+            , &addrLen
             , ec);
         typename Protocol::socket new_socket(new_native_socket);
         return new_socket;
@@ -850,6 +863,10 @@ public:
      */
     std::error_code shutdown(shutdown_type what, std::error_code& ec)
     {
+        if (!is_open())
+        {
+            return std::error_code();
+        }
         if (_native_socket != invalid_socket)
         {
             socket_ops::shutdown(_native_socket, what, ec);
@@ -903,6 +920,10 @@ public:
      */
     std::error_code close(std::error_code& ec)
     {
+        if (!is_open())
+        {
+            return std::error_code();
+        }
         if (_native_socket != invalid_socket)
         {
             return socket_ops::close(_native_socket, _state, false, ec);
@@ -1028,6 +1049,114 @@ public:
     explicit operator bool() const
     {
         return (_native_socket != invalid_socket);
+    }
+
+    /**
+     * Set an option on the socket.
+     * This function is used to set an option on the socket.
+     *
+     * @param option The new option value to be set on the socket.
+     *
+     * @throws asio::system_error Thrown on failure.
+     *
+     * @sa SettableSocketOption
+     * network::socket_base::broadcast
+     * network::socket_base::debug
+     * network::socket_base::do_not_route
+     * network::socket_base::keep_alive
+     * network::socket_base::send_buffer_size
+     * network::socket_base::receive_buffer_size
+     * network::socket_base::receive_low_watermark
+     * network::socket_base::send_low_watermark
+     * network::socket_base::reuse_address
+     * network::socket_base::linger
+     * network::ip::multicast::join_group
+     * network::ip::multicast::leave_group
+     * network::ip::multicast::outbound_interface
+     * network::ip::multicast::hops
+     * network::ip::multicast::enable_loopback
+     * network::ip::tcp::no_delay
+     *
+     * @par Example
+     * Setting the IPPROTO_TCP/TCP_NODELAY option:
+     * @code
+     * network::ip::tcp::socket socket(io_service);
+     * ...
+     * network::ip::tcp::no_delay option(true);
+     * socket.set_option(option);
+     * @endcode
+     */
+    template <typename SettableSocketOption>
+    void set_option(const SettableSocketOption& option)
+    {
+        asio::error_code ec;
+        this->set_option(option, ec);
+        throw_error_if(ec, "set_option");
+    }
+
+    template <typename SettableSocketOption>
+    std::error_code set_option(const SettableSocketOption& option,std::error_code& ec)
+    {
+        socket_ops::setsockopt(_native_socket, _state,
+            option.level(_protocol), option.name(_protocol),
+            option.data(_protocol), option.size(_protocol), ec);
+        return ec;
+    }
+
+    /**
+    * Get an option from the socket.
+    * This function is used to get the current value of an option on the socket.
+    *
+    * @param option The option value to be obtained from the socket.
+    *
+    * @throws asio::system_error Thrown on failure.
+    *
+    * @sa GettableSocketOption @n
+    * network::socket_base::broadcast
+    * network::socket_base::debug
+    * network::socket_base::do_not_route
+    * network::socket_base::keep_alive
+    * network::socket_base::send_buffer_size
+    * network::socket_base::receive_buffer_size
+    * network::socket_base::receive_low_watermark
+    * network::socket_base::send_low_watermark
+    * network::socket_base::reuse_address
+    * network::socket_base::linger
+    * network::ip::multicast::join_group
+    * network::ip::multicast::leave_group
+    * network::ip::multicast::outbound_interface
+    * network::ip::multicast::hops
+    * network::ip::multicast::enable_loopback
+    * network::ip::tcp::no_delay
+    *
+    * @par Example
+    * Getting the value of the SOL_SOCKET/SO_KEEPALIVE option:
+    * @code
+    * network::ip::tcp::socket socket(io_service);
+    * ...
+    * network::ip::tcp::socket::keep_alive option;
+    * socket.get_option(option);
+    * bool is_set = option.value();
+    * @endcode
+    */
+    template <typename GettableSocketOption>
+    void get_option(GettableSocketOption& option) const
+    {
+        std::error_code ec;
+        this->get_option(option, ec);
+        throw_error_if(ec, "get_option");
+    }
+
+    template <typename GettableSocketOption>
+    std::error_code get_option(GettableSocketOption& option, std::error_code& ec) const
+    {
+        std::size_t size = option.size(_protocol);
+        socket_ops::getsockopt(_native_socket, _state,
+            option.level(_protocol), option.name(_protocol),
+            option.data(_protocol), &size, ec);
+        if (!ec)
+            option.resize(_protocol, size);
+        return ec;
     }
 
 private:

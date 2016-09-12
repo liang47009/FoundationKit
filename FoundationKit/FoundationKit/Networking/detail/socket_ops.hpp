@@ -49,6 +49,8 @@ namespace socket_ops
 
     int listen(socket_type s, int backlog, std::error_code& ec);
 
+    int bind(socket_type s, const socket_addr_type* addr, std::size_t addrlen, std::error_code& ec);
+
     signed_size_type recv(socket_type s, char* bufs, 
         int len, int flags, std::error_code& ec);
 

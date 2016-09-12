@@ -259,7 +259,9 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Networking\detail\socket_ops.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\detail\socket_option.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\EventsReactor\epoll_reactor.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\event_reactor.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\EventsReactor\kqueue_reactor.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\reactor.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\EventsReactor\select_reactor.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\IProtocol.h" />
     <ClInclude Include="..\FoundationKit\Networking\ip\address.hpp" />
@@ -276,6 +278,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Networking\ip\impl\address_v4.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\ip\impl\address_v6.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\ip\impl\basic_endpoint.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\ip\multicast.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\ip\tcp.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\ip\udp.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\network.hpp" />

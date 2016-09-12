@@ -447,6 +447,15 @@
     <ClInclude Include="..\FoundationKit\LanguageFeatures.h">
       <Filter>FoundationKit</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\event_reactor.hpp">
+      <Filter>Networking\EventsReactor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\reactor.hpp">
+      <Filter>Networking\EventsReactor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\multicast.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">

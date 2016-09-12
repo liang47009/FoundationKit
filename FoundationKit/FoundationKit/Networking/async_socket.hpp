@@ -91,15 +91,7 @@ public:
 
     virtual void poll()
     {
-        auto iter = _handleMethods.begin();
-        for (iter; iter != _handleMethods.end(); ++iter)
-        {
-            bool bRemove = (*iter)();
-            if (bRemove)
-            {
-                iter = _handleMethods.erase(iter);
-            }
-        }
+
     }
 
     /**
@@ -140,26 +132,7 @@ public:
     std::error_code async_connect(const endpoint_type& peer_endpoint, async_connect_handler& handler)
     {
         std::error_code ec;
-        if (!(_state & socket_ops::non_blocking))
-        {
-            set_non_blocking(_native_socket, _state, true, ec);
-            if (ec)
-            {
-                handler(ec);
-                return ec;
-            }
-        }
 
-        _handleMethods.push_back([=]()
-        {
-            std::error_code connectEc;
-            bool isConnected = non_blocking_connect(_native_socket, connectEc);
-            if (isConnected)
-            {
-                handler(connectEc);
-            }
-            return isConnected;
-        });
         return ec;
     }
 
@@ -323,30 +296,7 @@ public:
     {
         if ((_state & socket_ops::stream_oriented))
         {
-            _handleMethods.push_back([=]()
-            {
-                std::error_code ec;
-                if (getConnectionState(ec) == connection_state::Connected)
-                {
-                    if (this->available(ec) > 0)
-                    {
-                        std::size_t readBytes = this->receive(buffers, flags, ec);
-                        handler(ec, readBytes);
-                        return true;
-                    }
-                    else if (ec)
-                    {
-                        handler(ec, 0);
-                        return true;
-                    }
-                }
-                else if (ec)
-                {
-                    handler(ec, 0);
-                    return true;
-                }
-                return false;
-            });
+            LOG_ERROR("***** Not Implementation.");
         }
         else
         {
@@ -557,24 +507,15 @@ public:
      */
     void async_accept(endpoint_type& peer_endpoint, async_accept_handler& handler)
     {
-        _handleMethods.push_back([=]()
+        if ((_state & socket_ops::datagram_oriented))
         {
-            std::error_code ec;
-           // async_accept_handler
-            if (has_pending_accept(ec))
-            {
-                auto new_socket = accept(peer_endpoint, ec);
-                handler(ec, new_socket);
-                return true;
-            }
-            else if (ec)
-            {
-                typename Protocol::socket new_socket(invalid_socket);
-                handler(ec, new_socket);
-                return true;
-            }
-            return false;
-        });
+            LOG_ERROR("***** Not Implementation.");
+        }
+        else
+        {
+            std::error_code ec = make_error_code(std::errc::address_family_not_supported);
+            throw_error_if(ec, "async_receive_from");
+        }
     }
 
     /**
