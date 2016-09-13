@@ -27,7 +27,7 @@ void throw_error_if(const std::error_code& err, const char* location = nullptr)
         }
         else
         {
-            std::system_error e(err);
+            std::system_error e(err, err.message());
             throw_exception(e);
         } 
     }

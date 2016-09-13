@@ -7,15 +7,15 @@
 #include <string>
 #include <functional>
 #include <algorithm>
+#include <memory>
 #include "FoundationKit/GenericPlatformMacros.h"
-#include "FoundationKit/Base/Timespan.h"
-#include "FoundationKit/Base/DateTime.h"
 #include "FoundationKit/Base/error_code.hpp"
+#include "FoundationKit/Base/noncopyable.hpp"
 #include "FoundationKit/Base/mutable_data.hpp"
 #include "FoundationKit/Networking/socket_types.hpp"
 #include "FoundationKit/Networking/detail/socket_base.hpp"
 #include "FoundationKit/Networking/detail/socket_ops.hpp"
-#include "FoundationKit/Base/noncopyable.hpp"
+
 NS_FK_BEGIN
 namespace network{
 
@@ -31,21 +31,31 @@ public:
 
     /// The endpoint type.
     typedef typename Protocol::endpoint endpoint_type;
+
+    typedef std::shared_ptr<native_handle_type> shared_socket;
+
+
+    typedef std::function<bool()>                                   handle_method_type;
+    typedef std::function<void(const std::error_code)>              async_connect_handler;
+    typedef std::function<void(const std::error_code, std::size_t)> async_send_handler;
+    typedef std::function<void(const std::error_code, std::size_t)> async_recv_handler;
+    typedef std::function<void(const std::error_code, typename Protocol::socket)> async_accept_handler;
+
+
 public:
 
     basic_socket()
-        : _native_socket(invalid_socket)
+        : _shared_socket()
         , _state(0)
         , _open(false)
 
     {
-
+        holdsSocket(invalid_socket);
     }
 
-    explicit basic_socket(native_handle_type new_socket)
-        : _native_socket(new_socket)
+    basic_socket(const protocol_type& protocol, const native_handle_type& native_socket, std::error_code& ec)
     {
-
+        assign(protocol, native_socket, ec);
     }
 
     /**
@@ -54,38 +64,48 @@ public:
      *
      * @param other The other basic_socket object from which the move will
      * occur.
-     *
-     * @note Following the move, the moved-from object is in the same state as if
-     * constructed using the @c basic_socket(io_context&) constructor.
      */
     basic_socket(basic_socket&& other)
     {
-        this->_native_socket = other._native_socket;
-        this->_open = other._open;
-        this->_state = other._state;
-        this->_protocol = other._protocol;
-        other._native_socket = invalid_socket;
-        other._open = false;
+        move(std::forward<basic_socket<Protocol> >(other));
     }
 
-    /// Move-assign a basic_socket from another.
     /**
-    * This assignment operator moves a socket from one object to another.
-    *
-    * @param other The other basic_socket object from which the move will
-    * occur.
-    *
-    * @note Following the move, the moved-from object is in the same state as if
-    * constructed using the @c basic_socket(io_context&) constructor.
-    */
+     * Copy-construct a basic_socket from another.
+     * This constructor copy a socket from one object to another.
+     *
+     * @param other The other basic_socket object from which the copy will
+     * occur.
+     */
+    basic_socket(const basic_socket& other)
+    {
+        copy(other);
+    }
+
+    /**
+     * Move-assign a basic_socket from another.
+     * This assignment operator moves a socket from one object to another.
+     *
+     * @param other The other basic_socket object from which the move will
+     * occur.
+     */
     basic_socket& operator=(basic_socket&& other)
     {
-        this->_native_socket = other._native_socket;
-        this->_open = other._open;
-        this->_state = other._state;
-        this->_protocol = other._protocol;
-        other._native_socket = invalid_socket;
-        other._open = false;
+        move(std::forward<basic_socket<Protocol> >(other));
+        return *this;
+    }
+
+
+    /**
+     * Copy-assign a basic_socket from another.
+     * This assignment operator copy a socket from one object to another.
+     *
+     * @param other The other basic_socket object from which the copy will
+     * occur.
+     */
+    basic_socket& operator=(const basic_socket& other)
+    {
+        copy(other);
         return *this;
     }
 
@@ -94,12 +114,7 @@ public:
      */
     virtual ~basic_socket()
     {
-        if (is_open())
-        {
-            this->shutdown(socket_base::shutdown_both);
-            std::error_code ec;
-            socket_ops::close(_native_socket, _state, true, ec);
-        }
+
     }
 
     virtual void poll()
@@ -149,7 +164,8 @@ public:
      */
     virtual std::error_code open(const protocol_type& protocol, std::error_code& ec)
     {
-        _native_socket = socket_ops::socket(protocol.family(), protocol.type(), protocol.protocol(), ec);
+        native_handle_type native_socket = socket_ops::socket(protocol.family(), protocol.type(), protocol.protocol(), ec);
+        holdsSocket(native_socket);
         switch (protocol.type())
         {
         case SOCK_STREAM: _state = socket_ops::stream_oriented; break;
@@ -190,7 +206,7 @@ public:
      */
     std::error_code assign(const protocol_type& protocol, const native_handle_type& native_socket, std::error_code& ec)
     {
-        _native_socket = native_socket;
+        holdsSocket(native_socket);
         switch (protocol.type())
         {
         case SOCK_STREAM:
@@ -279,7 +295,7 @@ public:
             this->open(peer_endpoint.protocol(), ec);
             throw_error_if(ec, "connect");
         }
-        socket_ops::sync_connect(_native_socket, peer_endpoint.data(), peer_endpoint.size(), ec);
+        socket_ops::sync_connect(native_handle(), peer_endpoint.data(), peer_endpoint.size(), ec);
         return ec;
     }
 
@@ -331,7 +347,7 @@ public:
      */
     std::error_code bind(const endpoint_type& endpoint, std::error_code& ec)
     {
-        socket_ops::bind(_native_socket, endpoint.data(), endpoint.size(), ec);
+        socket_ops::bind(native_handle(), endpoint.data(), endpoint.size(), ec);
         return ec;
     }
 
@@ -394,7 +410,7 @@ public:
         if ((_state & socket_ops::stream_oriented))
         {
             const char* buffer = const_cast<mutable_data&>(buffers).c_str();
-            return socket_ops::send(_native_socket
+            return socket_ops::send(native_handle()
                 , buffer
                 , buffers.size()
                 , flags
@@ -469,7 +485,7 @@ public:
     {
         if ((_state & socket_ops::stream_oriented))
         {
-            return socket_ops::recv(_native_socket, static_cast<char*>(buffers.data()), buffers.size(), flags, ec);
+            return socket_ops::recv(native_handle(), static_cast<char*>(buffers.data()), buffers.size(), flags, ec);
         }
         else
         {
@@ -529,7 +545,7 @@ public:
 
         if ((_state & socket_ops::datagram_oriented))
         {
-            return socket_ops::sendto(_native_socket
+            return socket_ops::sendto(native_handle()
                 , buffers.c_str()
                 , buffers.size()
                 , flags
@@ -595,7 +611,7 @@ public:
 
         if ((_state & socket_ops::datagram_oriented))
         {
-            return socket_ops::recvfrom(_native_socket
+            return socket_ops::recvfrom(native_handle()
                 , static_cast<char*>(buffers.data())
                 , buffers.size()
                 , flags
@@ -647,7 +663,7 @@ public:
      */
     std::error_code listen(int backlog, std::error_code& ec)
     {
-        socket_ops::listen(_native_socket, backlog, ec);
+        socket_ops::listen(native_handle(), backlog, ec);
         return ec;
     }
 
@@ -713,13 +729,538 @@ public:
     typename Protocol::socket accept(endpoint_type& peer_endpoint, std::error_code& ec)
     {
         int addrLen = static_cast<int>(peer_endpoint.size());
-        native_handle_type new_native_socket = socket_ops::accept(_native_socket
+        native_handle_type native_socket = socket_ops::accept(native_handle()
             , peer_endpoint.data()
             , &addrLen
             , ec);
-        typename Protocol::socket new_socket(new_native_socket);
+        typename Protocol::socket new_socket(this->_protocol, native_socket, ec);
         return new_socket;
     }
+
+    //////////////////////////////////////////////////////////////////////////
+    /// asynchronous operation functions
+
+    /**
+     * Gets the non-blocking mode of the socket.
+     * @returns @c true if the socket's synchronous operations will fail with
+     * asio::error::would_block if they are unable to perform the requested
+     * operation immediately. If @c false, synchronous operations will block
+     * until complete.
+     *
+     * @note The non-blocking mode has no effect on the behaviour of asynchronous
+     * operations. Asynchronous operations will never fail with the error
+     * asio::error::would_block.
+     */
+    bool is_non_blocking() const
+    {
+        return ((_state & socket_ops::non_blocking) != 0);
+    }
+
+    /**
+     * Sets the non-blocking mode of the socket.
+     * @param mode If @c true, the socket's synchronous operations will fail with
+     * asio::error::would_block if they are unable to perform the requested
+     * operation immediately. If @c false, synchronous operations will block
+     * until complete.
+     *
+     * @throws asio::system_error Thrown on failure.
+     *
+     * @note The non-blocking mode has no effect on the behaviour of asynchronous
+     * operations. Asynchronous operations will never fail with the error
+     * asio::error::would_block.
+     */
+    void set_non_blocking(bool mode)
+    {
+        std::error_code ec;
+        set_non_blocking(mode, ec);
+        throw_error_if(ec, "non_blocking");
+    }
+
+    /**
+     * Sets the non-blocking mode of the socket.
+     * @param mode If @c true, the socket's synchronous operations will fail with
+     * asio::error::would_block if they are unable to perform the requested
+     * operation immediately. If @c false, synchronous operations will block
+     * until complete.
+     *
+     * @param ec Set to indicate what error occurred, if any.
+     *
+     * @note The non-blocking mode has no effect on the behaviour of asynchronous
+     * operations. Asynchronous operations will never fail with the error
+     * asio::error::would_block.
+     */
+    std::error_code set_non_blocking( bool mode, std::error_code& ec)
+    {
+        socket_ops::set_non_blocking(native_handle(), _state, mode, ec);
+        return ec;
+    }
+
+
+    /**
+     * Start an asynchronous connect.
+     * This function is used to asynchronously connect a socket to the specified
+     * remote endpoint. The function call always returns immediately.
+     *
+     * The socket is automatically opened if it is not already open. If the
+     * connect fails, and the socket was automatically opened, the socket is
+     * not returned to the closed state.
+     *
+     * @param peer_endpoint The remote endpoint to which the socket will be
+     * connected. Copies will be made of the endpoint object as required.
+     *
+     * @param handler The handler to be called when the connection operation
+     * completes. Copies will be made of the handler as required. The function
+     * signature of the handler must be:
+     * @code void handler(
+     *   const std::error_code& error // Result of operation
+     * ); @endcode
+     * @par Example
+     * @code
+     * void connect_handler(const std::error_code& error)
+     * {
+     *   if (!error)
+     *   {
+     *     // Connect succeeded.
+     *   }
+     * }
+     *
+     * ...
+     *
+     * ip::tcp::socket socket();
+     * ip::tcp::endpoint endpoint(ip::address::from_string("1.2.3.4"), 12345);
+     * socket.async_connect(endpoint, connect_handler);
+     * @endcode
+     */
+    std::error_code async_connect(const endpoint_type& peer_endpoint, async_connect_handler& handler)
+    {
+        std::error_code ec;
+
+        return ec;
+    }
+
+    /**
+     * Start an asynchronous send.
+     * This function is used to asynchronously send data on the stream socket.
+     * The function call always returns immediately.
+     *
+     * @param buffers One or more data buffers to be sent on the socket. Although
+     * the buffers object may be copied as necessary, ownership of the underlying
+     * memory blocks is retained by the caller, which must guarantee that they
+     * remain valid until the handler is called.
+     *
+     * @param handler The handler to be called when the send operation completes.
+     * Copies will be made of the handler as required. The function signature of
+     * the handler must be:
+     * @code void handler(
+     *   const std::error_code& error,     // Result of operation.
+     *   std::size_t sendBytes             // Number of bytes sent.
+     * ); @endcode
+     *
+     * @note The send operation may not transmit all of the data to the peer.
+     * Consider using the @ref async_write function if you need to ensure that all
+     * data is written before the asynchronous operation completes.
+     *
+     * @par Example
+     * To send a single data buffer use the @ref buffer function as follows:
+     * @code
+     * socket.async_send(mutable_data(data, size), handler);
+     * @endcode
+     * See the @ref buffer documentation for information on sending multiple
+     * buffers in one go, and how to use it with arrays, std::array or
+     * std::vector.
+     */
+    void async_send(const mutable_data& buffers, async_send_handler& handler)
+    {
+        this->async_send(buffers, 0, handler);
+    }
+
+    /**
+     * Start an asynchronous send.
+     * This function is used to asynchronously send data on the stream socket.
+     * The function call always returns immediately.
+     *
+     * @param buffers One or more data buffers to be sent on the socket. Although
+     * the buffers object may be copied as necessary, ownership of the underlying
+     * memory blocks is retained by the caller, which must guarantee that they
+     * remain valid until the handler is called.
+     *
+     * @param flags Flags specifying how the send call is to be made.
+     *
+     * @param handler The handler to be called when the send operation completes.
+     * Copies will be made of the handler as required. The function signature of
+     * the handler must be:
+     * @code void handler(
+     *   const std::error_code& error, // Result of operation.
+     *   std::size_t sendBytes           // Number of bytes sent.
+     * ); @endcode
+     *
+     * @note The send operation may not transmit all of the data to the peer.
+     * Consider using the @ref async_write function if you need to ensure that all
+     * data is written before the asynchronous operation completes.
+     *
+     * @par Example
+     * To send a single data buffer use the @ref buffer function as follows:
+     * @code
+     * socket.async_send(mutable_data(data, size), 0, handler);
+     * @endcode
+     * See the @ref buffer documentation for information on sending multiple
+     * buffers in one go, and how to use it with arrays, std::array or
+     * std::vector.
+     */
+    void async_send(const mutable_data& buffers, socket_base::message_flags flags, async_send_handler& handler)
+    {
+        if ((_state & socket_ops::stream_oriented))
+        {
+            LOG_ERROR("***** Not Implementation.");
+        }
+        else
+        {
+            std::error_code ec = make_error_code(std::errc::address_family_not_supported);
+            throw_error_if(ec, "async_send");
+        }
+    }
+
+    /**
+     * Start an asynchronous receive.
+     * This function is used to asynchronously receive data from the stream
+     * socket. The function call always returns immediately.
+     *
+     * @param buffers One or more buffers into which the data will be received.
+     * Although the buffers object may be copied as necessary, ownership of the
+     * underlying memory blocks is retained by the caller, which must guarantee
+     * that they remain valid until the handler is called.
+     *
+     * @param handler The handler to be called when the receive operation
+     * completes. Copies will be made of the handler as required. The function
+     * signature of the handler must be:
+     * @code void handler(
+     *   const std::error_code& error,  // Result of operation.
+     *   std::size_t bytes_transferred  // Number of bytes received.
+     * ); @endcode
+     *
+     * @note The receive operation may not receive all of the requested number of
+     * bytes. Consider using the @ref async_read function if you need to ensure
+     * that the requested amount of data is received before the asynchronous
+     * operation completes.
+     *
+     * @par Example
+     * To receive into a single data buffer use the @ref buffer function as
+     * follows:
+     * @code
+     * socket.async_receive(mutable_data(data, size), handler);
+     * @endcode
+     * See the @ref buffer documentation for information on receiving into
+     * multiple buffers in one go, and how to use it with arrays, boost::array or
+     * std::vector.
+     */
+    void async_receive(const mutable_data& buffers, async_recv_handler& handler)
+    {
+
+        this->async_receive(buffers, 0, handler);
+    }
+
+    /**
+     * Start an asynchronous receive.
+     * This function is used to asynchronously receive data from the stream
+     * socket. The function call always returns immediately.
+     *
+     * @param buffers One or more buffers into which the data will be received.
+     * Although the buffers object may be copied as necessary, ownership of the
+     * underlying memory blocks is retained by the caller, which must guarantee
+     * that they remain valid until the handler is called.
+     *
+     * @param flags Flags specifying how the receive call is to be made.
+     *
+     * @param handler The handler to be called when the receive operation
+     * completes. Copies will be made of the handler as required. The function
+     * signature of the handler must be:
+     * @code void handler(
+     *   const std::error_code& error,     // Result of operation.
+     *   std::size_t bytes_transferred     // Number of bytes received.
+     * ); @endcode
+     *
+     * @note The receive operation may not receive all of the requested number of
+     * bytes. Consider using the @ref async_read function if you need to ensure
+     * that the requested amount of data is received before the asynchronous
+     * operation completes.
+     *
+     * @par Example
+     * To receive into a single data buffer use the @ref buffer function as
+     * follows:
+     * @code
+     * socket.async_receive(mutable_data(data, size), 0, handler);
+     * @endcode
+     * See the @ref buffer documentation for information on receiving into
+     * multiple buffers in one go, and how to use it with arrays, boost::array or
+     * std::vector.
+     */
+    void async_receive(const mutable_data& buffers, socket_base::message_flags flags, async_recv_handler& handler)
+    {
+        if ((_state & socket_ops::stream_oriented))
+        {
+            LOG_ERROR("***** Not Implementation.");
+        }
+        else
+        {
+            std::error_code ec = make_error_code(std::errc::address_family_not_supported);
+            throw_error_if(ec, "saync_send");
+        }
+    }
+
+    /**
+     * Start an asynchronous send.
+     * This function is used to asynchronously send a datagram to the specified
+     * remote endpoint. The function call always returns immediately.
+     *
+     * @param buffers One or more data buffers to be sent to the remote endpoint.
+     * Although the buffers object may be copied as necessary, ownership of the
+     * underlying memory blocks is retained by the caller, which must guarantee
+     * that they remain valid until the handler is called.
+     *
+     * @param destination The remote endpoint to which the data will be sent.
+     * Copies will be made of the endpoint as required.
+     *
+     * @param handler The handler to be called when the send operation completes.
+     * Copies will be made of the handler as required. The function signature of
+     * the handler must be:
+     * @code void handler(
+     *   const std::error_code& error, // Result of operation.
+     *   std::size_t bytes_transferred  // Number of bytes sent.
+     * );
+     * @endcode
+     *
+     * @par Example
+     * To send a single data buffer use the @ref buffer function as follows:
+     * @code
+     * ip::udp::endpoint destination(
+     *     ip::address::from_string("1.2.3.4"), 12345);
+     * socket.async_send_to(
+     *     mutable_data(data, size), destination, handler);
+     * @endcode
+     * See the @ref buffer documentation for information on sending multiple
+     * buffers in one go, and how to use it with arrays, std::array or
+     * std::vector.
+     */
+    void async_send_to(const mutable_data& buffers
+        , const endpoint_type& destination
+        , async_send_handler& handler)
+    {
+        this->async_send_to(buffers, destination, 0, handler);
+    }
+
+
+    /**
+     * Start an asynchronous send.
+     * This function is used to asynchronously send a datagram to the specified
+     * remote endpoint. The function call always returns immediately.
+     *
+     * @param buffers One or more data buffers to be sent to the remote endpoint.
+     * Although the buffers object may be copied as necessary, ownership of the
+     * underlying memory blocks is retained by the caller, which must guarantee
+     * that they remain valid until the handler is called.
+     *
+     * @param flags Flags specifying how the send call is to be made.
+     *
+     * @param destination The remote endpoint to which the data will be sent.
+     * Copies will be made of the endpoint as required.
+     *
+     * @param handler The handler to be called when the send operation completes.
+     * Copies will be made of the handler as required. The function signature of
+     * the handler must be:
+     * @code void handler(
+     *   const std::error_code& error,  // Result of operation.
+     *   std::size_t bytes_transferred  // Number of bytes sent.
+     * );
+     * @endcode
+     */
+    void async_send_to(const mutable_data& buffers
+        , const endpoint_type& destination
+        , socket_base::message_flags flags
+        , async_send_handler& handler)
+    {
+        if ((_state & socket_ops::datagram_oriented))
+        {
+            LOG_ERROR("***** Not Implementation.");
+        }
+        else
+        {
+            std::error_code ec = make_error_code(std::errc::address_family_not_supported);
+            throw_error_if(ec, "async_send_to");
+        }
+    }
+
+    /**
+     * Start an asynchronous receive.
+     * This function is used to asynchronously receive a datagram. The function
+     * call always returns immediately.
+     *
+     * @param buffers One or more buffers into which the data will be received.
+     * Although the buffers object may be copied as necessary, ownership of the
+     * underlying memory blocks is retained by the caller, which must guarantee
+     * that they remain valid until the handler is called.
+     *
+     * @param sender_endpoint An endpoint object that receives the endpoint of
+     * the remote sender of the datagram. Ownership of the sender_endpoint object
+     * is retained by the caller, which must guarantee that it is valid until the
+     * handler is called.
+     *
+     * @param handler The handler to be called when the receive operation
+     * completes. Copies will be made of the handler as required. The function
+     * signature of the handler must be:
+     * @code void handler(
+     *   const std::error_code& error, // Result of operation.
+     *   std::size_t bytes_transferred           // Number of bytes received.
+     * ); @endcode
+     *
+     * @par Example
+     * To receive into a single data buffer use the @ref buffer function as
+     * follows:
+     * @code socket.async_receive_from(
+     *     mutable_data(data, size), sender_endpoint, handler);
+     * @endcode
+     * See the @ref buffer documentation for information on receiving into
+     * multiple buffers in one go, and how to use it with arrays, std::array or
+     * std::vector.
+     */
+    void async_receive_from(const mutable_data& buffers
+        , endpoint_type& sender_endpoint
+        , async_recv_handler& handler)
+    {
+        this->async_receive_from(buffers, sender_endpoint, 0, handler);
+    }
+
+    /**
+     * Start an asynchronous receive.
+     * This function is used to asynchronously receive a datagram. The function
+     * call always returns immediately.
+     *
+     * @param buffers One or more buffers into which the data will be received.
+     * Although the buffers object may be copied as necessary, ownership of the
+     * underlying memory blocks is retained by the caller, which must guarantee
+     * that they remain valid until the handler is called.
+     *
+     * @param sender_endpoint An endpoint object that receives the endpoint of
+     * the remote sender of the datagram. Ownership of the sender_endpoint object
+     * is retained by the caller, which must guarantee that it is valid until the
+     * handler is called.
+     *
+     * @param flags Flags specifying how the receive call is to be made.
+     *
+     * @param handler The handler to be called when the receive operation
+     * completes. Copies will be made of the handler as required. The function
+     * signature of the handler must be:
+     * @code void handler(
+     *   const std::error_code& error, // Result of operation.
+     *   std::size_t bytes_transferred // Number of bytes received.
+     * ); @endcode
+     */
+    void async_receive_from(const mutable_data& buffers
+        , endpoint_type& sender_endpoint
+        , socket_base::message_flags flags
+        , async_recv_handler& handler)
+    {
+        if ((_state & socket_ops::datagram_oriented))
+        {
+            LOG_ERROR("***** Not Implementation.");
+        }
+        else
+        {
+            std::error_code ec = make_error_code(std::errc::address_family_not_supported);
+            throw_error_if(ec, "async_receive_from");
+        }
+
+    }
+
+    /**
+     * Start an asynchronous accept.
+     * This function is used to asynchronously accept a new connection. The
+     * function call always returns immediately.
+     *
+     * This overload requires that the Protocol template parameter satisfy the
+     * AcceptableProtocol type requirements.
+     *
+     * @param peer_endpoint An endpoint object into which the endpoint of the
+     * remote peer will be written. Ownership of the peer_endpoint object is
+     * retained by the caller, which must guarantee that it is valid until the
+     * handler is called.
+     *
+     * @param handler The handler to be called when the accept operation
+     * completes. Copies will be made of the handler as required. The function
+     * signature of the handler must be:
+     * @code void handler(
+     *   const std::error_code& error, // Result of operation.
+     *   typename Protocol::socket peer // On success, the newly accepted socket.
+     * ); @endcode
+     *
+     * @par Example
+     * @code
+     * void accept_handler(const std::error_code& error,network::ip::tcp::socket peer)
+     * {
+     *   if (!error)
+     *   {
+     *     // Accept succeeded.
+     *   }
+     * }
+     *
+     * ...
+     * network::ip::tcp::endpoint endpoint;
+     * ip::tcp::socket socket.accept(endpoint, accept_handler);
+     * @endcode
+     */
+    void async_accept(endpoint_type& peer_endpoint, async_accept_handler& handler)
+    {
+        if ((_state & socket_ops::datagram_oriented))
+        {
+            LOG_ERROR("***** Not Implementation.");
+        }
+        else
+        {
+            std::error_code ec = make_error_code(std::errc::address_family_not_supported);
+            throw_error_if(ec, "async_receive_from");
+        }
+    }
+
+    /**
+     * Asynchronously wait for the socket to become ready to read, ready to
+     * write, or to have pending error conditions.
+     *
+     * This function is used to perform an asynchronous wait for a socket to enter
+     * a ready to read, write or error condition state.
+     *
+     * @param w Specifies the desired socket state.
+     *
+     * @param handler The handler to be called when the wait operation completes.
+     * Copies will be made of the handler as required. The function signature of
+     * the handler must be:
+     * @code void handler(
+     *   const std::error_code& error // Result of operation
+     * ); @endcode
+     *
+     * @par Example
+     * @code
+     * void wait_handler(const std::error_code& error)
+     * {
+     *   if (!error)
+     *   {
+     *     // Wait succeeded.
+     *   }
+     * }
+     *
+     * ...
+     *
+     * ip::tcp::socket socket();
+     * ...
+     * socket.async_wait(ip::tcp::socket::wait_read, wait_handler);
+     * @endcode
+     */
+    void async_wait(wait_type w, std::function<void(std::error_code)>& handler)
+    {
+        LOG_ERROR("***** Not Implementation.");
+    }
+
+    /// asynchronous operation functions
+    //////////////////////////////////////////////////////////////////////////
+
 
     /**
      * Determine the number of bytes available for reading.
@@ -751,7 +1292,7 @@ public:
      */
     std::size_t available(std::error_code& ec) const
     {
-        return socket_ops::available(_native_socket, ec);
+        return socket_ops::available(native_handle(), ec);
     }
 
     /**
@@ -801,13 +1342,13 @@ public:
         switch (w)
         {
         case socket_base::wait_read:
-            socket_ops::poll_read(_native_socket, _state, ec);
+            socket_ops::poll_read(native_handle(), _state, ec);
             break;
         case socket_base::wait_write:
-            socket_ops::poll_write(_native_socket, _state, ec);
+            socket_ops::poll_write(native_handle(), _state, ec);
             break;
         case socket_base::wait_error:
-            socket_ops::poll_error(_native_socket, _state, ec);
+            socket_ops::poll_error(native_handle(), _state, ec);
             break;
         default:
             ec = std::errc::invalid_argument;
@@ -867,12 +1408,18 @@ public:
         {
             return std::error_code();
         }
-        if (_native_socket != invalid_socket)
+        if (native_handle() != invalid_socket)
         {
-            socket_ops::shutdown(_native_socket, what, ec);
-            return ec;
+            if (getConnectionState(ec) == connection_state::Connected)
+            {
+                socket_ops::shutdown(native_handle(), what, ec);
+            }
         }
-        return (ec = make_error_code(std::errc::bad_file_descriptor));
+        else
+        {
+            ec = make_error_code(std::errc::bad_file_descriptor);
+        }
+        return ec ;
     }
 
     /**
@@ -905,7 +1452,7 @@ public:
      *
      * @par Example
      * @code
-     * ip::tcp::socket socket(io_context);
+     * ip::tcp::socket socket();
      * ...
      * std::error_code ec;
      * socket.close(ec);
@@ -924,11 +1471,17 @@ public:
         {
             return std::error_code();
         }
-        if (_native_socket != invalid_socket)
+        if (native_handle() != invalid_socket)
         {
-            return socket_ops::close(_native_socket, _state, false, ec);
+            socket_ops::close(native_handle(), _state, false, ec);
         }
-        return (ec = make_error_code(std::errc::bad_file_descriptor));
+        else
+        {
+            ec = make_error_code(std::errc::bad_file_descriptor);
+        }
+        _open = false;
+        holdsSocket(invalid_socket);
+        return ec;
     }
 
     /**
@@ -979,7 +1532,7 @@ public:
     {
         endpoint_type endpoint;
         std::size_t addr_len = endpoint.capacity();
-        if (socket_ops::getsockname(_native_socket, endpoint.data(), &addr_len, ec))
+        if (socket_ops::getsockname(native_handle(), endpoint.data(), &addr_len, ec))
             return endpoint_type();
         endpoint.resize(addr_len);
         return endpoint;
@@ -1035,20 +1588,20 @@ public:
     {
         endpoint_type endpoint;
         std::size_t addr_len = endpoint.capacity();
-        if (socket_ops::getpeername(_native_socket, endpoint.data(), &addr_len, false, ec))
+        if (socket_ops::getpeername(native_handle(), endpoint.data(), &addr_len, false, ec))
             return endpoint_type();
         endpoint.resize(addr_len);
         return endpoint;
     }
 
-    native_handle_type native_handle()
+    native_handle_type native_handle()const
     {
-        return _native_socket;
+        return *_shared_socket;
     }
 
     explicit operator bool() const
     {
-        return (_native_socket != invalid_socket);
+        return (_shared_socket && *_shared_socket != invalid_socket);
     }
 
     /**
@@ -1097,48 +1650,48 @@ public:
     template <typename SettableSocketOption>
     std::error_code set_option(const SettableSocketOption& option,std::error_code& ec)
     {
-        socket_ops::setsockopt(_native_socket, _state,
+        socket_ops::setsockopt(native_handle(), _state,
             option.level(_protocol), option.name(_protocol),
             option.data(_protocol), option.size(_protocol), ec);
         return ec;
     }
 
     /**
-    * Get an option from the socket.
-    * This function is used to get the current value of an option on the socket.
-    *
-    * @param option The option value to be obtained from the socket.
-    *
-    * @throws asio::system_error Thrown on failure.
-    *
-    * @sa GettableSocketOption @n
-    * network::socket_base::broadcast
-    * network::socket_base::debug
-    * network::socket_base::do_not_route
-    * network::socket_base::keep_alive
-    * network::socket_base::send_buffer_size
-    * network::socket_base::receive_buffer_size
-    * network::socket_base::receive_low_watermark
-    * network::socket_base::send_low_watermark
-    * network::socket_base::reuse_address
-    * network::socket_base::linger
-    * network::ip::multicast::join_group
-    * network::ip::multicast::leave_group
-    * network::ip::multicast::outbound_interface
-    * network::ip::multicast::hops
-    * network::ip::multicast::enable_loopback
-    * network::ip::tcp::no_delay
-    *
-    * @par Example
-    * Getting the value of the SOL_SOCKET/SO_KEEPALIVE option:
-    * @code
-    * network::ip::tcp::socket socket(io_service);
-    * ...
-    * network::ip::tcp::socket::keep_alive option;
-    * socket.get_option(option);
-    * bool is_set = option.value();
-    * @endcode
-    */
+     * Get an option from the socket.
+     * This function is used to get the current value of an option on the socket.
+     *
+     * @param option The option value to be obtained from the socket.
+     *
+     * @throws asio::system_error Thrown on failure.
+     *
+     * @sa GettableSocketOption @n
+     * network::socket_base::broadcast
+     * network::socket_base::debug
+     * network::socket_base::do_not_route
+     * network::socket_base::keep_alive
+     * network::socket_base::send_buffer_size
+     * network::socket_base::receive_buffer_size
+     * network::socket_base::receive_low_watermark
+     * network::socket_base::send_low_watermark
+     * network::socket_base::reuse_address
+     * network::socket_base::linger
+     * network::ip::multicast::join_group
+     * network::ip::multicast::leave_group
+     * network::ip::multicast::outbound_interface
+     * network::ip::multicast::hops
+     * network::ip::multicast::enable_loopback
+     * network::ip::tcp::no_delay
+     *
+     * @par Example
+     * Getting the value of the SOL_SOCKET/SO_KEEPALIVE option:
+     * @code
+     * network::ip::tcp::socket socket(io_service);
+     * ...
+     * network::ip::tcp::socket::keep_alive option;
+     * socket.get_option(option);
+     * bool is_set = option.value();
+     * @endcode
+     */
     template <typename GettableSocketOption>
     void get_option(GettableSocketOption& option) const
     {
@@ -1151,7 +1704,7 @@ public:
     std::error_code get_option(GettableSocketOption& option, std::error_code& ec) const
     {
         std::size_t size = option.size(_protocol);
-        socket_ops::getsockopt(_native_socket, _state,
+        socket_ops::getsockopt(native_handle(), _state,
             option.level(_protocol), option.name(_protocol),
             option.data(_protocol), &size, ec);
         if (!ec)
@@ -1159,10 +1712,126 @@ public:
         return ec;
     }
 
+
+
+
+
+protected:
+    void holdsSocket(native_handle_type native_socket)
+    {
+        _shared_socket = shared_socket(new native_handle_type(native_socket), [this](native_handle_type*)
+        {
+            this->shutdown(socket_base::shutdown_both);
+            this->close();
+        });
+    }
+
+    void move(basic_socket&& other)
+    {
+        this->_shared_socket = std::move(other._shared_socket);
+        this->_open = other._open;
+        this->_state = other._state;
+        this->_protocol = other._protocol;
+        other._open = false;
+    }
+
+    void copy(const basic_socket& other)
+    {
+        this->_shared_socket =other._shared_socket;
+        this->_open = other._open;
+        this->_state = other._state;
+        this->_protocol = other._protocol;
+    }
+
+    state_return has_state(socket_state state, std::error_code& ec)
+    {
+        // Check the status of the state
+        int32 SelectStatus = 0;
+        switch (state)
+        {
+        case socket_state::readable:
+            SelectStatus = socket_ops::poll_read(native_handle(), _state, ec);
+            break;
+
+        case socket_state::writable:
+            SelectStatus = socket_ops::poll_write(native_handle(), _state, ec);
+            break;
+
+        case socket_state::haserror:
+            SelectStatus = socket_ops::poll_error(native_handle(), _state, ec);
+            break;
+        }
+
+        // if the select returns a positive number,
+        // the socket had the state, 
+        // 0 means didn't have it, 
+        // and negative is API error condition (not socket's error state)
+        return SelectStatus > 0 ? state_return::Yes :
+            SelectStatus == 0 ? state_return::No :
+            state_return::EncounteredError;
+    }
+
+    /**
+     * Queries the socket to determine if there is a pending accept
+     * @param bHasPendingConnection out parameter indicating whether a connection is pending or not
+     * @return true if successful, false otherwise
+     *
+     * @par Example
+     * @code
+     * ip::tcp::socket socket();
+     * ...
+     * std::error_code ec;
+     * socket.has_pending_accept(ec);
+     * if (ec)
+     * {
+     *   // An error occurred.
+     * }
+     * @endcode
+     */
+    bool has_pending_accept(std::error_code& ec)
+    {
+        bool bHasPendingConnection = false;
+        // make sure socket has no error state
+        if (has_state(socket_state::haserror, ec) == state_return::No)
+        {
+            // get the read state
+            state_return State = has_state(socket_state::readable, ec);
+            // turn the result into the outputs
+            bHasPendingConnection = State == state_return::Yes;
+        }
+        return bHasPendingConnection;
+    }
+
+    connection_state getConnectionState(std::error_code& ec)
+    {
+        connection_state currentState = connection_state::ConnectionError;
+
+        // look for an existing error
+        if ((has_state(socket_state::haserror, ec) == state_return::No))
+        {
+            // get the write state
+            state_return writeState = has_state(socket_state::writable, ec);
+            if (ec) return currentState;
+            state_return readState = has_state(socket_state::readable, ec);
+            if (ec) return currentState;
+            // translate yes or no (error is already set)
+            if (writeState == state_return::Yes || readState == state_return::Yes)
+            {
+                currentState = connection_state::Connected;
+            }
+            else if (writeState == state_return::No && readState == state_return::No)
+            {
+                currentState = connection_state::NotConnected;
+            }
+        }
+        return currentState;
+    }
+
 private:
 
+
     /// Holds the BSD socket object. */
-    native_handle_type      _native_socket;
+    shared_socket           _shared_socket;
 
     /// The socket state type
     socket_ops::state_type  _state;

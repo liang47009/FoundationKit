@@ -411,9 +411,6 @@
     <ClInclude Include="..\FoundationKit\Base\timer_scheduler.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\async_socket.hpp">
-      <Filter>Networking</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Networking\EventsReactor\epoll_reactor.hpp">
       <Filter>Networking\EventsReactor</Filter>
     </ClInclude>

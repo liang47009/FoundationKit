@@ -253,7 +253,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\LuaEngine\LuaStack.h" />
     <ClInclude Include="..\FoundationKit\LuaEngine\LuaValue.h" />
     <ClInclude Include="..\FoundationKit\LuaEngine\Script.h" />
-    <ClInclude Include="..\FoundationKit\Networking\async_socket.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\basic_socket.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\detail\socket_base.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\detail\socket_ops.hpp" />
