@@ -27,6 +27,7 @@ DataStream::DataStream(DataStream&& pDataStream)
     , _readIndex(pDataStream._readIndex)
     , _burnAfterReading(pDataStream._burnAfterReading)
 {
+    pDataStream.clear();
 }
 
 DataStream& DataStream::operator=(const DataStream& pDataStream)
@@ -42,6 +43,7 @@ DataStream& DataStream::operator=(DataStream&& pDataStream)
 	_buffer = std::move(pDataStream._buffer);
     _burnAfterReading = pDataStream._burnAfterReading;
     _readIndex = pDataStream._readIndex;
+    pDataStream.clear();
 	return *this;
 }
 

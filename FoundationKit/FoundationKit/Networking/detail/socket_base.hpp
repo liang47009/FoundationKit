@@ -211,7 +211,7 @@ public:
      * @par Examples
      * Setting the option:
      * @code
-     * network::ip::tcp::socket socket(io_context);
+     * network::ip::tcp::socket socket();
      * ...
      * network::socket_base::send_buffer_size option(8192);
      * socket.set_option(option);
@@ -276,7 +276,7 @@ public:
      * @par
      * Getting the current option value:
      * @code
-     * network::ip::tcp::socket socket(io_context);
+     * network::ip::tcp::socket socket();
      * ...
      * asio::socket_base::receive_buffer_size option;
      * socket.get_option(option);
