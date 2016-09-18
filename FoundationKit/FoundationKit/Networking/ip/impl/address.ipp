@@ -84,37 +84,6 @@ address& address::operator=(const ip::address_v6& ipv6_address)
     return *this;
 }
 
-address make_address(const char* str)
-{
-    std::error_code ec;
-    address addr = make_address(str, ec);
-    if (ec) throw ec;
-    return addr;
-}
-
-address make_address(const char* str, std::error_code& ec)
-{
-    ip::address_v6 ipv6_address = ip::make_address_v6(str, ec);
-    if (!ec)
-        return address(ipv6_address);
-
-    ip::address_v4 ipv4_address = ip::make_address_v4(str, ec);
-    if (!ec)
-        return address(ipv4_address);
-
-    return address();
-}
-
-address make_address(const std::string& str)
-{
-    return make_address(str.c_str());
-}
-
-address make_address(const std::string& str, std::error_code& ec)
-{
-    return make_address(str.c_str(), ec);
-}
-
 ip::address_v4 address::to_v4() const
 {
     if (type_ != ipv4)
@@ -190,6 +159,38 @@ bool operator<(const address& a1, const address& a2)
         return a1.ipv6_address_ < a2.ipv6_address_;
     return a1.ipv4_address_ < a2.ipv4_address_;
 }
+
+address make_address(const char* str)
+{
+    std::error_code ec;
+    address addr = make_address(str, ec);
+    if (ec) throw ec;
+    return addr;
+}
+
+address make_address(const char* str, std::error_code& ec)
+{
+    ip::address_v6 ipv6_address = ip::make_address_v6(str, ec);
+    if (!ec)
+        return address(ipv6_address);
+
+    ip::address_v4 ipv4_address = ip::make_address_v4(str, ec);
+    if (!ec)
+        return address(ipv4_address);
+
+    return address();
+}
+
+address make_address(const std::string& str)
+{
+    return make_address(str.c_str());
+}
+
+address make_address(const std::string& str, std::error_code& ec)
+{
+    return make_address(str.c_str(), ec);
+}
+
 
 } // namespace ip
 } // namespace network

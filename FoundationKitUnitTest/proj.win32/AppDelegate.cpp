@@ -40,13 +40,17 @@
 #include "FoundationKit/Networking/network.hpp"
 #include "FoundationKit/Platform/PlatformTLS.h"
 #include <iostream>
+#include "MessagePacket.hpp"
 using namespace std;
 USING_NS_FK;
 
 static Scheduler* shared_Scheduler = nullptr;
+static bool bExitApp = false;
 
+network::ip::tcp::socket serverSocket;
 void runServer();
 void runClient();
+
 
 AppDelegate::AppDelegate() {
 
@@ -78,7 +82,14 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     serverThread.detach();
 
-    runClient();
+
+    std::thread clientThread([]()
+    {
+        runClient();
+    });
+
+    clientThread.detach();
+    
 
 	return true;
 }
@@ -98,6 +109,7 @@ void AppDelegate::applicationWillEnterForeground()
 
 void AppDelegate::applicationWillTerminate()
 {
+    bExitApp = true;
 	//memAnalyzer->displayAllocations(true, true);
 	//memAnalyzer->displayStatTable();
 	//std::cin.get();
@@ -114,15 +126,22 @@ void AppDelegate::mainLoop()
 
 void runServer()
 {
-    network::ip::tcp::socket serverSocket;
     serverSocket.open(network::ip::tcp::v4());
     serverSocket.bind(network::ip::tcp::endpoint(ip::tcp::v4(), 4215));
     serverSocket.listen();
-    while (true)
+    serverSocket.set_non_blocking(true);
+    std::vector<network::ip::tcp::socket> clientList;
+    while (!bExitApp)
     {
-        ip::tcp::endpoint endpoint;
-        network::ip::tcp::socket clientSocket = serverSocket.accept(endpoint);
-        LOG_INFO("===== Client: %d, ip:%s", clientSocket.native_handle(), endpoint.address().to_string().c_str());
+        std::error_code ec;
+        if (serverSocket.has_pending_accept(ec))
+        {
+            ip::tcp::endpoint endpoint;
+            network::ip::tcp::socket clientSocket = serverSocket.accept(endpoint);
+            clientList.push_back(clientSocket);
+            LOG_INFO("===== Client: %d, ip:%s", clientSocket.native_handle(), endpoint.address().to_string().c_str());
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(40));
     }
 
 }
@@ -130,13 +149,21 @@ void runServer()
 void runClient()
 {
     std::vector<network::ip::tcp::socket> clientList;
-    while (true)
+    while (!bExitApp)
     {
         network::ip::tcp::socket clientSocket;
         clientSocket.open(network::ip::tcp::v4());
         ip::tcp::endpoint endpoint(network::ip::address::from_string("127.0.0.1"), 4215);
-        clientSocket.connect(endpoint);
-        clientList.push_back(std::move(clientSocket));
+        std::error_code ec;
+        clientSocket.connect(endpoint, ec);
+        if (ec)
+        {
+            LOG_ERROR("Connect: %s", ec.message().c_str());
+        }
+        else
+        {
+            clientList.push_back(std::move(clientSocket));
+        }
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 

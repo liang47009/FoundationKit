@@ -17,9 +17,9 @@ protected:
     long init_count_;
     long result_;
   };
-  static void startup(data& d, unsigned char major, unsigned char minor);
-  static void cleanup(data& d);
-  static void throw_on_error(data& d);
+  NETWORK_DECL static void startup(data& d, unsigned char major, unsigned char minor);
+  NETWORK_DECL static void cleanup(data& d);
+  NETWORK_DECL static void throw_on_error(data& d);
 };
 
 template <int Major = 2, int Minor = 0>

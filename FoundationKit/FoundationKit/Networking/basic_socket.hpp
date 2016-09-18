@@ -1713,7 +1713,36 @@ public:
     }
 
 
-
+    /**
+     * Queries the socket to determine if there is a pending accept
+     * @param bHasPendingConnection out parameter indicating whether a connection is pending or not
+     * @return true if successful, false otherwise
+     *
+     * @par Example
+     * @code
+     * ip::tcp::socket socket();
+     * ...
+     * std::error_code ec;
+     * socket.has_pending_accept(ec);
+     * if (ec)
+     * {
+     *   // An error occurred.
+     * }
+     * @endcode
+     */
+    bool has_pending_accept(std::error_code& ec)
+    {
+        bool bHasPendingConnection = false;
+        // make sure socket has no error state
+        if (has_state(socket_state::haserror, ec) == state_return::No)
+        {
+            // get the read state
+            state_return State = has_state(socket_state::readable, ec);
+            // turn the result into the outputs
+            bHasPendingConnection = State == state_return::Yes;
+        }
+        return bHasPendingConnection;
+    }
 
 
 protected:
@@ -1769,37 +1798,6 @@ protected:
         return SelectStatus > 0 ? state_return::Yes :
             SelectStatus == 0 ? state_return::No :
             state_return::EncounteredError;
-    }
-
-    /**
-     * Queries the socket to determine if there is a pending accept
-     * @param bHasPendingConnection out parameter indicating whether a connection is pending or not
-     * @return true if successful, false otherwise
-     *
-     * @par Example
-     * @code
-     * ip::tcp::socket socket();
-     * ...
-     * std::error_code ec;
-     * socket.has_pending_accept(ec);
-     * if (ec)
-     * {
-     *   // An error occurred.
-     * }
-     * @endcode
-     */
-    bool has_pending_accept(std::error_code& ec)
-    {
-        bool bHasPendingConnection = false;
-        // make sure socket has no error state
-        if (has_state(socket_state::haserror, ec) == state_return::No)
-        {
-            // get the read state
-            state_return State = has_state(socket_state::readable, ec);
-            // turn the result into the outputs
-            bHasPendingConnection = State == state_return::Yes;
-        }
-        return bHasPendingConnection;
     }
 
     connection_state getConnectionState(std::error_code& ec)

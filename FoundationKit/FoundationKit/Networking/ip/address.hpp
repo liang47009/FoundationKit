@@ -30,31 +30,31 @@ class address
 {
 public:
     /// Default constructor.
-    address();
+    NETWORK_DECL address();
 
     /// Construct an address from an IPv4 address.
-    address(const ip::address_v4& ipv4_address);
+    NETWORK_DECL address(const ip::address_v4& ipv4_address);
 
     /// Construct an address from an IPv6 address.
-    address(const ip::address_v6& ipv6_address);
+    NETWORK_DECL address(const ip::address_v6& ipv6_address);
 
     /// Copy constructor.
-    address(const address& other);
+    NETWORK_DECL address(const address& other);
 
     /// Move constructor.
-    address(address&& other);
+    NETWORK_DECL address(address&& other);
 
     /// Assign from another address.
-    address& operator=(const address& other);
+    NETWORK_DECL address& operator=(const address& other);
 
     /// Move-assign from another address.
-    address& operator=(address&& other);
+    NETWORK_DECL address& operator=(address&& other);
 
     /// Assign from an IPv4 address.
-    address& operator=(const ip::address_v4& ipv4_address);
+    NETWORK_DECL address& operator=(const ip::address_v4& ipv4_address);
 
     /// Assign from an IPv6 address.
-    address& operator=(const ip::address_v6& ipv6_address);
+    NETWORK_DECL address& operator=(const ip::address_v6& ipv6_address);
 
     /// Get whether the address is an IP version 4 address.
     bool is_v4() const
@@ -69,48 +69,48 @@ public:
     }
 
     /// Get the address as an IP version 4 address.
-    ip::address_v4 to_v4() const;
+    NETWORK_DECL ip::address_v4 to_v4() const;
 
     /// Get the address as an IP version 6 address.
-    ip::address_v6 to_v6() const;
+    NETWORK_DECL ip::address_v6 to_v6() const;
 
     /// Get the address as a string.
-    std::string to_string() const;
+    NETWORK_DECL std::string to_string() const;
 
     /// (Deprecated: Use other overload.) Get the address as a string.
-    std::string to_string(std::error_code& ec) const;
+    NETWORK_DECL std::string to_string(std::error_code& ec) const;
 
     /// (Deprecated: Use make_address().) Create an address from an IPv4 address
     /// string in dotted decimal form, or from an IPv6 address in hexadecimal
     /// notation.
-    static address from_string(const char* str);
+    NETWORK_DECL static address from_string(const char* str);
 
     /// (Deprecated: Use make_address().) Create an address from an IPv4 address
     /// string in dotted decimal form, or from an IPv6 address in hexadecimal
     /// notation.
-    static address from_string(const char* str, std::error_code& ec);
+    NETWORK_DECL static address from_string(const char* str, std::error_code& ec);
 
     /// (Deprecated: Use make_address().) Create an address from an IPv4 address
     /// string in dotted decimal form, or from an IPv6 address in hexadecimal
     /// notation.
-    static address from_string(const std::string& str);
+    NETWORK_DECL static address from_string(const std::string& str);
 
     /// (Deprecated: Use make_address().) Create an address from an IPv4 address
     /// string in dotted decimal form, or from an IPv6 address in hexadecimal
     /// notation.
-    static address from_string(const std::string& str, std::error_code& ec);
+    NETWORK_DECL static address from_string(const std::string& str, std::error_code& ec);
 
     /// Determine whether the address is a loopback address.
-    bool is_loopback() const;
+    NETWORK_DECL bool is_loopback() const;
 
     /// Determine whether the address is unspecified.
-    bool is_unspecified() const;
+    NETWORK_DECL bool is_unspecified() const;
 
     /// Determine whether the address is a multicast address.
-    bool is_multicast() const;
+    NETWORK_DECL bool is_multicast() const;
 
     /// Compare two addresses for equality.
-    friend bool operator==(const address& a1, const address& a2);
+    NETWORK_DECL friend bool operator==(const address& a1, const address& a2);
 
     /// Compare two addresses for inequality.
     friend bool operator!=(const address& a1, const address& a2)
@@ -119,7 +119,7 @@ public:
     }
 
     /// Compare addresses for ordering.
-    friend bool operator<(const address& a1, const address& a2);
+    NETWORK_DECL friend bool operator<(const address& a1, const address& a2);
 
     /// Compare addresses for ordering.
     friend bool operator>(const address& a1, const address& a2)
@@ -155,28 +155,28 @@ private:
  * or from an IPv6 address in hexadecimal notation.
  * @relates address
  */
-address make_address(const char* str);
+NETWORK_DECL address make_address(const char* str);
 
 /**
  * Create an address from an IPv4 address string in dotted decimal form,
  * or from an IPv6 address in hexadecimal notation.
  * @relates address
  */
-address make_address(const char* str, std::error_code& ec);
+NETWORK_DECL address make_address(const char* str, std::error_code& ec);
 
 /**
  * Create an address from an IPv4 address string in dotted decimal form,
  * or from an IPv6 address in hexadecimal notation.
  * @relates address
  */
-address make_address(const std::string& str);
+NETWORK_DECL address make_address(const std::string& str);
 
 /**
  * Create an address from an IPv4 address string in dotted decimal form,
  * or from an IPv6 address in hexadecimal notation.
  * @relates address
  */
-address make_address( const std::string& str, std::error_code& ec);
+NETWORK_DECL address make_address(const std::string& str, std::error_code& ec);
 
 /**
  * Output an address as a string.

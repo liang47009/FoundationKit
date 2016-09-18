@@ -1,5 +1,5 @@
-#ifndef LOSEMYMIND_SOCKET_OPS_HPP
-#define LOSEMYMIND_SOCKET_OPS_HPP
+#ifndef LOSEMYMIND_NETWORK_SOCKET_OPS_HPP
+#define LOSEMYMIND_NETWORK_SOCKET_OPS_HPP
 
 #include <memory>
 #include "FoundationKit/GenericPlatformMacros.h"
@@ -34,97 +34,97 @@ namespace socket_ops
     typedef unsigned char state_type;
 
 
-    socket_type socket(int af, int type, int protocol,std::error_code& ec);
+    NETWORK_DECL socket_type socket(int af, int type, int protocol, std::error_code& ec);
 
-    int connect(socket_type s, const socket_addr_type* addr,
+    NETWORK_DECL int connect(socket_type s, const socket_addr_type* addr,
         int addrlen, std::error_code& ec);
 
-    void sync_connect(socket_type s, const socket_addr_type* addr,
+    NETWORK_DECL void sync_connect(socket_type s, const socket_addr_type* addr,
         int addrlen, std::error_code& ec);
 
-    bool non_blocking_connect(socket_type s, std::error_code& ec);
+    NETWORK_DECL bool non_blocking_connect(socket_type s, std::error_code& ec);
 
-    socket_type accept(socket_type s, socket_addr_type* addr, 
+    NETWORK_DECL socket_type accept(socket_type s, socket_addr_type* addr,
         int* addrlen, std::error_code& ec);
 
-    int listen(socket_type s, int backlog, std::error_code& ec);
+    NETWORK_DECL int listen(socket_type s, int backlog, std::error_code& ec);
 
-    int bind(socket_type s, const socket_addr_type* addr, std::size_t addrlen, std::error_code& ec);
+    NETWORK_DECL int bind(socket_type s, const socket_addr_type* addr, std::size_t addrlen, std::error_code& ec);
 
-    signed_size_type recv(socket_type s, char* bufs, 
+    NETWORK_DECL signed_size_type recv(socket_type s, char* bufs,
         int len, int flags, std::error_code& ec);
 
-    signed_size_type recvfrom(socket_type s, char* bufs, 
+    NETWORK_DECL signed_size_type recvfrom(socket_type s, char* bufs,
         int count, int flags, socket_addr_type* addr, 
         int* addrlen, std::error_code& ec);
 
-    signed_size_type recvmsg(socket_type s, char* bufs, 
+    NETWORK_DECL signed_size_type recvmsg(socket_type s, char* bufs,
         int count, int in_flags, 
         int& out_flags, std::error_code& ec);
 
-    signed_size_type send(socket_type s, const char* bufs, 
+    NETWORK_DECL signed_size_type send(socket_type s, const char* bufs,
         int count, int flags, std::error_code& ec);
 
-    signed_size_type sendto(socket_type s, const char* bufs,
+    NETWORK_DECL signed_size_type sendto(socket_type s, const char* bufs,
         int count, int flags, const socket_addr_type* addr, 
         int addrlen, std::error_code& ec);
 
-    int shutdown(socket_type s, int what, std::error_code& ec);
+    NETWORK_DECL int shutdown(socket_type s, int what, std::error_code& ec);
 
-    int close(socket_type s, state_type& state,bool destruction, std::error_code& ec);
+    NETWORK_DECL int close(socket_type s, state_type& state, bool destruction, std::error_code& ec);
 
-    int setsockopt(socket_type s, state_type& state,
+    NETWORK_DECL int setsockopt(socket_type s, state_type& state,
         int level, int optname, const void* optval,
         int optlen, std::error_code& ec);
 
-    int getsockopt(socket_type s, state_type state,
+    NETWORK_DECL int getsockopt(socket_type s, state_type state,
         int level, int optname, void* optval,
         int* optlen, std::error_code& ec);
 
-    int getpeername(socket_type s, socket_addr_type* addr,
+    NETWORK_DECL int getpeername(socket_type s, socket_addr_type* addr,
         int* addrlen, bool cached, std::error_code& ec);
 
-    int getsockname(socket_type s, socket_addr_type* addr,
+    NETWORK_DECL int getsockname(socket_type s, socket_addr_type* addr,
         int* addrlen, std::error_code& ec);
 
-    bool set_non_blocking(socket_type s,state_type& state, bool value, std::error_code& ec);
+    NETWORK_DECL bool set_non_blocking(socket_type s, state_type& state, bool value, std::error_code& ec);
 
-    int socketpair(int af, int type, int protocol, socket_type sv[2], std::error_code& ec);
+    NETWORK_DECL int socketpair(int af, int type, int protocol, socket_type sv[2], std::error_code& ec);
 
-    bool sockatmark(socket_type s, std::error_code& ec);
+    NETWORK_DECL bool sockatmark(socket_type s, std::error_code& ec);
 
-    size_t available(socket_type s, std::error_code& ec);
+    NETWORK_DECL size_t available(socket_type s, std::error_code& ec);
 
-    int ioctl(socket_type s, state_type& state,
+    NETWORK_DECL int ioctl(socket_type s, state_type& state,
         int cmd, ioctl_arg_type* arg, std::error_code& ec);
 
-    int select(int nfds, fd_set* readfds, fd_set* writefds,
+    NETWORK_DECL int select(int nfds, fd_set* readfds, fd_set* writefds,
         fd_set* exceptfds, timeval* timeout, std::error_code& ec);
 
-    int poll_read(socket_type s,
+    NETWORK_DECL int poll_read(socket_type s,
         state_type state, std::error_code& ec);
 
-    int poll_write(socket_type s,
+    NETWORK_DECL int poll_write(socket_type s,
         state_type state, std::error_code& ec);
 
-    int poll_error(socket_type s,
+    NETWORK_DECL int poll_error(socket_type s,
         state_type state, std::error_code& ec);
 
-    int poll_connect(socket_type s, std::error_code& ec);
+    NETWORK_DECL int poll_connect(socket_type s, std::error_code& ec);
 
-    const char* inet_ntop(int af, const void* src, char* dest,
+    NETWORK_DECL const char* inet_ntop(int af, const void* src, char* dest,
         size_t length, unsigned long scope_id, std::error_code& ec);
 
-    int inet_pton(int af, const char* src, void* dest,
+    NETWORK_DECL int inet_pton(int af, const char* src, void* dest,
         unsigned long* scope_id, std::error_code& ec);
 
-    int gethostname(char* name,
+    NETWORK_DECL int gethostname(char* name,
         int namelen, std::error_code& ec);
 
-    u_long_type network_to_host_long(u_long_type value);
-    u_long_type host_to_network_long(u_long_type value);
-    u_short_type network_to_host_short(u_short_type value);
-    u_short_type host_to_network_short(u_short_type value);
+    NETWORK_DECL u_long_type network_to_host_long(u_long_type value);
+    NETWORK_DECL u_long_type host_to_network_long(u_long_type value);
+    NETWORK_DECL u_short_type network_to_host_short(u_short_type value);
+    NETWORK_DECL u_short_type host_to_network_short(u_short_type value);
 
 } // namespace socket_ops
 } // namespace network
@@ -132,4 +132,4 @@ NS_FK_END
 
 #include "FoundationKit/Networking/detail/impl/socket_ops.ipp"
 
-#endif // LOSEMYMIND_SOCKET_OPS_HPP
+#endif // LOSEMYMIND_NETWORK_SOCKET_OPS_HPP

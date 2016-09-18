@@ -1,5 +1,5 @@
-#ifndef LOSEMYMIND_SOCKET_BASE_HPP
-#define LOSEMYMIND_SOCKET_BASE_HPP
+#ifndef LOSEMYMIND_NETWORK_SOCKET_BASE_HPP
+#define LOSEMYMIND_NETWORK_SOCKET_BASE_HPP
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
@@ -382,4 +382,4 @@ public:
 } // namespace network
 NS_FK_END
 
-#endif // LOSEMYMIND_SOCKET_BASE_HPP
+#endif // LOSEMYMIND_NETWORK_SOCKET_BASE_HPP

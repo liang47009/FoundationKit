@@ -18,13 +18,13 @@ class endpoint
 {
 public:
     // Default constructor.
-    endpoint();
+    NETWORK_DECL endpoint();
 
     // Construct an endpoint using a family and port number.
-    endpoint(int family, unsigned short port_num);
+    NETWORK_DECL endpoint(int family, unsigned short port_num);
 
     // Construct an endpoint using an address and port number.
-    endpoint(const ip::address& addr, unsigned short port_num);
+    NETWORK_DECL endpoint(const ip::address& addr, unsigned short port_num);
 
     // Copy constructor.
     endpoint(const endpoint& other)
@@ -61,7 +61,7 @@ public:
     }
 
     // Set the underlying size of the endpoint in the native type.
-    void resize(std::size_t new_size);
+    NETWORK_DECL void resize(std::size_t new_size);
 
     // Get the capacity of the endpoint in the native type.
     std::size_t capacity() const
@@ -70,22 +70,22 @@ public:
     }
 
     // Get the port associated with the endpoint.
-    unsigned short port() const;
+    NETWORK_DECL unsigned short port() const;
 
     // Set the port associated with the endpoint.
-    void port(unsigned short port_num);
+    NETWORK_DECL void port(unsigned short port_num);
 
     // Get the IP address associated with the endpoint.
-    ip::address address() const;
+    NETWORK_DECL ip::address address() const;
 
     // Set the IP address associated with the endpoint.
-    void address(const ip::address& addr);
+    NETWORK_DECL void address(const ip::address& addr);
 
     // Compare two endpoints for equality.
-    friend bool operator==(const endpoint& e1, const endpoint& e2);
+    NETWORK_DECL friend bool operator==(const endpoint& e1, const endpoint& e2);
 
     // Compare endpoints for ordering.
-    friend bool operator<(const endpoint& e1, const endpoint& e2);
+    NETWORK_DECL friend bool operator<(const endpoint& e1, const endpoint& e2);
 
     // Determine whether the endpoint is IPv4.
     bool is_v4() const
@@ -94,7 +94,7 @@ public:
     }
 
     // Convert to a string.
-    std::string to_string() const;
+    NETWORK_DECL std::string to_string() const;
 
 
 private:

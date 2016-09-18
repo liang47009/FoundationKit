@@ -175,6 +175,10 @@ extern void __fail__(const char* expr, const char* file, int line);
     #define DEBUG_MODE 0
 #endif
 
+
+#define NETWORK_DECL inline
+
+
 //===============================================================================================
 // Platform Pre-Setup
 //===============================================================================================

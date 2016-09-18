@@ -1,5 +1,5 @@
-#ifndef LOSEMYMIND_TCP_HPP
-#define LOSEMYMIND_TCP_HPP
+#ifndef LOSEMYMIND_NETWORK_IP_TCP_HPP
+#define LOSEMYMIND_NETWORK_IP_TCP_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -123,7 +123,7 @@ private:
 } // namespace network
 NS_FK_END
 
-#endif // LOSEMYMIND_TCP_HPP
+#endif // LOSEMYMIND_NETWORK_IP_TCP_HPP
 
 
 
