@@ -35,10 +35,11 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/Foundation/MessageQueue.cpp \
 ../../FoundationKit/Foundation/Scheduler.cpp \
 ../../FoundationKit/Foundation/StringUtils.cpp \
+../../FoundationKit/Foundation/unique_id.cpp \
 ../../FoundationKit/Foundation/Version.cpp \
 ../../FoundationKit/Foundation/WorkQueue.cpp \
-../../FoundationKit/HttpClient/HttpClient.cpp \
-../../FoundationKit/HttpClient/MimeTypes.cpp \
+../../FoundationKit/HTTPClient/HTTPClient.cpp \
+../../FoundationKit/HTTPClient/MimeTypes.cpp \
 ../../FoundationKit/HttpDownloader/Downloader.cpp \
 ../../FoundationKit/HttpDownloader/DownloaderImpl.cpp \
 ../../FoundationKit/LuaEngine/LuaEngine.cpp \
@@ -46,6 +47,7 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/LuaEngine/LuaStack.cpp \
 ../../FoundationKit/LuaEngine/LuaValue.cpp \
 ../../FoundationKit/LuaEngine/Script.cpp \
+../../FoundationKit/Networking/IProtocol.cpp \
 ../../FoundationKit/Platform/Android/AndroidJavaBridge.cpp \
 ../../FoundationKit/Platform/Android/EnvironmentAndroid.cpp \
 ../../FoundationKit/Platform/Android/FileUtils_android.cpp \
@@ -58,13 +60,13 @@ LOCAL_SRC_FILES := \
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../ \
                     $(LOCAL_PATH)/../../FoundationKit/external/unzip \
-                    $(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/curl\
+                    $(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/curl \
                     $(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/luajit
 
-LOCAL_CFLAGS   :=  -DUSE_FILE32API
+LOCAL_CFLAGS   :=  -DUSE_FILE32API -DANDROID
 
 LOCAL_EXPORT_C_INCLUDES += $(LOCAL_PATH)/../../FoundationKit/external/unzip
-LOCAL_EXPORT_CFLAGS     += -DUSE_FILE32API
+LOCAL_EXPORT_CFLAGS     += -DUSE_FILE32API -DANDROID
 LOCAL_EXPORT_CPPFLAGS   += -frtti -fexceptions -fsigned-char -std=c++11
 LOCAL_EXPORT_LDLIBS     += -llog -lz -landroid
 
@@ -98,4 +100,12 @@ $(info TARGET_ABI      = $(TARGET_ABI))
 $(info APP_ABI         = $(APP_ABI))
 $(info NDK_DEBUG       = $(NDK_DEBUG))
 $(info --------------------------------------------------------------------------)
+
+
+
+
+
+
+
+
 

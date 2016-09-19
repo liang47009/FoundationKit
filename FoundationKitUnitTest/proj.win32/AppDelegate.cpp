@@ -40,7 +40,6 @@
 #include "FoundationKit/Networking/network.hpp"
 #include "FoundationKit/Platform/PlatformTLS.h"
 #include <iostream>
-#include "MessagePacket.hpp"
 using namespace std;
 USING_NS_FK;
 
