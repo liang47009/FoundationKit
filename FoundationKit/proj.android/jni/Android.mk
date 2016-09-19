@@ -68,8 +68,8 @@ $(LOCAL_PATH)/../../FoundationKit/external/unzip \
 $(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/curl \
 $(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/luajit
 
-LOCAL_CFLAGS   :=  -DUSE_FILE32API -DANDROID
-LOCAL_EXPORT_CFLAGS     += -DUSE_FILE32API -DANDROID
+LOCAL_CFLAGS :=  -DUSE_FILE32API -DANDROID
+LOCAL_EXPORT_CFLAGS += -DUSE_FILE32API -DANDROID
 
 LOCAL_CPPFLAGS += -frtti -fexceptions -fsigned-char -std=c++11 -DUSE_FILE32API -DANDROID
 LOCAL_EXPORT_CPPFLAGS   += -frtti -fexceptions -fsigned-char -std=c++11 -DUSE_FILE32API -DANDROID

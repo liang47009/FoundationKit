@@ -18,7 +18,10 @@
 #ifndef LOSEMYMIND_QUATERNION_H
 #define LOSEMYMIND_QUATERNION_H
 
-#pragma once
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+
 #include <string>
 #include "Vector3.h"
 #include "FoundationKit/GenericPlatformMacros.h"

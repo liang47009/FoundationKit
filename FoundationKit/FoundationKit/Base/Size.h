@@ -8,7 +8,10 @@ losemymind.libo@gmail.com
 #ifndef LOSEMYMIND_SIZE_H
 #define LOSEMYMIND_SIZE_H
 
-#pragma once
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+
 #include <math.h>
 #include <float.h>
 #include "Vector2.h"

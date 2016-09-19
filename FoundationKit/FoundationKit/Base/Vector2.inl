@@ -15,10 +15,15 @@
 
  This file was modified to fit the FoundationKit project
  */
-#include "Vector2.h"
 
 #ifndef LOSEMYMIND_VECTOR2_INL
 #define LOSEMYMIND_VECTOR2_INL
+
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+
+#include "Vector2.h"
 
 NS_FK_BEGIN
 

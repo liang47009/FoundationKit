@@ -38,10 +38,15 @@
 
 #if !defined(__cpp_constexpr) || (__cpp_constexpr < 201304)
     #define STDLIB_NO_CXX14_CONSTEXPR
-    #define constexpr
+    //#define constexpr
 #endif
 
 #if __cplusplus < 201103L
+//#define noexcept
+#endif
+
+#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32) || defined(WIN64) || defined(_WIN64)
+#define constexpr
 #define noexcept
 #endif
 

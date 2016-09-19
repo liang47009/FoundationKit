@@ -7,7 +7,10 @@ losemymind.libo@gmail.com
 #ifndef LOSEMYMIND_TIME_H
 #define LOSEMYMIND_TIME_H
 
-#pragma once
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Types.h"
 #include <chrono>

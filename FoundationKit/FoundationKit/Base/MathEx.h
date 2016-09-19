@@ -9,7 +9,11 @@
 
 #ifndef LOSEMYMIND_MATHEX_H
 #define LOSEMYMIND_MATHEX_H
-#pragma once
+
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+
 #include <vector>
 #include <limits>
 #include <cmath>

@@ -7,7 +7,9 @@
 #ifndef LOSEMYMIND_DICTIONARY_H
 #define LOSEMYMIND_DICTIONARY_H
 
-#pragma once
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include <unordered_map>
 #include <vector>

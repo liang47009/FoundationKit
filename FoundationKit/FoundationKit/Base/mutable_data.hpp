@@ -1,15 +1,15 @@
 #ifndef LOSEMYMIND_MUTABLE__dataHPP
 #define LOSEMYMIND_MUTABLE__dataHPP
 
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Types.h"
 #include <type_traits>
 #include <string>
 #include <vector>
-
-#if defined(_MSC_VER) && (_MSC_VER >= 1200)
-# pragma once
-#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 NS_FK_BEGIN
 

@@ -18,7 +18,10 @@
 #ifndef LOSEMYMIND_VECTOR3_H
 #define LOSEMYMIND_VECTOR3_H
 
-#pragma once
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+
 #include "FoundationKit/GenericPlatformMacros.h" // for NS_FK_BEGIN NS_FK_END
 
 NS_FK_BEGIN

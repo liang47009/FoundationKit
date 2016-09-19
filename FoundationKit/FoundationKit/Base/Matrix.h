@@ -19,7 +19,10 @@
 #ifndef LOSEMYMIND_MATRIX_H
 #define LOSEMYMIND_MATRIX_H
 
-#pragma once
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+
 #include "Vector3.h"
 #include "Vector4.h"
 #include "Quaternion.h"

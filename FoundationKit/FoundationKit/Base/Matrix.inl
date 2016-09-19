@@ -19,6 +19,10 @@
 #ifndef LOSEMYMIND_MATRIX_INL
 #define LOSEMYMIND_MATRIX_INL
 
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+
 NS_FK_BEGIN
 
 inline const Matrix Matrix::operator+(const Matrix& m) const

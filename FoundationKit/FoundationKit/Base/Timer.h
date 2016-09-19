@@ -1,4 +1,16 @@
-#pragma once
+/****************************************************************************
+Copyright (c) 2016 libo All rights reserved.
+
+losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef LOSEMYMIND_TIMER_H
+#define LOSEMYMIND_TIMER_H
+
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+
 #include <chrono>
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/TimeEx.h"
@@ -61,3 +73,6 @@ private:
 };
 
 NS_FK_END
+
+#endif // LOSEMYMIND_TIMER_H
+
