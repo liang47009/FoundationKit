@@ -14,6 +14,7 @@ losemymind.libo@gmail.com
 #include <atomic>
 #include <list>
 #include <condition_variable>
+#include "curl.h"
 #include "HTTPRequest.hpp"
 #include "HTTPResponse.hpp"
 

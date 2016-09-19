@@ -7,7 +7,6 @@ losemymind.libo@gmail.com
 
 #include "HttpClient.h"
 #include "MimeTypes.h"
-#include "curl.h"
 #include <sstream>
 #include <iostream>
 #include "FoundationKit/Foundation/Logger.h"
