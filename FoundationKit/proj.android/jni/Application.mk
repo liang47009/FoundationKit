@@ -1,4 +1,3 @@
-#设置stl库
 # (default)	The default minimal system C++ runtime library.	N/A
 #APP_STL :=libstdc++
 #	The GAbi++ runtime (static).	C++ Exceptions and RTTI
@@ -18,18 +17,15 @@ APP_STL :=gnustl_static
 #The LLVM libc++ runtime (shared).	C++ Exceptions and RTTI; Standard Library
 #APP_STL :=c++_shared
 
-#设置编译架构
 #APP_ABI := all
 #APP_ABI := armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64
 APP_ABI := armeabi armeabi-v7a x86
 
-#设置编译器和编译器版本
 #NDK_TOOLCHAIN_VERSION := 4.8
 NDK_TOOLCHAIN_VERSION := clang
 
-APP_PLATFORM=android-19
+#APP_PLATFORM=android-19
 
-#设置编译选项
 APP_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11
 APP_LDFLAGS := -latomic -llog -landroid
 

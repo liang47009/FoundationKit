@@ -56,22 +56,24 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/Platform/FileUtils.cpp \
 ../../FoundationKit/Platform/Platform.cpp
 
-                   
-
 LOCAL_C_INCLUDES := \
 $(LOCAL_PATH)/../../ \
 $(LOCAL_PATH)/../../FoundationKit/external/unzip \
 $(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/curl \
 $(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/luajit
 
-LOCAL_EXPORT_C_INCLUDES += $(LOCAL_PATH)/../../FoundationKit/external/unzip
+LOCAL_EXPORT_C_INCLUDES := \
+$(LOCAL_PATH)/../../ \
+$(LOCAL_PATH)/../../FoundationKit/external/unzip \
+$(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/curl \
+$(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/luajit
 
 LOCAL_CFLAGS   :=  -DUSE_FILE32API -DANDROID
 LOCAL_EXPORT_CFLAGS     += -DUSE_FILE32API -DANDROID
 
 LOCAL_CPPFLAGS += -frtti -fexceptions -fsigned-char -std=c++11 -DUSE_FILE32API -DANDROID
+LOCAL_EXPORT_CPPFLAGS   += -frtti -fexceptions -fsigned-char -std=c++11 -DUSE_FILE32API -DANDROID
 
-LOCAL_EXPORT_CPPFLAGS   += -frtti -fexceptions -fsigned-char -std=c++11
 LOCAL_EXPORT_LDLIBS     += -llog -lz -landroid
 
 ifeq ($(NDK_DEBUG),1)
