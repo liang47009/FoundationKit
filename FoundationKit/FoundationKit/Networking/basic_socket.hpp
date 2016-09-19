@@ -12,6 +12,7 @@
 #include "FoundationKit/Base/error_code.hpp"
 #include "FoundationKit/Base/noncopyable.hpp"
 #include "FoundationKit/Base/mutable_data.hpp"
+#include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Networking/socket_types.hpp"
 #include "FoundationKit/Networking/detail/socket_base.hpp"
 #include "FoundationKit/Networking/detail/socket_ops.hpp"
@@ -189,7 +190,7 @@ public:
      */
     void assign(const protocol_type& protocol, const native_handle_type& native_socket)
     {
-        asio::error_code ec;
+        std::error_code ec;
         this->assign(protocol, native_socket, ec);
         throw_error_if(ec, "assign");
     }
@@ -409,7 +410,7 @@ public:
     {
         if ((_state & socket_ops::stream_oriented))
         {
-            const char* buffer = const_cast<mutable_data&>(buffers).c_str();
+            const char* buffer = buffers.c_str();
             return socket_ops::send(native_handle()
                 , buffer
                 , buffers.size()
@@ -1642,7 +1643,7 @@ public:
     template <typename SettableSocketOption>
     void set_option(const SettableSocketOption& option)
     {
-        asio::error_code ec;
+        std::error_code ec;
         this->set_option(option, ec);
         throw_error_if(ec, "set_option");
     }

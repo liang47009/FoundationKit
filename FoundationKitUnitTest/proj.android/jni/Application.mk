@@ -1,6 +1,8 @@
 #设置stl库
 APP_STL := gnustl_static
-#APP_STL := libc++_static
+#APP_STL := c++_static
+#APP_STL  := stlport_static
+#APP_STL  :=libc++_static
 
 #设置编译器和编译器版本
 #NDK_TOOLCHAIN_VERSION := 4.8

@@ -20,6 +20,46 @@ namespace network{
 namespace socket_ops
 {
     // ======================== Helper Method ============================
+
+    inline void init_buf_iov_base(void*& base, void* addr)
+    {
+        base = addr;
+    }
+
+    template <typename T>
+    inline void init_buf_iov_base(T& base, void* addr)
+    {
+        base = static_cast<T>(addr);
+    }
+
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
+    typedef WSABUF buf;
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
+    typedef iovec buf;
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
+
+    void init_buf(buf& b, void* data, size_t size)
+    {
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
+        b.buf = static_cast<char*>(data);
+        b.len = static_cast<u_long>(size);
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
+        init_buf_iov_base(b.iov_base, data);
+        b.iov_len = size;
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
+    }
+
+    void init_buf(buf& b, const void* data, size_t size)
+    {
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
+        b.buf = static_cast<char*>(const_cast<void*>(data));
+        b.len = static_cast<u_long>(size);
+#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
+        init_buf_iov_base(b.iov_base, const_cast<void*>(data));
+        b.iov_len = size;
+#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
+    }
+
     inline void init_msghdr_msg_name(void*& name, socket_addr_type* addr)
     {
         name = addr;
@@ -77,7 +117,7 @@ namespace socket_ops
             int optval = 0;
             ::setsockopt(s, IPPROTO_IPV6, IPV6_V6ONLY,reinterpret_cast<const char*>(&optval), sizeof(optval));
         }
-#else
+#elif defined(__MACH__) && defined(__APPLE__) || defined(__FreeBSD__)
         int optval = 1;
         int result = error_wrapper(::setsockopt(s,SOL_SOCKET, SO_NOSIGPIPE, &optval, sizeof(optval)), ec);
         if (result != 0)
@@ -85,6 +125,9 @@ namespace socket_ops
             ::close(s);
             return invalid_socket;
         }
+#else
+        if (s >= 0)
+            ec = std::error_code();
 #endif
         return s;
     }
@@ -103,7 +146,7 @@ namespace socket_ops
             ec = std::error_code();
 #if defined(__linux__)
         else if (ec == std::errc::resource_unavailable_try_again)
-            ec = std::errc::no_buffer_space;
+            ec = make_error_code(std::errc::no_buffer_space);
 #endif // defined(__linux__)
         return result;
     }
@@ -249,9 +292,11 @@ namespace socket_ops
             ec = std::error_code();
         return result;
 #else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
+        socket_ops::buf b;
+        socket_ops::init_buf(b, bufs, sizeof(count));
         msghdr msg = msghdr();
-        msg.msg_iov = bufs;
-        msg.msg_iovlen = count;
+        msg.msg_iov = &b;
+        msg.msg_iovlen = 1;
         signed_size_type result = error_wrapper(::recvmsg(s, &msg, flags), ec);
         if (result >= 0)
             ec = std::error_code();
@@ -278,8 +323,10 @@ namespace socket_ops
         msghdr msg = msghdr();
         init_msghdr_msg_name(msg.msg_name, addr);
         msg.msg_namelen = *addrlen;
-        msg.msg_iov = bufs;
-        msg.msg_iovlen = count;
+        socket_ops::buf b;
+        socket_ops::init_buf(b, bufs, sizeof(count));
+        msg.msg_iov = &b;
+        msg.msg_iovlen = 1;
         signed_size_type result = error_wrapper(::recvmsg(s, &msg, flags), ec);
         *addrlen = msg.msg_namelen;
         if (result >= 0)
@@ -298,8 +345,10 @@ namespace socket_ops
         return socket_ops::recv(s, bufs, count, in_flags, ec);
 #else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         msghdr msg = msghdr();
-        msg.msg_iov = bufs;
-        msg.msg_iovlen = count;
+        socket_ops::buf b;
+        socket_ops::init_buf(b, bufs, sizeof(count));
+        msg.msg_iov = &b;
+        msg.msg_iovlen = 1;
         signed_size_type result = error_wrapper(::recvmsg(s, &msg, in_flags), ec);
         if (result >= 0)
         {
@@ -328,8 +377,10 @@ namespace socket_ops
         return result;
 #else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         msghdr msg = msghdr();
-        msg.msg_iov = const_cast<char*>(bufs);
-        msg.msg_iovlen = count;
+        socket_ops::buf b;
+        socket_ops::init_buf(b, bufs, sizeof(count));
+        msg.msg_iov = &b;
+        msg.msg_iovlen = 1;
         flags |= MSG_NOSIGNAL;
         signed_size_type result = error_wrapper(::sendmsg(s, &msg, flags), ec);
         if (result >= 0)
@@ -357,8 +408,10 @@ namespace socket_ops
         msghdr msg = msghdr();
         init_msghdr_msg_name(msg.msg_name, addr);
         msg.msg_namelen = addrlen;
-        msg.msg_iov = const_cast<char*>(bufs);
-        msg.msg_iovlen = count;
+        socket_ops::buf b;
+        socket_ops::init_buf(b, bufs, sizeof(count));
+        msg.msg_iov = &b;
+        msg.msg_iovlen = 1;
         flags |= MSG_NOSIGNAL;
         signed_size_type result = error_wrapper(::sendmsg(s, &msg, flags), ec);
         if (result >= 0)
@@ -538,7 +591,7 @@ namespace socket_ops
 #else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
         clear_last_error();
         int tmp_optlen = *optlen;
-        int result = error_wrapper(getsockopt(s, level, optname, (char*)optval, &tmp_optlen), ec);
+        int result = error_wrapper(::getsockopt(s, level, optname, (char*)optval, &tmp_optlen), ec);
         *optlen = tmp_optlen;
 #if defined(__linux__)
         if (result == 0 && level == SOL_SOCKET && *optlen == sizeof(int) && (optname == SO_SNDBUF || optname == SO_RCVBUF))
@@ -952,7 +1005,7 @@ namespace socket_ops
         clear_last_error();
         int result = error_wrapper(::poll(&fds, 1, -1), ec);
         if (result >= 0)
-            ec = asio::error_code();
+            ec = std::error_code();
         return result;
 #endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
     }

@@ -126,6 +126,16 @@ namespace socket_ops
     NETWORK_DECL u_short_type network_to_host_short(u_short_type value);
     NETWORK_DECL u_short_type host_to_network_short(u_short_type value);
 
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
+    typedef WSABUF buf;
+#else // defined(ASIO_WINDOWS) || defined(__CYGWIN__)
+    typedef iovec buf;
+#endif // defined(ASIO_WINDOWS) || defined(__CYGWIN__)
+
+    NETWORK_DECL void init_buf(buf& b, void* data, size_t size);
+
+    NETWORK_DECL void init_buf(buf& b, const void* data, size_t size);
+
 } // namespace socket_ops
 } // namespace network
 NS_FK_END

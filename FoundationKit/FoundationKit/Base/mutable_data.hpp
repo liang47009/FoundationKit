@@ -95,7 +95,7 @@ public:
         return _data;
     }
 
-    const char* c_str()
+    const char* c_str()const
     {
         return reinterpret_cast<const char*>(_data);
     }

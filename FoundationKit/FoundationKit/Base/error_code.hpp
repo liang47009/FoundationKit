@@ -52,7 +52,7 @@ namespace std
         fd_set_failure
     };
 
-    inline std::error_code make_error_code(misc_errors _Errno) _NOEXCEPT
+    inline std::error_code make_error_code(misc_errors _Errno)
     {	// make an error_code
         return (std::error_code((int)_Errno, std::generic_category()));
     }
