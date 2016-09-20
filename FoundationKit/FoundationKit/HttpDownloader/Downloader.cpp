@@ -9,6 +9,7 @@ losemymind.libo@gmail.com
 #include <cstdio>
 #include <cerrno>
 #include <thread>
+#include <cassert>
 #include "Downloader.h"
 #include "DownloaderImpl.h"
 #include "FoundationKit/Foundation/Scheduler.h"

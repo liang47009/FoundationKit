@@ -2,7 +2,7 @@
 #ifndef LOSEMYMIND_GENERICPLATFORMMACROS_H
 #define LOSEMYMIND_GENERICPLATFORMMACROS_H
 #pragma once
-#include <cassert>
+
 #include "LanguageFeatures.h"
 // namespace FoundationKit {}
 #ifdef __cplusplus

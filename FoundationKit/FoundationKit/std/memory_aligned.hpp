@@ -7,11 +7,13 @@ losemymind.libo@gmail.com
 #ifndef LOSEMYMIND_MEMORY_ALIGNED_H
 #define LOSEMYMIND_MEMORY_ALIGNED_H
 #pragma once
+#include <utility>
+#include <type_traits>
+#include <cassert>
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Base/Types.h"
 #include "FoundationKit/std/max_integer_of.hpp"
-#include <utility>
-#include <type_traits>
+
 
 USING_NS_FK;
 

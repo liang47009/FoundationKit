@@ -1,10 +1,11 @@
 #include <mutex>
 #include <vector>
 #include <stdio.h>
-#include "Compression.h"
+#include <cassert>
 #include "zlib.h"
 #include "FoundationKit/Base/TimeEx.h"
 #include "FoundationKit/Foundation/Logger.h"
+#include "Compression.h"
 
 NS_FK_BEGIN
 

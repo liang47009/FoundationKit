@@ -4,9 +4,9 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
-
-#include "DownloaderImpl.h"
+#include <cassert>
 #include <curl.h>
+#include "DownloaderImpl.h"
 #include "FoundationKit/GenericPlatformMacros.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "FoundationKit/Foundation/Logger.h"

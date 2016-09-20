@@ -1,7 +1,9 @@
 
-#include "FoundationKit/Foundation/StringUtils.h"
+
 #include <cstdarg>
 #include <cstdio>
+#include <cassert>
+#include "FoundationKit/Foundation/StringUtils.h"
 #include "GenericPlatformMacros.h"
 #if (TARGET_PLATFORM == PLATFORM_ANDROID)
 #include <android/log.h>

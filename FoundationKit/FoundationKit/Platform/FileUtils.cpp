@@ -6,6 +6,7 @@
  ****************************************************************************/
 #include <sys/stat.h>
 #include <algorithm>
+#include <cassert>
 #include <dirent.h> // for DIR
 #include "FileUtils.h"
 #include "FoundationKit/Foundation/Logger.h"
