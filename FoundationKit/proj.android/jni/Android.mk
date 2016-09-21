@@ -53,8 +53,10 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/Platform/Android/FileUtils_android.cpp \
 ../../FoundationKit/Platform/Android/PlatformAndroid.cpp \
 ../../FoundationKit/Platform/Android/ProtectedMemoryAllocator.cpp \
+../../FoundationKit/Platform/Android/SharedMemoryImpl.cpp \
 ../../FoundationKit/Platform/FileUtils.cpp \
-../../FoundationKit/Platform/Platform.cpp
+../../FoundationKit/Platform/Platform.cpp \
+../../FoundationKit/Platform/SharedMemory.cpp
 
 LOCAL_C_INCLUDES := \
 $(LOCAL_PATH)/../../ \

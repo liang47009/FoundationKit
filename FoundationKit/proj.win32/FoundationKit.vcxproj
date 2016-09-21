@@ -288,6 +288,8 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Platform\OpenGL.h" />
     <ClInclude Include="..\FoundationKit\Platform\Platform.h" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.h" />
+    <ClInclude Include="..\FoundationKit\Platform\SharedMemory.h" />
+    <ClInclude Include="..\FoundationKit\Platform\SharedMemoryImpl.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.h" />
@@ -347,10 +349,12 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Networking\IProtocol.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\FileUtils.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Platform.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\SharedMemory.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\FileUtils_win32.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\PlatformWindows.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\SharedMemoryImpl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\Base\MathUtil.inl" />

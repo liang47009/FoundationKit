@@ -17,7 +17,7 @@ inline void throw_exception(const Exception& e)
     throw e;
 }
 
-static void throw_error_if(const std::error_code& err, const char* location = nullptr)
+void throw_error_if(const std::error_code& err, const char* location = nullptr)
 {
     if (err)
     {

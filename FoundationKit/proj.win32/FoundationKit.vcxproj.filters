@@ -453,6 +453,12 @@
     <ClInclude Include="..\FoundationKit\Networking\ip\multicast.hpp">
       <Filter>Networking\ip</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\SharedMemory.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\SharedMemoryImpl.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -604,6 +610,12 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\HTTPClient\MimeTypes.cpp">
       <Filter>HTTPClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\SharedMemory.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\SharedMemoryImpl.cpp">
+      <Filter>Platform\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
