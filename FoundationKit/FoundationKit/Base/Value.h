@@ -34,7 +34,7 @@
 #include <map>
 #include <unordered_map>
 #include <string>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/FoundationMacros.h"
 
 NS_FK_BEGIN
 

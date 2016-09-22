@@ -2,6 +2,7 @@
 #define LOSEMYMIND_IPROTOCOL_H
 
 #include <unordered_map>
+#include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Base/Types.h"
 #include "FoundationKit/Base/DataStream.h"
 

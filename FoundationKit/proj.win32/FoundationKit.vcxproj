@@ -218,6 +218,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h" />
+    <ClInclude Include="..\FoundationKit\FoundationMacros.h" />
     <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.h" />
     <ClInclude Include="..\FoundationKit\Foundation\ByteSwap.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Compression.h" />
@@ -234,7 +235,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\utlist.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Version.h" />
     <ClInclude Include="..\FoundationKit\Foundation\WorkQueue.h" />
-    <ClInclude Include="..\FoundationKit\FunctionHelper.h" />
     <ClInclude Include="..\FoundationKit\GenericPlatformMacros.h" />
     <ClInclude Include="..\FoundationKit\HTTPClient\HTTPClient.h" />
     <ClInclude Include="..\FoundationKit\HTTPClient\HttpClientTest.h" />

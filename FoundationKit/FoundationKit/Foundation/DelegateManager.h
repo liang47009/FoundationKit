@@ -13,7 +13,7 @@
 #include <string>
 #include <functional>
 #include <memory>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Foundation/Singleton.h"
 
 NS_FK_BEGIN

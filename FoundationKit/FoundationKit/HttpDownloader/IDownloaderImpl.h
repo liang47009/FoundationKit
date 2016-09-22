@@ -11,7 +11,7 @@ losemymind.libo@gmail.com
 #include <string>
 #include <functional>
 #include <unordered_map>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/FoundationMacros.h"
 
 NS_FK_BEGIN
 

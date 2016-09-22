@@ -14,7 +14,7 @@ extern "C"
 }
 #include <stdexcept>
 #include <string>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 

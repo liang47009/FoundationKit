@@ -8,7 +8,7 @@
 #define LOSEMYMIND_FILEUTILS_H
 #pragma once
 
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Base/mutable_data.hpp"
 #include "FoundationKit/Foundation/Singleton.h"
 #include <string>

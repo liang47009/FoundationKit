@@ -10,6 +10,7 @@ losemymind.libo@gmail.com
 #include "curl.h"
 #include <sstream>
 #include <iostream>
+#include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Foundation/Logger.h"
 
 NS_FK_BEGIN

@@ -3,7 +3,7 @@
 #pragma once
 
 #include <string>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Base/Types.h"
 #include "FoundationKit/Base/mutable_data.hpp"
 

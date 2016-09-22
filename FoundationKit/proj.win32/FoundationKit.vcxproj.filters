@@ -96,9 +96,6 @@
     <ClInclude Include="..\FoundationKit\Platform\Platform.h">
       <Filter>Platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\FunctionHelper.h">
-      <Filter>FoundationKit</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Scheduler.h">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -458,6 +455,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\SharedMemoryImpl.h">
       <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\FoundationMacros.h">
+      <Filter>FoundationKit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

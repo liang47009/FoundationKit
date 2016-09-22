@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "Scheduler.h"
 #include "utlist.h"
+#include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Foundation/Logger.h"
 
 
