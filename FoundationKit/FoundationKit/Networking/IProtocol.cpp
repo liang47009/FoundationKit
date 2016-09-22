@@ -37,5 +37,14 @@ void IProtocol::DispathStreamProtocol(uint64 clientID, DataStream & stream)
     }
 }
 
+void IProtocol::RemoveProtocol(int32 idx)
+{
+    PROTOCOLS & pool = GetProtoclsPool();
+    PROTOCOLS::iterator it = pool.find(idx);
+    if (it != pool.end())
+        pool.erase(it);
+
+}
+
 
 

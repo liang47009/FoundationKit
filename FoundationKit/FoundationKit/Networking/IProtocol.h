@@ -23,6 +23,7 @@ public:
     virtual ~IProtocol() {}
 
     static void DispathStreamProtocol(uint64 clientID, DataStream & stream);
+    static void RemoveProtocol(int32 idx);
         
     virtual void ProcessStreamProtocol(uint64 clientID, DataStream & stream) { UNUSED_ARG(clientID); UNUSED_ARG(stream); }
 };
