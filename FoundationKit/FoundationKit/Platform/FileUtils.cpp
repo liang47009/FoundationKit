@@ -169,7 +169,14 @@ const std::vector<std::string>& FileUtils::getSearchPaths() const
 
 void FileUtils::setWritablePath(const std::string& writablePath)
 {
+    LOG_ASSERT(!writablePath.empty(), "setDefaultResourceRootPath:Invalid path.");
     _writablePath = writablePath;
+    if (_writablePath.back() != '/' || _writablePath.back() != '\\')
+    {
+        _writablePath.push_back('/');
+    }
+
+    _writablePath = convertPathFormatToUnixStyle(_writablePath);
 }
 
 bool FileUtils::isDirectoryExist(const std::string& dirPath) const

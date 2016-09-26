@@ -201,7 +201,7 @@ bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &ne
 
 std::string FileUtils::getWritablePath() const
 {
-    if (_writablePath.length())
+    if (!_writablePath.empty())
     {
         return _writablePath;
     }
