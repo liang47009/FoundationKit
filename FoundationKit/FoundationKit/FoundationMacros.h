@@ -157,7 +157,59 @@ protected: varType varName;\
 public: virtual const varType& get##funName(void) const { return varName; }
 
 
+/*
+	* @brief Cross platform constructor attribute
+	*
+	* Defines a code-block to be called *before* main is entered. Useful for
+	* ensuring singletons are fully constructed prior to main being entered.
+	*
+	* @note the constructor must be defined at (any) namespace level
+	*
+	* @code
+	*
+	* // ensure singleton exists before main is executed
+	* constructor__(init_singleton)
+	* {
+	*    some::mayers::singleton::instance();
+	* }
+	*
+	* @endcode
+	*/
+#if TARGET_PLATFORM == PLATFORM_WINDOWS
+// Constructor attribute support for Visual Studio
+#pragma section(".CRT$XCU", read)
+#define constructor__(name)           \
+struct name ## __                     \
+{                                     \
+	static inline void name(void);    \
+	static void init(void)            \
+	{                                 \
+		static int once = 1;          \
+		if(once) { name (); --once; } \
+	}                                 \
+	private: name ## __();            \
+};                                    \
+__declspec(allocate(".CRT$XCU"))      \
+void (__cdecl*name##_)(void) = &name ## __::init; \
+void name ## __::name(void)
 
+#elif TARGET_PLATFORM == PLATFORM_ANDROID || TARGET_PLATFORM == PLATFORM_IOS
+// Constructor attribute support for gcc
+#define constructor__(name) \
+struct name ## __ \
+{ \
+	static inline void name(void); \
+	static void __attribute__ ((constructor)) init(void) \
+	{ \
+		static int once = 1; \
+		if(once) { name (); --once; } \
+	} \
+	private: name ## __(); \
+}; \
+void name ## __::name(void)
+#elif 
+#error "Constructor attribute is not supported"
+#endif
 
 
 
