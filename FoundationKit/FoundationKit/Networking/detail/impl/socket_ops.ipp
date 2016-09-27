@@ -91,15 +91,19 @@ namespace socket_ops
 #endif
     }
 
-    template <typename ReturnType>
-    inline ReturnType error_wrapper(ReturnType return_value,
-        std::error_code& ec)
+    int get_error_code()
     {
-#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
-        ec = std::error_code(WSAGetLastError(), std::system_category());
+#if TARGET_PLATFORM == PLATFORM_WINDOWS || defined(__CYGWIN__)
+        return WinErrorCodeToErrc(WSAGetLastError());
 #else
-        ec = std::error_code(errno, std::system_category());
+        return errno;
 #endif
+    }
+
+    template <typename ReturnType>
+    inline ReturnType error_wrapper(ReturnType return_value, std::error_code& ec)
+    {
+        ec = std::error_code(get_error_code(), std::generic_category());
         return return_value;
     }
 
@@ -173,52 +177,7 @@ namespace socket_ops
             return;
 
         // Return the result of the connect operation.
-        ec = std::error_code(connect_error, std::system_category());
-    }
-
-    bool non_blocking_connect(socket_type s, std::error_code& ec)
-    {
-        // Check if the connect operation has finished. This is required since we may
-        // get spurious readiness notifications from the reactor.
-#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__) || defined(__SYMBIAN32__)
-        fd_set write_fds;
-        FD_ZERO(&write_fds);
-        FD_SET(s, &write_fds);
-        fd_set except_fds;
-        FD_ZERO(&except_fds);
-        FD_SET(s, &except_fds);
-        timeval zero_timeout;
-        zero_timeout.tv_sec = 0;
-        zero_timeout.tv_usec = 0;
-        int ready = ::select(s + 1, 0, &write_fds, &except_fds, &zero_timeout);
-#else // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__) || defined(__SYMBIAN32__)
-        pollfd fds;
-        fds.fd = s;
-        fds.events = POLLOUT;
-        fds.revents = 0;
-        int ready = ::poll(&fds, 1, 0);
-#endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__) || defined(__SYMBIAN32__)
-
-        if (ready == 0)
-        {
-            // The asynchronous connect operation is still in progress.
-            return false;
-        }
-
-        // Get the error code from the connect operation.
-        int connect_error = 0;
-        int connect_error_len = sizeof(connect_error);
-        if (socket_ops::getsockopt(s, 0, SOL_SOCKET, SO_ERROR,
-            &connect_error, &connect_error_len, ec) == 0)
-        {
-            if (connect_error)
-            {
-                ec = std::error_code(connect_error, std::system_category());
-            }
-            else
-                ec = std::error_code();
-        }
-        return true;
+        ec = std::error_code(WinErrorCodeToErrc(connect_error), std::generic_category());
     }
 
     socket_type accept(socket_type s, socket_addr_type* addr, int* addrlen, std::error_code& ec)
@@ -967,10 +926,7 @@ namespace socket_ops
         int result = error_wrapper(::poll(&fds, 1, timeout), ec);
 
 #endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
-        if (result == 0)
-            ec = (state & non_blocking)
-            ? make_error_code(std::errc::operation_would_block) : std::error_code();
-        else if (result > 0)
+        if (result >= 0)
             ec = std::error_code();
         return result;
     }

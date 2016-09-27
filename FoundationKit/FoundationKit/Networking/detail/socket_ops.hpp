@@ -42,8 +42,6 @@ namespace socket_ops
     NETWORK_DECL void sync_connect(socket_type s, const socket_addr_type* addr,
         int addrlen, std::error_code& ec);
 
-    NETWORK_DECL bool non_blocking_connect(socket_type s, std::error_code& ec);
-
     NETWORK_DECL socket_type accept(socket_type s, socket_addr_type* addr,
         int* addrlen, std::error_code& ec);
 
@@ -101,14 +99,11 @@ namespace socket_ops
     NETWORK_DECL int select(int nfds, fd_set* readfds, fd_set* writefds,
         fd_set* exceptfds, timeval* timeout, std::error_code& ec);
 
-    NETWORK_DECL int poll_read(socket_type s,
-        state_type state, std::error_code& ec);
+    NETWORK_DECL int poll_read(socket_type s, state_type state, std::error_code& ec);
 
-    NETWORK_DECL int poll_write(socket_type s,
-        state_type state, std::error_code& ec);
+    NETWORK_DECL int poll_write(socket_type s, state_type state, std::error_code& ec);
 
-    NETWORK_DECL int poll_error(socket_type s,
-        state_type state, std::error_code& ec);
+    NETWORK_DECL int poll_error(socket_type s, state_type state, std::error_code& ec);
 
     NETWORK_DECL int poll_connect(socket_type s, std::error_code& ec);
 

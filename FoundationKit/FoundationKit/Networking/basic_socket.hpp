@@ -439,7 +439,7 @@ public:
      * @returns The number of bytes received.
      *
      * @throws std::system_error Thrown on failure. An error code of
-     * std::error::eof indicates that the connection was closed by the
+     * std::errc::eof indicates that the connection was closed by the
      * peer.
      *
      * @note The receive operation may not receive all of the requested number of
@@ -744,13 +744,13 @@ public:
     /**
      * Gets the non-blocking mode of the socket.
      * @returns @c true if the socket's synchronous operations will fail with
-     * asio::error::would_block if they are unable to perform the requested
+     * std::errcwould_block if they are unable to perform the requested
      * operation immediately. If @c false, synchronous operations will block
      * until complete.
      *
      * @note The non-blocking mode has no effect on the behaviour of asynchronous
      * operations. Asynchronous operations will never fail with the error
-     * asio::error::would_block.
+     * std::errcwould_block.
      */
     bool is_non_blocking() const
     {
@@ -760,15 +760,15 @@ public:
     /**
      * Sets the non-blocking mode of the socket.
      * @param mode If @c true, the socket's synchronous operations will fail with
-     * asio::error::would_block if they are unable to perform the requested
+     * std::errcwould_block if they are unable to perform the requested
      * operation immediately. If @c false, synchronous operations will block
      * until complete.
      *
-     * @throws asio::system_error Thrown on failure.
+     * @throws std::system_error Thrown on failure.
      *
      * @note The non-blocking mode has no effect on the behaviour of asynchronous
      * operations. Asynchronous operations will never fail with the error
-     * asio::error::would_block.
+     * std::errcwould_block.
      */
     void set_non_blocking(bool mode)
     {
@@ -780,7 +780,7 @@ public:
     /**
      * Sets the non-blocking mode of the socket.
      * @param mode If @c true, the socket's synchronous operations will fail with
-     * asio::error::would_block if they are unable to perform the requested
+     * std::errcwould_block if they are unable to perform the requested
      * operation immediately. If @c false, synchronous operations will block
      * until complete.
      *
@@ -788,7 +788,7 @@ public:
      *
      * @note The non-blocking mode has no effect on the behaviour of asynchronous
      * operations. Asynchronous operations will never fail with the error
-     * asio::error::would_block.
+     * std::errcwould_block.
      */
     std::error_code set_non_blocking( bool mode, std::error_code& ec)
     {
@@ -1411,10 +1411,11 @@ public:
         }
         if (native_handle() != invalid_socket)
         {
-            if (getConnectionState(ec) == connection_state::Connected)
-            {
-                socket_ops::shutdown(native_handle(), what, ec);
-            }
+            #pragma message(COMPILE_MSG "需要检查网络已经链接的时候才调用shutdown。")
+            //if (getConnectionState(ec) == connection_state::Connected)
+            //{
+            //    socket_ops::shutdown(native_handle(), what, ec);
+            //}
         }
         else
         {
@@ -1611,7 +1612,7 @@ public:
      *
      * @param option The new option value to be set on the socket.
      *
-     * @throws asio::system_error Thrown on failure.
+     * @throws std::system_error Thrown on failure.
      *
      * @sa SettableSocketOption
      * network::socket_base::broadcast
@@ -1663,7 +1664,7 @@ public:
      *
      * @param option The option value to be obtained from the socket.
      *
-     * @throws asio::system_error Thrown on failure.
+     * @throws std::system_error Thrown on failure.
      *
      * @sa GettableSocketOption @n
      * network::socket_base::broadcast
@@ -1745,7 +1746,6 @@ public:
         return bHasPendingConnection;
     }
 
-
 protected:
     void holdsSocket(native_handle_type native_socket)
     {
@@ -1800,32 +1800,6 @@ protected:
             SelectStatus == 0 ? state_return::No :
             state_return::EncounteredError;
     }
-
-    connection_state getConnectionState(std::error_code& ec)
-    {
-        connection_state currentState = connection_state::ConnectionError;
-
-        // look for an existing error
-        if ((has_state(socket_state::haserror, ec) == state_return::No))
-        {
-            // get the write state
-            state_return writeState = has_state(socket_state::writable, ec);
-            if (ec) return currentState;
-            state_return readState = has_state(socket_state::readable, ec);
-            if (ec) return currentState;
-            // translate yes or no (error is already set)
-            if (writeState == state_return::Yes || readState == state_return::Yes)
-            {
-                currentState = connection_state::Connected;
-            }
-            else if (writeState == state_return::No && readState == state_return::No)
-            {
-                currentState = connection_state::NotConnected;
-            }
-        }
-        return currentState;
-    }
-
 private:
 
 
