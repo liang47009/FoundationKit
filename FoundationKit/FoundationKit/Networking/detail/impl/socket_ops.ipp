@@ -91,7 +91,7 @@ namespace socket_ops
 #endif
     }
 
-    int get_error_code()
+    inline int get_error_code()
     {
 #if TARGET_PLATFORM == PLATFORM_WINDOWS || defined(__CYGWIN__)
         return WinErrorCodeToErrc(WSAGetLastError());
