@@ -8,7 +8,7 @@
 #include <functional>
 #include <algorithm>
 #include <memory>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Base/error_code.hpp"
 #include "FoundationKit/Base/noncopyable.hpp"
 #include "FoundationKit/Base/mutable_data.hpp"
@@ -23,6 +23,11 @@ namespace network{
 template<typename Protocol>
 class basic_socket : public socket_base, public noncopyable
 {
+    struct socket_holder
+    {
+        socket_type _socketHandle;
+        socket_ops::state_type _socketState;
+    };
 public:
     /// The protocol type.
     typedef Protocol protocol_type;
@@ -51,7 +56,6 @@ public:
         , _open(false)
 
     {
-        holdsSocket(invalid_socket);
     }
 
     basic_socket(const protocol_type& protocol, const native_handle_type& native_socket, std::error_code& ec)
@@ -115,7 +119,16 @@ public:
      */
     virtual ~basic_socket()
     {
-
+        if (_shared_socket && _shared_socket.use_count() == 1)
+        {
+            std::error_code ec;
+            shutdown(shutdown_type::shutdown_send, ec);
+            if (ec.value() != (int)std::errc::not_connected)
+            {
+                throw_error_if(ec);
+            }
+            this->close();
+        }
     }
 
     virtual void poll()
@@ -1411,11 +1424,7 @@ public:
         }
         if (native_handle() != invalid_socket)
         {
-            #pragma message(COMPILE_MSG "需要检查网络已经链接的时候才调用shutdown。")
-            //if (getConnectionState(ec) == connection_state::Connected)
-            //{
-            //    socket_ops::shutdown(native_handle(), what, ec);
-            //}
+            socket_ops::shutdown(native_handle(), what, ec);
         }
         else
         {
@@ -1469,20 +1478,8 @@ public:
      */
     std::error_code close(std::error_code& ec)
     {
-        if (!is_open())
-        {
-            return std::error_code();
-        }
-        if (native_handle() != invalid_socket)
-        {
-            socket_ops::close(native_handle(), _state, false, ec);
-        }
-        else
-        {
-            ec = make_error_code(std::errc::bad_file_descriptor);
-        }
-        _open = false;
-        holdsSocket(invalid_socket);
+        socket_ops::close(native_handle(), _state, false, ec);
+        reset();
         return ec;
     }
 
@@ -1598,6 +1595,10 @@ public:
 
     native_handle_type native_handle()const
     {
+        if (!_shared_socket)
+        {
+            return invalid_socket;
+        }
         return *_shared_socket;
     }
 
@@ -1749,11 +1750,13 @@ public:
 protected:
     void holdsSocket(native_handle_type native_socket)
     {
-        _shared_socket = shared_socket(new native_handle_type(native_socket), [this](native_handle_type*)
-        {
-            this->shutdown(socket_base::shutdown_both);
-            this->close();
-        });
+        _shared_socket = shared_socket(new native_handle_type(native_socket));
+    }
+
+    void reset()
+    {
+        _shared_socket.reset();
+        _open = false;
     }
 
     void move(basic_socket&& other)
@@ -1801,7 +1804,6 @@ protected:
             state_return::EncounteredError;
     }
 private:
-
 
     /// Holds the BSD socket object. */
     shared_socket           _shared_socket;
