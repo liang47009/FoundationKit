@@ -103,22 +103,10 @@ DataStream& DataStream::operator>>(std::string& data)
 	return *this;
 }
 
-void DataStream::write(unsigned char* data, size_t pSize, int pPos)
+void DataStream::write(unsigned char* data, int pSize)
 {
-	if(pPos < 0)
-	{
-		_buffer.append(reinterpret_cast<char*>(data), pSize);
-	}
-	else if(pPos + pSize <= _buffer.size())
-	{
-		memcpy(&_buffer[pPos], data, pSize);
-	}
-	else
-	{
-		std::ostringstream os;
-		os << "pPos + pSize > _buffer.size()";
-		throw std::out_of_range(os.str());
-	}
+    *this << pSize;
+    _buffer.append(reinterpret_cast<char*>(data), pSize);
 }
 
 void DataStream::read( unsigned char* data, size_t dataSize )

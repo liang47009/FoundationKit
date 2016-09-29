@@ -98,7 +98,6 @@ public:
 		return readSequenceContainer<std::list<V>, V>(data);
 	}
 
-	void write(uint8_t* data, size_t pSize, int32_t pPos = -1);
 
 	template< typename T >
 	void read(T& data)

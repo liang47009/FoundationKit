@@ -55,6 +55,13 @@ public:
         move(std::forward<mutable_data&&>(other));
     }
 
+    mutable_data(uint8* data, std::size_t size, bool need_del = false)
+        : _data(data)
+        , _size(size)
+        , _owner(need_del)
+    {
+    }
+
     mutable_data(char* data, std::size_t size, bool need_del = false)
         : _data(reinterpret_cast<uint8*>(data))
         , _size(size)

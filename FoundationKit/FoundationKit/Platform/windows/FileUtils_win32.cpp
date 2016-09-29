@@ -17,11 +17,12 @@ losemymind.libo@gmail.com
 #include "FoundationKit/Platform/FileUtils.h"
 
 NS_FK_BEGIN
-
+#define IS_WMAIN 1
 void FileUtils::initRootPath()
 {
     if (0 == _resourceRootPath.length())
     {
+#if IS_WMAIN
         WCHAR *pUtf16ExePath = nullptr;
 
         // If app character set is Unicode, the program entry use wmain, 
@@ -32,6 +33,19 @@ void FileUtils::initRootPath()
         char utf8ExeDir[MAX_PATH] = { 0 };
         WideCharToMultiByte(CP_ACP, 0, pUtf16ExePath, pUtf16DirEnd - pUtf16ExePath + 1, utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
         _resourceRootPath = convertPathFormatToUnixStyle(utf8ExeDir);
+
+#else
+        char *pUtf16ExePath = nullptr;
+
+        // If app character set is Unicode, the program entry use main, 
+        // else use wmain, change _get_pgmptr to _get_wpgmptr
+        _get_pgmptr(&pUtf16ExePath);
+        // We need only directory part without exe
+        char *pUtf16DirEnd = strrchr(pUtf16ExePath, '\\');
+        char utf8ExeDir[MAX_PATH] = { 0 };
+        memcpy(utf8ExeDir, pUtf16ExePath, pUtf16DirEnd - pUtf16ExePath + 1);
+        _resourceRootPath = convertPathFormatToUnixStyle(utf8ExeDir);
+#endif
     }
 }
 
