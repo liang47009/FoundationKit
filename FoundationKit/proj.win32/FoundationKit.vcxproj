@@ -172,7 +172,9 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp" />
     <ClInclude Include="..\FoundationKit\Base\Buffer.h" />
+    <ClInclude Include="..\FoundationKit\Base\ByteStream.hpp" />
     <ClInclude Include="..\FoundationKit\Base\DataStream.h" />
     <ClInclude Include="..\FoundationKit\Base\DateTime.h" />
     <ClInclude Include="..\FoundationKit\Base\Dictionary.h" />
