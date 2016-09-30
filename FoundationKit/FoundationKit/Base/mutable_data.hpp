@@ -55,6 +55,7 @@ public:
         move(std::forward<mutable_data&&>(other));
     }
 
+    /// Construct a buffer to represent a given memory range.
     mutable_data(uint8* data, std::size_t size, bool need_del = false)
         : _data(data)
         , _size(size)
@@ -62,6 +63,7 @@ public:
     {
     }
 
+    /// Construct a buffer to represent a given memory range.
     mutable_data(char* data, std::size_t size, bool need_del = false)
         : _data(reinterpret_cast<uint8*>(data))
         , _size(size)
@@ -107,7 +109,7 @@ public:
         return reinterpret_cast<const char*>(_data);
     }
 
-    const unsigned char* uc_str()
+    const uint8* uc_str()
     {
         return _data;
     }
@@ -162,6 +164,7 @@ private:
         if (!other._owner)
         {
             this->_data = other._data;
+            this->_owner = other._owner;
         }
         else
         {
@@ -171,6 +174,7 @@ private:
             }
             _data = new uint8[other._size];
             memcpy(_data, other._data, other._size);
+            this->_owner = true;
         }
     }
 
