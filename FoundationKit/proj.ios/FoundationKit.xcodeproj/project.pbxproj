@@ -127,14 +127,12 @@
 		091554FF1D6DAA4B00A77571 /* MimeTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MimeTypes.cpp; sourceTree = "<group>"; };
 		091555001D6DAA4B00A77571 /* MimeTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MimeTypes.h; sourceTree = "<group>"; };
 		0932D5B31D4EFE680004E055 /* error_code.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = error_code.hpp; sourceTree = "<group>"; };
-		0932D5B41D4EFE680004E055 /* mutable_data.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mutable_data.hpp; sourceTree = "<group>"; };
 		0932D5B51D4EFE680004E055 /* timer_scheduler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = timer_scheduler.hpp; sourceTree = "<group>"; };
 		0932D5B61D4EFE880004E055 /* ApplePlatformTLS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplePlatformTLS.h; sourceTree = "<group>"; };
 		0932D5B71D4EFE8F0004E055 /* PlatformTLS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformTLS.h; sourceTree = "<group>"; };
 		094617BC1CFBCE8C002A55EC /* TimeEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimeEx.cpp; sourceTree = "<group>"; };
 		094617BD1CFBCE8C002A55EC /* TimeEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeEx.h; sourceTree = "<group>"; };
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		09745B2A1CB8F6E8009D350F /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
 		09745B2E1CB8F6E8009D350F /* DataStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataStream.cpp; sourceTree = "<group>"; };
 		09745B2F1CB8F6E8009D350F /* DataStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStream.h; sourceTree = "<group>"; };
 		09745B301CB8F6E8009D350F /* Dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
@@ -278,7 +276,6 @@
 		09745CD21CB8F6EB009D350F /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		09745CD31CB8F6EB009D350F /* WorkQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorkQueue.cpp; sourceTree = "<group>"; };
 		09745CD41CB8F6EB009D350F /* WorkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkQueue.h; sourceTree = "<group>"; };
-		09745CD71CB8F6EB009D350F /* FunctionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionHelper.h; sourceTree = "<group>"; };
 		09745D401CB8F6EC009D350F /* Downloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Downloader.cpp; sourceTree = "<group>"; };
 		09745D411CB8F6EC009D350F /* Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
 		09745D421CB8F6EC009D350F /* DownloaderImpl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DownloaderImpl.cpp; sourceTree = "<group>"; };
@@ -344,6 +341,9 @@
 		0987AF211CEC1D420097DD97 /* has_member.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = has_member.hpp; sourceTree = "<group>"; };
 		0987AF221CEC1D420097DD97 /* max_integer_of.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = max_integer_of.hpp; sourceTree = "<group>"; };
 		0987AF231CEC1D5A0097DD97 /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
+		0995E5C01DA8AC4B0039FE85 /* FoundationMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundationMacros.h; sourceTree = "<group>"; };
+		0995E5C11DA8AC690039FE85 /* basic_streambuf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = basic_streambuf.hpp; sourceTree = "<group>"; };
+		0995E5C21DA8AC690039FE85 /* mutable_buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mutable_buffer.hpp; sourceTree = "<group>"; };
 		099B38451CCF38BA0035F42A /* any.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = any.hpp; sourceTree = "<group>"; };
 		099B38461CCF38BA0035F42A /* memory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = memory.cpp; sourceTree = "<group>"; };
 		099B38471CCF38BA0035F42A /* memory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memory.h; sourceTree = "<group>"; };
@@ -535,6 +535,7 @@
 		09745B281CB8F6E8009D350F /* FoundationKit */ = {
 			isa = PBXGroup;
 			children = (
+				0995E5C01DA8AC4B0039FE85 /* FoundationMacros.h */,
 				0903AE1E1D8FF97B0001688F /* LanguageFeatures.h */,
 				0903ADF01D8FF96D0001688F /* Networking */,
 				091554F91D6DAA4B00A77571 /* HTTPClient */,
@@ -548,7 +549,6 @@
 				09745B5C1CB8F6E8009D350F /* Crypto */,
 				09745B8F1CB8F6E8009D350F /* external */,
 				09745CBB1CB8F6EB009D350F /* Foundation */,
-				09745CD71CB8F6EB009D350F /* FunctionHelper.h */,
 				09745D3F1CB8F6EC009D350F /* HttpDownloader */,
 				09745D461CB8F6EC009D350F /* LuaEngine */,
 				09745D531CB8F6EC009D350F /* Platform */,
@@ -563,8 +563,9 @@
 		09745B291CB8F6E8009D350F /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				0995E5C11DA8AC690039FE85 /* basic_streambuf.hpp */,
+				0995E5C21DA8AC690039FE85 /* mutable_buffer.hpp */,
 				0932D5B31D4EFE680004E055 /* error_code.hpp */,
-				0932D5B41D4EFE680004E055 /* mutable_data.hpp */,
 				0932D5B51D4EFE680004E055 /* timer_scheduler.hpp */,
 				094617BC1CFBCE8C002A55EC /* TimeEx.cpp */,
 				094617BD1CFBCE8C002A55EC /* TimeEx.h */,
@@ -573,7 +574,6 @@
 				09B321FE1CD9BE6900D11961 /* DateTime.h */,
 				09B322011CD9BE6900D11961 /* Timespan.cpp */,
 				09B322021CD9BE6900D11961 /* Timespan.h */,
-				09745B2A1CB8F6E8009D350F /* Buffer.h */,
 				09745B2E1CB8F6E8009D350F /* DataStream.cpp */,
 				09745B2F1CB8F6E8009D350F /* DataStream.h */,
 				09745B301CB8F6E8009D350F /* Dictionary.h */,
