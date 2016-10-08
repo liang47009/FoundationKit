@@ -79,17 +79,6 @@ public:
         return !(*this == other);
     }
 
-
-
-
-
-
-
-
-
-
-
-
     _Elem* data()
     {
         return _buffer.data();

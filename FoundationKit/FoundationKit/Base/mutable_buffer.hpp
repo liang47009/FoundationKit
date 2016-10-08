@@ -32,31 +32,31 @@ NS_FK_BEGIN
 * The @c data() member function permits violations of type safety, so uses of
 * it in application code should be carefully considered.
 */
-class mutable_data
+class mutable_buffer
 {
 public:
 
     typedef uint8* pointer;
 
     /// Construct an empty buffer.
-    mutable_data()
+    mutable_buffer()
         : _data(nullptr)
         , _size(0)
     {
     }
 
-    mutable_data(const mutable_data& other)
+    mutable_buffer(const mutable_buffer& other)
     {
         copy(other);
     }
 
-    mutable_data(mutable_data&& other)
+    mutable_buffer(mutable_buffer&& other)
     {
-        move(std::forward<mutable_data&&>(other));
+        move(std::forward<mutable_buffer&&>(other));
     }
 
     /// Construct a buffer to represent a given memory range.
-    mutable_data(uint8* data, std::size_t size, bool need_del = false)
+    mutable_buffer(uint8* data, std::size_t size, bool need_del = false)
         : _data(data)
         , _size(size)
         , _owner(need_del)
@@ -64,7 +64,7 @@ public:
     }
 
     /// Construct a buffer to represent a given memory range.
-    mutable_data(char* data, std::size_t size, bool need_del = false)
+    mutable_buffer(char* data, std::size_t size, bool need_del = false)
         : _data(reinterpret_cast<uint8*>(data))
         , _size(size)
         , _owner(need_del)
@@ -72,7 +72,7 @@ public:
     }
 
     /// Construct a buffer to represent a given memory range.
-    mutable_data(void* data, std::size_t size, bool need_del = false)
+    mutable_buffer(void* data, std::size_t size, bool need_del = false)
         : _data(reinterpret_cast<uint8*>(data))
         , _size(size)
         , _owner(need_del)
@@ -80,7 +80,7 @@ public:
     }
 
     // Assignment operator
-    mutable_data& operator= (const mutable_data& other)
+    mutable_buffer& operator= (const mutable_buffer& other)
     {
         if (this != &other)
         {
@@ -89,11 +89,11 @@ public:
         return *this;
     }
 
-    mutable_data& operator= (mutable_data&& other)
+    mutable_buffer& operator= (mutable_buffer&& other)
     {
         if (this != &other)
         {
-            move(std::forward<mutable_data&&>(other));
+            move(std::forward<mutable_buffer&&>(other));
         }
         return *this;
     }
@@ -152,13 +152,13 @@ public:
         return (_data == nullptr || _size == 0);
     }
 
-    ~mutable_data()
+    ~mutable_buffer()
     {
         clear();
     }
 
 private:
-    void copy(const mutable_data& other)
+    void copy(const mutable_buffer& other)
     {
         this->_size = other._size;
         if (!other._owner)
@@ -178,7 +178,7 @@ private:
         }
     }
 
-    void move(mutable_data&& other)
+    void move(mutable_buffer&& other)
     {
         this->_data = other._data;
         this->_size = other._size;
@@ -194,24 +194,24 @@ private:
     bool _owner;
 };
 
-inline mutable_data make_mutable_data(std::vector<char>& buffers)
+inline mutable_buffer make_mutable_buffer(std::vector<char>& buffers)
 {
-    return std::move(mutable_data(&(buffers[0]), buffers.size()));
+    return std::move(mutable_buffer(&(buffers[0]), buffers.size()));
 }
 
-inline mutable_data make_mutable_data(std::vector<unsigned char>& buffers)
+inline mutable_buffer make_mutable_buffer(std::vector<unsigned char>& buffers)
 {
-    return std::move(mutable_data(&(buffers[0]), buffers.size()));
+    return std::move(mutable_buffer(&(buffers[0]), buffers.size()));
 }
 
-inline mutable_data make_mutable_data(std::basic_string<char>& buffers)
+inline mutable_buffer make_mutable_buffer(std::basic_string<char>& buffers)
 {
-    return std::move(mutable_data(&(buffers[0]), buffers.size()));
+    return std::move(mutable_buffer(&(buffers[0]), buffers.size()));
 }
 
-inline mutable_data make_mutable_data(std::basic_string<unsigned char>& buffers)
+inline mutable_buffer make_mutable_buffer(std::basic_string<unsigned char>& buffers)
 {
-    return std::move(mutable_data(&(buffers[0]), buffers.size()));
+    return std::move(mutable_buffer(&(buffers[0]), buffers.size()));
 }
 
 

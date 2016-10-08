@@ -5,7 +5,7 @@
 #include <string>
 #include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Base/Types.h"
-#include "FoundationKit/Base/mutable_data.hpp"
+#include "FoundationKit/Base/mutable_buffer.hpp"
 
 NS_FK_BEGIN
 
@@ -52,7 +52,7 @@ struct Compression
      * @param	UncompressedBuffer			Buffer containing uncompressed data
      * @return true if compression succeeds, false if it fails because CompressedBuffer was too small or other reasons
      */
-    static bool compressMemory(CompressionFlags Flags, mutable_data& CompressedBuffer, const mutable_data& UncompressedBuffer, CompressionLevel level = COMPRESSION_LEVEL_FASTEST);
+    static bool compressMemory(CompressionFlags Flags, mutable_buffer& CompressedBuffer, const mutable_buffer& UncompressedBuffer, CompressionLevel level = COMPRESSION_LEVEL_FASTEST);
 
     /**
      * Thread-safe abstract decompression routine. Uncompresses memory from compressed buffer and writes it to uncompressed
@@ -63,7 +63,7 @@ struct Compression
      * @param	CompressedBuffer			Buffer compressed data is going to be read from
      * @return true if compression succeeds, false if it fails because CompressedBuffer was too small or other reasons
      */
-    static bool uncompressMemory(CompressionFlags Flags, mutable_data& UncompressedBuffer, const mutable_data& CompressedBuffer);
+    static bool uncompressMemory(CompressionFlags Flags, mutable_buffer& UncompressedBuffer, const mutable_buffer& CompressedBuffer);
 
     /**
      * Thread-safe abstract compression routine. Compresses file from uncompressed file and writes it to compressed

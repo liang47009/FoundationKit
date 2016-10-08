@@ -45,7 +45,7 @@ extern "C"
         size_t begin = 0;
         size_t next = searchpath.find_first_of(";", 0);
         std::string chunkName;
-        mutable_data  chunkData;
+        mutable_buffer  chunkData;
         do
         {
             if (next == std::string::npos)

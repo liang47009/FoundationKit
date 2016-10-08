@@ -7,7 +7,6 @@
 #include "AppDelegate.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Base/DataStream.h"
-#include "FoundationKit/Base/Buffer.h"
 #include "FoundationKit/Foundation/StringUtils.h"
 #include "FoundationKit/Foundation/Scheduler.h"
 #include "FoundationKit/Foundation/Version.h"
@@ -39,14 +38,17 @@
 #include "FoundationKit/experimental/memory.h"
 #include "FoundationKit/Networking/network.hpp"
 #include "FoundationKit/Platform/PlatformTLS.h"
+#include "FoundationKit/Networking/ip/address.hpp"
+#include "FoundationKit/Base/basic_streambuf.hpp"
 #include <iostream>
+
 using namespace std;
 USING_NS_FK;
 
 static Scheduler* shared_Scheduler = nullptr;
 static bool bExitApp = false;
 
-network::ip::tcp::socket serverSocket;
+
 void runServer();
 void runClient();
 
@@ -67,28 +69,31 @@ void AppDelegate::applicationDidLaunching()
 }
 
 
+static std::thread clientThread;
+
+static  std::thread serverThread;
 
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
-    //TestHttpClient();
 
-    std::thread serverThread([]()
-    {
-        runServer();
-    });
-
-    serverThread.detach();
+    FoundationKit::streambuf  buf;
+    std::string strMsg = "AppDelegate::applicationDidFinishLaunching()";
+    mutable_buffer data = buf.prepare(strMsg.size());
+    memcpy(data.data(), strMsg.c_str(), strMsg.size());
 
 
-    std::thread clientThread([]()
+
+    clientThread = std::thread([]()
     {
         runClient();
     });
 
-    clientThread.detach();
-    
+    serverThread = std::thread([]()
+    {
+        runServer();
+    });
 
 	return true;
 }
@@ -109,6 +114,8 @@ void AppDelegate::applicationWillEnterForeground()
 void AppDelegate::applicationWillTerminate()
 {
     bExitApp = true;
+    clientThread.join();
+    serverThread.join();
 	//memAnalyzer->displayAllocations(true, true);
 	//memAnalyzer->displayStatTable();
 	//std::cin.get();
@@ -125,10 +132,12 @@ void AppDelegate::mainLoop()
 
 void runServer()
 {
+    network::ip::tcp::socket serverSocket;
     serverSocket.open(network::ip::tcp::v4());
+    serverSocket.set_non_blocking(true);
     serverSocket.bind(network::ip::tcp::endpoint(ip::tcp::v4(), 4215));
     serverSocket.listen();
-    serverSocket.set_non_blocking(true);
+
     std::vector<network::ip::tcp::socket> clientList;
     while (!bExitApp)
     {
@@ -137,8 +146,9 @@ void runServer()
         {
             ip::tcp::endpoint endpoint;
             network::ip::tcp::socket clientSocket = serverSocket.accept(endpoint);
-            clientList.push_back(clientSocket);
             LOG_INFO("===== Client: %d, ip:%s", clientSocket.native_handle(), endpoint.address().to_string().c_str());
+            clientList.push_back(std::move(clientSocket));
+
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(40));
     }
@@ -150,8 +160,11 @@ void runClient()
     std::vector<network::ip::tcp::socket> clientList;
     while (!bExitApp)
     {
+
         network::ip::tcp::socket clientSocket;
+
         clientSocket.open(network::ip::tcp::v4());
+        //clientSocket.set_non_blocking(true);
         ip::tcp::endpoint endpoint(network::ip::address::from_string("127.0.0.1"), 4215);
         std::error_code ec;
         clientSocket.connect(endpoint, ec);

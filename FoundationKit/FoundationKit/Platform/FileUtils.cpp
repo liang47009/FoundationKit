@@ -25,14 +25,14 @@
 
 NS_FK_BEGIN
 
-static mutable_data getData(const std::string& filename, bool forString)
+static mutable_buffer getData(const std::string& filename, bool forString)
 {
     if (filename.empty())
     {
-        return mutable_data();
+        return mutable_buffer();
     }
 
-    mutable_data ret;
+    mutable_buffer ret;
     unsigned char* buffer = nullptr;
     size_t size = 0;
     size_t readsize = 0;
@@ -226,7 +226,7 @@ bool FileUtils::isAbsolutePath(const std::string& path) const
 
 std::string FileUtils::readStringFromFile(const std::string& filename)
 {
-    mutable_data data = getData(filename, true);
+    mutable_buffer data = getData(filename, true);
     if (data.empty())
         return "";
 
@@ -234,14 +234,14 @@ std::string FileUtils::readStringFromFile(const std::string& filename)
     return ret;
 }
 
-mutable_data FileUtils::readDataFromFile(const std::string& filename)
+mutable_buffer FileUtils::readDataFromFile(const std::string& filename)
 {
     return getData(filename, false);
 }
 
-mutable_data FileUtils::readDataFromZip(const std::string& zipFilePath, const std::string& filename, size_t *size)
+mutable_buffer FileUtils::readDataFromZip(const std::string& zipFilePath, const std::string& filename, size_t *size)
 {
-    mutable_data retData;
+    mutable_buffer retData;
     unzFile file = nullptr;
     *size = 0;
 
@@ -288,11 +288,11 @@ mutable_data FileUtils::readDataFromZip(const std::string& zipFilePath, const st
 
 bool FileUtils::writeStringToFile(const std::string& dataStr, const std::string& fullPath)
 {
-    mutable_data retData((unsigned char*)dataStr.c_str(), dataStr.size());
+    mutable_buffer retData((unsigned char*)dataStr.c_str(), dataStr.size());
     return writeDataToFile(retData, fullPath);
 }
 
-bool FileUtils::writeDataToFile(mutable_data retData, const std::string& fullPath)
+bool FileUtils::writeDataToFile(mutable_buffer retData, const std::string& fullPath)
 {
     LOG_ASSERT(!fullPath.empty() && retData.size() != 0, "Invalid parameters.");
     do

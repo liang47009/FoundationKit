@@ -189,9 +189,6 @@
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h">
       <Filter>external\ConvertUTF</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\Buffer.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\DataStream.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -339,9 +336,6 @@
     <ClInclude Include="..\FoundationKit\Base\error_code.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\mutable_data.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Networking\ip\detail\endpoint.hpp">
       <Filter>Networking\ip\detail</Filter>
     </ClInclude>
@@ -463,6 +457,9 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\mutable_buffer.hpp">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
