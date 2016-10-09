@@ -5,7 +5,7 @@
 #include <streambuf>
 #include <vector>
 #include "FoundationKit/Base/error_code.hpp"
-#include "FoundationKit/Base/mutable_buffer.hpp"
+#include "FoundationKit/Base/multiple_buffer.hpp"
 
 NS_FK_BEGIN
 
@@ -97,18 +97,7 @@ public:
 
     /**
      * Get the size of the input sequence.
-     * @returns The size of the input sequence. The value is equal to that
-     * calculated for @c s in the following code:
-     * @code
-     * size_t s = 0;
-     * const_buffers_type bufs = data();
-     * const_buffers_type::const_iterator i = bufs.begin();
-     * while (i != bufs.end())
-     * {
-     *   const_buffer buf(*i++);
-     *   s += _buffersize(buf);
-     * }
-     * @endcode
+     * @returns The size of the input sequence.
      */
     std::size_t size() const
     {
@@ -134,9 +123,9 @@ public:
      * @note The returned object is invalidated by any @c basic_streambuf member
      * function that modifies the input sequence or output sequence.
      */
-    mutable_buffer data() const
+    const_buffer data() const
     {
-        return mutable_buffer(gptr(), (pptr() - gptr()) * sizeof(char_type));
+        return const_buffer(gptr(), (pptr() - gptr()) * sizeof(char_type));
     }
 
     /**
@@ -294,8 +283,7 @@ private:
     std::vector<char_type, Allocator> _buffer;
 
     // Helper function to get the preferred size for reading data.
-    friend std::size_t read_size_helper(
-        basic_streambuf& sb, std::size_t max_size)
+    friend std::size_t read_size_helper(basic_streambuf& sb, std::size_t max_size)
     {
         return std::min<std::size_t>(
             std::max<std::size_t>(512, sb._buffer.capacity() - sb.size()),
@@ -303,6 +291,14 @@ private:
     }
 };
 
+// Helper function to get the preferred size for reading data. Used for any
+// user-provided specialisations of basic_streambuf.
+template <typename Allocator>
+inline std::size_t read_size_helper(basic_streambuf<Allocator>& sb, std::size_t max_size)
+{
+    return std::min<std::size_t>(512,
+        std::min<std::size_t>(max_size, sb.max_size() - sb.size()));
+}
 
 /// Typedef for the typical usage of basic_streambuf.
 typedef basic_streambuf<> streambuf;

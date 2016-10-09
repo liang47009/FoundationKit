@@ -11,7 +11,7 @@
 #include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Base/error_code.hpp"
 #include "FoundationKit/Base/noncopyable.hpp"
-#include "FoundationKit/Base/mutable_buffer.hpp"
+#include "FoundationKit/Base/multiple_buffer.hpp"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Networking/socket_types.hpp"
 #include "FoundationKit/Networking/detail/socket_base.hpp"
@@ -393,7 +393,7 @@ public:
      * data in one go, and how to use it with arrays ,std::string or
      * std::vector.
      */
-    std::size_t send(const mutable_buffer& buffers, socket_base::message_flags flags = 0)
+    std::size_t send(const const_buffer& buffers, socket_base::message_flags flags = 0)
     {
         std::error_code ec;
         std::size_t len = this->send(buffers, flags, ec);
@@ -419,7 +419,7 @@ public:
      * Consider using the @ref write function if you need to ensure that all data
      * is written before the blocking operation completes.
      */
-    std::size_t send(const mutable_buffer& buffers, socket_base::message_flags flags, std::error_code& ec)
+    std::size_t send(const const_buffer& buffers, socket_base::message_flags flags, std::error_code& ec)
     {
         if ((_state & socket_ops::stream_oriented))
         {

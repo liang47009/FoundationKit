@@ -5,7 +5,7 @@
 #include <string>
 #include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Base/Types.h"
-#include "FoundationKit/Base/mutable_buffer.hpp"
+#include "FoundationKit/Base/multiple_buffer.hpp"
 
 NS_FK_BEGIN
 

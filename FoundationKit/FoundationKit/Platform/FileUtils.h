@@ -9,7 +9,7 @@
 #pragma once
 
 #include "FoundationKit/FoundationMacros.h"
-#include "FoundationKit/Base/mutable_buffer.hpp"
+#include "FoundationKit/Base/multiple_buffer.hpp"
 #include "FoundationKit/Foundation/Singleton.h"
 #include <string>
 #include <vector>

@@ -180,7 +180,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\error_code.hpp" />
     <ClInclude Include="..\FoundationKit\Base\MathContent.h" />
     <ClInclude Include="..\FoundationKit\Base\MathEx.h" />
-    <ClInclude Include="..\FoundationKit\Base\mutable_buffer.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\multiple_buffer.hpp" />
     <ClInclude Include="..\FoundationKit\Base\noncopyable.hpp" />
     <ClInclude Include="..\FoundationKit\Base\nonmovable.hpp" />
     <ClInclude Include="..\FoundationKit\Base\Rect.h" />

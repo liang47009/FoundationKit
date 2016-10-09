@@ -459,7 +459,7 @@
     <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\mutable_buffer.hpp">
+    <ClInclude Include="..\FoundationKit\Base\multiple_buffer.hpp">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>

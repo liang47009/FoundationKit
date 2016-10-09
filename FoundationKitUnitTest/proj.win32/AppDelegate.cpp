@@ -78,13 +78,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
 
-    FoundationKit::streambuf  buf;
-    std::string strMsg = "AppDelegate::applicationDidFinishLaunching()";
-    mutable_buffer data = buf.prepare(strMsg.size());
-    memcpy(data.data(), strMsg.c_str(), strMsg.size());
-
-
-
     clientThread = std::thread([]()
     {
         runClient();
