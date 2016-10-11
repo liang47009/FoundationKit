@@ -13,6 +13,7 @@
 NS_FK_BEGIN
 namespace network{
 namespace ip{
+
 /**
  * Encapsulates the flags needed for TCP.
  * The asio::ip::tcp class contains flags necessary for TCP sockets.

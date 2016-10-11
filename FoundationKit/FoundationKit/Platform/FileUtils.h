@@ -103,6 +103,8 @@ public:
     */
     bool writeDataToFile(mutable_buffer retData, const std::string& fullPath);
 
+    std::vector<std::string> readAllLines(const std::string& fullPath);
+
    /**
     *  Gets filename extension is a suffix (separated from the base filename by a dot) in lower case.
     *  Examples of filename extensions are .png, .jpeg, .exe, .dmg and .txt.

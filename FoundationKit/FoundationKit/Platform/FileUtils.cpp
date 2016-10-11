@@ -6,6 +6,7 @@
  ****************************************************************************/
 #include <sys/stat.h>
 #include <algorithm>
+#include <fstream>
 #include <cassert>
 #include <dirent.h> // for DIR
 #include "FileUtils.h"
@@ -308,6 +309,21 @@ bool FileUtils::writeDataToFile(mutable_buffer retData, const std::string& fullP
     } while (0);
 
     return false;
+}
+
+std::vector<std::string> FileUtils::readAllLines(const std::string& fullPath)
+{
+    std::vector<std::string> lines;
+    std::string line;
+    std::ifstream infile;
+    infile.open(fullPath);
+    while (!infile.eof()) // To get you all the lines.
+    {
+        std::getline(infile, line); // Saves the line in STRING.
+        lines.push_back(line);
+    }
+    infile.close();
+    return lines;
 }
 
 std::string FileUtils::getFileExtension(const std::string& filePath) const

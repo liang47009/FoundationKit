@@ -66,7 +66,7 @@ public:
 
     /// Construct a buffer to represent a given memory range.
     mutable_buffer(char* data, std::size_t size, bool need_del = false)
-        : _data(reinterpret_cast<uint8*>(data))
+        : _data(data)
         , _size(size)
         , _owner(need_del)
     {
@@ -74,7 +74,7 @@ public:
 
     /// Construct a buffer to represent a given memory range.
     mutable_buffer(void* data, std::size_t size, bool need_del = false)
-        : _data(reinterpret_cast<uint8*>(data))
+        : _data(data)
         , _size(size)
         , _owner(need_del)
     {
@@ -112,7 +112,7 @@ public:
 
     const uint8* uc_str()
     {
-        return _data;
+        return reinterpret_cast<const uint8*>(_data);
     }
 
     void reallocate(std::size_t size)
@@ -190,9 +190,9 @@ private:
     }
 
 private:
-    uint8* _data;
+    void*       _data;
     std::size_t _size;
-    bool _owner;
+    bool        _owner;
 };
 
 inline mutable_buffer make_mutable_buffer(std::vector<char>& buffers)
@@ -214,9 +214,6 @@ inline mutable_buffer make_mutable_buffer(std::basic_string<unsigned char>& buff
 {
     return std::move(mutable_buffer(&(buffers[0]), buffers.size()));
 }
-
-
-
 
 
 /**
@@ -251,6 +248,7 @@ public:
     {
     }
 
+
     const_buffer(const const_buffer& other)
     {
         copy(other);
@@ -259,6 +257,12 @@ public:
     const_buffer(const_buffer&& other)
     {
         move(std::forward<const_buffer&&>(other));
+    }
+
+    const_buffer(const mutable_buffer& mutableBuf)
+    {
+        this->_size = mutableBuf.size();
+        this->_data = mutableBuf.data();
     }
 
     /// Construct a buffer to represent a given memory range.
@@ -388,3 +392,12 @@ inline const_buffer make_const_buffer(std::basic_string<unsigned char>& buffers)
 
 NS_FK_END
 #endif // LOSEMYMIND_MULTIPLE_BUFFER_HPP
+
+
+
+
+
+
+
+
+

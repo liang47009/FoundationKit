@@ -122,7 +122,7 @@ public:
         if (_shared_socket && _shared_socket.use_count() == 1)
         {
             std::error_code ec;
-            shutdown(shutdown_type::shutdown_send, ec);
+            shutdown(shutdown_type::shutdown_both, ec);
             if (ec.value() != (int)std::errc::not_connected)
             {
                 throw_error_if(ec);
