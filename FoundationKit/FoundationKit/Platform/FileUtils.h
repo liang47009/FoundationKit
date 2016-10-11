@@ -92,7 +92,7 @@ public:
     * @param fullPath The full path to the file you want to save a string
     * @return bool True if write success
     */
-    bool writeStringToFile(const std::string& dataStr, const std::string& fullPath);
+    bool writeStringToFile(const std::string& dataStr, const std::string& fullPath, bool append = false);
 
    /**
     * write Data into a file
@@ -101,7 +101,7 @@ public:
     *@param fullPath The full path to the file you want to save a string
     *@return bool
     */
-    bool writeDataToFile(mutable_buffer retData, const std::string& fullPath);
+    bool writeDataToFile(mutable_buffer retData, const std::string& fullPath, bool append = false);
 
     std::vector<std::string> readAllLines(const std::string& fullPath);
 

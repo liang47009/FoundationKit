@@ -287,21 +287,23 @@ mutable_buffer FileUtils::readDataFromZip(const std::string& zipFilePath, const 
     return retData;
 }
 
-bool FileUtils::writeStringToFile(const std::string& dataStr, const std::string& fullPath)
+bool FileUtils::writeStringToFile(const std::string& dataStr, const std::string& fullPath, bool append/* = false*/)
 {
     mutable_buffer retData((unsigned char*)dataStr.c_str(), dataStr.size());
-    return writeDataToFile(retData, fullPath);
+    return writeDataToFile(retData, fullPath, append);
 }
 
-bool FileUtils::writeDataToFile(mutable_buffer retData, const std::string& fullPath)
+bool FileUtils::writeDataToFile(mutable_buffer retData, const std::string& fullPath, bool append/* = false*/)
 {
     LOG_ASSERT(!fullPath.empty() && retData.size() != 0, "Invalid parameters.");
     do
     {
-
-        const char* mode = "wb";
         // Read the file from hardware
-        FILE *fp = fopen(fullPath.c_str(), mode);
+        FILE *fp = nullptr;
+        if (append)
+            fp = fopen(fullPath.c_str(), "ab+");
+        else
+            fp = fopen(fullPath.c_str(), "wb");
         BREAK_IF(!fp);
         fwrite(retData.data(), retData.size(), 1, fp);
         fclose(fp);
