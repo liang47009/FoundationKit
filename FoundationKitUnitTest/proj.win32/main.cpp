@@ -1,3 +1,5 @@
+#include "tracey.hpp"
+
 #include "AppDelegate.h"
 #include <thread>
 #include <iostream>
@@ -24,9 +26,10 @@ void createCommand()
     });
     th.detach();
 }
+
+
 int wmain()
 {
-
     AppDelegate app;
     Application::getInstance()->applicationDidLaunching();
     Application::getInstance()->applicationDidFinishLaunching();
@@ -52,7 +55,7 @@ int wmain()
         }
         
         Application::getInstance()->mainLoop();
-        std::this_thread::sleep_for(std::chrono::milliseconds((1000 / 2)));
+        std::this_thread::sleep_for(std::chrono::milliseconds((1000 / 60)));
     }
     Application::getInstance()->applicationWillTerminate();
     return 0;

@@ -1,4 +1,4 @@
-#include "tracey.hpp"
+
 #include <string>
 #include <stdint.h>
 #include <chrono>
@@ -39,15 +39,18 @@
 #include "FoundationKit/Platform/PlatformTLS.h"
 #include "FoundationKit/Networking/ip/address.hpp"
 #include "FoundationKit/Base/basic_streambuf.hpp"
+#include "FoundationKit/Base/timer_scheduler.hpp"
 #include <iostream>
 
 using namespace std;
 USING_NS_FK;
 
 static Scheduler* shared_Scheduler = nullptr;
+static timer_scheduler* shared_timer_scheduler = nullptr;
 static bool bExitApp = false;
 
-
+static std::thread clientThread;
+static  std::thread serverThread;
 void runServer();
 void runClient();
 
@@ -64,27 +67,14 @@ AppDelegate::~AppDelegate()
 void AppDelegate::applicationDidLaunching()
 {
 	shared_Scheduler = Scheduler::getInstance();
+    shared_timer_scheduler = new timer_scheduler();
 
 }
 
 
-static std::thread clientThread;
-
-static  std::thread serverThread;
-
-
-#include <ctime>
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
-
-    long long nTicks = DateTime::now().getTicks();
-    long long nTicks2 = Platform::getTickCount();
-
-    Timer timer;
-    long long nTicks3 = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
-    nTicks3 = nTicks3 * 10000;
 
     clientThread = std::thread([]()
     {
@@ -124,11 +114,14 @@ void AppDelegate::applicationWillTerminate()
 	//LOG_INFO(" >>>>>>>>>>>>>>>>CurrentMemory: %u \n", memAnalyzer->getCurrentMemory());
 	//LOG_INFO(" >>>>>>>>>>>>>>>>PeakBlocks: %lld \n", memAnalyzer->getPeakBlocks());
 	//LOG_INFO(" >>>>>>>>>>>>>>>>PeakMemory: %u \n", memAnalyzer->getPeakMemory());
+
+    SAFE_DELETE(shared_timer_scheduler);
 }
 
 void AppDelegate::mainLoop()
 {
 	shared_Scheduler->update(1/60);
+    shared_timer_scheduler->update(1 / 60);
 }
 
 void runServer()

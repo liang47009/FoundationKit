@@ -6,7 +6,7 @@
 ****************************************************************************/
 #pragma once
 #include "Singleton.h"
-
+#include <cassert>
 NS_FK_BEGIN
 
 class Logger : public Singleton<Logger>
@@ -34,6 +34,7 @@ private:
     };
 
 public:
+    virtual~Logger();
     /**
      * Logs a message at the specified log level.
      *

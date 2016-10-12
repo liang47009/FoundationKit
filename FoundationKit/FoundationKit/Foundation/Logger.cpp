@@ -26,6 +26,11 @@ static const char*  LevelMsg[] = {"VERBOSE","DEBUG", "INFO", "WARN", "ERROR", "A
 
 Logger::State::State():enabled(true){}
 
+Logger::~Logger()
+{
+
+}
+
 void Logger::log( Level level, const char* message, ... )
 {
     Logger::State& state = _states[level];
