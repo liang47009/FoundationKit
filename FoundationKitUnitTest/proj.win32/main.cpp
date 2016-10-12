@@ -2,6 +2,9 @@
 #include <thread>
 #include <iostream>
 #include <atomic>
+#include "FoundationKit/Base/Timer.h"
+#include "FoundationKit/Foundation/Logger.h"
+USING_NS_FK;
 
 bool bCanExit = false;
 static std::atomic<int> command = -1;
@@ -49,7 +52,7 @@ int wmain()
         }
         
         Application::getInstance()->mainLoop();
-        std::this_thread::sleep_for(std::chrono::milliseconds((1000 / 60)));
+        std::this_thread::sleep_for(std::chrono::milliseconds((1000 / 2)));
     }
     Application::getInstance()->applicationWillTerminate();
     return 0;

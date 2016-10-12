@@ -32,7 +32,6 @@
 #include "FoundationKit/HttpDownloader/DownloaderTest.h"
 #include "../../HttpClient/HttpClientTest.h"
 
-#include "FoundationKit/Base/TimeEx.h"
 #include "FoundationKit/Base/DateTime.h"
 
 #include "FoundationKit/experimental/memory.h"
@@ -74,9 +73,18 @@ static std::thread clientThread;
 static  std::thread serverThread;
 
 
+#include <ctime>
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
+
+    long long nTicks = DateTime::now().getTicks();
+    long long nTicks2 = Platform::getTickCount();
+
+    Timer timer;
+    long long nTicks3 = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+    nTicks3 = nTicks3 * 10000;
 
     clientThread = std::thread([]()
     {

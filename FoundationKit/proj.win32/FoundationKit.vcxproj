@@ -89,7 +89,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(ProjectDir)/../FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../FoundationKit/external/unzip;$(ProjectDir)/../FoundationKit/external/;$(FoundationKitHeaders)FoundationKit/Platform/windows/system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -109,7 +109,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>UNICODE;WIN64;_WINDOWS;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN64;_WINDOWS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(ProjectDir)/../FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../FoundationKit/external/unzip;$(ProjectDir)/../FoundationKit/external/;$(FoundationKitHeaders)FoundationKit/Platform/windows/system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -131,7 +131,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(ProjectDir)/../FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../FoundationKit/external/unzip;$(ProjectDir)/../FoundationKit/external/;$(FoundationKitHeaders)FoundationKit/Platform/windows/system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -155,7 +155,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>UNICODE;WIN64;NDEBUG;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN64;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(ProjectDir)/../FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../FoundationKit/external/unzip;$(ProjectDir)/../FoundationKit/external/;$(FoundationKitHeaders)FoundationKit/Platform/windows/system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -190,7 +190,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\RandomHelper.h" />
     <ClInclude Include="..\FoundationKit\Base\Runnable.h" />
     <ClInclude Include="..\FoundationKit\Base\Size.h" />
-    <ClInclude Include="..\FoundationKit\Base\TimeEx.h" />
     <ClInclude Include="..\FoundationKit\Base\Timer.h" />
     <ClInclude Include="..\FoundationKit\Base\timer_scheduler.hpp" />
     <ClInclude Include="..\FoundationKit\Base\Timespan.h" />
@@ -289,8 +288,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Platform\OpenGL.h" />
     <ClInclude Include="..\FoundationKit\Platform\Platform.h" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.h" />
-    <ClInclude Include="..\FoundationKit\Platform\SharedMemory.h" />
-    <ClInclude Include="..\FoundationKit\Platform\SharedMemoryImpl.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.h" />
@@ -312,7 +309,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Base\Matrix.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Quaternion.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Size.cpp" />
-    <ClCompile Include="..\FoundationKit\Base\TimeEx.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Timespan.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Value.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Vector2.cpp" />
@@ -350,12 +346,10 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Networking\IProtocol.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\FileUtils.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Platform.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\SharedMemory.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\FileUtils_win32.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\PlatformWindows.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\windows\SharedMemoryImpl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\Base\MathUtil.inl" />

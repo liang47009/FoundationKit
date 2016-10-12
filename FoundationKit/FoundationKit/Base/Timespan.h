@@ -51,7 +51,7 @@ namespace ETimespan
  *
  * @see DateTime
  */
-class Timespan
+class Timespan final
 {
 public:
 

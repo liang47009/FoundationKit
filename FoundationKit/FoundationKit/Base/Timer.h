@@ -13,62 +13,60 @@ losemymind.libo@gmail.com
 
 #include <chrono>
 #include "FoundationKit/GenericPlatformMacros.h"
-#include "FoundationKit/Base/TimeEx.h"
+
+
+namespace std
+{
+    namespace chrono
+    {
+        typedef duration<int,    std::ratio<3600 * 24> > day;
+        typedef duration<double, std::nano> nanoseconds_f;
+        typedef duration<double, std::micro> microseconds_f;
+        typedef duration<double, std::milli> milliseconds_f;
+        typedef duration<double> seconds_f;
+        typedef duration<double, std::ratio<60> > minutes_f;
+        typedef duration<double, std::ratio<3600> > hours_f;
+        typedef duration<double, std::ratio<3600 * 24> > day_f;
+    }
+}
+
 NS_FK_BEGIN
 
-class Timer
+class Timer final
 {
 public:
     typedef std::chrono::high_resolution_clock clock_type;
     Timer() : _begin(clock_type::now()){}
+    void reset(){ _begin = clock_type::now();}
+    long long nanoseconds()const{return elapsed<std::chrono::nanoseconds>();}
+    long long microseconds()const{return elapsed<std::chrono::microseconds>();}
+    long long milliseconds()const{return elapsed<std::chrono::milliseconds>();}
+    long long seconds()const{return elapsed<std::chrono::seconds>();}
+    int minutes()const{return elapsed<std::chrono::minutes>();}
+    int hours()const{return elapsed<std::chrono::hours>();}
+    int days(){ return elapsed<std::chrono::day>(); }
 
-    void reset()
-    {
-        _begin = clock_type::now();
-    }
-
-    double nanoseconds()const
-    {
-        return elapsed<nanoseconds_f>();
-    }
-
-    double microseconds()const
-    {
-        return elapsed<microseconds_f>();
-    }
-
-    double milliseconds()const
-    {
-        return elapsed<milliseconds_f>();
-    }
-
-    double seconds()const
-    {
-        return elapsed<seconds_f>();
-    }
-
-    double minutes()const
-    {
-        return elapsed<minutes_f>();
-    }
-
-    double hours()const
-    {
-        return elapsed<hours_f>();
-    }
-
-    double days()
-    {
-        return elapsed< std::chrono::duration<double, std::ratio<3600 * 24> >>();
-    }
+    // double version
+    double nanosecondsf()const{ return elapsed<std::chrono::nanoseconds_f>(); }
+    // double version
+    double microsecondsf()const{ return elapsed<std::chrono::microseconds_f>(); }
+    // double version
+    double millisecondsf()const{ return elapsed<std::chrono::milliseconds_f>(); }
+    // double version
+    double secondsf()const{ return elapsed<std::chrono::seconds_f>(); }
+    // double version
+    double minutesf()const{ return elapsed<std::chrono::minutes_f>(); }
+    // double version
+    double hoursf()const{ return elapsed<std::chrono::hours_f>(); }
+    // double version
+    double daysf(){ return elapsed<std::chrono::day_f>(); }
 protected:
-    template<typename Duration = milliseconds_f>
-    double elapsed()const
+    template<typename Duration = std::chrono::milliseconds>
+    typename Duration::rep elapsed()const
     {
         return std::chrono::duration_cast<Duration>(clock_type::now() - _begin).count();
     }
 private:
-    //std::chrono::time_point<clock_type>   _begin;
     clock_type::time_point _begin;
 };
 

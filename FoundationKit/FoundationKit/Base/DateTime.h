@@ -74,7 +74,7 @@ enum class EMonthOfYear
  *
  * @see Timespan
  */
-class DateTime
+class DateTime final
 {
 public:
 
@@ -633,6 +633,32 @@ public:
 	 * @return true if the components are valid, false otherwise.
 	 */
 	static bool validate( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond );
+
+
+    /**
+     * Get the system date
+     *
+     * @param Dest Destination buffer to copy to
+     * @param DestSize Size of destination buffer in characters
+     * @return Date string
+     */
+    //static std::string getDateString();
+    /**
+     * Get the system time
+     *
+     * @param Dest Destination buffer to copy to
+     * @param DestSize Size of destination buffer in characters
+     * @return Time string
+     */
+    //static std::string getTimeString();
+
+    /**
+     * Returns a timestamp string built from the current date and time.
+     * NOTE: Only one return value is valid at a time!
+     *
+     * @return timestamp string
+     */
+    //static std::string getTimestampString();
 
 public:
 

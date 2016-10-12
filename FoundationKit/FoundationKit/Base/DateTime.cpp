@@ -15,6 +15,7 @@ losemymind.libo@gmail.com
 NS_FK_BEGIN
 
 #if TARGET_PLATFORM == PLATFORM_WINDOWS
+/** Returns the system time. */
 void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     SYSTEMTIME st;
@@ -29,6 +30,7 @@ void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, 
     msec = st.wMilliseconds;
 }
 
+/** Returns the UTC time. */
 void utcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     SYSTEMTIME st;
@@ -43,6 +45,7 @@ void utcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int
     msec = st.wMilliseconds;
 }
 #elif TARGET_PLATFORM == PLATFORM_ANDROID
+/** Returns the system time. */
 void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     // query for calendar time
@@ -64,6 +67,7 @@ void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, 
     msec = tmVal.tv_usec / 1000;
 }
 
+/** Returns the UTC time. */
 void utcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     // query for calendar time
@@ -71,21 +75,22 @@ void utcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int
     gettimeofday(&tmVal, NULL);
 
     // convert it to UTC
-    struct tm localTime;
-    gmtime_r(&tmVal.tv_sec, &localTime);
+    struct tm utcTime;
+    gmtime_r(&tmVal.tv_sec, &utcTime);
 
     // pull out data/time
-    year = localTime.tm_year + 1900;
-    month = localTime.tm_mon + 1;
-    dayOfWeek = localTime.tm_wday;
-    day = localTime.tm_mday;
-    hour = localTime.tm_hour;
-    min = localTime.tm_min;
-    sec = localTime.tm_sec;
+    year = utcTime.tm_year + 1900;
+    month = utcTime.tm_mon + 1;
+    dayOfWeek = utcTime.tm_wday;
+    day = utcTime.tm_mday;
+    hour = utcTime.tm_hour;
+    min = utcTime.tm_min;
+    sec = utcTime.tm_sec;
     msec = tmVal.tv_usec / 1000;
 }
 #elif TARGET_PLATFORM == PLATFORM_IOS
 #include <sys/time.h>
+/** Returns the system time. */
 void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     // query for calendar time
@@ -97,16 +102,17 @@ void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, 
     localtime_r(&tmVal.tv_sec, &localTime);
 
     // pull out data/time
-    year = localTime.tm_year + 1900;
-    month = localTime.tm_mon + 1;
+    year      = localTime.tm_year + 1900;
+    month     = localTime.tm_mon + 1;
     dayOfWeek = localTime.tm_wday;
-    day = localTime.tm_mday;
-    hour = localTime.tm_hour;
-    min = localTime.tm_min;
-    sec = localTime.tm_sec;
-    msec = tmVal.tv_usec / 1000;
+    day       = localTime.tm_mday;
+    hour      = localTime.tm_hour;
+    min       = localTime.tm_min;
+    sec       = localTime.tm_sec;
+    msec      = tmVal.tv_usec / 1000;
 }
 
+/** Returns the UTC time. */
 void utcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     // query for calendar time
@@ -114,18 +120,18 @@ void utcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int
     gettimeofday(&tmVal, NULL);
 
     // convert it to UTC
-    struct tm localTime;
-    gmtime_r(&tmVal.tv_sec, &localTime);
+    struct tm utcTime;
+    gmtime_r(&tmVal.tv_sec, &utcTime);
 
     // pull out data/time
-    year = localTime.tm_year + 1900;
-    month = localTime.tm_mon + 1;
-    dayOfWeek = localTime.tm_wday;
-    day = localTime.tm_mday;
-    hour = localTime.tm_hour;
-    min = localTime.tm_min;
-    sec = localTime.tm_sec;
-    msec = tmVal.tv_usec / 1000;
+    year      = utcTime.tm_year + 1900;
+    month     = utcTime.tm_mon + 1;
+    dayOfWeek = utcTime.tm_wday;
+    day       = utcTime.tm_mday;
+    hour      = utcTime.tm_hour;
+    min       = utcTime.tm_min;
+    sec       = utcTime.tm_sec;
+    msec      = tmVal.tv_usec / 1000;
 }
 #endif
 
@@ -537,7 +543,47 @@ bool DateTime::validate( int32 year, int32 month, int32 day, int32 hour, int32 m
         (second >= 0) && (second <= 59) &&
         (millisecond >= 0) && (millisecond <= 999);
 }
+/*
+std::string DateTime::getDateString()
+{
+    int32 Year;
+    int32 Month;
+    int32 DayOfWeek;
+    int32 Day;
+    int32 Hour;
+    int32 Min;
+    int32 Sec;
+    int32 MSec;
 
+    systemTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
+    std::string dateStr = StringUtils::format("%02d/%02d/%02d", Month, Day, Year % 100);
+    return dateStr;
+}
+
+std::string DateTime::getTimeString()
+{
+    int32 Year;
+    int32 Month;
+    int32 DayOfWeek;
+    int32 Day;
+    int32 Hour;
+    int32 Min;
+    int32 Sec;
+    int32 MSec;
+
+    systemTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
+    std::string timeStr = StringUtils::format("%02d/%02d/%02d", Hour, Min, Sec);
+    return timeStr;
+}
+
+std::string DateTime::getTimestampString()
+{
+    std::string timestamp = getDateString();
+    timestamp += " ";
+    timestamp += getTimeString();
+    return timestamp;
+}
+*/
 
 NS_FK_END
 

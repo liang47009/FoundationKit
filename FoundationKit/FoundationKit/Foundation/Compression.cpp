@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <cassert>
 #include "zlib.h"
-#include "FoundationKit/Base/TimeEx.h"
+#include "FoundationKit/Base/Timer.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "Compression.h"
 
@@ -97,7 +97,7 @@ bool Compression::compressMemory(CompressionFlags Flags, mutable_buffer& Compres
     static std::mutex zlibScopeMutex;
     std::lock_guard<std::mutex> scopeLock(zlibScopeMutex);
     // Keep track of time spent uncompressing memory.
-    Time CompressorStartTime = Time::now();
+    Timer CompressorStartTime;
     bool bCompressSucceeded = false;
     do 
     {
@@ -158,7 +158,7 @@ bool Compression::compressMemory(CompressionFlags Flags, mutable_buffer& Compres
         bCompressSucceeded = true;
     } while (false);
     // Keep track of compression time and stats.
-    compressorTime += (Time::now() - CompressorStartTime).seconds();
+    compressorTime += CompressorStartTime.seconds();
     return bCompressSucceeded;
 }
 
@@ -167,7 +167,7 @@ bool Compression::uncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
     static std::mutex zlibScopeMutex;
     std::lock_guard<std::mutex> scopeLock(zlibScopeMutex);
     // Keep track of time spent uncompressing memory.
-    Time UncompressorStartTime = Time::now();
+    Timer UncompressorStartTime;
 
     bool bUncompressSucceeded = false;
     do 
@@ -217,7 +217,7 @@ bool Compression::uncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
         bUncompressSucceeded = true;
     } while (false);
 
-    uncompressorTime += (Time::now() - UncompressorStartTime).seconds();
+    uncompressorTime += UncompressorStartTime.seconds();
     return bUncompressSucceeded;
 }
 
