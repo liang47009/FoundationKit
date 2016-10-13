@@ -155,6 +155,7 @@ void FileUtils::addSearchPath(const std::string & searchpath, const bool front /
     {
         path += "/";
     }
+    path = convertPathFormatToUnixStyle(path);
     if (front) {
         _searchPaths.insert(_searchPaths.begin(), path);
     }
@@ -319,6 +320,7 @@ std::vector<std::string> FileUtils::readAllLines(const std::string& fullPath)
     std::string line;
     std::ifstream infile;
     infile.open(fullPath);
+    if (!infile.good()) return lines;
     while (!infile.eof()) // To get you all the lines.
     {
         std::getline(infile, line); // Saves the line in STRING.
@@ -414,7 +416,7 @@ long FileUtils::getFileSize(const std::string &filepath)const
         return (long)(info.st_size);
     }
 }
-bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newfullpath)const
+bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newfullpath)
 {
     bool ret = false;
     do 
@@ -424,6 +426,10 @@ bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newf
             ret = true;
             break;
         }
+
+        std::string dirPath = getFilePathWithoutFileName(newfullpath);
+        createDirectory(dirPath);
+
         const long srcFileSize = getFileSize(oldfullpath);
         BREAK_IF(srcFileSize == -1);
         FILE *fpSrc = fopen(oldfullpath.c_str(), "rb");
@@ -554,7 +560,7 @@ bool FileUtils::moveFile(const std::string &oldfullpath, const std::string &newf
 }
 
 
-bool FileUtils::createDirectory(const std::string& path)
+bool FileUtils::createDirectory(const std::string& path)const
 {
     LOG_ASSERT(!path.empty(), "Invalid path");
 
