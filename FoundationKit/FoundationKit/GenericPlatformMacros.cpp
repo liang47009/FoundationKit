@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <cassert>
 #include "FoundationKit/Foundation/StringUtils.h"
-#include "GenericPlatformMacros.h"
+#include "FoundationMacros.h"
 #if (TARGET_PLATFORM == PLATFORM_ANDROID)
 #include <android/log.h>
 #elif (TARGET_PLATFORM == PLATFORM_WINDOWS)

@@ -71,7 +71,7 @@ bool FileUtils::moveFile(const std::string &oldfullpath, const std::string &newf
     return MoveFileA(oldfullpath.c_str(), newfullpath.c_str()) != 0;
 }
 
-bool FileUtils::createDirectory(const std::string& dirPath)
+bool FileUtils::createDirectory(const std::string& dirPath)const
 {
     if (isDirectoryExist(dirPath))
         return true;
@@ -187,7 +187,6 @@ bool FileUtils::renameFile(const std::string &path, const std::string &oldname, 
     std::regex pat("\\/");
     std::string _old = std::regex_replace(oldPath, pat, "\\");
     std::string _new = std::regex_replace(newPath, pat, "\\");
-
     return renameFile(_old, _new);
 }
 

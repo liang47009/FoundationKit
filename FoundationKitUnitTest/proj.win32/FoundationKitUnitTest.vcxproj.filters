@@ -24,9 +24,6 @@
     <ClCompile Include="Application.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="tracey.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppDelegate.h">
@@ -36,9 +33,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationProtocol.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="tracey.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

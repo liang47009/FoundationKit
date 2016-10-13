@@ -133,7 +133,7 @@ public:
     *  @param newfullpath  The new fullpath of the file. Includes path and name.
     *  @return True if the file have been copy successfully, false if not.
     */
-    bool copyFile(const std::string &oldfullpath, const std::string &newfullpath)const;
+    bool copyFile(const std::string &oldfullpath, const std::string &newfullpath);
 
    /**
     *  move a file
@@ -180,7 +180,7 @@ public:
     *  @param dirPath The path of the directory, it must be an absolute path.
     *  @return True if the directory have been created successfully, false if not.
     */
-    bool createDirectory(const std::string& dirPath);
+    bool createDirectory(const std::string& dirPath)const;
 
    /**
     *  Removes a directory.
@@ -243,6 +243,7 @@ static inline std::string convertPathFormatToUnixStyle(const std::string& path)
     }
     return ret;
 }
+
 
 NS_FK_END
 #endif // LOSEMYMIND_FILEUTILS_H

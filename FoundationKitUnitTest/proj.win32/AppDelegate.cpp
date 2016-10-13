@@ -75,16 +75,29 @@ void AppDelegate::applicationDidLaunching()
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
-
-    clientThread = std::thread([]()
+    std::string strResourceRoot = FileUtils::getInstance()->getResourceRootPath();
+    std::string strConfigFilePath = strResourceRoot + "/CopyFilesConfig.txt";
+    std::string strFilesRecord = strResourceRoot + "/CopyFilesRecord.txt";
+    std::vector<std::string> allConfigFileLines = FileUtils::getInstance()->readAllLines(strConfigFilePath);
+    std::string strSrcRoot = allConfigFileLines[0];
+    std::string strDesRoot = allConfigFileLines[1];
+    std::vector<std::string> allRecordFileLines = FileUtils::getInstance()->readAllLines(strFilesRecord);
+    for (auto filePath : allRecordFileLines)
     {
-        runClient();
-    });
+        FileUtils::getInstance()->copyFile(convertPathFormatToUnixStyle(strSrcRoot + filePath),
+            convertPathFormatToUnixStyle(strDesRoot + filePath));
+    }
+    LOG_INFO(">>>>>>>>Completed");
 
-    serverThread = std::thread([]()
-    {
-        runServer();
-    });
+    //clientThread = std::thread([]()
+    //{
+    //    runClient();
+    //});
+
+    //serverThread = std::thread([]()
+    //{
+    //    runServer();
+    //});
 
 	return true;
 }
