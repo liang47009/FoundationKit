@@ -191,7 +191,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\Runnable.h" />
     <ClInclude Include="..\FoundationKit\Base\Size.h" />
     <ClInclude Include="..\FoundationKit\Base\Timer.h" />
-    <ClInclude Include="..\FoundationKit\Base\timer_scheduler.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\TimerManager.hpp" />
     <ClInclude Include="..\FoundationKit\Base\Timespan.h" />
     <ClInclude Include="..\FoundationKit\Base\Types.h" />
     <ClInclude Include="..\FoundationKit\Base\Value.h" />
@@ -309,6 +309,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Base\Matrix.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Quaternion.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Size.cpp" />
+    <ClCompile Include="..\FoundationKit\Base\TimerManager.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Timespan.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Value.cpp" />
     <ClCompile Include="..\FoundationKit\Base\Vector2.cpp" />

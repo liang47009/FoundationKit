@@ -396,9 +396,6 @@
     <ClInclude Include="..\FoundationKit\Networking\network.hpp">
       <Filter>Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\timer_scheduler.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Networking\EventsReactor\epoll_reactor.hpp">
       <Filter>Networking\EventsReactor</Filter>
     </ClInclude>
@@ -451,6 +448,9 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\multiple_buffer.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\TimerManager.hpp">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
@@ -601,6 +601,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\HTTPClient\MimeTypes.cpp">
       <Filter>HTTPClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\TimerManager.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

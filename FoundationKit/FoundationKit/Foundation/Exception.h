@@ -217,6 +217,7 @@ DECLARE_EXCEPTION(NullPointerException, LogicException)
 DECLARE_EXCEPTION(NullValueException, LogicException)
 DECLARE_EXCEPTION(BugcheckException, LogicException)
 DECLARE_EXCEPTION(InvalidArgumentException, LogicException)
+DECLARE_EXCEPTION(InvalidParameterException, LogicException)
 DECLARE_EXCEPTION(NotImplementedException, LogicException)
 DECLARE_EXCEPTION(RangeException, LogicException)
 DECLARE_EXCEPTION(IllegalStateException, LogicException)
@@ -267,4 +268,5 @@ DECLARE_EXCEPTION(ApplicationException, Exception)
 DECLARE_EXCEPTION(BadCastException, RuntimeException)
 
 NS_FK_END
+
 

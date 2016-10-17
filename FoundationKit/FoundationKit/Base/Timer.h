@@ -12,8 +12,7 @@ losemymind.libo@gmail.com
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include <chrono>
-#include "FoundationKit/GenericPlatformMacros.h"
-
+#include "FoundationKit/FoundationMacros.h"
 
 namespace std
 {
@@ -35,9 +34,9 @@ NS_FK_BEGIN
 class Timer final
 {
 public:
-    typedef std::chrono::high_resolution_clock clock_type;
+    typedef std::chrono::high_resolution_clock       clock_type;
+
     Timer() : _begin(clock_type::now()){}
-    void reset(){ _begin = clock_type::now();}
     long long nanoseconds()const{return elapsed<std::chrono::nanoseconds>();}
     long long microseconds()const{return elapsed<std::chrono::microseconds>();}
     long long milliseconds()const{return elapsed<std::chrono::milliseconds>();}
@@ -60,6 +59,9 @@ public:
     double hoursf()const{ return elapsed<std::chrono::hours_f>(); }
     // double version
     double daysf(){ return elapsed<std::chrono::day_f>(); }
+
+    void reset(){ _begin = clock_type::now(); }
+
 protected:
     template<typename Duration = std::chrono::milliseconds>
     typename Duration::rep elapsed()const
@@ -69,6 +71,9 @@ protected:
 private:
     clock_type::time_point _begin;
 };
+
+
+
 
 NS_FK_END
 
