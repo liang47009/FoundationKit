@@ -65,10 +65,8 @@ public:
 
     void update(float deltaTime);
 
-
-    TimerData const* findTimer(int32 timerId, size_t& outIndex);
 protected:
-    
+    TimerData const* findTimer(int32 timerId, size_t& outIndex);
     size_t findTimerInList(const std::vector<TimerData>& searchArray, int32 const& timerId);
 
 private:
