@@ -31,35 +31,36 @@ public:
     explicit Timer(int interval);
     ~Timer();
 
+    // Sets a value indicating whether the Timer should raise the timed event.
+    Timer& setEnabled(bool value);
+
+    // Sets the interval, expressed in milliseconds, at which to raise the timed event.
+    Timer& setInterval(int value);
+
+    // The scale at which the time is passing. This can be used for slow motion effects.
+    Timer&  setTimeScale(float value);
+
+    // The maximum time a frame can take, expressed in milliseconds.
+    Timer&  setMaximumDeltaTime(int value);
+
+
     // Gets a value indicating whether the Timer should raise the timed event.
     bool getEnabled();
-    // Sets a value indicating whether the Timer should raise the timed event.
-    void setEnabled(bool value);
 
     // Gets the interval, expressed in milliseconds, at which to raise the timed event.
     int  getInterval();
-    // Sets the interval, expressed in milliseconds, at which to raise the timed event.
-    void setInterval(int value);
 
     // The scale at which the time is passing. This can be used for slow motion effects.
     float getTimeScale();
-    // The scale at which the time is passing. This can be used for slow motion effects.
-    void  setTimeScale(float value);
 
     // The maximum time a frame can take, expressed in milliseconds.
     int   getMaximumDeltaTime();
-    // The maximum time a frame can take, expressed in milliseconds.
-    void  setMaximumDeltaTime(int value);
 
     // The time in milliseconds it took to complete the last frame (Read Only).
     int   getDeltaTime();
-    // The time in milliseconds it took to complete the last frame (Read Only).
-    //void  setDeltaTime(float value);
 
     // The total number of frames that have passed (Read Only).
     int   getFrameCount();
-    // The total number of frames that have passed (Read Only).
-    //void  setFrameCount();
 
     //expressed in milliseconds
     void update(int deltaTime);

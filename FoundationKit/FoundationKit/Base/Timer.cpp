@@ -35,39 +35,45 @@ bool Timer::getEnabled()
     return _enable;
 }
 
-void Timer::setEnabled(bool value)
+Timer& Timer::setEnabled(bool value)
 {
     _enable = value;
+    return (*this);
 }
+Timer& Timer::setInterval(int value)
+{
+    _interval = value;
+    return (*this);
+}
+
+Timer& Timer::setTimeScale(float value)
+{
+    _timeScale = value;
+    return (*this);
+}
+
+Timer& Timer::setMaximumDeltaTime(int value)
+{
+    _maximumDeltaTime = value;
+    return (*this);
+}
+
 
 int Timer::getInterval()
 {
     return _interval;
 }
 
-void Timer::setInterval(int value)
-{
-    _interval = value;
-}
 
 float Timer::getTimeScale()
 {
     return _timeScale;
 }
 
-void Timer::setTimeScale(float value)
-{
-    _timeScale = value;
-}
 
 int Timer::getMaximumDeltaTime()
 {
     return _maximumDeltaTime;
-}
-
-void Timer::setMaximumDeltaTime(int value)
-{
-    _maximumDeltaTime = value;
 }
 
 int Timer::getDeltaTime()
@@ -94,7 +100,7 @@ void Timer::update(int deltaTime)
 
     if (onTimedEvent&& _elapsedTime > _interval)
     {
-        onTimedEvent(_elapsedTime);
+        onTimedEvent(_elapsedTime*_timeScale);
         _elapsedTime = 0;
         _frameCount += 1;
     }

@@ -61,16 +61,6 @@ public:
     double daysf(){ return elapsed<std::chrono::day_f>(); }
 
     void reset(){ _begin = clock_type::now(); }
-
-    // The time in seconds it took to complete the last frame (Read Only).
-    float deltaTime;
-
-    // The total number of frames that have passed (Read Only).
-    int   frameCount;
-
-    // The scale at which the time is passing. This can be used for slow motion effects.
-    float timeScale;
-
 protected:
     template<typename Duration = std::chrono::milliseconds>
     typename Duration::rep elapsed()const
@@ -80,9 +70,6 @@ protected:
 private:
     clock_type::time_point _begin;
 };
-
-
-
 
 NS_FK_END
 

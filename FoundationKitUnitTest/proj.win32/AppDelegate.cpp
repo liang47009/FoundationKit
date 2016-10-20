@@ -55,6 +55,9 @@ void runServer();
 void runClient();
 
 
+Timer  _mainTimer;
+
+
 AppDelegate::AppDelegate() {
 
 }
@@ -72,22 +75,16 @@ void AppDelegate::applicationDidLaunching()
 }
 
 
-Timer  _mainTimer;
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
     
-    _mainTimer.setInterval(500);
-
-    _mainTimer.onTimedEvent = [](float deltaTime)
+    _mainTimer.onTimedEvent = [](int deltaTime)
     {
-        LOG_INFO("====== _mainTimer:%f", deltaTime);
+        LOG_INFO("====== _mainTimer:%d", deltaTime);
     };
-    //_mainTimer.start();
-    _mainTimer.startInThread();
 
-
+    _mainTimer.setInterval(1000).setTimeScale(1.0f).start();
 
     /*
     std::string strResourceRoot = FileUtils::getInstance()->getResourceRootPath();
@@ -160,8 +157,7 @@ void AppDelegate::mainLoop()
 {
 	shared_Scheduler->update(1/60.f);
     shared_TimerManager->update(1 / 60.f);
-
-    //_mainTimer.update(1 / 60.f*1000);
+    _mainTimer.update(1 / 60.f*1000);
 }
 
 void runServer()
