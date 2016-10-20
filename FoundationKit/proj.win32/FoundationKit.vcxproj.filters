@@ -312,9 +312,6 @@
     <ClInclude Include="..\FoundationKit\std\function_cache.hpp">
       <Filter>std</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\Timer.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\Gamepad.h">
       <Filter>experimental</Filter>
     </ClInclude>
@@ -441,9 +438,6 @@
     <ClInclude Include="..\FoundationKit\FoundationMacros.h">
       <Filter>FoundationKit</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\ByteStream.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -451,6 +445,12 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\TimerManager.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\ElapsedTimer.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Timer.h">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
@@ -603,6 +603,9 @@
       <Filter>HTTPClient</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\TimerManager.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\Timer.cpp">
       <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>

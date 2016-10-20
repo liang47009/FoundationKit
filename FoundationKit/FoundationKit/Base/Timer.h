@@ -11,69 +11,72 @@ losemymind.libo@gmail.com
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include <chrono>
+#include <functional>
+#include <thread>
+#include <atomic>
 #include "FoundationKit/FoundationMacros.h"
-
-namespace std
-{
-    namespace chrono
-    {
-        typedef duration<int,    std::ratio<3600 * 24> > day;
-        typedef duration<double, std::nano> nanoseconds_f;
-        typedef duration<double, std::micro> microseconds_f;
-        typedef duration<double, std::milli> milliseconds_f;
-        typedef duration<double> seconds_f;
-        typedef duration<double, std::ratio<60> > minutes_f;
-        typedef duration<double, std::ratio<3600> > hours_f;
-        typedef duration<double, std::ratio<3600 * 24> > day_f;
-    }
-}
+#include "FoundationKit/Base/Types.h"
 
 NS_FK_BEGIN
 
+// expressed in milliseconds.
 class Timer final
 {
 public:
-    typedef std::chrono::high_resolution_clock       clock_type;
+    typedef std::function<void(int deltaTime)>  TimedEvent;
+    TimedEvent onTimedEvent;
 
-    Timer() : _begin(clock_type::now()){}
-    long long nanoseconds()const{return elapsed<std::chrono::nanoseconds>();}
-    long long microseconds()const{return elapsed<std::chrono::microseconds>();}
-    long long milliseconds()const{return elapsed<std::chrono::milliseconds>();}
-    long long seconds()const{return elapsed<std::chrono::seconds>();}
-    int minutes()const{return elapsed<std::chrono::minutes>();}
-    int hours()const{return elapsed<std::chrono::hours>();}
-    int days(){ return elapsed<std::chrono::day>(); }
+public:
+    Timer();
+    explicit Timer(int interval);
+    ~Timer();
 
-    // double version
-    double nanosecondsf()const{ return elapsed<std::chrono::nanoseconds_f>(); }
-    // double version
-    double microsecondsf()const{ return elapsed<std::chrono::microseconds_f>(); }
-    // double version
-    double millisecondsf()const{ return elapsed<std::chrono::milliseconds_f>(); }
-    // double version
-    double secondsf()const{ return elapsed<std::chrono::seconds_f>(); }
-    // double version
-    double minutesf()const{ return elapsed<std::chrono::minutes_f>(); }
-    // double version
-    double hoursf()const{ return elapsed<std::chrono::hours_f>(); }
-    // double version
-    double daysf(){ return elapsed<std::chrono::day_f>(); }
+    // Gets a value indicating whether the Timer should raise the timed event.
+    bool getEnabled();
+    // Sets a value indicating whether the Timer should raise the timed event.
+    void setEnabled(bool value);
 
-    void reset(){ _begin = clock_type::now(); }
+    // Gets the interval, expressed in milliseconds, at which to raise the timed event.
+    int  getInterval();
+    // Sets the interval, expressed in milliseconds, at which to raise the timed event.
+    void setInterval(int value);
 
-protected:
-    template<typename Duration = std::chrono::milliseconds>
-    typename Duration::rep elapsed()const
-    {
-        return std::chrono::duration_cast<Duration>(clock_type::now() - _begin).count();
-    }
+    // The scale at which the time is passing. This can be used for slow motion effects.
+    float getTimeScale();
+    // The scale at which the time is passing. This can be used for slow motion effects.
+    void  setTimeScale(float value);
+
+    // The maximum time a frame can take, expressed in milliseconds.
+    int   getMaximumDeltaTime();
+    // The maximum time a frame can take, expressed in milliseconds.
+    void  setMaximumDeltaTime(int value);
+
+    // The time in milliseconds it took to complete the last frame (Read Only).
+    int   getDeltaTime();
+    // The time in milliseconds it took to complete the last frame (Read Only).
+    //void  setDeltaTime(float value);
+
+    // The total number of frames that have passed (Read Only).
+    int   getFrameCount();
+    // The total number of frames that have passed (Read Only).
+    //void  setFrameCount();
+
+    //expressed in milliseconds
+    void update(int deltaTime);
+    void start();
+    void stop();
+    void startInThread();
+
 private:
-    clock_type::time_point _begin;
+    std::atomic_bool _enable;
+    std::atomic_int  _interval;
+    float            _timeScale;
+    std::atomic_int  _maximumDeltaTime; // default to 100 seconds.
+    std::atomic_int  _deltaTime;
+    std::atomic_int  _frameCount;
+    std::atomic_int  _elapsedTime;
+    std::thread      _loopThread;
 };
-
-
-
 
 NS_FK_END
 

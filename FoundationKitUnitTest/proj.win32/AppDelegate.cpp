@@ -72,9 +72,21 @@ void AppDelegate::applicationDidLaunching()
 }
 
 
+Timer  _mainTimer;
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
+    
+    _mainTimer.setInterval(500);
+
+    _mainTimer.onTimedEvent = [](float deltaTime)
+    {
+        LOG_INFO("====== _mainTimer:%f", deltaTime);
+    };
+    //_mainTimer.start();
+    _mainTimer.startInThread();
+
 
 
     /*
@@ -122,8 +134,17 @@ void AppDelegate::applicationWillEnterForeground()
 void AppDelegate::applicationWillTerminate()
 {
     bExitApp = true;
-    clientThread.join();
-    serverThread.join();
+
+    if (clientThread.joinable())
+    {
+        clientThread.join();
+    }
+
+    if (serverThread.joinable())
+    {
+        serverThread.join();
+    }
+
 	//memAnalyzer->displayAllocations(true, true);
 	//memAnalyzer->displayStatTable();
 	//std::cin.get();
@@ -137,8 +158,10 @@ void AppDelegate::applicationWillTerminate()
 
 void AppDelegate::mainLoop()
 {
-	shared_Scheduler->update(1/60);
-    shared_TimerManager->update(1 / 60);
+	shared_Scheduler->update(1/60.f);
+    shared_TimerManager->update(1 / 60.f);
+
+    //_mainTimer.update(1 / 60.f*1000);
 }
 
 void runServer()

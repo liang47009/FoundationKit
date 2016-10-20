@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <cassert>
 #include "zlib.h"
-#include "FoundationKit/Base/Timer.h"
+#include "FoundationKit/Base/ElapsedTimer.h"
 #include "FoundationKit/Foundation/Logger.h"
 #include "Compression.h"
 
@@ -97,7 +97,7 @@ bool Compression::compressMemory(CompressionFlags Flags, mutable_buffer& Compres
     static std::mutex zlibScopeMutex;
     std::lock_guard<std::mutex> scopeLock(zlibScopeMutex);
     // Keep track of time spent uncompressing memory.
-    Timer CompressorStartTime;
+    ElapsedTimer CompressorStartTime;
     bool bCompressSucceeded = false;
     do 
     {
@@ -167,7 +167,7 @@ bool Compression::uncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
     static std::mutex zlibScopeMutex;
     std::lock_guard<std::mutex> scopeLock(zlibScopeMutex);
     // Keep track of time spent uncompressing memory.
-    Timer UncompressorStartTime;
+    ElapsedTimer UncompressorStartTime;
 
     bool bUncompressSucceeded = false;
     do 
