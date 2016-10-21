@@ -3,6 +3,8 @@
 #include "ElapsedTimer.h"
 NS_FK_BEGIN
 
+int Timer::_nextValidId = 0;
+
 Timer::Timer()
 : onTimedEvent(nullptr)
 {
@@ -13,26 +15,41 @@ Timer::Timer()
     _deltaTime = 0;
     _frameCount = 0;
     _elapsedTime = 0;
+    _repeatCount = repeat_forever;
+    _myid = _nextValidId++;
 }
 
 Timer::Timer(int interval)
 {
-    _interval = interval;
+    setEnabled(false);
+    setInterval(interval);
+    setTimeScale(1.0f);
+    setMaximumDeltaTime(100);// initialized to 100 milliseconds.
+    _deltaTime = 0;
+    _frameCount = 0;
+    _elapsedTime = 0;
+    _repeatCount = repeat_forever;
+    _myid = _nextValidId++;
 }
 
 Timer::~Timer()
 {
     setEnabled(false);
-
     if (_loopThread.joinable())
     {
         _loopThread.join();
     }
 }
 
-bool Timer::getEnabled()
+Timer::Timer(Timer&& other)
 {
-    return _enable;
+    move(std::forward<Timer&&>(other));
+}
+
+Timer& Timer::operator=(Timer&& other)
+{
+    move(std::forward<Timer&&>(other));
+    return (*this);
 }
 
 Timer& Timer::setEnabled(bool value)
@@ -42,6 +59,8 @@ Timer& Timer::setEnabled(bool value)
 }
 Timer& Timer::setInterval(int value)
 {
+    if (value < 0)
+        throw std::invalid_argument("setInterval value must be > 0");
     _interval = value;
     return (*this);
 }
@@ -58,32 +77,47 @@ Timer& Timer::setMaximumDeltaTime(int value)
     return (*this);
 }
 
+Timer& Timer::setRepeatCount(int value)
+{
+    _repeatCount = value;
+    return (*this);
+}
 
-int Timer::getInterval()
+bool Timer::getEnabled()const
+{
+    return _enable;
+}
+
+int Timer::getInterval()const
 {
     return _interval;
 }
 
 
-float Timer::getTimeScale()
+float Timer::getTimeScale()const
 {
     return _timeScale;
 }
 
 
-int Timer::getMaximumDeltaTime()
+int Timer::getMaximumDeltaTime()const
 {
     return _maximumDeltaTime;
 }
 
-int Timer::getDeltaTime()
+int Timer::getDeltaTime()const
 {
     return _deltaTime;
 }
 
-int Timer::getFrameCount()
+int Timer::getFrameCount()const
 {
     return _frameCount;
+}
+
+int Timer::get_id()const
+{
+    return _myid;
 }
 
 void Timer::update(int deltaTime)
@@ -100,9 +134,14 @@ void Timer::update(int deltaTime)
 
     if (onTimedEvent&& _elapsedTime > _interval)
     {
-        onTimedEvent(_elapsedTime*_timeScale);
+        onTimedEvent(static_cast<int>(_elapsedTime*_timeScale));
         _elapsedTime = 0;
         _frameCount += 1;
+        if (_frameCount >= _repeatCount && _repeatCount != repeat_forever)
+        {
+            _frameCount = 0;
+            stop();
+        }
     }
 }
 
@@ -124,13 +163,27 @@ void Timer::startInThread()
         ElapsedTimer et;
         while (_enable)
         {
-            update(et.milliseconds());
+            update(static_cast<int>(et.milliseconds()));
             et.reset();
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
     });
 }
 
+void Timer::move(Timer&& other)
+{
+    setEnabled(other.getEnabled());
+    setInterval(other.getInterval());
+    setTimeScale(other.getTimeScale());
+    setMaximumDeltaTime(other.getMaximumDeltaTime());// initialized to 100 milliseconds.
+    _deltaTime = other._deltaTime;
+    _frameCount = other._frameCount;
+    _elapsedTime = other._elapsedTime;
+    _repeatCount = other._repeatCount;
+    _myid = other._myid;
+    _loopThread = std::move(other._loopThread);
+    other._myid = involid_id;
+}
 
 NS_FK_END
 

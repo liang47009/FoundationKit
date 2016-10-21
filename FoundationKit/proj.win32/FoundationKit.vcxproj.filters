@@ -267,9 +267,6 @@
     <ClInclude Include="..\FoundationKit\Base\DateTime.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\Timespan.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\BufferTest.h">
       <Filter>experimental</Filter>
     </ClInclude>
@@ -453,6 +450,12 @@
     <ClInclude Include="..\FoundationKit\Base\Timer.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Timespan.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\TimerQueue.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -606,6 +609,9 @@
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\Timer.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Base\TimerQueue.cpp">
       <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>

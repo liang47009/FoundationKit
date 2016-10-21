@@ -472,7 +472,7 @@ public:
     std::size_t receive(const mutable_buffer& buffers, socket_base::message_flags flags = 0)
     {
         std::error_code ec;
-        std::size_t result = this->receive(buffers, flags, ec);
+        std::size_t result = this->receive(buffers, ec, flags);
         throw_error_if(ec, "receive");
         return result;
     }
@@ -485,9 +485,9 @@ public:
      *
      * @param buffers One or more buffers into which the data will be received.
      *
-     * @param flags Flags specifying how the receive call is to be made.
-     *
      * @param ec Set to indicate what error occurred, if any.
+     *
+     * @param flags Flags specifying how the receive call is to be made.
      *
      * @returns The number of bytes received. Returns 0 if an error occurred.
      *
@@ -495,7 +495,7 @@ public:
      * bytes. Consider using the @ref read function if you need to ensure that the
      * requested amount of data is read before the blocking operation completes.
      */
-    std::size_t receive(const mutable_buffer& buffers, socket_base::message_flags flags, std::error_code& ec)
+    std::size_t receive(const mutable_buffer& buffers, std::error_code& ec, socket_base::message_flags flags = 0)
     {
         if ((_state & socket_ops::stream_oriented))
         {

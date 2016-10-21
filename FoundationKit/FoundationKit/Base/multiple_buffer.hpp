@@ -119,6 +119,7 @@ public:
     {
         clear();
         _data = new uint8[size];
+        memset(_data, 0, size);
         _size = size;
         _owner = true;
     }
@@ -174,6 +175,7 @@ private:
                 delete[] _data;
             }
             _data = new uint8[other._size];
+            memset(_data, 0, other._size);
             memcpy(_data, other._data, other._size);
             this->_owner = true;
         }
@@ -266,21 +268,21 @@ public:
     }
 
     /// Construct a buffer to represent a given memory range.
-    const_buffer(uint8* data, std::size_t size)
+    const_buffer(const uint8* data, std::size_t size)
         : _data(data)
         , _size(size)
     {
     }
 
     /// Construct a buffer to represent a given memory range.
-    const_buffer(char* data, std::size_t size)
+    const_buffer(const char* data, std::size_t size)
         : _data(data)
         , _size(size)
     {
     }
 
     /// Construct a buffer to represent a given memory range.
-    const_buffer(void* data, std::size_t size)
+    const_buffer(const void* data, std::size_t size)
         : _data(data)
         , _size(size)
     {

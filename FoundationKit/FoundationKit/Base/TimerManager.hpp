@@ -4,8 +4,8 @@
 
 #include <vector>
 #include "FoundationKit/Base/Types.h"
-#include "FoundationKit/Base/DateTime.h"
 #include "FoundationKit/Base/ElapsedTimer.h"
+#include "FoundationKit/Base/Timer.h"
 
 NS_FK_BEGIN
 
@@ -45,7 +45,6 @@ public:
     TimerManager();
     ~TimerManager();
 
-    // OnTimedEvent Elapsed Enabled
     int64 addTimer(const TimerElapsedEvent& callback, int64 interval, uint32 repeat, bool paused);
 
     void removeTimer(int32 timerId);

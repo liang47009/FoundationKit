@@ -78,40 +78,27 @@ void AppDelegate::applicationDidLaunching()
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
-    
+
+
+
     _mainTimer.onTimedEvent = [](int deltaTime)
     {
         LOG_INFO("====== _mainTimer:%d", deltaTime);
     };
+    _mainTimer.setInterval(500).setTimeScale(1.0f).start();
 
-    _mainTimer.setInterval(1000).setTimeScale(1.0f).start();
 
     /*
-    std::string strResourceRoot = FileUtils::getInstance()->getResourceRootPath();
-    std::string strConfigFilePath = strResourceRoot + "/CopyFilesConfig.txt";
-    std::string strFilesRecord = strResourceRoot + "/CopyFilesRecord.txt";
-    std::vector<std::string> allConfigFileLines = FileUtils::getInstance()->readAllLines(strConfigFilePath);
-    std::string strSrcRoot = allConfigFileLines[0];
-    std::string strDesRoot = allConfigFileLines[1];
-    std::vector<std::string> allRecordFileLines = FileUtils::getInstance()->readAllLines(strFilesRecord);
-    for (auto filePath : allRecordFileLines)
+    clientThread = std::thread([]()
     {
-        FileUtils::getInstance()->copyFile(convertPathFormatToUnixStyle(strSrcRoot + filePath),
-            convertPathFormatToUnixStyle(strDesRoot + filePath));
-    }
-    LOG_INFO(">>>>>>>>Completed files:%d", allRecordFileLines.size());
+        runClient();
+    });
+
+    serverThread = std::thread([]()
+    {
+        runServer();
+    });
     */
-
-    //clientThread = std::thread([]()
-    //{
-    //    runClient();
-    //});
-
-    //serverThread = std::thread([]()
-    //{
-    //    runServer();
-    //});
-
 	return true;
 }
 
@@ -177,6 +164,27 @@ void runServer()
             ip::tcp::endpoint endpoint;
             network::ip::tcp::socket clientSocket = serverSocket.accept(endpoint);
             LOG_INFO("===== Client: %d, ip:%s", clientSocket.native_handle(), endpoint.address().to_string().c_str());
+
+            std::string sendtoClient = "Server Accept Client.";
+            clientSocket.send(const_buffer(sendtoClient.c_str(), sendtoClient.size()));
+
+            while (true)
+            {
+                if (clientSocket.available()>0)
+                {
+                    mutable_buffer mb;
+                    mb.reallocate(128);
+                    std::error_code ec;
+                    clientSocket.receive(mb, ec);
+                    if (ec)
+                    {
+                        LOG_ERROR("%s", ec.message().c_str());
+                    }
+                    LOG_INFO("Client Msg:%s", mb.c_str());
+                    break;
+                }
+
+            }
             clientList.push_back(std::move(clientSocket));
 
         }
@@ -190,11 +198,10 @@ void runClient()
     std::vector<network::ip::tcp::socket> clientList;
     while (!bExitApp)
     {
-
         network::ip::tcp::socket clientSocket;
 
         clientSocket.open(network::ip::tcp::v4());
-        //clientSocket.set_non_blocking(true);
+        clientSocket.set_non_blocking(true);
         ip::tcp::endpoint endpoint(network::ip::address::from_string("127.0.0.1"), 4215);
         std::error_code ec;
         clientSocket.connect(endpoint, ec);
@@ -204,6 +211,20 @@ void runClient()
         }
         else
         {
+            while (true)
+            {
+                if (clientSocket.available()>0)
+                {
+                    mutable_buffer mb;
+                    mb.reallocate(128);
+                    clientSocket.receive(mb);
+                    LOG_INFO("Server Msg:%s", mb.c_str());
+                    std::string sendtoServer = " I receive your message.";
+                    clientSocket.send(const_buffer(sendtoServer.c_str(), sendtoServer.size()));
+                    break;
+                }
+
+            }
             clientList.push_back(std::move(clientSocket));
         }
         std::this_thread::sleep_for(std::chrono::seconds(1));
