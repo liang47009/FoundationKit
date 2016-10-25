@@ -28,26 +28,63 @@ struct TimedEventArgs
     DateTime signalTime;
     int      timerId;
 };
+typedef std::function<void(const TimedEventArgs&)>  TimedEvent;
+
+struct TimerOption
+{
+    bool  enable;
+    int   interval;         //expressed in milliseconds
+    float scale;
+    int   maximumDeltaTime; //expressed in milliseconds
+    int   repeatCount;
+    TimedEvent onTimedEvent;
+
+    /**
+     * Creates and initializes a new TimerOption.
+     *
+     * @param e Sets a value indicating whether the Timer should raise the timed event.
+     * @param i Sets the interval, expressed in milliseconds, at which to raise the timed event.
+     * @param s The scale at which the time is passing. This can be used for slow motion effects.
+     * @param m The maximum time a frame can take, expressed in milliseconds.
+     * @param r Sets a value indicating the Timer invoke timed event to count, default Timer::repeat_forever
+     * @param callback Occurs when the specified timer interval has elapsed and the timer is enabled.
+     */
+    TimerOption(bool e, int i, float s, int m, int r, const TimedEvent& callback = nullptr)
+        : enable(e)
+        , interval(i)
+        , scale(s)
+        , maximumDeltaTime(m)
+        , repeatCount(r)
+        , onTimedEvent(callback)
+    {}
+
+    TimerOption() :TimerOption(false, 1000, 1.0f, 100, -1, nullptr){}
+};
 
 // Generates an event after a set interval,with some option to generate recurring events.
 // Expressed in milliseconds.
-class Timer final
+class Timer final : public std::enable_shared_from_this<Timer>
 {
 public:
-    typedef std::function<void(int deltaTime)>  TimedEvent;
     typedef std::shared_ptr<Timer>   pointer;
-
-    TimedEvent onTimedEvent;
     static const int repeat_forever = -1;
     static const int involid_id = -1;
+
+    // Occurs when the specified timer interval has elapsed and the timer is enabled.
+    TimedEvent onTimedEvent;
 public:
-    Timer();
-    explicit Timer(int interval);
-    ~Timer();
-    Timer(Timer&& other);
-    Timer& operator=(Timer&& other);
     Timer(const Timer&) = delete;
     Timer& operator=(const Timer&) = delete;
+
+    Timer();
+    explicit Timer(int interval);
+    Timer(const TimerOption& other);
+    Timer(Timer&& other);
+    ~Timer();
+    Timer& operator=(Timer&& other);
+
+    static Timer::pointer create(int interval);
+    static Timer::pointer create(const TimerOption& option);
 
     // Sets a value indicating whether the Timer should raise the timed event.
     Timer& setEnabled(bool value);
@@ -61,7 +98,7 @@ public:
     // The maximum time a frame can take, expressed in milliseconds.
     Timer&  setMaximumDeltaTime(int value);
 
-    // Sets a value indicating the Timer invoke timed event to count, default REPEAT_FOREVER
+    // Sets a value indicating the Timer invoke timed event to count, default Timer::repeat_forever
     Timer&  setRepeatCount(int value);
 
 
@@ -92,18 +129,19 @@ public:
     void startInThread();
 private:
     void move(Timer&& other);
+    void reset();
 private:
     std::atomic_bool _enable;
     std::atomic_int  _interval;         // expressed in milliseconds
     float            _timeScale;
+    std::atomic_int  _repeatCount;
     std::atomic_int  _maximumDeltaTime; // expressed in milliseconds,default to 100 seconds.
     std::atomic_int  _deltaTime;        // expressed in milliseconds
     std::atomic_int  _frameCount;
     std::atomic_int  _elapsedTime;      // expressed in milliseconds
-    std::atomic_int  _repeatCount;
-    std::thread      _loopThread;
     int              _myid;
     static int       _nextValidId;
+    std::thread      _loopThread;
 };
 
 inline bool operator <(const Timer& _Left, const Timer& _Right)

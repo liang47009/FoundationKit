@@ -441,9 +441,6 @@
     <ClInclude Include="..\FoundationKit\Base\multiple_buffer.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\TimerManager.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\ElapsedTimer.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -604,9 +601,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\HTTPClient\MimeTypes.cpp">
       <Filter>HTTPClient</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Base\TimerManager.cpp">
-      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\Timer.cpp">
       <Filter>Base</Filter>

@@ -3,33 +3,39 @@
 #include "ElapsedTimer.h"
 NS_FK_BEGIN
 
-int Timer::_nextValidId = 0;
+int Timer::_nextValidId = 1000;
 
 Timer::Timer()
-: onTimedEvent(nullptr)
+    : Timer(1000)
 {
-    setEnabled(false);
-    setInterval(1000);
-    setTimeScale(1.0f);
-    setMaximumDeltaTime(100);// initialized to 100 milliseconds.
-    _deltaTime = 0;
-    _frameCount = 0;
-    _elapsedTime = 0;
-    _repeatCount = repeat_forever;
-    _myid = _nextValidId++;
+
 }
 
 Timer::Timer(int interval)
+    :Timer(TimerOption(false, interval, 1.0f, 100, repeat_forever))
 {
-    setEnabled(false);
-    setInterval(interval);
-    setTimeScale(1.0f);
-    setMaximumDeltaTime(100);// initialized to 100 milliseconds.
+
+}
+
+Timer::Timer(const TimerOption& option)
+    : onTimedEvent(nullptr)
+{
+    setEnabled(option.enable);
+    setInterval(option.interval);
+    setTimeScale(option.scale);
+    setMaximumDeltaTime(option.maximumDeltaTime);// initialized to 100 milliseconds.
+    _repeatCount = option.repeatCount;
+    onTimedEvent = option.onTimedEvent;
+
     _deltaTime = 0;
     _frameCount = 0;
     _elapsedTime = 0;
-    _repeatCount = repeat_forever;
     _myid = _nextValidId++;
+}
+
+Timer::Timer(Timer&& other)
+{
+    move(std::forward<Timer&&>(other));
 }
 
 Timer::~Timer()
@@ -41,15 +47,22 @@ Timer::~Timer()
     }
 }
 
-Timer::Timer(Timer&& other)
-{
-    move(std::forward<Timer&&>(other));
-}
-
 Timer& Timer::operator=(Timer&& other)
 {
     move(std::forward<Timer&&>(other));
     return (*this);
+}
+
+Timer::pointer Timer::create(int interval)
+{
+    Timer::pointer pTimer = std::make_shared<Timer>(interval);
+    return pTimer;
+}
+
+Timer::pointer Timer::create(const TimerOption& option)
+{
+    Timer::pointer pTimer = std::make_shared<Timer>(option);
+    return pTimer;
 }
 
 Timer& Timer::setEnabled(bool value)
@@ -134,12 +147,15 @@ void Timer::update(int deltaTime)
 
     if (onTimedEvent&& _elapsedTime > _interval)
     {
-        onTimedEvent(static_cast<int>(_elapsedTime*_timeScale));
+        TimedEventArgs timerArgs;
+        timerArgs.deltaTime = static_cast<int>(_elapsedTime*_timeScale);
+        timerArgs.signalTime = DateTime::now();
+        timerArgs.timerId = _myid;
+        onTimedEvent(timerArgs);
         _elapsedTime = 0;
         _frameCount += 1;
         if (_frameCount >= _repeatCount && _repeatCount != repeat_forever)
         {
-            _frameCount = 0;
             stop();
         }
     }
@@ -153,6 +169,7 @@ void Timer::start()
 void Timer::stop()
 {
     setEnabled(false);
+    reset();
 }
 
 void Timer::startInThread()
@@ -185,6 +202,15 @@ void Timer::move(Timer&& other)
     other._myid = involid_id;
 }
 
+void Timer::reset()
+{
+    _deltaTime = 0;
+    _frameCount = 0;
+    _elapsedTime = 0;
+}
+
 NS_FK_END
+
+
 
 

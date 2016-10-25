@@ -39,24 +39,33 @@
 #include "FoundationKit/Platform/PlatformTLS.h"
 #include "FoundationKit/Networking/ip/address.hpp"
 #include "FoundationKit/Base/basic_streambuf.hpp"
-#include "FoundationKit/Base/TimerManager.hpp"
+#include "FoundationKit/Base/TimerQueue.hpp"
 #include <iostream>
 
 using namespace std;
 USING_NS_FK;
 
+class GenericArgument
+{
+public:
+    inline GenericArgument(const char *aName = nullptr, const void *aData = nullptr)
+        : _data(aData), _name(aName) {}
+    inline void *data() const { return const_cast<void *>(_data); }
+    inline const char *name() const { return _name; }
+
+private:
+    const void *_data;
+    const char *_name;
+};
+
 static Scheduler* shared_Scheduler = nullptr;
-static TimerManager* shared_TimerManager = nullptr;
+static TimerQueue  G_TimerQueue;
 static bool bExitApp = false;
 
 static std::thread clientThread;
 static  std::thread serverThread;
 void runServer();
 void runClient();
-
-
-Timer  _mainTimer;
-
 
 AppDelegate::AppDelegate() {
 
@@ -70,7 +79,6 @@ AppDelegate::~AppDelegate()
 void AppDelegate::applicationDidLaunching()
 {
 	shared_Scheduler = Scheduler::getInstance();
-    shared_TimerManager = new TimerManager();
 
 }
 
@@ -79,13 +87,18 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
 
-
-
-    _mainTimer.onTimedEvent = [](int deltaTime)
+    TimerOption option(true, 5000, 1.0f, 100, Timer::repeat_forever);
+    option.onTimedEvent = [](const TimedEventArgs& args)
     {
-        LOG_INFO("====== _mainTimer:%d", deltaTime);
+        G_TimerQueue.erase(args.timerId);
+        LOG_INFO("====== _mainTimer id:%d, deltaTime:%d ms, Date:%s", args.timerId, args.deltaTime, args.signalTime.toString().c_str());
     };
-    _mainTimer.setInterval(500).setTimeScale(1.0f).start();
+    G_TimerQueue.enqueue(option);
+    G_TimerQueue.enqueue(option);
+    G_TimerQueue.enqueue(option);
+    G_TimerQueue.enqueue(option);
+    G_TimerQueue.enqueue(option);
+
 
 
     /*
@@ -114,7 +127,6 @@ void AppDelegate::applicationWillEnterForeground()
 
 }
 
-
 void AppDelegate::applicationWillTerminate()
 {
     bExitApp = true;
@@ -137,14 +149,12 @@ void AppDelegate::applicationWillTerminate()
 	//LOG_INFO(" >>>>>>>>>>>>>>>>PeakBlocks: %lld \n", memAnalyzer->getPeakBlocks());
 	//LOG_INFO(" >>>>>>>>>>>>>>>>PeakMemory: %u \n", memAnalyzer->getPeakMemory());
 
-    SAFE_DELETE(shared_TimerManager);
 }
 
 void AppDelegate::mainLoop()
 {
 	shared_Scheduler->update(1/60.f);
-    shared_TimerManager->update(1 / 60.f);
-    _mainTimer.update(1 / 60.f*1000);
+    G_TimerQueue.update(1 / 60.f);
 }
 
 void runServer()
