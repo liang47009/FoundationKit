@@ -82,6 +82,7 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+Timer::pointer  _mainTimer = Timer::create();
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
@@ -99,6 +100,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     G_TimerQueue.enqueue(option);
     G_TimerQueue.enqueue(option);
 
+    option.interval = 500;
+    _mainTimer->setOption(option);
+    _mainTimer->startInThread();
 
 
     /*

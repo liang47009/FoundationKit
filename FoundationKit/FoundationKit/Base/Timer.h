@@ -24,9 +24,9 @@ NS_FK_BEGIN
 // Provides data for the Timer::onTimedEvent event.
 struct TimedEventArgs
 {
+    int      timerId;
     int      deltaTime;
     DateTime signalTime;
-    int      timerId;
 };
 typedef std::function<void(const TimedEventArgs&)>  TimedEvent;
 
@@ -83,8 +83,11 @@ public:
     ~Timer();
     Timer& operator=(Timer&& other);
 
+    static Timer::pointer create();
     static Timer::pointer create(int interval);
     static Timer::pointer create(const TimerOption& option);
+
+    void setOption(const TimerOption& option);
 
     // Sets a value indicating whether the Timer should raise the timed event.
     Timer& setEnabled(bool value);

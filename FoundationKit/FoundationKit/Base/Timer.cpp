@@ -18,14 +18,13 @@ Timer::Timer(int interval)
 }
 
 Timer::Timer(const TimerOption& option)
-    : onTimedEvent(nullptr)
+    : onTimedEvent(option.onTimedEvent)
 {
     setEnabled(option.enable);
     setInterval(option.interval);
     setTimeScale(option.scale);
     setMaximumDeltaTime(option.maximumDeltaTime);// initialized to 100 milliseconds.
     _repeatCount = option.repeatCount;
-    onTimedEvent = option.onTimedEvent;
 
     _deltaTime = 0;
     _frameCount = 0;
@@ -53,6 +52,12 @@ Timer& Timer::operator=(Timer&& other)
     return (*this);
 }
 
+Timer::pointer Timer::create()
+{
+    Timer::pointer pTimer = std::make_shared<Timer>();
+    return pTimer;
+}
+
 Timer::pointer Timer::create(int interval)
 {
     Timer::pointer pTimer = std::make_shared<Timer>(interval);
@@ -63,6 +68,16 @@ Timer::pointer Timer::create(const TimerOption& option)
 {
     Timer::pointer pTimer = std::make_shared<Timer>(option);
     return pTimer;
+}
+
+void Timer::setOption(const TimerOption& option)
+{
+    this->setEnabled(option.enable)
+        .setInterval(option.interval)
+        .setTimeScale(option.scale)
+        .setMaximumDeltaTime(option.maximumDeltaTime)
+        .setRepeatCount(option.repeatCount);
+    this->onTimedEvent = option.onTimedEvent;
 }
 
 Timer& Timer::setEnabled(bool value)

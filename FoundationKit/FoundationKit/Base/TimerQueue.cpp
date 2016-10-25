@@ -35,7 +35,7 @@ void TimerQueue::update(float deltaTime)
 
     for (auto& timer : _timerlist)
     {
-        timer->update(deltaTime*1000);
+        timer->update(static_cast<int>(deltaTime * 1000));
     }
 }
 
@@ -130,7 +130,6 @@ void TimerQueue::internalErase(int32 timerid)
 }
 
 NS_FK_END
-
 
 
 
