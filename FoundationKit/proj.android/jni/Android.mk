@@ -15,8 +15,9 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/Base/Quaternion.cpp \
 ../../FoundationKit/Base/Rect.cpp \
 ../../FoundationKit/Base/Size.cpp \
-../../FoundationKit/Base/TimeEx.cpp \
-../../FoundationKit/Base/TimeSpan.cpp \
+../../FoundationKit/Base/Timer.cpp \
+../../FoundationKit/Base/TimerQueue.cpp \
+../../FoundationKit/Base/Timespan.cpp \
 ../../FoundationKit/Base/Value.cpp \
 ../../FoundationKit/Base/Vector2.cpp \
 ../../FoundationKit/Base/Vector3.cpp \
@@ -53,10 +54,8 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/Platform/Android/FileUtils_android.cpp \
 ../../FoundationKit/Platform/Android/PlatformAndroid.cpp \
 ../../FoundationKit/Platform/Android/ProtectedMemoryAllocator.cpp \
-../../FoundationKit/Platform/Android/SharedMemoryImpl.cpp \
 ../../FoundationKit/Platform/FileUtils.cpp \
-../../FoundationKit/Platform/Platform.cpp \
-../../FoundationKit/Platform/SharedMemory.cpp
+../../FoundationKit/Platform/Platform.cpp
 
 LOCAL_C_INCLUDES := \
 $(LOCAL_PATH)/../../ \

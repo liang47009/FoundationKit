@@ -450,7 +450,7 @@
     <ClInclude Include="..\FoundationKit\Base\Timespan.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\TimerQueue.hpp">
+    <ClInclude Include="..\FoundationKit\Base\TimerQueue.h">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>

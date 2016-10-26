@@ -1,3 +1,12 @@
+/****************************************************************************
+Copyright (c) 2016 libo All rights reserved.
+
+losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef LOSEMYMIND_TIMERQUEUE_H
+#define LOSEMYMIND_TIMERQUEUE_H
+
 
 #include <vector>
 #include "FoundationKit/Base/Types.h"
@@ -42,3 +51,4 @@ private:
 NS_FK_END
 
 
+#endif // LOSEMYMIND_TIMERQUEUE_H

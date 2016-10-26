@@ -160,9 +160,11 @@
 
 extern void __fail__(const char* expr, const char* file, int line);
 #if defined(_DEBUG) || defined(DEBUG)
+    #define ASSERTED(CHECK, MSG)do{if(!CHECK){__fail__(#MSG,__FILE__, __LINE__);}}while(false)
     #define ASSERTED_EXPRESSION(CHECK, EXPR) ((CHECK) ? (EXPR) : (__fail__(#CHECK, __FILE__, __LINE__), (EXPR)))
     #define DEBUG_MODE 1
 #else
+    #define ASSERTED(CHECK, MSG)
     #define ASSERTED_EXPRESSION(CHECK, EXPR) (EXPR)
     #define DEBUG_MODE 0
 #endif

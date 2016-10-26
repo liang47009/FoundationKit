@@ -66,7 +66,7 @@ public:
 
     /// Construct a buffer to represent a given memory range.
     mutable_buffer(char* data, std::size_t size, bool need_del = false)
-        : _data(data)
+        : _data(reinterpret_cast<uint8*>(data))
         , _size(size)
         , _owner(need_del)
     {
@@ -74,7 +74,7 @@ public:
 
     /// Construct a buffer to represent a given memory range.
     mutable_buffer(void* data, std::size_t size, bool need_del = false)
-        : _data(data)
+        : _data(reinterpret_cast<uint8*>(data))
         , _size(size)
         , _owner(need_del)
     {
@@ -102,7 +102,7 @@ public:
     /// Get a pointer to the beginning of the memory range.
     void* data() const
     {
-        return _data;
+        return reinterpret_cast<void*>(_data);;
     }
 
     const char* c_str()const
@@ -112,7 +112,7 @@ public:
 
     const uint8* uc_str()
     {
-        return reinterpret_cast<const uint8*>(_data);
+        return _data;
     }
 
     void reallocate(std::size_t size)
@@ -192,7 +192,7 @@ private:
     }
 
 private:
-    void*       _data;
+    uint8*      _data;
     std::size_t _size;
     bool        _owner;
 };

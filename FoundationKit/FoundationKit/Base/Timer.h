@@ -133,6 +133,7 @@ public:
 private:
     void move(Timer&& other);
     void reset();
+    void internalUpdate(int deltaTime);
 private:
     std::atomic_bool _enable;
     std::atomic_int  _interval;         // expressed in milliseconds
@@ -145,6 +146,7 @@ private:
     int              _myid;
     static int       _nextValidId;
     std::thread      _loopThread;
+    bool             _useThread;
 };
 
 inline bool operator <(const Timer& _Left, const Timer& _Right)

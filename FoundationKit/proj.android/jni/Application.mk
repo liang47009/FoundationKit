@@ -1,3 +1,7 @@
+#FoundationKit是支持原子库的，单是如果编译器选择的是clang，
+#那么编译的ABI只能是 armeabi-v7a以上，clang下的armeabi架构
+#不支持原子库
+
 # (default)	The default minimal system C++ runtime library.	N/A
 #APP_STL :=libstdc++
 #	The GAbi++ runtime (static).	C++ Exceptions and RTTI
@@ -19,9 +23,10 @@ APP_STL :=gnustl_static
 
 #APP_ABI := all
 #APP_ABI := armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64
-APP_ABI := armeabi armeabi-v7a x86
+#APP_ABI := armeabi armeabi-v7a x86
+APP_ABI := armeabi-v7a x86
 
-#NDK_TOOLCHAIN_VERSION := 4.8
+#NDK_TOOLCHAIN_VERSION := 4.9
 NDK_TOOLCHAIN_VERSION := clang
 
 #APP_PLATFORM=android-19

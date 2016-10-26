@@ -178,39 +178,39 @@ public: virtual const varType& get##funName(void) const { return varName; }
 	* @endcode
 	*/
 #if TARGET_PLATFORM == PLATFORM_WINDOWS
-// Constructor attribute support for Visual Studio
-#pragma section(".CRT$XCU", read)
-#define constructor__(name)           \
-struct name ## __                     \
-{                                     \
-	static inline void name(void);    \
-	static void init(void)            \
-	{                                 \
-		static int once = 1;          \
-		if(once) { name (); --once; } \
-	}                                 \
-	private: name ## __();            \
-};                                    \
-__declspec(allocate(".CRT$XCU"))      \
-void (__cdecl*name##_)(void) = &name ## __::init; \
-void name ## __::name(void)
+    // Constructor attribute support for Visual Studio
+    #pragma section(".CRT$XCU", read)
+    #define constructor__(name)           \
+    struct name ## __                     \
+    {                                     \
+	    static inline void name(void);    \
+	    static void init(void)            \
+	    {                                 \
+		    static int once = 1;          \
+		    if(once) { name (); --once; } \
+	    }                                 \
+	    private: name ## __();            \
+    };                                    \
+    __declspec(allocate(".CRT$XCU"))      \
+    void (__cdecl*name##_)(void) = &name ## __::init; \
+    void name ## __::name(void)
 
 #elif TARGET_PLATFORM == PLATFORM_ANDROID || TARGET_PLATFORM == PLATFORM_IOS
-// Constructor attribute support for gcc
-#define constructor__(name) \
-struct name ## __ \
-{ \
-	static inline void name(void); \
-	static void __attribute__ ((constructor)) init(void) \
-	{ \
-		static int once = 1; \
-		if(once) { name (); --once; } \
-	} \
-	private: name ## __(); \
-}; \
-void name ## __::name(void)
-#elif 
-#error "Constructor attribute is not supported"
+    // Constructor attribute support for gcc
+    #define constructor__(name)         \
+    struct name ## __                   \
+    {                                   \
+	    static inline void name(void);  \
+	    static void __attribute__ ((constructor)) init(void) \
+	    {                                 \
+		    static int once = 1;          \
+		    if(once) { name (); --once; } \
+	    }                                 \
+	    private: name ## __();            \
+    };                                    \
+    void name ## __::name(void)
+#else
+    #error "Constructor attribute is not supported"
 #endif
 
 

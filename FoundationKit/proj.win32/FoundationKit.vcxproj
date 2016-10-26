@@ -191,7 +191,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\Size.h" />
     <ClInclude Include="..\FoundationKit\Base\ElapsedTimer.h" />
     <ClInclude Include="..\FoundationKit\Base\Timer.h" />
-    <ClInclude Include="..\FoundationKit\Base\TimerQueue.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\TimerQueue.h" />
     <ClInclude Include="..\FoundationKit\Base\Timespan.h" />
     <ClInclude Include="..\FoundationKit\Base\Types.h" />
     <ClInclude Include="..\FoundationKit\Base\Value.h" />

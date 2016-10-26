@@ -39,7 +39,7 @@
 #include "FoundationKit/Platform/PlatformTLS.h"
 #include "FoundationKit/Networking/ip/address.hpp"
 #include "FoundationKit/Base/basic_streambuf.hpp"
-#include "FoundationKit/Base/TimerQueue.hpp"
+#include "FoundationKit/Base/TimerQueue.h"
 #include <iostream>
 
 using namespace std;
@@ -92,17 +92,19 @@ bool AppDelegate::applicationDidFinishLaunching()
     option.onTimedEvent = [](const TimedEventArgs& args)
     {
         G_TimerQueue.erase(args.timerId);
-        LOG_INFO("====== _mainTimer id:%d, deltaTime:%d ms, Date:%s", args.timerId, args.deltaTime, args.signalTime.toString().c_str());
+        LOG_INFO("====== Timer id:%d, deltaTime:%d ms, Date:%s", args.timerId, args.deltaTime, args.signalTime.toString().c_str());
     };
-    G_TimerQueue.enqueue(option);
-    G_TimerQueue.enqueue(option);
-    G_TimerQueue.enqueue(option);
-    G_TimerQueue.enqueue(option);
-    G_TimerQueue.enqueue(option);
+    //G_TimerQueue.enqueue(option);
+    //G_TimerQueue.enqueue(option);
+    //G_TimerQueue.enqueue(option);
+    //G_TimerQueue.enqueue(option);
+    //G_TimerQueue.enqueue(option);
 
     option.interval = 500;
     _mainTimer->setOption(option);
     _mainTimer->startInThread();
+
+    G_TimerQueue.insert(_mainTimer);
 
 
     /*
