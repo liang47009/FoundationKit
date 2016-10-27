@@ -100,7 +100,7 @@ void FileUtils::setDefaultResourceRootPath(const std::string& path)
 {
     LOG_ASSERT(!path.empty(), "setDefaultResourceRootPath:Invalid path.");
     _resourceRootPath = path;
-    if (_resourceRootPath.back() != '/' || _resourceRootPath.back() != '\\')
+    if (_resourceRootPath.back() != '/' && _resourceRootPath.back() != '\\')
     {
         _resourceRootPath.push_back('/');
     }
@@ -173,7 +173,7 @@ void FileUtils::setWritablePath(const std::string& writablePath)
 {
     LOG_ASSERT(!writablePath.empty(), "setDefaultResourceRootPath:Invalid path.");
     _writablePath = writablePath;
-    if (_writablePath.back() != '/' || _writablePath.back() != '\\')
+    if (_writablePath.back() != '/' && _writablePath.back() != '\\')
     {
         _writablePath.push_back('/');
     }
