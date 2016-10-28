@@ -65,17 +65,10 @@ struct Compression
      */
     static bool uncompressMemory(CompressionFlags Flags, mutable_buffer& UncompressedBuffer, const mutable_buffer& CompressedBuffer);
 
-    /**
-     * Thread-safe abstract compression routine. Compresses file from uncompressed file and writes it to compressed
-     * file. Updates CompressedSize with size of compressed data. Compression controlled by the passed in flags.
-     *
-     * @param	Flags						Flags to control what method to use and optionally control memory vs speed
-     * @param	CompressedBuffer			Buffer compressed data is going to be written to
-     * @param	UncompressedBuffer			Buffer containing uncompressed data
-     * @return true if compression succeeds, false if it fails because CompressedBuffer was too small or other reasons
-     */
+    // compress file to a .gz file
     static bool compressFile(const std::string& srcFilePath, const std::string& desFilePath);
 
+    // uncompress .gz file
     static bool uncompressFile(const std::string& srcFilePath, const std::string& desFilePath);
 };
 

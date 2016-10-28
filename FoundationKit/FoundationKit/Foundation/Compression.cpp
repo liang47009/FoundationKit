@@ -224,44 +224,59 @@ bool Compression::uncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
 
 bool Compression::compressFile(const std::string& srcFilePath, const std::string& desFilePath)
 {
-    LOG_ASSERT(false, "***** Not Implementation.");
-    //gzFile gFile = gzopen(desFilePath.c_str(), "wb");
-    //FILE* srcFp = fopen(srcFilePath.c_str(), "rb");
-    //size_t size = 0;
-
-    //fseek(srcFp, 0, SEEK_END);
-    //size = ftell(srcFp);
-    //fseek(srcFp, 0, SEEK_SET);
-
-    //const uint32_t defaultBufferLength = uint32_t(1) << 20;       // 1MiB
-    //size_t leftSize = size;
-    //size_t readsize = 0;
-
-    //char* buffer = new char[defaultBufferLength];
-    //while (leftSize > 0)
-    //{
-    //    if (leftSize > defaultBufferLength)
-    //    {
-    //        readsize = fread(buffer, 1, defaultBufferLength, srcFp);
-    //    }
-    //    else
-    //    {
-    //        readsize = fread(buffer, 1, leftSize, srcFp);
-    //    }
-    //    leftSize -= readsize;
-    //    fseek(srcFp, size - leftSize, SEEK_SET);
-    //    gzwrite(gFile, buffer, readsize);
-    //}
-    //delete[] buffer;
-    //fclose(srcFp);
-    //gzclose(gFile);
-    return false;
+    bool succeed = false;
+    do
+    {
+        gzFile gFile = gzopen(desFilePath.c_str(), "wb");
+        BREAK_IF(gFile == nullptr);
+        FILE* srcFp = fopen(srcFilePath.c_str(), "rb");
+        BREAK_IF(srcFp == nullptr);
+        const uint32_t defaultBufferLength = uint32_t(1) << 20;       // 1MiB
+        size_t readsize = 0;
+        size_t totalReadSize = 0;
+        char* buffer = new char[defaultBufferLength];
+        do 
+        {
+            fseek(srcFp, totalReadSize, SEEK_SET);
+            readsize = fread(buffer, 1, defaultBufferLength, srcFp);
+            totalReadSize += readsize;
+            gzwrite(gFile, buffer, readsize);
+        } while (readsize == defaultBufferLength);
+        delete[] buffer;
+        fclose(srcFp);
+        gzclose(gFile);
+        succeed = true;
+    } while (false);
+    return succeed;
 }
 
 bool Compression::uncompressFile(const std::string& srcFilePath, const std::string& desFilePath)
 {
-    LOG_ASSERT(false, "***** Not Implementation.");
-    return false;
+    bool succeed = false;
+    do
+    {
+        gzFile gFile = gzopen(srcFilePath.c_str(), "rb");
+        BREAK_IF(gFile == nullptr);
+        FILE* desFp = fopen(desFilePath.c_str(), "wb");
+        BREAK_IF(desFp == nullptr);
+        const uint32_t defaultBufferLength = uint32_t(1) << 20;       // 1MiB
+        size_t readsize = 0;
+        size_t totalReadSize = 0;
+        char* buffer = new char[defaultBufferLength];
+        do 
+        {
+            gzseek(gFile, totalReadSize, SEEK_SET);
+            readsize = gzread(gFile, buffer, defaultBufferLength);
+            totalReadSize += readsize;
+            fwrite(buffer, 1, readsize, desFp);
+        } while (readsize == defaultBufferLength);
+
+        delete[] buffer;
+        fclose(desFp);
+        gzclose(gFile);
+        succeed = true;
+    } while (false);
+    return succeed;
 }
 
 NS_FK_END
