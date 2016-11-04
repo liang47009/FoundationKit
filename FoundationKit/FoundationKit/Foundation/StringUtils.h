@@ -34,9 +34,20 @@ public:
 	// trim from both ends
 	static std::string &trim(std::string &s);
 
-	static std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
+    /*
+     * std::string str = "|aaaa|bbbb|cccc|dddd|";
+     * auto splitVec = StringUtils::split(str, '|');
+     * splitVec[0]="";
+     * splitVec[1]="aaaa";
+     * splitVec[2]="bbbb";
+     * splitVec[3]="cccc";
+     * splitVec[4]="dddd";
+     */
+	static std::vector<std::string> split(const std::string &s, char delim, std::vector<std::string> &elems);
 
 	static std::vector<std::string> split(const std::string &s, char delim);
+
+    static std::vector<std::string> split(const std::string &s, std::string delim);
     
     static std::string join(std::string delim, std::vector<std::string> values);
 

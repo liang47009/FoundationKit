@@ -88,7 +88,7 @@ std::string & StringUtils::trim( std::string &s )
 	return ltrim(rtrim(s));
 }
 
-std::vector<std::string> & StringUtils::split( const std::string &s, char delim, std::vector<std::string> &elems )
+std::vector<std::string> StringUtils::split( const std::string &s, char delim, std::vector<std::string> &elems )
 {
 	std::stringstream ss(s);
 	std::string item;
@@ -104,6 +104,28 @@ std::vector<std::string> StringUtils::split( const std::string &s, char delim )
 	std::vector<std::string> elems;
 	split(s, delim, elems);
 	return elems;
+}
+
+std::vector<std::string> StringUtils::split(const std::string &s, std::string delim)
+{
+    std::vector<std::string> elems;
+    size_t delimLen = delim.size();
+    size_t currentIndex = 0;
+    size_t findPos = s.find(delim, currentIndex);
+    while (findPos != std::string::npos)
+    {
+        if ((currentIndex + delimLen)>findPos)
+        {
+            elems.push_back("");
+        }
+        else
+        {
+            elems.push_back(s.substr(currentIndex, findPos - currentIndex));
+        }
+        currentIndex = findPos + delimLen;
+        findPos = s.find(delim, currentIndex);
+    }
+    return elems;
 }
 
 std::string StringUtils::join(std::string delim, std::vector<std::string> values)
