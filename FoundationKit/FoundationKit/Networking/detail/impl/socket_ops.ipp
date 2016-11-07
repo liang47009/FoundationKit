@@ -144,7 +144,7 @@ namespace socket_ops
             return socket_error_retval;
         }
 
-        //clear_last_error();
+        clear_last_error();
         int result = error_wrapper(::connect(s, addr, addrlen), ec);
         if (result == 0)
             ec = std::error_code();
@@ -160,7 +160,8 @@ namespace socket_ops
     {
         // Perform the connect operation.
         socket_ops::connect(s, addr, addrlen, ec);
-        if (ec != make_error_code(std::errc::operation_in_progress) && ec != make_error_code(std::errc::operation_would_block))
+        if (ec.value() != static_cast<int>(std::errc::operation_in_progress) 
+            && ec.value() != static_cast<int>(std::errc::operation_would_block))
         {
             // The connect operation finished immediately.
             return;
