@@ -205,6 +205,22 @@ void AndroidJNI::detachJavaEnv()
     CurrentJavaVM->DetachCurrentThread();
 }
 
+bool AndroidJNI::registerNativeMethods(const char* className, JNINativeMethod* nativeMethods)
+{
+
+    if (!className)
+        return false;
+
+    JNIEnv*	env = AndroidJNI::getJavaEnv();
+    jclass FoundClass = AndroidJNI::findJavaClass(className);
+    if (!FoundClass)
+        return false;
+    if (env->RegisterNatives(FoundClass, nativeMethods, sizeof(nativeMethods) / sizeof(nativeMethods[0])) < 0)
+    {
+        return false;
+    }
+    return true;
+}
 
 } // namespace AndroidNode
 

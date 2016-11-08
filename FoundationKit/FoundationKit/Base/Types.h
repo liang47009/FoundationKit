@@ -55,7 +55,6 @@ struct SelectIntPointerType<T32BITS, T64BITS, 4>
     typedef T32BITS type; // select the 32 bit type
 };
 
-
 // Unsigned base types.
 typedef unsigned char 		uint8;		// 8-bit  unsigned.
 typedef unsigned short int	uint16;		// 16-bit unsigned.
@@ -68,6 +67,7 @@ typedef signed short int	int16;		// 16-bit signed.
 typedef signed int	 		int32;		// 32-bit signed.
 typedef signed long long	int64;		// 64-bit signed.
 
+// Floating point types
 typedef float		        float32;    // 32-bit signed.
 typedef double		        float64;    // 64-bit signed.
 typedef long double         float128;   // 80-bit signed.

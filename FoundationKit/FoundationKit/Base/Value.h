@@ -4,11 +4,11 @@
   losemymind.libo@gmail.com
 
   Support Type:
-      unsigned char
-      unsigned short
-      unsigned int
+      uint8
+      uint16
+      uint32
       unsigned long
-      unsigned long long
+      uint64
       bool
       char
       short
@@ -35,6 +35,7 @@
 #include <unordered_map>
 #include <string>
 #include "FoundationKit/FoundationMacros.h"
+#include "FoundationKit/Base/Types.h"
 
 NS_FK_BEGIN
 
@@ -47,13 +48,11 @@ public:
         UCHAR,
         USHORT,
         UINT,
-        ULONG,
         ULONGLONG,
         BOOL,
         CHAR,
         SHORT,
         INT,
-        LONG,
         LONGLONG,
         FLOAT,
         DOUBLE,
@@ -68,17 +67,15 @@ public:
     ~Value();
     Value(const Value& other);
     Value(Value&& other);
-    explicit Value(unsigned char data);
-    explicit Value(unsigned short data);
-    explicit Value(unsigned int data);
-    explicit Value(unsigned long data);
-    explicit Value(unsigned long long data);
+    explicit Value(uint8 data);
+    explicit Value(uint16 data);
+    explicit Value(uint32 data);
+    explicit Value(uint64 data);
     explicit Value(bool data);
     explicit Value(char data);
-    explicit Value(short data);
-    explicit Value(int data);
-    explicit Value(long data);
-    explicit Value(long long data);
+    explicit Value(int16 data);
+    explicit Value(int32 data);
+    explicit Value(int64 data);
     explicit Value(float data);
     explicit Value(double data);
     explicit Value(const char* data);
@@ -87,17 +84,15 @@ public:
     // assignment operator
     Value& operator= (const Value& other);
     Value& operator= (Value&& other);
-    Value& operator= (unsigned char data);
-    Value& operator= (unsigned short data);
-    Value& operator= (unsigned int data);
-    Value& operator= (unsigned long data);
-    Value& operator= (unsigned long long data);
+    Value& operator= (uint8 data);
+    Value& operator= (uint16 data);
+    Value& operator= (uint32 data);
+    Value& operator= (uint64 data);
     Value& operator= (bool data);
     Value& operator= (char data);
-    Value& operator= (short data);
-    Value& operator= (int data);
-    Value& operator= (long data);
-    Value& operator= (long long data);
+    Value& operator= (int16 data);
+    Value& operator= (int32 data);
+    Value& operator= (int64 data);
     Value& operator= (float data);
     Value& operator= (double data);
     Value& operator= (const char* data);
@@ -111,7 +106,14 @@ public:
     bool operator== (const Value& other);
     /** == operator overloading */
     bool operator== (const Value& other) const;
-
+    ///** >= operator overloading */
+    //bool operator>= (const Value & other) const;
+    ///** <= operator overloading */
+    //bool operator<= (const Value & other) const;
+    ///** < operator overloading */
+    //bool operator < (const Value & other) const;
+    ///** > operator overloading */
+    //bool operator > (const Value & other) const;
 
     inline bool isNull()  const { return _type == Type::NONE; }
     inline Type getType() const { return _type; };
@@ -119,8 +121,6 @@ public:
     void        move(Value&& other);
     void        swap(Value&  other);
     void        clear();
-
-
 
 //================= Define Template Method =================
     template< typename T >
@@ -133,17 +133,15 @@ private:
     Value(Type valType);
     union
     {
-        unsigned char      _ucharVal;
-        unsigned short     _ushortVal;
-        unsigned int       _uintVal;
-        unsigned long      _ulongVal;
-        unsigned long long _ulonglongVal;
+        uint8              _ucharVal;
+        uint16             _ushortVal;
+        uint32             _uintVal;
+        uint64             _ulonglongVal;
         bool               _boolVal;
-        char               _charVal;
-        short              _shortVal;
-        int                _intVal;
-        long               _longVal;
-        long long          _longlongVal;
+        int8               _charVal;
+        int16              _shortVal;
+        int32              _intVal;
+        int64              _longlongVal;
         float              _floatVal;
         double             _doubleVal;
         char*              _pcharVal;

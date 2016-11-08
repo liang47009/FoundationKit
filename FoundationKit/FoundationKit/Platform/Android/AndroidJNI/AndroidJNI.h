@@ -47,6 +47,26 @@ public:
     static jstring         string2jstring(const std::string& str);
     static AAssetManager*  getAAssetManager();
     static void            detachJavaEnv();
+
+    /*
+     * Register JNI native methods
+     * @code
+     * Defined the method.
+     * JNIEXPORT jstring JNICALL native_hello(JNIEnv *env, jclass clazz)
+     *  {
+     *      printf("hello in c native code./n");
+     *      return (*env)->NewStringUTF(env, "hello world returned.");
+     *  }
+     *  
+     *  Defined JNINativeMethod array
+     * static JNINativeMethod gMethods[] = 
+     * {
+     *     { "hello", "()Ljava/lang/String;", (void*)native_hello},
+     * };
+     * bool ret = AndroidJNI::registerNativeMethods("com/example/MainActivity", gMethods);
+     * @endcode
+     */
+    static bool            registerNativeMethods(const char* className, JNINativeMethod* nativeMethods);
     ~AndroidJNI();
 private:
     AndroidJNI();

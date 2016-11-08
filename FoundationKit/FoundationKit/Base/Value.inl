@@ -25,35 +25,28 @@ T Value::as()
 
 
 template<>
-inline unsigned char Value::as<unsigned char>()
+inline uint8 Value::as<uint8>()
 {
     assert(_type == Type::UCHAR);
     return _field._ucharVal;
 }
 
 template<>
-inline unsigned short Value::as<unsigned short>()
+inline uint16 Value::as<uint16>()
 {
     assert(_type == Type::USHORT);
     return _field._ushortVal;
 }
 
 template<>
-inline unsigned int Value::as<unsigned int>()
+inline uint32 Value::as<uint32>()
 {
     assert(_type == Type::UINT);
     return _field._uintVal;
 }
 
 template<>
-inline unsigned long Value::as<unsigned long>()
-{
-    assert(_type == Type::ULONG);
-    return _field._ulongVal;
-}
-
-template<>
-inline unsigned long long Value::as<unsigned long long>()
+inline uint64 Value::as<uint64>()
 {
     assert(_type == Type::ULONGLONG);
     return _field._ulonglongVal;
@@ -74,28 +67,21 @@ inline char Value::as<char>()
 }
 
 template<>
-inline short Value::as<short>()
+inline short Value::as<int16>()
 {
     assert(_type == Type::SHORT);
     return _field._shortVal;
 }
 
 template<>
-inline int Value::as<int>()
+inline int Value::as<int32>()
 {
     assert(_type == Type::INT);
     return _field._intVal;
 }
 
 template<>
-inline long Value::as<long>()
-{
-    assert(_type == Type::LONG);
-    return _field._longVal;
-}
-
-template<>
-inline long long Value::as<long long>()
+inline long long Value::as<int64>()
 {
     assert(_type == Type::LONGLONG);
     return _field._longlongVal;

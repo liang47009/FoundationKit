@@ -62,12 +62,6 @@ Value::Value(unsigned int data)
     _field._uintVal = data;
 }
 
-Value::Value(unsigned long data)
-    : Value(Type::ULONG)
-{
-    _field._ulongVal = data;
-}
-
 Value::Value(unsigned long long data)
     : Value(Type::ULONGLONG)
 {
@@ -98,12 +92,6 @@ Value::Value(int data)
     _field._intVal = data;
 }
 
-Value::Value(long data)
-    : Value(Type::LONG)
-{
-    _field._longVal = data;
-}
-
 Value::Value(long long data)
     : Value(Type::LONGLONG)
 {
@@ -122,7 +110,7 @@ Value::Value(double data)
     _field._doubleVal = data;
 }
 
-Value::Value( const char* data )
+Value::Value(const char* data)
     : Value(Type::PCHAR)
 {
     size_t len = strlen(data);
@@ -168,12 +156,8 @@ Value& Value::operator=(unsigned int data)
     _field._uintVal = data;
     return *this;
 }
-Value& Value::operator=(unsigned long data)
-{
-    reset(Type::ULONG);
-    _field._ulongVal = data;
-    return *this;
-}
+
+
 Value& Value::operator=(unsigned long long data)
 {
     reset(Type::ULONGLONG);
@@ -204,12 +188,7 @@ Value& Value::operator=(int data)
     _field._intVal = data;
     return *this;
 }
-Value& Value::operator=(long data)
-{
-    reset(Type::LONG);
-    _field._longVal = data;
-    return *this;
-}
+
 Value& Value::operator=(long long data)
 {
     reset(Type::LONGLONG);
@@ -274,13 +253,11 @@ bool Value::operator== (const Value& other) const
     case Value::Type::UCHAR: return _field._ucharVal   == other._field._ucharVal;
     case Value::Type::USHORT: return _field._ushortVal == other._field._ushortVal;
     case Value::Type::UINT: return _field._uintVal == other._field._uintVal;
-    case Value::Type::ULONG: return _field._ulongVal == other._field._ulongVal;
     case Value::Type::ULONGLONG: return _field._ulonglongVal == other._field._ulonglongVal;
     case Value::Type::BOOL: return _field._boolVal == other._field._boolVal;
     case Value::Type::CHAR: return _field._charVal == other._field._charVal;
     case Value::Type::SHORT: return _field._shortVal == other._field._shortVal;
     case Value::Type::INT: return _field._intVal == other._field._intVal;
-    case Value::Type::LONG: return _field._longVal == other._field._longVal;
     case Value::Type::LONGLONG: return _field._longlongVal == other._field._longlongVal;
     case Value::Type::FLOAT: return _field._floatVal == other._field._floatVal;
     case Value::Type::DOUBLE: return _field._doubleVal == other._field._doubleVal;
@@ -309,9 +286,6 @@ void Value::copy(Value& other)
     case Value::Type::UINT:
         _field._uintVal = other.as<unsigned int>();
         break;
-    case Value::Type::ULONG:
-        _field._ulongVal = other.as<unsigned long>();
-        break;
     case Value::Type::ULONGLONG:
         _field._ulonglongVal = other.as<unsigned long long>();
         break;
@@ -326,9 +300,6 @@ void Value::copy(Value& other)
         break;
     case Value::Type::INT:
         _field._intVal = other.as<int>();
-        break;
-    case Value::Type::LONG:
-        _field._longVal = other.as<long>();
         break;
     case Value::Type::LONGLONG:
         _field._longlongVal = other.as<long long>();
@@ -385,10 +356,10 @@ void Value::clear()
     switch (_type)
     {
     case Value::Type::PCHAR:
-        SAFE_DELETE(_field._pcharVal);
+        SAFE_DELETE_ARRAY(_field._pcharVal);
         break;
     case Value::Type::STRING:
-        SAFE_DELETE(_field._stringVal);
+        SAFE_DELETE_ARRAY(_field._stringVal);
         break;
     default:
         break;
@@ -404,11 +375,11 @@ void Value::reset(Type valType)
         return;
     if (_type == Type::PCHAR)
     {
-        SAFE_DELETE(_field._pcharVal);
+        SAFE_DELETE_ARRAY(_field._pcharVal);
     }
     else if (_type == Type::STRING)
     {
-        SAFE_DELETE(_field._stringVal);
+        SAFE_DELETE_ARRAY(_field._stringVal);
     }
     _type = valType;
 }

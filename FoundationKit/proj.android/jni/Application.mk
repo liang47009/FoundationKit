@@ -21,13 +21,14 @@ APP_STL :=gnustl_static
 #The LLVM libc++ runtime (shared).	C++ Exceptions and RTTI; Standard Library
 #APP_STL :=c++_shared
 
+#armeabi can not support atomic
 #APP_ABI := all
 #APP_ABI := armeabi armeabi-v7a arm64-v8a x86 x86_64 mips mips64
-#APP_ABI := armeabi armeabi-v7a x86
-APP_ABI := armeabi-v7a x86
+APP_ABI := armeabi armeabi-v7a x86
+#APP_ABI := armeabi-v7a x86
 
-#NDK_TOOLCHAIN_VERSION := 4.9
-NDK_TOOLCHAIN_VERSION := clang
+NDK_TOOLCHAIN_VERSION := 4.8
+#NDK_TOOLCHAIN_VERSION := clang
 
 #APP_PLATFORM=android-19
 
