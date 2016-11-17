@@ -255,9 +255,6 @@
     <ClInclude Include="..\FoundationKit\experimental\any.hpp">
       <Filter>experimental</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\memory.h">
-      <Filter>experimental</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\optional.hpp">
       <Filter>experimental</Filter>
     </ClInclude>
@@ -266,9 +263,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\DateTime.h">
       <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\BufferTest.h">
-      <Filter>experimental</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\match.hpp">
       <Filter>experimental</Filter>
@@ -308,9 +302,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\std\function_cache.hpp">
       <Filter>std</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\Gamepad.h">
-      <Filter>experimental</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\unique_id.hpp">
       <Filter>Foundation</Filter>
@@ -405,21 +396,6 @@
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.h">
       <Filter>Platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPClient.h">
-      <Filter>HTTPClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPRequest.hpp">
-      <Filter>HTTPClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPResponse.hpp">
-      <Filter>HTTPClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HTTPClient\MimeTypes.h">
-      <Filter>HTTPClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HTTPClient\HttpClientTest.h">
-      <Filter>HTTPClient</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\LanguageFeatures.h">
       <Filter>FoundationKit</Filter>
     </ClInclude>
@@ -452,6 +428,21 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\TimerQueue.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPClient.h">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HTTPClient\HttpClientTest.h">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPRequest.hpp">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPResponse.hpp">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\HTTPClient\MimeTypes.h">
+      <Filter>HTTPClient</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -566,9 +557,6 @@
     <ClCompile Include="..\FoundationKit\Base\MathEx.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\experimental\memory.cpp">
-      <Filter>experimental</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp">
       <Filter>FoundationKit</Filter>
     </ClCompile>
@@ -587,26 +575,23 @@
     <ClCompile Include="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp">
       <Filter>Platform\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\experimental\Gamepad.cpp">
-      <Filter>experimental</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\unique_id.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Networking\IProtocol.cpp">
       <Filter>Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\HTTPClient\HTTPClient.cpp">
-      <Filter>HTTPClient</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\HTTPClient\MimeTypes.cpp">
-      <Filter>HTTPClient</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\Timer.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\TimerQueue.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\HTTPClient\HTTPClient.cpp">
+      <Filter>HTTPClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\HTTPClient\MimeTypes.cpp">
+      <Filter>HTTPClient</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

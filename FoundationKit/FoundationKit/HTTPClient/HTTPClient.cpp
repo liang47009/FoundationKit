@@ -26,7 +26,6 @@ static size_t onWriteData(void *ptr, size_t size, size_t nmemb, void *stream)
     // add data to the end of recvBuffer
     // write data maybe called more than once in a single request
     recvBuffer->insert(recvBuffer->end(), (char*)ptr, (char*)ptr + sizes);
-
     return sizes;
 }
 
@@ -38,7 +37,6 @@ static size_t onWriteHeaderData(void *ptr, size_t size, size_t nmemb, void *stre
     // add data to the end of recvBuffer
     // write data maybe called more than once in a single request
     recvBuffer->insert(recvBuffer->end(), (char*)ptr, (char*)ptr + sizes);
-
     return sizes;
 }
 

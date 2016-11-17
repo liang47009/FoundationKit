@@ -1,0 +1,174 @@
+
+#include "HTTPRequest.hpp"
+#include "HTTPResponse.hpp"
+#include "FoundationKit/Foundation/Logger.h"
+NS_FK_BEGIN
+
+HTTPResponse::HTTPResponse(RequestPtr pRequest)
+    : _request(pRequest)
+    , _responseData()
+    , _headers()
+    , _responseCode(0)
+    , _responseMessage()
+    , _bIsReady(0)
+    , _bSucceeded(0)
+    , _cookies()
+{
+
+}
+
+HTTPResponse::~HTTPResponse()
+{
+
+}
+
+std::string HTTPResponse::getURL()
+{
+    if (auto request = _request.lock())
+    {
+        return request->getURL();
+    }
+    return "";
+}
+
+std::string HTTPResponse::getURLParameter(const std::string& parameterName)
+{
+    if (auto request = _request.lock())
+    {
+        return request->getURLParameter(parameterName);
+    }
+    return "";
+}
+
+std::string HTTPResponse::getHeader(const std::string& headerName)
+{
+    std::string result;
+    if (!_bIsReady)
+    {
+        LOG_WARN("Can't get cached header [%s]. Response still processing. %p", headerName.c_str(), &_request);
+    }
+    else
+    {
+        auto headerIter = _headers.find(headerName);
+        if (headerIter != _headers.end())
+        {
+            result = headerIter->second;
+        }
+    }
+    return result;
+}
+
+std::vector<std::string> HTTPResponse::getAllHeaders()
+{
+    std::vector<std::string> result;
+    if (!_bIsReady)
+    {
+        LOG_WARN("Can't get cached headers. Response still processing. %p", &_request);
+    }
+    else
+    {
+        for (auto headerIter : _headers)
+        {
+            result.push_back(headerIter.first + ":" + headerIter.second);
+        }
+    }
+    return result;
+}
+
+std::string HTTPResponse::getContentType()
+{
+    return getHeader("Content-Type");
+}
+
+size_t HTTPResponse::getContentSize()
+{
+    return _contentSize;
+}
+
+std::vector<uint8>& HTTPResponse::getResponseData()
+{
+    if (!_bIsReady)
+    {
+        LOG_WARN("Payload is incomplete. Response still processing. %p", &_request);
+    }
+    return _responseData;
+}
+
+int32 HTTPResponse::getResponseCode()
+{
+    return _responseCode;
+}
+
+
+std::string HTTPResponse::getCookies()
+{
+    return _cookies;
+}
+
+std::string HTTPResponse::getPerformMsg()
+{
+    return _performMsg;
+}
+
+std::string HTTPResponse::getErrorMsg()
+{
+    return _errorMsg;
+}
+
+bool HTTPResponse::isReady()
+{
+    return _bIsReady;
+}
+
+bool HTTPResponse::isSucceeded()
+{
+    return _bSucceeded;
+}
+
+HTTPResponse& HTTPResponse::setHeader(const std::string& headerName, const std::string& headerValue)
+{
+    _headers.insert(std::make_pair(headerName, headerValue));
+    return (*this);
+}
+
+HTTPResponse& HTTPResponse::setContentSize(int contentSize)
+{
+    _contentSize = contentSize;
+    return (*this);
+}
+
+HTTPResponse& HTTPResponse::setCookies(const std::string& cookies)
+{
+    _cookies = cookies;
+    return (*this);
+}
+
+HTTPResponse& HTTPResponse::setReady(bool bReady)
+{
+    _bIsReady = bReady;
+    return (*this);
+}
+
+HTTPResponse& HTTPResponse::setSucceeded(bool bSucceeded)
+{
+    _bSucceeded = bSucceeded;
+    return (*this);
+}
+
+HTTPResponse& HTTPResponse::setPerformMsg(const std::string& performMsg)
+{
+    _performMsg = performMsg;
+    return (*this);
+}
+
+HTTPResponse& HTTPResponse::setErrorMsg(const std::string& errorMsg)
+{
+    _errorMsg = errorMsg;
+}
+
+
+NS_FK_END
+
+
+
+

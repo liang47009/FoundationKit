@@ -209,10 +209,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\any.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\BufferTest.h" />
-    <ClInclude Include="..\FoundationKit\experimental\Gamepad.h" />
     <ClInclude Include="..\FoundationKit\experimental\match.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\memory.h" />
     <ClInclude Include="..\FoundationKit\experimental\optional.hpp" />
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
@@ -318,8 +315,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Base\Vector4.cpp" />
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp" />
     <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp" />
-    <ClCompile Include="..\FoundationKit\experimental\Gamepad.cpp" />
-    <ClCompile Include="..\FoundationKit\experimental\memory.cpp" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.c" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTFWrapper.cpp" />
     <ClCompile Include="..\FoundationKit\external\unzip\ioapi.cpp" />
