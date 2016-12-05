@@ -20,6 +20,9 @@ class FileUtils : public Singleton<FileUtils>
 {
 public:
     ~FileUtils();
+    // D:\aaa\bbb\ccc\ddd\abc.txt --> D:/aaa/bbb/ccc/ddd/abc.txt
+    static std::string convertPathFormatToUnixStyle(const std::string& path);
+public:
 
    /**
     * Set default resource root path.
@@ -228,22 +231,6 @@ protected:
 
 
 };
-
-// D:\aaa\bbb\ccc\ddd\abc.txt --> D:/aaa/bbb/ccc/ddd/abc.txt
-static inline std::string convertPathFormatToUnixStyle(const std::string& path)
-{
-    std::string ret = path;
-    size_t len = ret.length();
-	for (size_t i = 0; i < len; ++i)
-    {
-        if (ret[i] == '\\')
-        {
-            ret[i] = '/';
-        }
-    }
-    return ret;
-}
-
 
 NS_FK_END
 #endif // LOSEMYMIND_FILEUTILS_H

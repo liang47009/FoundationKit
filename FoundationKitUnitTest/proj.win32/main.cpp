@@ -6,6 +6,7 @@
 #include <atomic>
 #include "FoundationKit/Base/Timer.h"
 #include "FoundationKit/Foundation/Logger.h"
+
 USING_NS_FK;
 
 bool bCanExit = false;
@@ -27,9 +28,11 @@ void createCommand()
     th.detach();
 }
 
-
 int wmain()
 {
+    std::error_code ec;
+    std::string strError = ec.message();
+
     AppDelegate app;
     Application::getInstance()->applicationDidLaunching();
     Application::getInstance()->applicationDidFinishLaunching();
@@ -60,3 +63,5 @@ int wmain()
     Application::getInstance()->applicationWillTerminate();
     return 0;
 }
+
+

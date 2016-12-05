@@ -6,6 +6,7 @@
 #include "FoundationKit/Base/Types.h"
 
 NS_FK_BEGIN
+namespace network{
 class HTTPRequest;
 class HTTPResponse
 {
@@ -18,8 +19,8 @@ public:
     typedef std::weak_ptr<HTTPRequest>                   RequestWeakPtr;
 
 public:
-    HTTPResponse(RequestPtr pRequest);
     ~HTTPResponse();
+    static Pointer           create(RequestPtr pRequest);
     std::string              getURL();
     std::string              getURLParameter(const std::string& parameterName);
     std::string              getHeader(const std::string& headerName);
@@ -29,18 +30,20 @@ public:
     std::vector<uint8>&      getResponseData();
     int32                    getResponseCode();
     std::string              getCookies();
-    std::string              getPerformMsg();
+    std::string              getResponseMsg();
     std::string              getErrorMsg();
     bool                     isReady();
     bool                     isSucceeded();
 
 protected:
+    HTTPResponse(RequestPtr pRequest);
     HTTPResponse&            setHeader(const std::string& headerName, const std::string& headerValue);
     HTTPResponse&            setContentSize(int contentSize);
     HTTPResponse&            setCookies(const std::string& cookies);
     HTTPResponse&            setReady(bool bReady);
     HTTPResponse&            setSucceeded(bool bSucceeded);
-    HTTPResponse&            setPerformMsg(const std::string& performMsg);
+    HTTPResponse&            setResponseCode(int32 responseCode);
+    HTTPResponse&            setResponseMsg(const std::string& responseMsg);
     HTTPResponse&            setErrorMsg(const std::string& errorMsg);
 
 private:
@@ -56,14 +59,13 @@ private:
     /** Cached content length from completed response */
     int32              _contentSize;
     /** True when the response has finished async processing */
-    int32 volatile     _bIsReady;
+    bool volatile      _bIsReady;
     /** True if the response was successfully received/processed */
-    int32 volatile     _bSucceeded;
+    bool volatile      _bSucceeded;
     std::string        _cookies;
-    std::string        _performMsg;
     std::string        _errorMsg;
 };
-
+} // namespace network
 NS_FK_END
 
 

@@ -13,7 +13,7 @@ TimerQueue::~TimerQueue()
 
 }
 
-void TimerQueue::update(float deltaTime)
+void TimerQueue::tick(float deltaTime)
 {
     if (!_timersCache.empty())
     {
@@ -37,6 +37,11 @@ void TimerQueue::update(float deltaTime)
     {
         timer->update(static_cast<int>(deltaTime * 1000));
     }
+}
+
+bool TimerQueue::isTickable() const
+{
+    return true;
 }
 
 int32 TimerQueue::enqueue(const TimerOption& timerOption)

@@ -11,7 +11,7 @@
 
 #include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Base/Types.h"
-#include "HTTPError.hpp"
+#include "FoundationKit/Base/ITickable.h"
 
 NS_FK_BEGIN
 
@@ -22,47 +22,28 @@ NS_FK_BEGIN
 #define REQUIRED
 #define OPTIONAL
 
+namespace network{
 enum class HttpStatusCode
 {
     /** Has not been started via ProcessRequest() */
     NotStarted,
+    /** Finished and was successful */
+    Succeeded,
     /** Currently being ticked and processed */
     Processing,
+    /** The request has been canceled*/
+    Canceled,
+    /** The request time-out*/
+    TimeOut,
     /** Finished but failed */
     Failed,
     /** Failed because it was unable to connect (safe to retry) */
-    Failed_ConnectionError,
-    /** Finished and was successful */
-    Succeeded
-};
+    Failed_ConnectionError
 
-struct HttpStatusObject
-{
-    HttpStatusCode _Errcode;
-    const char *_Name;
 };
-
-static const HttpStatusObject _Map_HttpErrorTab[] =
-{	// table of Windows code/name pairs
-    HttpStatusCode::NotStarted, "Has not been started.",
-    HttpStatusCode::Processing, "Currently being ticked and processed.",
-    HttpStatusCode::Failed, "Finished but failed.",
-    HttpStatusCode::Failed_ConnectionError, "Failed because it was unable to connect (safe to retry).",
-    HttpStatusCode::Succeeded, "Finished and was successful",
-    (HttpStatusCode)0, 0
-};
-
-const char * httpStatusToString(HttpStatusCode statusCode)
-{	// convert to name of generic error
-    const HttpStatusObject *_Ptr = &_Map_HttpErrorTab[0];
-    for (; _Ptr->_Name != 0; ++_Ptr)
-        if (_Ptr->_Errcode == statusCode)
-            return (_Ptr->_Name);
-    return ("unknown status");
-}
 
 class HTTPResponse;
-class HTTPRequest
+class HTTPRequest : public ITickable, public std::enable_shared_from_this<HTTPRequest>
 {
 public:
     typedef std::unordered_map<std::string, std::string> KeyValueMap;
@@ -82,11 +63,13 @@ public:
     /**
      * Delegate called per tick to update an Http request upload or download size progress
      *
-     * @param first parameter - original Http request that started things
-     * @param second parameter - the number of bytes sent / uploaded in the request so far.
-     * @param third parameter - the number of bytes received / downloaded in the response so far.
+     * @param 1 parameter - original Http request that started things
+     * @param 2 parameter - the number of bytes total download in the request so far.
+     * @param 3 parameter - the number of bytes current download in the request so far.
+     * @param 4 parameter - the number of bytes total upload in the request so far.
+     * @param 5 parameter - the number of bytes current upload in the request so far.
      */
-    using HttpRequestProgressDelegate = std::function < void(HTTPRequest::Pointer, int32, int32) > ;
+    using HttpRequestProgressDelegate = std::function < void(HTTPRequest::Pointer, int64, int64, int64, int64) >;
     //typedef std::function < void(HTTPRequest::Pointer, int32, int32) > HttpRequestProgressDelegate;
 
     enum class MethodType
@@ -100,8 +83,7 @@ public:
     };
 public:
     // implementation friends
-    friend class HTTPResponse;
-
+    //friend class HTTPResponse;
     /** Delegate that will get called once request completes or on any error */
     HttpRequestCompleteDelegate onRequestCompleteDelegate;
     /** Delegate that will get called once per tick with total bytes uploaded and downloaded so far */
@@ -110,39 +92,111 @@ public:
     /**
      * Constructor
      */
-    HTTPRequest(CURLSH* inShareHandle, bool enableDebug = false);
+    HTTPRequest(bool enableDebug = false);
 
     /**
      * Destructor. Clean up any connection/request handles
      */
     virtual ~HTTPRequest();
 
-
+    static Pointer           create(bool enableDebug = false);
     HTTPRequest&             setURL(const std::string& url);
     HTTPRequest&             setMethod(MethodType  method);
     HTTPRequest&             setHeader(const std::string& headerName, const std::string& headerValue);
-
+    HTTPRequest&             setPostField(const std::string& name, const std::string& value);
+    HTTPRequest&             setContentField(const std::string& name, const std::string& value);
+    HTTPRequest&             setFileField(const std::string& name, const std::string& fullPath);
+    HTTPRequest&             setRequestPayload(const std::vector<uint8>& data);
+    HTTPRequest&             setTimeOut(float seconds);
 
 
     std::string              getURL()const;
     std::string              getURLParameter(const std::string& parameterName);
     std::string              getHeader(const std::string& headerName);
     std::vector<std::string> getAllHeaders();
-
+    KeyValueMap&             getPostFields();
+    KeyValueMap&             getContentFields();
+    KeyValueMap&             getFileFields();
+    std::vector<uint8>&      getRequestPayload();
+    CURL*                    getEasyHandle();
+    HttpStatusCode           getRequestStatus();
+    ResponsePtr              getResponse();
+    float                    getTimeOut();
     void                     cancel();
-    void                     update(float deltaTime);
+    bool                     isFinished();
+
+    virtual void tick(float deltaTime) override;
+    virtual bool isTickable() const override;
+protected:
+    bool                     build();
+    void                     setCompleted(CURLcode completionResult);
+    void                     setAddToMultiResult(CURLMcode result);
+    void                     setRequestStatus(HttpStatusCode status);
+    void                     finishedRequest();
 
 private:
+    void buildRequestPayload();
+    void buildFormPayload();
+
+private: // ================================ Callback by libcurl ============================
     /**
      * Static callback to be used as read function (CURLOPT_READFUNCTION), will dispatch the call to proper instance
      *
-     * @param ptr buffer to copy data to (allocated and managed by libcurl)
-     * @param sizeInBlocks size of above buffer, in 'blocks'
-     * @param blockSizeInBytes size of a single block
-     * @param userData data we associated with request (will be a pointer to FCurlHttpRequest instance)
+     * @param buffer Buffer to copy data to (allocated and managed by libcurl)
+     * @param sizeInBlocks Size of above buffer, in 'blocks'
+     * @param blockSizeInBytes Size of a single block
+     * @param userData Data we associated with request (will be a pointer to HTTPRequest instance)
      * @return number of bytes actually written to buffer, or CURL_READFUNC_ABORT to abort the operation
      */
-    static size_t staticUploadCallback(void* ptr, size_t sizeInBlocks, size_t blockSizeInBytes, void* userData);
+    static size_t staticUploadCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes, void* userData);
+
+    /**
+     * Static callback to be used as header function (CURLOPT_HEADERFUNCTION), will dispatch the call to proper instance
+     *
+     * @param buffer Buffer to copy data to (allocated and managed by libcurl)
+     * @param sizeInBlocks Size of above buffer, in 'blocks'
+     * @param blockSizeInBytes Size of a single block
+     * @param userData Data we associated with request (will be a pointer to HTTPRequest instance)
+     * @return number of bytes actually processed, error is triggered if it does not match number of bytes passed
+     */
+    static size_t staticReceiveResponseHeaderCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes, void* userData);
+
+    /**
+     * Static callback to be used as write function (CURLOPT_WRITEFUNCTION), will dispatch the call to proper instance
+     *
+     * @param buffer Buffer to copy data to (allocated and managed by libcurl)
+     * @param sizeInBlocks Size of above buffer, in 'blocks'
+     * @param blockSizeInBytes Size of a single block
+     * @param userData Data we associated with request (will be a pointer to HTTPRequest instance)
+     * @return number of bytes actually processed, error is triggered if it does not match number of bytes passed
+     */
+    static size_t staticReceiveResponseBodyCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes, void* userData);
+
+    /**
+     * Static callback to be used as write function (CURLOPT_XFERINFOFUNCTION), will dispatch the call to proper instance
+     *
+     * @param userData Data we associated with request (will be a pointer to HTTPRequest instance)
+     * @param totalDownload Size of total download.
+     * @param nowDownload Size of current downloaded.
+     * @param totalUpload Size of total upload.
+     * @param nowUpload   Size of current uploaded.
+     * @return number of bytes actually processed, error is triggered if it does not match number of bytes passed
+     */
+    static int    staticProgressCallback(void *userData, curl_off_t totalDownload, curl_off_t nowDownload, curl_off_t totalUpload, curl_off_t nowUpload);
+
+    /**
+     * Static callback to be used as debug function (CURLOPT_DEBUGFUNCTION), will dispatch the call to proper instance
+     *
+     * @param handle handle to which the debug information applies
+     * @param debugInfoType type of information (CURLINFO_*)
+     * @param debugInfo debug information itself (may NOT be text, may NOT be zero-terminated)
+     * @param debugInfoSize exact size of debug information
+     * @param userData data we associated with request (will be a pointer to HTTPRequest instance)
+     * @return must return 0
+     */
+    static size_t staticDebugCallback(CURL * handle, curl_infotype debugInfoType, char * debugInfo, size_t debugInfoSize, void* userData);
+   
+private:
 
     /**
      * Method called when libcurl wants us to supply more data (see CURLOPT_READFUNCTION)
@@ -152,19 +206,8 @@ private:
      * @param blockSizeInBytes size of a single block
      * @return number of bytes actually written to buffer, or CURL_READFUNC_ABORT to abort the operation
      */
-    size_t uploadCallback(void* ptr, size_t sizeInBlocks, size_t blockSizeInBytes);
-
-    /**
-     * Static callback to be used as header function (CURLOPT_HEADERFUNCTION), will dispatch the call to proper instance
-     *
-     * @param ptr buffer to copy data to (allocated and managed by libcurl)
-     * @param sizeInBlocks size of above buffer, in 'blocks'
-     * @param blockSizeInBytes size of a single block
-     * @param userData data we associated with request (will be a pointer to FCurlHttpRequest instance)
-     * @return number of bytes actually processed, error is triggered if it does not match number of bytes passed
-     */
-    static size_t staticReceiveResponseHeaderCallback(void* ptr, size_t sizeInBlocks, size_t blockSizeInBytes, void* userData);
-
+    size_t uploadCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes);
+    
     /**
      * Method called when libcurl wants us to receive response header (see CURLOPT_HEADERFUNCTION). Headers will be passed
      * line by line (i.e. this callback will be called with a full line), not necessarily zero-terminated. This callback will
@@ -175,18 +218,7 @@ private:
      * @param BlockSizeInBytes size of a single block
      * @return number of bytes actually processed, error is triggered if it does not match number of bytes passed
      */
-    size_t receiveResponseHeaderCallback(void* ptr, size_t sizeInBlocks, size_t blockSizeInBytes);
-
-    /**
-     * Static callback to be used as write function (CURLOPT_WRITEFUNCTION), will dispatch the call to proper instance
-     *
-     * @param ptr buffer to copy data to (allocated and managed by libcurl)
-     * @param sizeInBlocks size of above buffer, in 'blocks'
-     * @param blockSizeInBytes size of a single block
-     * @param userData data we associated with request (will be a pointer to FCurlHttpRequest instance)
-     * @return number of bytes actually processed, error is triggered if it does not match number of bytes passed
-     */
-    static size_t staticReceiveResponseBodyCallback(void* ptr, size_t sizeInBlocks, size_t blockSizeInBytes, void* userData);
+    size_t receiveResponseHeaderCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes);
 
     /**
      * Method called when libcurl wants us to receive response body (see CURLOPT_WRITEFUNCTION)
@@ -196,19 +228,18 @@ private:
      * @param blockSizeInBytes size of a single block
      * @return number of bytes actually processed, error is triggered if it does not match number of bytes passed
      */
-    size_t receiveResponseBodyCallback(void* ptr, size_t sizeInBlocks, size_t blockSizeInBytes);
+    size_t receiveResponseBodyCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes);
 
     /**
-     * Static callback to be used as debug function (CURLOPT_DEBUGFUNCTION), will dispatch the call to proper instance
+     * Method called progress info about libcurl activities (see CURLOPT_XFERINFOFUNCTION) 
      *
-     * @param handle handle to which the debug information applies
-     * @param debugInfoType type of information (CURLINFO_*)
-     * @param debugInfo debug information itself (may NOT be text, may NOT be zero-terminated)
-     * @param debugInfoSize exact size of debug information
-     * @param userData data we associated with request (will be a pointer to FCurlHttpRequest instance)
-     * @return must return 0
+     * @param totalDownload Size of total download.
+     * @param nowDownload Size of current downloaded.
+     * @param totalUpload Size of total upload.
+     * @param nowUpload   Size of current uploaded.
+     * @return number of bytes actually processed, error is triggered if it does not match number of bytes passed
      */
-    static size_t staticDebugCallback(CURL * handle, curl_infotype debugInfoType, char * debugInfo, size_t debugInfoSize, void* userData);
+    int    progressCallback(curl_off_t totalDownload, curl_off_t nowDownload, curl_off_t totalUpload, curl_off_t nowUpload);
 
     /**
      * Method called with debug information about libcurl activities (see CURLOPT_DEBUGFUNCTION)
@@ -221,12 +252,9 @@ private:
      */
     size_t debugCallback(CURL * handle, curl_infotype debugInfoType, char * debugInfo, size_t debugInfoSize);
 
-
+    
 private:
-    void internalInitialize(CURLSH* inShareHandle);
-    bool internalSetup();
-
-private:
+    friend class HTTPClient;
     /** Pointer to an easy handle specific to this request */
     CURL*			_easyHandle;
     /** List of custom headers to be passed to CURL */
@@ -237,33 +265,46 @@ private:
     bool			_bCanceled;
     /** Set to true when request has been completed */
     bool			_bCompleted;
-    /** Set to true if request failed to be added to curl multi */
-    CURLMcode		_addToMultiResult;
+    /* Time-out the request operation after this amount of seconds */
+    bool            _bTimeout;
     /** Operation result code as returned by libcurl */
     CURLcode		_completionResult;
+    /** Set to true if request failed to be added to curl multi */
+    CURLMcode		_addToMultiResult;
     /** Number of bytes sent already */
     uint32			_bytesSent;
     /** Current status of request being processed */
-    HttpStatusCode              _completionStatus;
-    /** Total elapsed time in seconds since the start of the request */
-    float                       _elapsedTime;
-    /** Elapsed time since the last received HTTP response. */
-    float                       _timeSinceLastResponse;
+    HttpStatusCode              _requestStatus;
     /** Set true if enable curl call CURLOPT_DEBUGFUNCTION */
     bool                        _enableDebug;
     /** Cached URL */
     std::string                 _url;
     /** Mapping of header section to values. */
     KeyValueMap                 _headers;
+    KeyValueMap                 _postFields;
+    KeyValueMap                 _contentFields;
+    KeyValueMap                 _fileFields;
     /** BYTE array payload to use with the request. Typically for a POST */
     std::vector<uint8>          _requestPayload;
     /** The response object which we will use to pair with this request */
     ResponsePtr                 _response;
     char                        _errorBuffer[CURL_ERROR_SIZE];
+    /* Time-out the request operation after this amount of seconds */
+    float                       _httpTimeOut;
+    float                       _elapsedTime;
+    bool                        _bFinished;
+    curl_httppost*              _formPost;
+
 };
 
-
+} // namespace network
 NS_FK_END
 
 
 #endif // LOSEMYMIND_HTTPREQUEST_H
+
+
+
+
+
+

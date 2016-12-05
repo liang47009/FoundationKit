@@ -248,8 +248,8 @@ bool Value::operator== (const Value& other) const
     if (this->isNull()) return true;
     switch (_type)
     {
-    //case Value::Type::NONE:
-    //    break;
+    case Value::Type::NONE:
+        break;
     case Value::Type::UCHAR: return _field._ucharVal   == other._field._ucharVal;
     case Value::Type::USHORT: return _field._ushortVal == other._field._ushortVal;
     case Value::Type::UINT: return _field._uintVal == other._field._uintVal;

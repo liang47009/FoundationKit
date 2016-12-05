@@ -95,6 +95,19 @@ struct allocator_traits
 template<class _Ty>
 using allocator_traits_t = typename allocator_traits<_Ty>::type;
 
+class GenericArgument
+{
+public:
+    inline GenericArgument(const char *aName = nullptr, const void *aData = nullptr)
+        : _data(aData), _name(aName) {}
+    inline void *data() const { return const_cast<void *>(_data); }
+    inline const char *name() const { return _name; }
+
+private:
+    const void *_data;
+    const char *_name;
+};
+
 namespace TypeTest
 {
     static_assert(sizeof(uint8)  == 1, "uint8 type size test failed.");

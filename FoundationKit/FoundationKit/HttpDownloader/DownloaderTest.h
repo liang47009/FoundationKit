@@ -8,9 +8,9 @@
 USING_NS_FK;
 using namespace FoundationKit::network;
 
-std::shared_ptr<Downloader> _downloader;
-int DownloaderCount = 0;
-void TestDownloader()
+static std::shared_ptr<Downloader> _downloader;
+static int DownloaderCount = 0;
+static void TestDownloader()
 {
 
 

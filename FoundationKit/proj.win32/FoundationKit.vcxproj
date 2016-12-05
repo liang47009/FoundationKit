@@ -92,6 +92,8 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(ProjectDir)/../FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../FoundationKit/external/unzip;$(ProjectDir)/../FoundationKit/external/;$(FoundationKitHeaders)FoundationKit/Platform/windows/system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -134,6 +136,8 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(ProjectDir)/../FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../FoundationKit/external/unzip;$(ProjectDir)/../FoundationKit/external/;$(FoundationKitHeaders)FoundationKit/Platform/windows/system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,6 +150,9 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
 xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*" "$(OutDir)"</Command>
       <Message>拷贝依赖库到输出目录</Message>
     </PreLinkEvent>
+    <Lib>
+      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -177,6 +184,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\DateTime.h" />
     <ClInclude Include="..\FoundationKit\Base\Dictionary.h" />
     <ClInclude Include="..\FoundationKit\Base\error_code.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\ITickable.h" />
     <ClInclude Include="..\FoundationKit\Base\MathContent.h" />
     <ClInclude Include="..\FoundationKit\Base\MathEx.h" />
     <ClInclude Include="..\FoundationKit\Base\multiple_buffer.hpp" />
@@ -233,11 +241,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\Version.h" />
     <ClInclude Include="..\FoundationKit\Foundation\WorkQueue.h" />
     <ClInclude Include="..\FoundationKit\GenericPlatformMacros.h" />
-    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPClient.h" />
-    <ClInclude Include="..\FoundationKit\HTTPClient\HttpClientTest.h" />
-    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPRequest.hpp" />
-    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPResponse.hpp" />
-    <ClInclude Include="..\FoundationKit\HTTPClient\MimeTypes.h" />
     <ClInclude Include="..\FoundationKit\HttpDownloader\Downloader.h" />
     <ClInclude Include="..\FoundationKit\HttpDownloader\DownloaderImpl.h" />
     <ClInclude Include="..\FoundationKit\HttpDownloader\DownloaderTest.h" />
@@ -254,11 +257,10 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Networking\detail\socket_base.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\detail\socket_ops.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\detail\socket_option.hpp" />
-    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\epoll_reactor.hpp" />
-    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\event_reactor.hpp" />
-    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\kqueue_reactor.hpp" />
-    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\reactor.hpp" />
-    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\select_reactor.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\HTTPClient\HTTPClient.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\HTTPClient\HTTPRequest.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\HTTPClient\HTTPResponse.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\HTTPClient\MimeTypes.h" />
     <ClInclude Include="..\FoundationKit\Networking\IProtocol.h" />
     <ClInclude Include="..\FoundationKit\Networking\ip\address.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\ip\address_v4.hpp" />
@@ -331,8 +333,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Foundation\Version.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\WorkQueue.cpp" />
     <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp" />
-    <ClCompile Include="..\FoundationKit\HTTPClient\HTTPClient.cpp" />
-    <ClCompile Include="..\FoundationKit\HTTPClient\MimeTypes.cpp" />
     <ClCompile Include="..\FoundationKit\HttpDownloader\Downloader.cpp" />
     <ClCompile Include="..\FoundationKit\HttpDownloader\DownloaderImpl.cpp" />
     <ClCompile Include="..\FoundationKit\LuaEngine\LuaEngine.cpp" />
@@ -340,6 +340,10 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\LuaEngine\LuaStack.cpp" />
     <ClCompile Include="..\FoundationKit\LuaEngine\LuaValue.cpp" />
     <ClCompile Include="..\FoundationKit\LuaEngine\Script.cpp" />
+    <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPClient.cpp" />
+    <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPRequest.cpp" />
+    <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPResponse.cpp" />
+    <ClCompile Include="..\FoundationKit\Networking\HTTPClient\MimeTypes.cpp" />
     <ClCompile Include="..\FoundationKit\Networking\IProtocol.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\FileUtils.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Platform.cpp" />

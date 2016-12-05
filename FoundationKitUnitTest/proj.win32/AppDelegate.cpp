@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <chrono>
 #include <thread>
+#include <iostream>
 
 #include "AppDelegate.h"
 #include "FoundationKit/Foundation/Logger.h"
@@ -20,43 +21,28 @@
 #include "FoundationKit/experimental/any.hpp"
 #include "FoundationKit/experimental/optional.hpp"
 #include "FoundationKit/std/function_traits.hpp"
+#include "FoundationKit/Platform/Environment.h"
+#include "FoundationKit/Foundation/unique_id.hpp"
+#include "FoundationKit/Base/DateTime.h"
+#include "FoundationKit/Platform/PlatformTLS.h"
+#include "FoundationKit/Base/basic_streambuf.hpp"
+#include "FoundationKit/Networking/ip/address.hpp"
 #include "FoundationKit/std/function_cache.hpp"
 #include "FoundationKit/Base/Dictionary.h"
 #include "FoundationKit/Base/MathEx.h"
-#include "FoundationKit/Base/Timer.h"
 #include "FoundationKit/Crypto/Base64.h"
+#include "FoundationKit/Base/ElapsedTimer.h"
+#include "FoundationKit/Base/Timer.h"
 #include "FoundationKit/Foundation/Compression.h"
-#include "FoundationKit/Platform/Environment.h"
-#include "FoundationKit/Foundation/unique_id.hpp"
-//Test header
-#include "FoundationKit/HttpDownloader/DownloaderTest.h"
-#include "../../HttpClient/HttpClientTest.h"
-
-#include "FoundationKit/Base/DateTime.h"
-
-#include "FoundationKit/experimental/memory.h"
-#include "FoundationKit/Networking/network.hpp"
-#include "FoundationKit/Platform/PlatformTLS.h"
-#include "FoundationKit/Networking/ip/address.hpp"
-#include "FoundationKit/Base/basic_streambuf.hpp"
 #include "FoundationKit/Base/TimerQueue.h"
-#include <iostream>
+#include "FoundationKit/HttpDownloader/DownloaderTest.h"
+#include "FoundationKit/Networking/network.hpp"
+#include "FoundationKit/Networking/HTTPClient/HTTPClient.hpp"
+#include "FoundationKit/Networking/HTTPClient/HTTPRequest.hpp"
+#include "FoundationKit/Networking/HTTPClient/HTTPResponse.hpp"
 
 using namespace std;
 USING_NS_FK;
-
-class GenericArgument
-{
-public:
-    inline GenericArgument(const char *aName = nullptr, const void *aData = nullptr)
-        : _data(aData), _name(aName) {}
-    inline void *data() const { return const_cast<void *>(_data); }
-    inline const char *name() const { return _name; }
-
-private:
-    const void *_data;
-    const char *_name;
-};
 
 static Scheduler* shared_Scheduler = nullptr;
 static TimerQueue  G_TimerQueue;
@@ -82,29 +68,29 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-Timer::pointer  _mainTimer = Timer::create();
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
-    LOG_INFO(" AppDelegate::applicationDidFinishLaunching()  ");
+    std::error_code ec;
+    std::string strErr = ec.message();
 
-    TimerOption option(true, 5000, 1.0f, 100, Timer::repeat_forever);
-    option.onTimedEvent = [](const TimedEventArgs& args)
+    HTTPClient::initialize();
+    HTTPClient::getInstance()->loopInThread();
+
+    HTTPRequest::Pointer  request = HTTPRequest::create(true);
+    request->setURL("www.baidu.com").setMethod(HTTPRequest::MethodType::GET);
+    request->onRequestCompleteDelegate = [](HTTPRequest::Pointer request, HTTPResponse::Pointer response, bool arg)
     {
-        G_TimerQueue.erase(args.timerId);
-        LOG_INFO("====== Timer id:%d, deltaTime:%d ms, Date:%s", args.timerId, args.deltaTime, args.signalTime.toString().c_str());
+        if (response->isSucceeded())
+        {
+        }
+        else
+        {
+
+        }
     };
-    //G_TimerQueue.enqueue(option);
-    //G_TimerQueue.enqueue(option);
-    //G_TimerQueue.enqueue(option);
-    //G_TimerQueue.enqueue(option);
-    //G_TimerQueue.enqueue(option);
+    HTTPClient::getInstance()->sendRequestAsync(request);
 
-    option.interval = 500;
-    _mainTimer->setOption(option);
-    _mainTimer->startInThread();
-
-    G_TimerQueue.insert(_mainTimer);
 
 
     /*
@@ -146,25 +132,17 @@ void AppDelegate::applicationWillTerminate()
     {
         serverThread.join();
     }
-
-	//memAnalyzer->displayAllocations(true, true);
-	//memAnalyzer->displayStatTable();
-	//std::cin.get();
-	//LOG_INFO(" >>>>>>>>>>>>>>>>CurrentBlocks: %lld \n", memAnalyzer->getCurrentBlocks());
-	//LOG_INFO(" >>>>>>>>>>>>>>>>CurrentMemory: %u \n", memAnalyzer->getCurrentMemory());
-	//LOG_INFO(" >>>>>>>>>>>>>>>>PeakBlocks: %lld \n", memAnalyzer->getPeakBlocks());
-	//LOG_INFO(" >>>>>>>>>>>>>>>>PeakMemory: %u \n", memAnalyzer->getPeakMemory());
-
 }
 
 void AppDelegate::mainLoop()
 {
-	shared_Scheduler->update(1/60.f);
-    G_TimerQueue.update(1 / 60.f);
+ 	shared_Scheduler->update(1/60.f);
 }
+
 
 void runServer()
 {
+
     network::ip::tcp::socket serverSocket;
     serverSocket.open(network::ip::tcp::v4());
     serverSocket.set_non_blocking(true);
@@ -211,6 +189,7 @@ void runServer()
 
 void runClient()
 {
+
     std::vector<network::ip::tcp::socket> clientList;
     while (!bExitApp)
     {

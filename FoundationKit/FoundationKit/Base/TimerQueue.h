@@ -11,6 +11,7 @@ losemymind.libo@gmail.com
 #include <vector>
 #include "FoundationKit/Base/Types.h"
 #include "FoundationKit/Base/Timer.h"
+#include "FoundationKit/Base/ITickable.h"
 
 NS_FK_BEGIN
 
@@ -21,13 +22,13 @@ enum class ETimerStatus : uint8
 };
 
 
-class TimerQueue
+class TimerQueue : public ITickable
 {
 public:
     TimerQueue();
     ~TimerQueue();
-
-    void   update(float deltaTime);
+    virtual void tick(float deltaTime) override;
+    virtual bool isTickable() const override;
     int32  enqueue(const TimerOption& timerOption);
     int32  insert(const Timer::pointer timer);
     void   erase(const Timer::pointer timer);

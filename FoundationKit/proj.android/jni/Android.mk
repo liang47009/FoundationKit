@@ -39,8 +39,6 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/Foundation/unique_id.cpp \
 ../../FoundationKit/Foundation/Version.cpp \
 ../../FoundationKit/Foundation/WorkQueue.cpp \
-../../FoundationKit/HTTPClient/HTTPClient.cpp \
-../../FoundationKit/HTTPClient/MimeTypes.cpp \
 ../../FoundationKit/HttpDownloader/Downloader.cpp \
 ../../FoundationKit/HttpDownloader/DownloaderImpl.cpp \
 ../../FoundationKit/LuaEngine/LuaEngine.cpp \
@@ -49,6 +47,10 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/LuaEngine/LuaValue.cpp \
 ../../FoundationKit/LuaEngine/Script.cpp \
 ../../FoundationKit/Networking/IProtocol.cpp \
+../../FoundationKit/Networking/HTTPClient/HTTPClient.cpp \
+../../FoundationKit/Networking/HTTPClient/HTTPRequest.cpp \
+../../FoundationKit/Networking/HTTPClient/HTTPResponse.cpp \
+../../FoundationKit/Networking/HTTPClient/MimeTypes.cpp \
 ../../FoundationKit/Platform/Android/AndroidJavaBridge.cpp \
 ../../FoundationKit/Platform/Android/EnvironmentAndroid.cpp \
 ../../FoundationKit/Platform/Android/FileUtils_android.cpp \

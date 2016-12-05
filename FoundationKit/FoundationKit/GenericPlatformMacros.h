@@ -3,6 +3,12 @@
 #define LOSEMYMIND_GENERICPLATFORMMACROS_H
 #pragma once
 
+#define LIBFK_VERSION "2.8.0"
+#define LIBFK_VERSION_MAJOR 2
+#define LIBFK_VERSION_MINOR 8
+#define LIBFK_VERSION_PATCH 0
+#define LIBFK_VERSION_NUM 0x070800
+
 #include "LanguageFeatures.h"
 // namespace FoundationKit {}
 #ifdef __cplusplus
@@ -34,7 +40,7 @@
 #include <TargetConditionals.h>
 #endif
 
-#if (TARGET_OS_IOS )
+#if defined(TARGET_OS_IOS) && (TARGET_OS_IOS == 1)
     #undef TARGET_PLATFORM
     #define TARGET_PLATFORM PLATFORM_IOS
    /**

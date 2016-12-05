@@ -3,15 +3,15 @@
 #include "HTTPResponse.hpp"
 #include "FoundationKit/Foundation/Logger.h"
 NS_FK_BEGIN
-
+namespace network{
 HTTPResponse::HTTPResponse(RequestPtr pRequest)
     : _request(pRequest)
     , _responseData()
     , _headers()
     , _responseCode(0)
     , _responseMessage()
-    , _bIsReady(0)
-    , _bSucceeded(0)
+    , _bIsReady(false)
+    , _bSucceeded(false)
     , _cookies()
 {
 
@@ -20,6 +20,12 @@ HTTPResponse::HTTPResponse(RequestPtr pRequest)
 HTTPResponse::~HTTPResponse()
 {
 
+}
+
+HTTPResponse::Pointer HTTPResponse::create(RequestPtr pRequest)
+{
+    HTTPResponse::Pointer shared_response(new (std::nothrow) HTTPResponse(pRequest));
+    return shared_response;
 }
 
 std::string HTTPResponse::getURL()
@@ -87,10 +93,6 @@ size_t HTTPResponse::getContentSize()
 
 std::vector<uint8>& HTTPResponse::getResponseData()
 {
-    if (!_bIsReady)
-    {
-        LOG_WARN("Payload is incomplete. Response still processing. %p", &_request);
-    }
     return _responseData;
 }
 
@@ -105,9 +107,9 @@ std::string HTTPResponse::getCookies()
     return _cookies;
 }
 
-std::string HTTPResponse::getPerformMsg()
+std::string HTTPResponse::getResponseMsg()
 {
-    return _performMsg;
+    return _responseMessage;
 }
 
 std::string HTTPResponse::getErrorMsg()
@@ -155,18 +157,26 @@ HTTPResponse& HTTPResponse::setSucceeded(bool bSucceeded)
     return (*this);
 }
 
-HTTPResponse& HTTPResponse::setPerformMsg(const std::string& performMsg)
+HTTPResponse& HTTPResponse::setResponseCode(int32 responseCode)
 {
-    _performMsg = performMsg;
+    _responseCode = responseCode;
+    return (*this);
+}
+
+HTTPResponse& HTTPResponse::setResponseMsg(const std::string& responseMsg)
+{
+    _responseMessage = responseMsg;
     return (*this);
 }
 
 HTTPResponse& HTTPResponse::setErrorMsg(const std::string& errorMsg)
 {
     _errorMsg = errorMsg;
+    return (*this);
+
 }
 
-
+} //namespace network
 NS_FK_END
 
 

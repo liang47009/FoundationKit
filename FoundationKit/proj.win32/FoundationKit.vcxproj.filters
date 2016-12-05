@@ -44,31 +44,28 @@
       <UniqueIdentifier>{113270e5-ac52-439c-a315-9677c3f83638}</UniqueIdentifier>
     </Filter>
     <Filter Include="Networking">
-      <UniqueIdentifier>{6bcacd3a-0ffd-4363-8489-61262d2c890f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Networking\ip">
-      <UniqueIdentifier>{6f6388bb-2bf6-4e1f-aad4-fa107da5d908}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Networking\ip\impl">
-      <UniqueIdentifier>{4006beed-6123-42a2-864f-62367fa803e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Networking\ip\detail">
-      <UniqueIdentifier>{6805c71e-fcf0-498e-ad0d-be2241eb7539}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Networking\ip\detail\impl">
-      <UniqueIdentifier>{fb818a06-43a8-4e0a-af07-2f2130ee9ba5}</UniqueIdentifier>
+      <UniqueIdentifier>{b25ac1bb-5f05-4085-8d68-cfdb61f78464}</UniqueIdentifier>
     </Filter>
     <Filter Include="Networking\detail">
-      <UniqueIdentifier>{6d63824b-d6bb-4fa0-bac5-ba5bd41acf12}</UniqueIdentifier>
+      <UniqueIdentifier>{2a9accb1-b9eb-4dd9-8c55-911a22725bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking\HTTPClient">
+      <UniqueIdentifier>{79de763f-a410-4f20-8864-95cfd8200999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking\ip">
+      <UniqueIdentifier>{7cc622c7-9dc2-498f-9930-7f1499df8acf}</UniqueIdentifier>
     </Filter>
     <Filter Include="Networking\detail\impl">
-      <UniqueIdentifier>{afd807ce-841d-4df9-baf5-6cc4cfa326e2}</UniqueIdentifier>
+      <UniqueIdentifier>{06550d15-73c3-4885-92ec-56865b76dab1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Networking\EventsReactor">
-      <UniqueIdentifier>{40e00d0e-e5d2-4edc-8a04-60962da3b1a0}</UniqueIdentifier>
+    <Filter Include="Networking\ip\detail">
+      <UniqueIdentifier>{814d82db-62f3-4b2a-9e65-43287a9ceced}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HTTPClient">
-      <UniqueIdentifier>{e3217e24-c381-4188-81ed-22211f82d2f8}</UniqueIdentifier>
+    <Filter Include="Networking\ip\impl">
+      <UniqueIdentifier>{48c78e5d-2658-442a-83bc-bf1cf19b1b14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking\ip\detail\impl">
+      <UniqueIdentifier>{3355f7ea-ad2a-487d-96ea-401556115455}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -276,9 +273,6 @@
     <ClInclude Include="..\FoundationKit\Crypto\Base64.h">
       <Filter>Crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Compression.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\ByteSwap.h">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -306,32 +300,80 @@
     <ClInclude Include="..\FoundationKit\Foundation\unique_id.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\winsock_init.hpp">
+    <ClInclude Include="..\FoundationKit\Base\error_code.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.h">
+      <Filter>Platform\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\LanguageFeatures.h">
+      <Filter>FoundationKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\FoundationMacros.h">
+      <Filter>FoundationKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\multiple_buffer.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\ElapsedTimer.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Timespan.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\TimerQueue.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\ITickable.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Compression.h">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\Timer.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\basic_socket.hpp">
       <Filter>Networking</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Networking\IProtocol.h">
       <Filter>Networking</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\network.hpp">
+      <Filter>Networking</Filter>
+    </ClInclude>
     <ClInclude Include="..\FoundationKit\Networking\socket_types.hpp">
       <Filter>Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\error_code.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="..\FoundationKit\Networking\winsock_init.hpp">
+      <Filter>Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\ip\detail\endpoint.hpp">
-      <Filter>Networking\ip\detail</Filter>
+    <ClInclude Include="..\FoundationKit\Networking\detail\socket_base.hpp">
+      <Filter>Networking\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\ip\impl\address.hpp">
-      <Filter>Networking\ip\impl</Filter>
+    <ClInclude Include="..\FoundationKit\Networking\detail\socket_ops.hpp">
+      <Filter>Networking\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\ip\impl\address_v4.hpp">
-      <Filter>Networking\ip\impl</Filter>
+    <ClInclude Include="..\FoundationKit\Networking\detail\socket_option.hpp">
+      <Filter>Networking\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\ip\impl\address_v6.hpp">
-      <Filter>Networking\ip\impl</Filter>
+    <ClInclude Include="..\FoundationKit\Networking\HTTPClient\HTTPClient.hpp">
+      <Filter>Networking\HTTPClient</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\ip\impl\basic_endpoint.hpp">
-      <Filter>Networking\ip\impl</Filter>
+    <ClInclude Include="..\FoundationKit\Networking\HTTPClient\HTTPRequest.hpp">
+      <Filter>Networking\HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\HTTPClient\HTTPResponse.hpp">
+      <Filter>Networking\HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\HTTPClient\MimeTypes.h">
+      <Filter>Networking\HTTPClient</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Networking\ip\address.hpp">
       <Filter>Networking\ip</Filter>
@@ -360,89 +402,29 @@
     <ClInclude Include="..\FoundationKit\Networking\ip\basic_endpoint.hpp">
       <Filter>Networking\ip</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\ip\multicast.hpp">
+      <Filter>Networking\ip</Filter>
+    </ClInclude>
     <ClInclude Include="..\FoundationKit\Networking\ip\tcp.hpp">
       <Filter>Networking\ip</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Networking\ip\udp.hpp">
       <Filter>Networking\ip</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\detail\socket_base.hpp">
-      <Filter>Networking\detail</Filter>
+    <ClInclude Include="..\FoundationKit\Networking\ip\impl\address.hpp">
+      <Filter>Networking\ip\impl</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\detail\socket_ops.hpp">
-      <Filter>Networking\detail</Filter>
+    <ClInclude Include="..\FoundationKit\Networking\ip\impl\address_v4.hpp">
+      <Filter>Networking\ip\impl</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\detail\socket_option.hpp">
-      <Filter>Networking\detail</Filter>
+    <ClInclude Include="..\FoundationKit\Networking\ip\impl\address_v6.hpp">
+      <Filter>Networking\ip\impl</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\basic_socket.hpp">
-      <Filter>Networking</Filter>
+    <ClInclude Include="..\FoundationKit\Networking\ip\impl\basic_endpoint.hpp">
+      <Filter>Networking\ip\impl</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\network.hpp">
-      <Filter>Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\epoll_reactor.hpp">
-      <Filter>Networking\EventsReactor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\kqueue_reactor.hpp">
-      <Filter>Networking\EventsReactor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\select_reactor.hpp">
-      <Filter>Networking\EventsReactor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.h">
-      <Filter>Platform\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.h">
-      <Filter>Platform</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\LanguageFeatures.h">
-      <Filter>FoundationKit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\event_reactor.hpp">
-      <Filter>Networking\EventsReactor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\EventsReactor\reactor.hpp">
-      <Filter>Networking\EventsReactor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\ip\multicast.hpp">
-      <Filter>Networking\ip</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\FoundationMacros.h">
-      <Filter>FoundationKit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\multiple_buffer.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\ElapsedTimer.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\Timer.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\Timespan.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\TimerQueue.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPClient.h">
-      <Filter>HTTPClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HTTPClient\HttpClientTest.h">
-      <Filter>HTTPClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPRequest.hpp">
-      <Filter>HTTPClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HTTPClient\HTTPResponse.hpp">
-      <Filter>HTTPClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HTTPClient\MimeTypes.h">
-      <Filter>HTTPClient</Filter>
+    <ClInclude Include="..\FoundationKit\Networking\ip\detail\endpoint.hpp">
+      <Filter>Networking\ip\detail</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -569,29 +551,35 @@
     <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp">
       <Filter>Crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Compression.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp">
       <Filter>Platform\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\unique_id.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Networking\IProtocol.cpp">
-      <Filter>Networking</Filter>
+    <ClCompile Include="..\FoundationKit\Base\TimerQueue.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Compression.cpp">
+      <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\Timer.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Base\TimerQueue.cpp">
-      <Filter>Base</Filter>
+    <ClCompile Include="..\FoundationKit\Networking\IProtocol.cpp">
+      <Filter>Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\HTTPClient\HTTPClient.cpp">
-      <Filter>HTTPClient</Filter>
+    <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPClient.cpp">
+      <Filter>Networking\HTTPClient</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\HTTPClient\MimeTypes.cpp">
-      <Filter>HTTPClient</Filter>
+    <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPRequest.cpp">
+      <Filter>Networking\HTTPClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPResponse.cpp">
+      <Filter>Networking\HTTPClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Networking\HTTPClient\MimeTypes.cpp">
+      <Filter>Networking\HTTPClient</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -619,8 +607,8 @@
     <None Include="..\FoundationKit\Networking\winsock_init.ipp">
       <Filter>Networking</Filter>
     </None>
-    <None Include="..\FoundationKit\Networking\ip\detail\impl\endpoint.ipp">
-      <Filter>Networking\ip\detail\impl</Filter>
+    <None Include="..\FoundationKit\Networking\detail\impl\socket_ops.ipp">
+      <Filter>Networking\detail\impl</Filter>
     </None>
     <None Include="..\FoundationKit\Networking\ip\impl\address.ipp">
       <Filter>Networking\ip\impl</Filter>
@@ -631,8 +619,8 @@
     <None Include="..\FoundationKit\Networking\ip\impl\address_v6.ipp">
       <Filter>Networking\ip\impl</Filter>
     </None>
-    <None Include="..\FoundationKit\Networking\detail\impl\socket_ops.ipp">
-      <Filter>Networking\detail\impl</Filter>
+    <None Include="..\FoundationKit\Networking\ip\detail\impl\endpoint.ipp">
+      <Filter>Networking\ip\detail\impl</Filter>
     </None>
   </ItemGroup>
 </Project>

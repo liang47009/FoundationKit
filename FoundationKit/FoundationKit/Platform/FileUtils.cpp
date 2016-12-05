@@ -26,6 +26,7 @@
 
 NS_FK_BEGIN
 
+
 static mutable_buffer getData(const std::string& filename, bool forString)
 {
     if (filename.empty())
@@ -94,6 +95,20 @@ FileUtils::FileUtils()
 FileUtils::~FileUtils()
 {
 
+}
+
+std::string FileUtils::convertPathFormatToUnixStyle(const std::string& path)
+{
+    std::string ret = path;
+    size_t len = ret.length();
+    for (size_t i = 0; i < len; ++i)
+    {
+        if (ret[i] == '\\')
+        {
+            ret[i] = '/';
+        }
+    }
+    return ret;
 }
 
 void FileUtils::setDefaultResourceRootPath(const std::string& path)

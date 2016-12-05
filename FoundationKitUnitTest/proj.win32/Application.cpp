@@ -1,4 +1,5 @@
 
+
 #include "Application.h"
 #include <assert.h>
 
@@ -52,3 +53,7 @@ Application* Application::getInstance()
     assert(sm_pSharedApplication);
     return sm_pSharedApplication;
 }
+
+
+
+
