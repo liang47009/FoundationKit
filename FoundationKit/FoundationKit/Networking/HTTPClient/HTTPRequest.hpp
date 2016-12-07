@@ -8,10 +8,10 @@
 #include <memory>
 #include <unordered_map>
 #include "curl.h"
-
 #include "FoundationKit/FoundationMacros.h"
+#include "FoundationKit/Foundation/ITickable.h"
 #include "FoundationKit/Base/Types.h"
-#include "FoundationKit/Base/ITickable.h"
+
 
 NS_FK_BEGIN
 

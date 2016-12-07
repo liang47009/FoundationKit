@@ -9,9 +9,9 @@
 #include <thread>
 #include <condition_variable>
 #include "curl.h"
-#include "FoundationKit/Base/ITickable.h"
 #include "FoundationKit/FoundationMacros.h"
 #include "FoundationKit/Foundation/Singleton.h"
+#include "FoundationKit/Foundation/ITickable.h"
 #include "HTTPRequest.hpp"
 
 NS_FK_BEGIN

@@ -150,10 +150,10 @@ int Timer::get_id()const
     return _myid;
 }
 
-void Timer::update(int deltaTime)
+void Timer::update(float deltaTime)
 {
     ASSERTED(!_useThread, "The timer started by call startInThread, it running in a thread, if you want it run on update loop, you can stop it and restart.");
-   internalUpdate(deltaTime);
+    internalUpdate(static_cast<int>(deltaTime * 1000));
 }
 
 void Timer::start()
@@ -217,7 +217,7 @@ void Timer::internalUpdate(int deltaTime)
     _deltaTime = deltaTime;
     _elapsedTime += deltaTime;
 
-    if (onTimedEvent&& _elapsedTime > _interval)
+    if (onTimedEvent && _elapsedTime > _interval)
     {
         TimedEventArgs timerArgs;
         timerArgs.deltaTime = static_cast<int>(_elapsedTime*_timeScale);

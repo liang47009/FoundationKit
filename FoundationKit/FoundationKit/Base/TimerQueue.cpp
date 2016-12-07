@@ -35,13 +35,8 @@ void TimerQueue::tick(float deltaTime)
 
     for (auto& timer : _timerlist)
     {
-        timer->update(static_cast<int>(deltaTime * 1000));
+        timer->update(deltaTime);
     }
-}
-
-bool TimerQueue::isTickable() const
-{
-    return true;
 }
 
 int32 TimerQueue::enqueue(const TimerOption& timerOption)

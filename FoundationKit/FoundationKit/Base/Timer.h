@@ -125,8 +125,8 @@ public:
 
     int   get_id()const;
 
-    //expressed in milliseconds
-    void update(int deltaTime);
+    //expressed in seconds
+    void update(float deltaTime);
     void start();
     void stop();
     void startInThread();

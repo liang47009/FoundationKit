@@ -184,7 +184,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\DateTime.h" />
     <ClInclude Include="..\FoundationKit\Base\Dictionary.h" />
     <ClInclude Include="..\FoundationKit\Base\error_code.hpp" />
-    <ClInclude Include="..\FoundationKit\Base\ITickable.h" />
     <ClInclude Include="..\FoundationKit\Base\MathContent.h" />
     <ClInclude Include="..\FoundationKit\Base\MathEx.h" />
     <ClInclude Include="..\FoundationKit\Base\multiple_buffer.hpp" />
@@ -229,6 +228,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\Compression.h" />
     <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Exception.h" />
+    <ClInclude Include="..\FoundationKit\Foundation\ITickable.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Logger.h" />
     <ClInclude Include="..\FoundationKit\Foundation\MessageQueue.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Scheduler.h" />
