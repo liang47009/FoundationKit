@@ -2,7 +2,6 @@
 
 #include <sstream>
 #include "FoundationKit/Platform/Environment.h"
-#include "FoundationKit/Foundation/Exception.h"
 #include "FoundationKit/Foundation/Logger.h"
 
 NS_FK_BEGIN
@@ -30,7 +29,7 @@ void Environment::SetEnvironmentVariable(const std::string& variable, const std:
     {
         std::string msg = "cannot set environment variable: ";
         msg.append(variable);
-        throw SystemException(msg);
+        ASSERTED(false, msg.c_str());
     }
 }
 

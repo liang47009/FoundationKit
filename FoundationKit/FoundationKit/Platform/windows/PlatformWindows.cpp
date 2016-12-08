@@ -12,12 +12,8 @@ losemymind.libo@gmail.com
 #include <psapi.h>
 #include <vector>
 #include <memory>
-#include "FoundationKit/GenericPlatformMacros.h"
-#include "FoundationKit/Platform/OpenGL.h"
 #include "FoundationKit/Platform/Environment.h"
-#include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Foundation/StringUtils.h"
-#include "FoundationKit/Base/Types.h"
 #include "FoundationKit/Crypto/md5.hpp"
 
 #pragma   comment(lib,"Psapi.lib")
