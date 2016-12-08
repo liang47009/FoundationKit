@@ -267,9 +267,6 @@
     <ClInclude Include="..\FoundationKit\Crypto\Base64.h">
       <Filter>Crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\ByteSwap.h">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\std\memory_aligned.hpp">
       <Filter>std</Filter>
     </ClInclude>
@@ -424,6 +421,9 @@
       <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\Quaternion.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\ByteSwap.h">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>

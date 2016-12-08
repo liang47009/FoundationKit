@@ -180,6 +180,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\ByteSwap.h" />
     <ClInclude Include="..\FoundationKit\Base\DataStream.h" />
     <ClInclude Include="..\FoundationKit\Base\DateTime.h" />
     <ClInclude Include="..\FoundationKit\Base\Dictionary.h" />
@@ -224,7 +225,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h" />
     <ClInclude Include="..\FoundationKit\FoundationMacros.h" />
     <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.h" />
-    <ClInclude Include="..\FoundationKit\Foundation\ByteSwap.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Compression.h" />
     <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.h" />
     <ClInclude Include="..\FoundationKit\Foundation\Exception.h" />
