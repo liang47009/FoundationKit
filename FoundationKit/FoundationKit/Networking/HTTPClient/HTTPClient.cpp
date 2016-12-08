@@ -2,6 +2,9 @@
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Platform/FileUtils.h"
 
+#if TARGET_PLATFORM == PLATFORM_ANDROID
+extern std::string GExternalFilePath;
+#endif
 
 NS_FK_BEGIN
 
@@ -236,7 +239,6 @@ void HTTPClient::initialize()
         static char capath[PathLength] = { 0 };
 
         // if file does not already exist, create local PEM file with system trusted certificates
-        extern std::string GExternalFilePath;
         std::string PEMFilename = GExternalFilePath+"/ca-bundle.pem";
         if (!FileUtils::getInstance()->isFileExist(PEMFilename))
         {
