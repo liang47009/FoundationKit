@@ -166,7 +166,7 @@
 
 extern void __fail__(const char* expr, const char* file, int line);
 #if defined(_DEBUG) || defined(DEBUG)
-    #define ASSERTED(CHECK, MSG)do{if(!CHECK){__fail__(#MSG,__FILE__, __LINE__);}}while(false)
+    #define ASSERTED(CHECK, MSG)do{if(!(CHECK)){__fail__(#MSG,__FILE__, __LINE__);}}while(false)
     #define ASSERTED_EXPRESSION(COND, EXPR) ((COND) ? (EXPR) : (__fail__(#COND, __FILE__, __LINE__), (EXPR)))
     #define DEBUG_MODE 1
 #else
