@@ -510,6 +510,39 @@ void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::str
     closedir(dir);
 }
 
+void FileUtils::getFilesFromDir(const std::string& dirPath, bool includeChild, const std::function<void(const std::string&)>& callback)const
+{
+    std::string finallyPath = dirPath;
+    if (*(finallyPath.end() - 1) != '/' && *(finallyPath.end() - 1) != '\\')
+    {
+        finallyPath.append("/");
+    }
+    DIR* dir = opendir(finallyPath.c_str());
+    if (!dir) return;
+    dirent* entry = readdir(dir);
+    while (entry)
+    {
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+        {
+            entry = readdir(dir);
+            continue;
+        }
+
+        if (entry->d_type == DT_REG)
+        {
+            callback(finallyPath + entry->d_name);
+        }
+        if (entry->d_type == DT_DIR && includeChild)
+        {
+            std::string strChildDir = finallyPath + entry->d_name;
+            getFilesFromDir(strChildDir, includeChild, callback);
+        }
+
+        entry = readdir(dir);
+    }
+    closedir(dir);
+}
+
 void FileUtils::getDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild)const
 {
     std::string finallyPath = dirPath;

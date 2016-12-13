@@ -13,6 +13,7 @@ namespace MathEx
 
 int nextPowerOfTwo( int val )
 {
+    val = val - 1;
     if (val < 0)
         return 0;
     val |= val >> 1;

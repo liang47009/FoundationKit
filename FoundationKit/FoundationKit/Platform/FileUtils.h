@@ -154,6 +154,7 @@ public:
     *  @param dirPath The path of the directory.
     */
     void getFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild = false)const;
+    void getFilesFromDir(const std::string& dirPath, bool includeChild, const std::function<void(const std::string&)>& callback)const;
 
     /**
      *  get all files from a directory
