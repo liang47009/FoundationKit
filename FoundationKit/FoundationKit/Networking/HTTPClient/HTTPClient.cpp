@@ -335,7 +335,7 @@ void HTTPClient::tick(float deltaTime)
         curl_multi_perform(_multiHandle, &runningRequests);
         // read more info if number of requests changed or if there's zero running
         // (note that some requests might have never be "running" from libcurl's point of view)
-        if (runningRequests == 0 || runningRequests != _requests.size())
+        if (runningRequests == 0 || runningRequests != static_cast<int>(_requests.size()))
         {
             for (;;)
             {

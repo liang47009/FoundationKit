@@ -67,6 +67,9 @@
     <Filter Include="Networking\ip\detail\impl">
       <UniqueIdentifier>{3355f7ea-ad2a-487d-96ea-401556115455}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform\windows\system">
+      <UniqueIdentifier>{bef2ae3c-6bfc-4e28-9173-943161f875f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h">
@@ -425,6 +428,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\ByteSwap.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\windows\system\dirent.h">
+      <Filter>Platform\windows\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

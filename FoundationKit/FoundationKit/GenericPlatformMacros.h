@@ -76,6 +76,7 @@
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
     #define ATTRIBUTE_UNUSED __attribute__((unused))//__attribute__((__unused__)) ?
+    #define ATTRIBUTE_USED __attribute__((used))
     #define FORCEINLINE inline __attribute__ ((always_inline))	/* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
     #define THREAD_LOCAL __thread
@@ -93,6 +94,7 @@
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
     #define ATTRIBUTE_UNUSED __attribute__((unused))//__attribute__((__unused__)) ?
+    #define ATTRIBUTE_USED __attribute__((used))
     #define FORCEINLINE inline __attribute__ ((always_inline)) /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
     #define THREAD_LOCAL __thread
@@ -110,6 +112,7 @@
     #define ATTRIBUTE_PACK(n)
     #define ATTRIBUTE_ALIGN(n) __declspec(align(n))
     #define ATTRIBUTE_UNUSED
+    #define ATTRIBUTE_USED 
     #define FORCEINLINE __forceinline				  /* Force code to be inline */
     #define FORCENOINLINE __declspec(noinline)        /* Force code to NOT be inline */	
     #define THREAD_LOCAL __declspec(thread)
@@ -126,6 +129,7 @@
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
     #define ATTRIBUTE_UNUSED __attribute__((unused))//__attribute__((__unused__)) ?
+    #define ATTRIBUTE_USED __attribute__((used))
     #define FORCEINLINE inline __attribute__ ((always_inline)) /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
     #define THREAD_LOCAL __thread
@@ -142,6 +146,7 @@
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
     #define ATTRIBUTE_UNUSED __attribute__((unused)) //__attribute__((__unused__)) ?
+    #define ATTRIBUTE_USED __attribute__((used))
     #define FORCEINLINE inline __attribute__ ((always_inline))  /* Force code to be inline */
     #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
     #define THREAD_LOCAL __thread
@@ -202,6 +207,10 @@ __pragma (warning(disable:4127))
 #define _SCL_SECURE_NO_WARNINGS 1
 #endif
 
+/*
+ * Include windows.h without Windows Sockets 1.1 to prevent conflicts with
+ * Windows Sockets 2.0.
+ */
 #include <windows.h>
 
 #endif //(TARGET_PLATFORM == PLATFORM_WINDOWS)

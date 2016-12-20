@@ -225,6 +225,8 @@ protected:
     friend Singleton < FileUtils > ;
     FileUtils();
     void initRootPath();
+    void internalGetFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild = false)const;
+    void internalGetFilesFromDir(const std::string& dirPath, bool includeChild, const std::function<void(const std::string&)>& callback)const;
     
     std::string                 _resourceRootPath;
     std::string                 _writablePath;

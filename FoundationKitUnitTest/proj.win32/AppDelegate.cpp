@@ -53,6 +53,9 @@ static  std::thread serverThread;
 void runServer();
 void runClient();
 
+
+
+
 AppDelegate::AppDelegate() {
 
 }
@@ -74,24 +77,19 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::error_code ec;
     std::string strErr = ec.message();
 
-    HTTPClient::initialize();
-    HTTPClient::getInstance()->loopInThread();
+    std::string strPath = "D:\\MobileJiuYin2\\02_config\\version_android\\mobile\\res";
+    std::vector<std::string> files;
 
-    HTTPRequest::Pointer  request = HTTPRequest::create(true);
-    request->setURL("www.baidu.com").setMethod(HTTPRequest::MethodType::GET);
-    request->onRequestCompleteDelegate = [](HTTPRequest::Pointer request, HTTPResponse::Pointer response, bool arg)
-    {
-        if (response->isSucceeded())
-        {
-        }
-        else
-        {
-
-        }
-    };
-    HTTPClient::getInstance()->sendRequestAsync(request);
-
-
+    ElapsedTimer et;
+    FileUtils::getInstance()->getFilesFromDir(strPath, files, true);
+    LOG_INFO("===== getFilesFromDir runtime: %lld, files:%d", et.milliseconds(), files.size());
+    //files.clear();
+    //et.reset();
+    //FileUtils::getInstance()->getFilesFromDir(strPath, true, [&](const std::string& filepath)
+    //{
+    //    files.push_back(filepath);
+    //});
+    //LOG_INFO("===== getFilesFromDir2 runtime: %lld, files:%d", et.milliseconds(), files.size());
 
     /*
     clientThread = std::thread([]()
