@@ -12,11 +12,7 @@
 #endif
 #ifndef DIRENT_H
 #define DIRENT_H
-#include "FoundationKit/GenericPlatformMacros.h"
-#if (TARGET_PLATFORM ==PLATFORM_WINDOWS )
-#pragma warning( push )  
-#pragma warning( disable : 4505 ) 
-#include <locale>
+
 /*
 * Include windows.h without Windows Sockets 1.1 to prevent conflicts with
 * Windows Sockets 2.0.
@@ -834,7 +830,7 @@ extern "C" {
         size_t count)
     {
         int error;
-        std::locale old_loc = std::locale::global(std::locale(""));
+
 #if defined(_MSC_VER)  &&  _MSC_VER >= 1400
 
         /* Microsoft Visual Studio 2005 or later */
@@ -874,7 +870,7 @@ extern "C" {
         }
 
 #endif
-        std::locale::global(old_loc);
+
         return error;
     }
 
@@ -888,7 +884,7 @@ extern "C" {
         size_t count)
     {
         int error;
-        std::locale old_loc = std::locale::global(std::locale(""));
+
 #if defined(_MSC_VER)  &&  _MSC_VER >= 1400
 
         /* Microsoft Visual Studio 2005 or later */
@@ -928,7 +924,7 @@ extern "C" {
         }
 
 #endif
-        std::locale::global(old_loc);
+
         return error;
     }
 
@@ -954,7 +950,4 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-
-//#pragma warning( pop )
-#endif //#if (TARGET_PLATFORM ==PLATFORM_WINDOWS )
 #endif /*DIRENT_H*/

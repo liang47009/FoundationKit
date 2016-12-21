@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <fstream>
 #include <cassert>
+#include <locale>
 #include <dirent.h> // for DIR
 #include "FileUtils.h"
 #include "FoundationKit/Foundation/Logger.h"
@@ -479,68 +480,16 @@ bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newf
 
 void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild)const
 {
-    std::string finallyPath = dirPath;
-    if (*(finallyPath.end() - 1) != '/' && *(finallyPath.end() - 1) != '\\')
-    {
-        finallyPath.append("/");
-    }
-    DIR* dir =opendir(finallyPath.c_str());
-    if (!dir) return;
-    dirent* entry = readdir(dir);
-    while (entry)
-    {
-        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
-        {
-            entry = readdir(dir);
-            continue;
-        }
-            
-        if (entry->d_type == DT_REG)
-        {
-            files.push_back(finallyPath + entry->d_name);
-        }
-        if (entry->d_type == DT_DIR && includeChild)
-        {
-            std::string strChildDir = finallyPath + entry->d_name;
-            getFilesFromDir(strChildDir, files, includeChild);
-        }
-
-        entry = readdir(dir);
-    }
-    closedir(dir);
+    std::locale old_loc = std::locale::global(std::locale("")); //for dirent.h wcstombs_s and mbstowcs_s method.
+    internalGetFilesFromDir(dirPath, files, includeChild);
+    std::locale::global(old_loc);
 }
 
 void FileUtils::getFilesFromDir(const std::string& dirPath, bool includeChild, const std::function<void(const std::string&)>& callback)const
 {
-    std::string finallyPath = dirPath;
-    if (*(finallyPath.end() - 1) != '/' && *(finallyPath.end() - 1) != '\\')
-    {
-        finallyPath.append("/");
-    }
-    DIR* dir = opendir(finallyPath.c_str());
-    if (!dir) return;
-    dirent* entry = readdir(dir);
-    while (entry)
-    {
-        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
-        {
-            entry = readdir(dir);
-            continue;
-        }
-
-        if (entry->d_type == DT_REG)
-        {
-            callback(finallyPath + entry->d_name);
-        }
-        if (entry->d_type == DT_DIR && includeChild)
-        {
-            std::string strChildDir = finallyPath + entry->d_name;
-            getFilesFromDir(strChildDir, includeChild, callback);
-        }
-
-        entry = readdir(dir);
-    }
-    closedir(dir);
+    std::locale old_loc = std::locale::global(std::locale("")); //for dirent.h wcstombs_s and mbstowcs_s method.
+    internalGetFilesFromDir(dirPath, includeChild, callback);
+    std::locale::global(old_loc);
 }
 
 void FileUtils::getDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild)const
@@ -725,9 +674,73 @@ bool FileUtils::renameFile(const std::string &path, const std::string &oldname, 
     return this->renameFile(oldPath, newPath);
 }
 
+#endif //(TARGET_PLATFORM == PLATFORM_WINDOWS))
 
+void FileUtils::internalGetFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild /* = false */)const
+{
+    std::string finallyPath = dirPath;
+    if (*(finallyPath.end() - 1) != '/' && *(finallyPath.end() - 1) != '\\')
+    {
+        finallyPath.append("/");
+    }
+    DIR* dir = opendir(finallyPath.c_str());
+    if (!dir) return;
+    dirent* entry = readdir(dir);
+    while (entry)
+    {
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+        {
+            entry = readdir(dir);
+            continue;
+        }
 
-#endif //(TARGET_PLATFORM == PLATFORM_WINDOWS) || (TARGET_PLATFORM == PLATFORM_WINRT)
+        if (entry->d_type == DT_REG)
+        {
+            files.push_back(finallyPath + entry->d_name);
+        }
+        if (entry->d_type == DT_DIR && includeChild)
+        {
+            std::string strChildDir = finallyPath + entry->d_name;
+            internalGetFilesFromDir(strChildDir, files, includeChild);
+        }
+
+        entry = readdir(dir);
+    }
+    closedir(dir);
+}
+
+void FileUtils::internalGetFilesFromDir(const std::string& dirPath, bool includeChild, const std::function<void(const std::string&)>& callback)const
+{
+    std::string finallyPath = dirPath;
+    if (*(finallyPath.end() - 1) != '/' && *(finallyPath.end() - 1) != '\\')
+    {
+        finallyPath.append("/");
+    }
+    DIR* dir = opendir(finallyPath.c_str());
+    if (!dir) return;
+    dirent* entry = readdir(dir);
+    while (entry)
+    {
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+        {
+            entry = readdir(dir);
+            continue;
+        }
+
+        if (entry->d_type == DT_REG)
+        {
+            callback(finallyPath + entry->d_name);
+        }
+        if (entry->d_type == DT_DIR && includeChild)
+        {
+            std::string strChildDir = finallyPath + entry->d_name;
+            internalGetFilesFromDir(strChildDir, includeChild, callback);
+        }
+
+        entry = readdir(dir);
+    }
+    closedir(dir);
+}
 
 
 NS_FK_END
