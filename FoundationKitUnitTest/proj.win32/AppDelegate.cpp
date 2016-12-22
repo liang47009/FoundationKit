@@ -83,13 +83,14 @@ bool AppDelegate::applicationDidFinishLaunching()
     ElapsedTimer et;
     FileUtils::getInstance()->getFilesFromDir(strPath, files, true);
     LOG_INFO("===== getFilesFromDir runtime: %lld, files:%d", et.milliseconds(), files.size());
-    //files.clear();
-    //et.reset();
-    //FileUtils::getInstance()->getFilesFromDir(strPath, true, [&](const std::string& filepath)
-    //{
-    //    files.push_back(filepath);
-    //});
-    //LOG_INFO("===== getFilesFromDir2 runtime: %lld, files:%d", et.milliseconds(), files.size());
+
+    files.clear();
+    et.reset();
+    FileUtils::getInstance()->getFilesFromDir(strPath, true, [&](const std::string& filepath)
+    {
+        files.push_back(filepath);
+    });
+    LOG_INFO("===== getFilesFromDir2 runtime: %lld, files:%d", et.milliseconds(), files.size());
 
     /*
     clientThread = std::thread([]()

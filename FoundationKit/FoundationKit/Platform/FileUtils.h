@@ -227,7 +227,7 @@ protected:
     void initRootPath();
     void internalGetFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild = false)const;
     void internalGetFilesFromDir(const std::string& dirPath, bool includeChild, const std::function<void(const std::string&)>& callback)const;
-    
+    void internalGetDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild = false)const;
     std::string                 _resourceRootPath;
     std::string                 _writablePath;
     std::vector<std::string>    _searchPaths;

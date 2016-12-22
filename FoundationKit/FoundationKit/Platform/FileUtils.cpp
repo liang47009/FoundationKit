@@ -494,33 +494,9 @@ void FileUtils::getFilesFromDir(const std::string& dirPath, bool includeChild, c
 
 void FileUtils::getDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild)const
 {
-    std::string finallyPath = dirPath;
-    if (*(finallyPath.end() - 1) != '/' && *(finallyPath.end() - 1) != '\\')
-    {
-        finallyPath.append("/");
-    }
-    DIR* dir = opendir(finallyPath.c_str());
-    if (!dir) return;
-    dirent* entry = readdir(dir);
-    while (entry)
-    {
-        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
-        {
-            entry = readdir(dir);
-            continue;
-        }
-        if (entry->d_type == DT_DIR)
-        {
-            dirs.push_back(finallyPath+entry->d_name);
-            if (includeChild)
-            {
-                getDirs(finallyPath + entry->d_name, dirs, includeChild);
-            }
-        }
-
-        entry = readdir(dir);
-    }
-    closedir(dir);
+    std::locale old_loc = std::locale::global(std::locale("")); //for dirent.h wcstombs_s and mbstowcs_s method.
+    internalGetDirs(dirPath, dirs, includeChild);
+    std::locale::global(old_loc);
 }
 
 std::string FileUtils::getDirName(const std::string& dirPath)const
@@ -742,5 +718,35 @@ void FileUtils::internalGetFilesFromDir(const std::string& dirPath, bool include
     closedir(dir);
 }
 
+void FileUtils::internalGetDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild)const
+{
+    std::string finallyPath = dirPath;
+    if (*(finallyPath.end() - 1) != '/' && *(finallyPath.end() - 1) != '\\')
+    {
+        finallyPath.append("/");
+    }
+    DIR* dir = opendir(finallyPath.c_str());
+    if (!dir) return;
+    dirent* entry = readdir(dir);
+    while (entry)
+    {
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+        {
+            entry = readdir(dir);
+            continue;
+        }
+        if (entry->d_type == DT_DIR)
+        {
+            dirs.push_back(finallyPath + entry->d_name);
+            if (includeChild)
+            {
+                internalGetDirs(finallyPath + entry->d_name, dirs, includeChild);
+            }
+        }
+
+        entry = readdir(dir);
+    }
+    closedir(dir);
+}
 
 NS_FK_END

@@ -23,7 +23,7 @@ const int ENDIANNESS_BIG_ENDIAN = 0x01000000;
 const int ENDIANNESS_PDP_ENDIAN = 0x00010000;
 const int ENDIANNESS_UNKNOWN_ENDIAN = 0xFFFFFFFF;
 
-char *ENDIAN_SWAP128(char *val)
+inline char *ENDIAN_SWAP128(char *val)
 {
     static char swp[16];
     swp[0] = val[15];
