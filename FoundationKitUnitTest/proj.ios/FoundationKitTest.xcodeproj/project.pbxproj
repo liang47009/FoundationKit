@@ -277,8 +277,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: XI QIAN (HFAR4Y6QA2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: XI QIAN (HFAR4Y6QA2)";
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					FK_TARGET_OS_IPHONE,
@@ -298,7 +298,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.snailgames.FoundationKitTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "dad5cf62-2ebf-47ad-98b8-c046b5fbeed5";
+				PROVISIONING_PROFILE = "dc4469cb-2b72-4b28-a48a-8b3d0cd00144";
+				PROVISIONING_PROFILE_SPECIFIER = UniversalSnailDev;
 			};
 			name = Debug;
 		};
@@ -309,8 +310,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: XI QIAN (HFAR4Y6QA2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: XI QIAN (HFAR4Y6QA2)";
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					FK_TARGET_OS_IPHONE,
@@ -330,7 +331,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.snailgames.FoundationKitTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "dad5cf62-2ebf-47ad-98b8-c046b5fbeed5";
+				PROVISIONING_PROFILE = "dc4469cb-2b72-4b28-a48a-8b3d0cd00144";
+				PROVISIONING_PROFILE_SPECIFIER = UniversalSnailDev;
 			};
 			name = Release;
 		};
