@@ -28,7 +28,7 @@ public:
     std::string              getContentType();
     size_t                   getContentSize();
     std::vector<uint8>&      getResponseData();
-    int32                    getResponseCode();
+    long                     getResponseCode();
     std::string              getCookies();
     std::string              getResponseMsg();
     std::string              getErrorMsg();
@@ -42,7 +42,7 @@ protected:
     HTTPResponse&            setCookies(const std::string& cookies);
     HTTPResponse&            setReady(bool bReady);
     HTTPResponse&            setSucceeded(bool bSucceeded);
-    HTTPResponse&            setResponseCode(int32 responseCode);
+    HTTPResponse&            setResponseCode(long responseCode);
     HTTPResponse&            setResponseMsg(const std::string& responseMsg);
     HTTPResponse&            setErrorMsg(const std::string& errorMsg);
 
@@ -51,7 +51,7 @@ private:
     /** BYTE array to fill in as the response is read via didReceiveData */
     std::vector<uint8> _responseData;
     /** Cached code from completed response */
-    int32              _responseCode;
+    long               _responseCode;
     /** Cached key/value header pairs. Parsed once request completes */
     KeyValueMap        _headers;
     /** message for http code */

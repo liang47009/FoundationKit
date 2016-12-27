@@ -96,7 +96,7 @@ std::vector<uint8>& HTTPResponse::getResponseData()
     return _responseData;
 }
 
-int32 HTTPResponse::getResponseCode()
+long HTTPResponse::getResponseCode()
 {
     return _responseCode;
 }
@@ -157,7 +157,7 @@ HTTPResponse& HTTPResponse::setSucceeded(bool bSucceeded)
     return (*this);
 }
 
-HTTPResponse& HTTPResponse::setResponseCode(int32 responseCode)
+HTTPResponse& HTTPResponse::setResponseCode(long responseCode)
 {
     _responseCode = responseCode;
     return (*this);
