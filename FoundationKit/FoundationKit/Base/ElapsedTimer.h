@@ -41,9 +41,9 @@ public:
     long long microseconds()const{return elapsed<std::chrono::microseconds>();}
     long long milliseconds()const{return elapsed<std::chrono::milliseconds>();}
     long long seconds()const{return elapsed<std::chrono::seconds>();}
-    int minutes()const{return elapsed<std::chrono::minutes>();}
-    int hours()const{return elapsed<std::chrono::hours>();}
-    int days(){ return elapsed<std::chrono::day>(); }
+    long long minutes()const{ return elapsed<std::chrono::minutes>(); }
+    long long hours()const{ return elapsed<std::chrono::hours>(); }
+    long long days(){ return elapsed<std::chrono::day>(); }
 
     // double version
     double nanosecondsf()const{ return elapsed<std::chrono::nanoseconds_f>(); }
