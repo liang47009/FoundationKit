@@ -205,7 +205,7 @@ std::string HTTPRequest::getURLParameter(const std::string& parameterName)
         if (paramKeyValue[0] == parameterName)
         {
             int outSize = 0;
-            char*unescapedValue = curl_easy_unescape(_easyHandle, paramKeyValue[1].c_str(), paramKeyValue[1].size(), &outSize);
+            char*unescapedValue = curl_easy_unescape(_easyHandle, paramKeyValue[1].c_str(), static_cast<int>(paramKeyValue[1].size()), &outSize);
             result = unescapedValue;
             curl_free(unescapedValue);
         }
@@ -653,7 +653,7 @@ size_t HTTPRequest::receiveResponseHeaderCallback(void* buffer, size_t sizeInBlo
     _elapsedTime = 0.0f;
     if (_response)
     {
-        uint32 headerSize = sizeInBlocks * blockSizeInBytes;
+        size_t headerSize = sizeInBlocks * blockSizeInBytes;
         if (headerSize > 0 && headerSize <= CURL_MAX_HTTP_HEADER)
         {
             std::string headers(reinterpret_cast<char*>(buffer));
@@ -708,7 +708,7 @@ size_t HTTPRequest::receiveResponseBodyCallback(void* buffer, size_t sizeInBlock
     _elapsedTime = 0.0f;
     if (_response)
     {
-        uint32 sizeToDownload = sizeInBlocks * blockSizeInBytes;
+        size_t sizeToDownload = sizeInBlocks * blockSizeInBytes;
         if (_enableDebug)
         {
             LOG_INFO("%p: ReceiveResponseBodyCallback: %d bytes out of %d received. (SizeInBlocks=%d, BlockSizeInBytes=%d, Response->TotalBytesRead=%d, Response->GetContentLength()=%d, SizeToDownload=%d (<-this will get returned from the callback))",

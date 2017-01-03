@@ -199,22 +199,22 @@ private:
 
 inline mutable_buffer make_mutable_buffer(std::vector<char>& buffers)
 {
-    return std::move(mutable_buffer(&(buffers[0]), buffers.size()));
+    return mutable_buffer(&(buffers[0]), buffers.size());
 }
 
 inline mutable_buffer make_mutable_buffer(std::vector<unsigned char>& buffers)
 {
-    return std::move(mutable_buffer(&(buffers[0]), buffers.size()));
+    return mutable_buffer(&(buffers[0]), buffers.size());
 }
 
 inline mutable_buffer make_mutable_buffer(std::basic_string<char>& buffers)
 {
-    return std::move(mutable_buffer(&(buffers[0]), buffers.size()));
+    return mutable_buffer(&(buffers[0]), buffers.size());
 }
 
 inline mutable_buffer make_mutable_buffer(std::basic_string<unsigned char>& buffers)
 {
-    return std::move(mutable_buffer(&(buffers[0]), buffers.size()));
+    return mutable_buffer(&(buffers[0]), buffers.size());
 }
 
 
@@ -374,22 +374,22 @@ private:
 
 inline const_buffer make_const_buffer(std::vector<char>& buffers)
 {
-    return std::move(const_buffer(&(buffers[0]), buffers.size()));
+    return const_buffer(&(buffers[0]), buffers.size());
 }
 
 inline const_buffer make_const_buffer(std::vector<unsigned char>& buffers)
 {
-    return std::move(const_buffer(&(buffers[0]), buffers.size()));
+    return const_buffer(&(buffers[0]), buffers.size());
 }
 
 inline const_buffer make_const_buffer(std::basic_string<char>& buffers)
 {
-    return std::move(const_buffer(&(buffers[0]), buffers.size()));
+    return const_buffer(&(buffers[0]), buffers.size());
 }
 
 inline const_buffer make_const_buffer(std::basic_string<unsigned char>& buffers)
 {
-    return std::move(const_buffer(&(buffers[0]), buffers.size()));
+    return const_buffer(&(buffers[0]), buffers.size());
 }
 
 NS_FK_END

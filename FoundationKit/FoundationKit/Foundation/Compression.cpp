@@ -240,7 +240,7 @@ bool Compression::compressFile(const std::string& srcFilePath, const std::string
             fseek(srcFp, totalReadSize, SEEK_SET);
             readsize = fread(buffer, 1, defaultBufferLength, srcFp);
             totalReadSize += readsize;
-            gzwrite(gFile, buffer, readsize);
+            gzwrite(gFile, buffer, static_cast<unsigned int>(readsize));
         } while (readsize == defaultBufferLength);
         delete[] buffer;
         fclose(srcFp);
