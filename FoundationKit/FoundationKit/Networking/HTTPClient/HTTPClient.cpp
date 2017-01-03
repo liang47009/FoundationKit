@@ -1,98 +1,16 @@
 #include "HTTPClient.hpp"
 #include "FoundationKit/Foundation/Logger.h"
 #include "FoundationKit/Platform/FileUtils.h"
+#include "FoundationKit/Networking/libcurl_init.hpp"
 
 #if TARGET_PLATFORM == PLATFORM_ANDROID
+// in AndroidJNI::initializeJavaEnv
 extern std::string GExternalFilePath;
 #endif
 
 NS_FK_BEGIN
 
-namespace
-{
-    /**
-     * A callback that libcurl will use to allocate memory
-     *
-     * @param Size size of allocation in bytes
-     * @return Pointer to memory chunk or NULL if failed
-     */
-    void* custom_curl_malloc(size_t size)
-    {
-        return ::malloc(size);
-    }
-
-    /**
-     * A callback that libcurl will use to free memory
-     *
-     * @param Ptr pointer to memory chunk (may be NULL)
-     */
-    void custom_curl_free(void* ptr)
-    {
-        ::free(ptr);
-    }
-
-    /**
-     * A callback that libcurl will use to reallocate memory
-     *
-     * @param Ptr pointer to existing memory chunk (may be NULL)
-     * @param Size size of allocation in bytes
-     * @return Pointer to memory chunk or NULL if failed
-     */
-    void* custom_curl_realloc(void* ptr, size_t size)
-    {
-        return ::realloc(ptr, size);
-    }
-
-    /**
-     * A callback that libcurl will use to duplicate a string
-     *
-     * @param ZeroTerminatedString pointer to string (ANSI or UTF-8, but this does not matter in this case)
-     * @return Pointer to a copy of string
-     */
-    char* custom_curl_strdup(const char * zeroTerminatedString)
-    {
-        char * pCopy = NULL;
-        if (zeroTerminatedString)
-        {
-            size_t strLen = strlen(zeroTerminatedString);
-            pCopy = reinterpret_cast<char*>(::malloc(strLen + 1));
-            if (pCopy)
-            {
-                ::strcpy(pCopy, zeroTerminatedString);
-                ASSERTED(strcmp(pCopy, zeroTerminatedString)==0,"");
-            }
-        }
-        return pCopy;
-    }
-
-    /**
-    * A callback that libcurl will use to allocate zero-initialized memory
-    *
-    * @param NumElems number of elements to allocate (may be 0, then NULL should be returned)
-    * @param ElemSize size of each element in bytes (may be 0)
-    * @return Pointer to memory chunk, filled with zeroes or NULL if failed
-    */
-    void* custom_curl_calloc(size_t numElems, size_t elemSize)
-    {
-        void* ret = nullptr;
-        const size_t size = numElems * elemSize;
-        if (size)
-        {
-            ret = ::malloc(size);
-
-            if (ret)
-            {
-                memset(ret, 0, size);
-            }
-        }
-        return ret;
-    }
-}
-
-
-
 namespace network{
-
 
 HTTPClient::RequestOptions HTTPClient::HTTPRequestOptions;
 CURLM*  HTTPClient::_G_multiHandle = nullptr;
@@ -137,8 +55,7 @@ void HTTPClient::initialize()
         return;
     }
 
-    CURLcode initResult = curl_global_init_mem(CURL_GLOBAL_ALL, custom_curl_malloc, custom_curl_free, custom_curl_realloc, custom_curl_strdup, custom_curl_calloc);
-    if (initResult == 0)
+    if (libcurl_init::succeeded())
     {
         curl_version_info_data * versionInfo = curl_version_info(CURLVERSION_NOW);
         if (versionInfo)
@@ -202,7 +119,7 @@ void HTTPClient::initialize()
     }
     else
     {
-        LOG_INFO("Could not initialize libcurl (result=%d), HTTP transfers will not function properly.", (int32)initResult);
+        LOG_INFO("Could not initialize libcurl (result=%d), HTTP transfers will not function properly.", (int32)libcurl_init::code());
     }
 
     // discover cert location
@@ -302,28 +219,17 @@ HTTPClient::HTTPClient()
 
 HTTPClient::~HTTPClient()
 {
-    _threadRunning = false;
-    _threadRequestNotEmpty.notify_all();
-    _workThread->join();
     if (NULL != _G_multiHandle)
     {
         curl_multi_cleanup(_G_multiHandle);
         _G_multiHandle = NULL;
     }
-    curl_global_cleanup();
-}
 
-void HTTPClient::loopInThread()
-{
-    _threadRunning = true;
-    _workThread = std::make_shared<std::thread>([&]()
+    if (NULL != _G_shareHandle)
     {
-        while (_threadRunning)
-        {
-            std::this_thread::sleep_for(std::chrono::milliseconds(16));
-            tick(0.016f);
-        }
-    });
+        curl_share_cleanup(_G_shareHandle);
+        _G_shareHandle = NULL;
+    }
 }
 
 void HTTPClient::tick(float deltaTime)
@@ -361,12 +267,13 @@ void HTTPClient::tick(float deltaTime)
         }
     }
 
-
+    // update HTTPRequest status.
     for (auto& requestIter : _requests)
     {
         requestIter.second->tick(deltaTime);
     }
 
+    // Remove finished HTTPRequest.
     for (RequestMap::iterator iter = _requests.begin(); iter != _requests.end(); )
     {
         if (iter->second->isFinished())
@@ -396,10 +303,6 @@ void HTTPClient::sendRequestAsync(HTTPRequest::Pointer request)
     if (addResult == CURLM_OK)
     {
         _requests.insert(std::make_pair(requestHandle, request));
-        if (_threadRunning)
-        {
-            _threadRequestNotEmpty.notify_one();
-        }
     }
     else
     {
@@ -407,16 +310,16 @@ void HTTPClient::sendRequestAsync(HTTPRequest::Pointer request)
     }
 }
 
-void HTTPClient::removeRequest(HTTPRequest::Pointer request)
-{
-    std::lock_guard<std::mutex> lock(_mutex);
-    auto requestIter = _requests.find(request->getEasyHandle());
-    if (requestIter != _requests.end())
-    {
-        curl_multi_remove_handle(_multiHandle, request->getEasyHandle());
-        _requests.erase(requestIter);
-    }
-}
+//void HTTPClient::removeRequest(HTTPRequest::Pointer request)
+//{
+//    std::lock_guard<std::mutex> lock(_mutex);
+//    auto requestIter = _requests.find(request->getEasyHandle());
+//    if (requestIter != _requests.end())
+//    {
+//        curl_multi_remove_handle(_multiHandle, request->getEasyHandle());
+//        _requests.erase(requestIter);
+//    }
+//}
 
 } //namespace network
 NS_FK_END

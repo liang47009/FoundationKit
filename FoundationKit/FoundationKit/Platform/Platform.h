@@ -17,7 +17,7 @@ losemymind.libo@gmail.com
 
 NS_FK_BEGIN
 
-enum class UnitOfMemory : int64
+enum UnitOfMemory : int64
 {
     Kb = 1 * 1024,
     Mb = Kb * 1024,

@@ -279,6 +279,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Networking\ip\multicast.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\ip\tcp.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\ip\udp.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\libcurl_init.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\network.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\socket_types.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\winsock_init.hpp" />
@@ -366,6 +367,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <None Include="..\FoundationKit\Networking\ip\impl\address.ipp" />
     <None Include="..\FoundationKit\Networking\ip\impl\address_v4.ipp" />
     <None Include="..\FoundationKit\Networking\ip\impl\address_v6.ipp" />
+    <None Include="..\FoundationKit\Networking\libcurl_init.ipp" />
     <None Include="..\FoundationKit\Networking\winsock_init.ipp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

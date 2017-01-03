@@ -432,6 +432,9 @@
     <ClInclude Include="..\FoundationKit\Platform\windows\system\dirent.h">
       <Filter>Platform\windows\system</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\libcurl_init.hpp">
+      <Filter>Networking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -627,6 +630,9 @@
     </None>
     <None Include="..\FoundationKit\Networking\ip\detail\impl\endpoint.ipp">
       <Filter>Networking\ip\detail\impl</Filter>
+    </None>
+    <None Include="..\FoundationKit\Networking\libcurl_init.ipp">
+      <Filter>Networking</Filter>
     </None>
   </ItemGroup>
 </Project>

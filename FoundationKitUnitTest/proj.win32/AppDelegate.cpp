@@ -68,6 +68,7 @@ AppDelegate::~AppDelegate()
 void AppDelegate::applicationDidLaunching()
 {
 	shared_Scheduler = Scheduler::getInstance();
+    HTTPClient::initialize();
 
 }
 
@@ -77,32 +78,54 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::error_code ec;
     std::string strErr = ec.message();
 
-    std::string strPath = "D:\\MobileJiuYin2\\02_config\\version_android\\mobile\\res";
-    std::vector<std::string> files;
-
-    ElapsedTimer et;
-    FileUtils::getInstance()->getFilesFromDir(strPath, files, true);
-    LOG_INFO("===== getFilesFromDir runtime: %lld, files:%d", et.milliseconds(), files.size());
-
-    files.clear();
-    et.reset();
-    FileUtils::getInstance()->getFilesFromDir(strPath, true, [&](const std::string& filepath)
+    HTTPRequest::Pointer request = HTTPRequest::create();
+    request->setURL("http://dl2.youme.im/release/youme-rtc-2.4.1.2442_android.cn.zip");
+    request->onRequestCompleteDelegate = [](HTTPRequest::Pointer pRequest, HTTPResponse::Pointer pResponse, bool ableConn)
     {
-        files.push_back(filepath);
-    });
-    LOG_INFO("===== getFilesFromDir2 runtime: %lld, files:%d", et.milliseconds(), files.size());
-
-    /*
-    clientThread = std::thread([]()
+        auto strUrl = pRequest->getURL();
+        if (pResponse->isSucceeded())
+        {
+            auto responseData = pResponse->getResponseData();
+            mutable_buffer data(&responseData[0], responseData.size());
+            FileUtils::getInstance()->writeDataToFile(data, "E:\\youme-rtc-2.4.1.2442_android.cn.zip");
+        }
+    };
+    static ElapsedTimer downloadET;
+    static int64 currentDownloadSize = 0;
+    request->onRequestProgressDelegate = [&](HTTPRequest::Pointer pRequest
+        , int64 totalDownload
+        , int64 nowDownload
+        , int64 totalUpload
+        , int64 nowUpload)
     {
-        runClient();
-    });
+        if (nowDownload == totalDownload && totalDownload != 0)
+        {
+            LOG_INFO("Download speed:%0.2fMB/s, process:%0.2f%%", 0.0f, 100.0f);
+        }
+        else if (downloadET.seconds()>=1)
+        {
+            double downloadSpeed = (nowDownload - currentDownloadSize) / 1024.f/1024.f;
+            double downloadRate = nowDownload* 100.0f / totalDownload;
+            LOG_INFO("Download speed:%0.2fMB/s, process:%0.2f%%", downloadSpeed, downloadRate);
+            currentDownloadSize = nowDownload;
+            downloadET.reset();
+        }
+    };
 
-    serverThread = std::thread([]()
-    {
-        runServer();
-    });
-    */
+    HTTPClient::getInstance()->sendRequestAsync(request);
+
+
+
+    //clientThread = std::thread([]()
+    //{
+    //    runClient();
+    //});
+
+    //serverThread = std::thread([]()
+    //{
+    //    runServer();
+    //});
+    
 	return true;
 }
 
@@ -136,6 +159,7 @@ void AppDelegate::applicationWillTerminate()
 void AppDelegate::mainLoop()
 {
  	shared_Scheduler->update(1/60.f);
+    HTTPClient::getInstance()->tick(1 / 60.f);
 }
 
 

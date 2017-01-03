@@ -13,6 +13,9 @@
 NS_FK_BEGIN
 namespace network{
 
+static const long LOW_SPEED_LIMIT = 1;
+static const long LOW_SPEED_TIME = 5;
+
 HTTPRequest::HTTPRequest(bool enableDebug/* = false*/)
 : onRequestCompleteDelegate(nullptr)
 , onRequestProgressDelegate(nullptr)
@@ -34,6 +37,7 @@ HTTPRequest::HTTPRequest(bool enableDebug/* = false*/)
 , _httpTimeOut(5.0f) // 5 seconds timeout
 , _elapsedTime(0.0f)
 , _bFinished(false)
+, _formPost(nullptr)
 {
     memset(_errorBuffer, 0, CURL_ERROR_SIZE);
     _easyHandle = curl_easy_init();
@@ -99,8 +103,13 @@ HTTPRequest::HTTPRequest(bool enableDebug/* = false*/)
     curl_easy_setopt(_easyHandle, CURLOPT_WRITEFUNCTION, staticReceiveResponseBodyCallback);
 
     // set progress function
+    curl_easy_setopt(_easyHandle, CURLOPT_NOPROGRESS, false);
     curl_easy_setopt(_easyHandle, CURLOPT_XFERINFODATA, this);
     curl_easy_setopt(_easyHandle, CURLOPT_XFERINFOFUNCTION, staticProgressCallback);
+    curl_easy_setopt(_easyHandle, CURLOPT_LOW_SPEED_LIMIT, LOW_SPEED_LIMIT);
+    curl_easy_setopt(_easyHandle, CURLOPT_LOW_SPEED_TIME, LOW_SPEED_TIME);
+    //curl_easy_setopt(_easyHandle, CURLOPT_MAX_SEND_SPEED_LARGE, 1024 * 100); // limit send speed 100kb/s
+    //curl_easy_setopt(_easyHandle, CURLOPT_MAX_RECV_SPEED_LARGE, 1024 * 100); // limit recv speed 100kb/s
 }
 
 
@@ -621,6 +630,7 @@ size_t HTTPRequest::staticDebugCallback(CURL* handle, curl_infotype debugInfoTyp
 
 size_t HTTPRequest::uploadCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes)
 {
+    _elapsedTime = 0.0f;
     size_t sizeToSend = _requestPayload.size() - _bytesSent;
     size_t sizeToSendThisTime = 0;
     if (sizeToSend != 0)
@@ -640,7 +650,7 @@ size_t HTTPRequest::uploadCallback(void* buffer, size_t sizeInBlocks, size_t blo
 size_t HTTPRequest::receiveResponseHeaderCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes)
 {
     ASSERTED(_response, "");
-
+    _elapsedTime = 0.0f;
     if (_response)
     {
         uint32 headerSize = sizeInBlocks * blockSizeInBytes;
@@ -695,7 +705,7 @@ size_t HTTPRequest::receiveResponseHeaderCallback(void* buffer, size_t sizeInBlo
 size_t HTTPRequest::receiveResponseBodyCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes)
 {
     ASSERTED(_response, "");
-
+    _elapsedTime = 0.0f;
     if (_response)
     {
         uint32 sizeToDownload = sizeInBlocks * blockSizeInBytes;
