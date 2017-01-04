@@ -41,6 +41,10 @@
 #include "FoundationKit/Networking/HTTPClient/HTTPRequest.hpp"
 #include "FoundationKit/Networking/HTTPClient/HTTPResponse.hpp"
 
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/document.h"
+
 using namespace std;
 USING_NS_FK;
 
@@ -78,8 +82,10 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::error_code ec;
     std::string strErr = ec.message();
 
-    HTTPRequest::Pointer request = HTTPRequest::create();
-    request->setURL("http://dl2.youme.im/release/youme-rtc-2.4.1.2442_android.cn.zip");
+    HTTPRequest::Pointer request = HTTPRequest::create(true);
+    request->setMethod(HTTPRequest::MethodType::POST);
+    //request->setURL("http://dl2.youme.im/release/youme-rtc-2.4.1.2442_android.cn.zip");
+    request->setURL("https://crashlogs.woniu.com/crashlogs/api/comm/cpp");
     request->onRequestCompleteDelegate = [](HTTPRequest::Pointer pRequest, HTTPResponse::Pointer pResponse, bool ableConn)
     {
         auto strUrl = pRequest->getURL();
@@ -87,7 +93,13 @@ bool AppDelegate::applicationDidFinishLaunching()
         {
             auto responseData = pResponse->getResponseData();
             mutable_buffer data(&responseData[0], responseData.size());
-            FileUtils::getInstance()->writeDataToFile(data, "E:\\youme-rtc-2.4.1.2442_android.cn.zip");
+            FileUtils::getInstance()->writeDataToFile(data, "E:\\temp\\result.html");
+        }
+        else
+        {
+            auto responseData = pResponse->getResponseData();
+            mutable_buffer data(&responseData[0], responseData.size());
+            FileUtils::getInstance()->writeDataToFile(data, "E:\\temp\\result.html");
         }
     };
     static ElapsedTimer downloadET;
@@ -112,6 +124,40 @@ bool AppDelegate::applicationDidFinishLaunching()
         }
     };
 
+    std::unordered_map<std::string, std::string >g_uploadParameters;
+
+    g_uploadParameters["channelId"] = "10000";
+    g_uploadParameters["lifespan"] = "0000-0000-0000-0000-0000";
+    g_uploadParameters["sceneid"] = "23";
+    g_uploadParameters["userAccount"] = "libo";
+    g_uploadParameters["version"] = "1.0.0";
+    g_uploadParameters["gameId"] = "66";
+    g_uploadParameters["roleName"] = "NONE";
+    g_uploadParameters["guid"] = "NONE";
+    g_uploadParameters["device"] = "NONE";
+    g_uploadParameters["ptime"] = "NONE";
+    g_uploadParameters["osver"] = "NONE";
+    g_uploadParameters["fmemory"] = "NONE";
+    g_uploadParameters["arch"] = "NONE";
+    g_uploadParameters["type"] = "NONE";
+    g_uploadParameters["sdkVersion"] = "NONE";
+    g_uploadParameters["totalMemory"] = "NONE";
+    g_uploadParameters["isRoot"] = "0";
+    g_uploadParameters["crashPackage"] = "NONE";
+    rapidjson::StringBuffer sb;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(sb);
+    writer.StartObject();
+
+    for (auto& iter : g_uploadParameters)
+    {
+        writer.Key(iter.first.c_str()); writer.String(iter.second.c_str());
+    }
+    writer.EndObject();
+    std::string jsonString = sb.GetString();
+    request->setContentField("params", jsonString);
+    request->setFileField("file", "E:\\temp\\crash.dmp");
+    request->setFileField("traceFile", "E:\\temp\\trace.log");
+    //request->setPostField("params", jsonString);
     HTTPClient::getInstance()->sendRequestAsync(request);
 
 

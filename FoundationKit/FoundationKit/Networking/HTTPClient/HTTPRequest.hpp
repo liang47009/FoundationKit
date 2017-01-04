@@ -135,7 +135,7 @@ protected:
     void                     finishedRequest();
 
 private:
-    void buildRequestPayload();
+    void buildPostPayload();
     void buildFormPayload();
 
 private: // ================================ Callback by libcurl ============================

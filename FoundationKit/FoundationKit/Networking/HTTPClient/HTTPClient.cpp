@@ -12,6 +12,7 @@ NS_FK_BEGIN
 
 namespace network{
 
+static const int MAX_WAIT_MSECS = 30 * 1000; /* Wait max. 30 seconds */
 HTTPClient::RequestOptions HTTPClient::HTTPRequestOptions;
 CURLM*  HTTPClient::_G_multiHandle = nullptr;
 CURLSH* HTTPClient::_G_shareHandle = nullptr;

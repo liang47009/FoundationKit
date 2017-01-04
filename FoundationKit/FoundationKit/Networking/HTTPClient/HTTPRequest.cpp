@@ -64,10 +64,13 @@ HTTPRequest::HTTPRequest(bool enableDebug/* = false*/)
     if (HTTPClient::HTTPRequestOptions.EnableVerifyPeer)
     {
         curl_easy_setopt(_easyHandle, CURLOPT_SSL_VERIFYPEER, 1L);
+        curl_easy_setopt(_easyHandle, CURLOPT_SSL_VERIFYHOST, 1L);
+        
     }
     else
     {
         curl_easy_setopt(_easyHandle, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(_easyHandle, CURLOPT_SSL_VERIFYHOST, 0L);
     }
 
     if (HTTPClient::HTTPRequestOptions.IsUseHttpProxy)
@@ -347,17 +350,18 @@ bool HTTPRequest::build()
 
     curl_easy_setopt(_easyHandle, CURLOPT_URL, _url.c_str());
 
-    buildRequestPayload();
-    buildFormPayload();
+    buildPostPayload();
     // set up method
     if (_requestType == MethodType::POST)
     {
         curl_easy_setopt(_easyHandle, CURLOPT_POST, 1L);
         // If we don't pass any other Content-Type, RequestPayload is assumed to be URL-encoded by this time
         // (if we pass, don't check here and trust the request)
-        //check(!GetHeader("Content-Type").IsEmpty() || IsURLEncoded(RequestPayload));
-        curl_easy_setopt(_easyHandle, CURLOPT_POSTFIELDS, &_requestPayload.front());
-        curl_easy_setopt(_easyHandle, CURLOPT_POSTFIELDSIZE, _requestPayload.size());
+        if (!_requestPayload.empty())
+        {
+            curl_easy_setopt(_easyHandle, CURLOPT_POSTFIELDS, &_requestPayload.front());
+            curl_easy_setopt(_easyHandle, CURLOPT_POSTFIELDSIZE, _requestPayload.size());
+        }
     }
     else if (_requestType == MethodType::PUT)
     {
@@ -384,13 +388,18 @@ bool HTTPRequest::build()
         // If we don't pass any other Content-Type, RequestPayload is assumed to be URL-encoded by this time
         // (if we pass, don't check here and trust the request)
         //check(!GetHeader("Content-Type").IsEmpty() || IsURLEncoded(RequestPayload));
-        curl_easy_setopt(_easyHandle, CURLOPT_POSTFIELDS, &_requestPayload.front());
-        curl_easy_setopt(_easyHandle, CURLOPT_POSTFIELDSIZE, _requestPayload.size());
+        if (_requestPayload.size()>0)
+        {
+            curl_easy_setopt(_easyHandle, CURLOPT_POSTFIELDS, &_requestPayload.front());
+            curl_easy_setopt(_easyHandle, CURLOPT_POSTFIELDSIZE, _requestPayload.size());
+        }
     }
     else
     {
         LOG_ERROR("Unsupported method '%d', can be perhaps added with CURLOPT_CUSTOMREQUEST", _requestType);
     }
+
+    buildFormPayload();
 
     // set up headers
     if (getHeader("User-Agent").empty())
@@ -401,7 +410,7 @@ bool HTTPRequest::build()
     // content-length should be present http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.4
     if (getHeader("Content-Length").empty())
     {
-        setHeader("Content-Length", StringUtils::format("%d", _requestPayload.size()));
+        //setHeader("Content-Length", StringUtils::format("%d", _requestPayload.size()));
     }
 
     // Add "Pragma: no-cache" to mimic WinInet behavior
@@ -418,7 +427,6 @@ bool HTTPRequest::build()
     }
 
     auto allHeaders = getAllHeaders();
-
     for (auto& header : allHeaders)
     {
         _headerList = curl_slist_append(_headerList, header.c_str());
@@ -436,10 +444,10 @@ bool HTTPRequest::build()
     return true;
 }
 
-void HTTPRequest::buildRequestPayload()
+void HTTPRequest::buildPostPayload()
 {
     std::stringbuf buf;
-    bool needAnd = false;
+    bool needAnd = (!_requestPayload.empty());
     for (const auto &postField : _postFields)
     {
         if (needAnd)
@@ -454,7 +462,7 @@ void HTTPRequest::buildRequestPayload()
         needAnd = true;
     }
     std::string strPostFeilds = buf.str();
-    _requestPayload.resize(_requestPayload.size() + strPostFeilds.size());
+    _requestPayload.reserve(_requestPayload.size() + strPostFeilds.size());
     _requestPayload.insert(_requestPayload.end(), strPostFeilds.begin(), strPostFeilds.end());
 }
 
@@ -462,7 +470,7 @@ void HTTPRequest::buildFormPayload()
 {
     if (!_fileFields.empty() || !_contentFields.empty())
     {
-        setHeader("Content-Type", "multipart/form-data");
+        setHeader("Content-Type", "multipart/form-data;charset=utf-8");
     }
     //set form files
     if (_formPost)
@@ -488,7 +496,6 @@ void HTTPRequest::buildFormPayload()
             CURLFORM_COPYCONTENTS, contentItem.second.c_str(),
             CURLFORM_END);
     }
-
     curl_easy_setopt(_easyHandle, CURLOPT_HTTPPOST, _formPost);
 }
 
@@ -525,7 +532,7 @@ void HTTPRequest::finishedRequest()
             curl_slist_free_all(curlCookies);
             curlCookies = nullptr;
         }
-        _response->setSucceeded(CURLE_OK == _completionResult)
+        _response->setSucceeded(CURLE_OK == _completionResult && httpCode == 200)
             .setResponseCode(httpCode)
             .setResponseMsg(responseMsg)
             .setContentSize(static_cast<int32>(contentLengthDownload))
@@ -737,6 +744,7 @@ size_t HTTPRequest::receiveResponseBodyCallback(void* buffer, size_t sizeInBlock
 
 int HTTPRequest::progressCallback(curl_off_t totalDownload, curl_off_t nowDownload, curl_off_t totalUpload, curl_off_t nowUpload)
 {
+    _elapsedTime = 0.0f;
     if (onRequestProgressDelegate)
     {
         onRequestProgressDelegate(shared_from_this(), totalDownload, nowDownload, totalUpload, nowUpload);

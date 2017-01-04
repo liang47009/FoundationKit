@@ -40,7 +40,7 @@ public:
     static struct RequestOptions
     {
         RequestOptions()
-            : EnableVerifyPeer(true)
+            : EnableVerifyPeer(false)
             , CertBundlePath()
             , IsUseHttpProxy(false)
             , HttpProxyAddress()
