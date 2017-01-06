@@ -85,21 +85,25 @@ bool AppDelegate::applicationDidFinishLaunching()
     HTTPRequest::Pointer request = HTTPRequest::create(true);
     request->setMethod(HTTPRequest::MethodType::POST);
     //request->setURL("http://dl2.youme.im/release/youme-rtc-2.4.1.2442_android.cn.zip");
-    request->setURL("https://crashlogs.woniu.com/crashlogs/api/comm/cpp");
+    request->setURL("https://crashlogs1.woniu.com/crashlogs/api/comm/cpp");
     request->onRequestCompleteDelegate = [](HTTPRequest::Pointer pRequest, HTTPResponse::Pointer pResponse, bool ableConn)
     {
-        auto strUrl = pRequest->getURL();
+        pRequest->dumpInfo();
+        pResponse->dumpInfo();
         if (pResponse->isSucceeded())
         {
-            auto responseData = pResponse->getResponseData();
+            auto responseData = pResponse->getContentData();
             mutable_buffer data(&responseData[0], responseData.size());
             FileUtils::getInstance()->writeDataToFile(data, "E:\\temp\\result.html");
         }
         else
         {
-            auto responseData = pResponse->getResponseData();
-            mutable_buffer data(&responseData[0], responseData.size());
-            FileUtils::getInstance()->writeDataToFile(data, "E:\\temp\\result.html");
+            auto responseData = pResponse->getContentData();
+            if (responseData.size()>0)
+            {
+                mutable_buffer data(&responseData[0], responseData.size());
+                FileUtils::getInstance()->writeDataToFile(data, "E:\\temp\\result.html");
+            }
         }
     };
     static ElapsedTimer downloadET;
@@ -157,7 +161,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     request->setContentField("params", jsonString);
     request->setFileField("file", "E:\\temp\\crash.dmp");
     request->setFileField("traceFile", "E:\\temp\\trace.log");
-    //request->setPostField("params", jsonString);
     HTTPClient::getInstance()->sendRequestAsync(request);
 
 

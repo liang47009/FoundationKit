@@ -27,14 +27,14 @@ public:
     std::vector<std::string> getAllHeaders();
     std::string              getContentType();
     size_t                   getContentSize();
-    std::vector<uint8>&      getResponseData();
+    std::vector<uint8>&      getContentData();
     long                     getResponseCode();
     std::string              getCookies();
     std::string              getResponseMsg();
     std::string              getErrorMsg();
     bool                     isReady();
     bool                     isSucceeded();
-
+    void                     dumpInfo();
 protected:
     HTTPResponse(RequestPtr pRequest);
     HTTPResponse&            setHeader(const std::string& headerName, const std::string& headerValue);
@@ -49,15 +49,15 @@ protected:
 private:
     RequestWeakPtr     _request;
     /** BYTE array to fill in as the response is read via didReceiveData */
-    std::vector<uint8> _responseData;
+    std::vector<uint8> _contentData;
+    /** Cached content length from completed response */
+    int32              _contentSize;
     /** Cached code from completed response */
     long               _responseCode;
     /** Cached key/value header pairs. Parsed once request completes */
     KeyValueMap        _headers;
     /** message for http code */
     std::string        _responseMessage;
-    /** Cached content length from completed response */
-    int32              _contentSize;
     /** True when the response has finished async processing */
     bool volatile      _bIsReady;
     /** True if the response was successfully received/processed */

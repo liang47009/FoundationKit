@@ -39,7 +39,7 @@ HTTPRequest::HTTPRequest(bool enableDebug/* = false*/)
 , _bFinished(false)
 , _formPost(nullptr)
 {
-    memset(_errorBuffer, 0, CURL_ERROR_SIZE);
+    memset(_errorBuffer, 0, CURL_ERROR_SIZE + 1);
     _easyHandle = curl_easy_init();
 
     curl_easy_setopt(_easyHandle, CURLOPT_SHARE, HTTPClient::_G_shareHandle);
@@ -288,6 +288,57 @@ bool HTTPRequest::isFinished()
     return _bFinished;
 }
 
+void HTTPRequest::dumpInfo()
+{
+    std::string requestInfo;
+    requestInfo += getURL();
+    requestInfo += "\n";
+    requestInfo += StringUtils::join("\n", getAllHeaders());
+    requestInfo += "\n";
+    requestInfo += "------PostFields---------------------\n";
+    for (auto iter: _postFields)
+    {
+        requestInfo += iter.first;
+        requestInfo += ":";
+        requestInfo += iter.second;
+        requestInfo += "\n";
+    }
+
+    requestInfo += "------ContentFields---------------------\n";
+    for (auto iter : _contentFields)
+    {
+        requestInfo += iter.first;
+        requestInfo += ":";
+        requestInfo += iter.second;
+        requestInfo += "\n";
+    }
+
+    requestInfo += "------FileFields---------------------\n";
+    for (auto iter : _fileFields)
+    {
+        requestInfo += iter.first;
+        requestInfo += ":";
+        requestInfo += iter.second;
+        requestInfo += "\n";
+    }
+    requestInfo += "------PostFields String---------------------\n";
+    if (_requestPayload.empty())
+    {
+        requestInfo.append("");
+    }
+    else
+    {
+        requestInfo.append((char*)&_requestPayload[0], _requestPayload.size());
+    }
+
+    requestInfo += "\n";
+    requestInfo += "Request Status:";
+    requestInfo += StringUtils::to_string(static_cast<int>(_requestStatus));
+    LOG_INFO("---------------------Dump Request-----------------------\n");
+    LOG_INFO(requestInfo.c_str());
+    LOG_INFO("---------------------Dump Request End-----------------------\n");
+}
+
 void HTTPRequest::tick(float deltaTime)
 {
     _elapsedTime += deltaTime;
@@ -506,15 +557,16 @@ void HTTPRequest::finishedRequest()
         _response = HTTPResponse::create(shared_from_this());
     }
 
+    std::string operatingCurlMsg;
     // if completed, get more info
     if (_bCompleted)
     {
         long httpCode = 0;
         curl_easy_getinfo(_easyHandle, CURLINFO_RESPONSE_CODE, &httpCode);
-        std::string responseMsg = curl_easy_strerror(_completionResult);
+        operatingCurlMsg = curl_easy_strerror(_completionResult);
+        operatingCurlMsg += ":";
         double contentLengthDownload = 0.0;
         curl_easy_getinfo(_easyHandle, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &contentLengthDownload);
-
         curl_slist *curlCookies = NULL;
         curl_easy_getinfo(_easyHandle, CURLINFO_COOKIELIST, &curlCookies);
         std::string responseCookies;
@@ -532,9 +584,8 @@ void HTTPRequest::finishedRequest()
             curl_slist_free_all(curlCookies);
             curlCookies = nullptr;
         }
-        _response->setSucceeded(CURLE_OK == _completionResult && httpCode == 200)
+        _response->setSucceeded(CURLE_OK == _completionResult)
             .setResponseCode(httpCode)
-            .setResponseMsg(responseMsg)
             .setContentSize(static_cast<int32>(contentLengthDownload))
             .setCookies(responseCookies);
 
@@ -556,17 +607,16 @@ void HTTPRequest::finishedRequest()
     {
         setRequestStatus(HttpStatusCode::Canceled);
         std::string errMsg = "The request has been canceled";
-        memcpy(_errorBuffer, errMsg.c_str(), errMsg.size());
+        operatingCurlMsg += "The request has been canceled";;
     }
     else if (_bTimeout)
     {
         setRequestStatus(HttpStatusCode::TimeOut);
-        std::string errMsg = "The request time-out";
-        memcpy(_errorBuffer, errMsg.c_str(), errMsg.size());
+        operatingCurlMsg += "The request time-out,";
     }
     else
     {
-        ASSERTED(false, "Operation not supported");
+        ASSERTED(false, "Operation not supported,");
     }
 
     if (_response->isSucceeded())
@@ -576,12 +626,13 @@ void HTTPRequest::finishedRequest()
         if (bDebugServerResponse)
         {
             LOG_WARN("%p: request has been successfully processed. URL: %s, HTTP code: %d, content length: %d, actual payload size: %d",
-                this, getURL().c_str(), _response->getResponseCode(), _response->getContentSize(), _response->getResponseData().size());
+                this, getURL().c_str(), _response->getResponseCode(), _response->getContentSize(), _response->getContentData().size());
         }
         // Mark last request attempt as completed successfully
         setRequestStatus(HttpStatusCode::Succeeded);
     }
-    _response->setReady(true).setErrorMsg(_errorBuffer);
+    operatingCurlMsg += _errorBuffer;
+    _response->setReady(true).setErrorMsg(operatingCurlMsg);
 
     // Call delegate with valid request/response objects
     if (onRequestCompleteDelegate)
@@ -720,15 +771,15 @@ size_t HTTPRequest::receiveResponseBodyCallback(void* buffer, size_t sizeInBlock
         {
             LOG_INFO("%p: ReceiveResponseBodyCallback: %d bytes out of %d received. (SizeInBlocks=%d, BlockSizeInBytes=%d, Response->TotalBytesRead=%d, Response->GetContentLength()=%d, SizeToDownload=%d (<-this will get returned from the callback))",
                 this,
-                static_cast<int32>(_response->getResponseData().size() + sizeToDownload), _response->getContentSize(),
-                static_cast<int32>(sizeInBlocks), static_cast<int32>(blockSizeInBytes), _response->getResponseData().size(), _response->getContentSize(), static_cast<int32>(sizeToDownload)
+                static_cast<int32>(_response->getContentData().size() + sizeToDownload), _response->getContentSize(),
+                static_cast<int32>(sizeInBlocks), static_cast<int32>(blockSizeInBytes), _response->getContentData().size(), _response->getContentSize(), static_cast<int32>(sizeToDownload)
                 );
         }
 
         // note that we can be passed 0 bytes if file transmitted has 0 length
         if (sizeToDownload > 0)
         {
-            auto& responseData = _response->getResponseData();
+            auto& responseData = _response->getContentData();
             responseData.insert(responseData.end(), (char*)buffer, (char*)buffer + sizeToDownload);
             return sizeToDownload;
         }

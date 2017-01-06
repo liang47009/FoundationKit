@@ -124,6 +124,7 @@ public:
     float                    getTimeOut();
     void                     cancel();
     bool                     isFinished();
+    void                     dumpInfo();
 
     virtual void tick(float deltaTime) override;
     virtual bool isTickable() const override;

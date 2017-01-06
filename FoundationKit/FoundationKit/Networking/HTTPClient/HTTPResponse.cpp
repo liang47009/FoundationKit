@@ -2,17 +2,20 @@
 #include "HTTPRequest.hpp"
 #include "HTTPResponse.hpp"
 #include "FoundationKit/Foundation/Logger.h"
+#include "FoundationKit/Foundation/StringUtils.h"
 NS_FK_BEGIN
 namespace network{
 HTTPResponse::HTTPResponse(RequestPtr pRequest)
     : _request(pRequest)
-    , _responseData()
-    , _headers()
+    , _contentData()
+    , _contentSize(0)
     , _responseCode(0)
+    , _headers()
     , _responseMessage()
     , _bIsReady(false)
     , _bSucceeded(false)
     , _cookies()
+    , _errorMsg()
 {
 
 }
@@ -91,9 +94,9 @@ size_t HTTPResponse::getContentSize()
     return _contentSize;
 }
 
-std::vector<uint8>& HTTPResponse::getResponseData()
+std::vector<uint8>& HTTPResponse::getContentData()
 {
-    return _responseData;
+    return _contentData;
 }
 
 long HTTPResponse::getResponseCode()
@@ -125,6 +128,37 @@ bool HTTPResponse::isReady()
 bool HTTPResponse::isSucceeded()
 {
     return _bSucceeded;
+}
+
+void HTTPResponse::dumpInfo()
+{
+    std::string responseInfo;
+    responseInfo += "URL:";  responseInfo += getURL();
+    responseInfo += "\n";
+    responseInfo += "Headers:\n";
+    responseInfo += StringUtils::join("\n", getAllHeaders());
+    responseInfo += "\n";
+    responseInfo += "ResponseCode:";  responseInfo += StringUtils::to_string(getResponseCode());
+    responseInfo += "\n";
+    responseInfo += "Cookies:";  responseInfo += getCookies();
+    responseInfo += "\n";
+    responseInfo += "ResponseMeg:";  responseInfo += getResponseMsg();
+    responseInfo += "\n";
+    responseInfo += "ErrorMsg:";  responseInfo += getErrorMsg();
+    responseInfo += "\n";
+    responseInfo += "ContentType:";  responseInfo += getContentType();
+    responseInfo += "\n";
+    responseInfo += "ContentSize:";  responseInfo += StringUtils::to_string(getContentSize());
+    responseInfo += "\n";
+    responseInfo += "ContentData:"; 
+    if (!_contentData.empty())
+    {
+        responseInfo += (char*)(&_contentData[0]);
+    }
+
+    LOG_INFO("---------------------Dump Response-----------------------\n");
+    LOG_INFO(responseInfo.c_str());
+    LOG_INFO("---------------------Dump Response End-----------------------\n");
 }
 
 HTTPResponse& HTTPResponse::setHeader(const std::string& headerName, const std::string& headerValue)
