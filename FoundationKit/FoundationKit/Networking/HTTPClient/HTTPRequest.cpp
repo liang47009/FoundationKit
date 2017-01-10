@@ -547,7 +547,10 @@ void HTTPRequest::buildFormPayload()
             CURLFORM_COPYCONTENTS, contentItem.second.c_str(),
             CURLFORM_END);
     }
-    curl_easy_setopt(_easyHandle, CURLOPT_HTTPPOST, _formPost);
+    if (_formPost)
+    {
+        curl_easy_setopt(_easyHandle, CURLOPT_HTTPPOST, _formPost);
+    }
 }
 
 void HTTPRequest::finishedRequest()

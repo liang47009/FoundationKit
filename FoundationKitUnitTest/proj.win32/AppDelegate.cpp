@@ -82,10 +82,12 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::error_code ec;
     std::string strErr = ec.message();
 
-    HTTPRequest::Pointer request = HTTPRequest::create(true);
-    request->setMethod(HTTPRequest::MethodType::POST);
-    //request->setURL("http://dl2.youme.im/release/youme-rtc-2.4.1.2442_android.cn.zip");
-    request->setURL("https://crashlogs1.woniu.com/crashlogs/api/comm/cpp");
+    // http client Test
+    ///*
+    HTTPRequest::Pointer request = HTTPRequest::create(false);
+    request->setURL("http://dl2.youme.im/release/youme-rtc-2.4.1.2442_android.cn.zip");
+    //request->setMethod(HTTPRequest::MethodType::POST);
+    //request->setURL("https://crashlogs1.woniu.com/crashlogs/api/comm/cpp");
     request->onRequestCompleteDelegate = [](HTTPRequest::Pointer pRequest, HTTPResponse::Pointer pResponse, bool ableConn)
     {
         pRequest->dumpInfo();
@@ -106,6 +108,7 @@ bool AppDelegate::applicationDidFinishLaunching()
             }
         }
     };
+
     static ElapsedTimer downloadET;
     static int64 currentDownloadSize = 0;
     request->onRequestProgressDelegate = [&](HTTPRequest::Pointer pRequest
@@ -127,9 +130,12 @@ bool AppDelegate::applicationDidFinishLaunching()
             downloadET.reset();
         }
     };
+    HTTPClient::getInstance()->sendRequestAsync(request);
+    return true;
+
+
 
     std::unordered_map<std::string, std::string >g_uploadParameters;
-
     g_uploadParameters["channelId"] = "10000";
     g_uploadParameters["lifespan"] = "0000-0000-0000-0000-0000";
     g_uploadParameters["sceneid"] = "23";
@@ -162,7 +168,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     request->setFileField("file", "E:\\temp\\crash.dmp");
     request->setFileField("traceFile", "E:\\temp\\trace.log");
     HTTPClient::getInstance()->sendRequestAsync(request);
-
+    //*/
 
 
     //clientThread = std::thread([]()

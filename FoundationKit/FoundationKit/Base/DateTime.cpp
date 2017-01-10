@@ -543,7 +543,7 @@ bool DateTime::validate( int32 year, int32 month, int32 day, int32 hour, int32 m
         (second >= 0) && (second <= 59) &&
         (millisecond >= 0) && (millisecond <= 999);
 }
-/*
+
 std::string DateTime::getDateString()
 {
     int32 Year;
@@ -554,9 +554,8 @@ std::string DateTime::getDateString()
     int32 Min;
     int32 Sec;
     int32 MSec;
-
     systemTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
-    std::string dateStr = StringUtils::format("%02d/%02d/%02d", Month, Day, Year % 100);
+    std::string dateStr = StringUtils::format("%04d-%02d-%02d", Year,Month, Day);
     return dateStr;
 }
 
@@ -570,9 +569,8 @@ std::string DateTime::getTimeString()
     int32 Min;
     int32 Sec;
     int32 MSec;
-
     systemTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
-    std::string timeStr = StringUtils::format("%02d/%02d/%02d", Hour, Min, Sec);
+    std::string timeStr = StringUtils::format("%02d:%02d:%02d", Hour, Min, Sec);
     return timeStr;
 }
 
@@ -583,7 +581,7 @@ std::string DateTime::getTimestampString()
     timestamp += getTimeString();
     return timestamp;
 }
-*/
+
 
 NS_FK_END
 

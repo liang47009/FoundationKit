@@ -638,19 +638,15 @@ public:
     /**
      * Get the system date
      *
-     * @param Dest Destination buffer to copy to
-     * @param DestSize Size of destination buffer in characters
      * @return Date string
      */
-    //static std::string getDateString();
+    static std::string getDateString();
     /**
      * Get the system time
      *
-     * @param Dest Destination buffer to copy to
-     * @param DestSize Size of destination buffer in characters
      * @return Time string
      */
-    //static std::string getTimeString();
+    static std::string getTimeString();
 
     /**
      * Returns a timestamp string built from the current date and time.
@@ -658,7 +654,7 @@ public:
      *
      * @return timestamp string
      */
-    //static std::string getTimestampString();
+    static std::string getTimestampString();
 
 public:
 
