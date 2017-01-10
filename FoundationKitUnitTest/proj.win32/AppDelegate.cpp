@@ -35,18 +35,14 @@
 #include "FoundationKit/Base/Timer.h"
 #include "FoundationKit/Foundation/Compression.h"
 #include "FoundationKit/Base/TimerQueue.h"
-#include "FoundationKit/HttpDownloader/DownloaderTest.h"
 #include "FoundationKit/Networking/network.hpp"
 #include "FoundationKit/Networking/HTTPClient/HTTPClient.hpp"
 #include "FoundationKit/Networking/HTTPClient/HTTPRequest.hpp"
 #include "FoundationKit/Networking/HTTPClient/HTTPResponse.hpp"
 
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
-#include "rapidjson/document.h"
-
 using namespace std;
 USING_NS_FK;
+using namespace network;
 
 static Scheduler* shared_Scheduler = nullptr;
 static TimerQueue  G_TimerQueue;
@@ -81,95 +77,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     std::error_code ec;
     std::string strErr = ec.message();
-
-    // http client Test
-    ///*
-    HTTPRequest::Pointer request = HTTPRequest::create(false);
-    request->setURL("http://dl2.youme.im/release/youme-rtc-2.4.1.2442_android.cn.zip");
-    //request->setMethod(HTTPRequest::MethodType::POST);
-    //request->setURL("https://crashlogs1.woniu.com/crashlogs/api/comm/cpp");
-    request->onRequestCompleteDelegate = [](HTTPRequest::Pointer pRequest, HTTPResponse::Pointer pResponse, bool ableConn)
-    {
-        pRequest->dumpInfo();
-        pResponse->dumpInfo();
-        if (pResponse->isSucceeded())
-        {
-            auto responseData = pResponse->getContentData();
-            mutable_buffer data(&responseData[0], responseData.size());
-            FileUtils::getInstance()->writeDataToFile(data, "E:\\temp\\result.html");
-        }
-        else
-        {
-            auto responseData = pResponse->getContentData();
-            if (responseData.size()>0)
-            {
-                mutable_buffer data(&responseData[0], responseData.size());
-                FileUtils::getInstance()->writeDataToFile(data, "E:\\temp\\result.html");
-            }
-        }
-    };
-
-    static ElapsedTimer downloadET;
-    static int64 currentDownloadSize = 0;
-    request->onRequestProgressDelegate = [&](HTTPRequest::Pointer pRequest
-        , int64 totalDownload
-        , int64 nowDownload
-        , int64 totalUpload
-        , int64 nowUpload)
-    {
-        if (nowDownload == totalDownload && totalDownload != 0)
-        {
-            LOG_INFO("Download speed:%0.2fMB/s, process:%0.2f%%", 0.0f, 100.0f);
-        }
-        else if (downloadET.seconds()>=1)
-        {
-            double downloadSpeed = (nowDownload - currentDownloadSize) / 1024.f/1024.f;
-            double downloadRate = nowDownload* 100.0f / totalDownload;
-            LOG_INFO("Download speed:%0.2fMB/s, process:%0.2f%%", downloadSpeed, downloadRate);
-            currentDownloadSize = nowDownload;
-            downloadET.reset();
-        }
-    };
-    HTTPClient::getInstance()->sendRequestAsync(request);
-    return true;
-
-
-
-    std::unordered_map<std::string, std::string >g_uploadParameters;
-    g_uploadParameters["channelId"] = "10000";
-    g_uploadParameters["lifespan"] = "0000-0000-0000-0000-0000";
-    g_uploadParameters["sceneid"] = "23";
-    g_uploadParameters["userAccount"] = "libo";
-    g_uploadParameters["version"] = "1.0.0";
-    g_uploadParameters["gameId"] = "66";
-    g_uploadParameters["roleName"] = "NONE";
-    g_uploadParameters["guid"] = "NONE";
-    g_uploadParameters["device"] = "NONE";
-    g_uploadParameters["ptime"] = "NONE";
-    g_uploadParameters["osver"] = "NONE";
-    g_uploadParameters["fmemory"] = "NONE";
-    g_uploadParameters["arch"] = "NONE";
-    g_uploadParameters["type"] = "NONE";
-    g_uploadParameters["sdkVersion"] = "NONE";
-    g_uploadParameters["totalMemory"] = "NONE";
-    g_uploadParameters["isRoot"] = "0";
-    g_uploadParameters["crashPackage"] = "NONE";
-    rapidjson::StringBuffer sb;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(sb);
-    writer.StartObject();
-
-    for (auto& iter : g_uploadParameters)
-    {
-        writer.Key(iter.first.c_str()); writer.String(iter.second.c_str());
-    }
-    writer.EndObject();
-    std::string jsonString = sb.GetString();
-    request->setContentField("params", jsonString);
-    request->setFileField("file", "E:\\temp\\crash.dmp");
-    request->setFileField("traceFile", "E:\\temp\\trace.log");
-    HTTPClient::getInstance()->sendRequestAsync(request);
-    //*/
-
 
     //clientThread = std::thread([]()
     //{

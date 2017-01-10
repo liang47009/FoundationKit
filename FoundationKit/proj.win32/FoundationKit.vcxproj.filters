@@ -174,9 +174,6 @@
     <ClInclude Include="..\FoundationKit\HttpDownloader\IDownloaderImpl.h">
       <Filter>HttpDownloader</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\HttpDownloader\DownloaderTest.h">
-      <Filter>HttpDownloader</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h">
       <Filter>external\unzip</Filter>
     </ClInclude>
