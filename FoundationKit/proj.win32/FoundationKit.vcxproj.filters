@@ -432,6 +432,9 @@
     <ClInclude Include="..\FoundationKit\Networking\libcurl_init.hpp">
       <Filter>Networking</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\HTTPClient\HTTPDownloader.hpp">
+      <Filter>Networking\HTTPClient</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
@@ -586,6 +589,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Base\Quaternion.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPDownloader.cpp">
+      <Filter>Networking\HTTPClient</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

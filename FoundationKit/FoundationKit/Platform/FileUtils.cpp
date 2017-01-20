@@ -687,8 +687,8 @@ void FileUtils::internalGetFilesFromDir(const std::string& dirPath, std::vector<
 
 void FileUtils::internalGetFilesFromDir(const std::string& dirPath, bool includeChild, const std::function<void(const std::string&)>& callback)const
 {
-    std::string finallyPath = dirPath;
-    if (*(finallyPath.end() - 1) != '/' && *(finallyPath.end() - 1) != '\\')
+    std::string finallyPath = convertPathFormatToUnixStyle(dirPath);
+    if (*(finallyPath.end() - 1) != '/')
     {
         finallyPath.append("/");
     }
@@ -720,8 +720,8 @@ void FileUtils::internalGetFilesFromDir(const std::string& dirPath, bool include
 
 void FileUtils::internalGetDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild)const
 {
-    std::string finallyPath = dirPath;
-    if (*(finallyPath.end() - 1) != '/' && *(finallyPath.end() - 1) != '\\')
+    std::string finallyPath = convertPathFormatToUnixStyle(dirPath);
+    if (*(finallyPath.end() - 1) != '/')
     {
         finallyPath.append("/");
     }

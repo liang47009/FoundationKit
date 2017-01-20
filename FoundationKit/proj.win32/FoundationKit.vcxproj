@@ -257,6 +257,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Networking\detail\socket_ops.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\detail\socket_option.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\HTTPClient\HTTPClient.hpp" />
+    <ClInclude Include="..\FoundationKit\Networking\HTTPClient\HTTPDownloader.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\HTTPClient\HTTPRequest.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\HTTPClient\HTTPResponse.hpp" />
     <ClInclude Include="..\FoundationKit\Networking\HTTPClient\MimeTypes.h" />
@@ -342,6 +343,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\LuaEngine\LuaValue.cpp" />
     <ClCompile Include="..\FoundationKit\LuaEngine\Script.cpp" />
     <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPClient.cpp" />
+    <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPDownloader.cpp" />
     <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPRequest.cpp" />
     <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPResponse.cpp" />
     <ClCompile Include="..\FoundationKit\Networking\HTTPClient\MimeTypes.cpp" />

@@ -98,7 +98,7 @@ public:
     bool writeStringToFile(const std::string& dataStr, const std::string& fullPath, bool append = false);
 
    /**
-    * write Data into a file
+    * Write Data into a file
     *
     *@param retData the data want to save
     *@param fullPath The full path to the file you want to save a string
@@ -106,6 +106,10 @@ public:
     */
     bool writeDataToFile(mutable_buffer retData, const std::string& fullPath, bool append = false);
 
+   /**
+    * Get all line data from a file
+    * @param    fullPath A file path.
+    */
     std::vector<std::string> readAllLines(const std::string& fullPath);
 
    /**

@@ -34,6 +34,7 @@
 #include "FoundationKit/Base/ElapsedTimer.h"
 #include "FoundationKit/Base/Timer.h"
 #include "FoundationKit/Foundation/Compression.h"
+#include "FoundationKit/Platform/FileUtils.h"
 #include "FoundationKit/Base/TimerQueue.h"
 #include "FoundationKit/Networking/network.hpp"
 #include "FoundationKit/Networking/HTTPClient/HTTPClient.hpp"
@@ -77,6 +78,22 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     std::error_code ec;
     std::string strErr = ec.message();
+
+    //HTTPRequest::Pointer request = HTTPRequest::create(false);
+    //request->setURL("http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz");
+    //request->onRequestCompleteDelegate = [](HTTPRequest::Pointer req, HTTPResponse::Pointer res, bool val)
+    //{
+    //    if (res->isSucceeded())
+    //    {
+    //        mutable_buffer mb(&res->getContentData()[0], res->getContentSize());
+    //        FileUtils::getInstance()->writeDataToFile(mb,"e:\\libiconv-1.14.tar.gz");
+    //    }
+    //};
+    //request->onRequestProgressDelegate = [](HTTPRequest::Pointer, int64 totalDownload, int64 newDownload, int64, int64)
+    //{
+    //    LOG_INFO("========= download: %lld / %lld", newDownload, totalDownload);
+    //};
+    //HTTPClient::getInstance()->sendRequestAsync(request);
 
     //clientThread = std::thread([]()
     //{
@@ -211,3 +228,7 @@ void runClient()
     }
 
 }
+
+
+
+

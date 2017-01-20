@@ -24,24 +24,18 @@ enum CompressionFlags
     COMPRESSION_DEFAULT = COMPRESSION_GZIP
 };
 
-
-enum CompressionLevel
-{
-    COMPRESSION_LEVEL_FASTEST = -1,
-    COMPRESSION_LEVEL_DEFAULT = -2,
-    COMPRESSION_LEVEL_BEST = -3
-};
-
-static constexpr uint64_t UNKNOWN_UNCOMPRESSED_LENGTH = uint64_t(-1);
-static constexpr uint64_t UNLIMITED_UNCOMPRESSED_LENGTH = uint64_t(-2);
+/** Default compressor bit window for Zlib */
+static constexpr uint32_t DEFAULT_ZLIB_BIT_WINDOW = 15;
 
 struct Compression
 {
-    /** Time spent compressing data in seconds. */
-    static double compressorTime;
+    /** Time spent compressing data in milliseconds. */
+    static long long compressorTime;
 
-    /** Time spent uncompressing data in seconds. */
-    static double uncompressorTime;
+    /** Time spent uncompressing data in milliseconds. */
+    static long long uncompressorTime;
+
+    static uint32_t defaultBufferLength;
 
     /**
      * Thread-safe abstract compression routine. Compresses memory from uncompressed buffer and writes it to compressed
@@ -52,7 +46,7 @@ struct Compression
      * @param	UncompressedBuffer			Buffer containing uncompressed data
      * @return true if compression succeeds, false if it fails because CompressedBuffer was too small or other reasons
      */
-    static bool compressMemory(CompressionFlags Flags, mutable_buffer& CompressedBuffer, const mutable_buffer& UncompressedBuffer, CompressionLevel level = COMPRESSION_LEVEL_FASTEST);
+    static bool compressMemory(CompressionFlags Flags, mutable_buffer& CompressedBuffer, const mutable_buffer& UncompressedBuffer);
 
     /**
      * Thread-safe abstract decompression routine. Uncompresses memory from compressed buffer and writes it to uncompressed

@@ -21,23 +21,6 @@ static void zipFree(void *opaque, void *p)
     ::free(p);
 }
 
-static int transformLevel(CompressionLevel level)
-{
-    int retLevel = Z_DEFAULT_COMPRESSION;
-    switch (level) {
-    case COMPRESSION_LEVEL_FASTEST:
-        retLevel = 1;
-        break;
-    case COMPRESSION_LEVEL_DEFAULT:
-        retLevel = Z_DEFAULT_COMPRESSION;
-        break;
-    case COMPRESSION_LEVEL_BEST:
-        retLevel = 9;
-        break;
-    }
-    return retLevel;
-}
-
 static int doInflate(z_stream* stream, std::vector<uint8>& head, size_t blockSize) {
     if (stream->avail_out == 0) 
     {
@@ -86,25 +69,26 @@ struct scope_exit
 
 
 /** Time spent compressing data in seconds. */
-double Compression::compressorTime = 0;
+long long Compression::compressorTime = 0;
 
 /** Time spent uncompressing data in seconds. */
-double Compression::uncompressorTime = 0;
+long long Compression::uncompressorTime = 0;
 
+uint32_t Compression::defaultBufferLength = uint32_t(4) << 20; // 4MiB
 
-bool Compression::compressMemory(CompressionFlags Flags, mutable_buffer& CompressedBuffer, const mutable_buffer& UncompressedBuffer, CompressionLevel level/* = COMPRESSION_LEVEL_FASTEST*/)
+bool Compression::compressMemory(CompressionFlags Flags, mutable_buffer& CompressedBuffer, const mutable_buffer& UncompressedBuffer)
 {
     static std::mutex zlibScopeMutex;
     std::lock_guard<std::mutex> scopeLock(zlibScopeMutex);
     // Keep track of time spent uncompressing memory.
     ElapsedTimer CompressorStartTime;
-    bool bCompressSucceeded = false;
+    bool bOperationSucceeded = false;
     do 
     {
         z_stream stream;
         stream.zalloc = &zipAlloc;
         stream.zfree = &zipFree;
-        stream.opaque = nullptr;
+        stream.opaque = Z_NULL;
 
         // Using deflateInit2() to support gzip.  "The windowBits parameter is the
         // base two logarithm of the maximum window size (...) The default value is
@@ -113,23 +97,14 @@ bool Compression::compressMemory(CompressionFlags Flags, mutable_buffer& Compres
         // will have no file name, no extra data, no comment, no modification time
         // (set to zero), no header crc, and the operating system will be set to 255
         // (unknown)."
-        int windowBits = 15 + (Flags == COMPRESSION_GZIP ? 16 : 0);
+        int windowBits = DEFAULT_ZLIB_BIT_WINDOW + (Flags == COMPRESSION_GZIP ? 16 : 0);
 
-        // All other parameters (method, memLevel, strategy) get default values from
-        // the zlib manual.
-        int status = deflateInit2(&stream,
-            transformLevel(level),
-            Z_DEFLATED,
-            windowBits,
-            MAX_MEM_LEVEL,
-            Z_DEFAULT_STRATEGY);
-
+        int status = deflateInit2(&stream,Z_DEFAULT_COMPRESSION,Z_DEFLATED,windowBits, MAX_MEM_LEVEL,Z_DEFAULT_STRATEGY);
         if (status != Z_OK)
         {
             LOG_ERROR("compressMemory deflateInit2 error:%d, msg:%s", status, stream.msg);
             break;
         }
-
         scope_exit se([&]()
         {
             status = deflateEnd(&stream);
@@ -137,10 +112,13 @@ bool Compression::compressMemory(CompressionFlags Flags, mutable_buffer& Compres
             {
                 LOG_ERROR("compressMemory deflateEnd error:%d, msg:%s", status, stream.msg);
             }
+            else
+            {
+                bOperationSucceeded = true;
+            }
         });
 
         uLong uncompressedLength = static_cast<uLong>(UncompressedBuffer.size());
-
         stream.next_in  = static_cast<uint8*>(UncompressedBuffer.data());
         stream.avail_in = static_cast<uInt>(uncompressedLength);
         mutable_buffer tempData;
@@ -155,11 +133,10 @@ bool Compression::compressMemory(CompressionFlags Flags, mutable_buffer& Compres
         }
         CompressedBuffer.reallocate(stream.total_out);
         memcpy(CompressedBuffer.data(), tempData.data(), stream.total_out);
-        bCompressSucceeded = true;
     } while (false);
     // Keep track of compression time and stats.
-    compressorTime += CompressorStartTime.seconds();
-    return bCompressSucceeded;
+    compressorTime += CompressorStartTime.milliseconds();
+    return bOperationSucceeded;
 }
 
 bool Compression::uncompressMemory(CompressionFlags Flags, mutable_buffer& UncompressedBuffer, const mutable_buffer& CompressedBuffer)
@@ -169,7 +146,7 @@ bool Compression::uncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
     // Keep track of time spent uncompressing memory.
     ElapsedTimer UncompressorStartTime;
 
-    bool bUncompressSucceeded = false;
+    bool bOperationSucceeded = false;
     do 
     {
         z_stream stream;
@@ -179,7 +156,7 @@ bool Compression::uncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
         // "The windowBits parameter is the base two logarithm of the maximum window
         // size (...) The default value is 15 (...) add 16 to decode only the gzip
         // format (the zlib format will return a Z_DATA_ERROR)."
-        int windowBits = 15 + (Flags == COMPRESSION_GZIP  ? 16 : 0);
+        int windowBits = DEFAULT_ZLIB_BIT_WINDOW + (Flags == COMPRESSION_GZIP ? 16 : 0);
 
         int status = inflateInit2(&stream, windowBits);
         if (status != Z_OK)
@@ -195,30 +172,31 @@ bool Compression::uncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
             {
                 LOG_ERROR("uncompressMemory inflateEnd error:%d, msg:%s", status, stream.msg);
             }
+            else
+            {
+                bOperationSucceeded = true;
+            }
         });
 
-        //constexpr uint32_t defaultBufferLength = uint32_t(4) << 20;     // 4MiB
-        constexpr uint32_t defaultBufferLength = uint32_t(1) << 20;       // 1MiB
         stream.next_in = static_cast<uint8*>(CompressedBuffer.data());
         stream.avail_in = static_cast<uInt>(CompressedBuffer.size());
         stream.next_out = nullptr;
         stream.avail_out = 0;
         stream.total_in = 0;
         stream.total_out = 0;
-
         std::vector<uint8>  UncompressedData;
-        do 
+        while ((status = doInflate(&stream, UncompressedData, defaultBufferLength)) == Z_OK);
+        if (status != Z_STREAM_END)
         {
-            status = doInflate(&stream, UncompressedData, defaultBufferLength);
-        } while (status == Z_OK);
-
+            LOG_ERROR("uncompressMemory doInflate error:%d, msg:%s", status, stream.msg);
+            break;
+        }
         UncompressedBuffer.reallocate(stream.total_out);
         memcpy(UncompressedBuffer.data(), &UncompressedData[0], stream.total_out);
-        bUncompressSucceeded = true;
     } while (false);
 
-    uncompressorTime += UncompressorStartTime.seconds();
-    return bUncompressSucceeded;
+    uncompressorTime += UncompressorStartTime.milliseconds();
+    return bOperationSucceeded;
 }
 
 
@@ -231,7 +209,6 @@ bool Compression::compressFile(const std::string& srcFilePath, const std::string
         BREAK_IF(gFile == nullptr);
         FILE* srcFp = fopen(srcFilePath.c_str(), "rb");
         BREAK_IF(srcFp == nullptr);
-        const uint32_t defaultBufferLength = uint32_t(1) << 20;       // 1MiB
         size_t readsize = 0;
         size_t totalReadSize = 0;
         char* buffer = new char[defaultBufferLength];
@@ -259,7 +236,6 @@ bool Compression::uncompressFile(const std::string& srcFilePath, const std::stri
         BREAK_IF(gFile == nullptr);
         FILE* desFp = fopen(desFilePath.c_str(), "wb");
         BREAK_IF(desFp == nullptr);
-        const uint32_t defaultBufferLength = uint32_t(1) << 20;       // 1MiB
         size_t readsize = 0;
         size_t totalReadSize = 0;
         char* buffer = new char[defaultBufferLength];

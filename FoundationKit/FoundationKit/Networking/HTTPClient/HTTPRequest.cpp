@@ -44,6 +44,7 @@ HTTPRequest::HTTPRequest(bool enableDebug/* = false*/)
 
     curl_easy_setopt(_easyHandle, CURLOPT_SHARE, HTTPClient::_G_shareHandle);
 
+
     curl_easy_setopt(_easyHandle, CURLOPT_DNS_CACHE_TIMEOUT, 60 * 5);
 
     // allow http redirects to be followed
@@ -60,6 +61,7 @@ HTTPRequest::HTTPRequest(bool enableDebug/* = false*/)
     // associate with this just in case
     curl_easy_setopt(_easyHandle, CURLOPT_PRIVATE, this);
 
+    curl_easy_setopt(_easyHandle, CURLOPT_USE_SSL, CURLUSESSL_ALL);
     // set certificate verification (disable to allow self-signed certificates)
     if (HTTPClient::HTTPRequestOptions.EnableVerifyPeer)
     {
