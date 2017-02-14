@@ -8,6 +8,9 @@ static const int MAX_WAIT_MSECS = 30 * 1000; /* Wait max. 30 seconds */
 
 static size_t writeFuncForAdapter(void *ptr, size_t size, size_t nmemb, void* userdata)
 {
+    UNUSED_ARG(ptr);
+    UNUSED_ARG(size);
+    UNUSED_ARG(userdata);
     return nmemb;
 }
 
@@ -23,6 +26,7 @@ HTTPDownloader::HTTPDownloader()
 HTTPDownloader::~HTTPDownloader()
 {
     m_quit = true;
+    m_downloadThread->join();
     if (nullptr != m_multiHandle)
     {
         curl_multi_cleanup(m_multiHandle);
@@ -140,28 +144,43 @@ HTTPDownloader& HTTPDownloader::setCertBundlePath(const std::string& bundlePath)
     return (*this);
 }
 
-void HTTPDownloader::download(const std::string& url, const std::string& storagePath)
+
+
+void HTTPDownloader::downloadToFile(const std::string& url, const std::string& storagePath, const DownloadToFileCallback& callback)
 {
+    std::string checkedStoragePath = storagePath;
+    if (checkedStoragePath.back() != '/' && checkedStoragePath.back() != '\\')
+    {
+        checkedStoragePath.push_back('/');
+    }
+
+    size_t pos = url.find_last_of("/");
+    if (pos != std::string::npos)
+    {
+        checkedStoragePath += url.substr(pos + 1);
+    }
+
     DownloadRequestPointer request = std::make_shared<Request>();
     request->requestUrl = url;
-    request->type = DownloadType::T_FILE;
+    request->dataWriter = new DownloadDataFileWriter(checkedStoragePath, callback);
+    request->isRequestHeader = true;
     buildRequestForHeader(request);
     std::lock_guard<std::mutex>  lock(m_requestMutex);
     request->addToMultiResult = curl_multi_add_handle(m_multiHandle, request->easyHandle);
     m_requestMap.insert(std::make_pair(request->easyHandle, request));
 }
 
-void HTTPDownloader::download(const std::string& url, mutable_buffer& buffer)
+void HTTPDownloader::downloadToMemory(const std::string& url, const DownloadToMemoryCallback& callback)
 {
     DownloadRequestPointer request = std::make_shared<Request>();
     request->requestUrl = url;
-    request->type = DownloadType::T_BUFFER;
+    request->dataWriter = new DownloadDataBufferWriter(callback);
+    request->isRequestHeader = true;
     buildRequestForHeader(request);
     std::lock_guard<std::mutex>  lock(m_requestMutex);
     request->addToMultiResult = curl_multi_add_handle(m_multiHandle, request->easyHandle);
     m_requestMap.insert(std::make_pair(request->easyHandle, request));
 }
-
 
 bool HTTPDownloader::buildRequestForData(DownloadRequestPointer pDownloadRequest)
 {
@@ -171,23 +190,20 @@ bool HTTPDownloader::buildRequestForData(DownloadRequestPointer pDownloadRequest
     // receive error messages
     curl_easy_setopt(easyHandle, CURLOPT_ERRORBUFFER, pDownloadRequest->errorBuffer);
     // associate with this just in case
-    curl_easy_setopt(easyHandle, CURLOPT_PRIVATE, pDownloadRequest);
-
-    // set up header function to receive response headers
-    //curl_easy_setopt(easyHandle, CURLOPT_HEADERDATA, pDownloadRequest);
-    //curl_easy_setopt(easyHandle, CURLOPT_HEADERFUNCTION, staticReceiveHeaderCallback);
+    curl_easy_setopt(easyHandle, CURLOPT_PRIVATE, pDownloadRequest.get());
 
     // set up write function to receive response payload
-    curl_easy_setopt(easyHandle, CURLOPT_WRITEDATA, pDownloadRequest);
+    curl_easy_setopt(easyHandle, CURLOPT_WRITEDATA, pDownloadRequest.get());
     curl_easy_setopt(easyHandle, CURLOPT_WRITEFUNCTION, staticReceiveBodyCallback);
 
     // set progress function
     curl_easy_setopt(easyHandle, CURLOPT_NOPROGRESS, false);
-    curl_easy_setopt(easyHandle, CURLOPT_XFERINFODATA, pDownloadRequest);
+    curl_easy_setopt(easyHandle, CURLOPT_XFERINFODATA, pDownloadRequest.get());
     curl_easy_setopt(easyHandle, CURLOPT_XFERINFOFUNCTION, staticProgressCallback);
     curl_easy_setopt(easyHandle, CURLOPT_URL, pDownloadRequest->requestUrl.c_str());
     curl_easy_setopt(easyHandle, CURLOPT_HTTPGET, 1L);
     pDownloadRequest->easyHandle = easyHandle;
+    return true;
 }
 
 bool HTTPDownloader::buildRequestForHeader(DownloadRequestPointer pDownloadRequest)
@@ -364,9 +380,6 @@ void HTTPDownloader::performDownload()
                 }
             }
         }
-
-
-
     } //while (!m_quit)
 }
 
@@ -379,32 +392,49 @@ size_t HTTPDownloader::getRequestSize()
 
 void HTTPDownloader::requestCompleted(CURL* curlHandle)
 {
-    std::lock_guard<std::mutex>  lock(m_requestMutex);
-    auto headerIter = m_requestMap.begin();
-    while (headerIter != m_requestMap.end())
+    DownloadRequestPointer request;
     {
-        if (curlHandle == headerIter->second->easyHandle)
+        std::lock_guard<std::mutex>  lock(m_requestMutex);
+        auto requestIter = m_requestMap.find(curlHandle);
+        if (requestIter != m_requestMap.end())
         {
-            Response& response = headerIter->second->response;
-            char *effectiveUrl;
-            char *contentType;
-            curl_easy_getinfo(curlHandle, CURLINFO_EFFECTIVE_URL, &effectiveUrl);
-            curl_easy_getinfo(curlHandle, CURLINFO_CONTENT_TYPE, &contentType);
-            curl_easy_getinfo(curlHandle, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &response.contentSize);
-            curl_easy_getinfo(curlHandle, CURLINFO_RESPONSE_CODE, &response.responseCode);
-            response.url = effectiveUrl;
-            response.contentType = contentType;
-            m_requestMap.erase(headerIter);
-            break;
+            if (requestIter->second->isRequestHeader)
+            {
+                Response& response = requestIter->second->response;
+                char *effectiveUrl;
+                char *contentType;
+                curl_easy_getinfo(curlHandle, CURLINFO_EFFECTIVE_URL, &effectiveUrl);
+                curl_easy_getinfo(curlHandle, CURLINFO_CONTENT_TYPE, &contentType);
+                curl_easy_getinfo(curlHandle, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &response.contentSize);
+                curl_easy_getinfo(curlHandle, CURLINFO_RESPONSE_CODE, &response.responseCode);
+                response.url = effectiveUrl;
+                response.contentType = contentType;
+                response.valid = true;
+                requestIter->second->isRequestHeader = false;
+                requestIter->second->requestUrl = response.url;
+                requestIter->second->dataWriter->init(response.contentSize);
+                request = requestIter->second;
+            }
+            else
+            {
+                requestIter->second->dataWriter->flush();
+            }
+            m_requestMap.erase(requestIter);
         }
-        ++headerIter;
+    }
+    if (request)
+    {
+        buildRequestForData(request);
+        std::lock_guard<std::mutex>  lock(m_requestMutex);
+        request->addToMultiResult = curl_multi_add_handle(m_multiHandle, request->easyHandle);
+        m_requestMap.insert(std::make_pair(request->easyHandle, request));
     }
 }
 
 
 size_t HTTPDownloader::staticDebugCallback(CURL * handle, curl_infotype debugInfoType, char * debugInfo, size_t debugInfoSize, void* userData)
 {
-    ASSERTED((handle == _easyHandle), "HTTPRequest::debugCallback The handle is not us's");	// make sure it's us
+    UNUSED_ARG(userData);
     switch (debugInfoType)
     {
     case CURLINFO_DATA_IN:
@@ -440,26 +470,30 @@ size_t HTTPDownloader::staticDebugCallback(CURL * handle, curl_infotype debugInf
     return 0;
 }
 
-size_t HTTPDownloader::staticReceiveHeaderCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes, void* userData)
-{
-
-}
-
 size_t HTTPDownloader::staticReceiveBodyCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes, void* userData)
 {
-
+    Request* requestPointer = (Request*)userData;
+    return requestPointer->dataWriter->write(buffer, sizeInBlocks*blockSizeInBytes);
 }
 
 int HTTPDownloader::staticProgressCallback(void *userData, curl_off_t totalDownload, curl_off_t nowDownload, curl_off_t totalUpload, curl_off_t nowUpload)
 {
-
+    UNUSED_ARG(totalUpload);
+    UNUSED_ARG(nowUpload);
+    Request* requestPointer = (Request*)userData;
+    if (totalDownload > 0)
+    {
+        LOG_INFO("===== PROCESS:%0.2f", nowDownload*1.0f / totalDownload*100.0f);
+    }
+    return CURLE_OK;
 }
 
 HTTPDownloader::Request::Request()
     : headerList(nullptr)
     , easyHandle(nullptr)
     , requestUrl()
-    , type(HTTPDownloader::DownloadType::T_NONE)
+    , isRequestHeader(false)
+    , dataWriter(nullptr)
 {
     memset(errorBuffer, 0, CURL_ERROR_SIZE);
 }
@@ -475,6 +509,74 @@ HTTPDownloader::Request::~Request()
     if (headerList)
     {
         curl_slist_free_all(headerList);
+    }
+    SAFE_DELETE(dataWriter);
+}
+
+
+//============== DownloadDataFileWriter====================
+DownloadDataFileWriter::DownloadDataFileWriter(const std::string& storagePath, const HTTPDownloader::DownloadToFileCallback& callback)
+    : _handle(nullptr)
+    , _storagePath(storagePath)
+    , _fun(callback)
+{
+    _handle = fopen(storagePath.c_str(), "wb");
+}
+
+void DownloadDataFileWriter::init(size_t dataSize)
+{
+    UNUSED_ARG(dataSize);
+}
+
+size_t DownloadDataFileWriter::write(void* buffer, size_t size)
+{
+    size_t writeSize = 0;
+    if (_handle)
+    {
+        writeSize = fwrite(buffer, 1, size, _handle);
+    }
+    return writeSize;
+}
+
+void DownloadDataFileWriter::flush()
+{
+    if (_handle)
+    {
+        fclose(_handle);
+    }
+    if (_fun)
+    {
+        _fun(_storagePath);
+    }
+}
+
+DownloadDataBufferWriter::DownloadDataBufferWriter(const HTTPDownloader::DownloadToMemoryCallback& callback)
+    : _buffer()
+    , _writeSize(0)
+    , _fun(callback)
+{
+
+}
+
+void DownloadDataBufferWriter::init(size_t dataSize)
+{
+    _buffer.reallocate(dataSize);
+}
+
+size_t DownloadDataBufferWriter::write(void* buffer, size_t size)
+{
+    char* pdst = (char*)_buffer.data();
+    pdst += _writeSize;
+    memcpy(pdst, buffer, size);
+    _writeSize += size;
+    return size;
+}
+
+void DownloadDataBufferWriter::flush()
+{
+    if (_fun)
+    {
+        _fun(_buffer);
     }
 }
 

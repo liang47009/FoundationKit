@@ -18,17 +18,6 @@ enum { INDEX_NONE = -1 };
 #define FUN_BIND_2(__selector__,__target__, ...) std::bind(&__selector__,__target__, std::placeholders::_1, std::placeholders::_2, ##__VA_ARGS__)
 #define FUN_BIND_3(__selector__,__target__, ...) std::bind(&__selector__,__target__, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, ##__VA_ARGS__)
 
-#define UNUSED_ARG(arg) do{(void)(arg);}while(0)
-
-#define SAFE_DELETE(p)           do { delete (p); (p) = nullptr; } while(0)
-#define SAFE_DELETE_ARRAY(p)     do { if(p) { delete[] (p); (p) = nullptr; } } while(0)
-#define SAFE_FREE(p)             do { if(p) { free(p); (p) = nullptr; } } while(0)
-#define SAFE_RELEASE(p)          do { if(p) { (p)->release(); } } while(0)
-#define SAFE_RELEASE_NULL(p)     do { if(p) { (p)->release(); (p) = nullptr; } } while(0)
-#define SAFE_RETAIN(p)           do { if(p) { (p)->retain(); } } while(0)
-#define BREAK_IF(cond)           if(cond) break
-
-
 /** @def PROPERTY_DEFINE
  * It is used to declare a protected variable.
  * We can use getter to read the variable, and use the setter to change the variable.

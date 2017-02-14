@@ -593,6 +593,9 @@
     <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPDownloader.cpp">
       <Filter>Networking\HTTPClient</Filter>
     </ClCompile>
+    <ClCompile Include="..\FoundationKit\Networking\libcurl_init.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\Base\MathUtil.inl">
@@ -633,9 +636,6 @@
     </None>
     <None Include="..\FoundationKit\Networking\ip\detail\impl\endpoint.ipp">
       <Filter>Networking\ip\detail\impl</Filter>
-    </None>
-    <None Include="..\FoundationKit\Networking\libcurl_init.ipp">
-      <Filter>Networking</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -51,6 +51,7 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/Networking/HTTPClient/HTTPRequest.cpp \
 ../../FoundationKit/Networking/HTTPClient/HTTPResponse.cpp \
 ../../FoundationKit/Networking/HTTPClient/MimeTypes.cpp \
+../../FoundationKit/Networking/HTTPClient/HTTPDownloader.cpp \
 ../../FoundationKit/Platform/Android/AndroidJavaBridge.cpp \
 ../../FoundationKit/Platform/Android/EnvironmentAndroid.cpp \
 ../../FoundationKit/Platform/Android/FileUtils_android.cpp \

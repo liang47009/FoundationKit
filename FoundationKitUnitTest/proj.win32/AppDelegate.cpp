@@ -40,6 +40,7 @@
 #include "FoundationKit/Networking/HTTPClient/HTTPClient.hpp"
 #include "FoundationKit/Networking/HTTPClient/HTTPRequest.hpp"
 #include "FoundationKit/Networking/HTTPClient/HTTPResponse.hpp"
+#include "FoundationKit/Networking/HTTPClient/HTTPDownloader.hpp"
 
 using namespace std;
 USING_NS_FK;
@@ -78,6 +79,20 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     std::error_code ec;
     std::string strErr = ec.message();
+
+    static HTTPDownloader  hd;
+    hd.initialize(false);
+    //hd.downloadToFile("http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz", "F:\\temp", [](const std::string& filePath)
+    //{
+    //    LOG_INFO("======DOWNLOAD SUCCEED");
+    //});
+
+    hd.downloadToMemory("http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz", [](const mutable_buffer& buffer)
+    {
+        FileUtils::getInstance()->writeDataToFile(buffer, "F:\\temp\\libiconv-1.14_new.tar.gz");
+        LOG_INFO("======DOWNLOAD SUCCEED");
+    });
+
 
     //HTTPRequest::Pointer request = HTTPRequest::create(false);
     //request->setURL("http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz");

@@ -1,3 +1,6 @@
+//#ifndef LOSEMYMIND_LIBCURL_INIT_IPP
+//#define LOSEMYMIND_LIBCURL_INIT_IPP
+//# pragma once
 #include <string>
 #include <cassert>
 #include "libcurl_init.hpp"
@@ -84,7 +87,7 @@ namespace
 }
 
 NS_FK_BEGIN
-
+libcurl_init_base::Result libcurl_init::_result;
 void libcurl_init_base::startup(Result& result)
 {
     result._initCode = curl_global_init_mem(CURL_GLOBAL_ALL, custom_curl_malloc, custom_curl_free, custom_curl_realloc, custom_curl_strdup, custom_curl_calloc);
@@ -95,27 +98,7 @@ void libcurl_init_base::cleanup()
     curl_global_cleanup();
 }
 
-libcurl_init_base::Result libcurl_init::_result;
-libcurl_init::libcurl_init()
-{
-    startup(_result);
-}
-
-libcurl_init::~libcurl_init()
-{
-    cleanup();
-}
-
-bool libcurl_init::succeeded()
-{
-    return (_result._initCode == CURLE_OK);
-}
-
-CURLcode libcurl_init::code()
-{
-    return _result._initCode;
-}
-
 NS_FK_END
 
 
+//#endif // LOSEMYMIND_LIBCURL_INIT_IPP
