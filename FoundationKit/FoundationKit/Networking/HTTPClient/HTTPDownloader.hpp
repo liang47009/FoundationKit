@@ -139,8 +139,6 @@ protected:
     std::atomic_bool   m_quit;
 };
 
-
-
 class DownloadDataWriter
 {
 public:
@@ -150,7 +148,6 @@ public:
     virtual size_t write(void* buffer, size_t size) = 0;
     virtual void   flush() = 0;
 };
-
 
 class DownloadDataFileWriter : public DownloadDataWriter
 {
