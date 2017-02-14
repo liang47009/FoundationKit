@@ -47,6 +47,7 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/LuaEngine/LuaValue.cpp \
 ../../FoundationKit/LuaEngine/Script.cpp \
 ../../FoundationKit/Networking/IProtocol.cpp \
+../../FoundationKit/Networking/libcurl_init.cpp \
 ../../FoundationKit/Networking/HTTPClient/HTTPClient.cpp \
 ../../FoundationKit/Networking/HTTPClient/HTTPRequest.cpp \
 ../../FoundationKit/Networking/HTTPClient/HTTPResponse.cpp \
