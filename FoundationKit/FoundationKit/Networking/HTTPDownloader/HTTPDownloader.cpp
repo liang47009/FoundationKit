@@ -245,9 +245,10 @@ bool HTTPDownloader::buildRequestGeneric(RequestBase* request)
     curl_easy_setopt(curlHandle, CURLOPT_NOSIGNAL, 1L);
 
     curl_easy_setopt(curlHandle, CURLOPT_USE_SSL, CURLUSESSL_ALL);
-
-    curl_easy_setopt(curlHandle, CURLOPT_LOW_SPEED_LIMIT, 1); //ÏŞÖÆ×îµÍËÙ¶È1¸ö×Ö½Ú
-    curl_easy_setopt(curlHandle, CURLOPT_LOW_SPEED_TIME, 30);  //Èç¹û5ÃëÄÚÃ»ÓĞ×Ö½Ú¶ÁÈ¡£¬Ôò³¬Ê±
+    curl_easy_setopt(curlHandle, CURLOPT_MAXREDIRS, 10L);
+    curl_easy_setopt(curlHandle, CURLOPT_AUTOREFERER, 1L);
+    curl_easy_setopt(curlHandle, CURLOPT_LOW_SPEED_LIMIT, 1); //é™åˆ¶æœ€ä½é€Ÿåº¦1ä¸ªå­—èŠ‚
+    curl_easy_setopt(curlHandle, CURLOPT_LOW_SPEED_TIME, 30);  //å¦‚æœ5ç§’å†…æ²¡æœ‰å­—èŠ‚è¯»å–ï¼Œåˆ™è¶…æ—¶
     curl_easy_setopt(curlHandle, CURLOPT_MAX_SEND_SPEED_LARGE, 1024 * 1024*10); // limit send speed 10MB/s
     curl_easy_setopt(curlHandle, CURLOPT_MAX_RECV_SPEED_LARGE, 1024 * 1024*10); // limit recv speed 10MB/s
 
@@ -265,7 +266,8 @@ bool HTTPDownloader::buildRequestGeneric(RequestBase* request)
         curl_easy_setopt(curlHandle, CURLOPT_SSL_VERIFYPEER, 0L);
         curl_easy_setopt(curlHandle, CURLOPT_SSL_VERIFYHOST, 0L);
     }
-
+    curl_easy_setopt(curlHandle, CURLOPT_SSLVERSION, CURL_SSLVERSION_DEFAULT);
+    curl_easy_setopt(curlHandle, CURLOPT_SSL_SESSIONID_CACHE, 1L);
     if (!m_proxyaddr.empty())
     {
         // guaranteed to be valid at this point
