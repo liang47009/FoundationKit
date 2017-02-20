@@ -22,9 +22,6 @@
     <Filter Include="Cache">
       <UniqueIdentifier>{343e3eed-76f8-47bf-8ed7-6d3d3d563667}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HttpDownloader">
-      <UniqueIdentifier>{9b73b001-5a84-449c-abff-f57e2a9df195}</UniqueIdentifier>
-    </Filter>
     <Filter Include="external">
       <UniqueIdentifier>{60fab813-1b98-4b94-9fae-2eb120e87216}</UniqueIdentifier>
     </Filter>
@@ -69,6 +66,9 @@
     </Filter>
     <Filter Include="Platform\windows\system">
       <UniqueIdentifier>{bef2ae3c-6bfc-4e28-9173-943161f875f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking\HTTPDownloader">
+      <UniqueIdentifier>{64b106e3-bd7c-467c-a07a-9177ace0a255}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -164,15 +164,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h">
       <Filter>Platform\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HttpDownloader\Downloader.h">
-      <Filter>HttpDownloader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HttpDownloader\DownloaderImpl.h">
-      <Filter>HttpDownloader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\HttpDownloader\IDownloaderImpl.h">
-      <Filter>HttpDownloader</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h">
       <Filter>external\unzip</Filter>
@@ -432,8 +423,11 @@
     <ClInclude Include="..\FoundationKit\Networking\libcurl_init.hpp">
       <Filter>Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Networking\HTTPClient\HTTPDownloader.hpp">
-      <Filter>Networking\HTTPClient</Filter>
+    <ClInclude Include="..\FoundationKit\Networking\HTTPDownloader\HTTPDownloader.hpp">
+      <Filter>Networking\HTTPDownloader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Networking\HTTPDownloader\HTTPDownloadNode.hpp">
+      <Filter>Networking\HTTPDownloader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -487,12 +481,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp">
       <Filter>Platform\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\HttpDownloader\Downloader.cpp">
-      <Filter>HttpDownloader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\HttpDownloader\DownloaderImpl.cpp">
-      <Filter>HttpDownloader</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\external\unzip\ioapi.cpp">
       <Filter>external\unzip</Filter>
@@ -590,11 +578,14 @@
     <ClCompile Include="..\FoundationKit\Base\Quaternion.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Networking\HTTPClient\HTTPDownloader.cpp">
-      <Filter>Networking\HTTPClient</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Networking\libcurl_init.cpp">
       <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Networking\HTTPDownloader\HTTPDownloader.cpp">
+      <Filter>Networking\HTTPDownloader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Networking\HTTPDownloader\HTTPDownloadNode.cpp">
+      <Filter>Networking\HTTPDownloader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -19,14 +19,27 @@ NS_FK_BEGIN
 namespace network{
 
 HTTPDownloader::HTTPDownloader()
+    : m_multiHandle(nullptr)
+    , m_shareHandle(nullptr)
+    , m_bDebug(false)
+    , m_proxyaddr()
+    , m_proxyUserPwd()
+    , m_bEnableVerifyPeer(false)
+    , m_bReuseConnections(false)
+    , m_certBundlePath()
+    , m_requestThread(nullptr)
+    , m_headerRequests()
+    , m_headerRequestMutex()
+    , m_contentRequests()
+    , m_contentRequestMutex()
 {
-
+    m_quit = true;
 }
 
 HTTPDownloader::~HTTPDownloader()
 {
     m_quit = true;
-    m_downloadThread->join();
+    m_requestThread->join();
     if (nullptr != m_multiHandle)
     {
         curl_multi_cleanup(m_multiHandle);
@@ -38,6 +51,12 @@ HTTPDownloader::~HTTPDownloader()
         curl_share_cleanup(m_shareHandle);
         m_shareHandle = nullptr;
     }
+
+    for (auto downloadNode : m_httpDownloadNodes)
+    {
+        delete downloadNode.second;
+    }
+    m_httpDownloadNodes.clear();
 }
 
 bool HTTPDownloader::initialize(bool bDebug)
@@ -47,7 +66,6 @@ bool HTTPDownloader::initialize(bool bDebug)
         LOG_WARN("Already initialized multi handle");
         return false;
     }
-    m_lastCode = libcurl_init::code();
     m_bDebug = bDebug;
     if (libcurl_init::succeeded())
     {
@@ -92,30 +110,36 @@ bool HTTPDownloader::initialize(bool bDebug)
         }
 
         m_multiHandle = curl_multi_init();
-        if (m_multiHandle == nullptr)
-        {
-            LOG_ERROR("Could not initialize create libcurl multi handle! HTTP transfers will not function properly.");
-        }
-
         m_shareHandle = curl_share_init();
-        if (m_shareHandle == nullptr)
+        if (m_multiHandle == nullptr || m_shareHandle == nullptr)
         {
-            LOG_ERROR("Could not initialize libcurl share handle!");
+            if (!m_multiHandle)
+                LOG_ERROR("Could not initialize create libcurl multi handle! HTTP transfers will not function properly.");
+
+            if (!m_shareHandle)
+                LOG_ERROR("Could not initialize libcurl share handle!");
+            return false;
         }
-        else
-        {
-            curl_share_setopt(m_shareHandle, CURLSHOPT_SHARE, CURL_LOCK_DATA_COOKIE);
-            curl_share_setopt(m_shareHandle, CURLSHOPT_SHARE, CURL_LOCK_DATA_DNS);
-            curl_share_setopt(m_shareHandle, CURLSHOPT_SHARE, CURL_LOCK_DATA_SSL_SESSION);
-        }
+        curl_multi_setopt(m_multiHandle, CURLMOPT_MAX_TOTAL_CONNECTIONS, 100);
+        curl_multi_setopt(m_multiHandle, CURLMOPT_MAXCONNECTS, 100);
+        curl_multi_setopt(m_multiHandle, CURLMOPT_MAX_HOST_CONNECTIONS, 50);
+        curl_multi_setopt(m_multiHandle, CURLMOPT_PIPELINING, 1);
+        curl_multi_setopt(m_multiHandle, CURLMOPT_MAX_PIPELINE_LENGTH, 50);
+        
+        
+        
+        curl_share_setopt(m_shareHandle, CURLSHOPT_SHARE, CURL_LOCK_DATA_COOKIE);
+        curl_share_setopt(m_shareHandle, CURLSHOPT_SHARE, CURL_LOCK_DATA_DNS);
+        curl_share_setopt(m_shareHandle, CURLSHOPT_SHARE, CURL_LOCK_DATA_SSL_SESSION);
     }
     else
     {
         LOG_ERROR("Could not initialize libcurl (result=%d), HTTP transfers will not function properly.", (int32)libcurl_init::code());
+        return false;
     }
-
-    auto threadFun = std::bind(&HTTPDownloader::performDownload, this);
-    m_downloadThread = std::make_shared<std::thread>(threadFun);
+    m_quit = false;
+    auto threadFun = std::bind(&HTTPDownloader::performRequest, this);
+    m_requestThread = std::make_shared<std::thread>(threadFun);
     return true;
 }
 
@@ -144,9 +168,7 @@ HTTPDownloader& HTTPDownloader::setCertBundlePath(const std::string& bundlePath)
     return (*this);
 }
 
-
-
-void HTTPDownloader::downloadToFile(const std::string& url, const std::string& storagePath, const DownloadToFileCallback& callback)
+void HTTPDownloader::downloadToFile(const std::string& url, const std::string& storagePath, const DownloadListener& listener)
 {
     std::string checkedStoragePath = storagePath;
     if (checkedStoragePath.back() != '/' && checkedStoragePath.back() != '\\')
@@ -159,68 +181,59 @@ void HTTPDownloader::downloadToFile(const std::string& url, const std::string& s
     {
         checkedStoragePath += url.substr(pos + 1);
     }
+    std::lock_guard<std::mutex> downlaodNodeLock(m_httpDownloadNodeMutex);
+    HTTPDownloadNode* pHTTPDownloadNode = new HTTPDownloadNode(url, checkedStoragePath, listener, this);
+    m_httpDownloadNodes.insert(std::make_pair(url, pHTTPDownloadNode));
 
-    DownloadRequestPointer request = std::make_shared<Request>();
-    request->requestUrl = url;
-    request->dataWriter = new DownloadDataFileWriter(checkedStoragePath, callback);
-    request->isRequestHeader = true;
-    buildRequestForHeader(request);
-    std::lock_guard<std::mutex>  lock(m_requestMutex);
-    request->addToMultiResult = curl_multi_add_handle(m_multiHandle, request->easyHandle);
-    m_requestMap.insert(std::make_pair(request->easyHandle, request));
+    std::lock_guard<std::mutex> headerLock(m_headerRequestMutex);
+    HTTPDownloadNode::HeaderRequestPointer headerRequest = std::make_shared<HeaderRequest>();
+    headerRequest->requestUrl = url;
+    headerRequest->pHTTPDownloadNode = pHTTPDownloadNode;
+    buildRequestForHeader(headerRequest);
+    headerRequest->addToMultiResult = curl_multi_add_handle(m_multiHandle, headerRequest->curlHandle);
+    m_headerRequests.insert(std::make_pair(headerRequest->curlHandle, headerRequest));
+
 }
 
-void HTTPDownloader::downloadToMemory(const std::string& url, const DownloadToMemoryCallback& callback)
-{
-    DownloadRequestPointer request = std::make_shared<Request>();
-    request->requestUrl = url;
-    request->dataWriter = new DownloadDataBufferWriter(callback);
-    request->isRequestHeader = true;
-    buildRequestForHeader(request);
-    std::lock_guard<std::mutex>  lock(m_requestMutex);
-    request->addToMultiResult = curl_multi_add_handle(m_multiHandle, request->easyHandle);
-    m_requestMap.insert(std::make_pair(request->easyHandle, request));
-}
-
-bool HTTPDownloader::buildRequestForData(DownloadRequestPointer pDownloadRequest)
-{
-    CURL* easyHandle = curl_easy_init();
-    buildRequestGeneric(easyHandle);
-
-    // receive error messages
-    curl_easy_setopt(easyHandle, CURLOPT_ERRORBUFFER, pDownloadRequest->errorBuffer);
-    // associate with this just in case
-    curl_easy_setopt(easyHandle, CURLOPT_PRIVATE, pDownloadRequest.get());
-
-    // set up write function to receive response payload
-    curl_easy_setopt(easyHandle, CURLOPT_WRITEDATA, pDownloadRequest.get());
-    curl_easy_setopt(easyHandle, CURLOPT_WRITEFUNCTION, staticReceiveBodyCallback);
-
-    // set progress function
-    curl_easy_setopt(easyHandle, CURLOPT_NOPROGRESS, false);
-    curl_easy_setopt(easyHandle, CURLOPT_XFERINFODATA, pDownloadRequest.get());
-    curl_easy_setopt(easyHandle, CURLOPT_XFERINFOFUNCTION, staticProgressCallback);
-    curl_easy_setopt(easyHandle, CURLOPT_URL, pDownloadRequest->requestUrl.c_str());
-    curl_easy_setopt(easyHandle, CURLOPT_HTTPGET, 1L);
-    pDownloadRequest->easyHandle = easyHandle;
-    return true;
-}
-
-bool HTTPDownloader::buildRequestForHeader(DownloadRequestPointer pDownloadRequest)
+bool HTTPDownloader::buildRequestForHeader(const HTTPDownloadNode::HeaderRequestPointer& headerRequest)
 {
     void *easyHandle = curl_easy_init();
-    buildRequestGeneric(easyHandle);
-    curl_easy_setopt(easyHandle, CURLOPT_URL, pDownloadRequest->requestUrl.c_str());
+    headerRequest->curlHandle = easyHandle;
+    buildRequestGeneric(headerRequest.get());
+    curl_easy_setopt(easyHandle, CURLOPT_URL, headerRequest->requestUrl.c_str());
     curl_easy_setopt(easyHandle, CURLOPT_HEADER, 1);
     curl_easy_setopt(easyHandle, CURLOPT_NOBODY, 1);
     // in win32 platform, if not set the writeFunction, it will return CURLE_WRITE_ERROR
     curl_easy_setopt(easyHandle, CURLOPT_WRITEFUNCTION, writeFuncForAdapter);
-    pDownloadRequest->easyHandle = easyHandle;
     return true;
 }
 
-bool HTTPDownloader::buildRequestGeneric(CURL* curlHandle)
+bool HTTPDownloader::buildRequestForData(const HTTPDownloadNode::ContentRequestPointer& contentRequest)
 {
+    CURL* easyHandle = curl_easy_init();
+    contentRequest->curlHandle = easyHandle;
+    buildRequestGeneric(contentRequest.get());
+
+    // associate with this just in case
+    curl_easy_setopt(easyHandle, CURLOPT_PRIVATE, contentRequest.get());
+
+    // set up write function to receive response payload
+    curl_easy_setopt(easyHandle, CURLOPT_WRITEDATA, contentRequest.get());
+    curl_easy_setopt(easyHandle, CURLOPT_WRITEFUNCTION, staticReceiveBodyCallback);
+
+    // set progress function
+    curl_easy_setopt(easyHandle, CURLOPT_NOPROGRESS, 1);
+    //curl_easy_setopt(easyHandle, CURLOPT_XFERINFODATA, contentRequest.get());
+    //curl_easy_setopt(easyHandle, CURLOPT_XFERINFOFUNCTION, staticProgressCallback);
+    curl_easy_setopt(easyHandle, CURLOPT_URL, contentRequest->requestUrl.c_str());
+    curl_easy_setopt(easyHandle, CURLOPT_HTTPGET, 1L);
+    curl_easy_setopt(easyHandle, CURLOPT_CONNECTTIMEOUT, 60);
+    return true;
+}
+
+bool HTTPDownloader::buildRequestGeneric(RequestBase* request)
+{
+    CURL* curlHandle = request->curlHandle;
     curl_easy_setopt(curlHandle, CURLOPT_SHARE, m_shareHandle);
 
     curl_easy_setopt(curlHandle, CURLOPT_DNS_CACHE_TIMEOUT, 60 * 5);
@@ -231,14 +244,15 @@ bool HTTPDownloader::buildRequestGeneric(CURL* curlHandle)
     // required for all multi-threaded handles
     curl_easy_setopt(curlHandle, CURLOPT_NOSIGNAL, 1L);
 
-    curl_easy_setopt(curlHandle, CURLOPT_FOLLOWLOCATION, 1L);
-
     curl_easy_setopt(curlHandle, CURLOPT_USE_SSL, CURLUSESSL_ALL);
 
     curl_easy_setopt(curlHandle, CURLOPT_LOW_SPEED_LIMIT, 1); //限制最低速度1个字节
-    curl_easy_setopt(curlHandle, CURLOPT_LOW_SPEED_TIME, 5);  //如果5秒内没有字节读取，则超时
-    curl_easy_setopt(curlHandle, CURLOPT_MAX_SEND_SPEED_LARGE, 1024 * 100); // limit send speed 100kb/s
-    curl_easy_setopt(curlHandle, CURLOPT_MAX_RECV_SPEED_LARGE, 1024 * 100); // limit recv speed 100kb/s
+    curl_easy_setopt(curlHandle, CURLOPT_LOW_SPEED_TIME, 30);  //如果5秒内没有字节读取，则超时
+    curl_easy_setopt(curlHandle, CURLOPT_MAX_SEND_SPEED_LARGE, 1024 * 1024*10); // limit send speed 10MB/s
+    curl_easy_setopt(curlHandle, CURLOPT_MAX_RECV_SPEED_LARGE, 1024 * 1024*10); // limit recv speed 10MB/s
+
+    // receive error messages
+    curl_easy_setopt(curlHandle, CURLOPT_ERRORBUFFER, request->errorBuffer);
 
     // set certificate verification (disable to allow self-signed certificates)
     if (m_bEnableVerifyPeer)
@@ -297,17 +311,22 @@ bool HTTPDownloader::buildRequestGeneric(CURL* curlHandle)
     {
         curl_easy_setopt(curlHandle, CURLOPT_HTTPHEADER, headerList);
     }
+    request->headerList = headerList;
     return true;
 }
 
-void HTTPDownloader::performDownload()
+void HTTPDownloader::performRequest()
 {
     while (!m_quit)
     {
+        if (m_quit)
+        {
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
         if (getRequestSize()> 0)
         {
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            int still_running = 0;
+            int runningRequests = 0;
             // Query multi perform
             CURLMcode curlm_code = CURLM_CALL_MULTI_PERFORM;
             bool failed = false;
@@ -351,7 +370,7 @@ void HTTPDownloader::performDownload()
                 curlm_code = CURLM_CALL_MULTI_PERFORM;
                 while (CURLM_CALL_MULTI_PERFORM == curlm_code)
                 {
-                    curlm_code = curl_multi_perform(m_multiHandle, &still_running);
+                    curlm_code = curl_multi_perform(m_multiHandle, &runningRequests);
                 }
                 if (curlm_code != CURLM_OK)
                 {
@@ -361,8 +380,7 @@ void HTTPDownloader::performDownload()
                 break;
             }
 
-
-            if (still_running == 0 || still_running != getRequestSize())
+            if (runningRequests == 0 || runningRequests != static_cast<int>(getRequestSize()))
             {
                 for (;;)
                 {
@@ -375,7 +393,10 @@ void HTTPDownloader::performDownload()
                         CURL* completedHandle = curlMsg->easy_handle;
                         curl_multi_remove_handle(m_multiHandle, completedHandle);
                         // set request is completed.
-                        requestCompleted(completedHandle);
+                        if (!(requestHeaderCompleted(completedHandle, curlMsg->data.result)))
+                        {
+                            requestContentCompleted(completedHandle, curlMsg->data.result);
+                        }
                     }
                 }
             }
@@ -386,51 +407,100 @@ void HTTPDownloader::performDownload()
 
 size_t HTTPDownloader::getRequestSize()
 {
-    std::lock_guard<std::mutex>  lock(m_requestMutex);
-    return m_requestMap.size();
+    std::lock_guard<std::mutex>  headerLock(m_headerRequestMutex);
+    std::lock_guard<std::mutex>  contentLock(m_contentRequestMutex);
+    return m_headerRequests.size() + m_contentRequests.size();
 }
 
-void HTTPDownloader::requestCompleted(CURL* curlHandle)
+bool HTTPDownloader::requestHeaderCompleted(CURL* curlHandle, CURLcode completionResult)
 {
-    DownloadRequestPointer request;
+    bool bFound = false;
+    std::lock_guard<std::mutex>  lock(m_headerRequestMutex);
+    auto requestIter = m_headerRequests.find(curlHandle);
+    if (requestIter != m_headerRequests.end())
     {
-        std::lock_guard<std::mutex>  lock(m_requestMutex);
-        auto requestIter = m_requestMap.find(curlHandle);
-        if (requestIter != m_requestMap.end())
+        bFound = true;
+        HTTPDownloadNode::HeaderRequestPointer headerRequest = requestIter->second;
+        headerRequest->curlCode = completionResult;
+        headerRequest->curlMessage = "";
+        if (headerRequest->pHTTPDownloadNode->headerRequestCompleted(headerRequest) == false)
         {
-            if (requestIter->second->isRequestHeader)
+            std::lock_guard<std::mutex> downlaodNodeLock(m_httpDownloadNodeMutex);
+            auto downloadNodeIter = m_httpDownloadNodes.find(headerRequest->requestUrl);
+            if (downloadNodeIter != m_httpDownloadNodes.end())
             {
-                Response& response = requestIter->second->response;
-                char *effectiveUrl;
-                char *contentType;
-                curl_easy_getinfo(curlHandle, CURLINFO_EFFECTIVE_URL, &effectiveUrl);
-                curl_easy_getinfo(curlHandle, CURLINFO_CONTENT_TYPE, &contentType);
-                curl_easy_getinfo(curlHandle, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &response.contentSize);
-                curl_easy_getinfo(curlHandle, CURLINFO_RESPONSE_CODE, &response.responseCode);
-                response.url = effectiveUrl;
-                response.contentType = contentType;
-                response.valid = true;
-                requestIter->second->isRequestHeader = false;
-                requestIter->second->requestUrl = response.url;
-                requestIter->second->dataWriter->init(response.contentSize);
-                request = requestIter->second;
+                delete downloadNodeIter->second;
+                m_httpDownloadNodes.erase(downloadNodeIter);
             }
-            else
+        }
+        m_headerRequests.erase(requestIter);
+    }
+    return bFound;
+}
+
+
+bool HTTPDownloader::requestContentCompleted(CURL* curlHandle, CURLcode completionResult)
+{
+    bool bFound = false;
+    std::unique_lock<std::mutex>  lock(m_contentRequestMutex);
+    auto requestIter = m_contentRequests.find(curlHandle);
+    if (requestIter != m_contentRequests.end())
+    {
+        bFound = true;
+        HTTPDownloadNode::ContentRequestPointer contentRequest = requestIter->second;
+        m_contentRequests.erase(requestIter);
+        lock.unlock();
+
+        contentRequest->curlCode = completionResult;
+        contentRequest->curlMessage = "";
+        curl_easy_getinfo(curlHandle, CURLINFO_RESPONSE_CODE, &contentRequest->responseCode);
+
+        if (contentRequest->pHTTPDownloadNode->contentRequestCompleted(contentRequest))
+        {
+            std::lock_guard<std::mutex> downlaodNodeLock(m_httpDownloadNodeMutex);
+            auto downloadNodeIter = m_httpDownloadNodes.begin();
+            for (downloadNodeIter; downloadNodeIter != m_httpDownloadNodes.end(); ++downloadNodeIter)
             {
-                requestIter->second->dataWriter->flush();
+                if (downloadNodeIter->second->getRequestUrl() == contentRequest->requestUrl)
+                {
+                    delete downloadNodeIter->second;
+                    m_httpDownloadNodes.erase(downloadNodeIter);
+                    break;
+                }
             }
-            m_requestMap.erase(requestIter);
         }
     }
-    if (request)
-    {
-        buildRequestForData(request);
-        std::lock_guard<std::mutex>  lock(m_requestMutex);
-        request->addToMultiResult = curl_multi_add_handle(m_multiHandle, request->easyHandle);
-        m_requestMap.insert(std::make_pair(request->easyHandle, request));
-    }
+    return bFound;
 }
 
+
+bool HTTPDownloader::addContentRequest(HTTPDownloadNode::ContentRequestPointer contentRequest)
+{
+    std::lock_guard<std::mutex>  lock(m_contentRequestMutex);
+    buildRequestForData(contentRequest);
+    char range[64] = { 0 };
+    sprintf(range, "%ld-%ld", contentRequest->rangeFrom, contentRequest->rangeTo);
+    LOG_INFO("========= curl:%p, range[%s]", contentRequest->curlHandle, range);
+    curl_easy_setopt(contentRequest->curlHandle, CURLOPT_RANGE, range);
+    contentRequest->addToMultiResult = curl_multi_add_handle(m_multiHandle, contentRequest->curlHandle);
+    if (contentRequest->addToMultiResult == CURLM_OK)
+    {
+        m_contentRequests.insert(std::make_pair(contentRequest->curlHandle, contentRequest));
+        return true;
+    }
+    return false;
+}
+
+void HTTPDownloader::removeContentRequest(HTTPDownloadNode::ContentRequestPointer contentRequest)
+{
+    std::lock_guard<std::mutex>  lock(m_contentRequestMutex);
+    auto requestIter = m_contentRequests.find(contentRequest->curlHandle);
+    if (requestIter != m_contentRequests.end())
+    {
+        curl_multi_remove_handle(m_multiHandle, requestIter->second->curlHandle);
+        m_contentRequests.erase(requestIter);
+    }
+}
 
 size_t HTTPDownloader::staticDebugCallback(CURL * handle, curl_infotype debugInfoType, char * debugInfo, size_t debugInfoSize, void* userData)
 {
@@ -472,113 +542,16 @@ size_t HTTPDownloader::staticDebugCallback(CURL * handle, curl_infotype debugInf
 
 size_t HTTPDownloader::staticReceiveBodyCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes, void* userData)
 {
-    Request* requestPointer = (Request*)userData;
-    return requestPointer->dataWriter->write(buffer, sizeInBlocks*blockSizeInBytes);
+    ContentRequest* contentRequest = (ContentRequest*)userData;
+    return contentRequest->pHTTPDownloadNode->writeData(contentRequest, buffer, sizeInBlocks*blockSizeInBytes);
 }
 
-int HTTPDownloader::staticProgressCallback(void *userData, curl_off_t totalDownload, curl_off_t nowDownload, curl_off_t totalUpload, curl_off_t nowUpload)
-{
-    UNUSED_ARG(totalUpload);
-    UNUSED_ARG(nowUpload);
-    Request* requestPointer = (Request*)userData;
-    if (totalDownload > 0)
-    {
-        LOG_INFO("===== PROCESS:%0.2f", nowDownload*1.0f / totalDownload*100.0f);
-    }
-    return CURLE_OK;
-}
-
-HTTPDownloader::Request::Request()
-    : headerList(nullptr)
-    , easyHandle(nullptr)
-    , requestUrl()
-    , isRequestHeader(false)
-    , dataWriter(nullptr)
-{
-    memset(errorBuffer, 0, CURL_ERROR_SIZE);
-}
-
-HTTPDownloader::Request::~Request()
-{
-    // cleanup the handle first (that order is used in howtos)
-    if (easyHandle)
-    {
-        curl_easy_cleanup(easyHandle);
-    }
-    // destroy headers list
-    if (headerList)
-    {
-        curl_slist_free_all(headerList);
-    }
-    SAFE_DELETE(dataWriter);
-}
+//int HTTPDownloader::staticProgressCallback(void *userData, curl_off_t totalDownload, curl_off_t nowDownload, curl_off_t totalUpload, curl_off_t nowUpload)
+//{
+//    return CURLE_OK;
+//}
 
 
-//============== DownloadDataFileWriter====================
-DownloadDataFileWriter::DownloadDataFileWriter(const std::string& storagePath, const HTTPDownloader::DownloadToFileCallback& callback)
-    : _handle(nullptr)
-    , _storagePath(storagePath)
-    , _fun(callback)
-{
-    _handle = fopen(storagePath.c_str(), "wb");
-}
-
-void DownloadDataFileWriter::init(size_t dataSize)
-{
-    UNUSED_ARG(dataSize);
-}
-
-size_t DownloadDataFileWriter::write(void* buffer, size_t size)
-{
-    size_t writeSize = 0;
-    if (_handle)
-    {
-        writeSize = fwrite(buffer, 1, size, _handle);
-    }
-    return writeSize;
-}
-
-void DownloadDataFileWriter::flush()
-{
-    if (_handle)
-    {
-        fclose(_handle);
-    }
-    if (_fun)
-    {
-        _fun(_storagePath);
-    }
-}
-
-DownloadDataBufferWriter::DownloadDataBufferWriter(const HTTPDownloader::DownloadToMemoryCallback& callback)
-    : _buffer()
-    , _writeSize(0)
-    , _fun(callback)
-{
-
-}
-
-void DownloadDataBufferWriter::init(size_t dataSize)
-{
-    _buffer.reallocate(dataSize);
-}
-
-size_t DownloadDataBufferWriter::write(void* buffer, size_t size)
-{
-    char* pdst = (char*)_buffer.data();
-    pdst += _writeSize;
-    memcpy(pdst, buffer, size);
-    _writeSize += size;
-    return size;
-}
-
-void DownloadDataBufferWriter::flush()
-{
-    if (_fun)
-    {
-        _fun(_buffer);
-    }
-}
 
 } //namespace network
 NS_FK_END

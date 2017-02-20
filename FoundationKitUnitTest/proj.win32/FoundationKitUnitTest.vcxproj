@@ -178,6 +178,7 @@
     <ClCompile Include="AppDelegate.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tracey.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\FoundationKit\proj.win32\FoundationKit.vcxproj">
@@ -188,6 +189,7 @@
     <ClInclude Include="AppDelegate.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="ApplicationProtocol.h" />
+    <ClInclude Include="tracey.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
