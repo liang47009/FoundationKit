@@ -458,8 +458,7 @@ bool HTTPDownloader::requestContentCompleted(CURL* curlHandle, CURLcode completi
         if (contentRequest->pHTTPDownloadNode->contentRequestCompleted(contentRequest))
         {
             std::lock_guard<std::mutex> downlaodNodeLock(m_httpDownloadNodeMutex);
-            auto downloadNodeIter = m_httpDownloadNodes.begin();
-            for (downloadNodeIter; downloadNodeIter != m_httpDownloadNodes.end(); ++downloadNodeIter)
+            for (auto downloadNodeIter = m_httpDownloadNodes.begin(); downloadNodeIter != m_httpDownloadNodes.end(); ++downloadNodeIter)
             {
                 if (downloadNodeIter->second->getRequestUrl() == contentRequest->requestUrl)
                 {
