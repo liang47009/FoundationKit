@@ -115,6 +115,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     hd.downloadToFile("https://dl.google.com/android/repository/android-ndk-r13b-windows-x86_64.zip", "E:\\temp", downloadListener);
     //hd.downloadToFile("http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz", "E:\\temp", downloadListener);
     //hd.downloadToFile("http://10.206.2.142/Ark/repair/data_2017010311430002.rp", "E:\\temp", downloadListener);
+    //hd.downloadToFile("http://10.206.2.142/Ark/repair/data_2017010311430055.rp", "E:\\temp", downloadListener);
 
     //clientThread = std::thread([]()
     //{
