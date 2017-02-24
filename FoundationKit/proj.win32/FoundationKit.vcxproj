@@ -216,9 +216,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Crypto\Base64.h" />
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\any.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\match.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\optional.hpp" />
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
@@ -290,14 +287,17 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\system\dirent.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.h" />
+    <ClInclude Include="..\FoundationKit\std\any.hpp" />
     <ClInclude Include="..\FoundationKit\std\contains_of_type.hpp" />
     <ClInclude Include="..\FoundationKit\std\disable_if.hpp" />
     <ClInclude Include="..\FoundationKit\std\function_cache.hpp" />
     <ClInclude Include="..\FoundationKit\std\function_traits.hpp" />
     <ClInclude Include="..\FoundationKit\std\has_member.hpp" />
     <ClInclude Include="..\FoundationKit\std\hex.hpp" />
+    <ClInclude Include="..\FoundationKit\std\match.hpp" />
     <ClInclude Include="..\FoundationKit\std\max_integer_of.hpp" />
     <ClInclude Include="..\FoundationKit\std\memory_aligned.hpp" />
+    <ClInclude Include="..\FoundationKit\std\optional.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Base\DataStream.cpp" />

@@ -34,9 +34,6 @@
     <Filter Include="Base">
       <UniqueIdentifier>{65b125cc-d559-4605-bbc6-67c151774db0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="experimental">
-      <UniqueIdentifier>{48e7a118-d5a1-47a1-b07c-a2b36376ed07}</UniqueIdentifier>
-    </Filter>
     <Filter Include="std">
       <UniqueIdentifier>{113270e5-ac52-439c-a315-9677c3f83638}</UniqueIdentifier>
     </Filter>
@@ -69,6 +66,9 @@
     </Filter>
     <Filter Include="Networking\HTTPDownloader">
       <UniqueIdentifier>{64b106e3-bd7c-467c-a07a-9177ace0a255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking\HTTP">
+      <UniqueIdentifier>{31bb1db8-402d-47a6-baeb-a3d3386aab86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -234,20 +234,11 @@
     <ClInclude Include="..\FoundationKit\GenericPlatformMacros.h">
       <Filter>FoundationKit</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\any.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\optional.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\std\function_traits.hpp">
       <Filter>std</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\DateTime.h">
       <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\match.hpp">
-      <Filter>experimental</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\std\hex.hpp">
       <Filter>std</Filter>
@@ -428,6 +419,15 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Networking\HTTPDownloader\HTTPDownloadNode.hpp">
       <Filter>Networking\HTTPDownloader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\any.hpp">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\match.hpp">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\optional.hpp">
+      <Filter>std</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
