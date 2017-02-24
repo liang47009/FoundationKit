@@ -265,13 +265,10 @@
 		0987AF231CEC1D5A0097DD97 /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
 		0995E5C01DA8AC4B0039FE85 /* FoundationMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundationMacros.h; sourceTree = "<group>"; };
 		0995E5C11DA8AC690039FE85 /* basic_streambuf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = basic_streambuf.hpp; sourceTree = "<group>"; };
-		099B38451CCF38BA0035F42A /* any.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = any.hpp; sourceTree = "<group>"; };
-		099B38481CCF38BA0035F42A /* optional.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = optional.hpp; sourceTree = "<group>"; };
 		099B384C1CCF38C60035F42A /* function_traits.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = function_traits.hpp; sourceTree = "<group>"; };
 		099B384E1CCF39610035F42A /* GenericPlatformMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericPlatformMacros.h; sourceTree = "<group>"; };
 		09B321F61CD9BDD800D11961 /* hex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = hex.hpp; sourceTree = "<group>"; };
 		09B321F71CD9BDE800D11961 /* GenericPlatformMacros.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenericPlatformMacros.cpp; sourceTree = "<group>"; };
-		09B321FC1CD9BE1700D11961 /* match.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = match.hpp; sourceTree = "<group>"; };
 		09B321FD1CD9BE6900D11961 /* DateTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DateTime.cpp; sourceTree = "<group>"; };
 		09B321FE1CD9BE6900D11961 /* DateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTime.h; sourceTree = "<group>"; };
 		09B322011CD9BE6900D11961 /* Timespan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timespan.cpp; sourceTree = "<group>"; };
@@ -281,6 +278,9 @@
 		09B377A31CE5D85A00252204 /* Environment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Environment.h; sourceTree = "<group>"; };
 		09B377A41CE5D86700252204 /* EnvironmentIos.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EnvironmentIos.mm; sourceTree = "<group>"; };
 		09B377A61CE5DAB100252204 /* memory_aligned.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = memory_aligned.hpp; sourceTree = "<group>"; };
+		09CCFC9F1E6010BA003F18F0 /* any.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = any.hpp; sourceTree = "<group>"; };
+		09CCFCA01E6010BA003F18F0 /* match.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = match.hpp; sourceTree = "<group>"; };
+		09CCFCA11E6010BA003F18F0 /* optional.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = optional.hpp; sourceTree = "<group>"; };
 		09E4A5B81E5A9E090081C2A7 /* basic_socket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = basic_socket.hpp; sourceTree = "<group>"; };
 		09E4A5BB1E5A9E090081C2A7 /* socket_ops.ipp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = socket_ops.ipp; sourceTree = "<group>"; };
 		09E4A5BC1E5A9E090081C2A7 /* socket_base.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = socket_base.hpp; sourceTree = "<group>"; };
@@ -358,7 +358,6 @@
 				0995E5C01DA8AC4B0039FE85 /* FoundationMacros.h */,
 				0903AE1E1D8FF97B0001688F /* LanguageFeatures.h */,
 				099B384B1CCF38C60035F42A /* std */,
-				099B38431CCF38BA0035F42A /* experimental */,
 				09745B291CB8F6E8009D350F /* Base */,
 				09745B521CB8F6E8009D350F /* Cache */,
 				09745B5C1CB8F6E8009D350F /* Crypto */,
@@ -734,19 +733,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		099B38431CCF38BA0035F42A /* experimental */ = {
-			isa = PBXGroup;
-			children = (
-				09B321FC1CD9BE1700D11961 /* match.hpp */,
-				099B38451CCF38BA0035F42A /* any.hpp */,
-				099B38481CCF38BA0035F42A /* optional.hpp */,
-			);
-			path = experimental;
-			sourceTree = "<group>";
-		};
 		099B384B1CCF38C60035F42A /* std */ = {
 			isa = PBXGroup;
 			children = (
+				09CCFC9F1E6010BA003F18F0 /* any.hpp */,
+				09CCFCA01E6010BA003F18F0 /* match.hpp */,
+				09CCFCA11E6010BA003F18F0 /* optional.hpp */,
 				0987AF1E1CEC1D420097DD97 /* contains_of_type.hpp */,
 				0987AF1F1CEC1D420097DD97 /* disable_if.hpp */,
 				0987AF201CEC1D420097DD97 /* function_cache.hpp */,
