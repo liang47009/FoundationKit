@@ -67,9 +67,6 @@
     <Filter Include="Networking\HTTPDownloader">
       <UniqueIdentifier>{64b106e3-bd7c-467c-a07a-9177ace0a255}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Networking\HTTP">
-      <UniqueIdentifier>{31bb1db8-402d-47a6-baeb-a3d3386aab86}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.h">

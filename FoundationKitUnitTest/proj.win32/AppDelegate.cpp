@@ -42,6 +42,7 @@
 #include "FoundationKit/Networking/HTTPClient/HTTPResponse.hpp"
 #include "FoundationKit/Networking/HTTPDownloader/HTTPDownloader.hpp"
 
+
 using namespace std;
 USING_NS_FK;
 using namespace network;
@@ -54,6 +55,7 @@ static std::thread clientThread;
 static  std::thread serverThread;
 void runServer();
 void runClient();
+
 
 AppDelegate::AppDelegate() {
 
@@ -75,49 +77,8 @@ void AppDelegate::applicationDidLaunching()
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
-
     std::error_code ec;
     std::string strErr = ec.message();
-
-    static DownloadListener  downloadListener;
-    static Timer::pointer   processTimer = Timer::create(1000);
-    static int64 g_nowDownlaod=0; 
-    static int64 g_totalDownload = 0;
-    static int64 g_preDownlaod = 0;
-    
-    processTimer->onTimedEvent = [&](const TimedEventArgs& timerArgs)
-    {
-        if (g_totalDownload !=0)
-        {
-            double speed = (g_nowDownlaod - g_preDownlaod*1.0f)/1024/1024;
-			LOG_INFO(" ********** PROCESS:%0.2f, Speed:%0.2f MB [%lld/%lldMB]", g_nowDownlaod*1.0f / g_totalDownload*100.0f, speed, g_nowDownlaod/1024/1024, g_totalDownload/1024/1024);
-        }
-        g_preDownlaod = g_nowDownlaod;
-    };
-    processTimer->startInThread();
-    downloadListener.onErrorCallback = [](const std::string& url, const std::string& errMsg)
-    {
-        LOG_INFO(" ********** URL:%s, ERRMESSAGE:%s", url.c_str(), errMsg.c_str());
-    };
-
-    downloadListener.onProgressCallback = [&](const std::string&url, int64 nowDownlaod, int64 totalDownload)
-    {
-        g_nowDownlaod = nowDownlaod;
-        g_totalDownload = totalDownload;
-    };
-
-    downloadListener.onSucceedCallback = [](const std::string& url, const std::string& filePath)
-    {
-        LOG_INFO(" ********** SUCCEED URL:%s , %s", url.c_str(), filePath.c_str());
-    };
-
-    static HTTPDownloader  hd;
-    hd.initialize(false);
-    //hd.downloadToFile("https://www.python.org/ftp/python/2.7.13/python-2.7.13.msi", "E:\\temp", downloadListener);
-    hd.downloadToFile("https://dl.google.com/android/repository/android-ndk-r13b-windows-x86_64.zip", "E:\\temp", downloadListener);
-    //hd.downloadToFile("http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz", "E:\\temp", downloadListener);
-    //hd.downloadToFile("http://10.206.2.142/Ark/repair/data_2017010311430002.rp", "E:\\temp", downloadListener);
-    //hd.downloadToFile("http://10.206.2.142/Ark/repair/data_2017010311430055.rp", "E:\\temp", downloadListener);
 
     //clientThread = std::thread([]()
     //{

@@ -22,6 +22,7 @@
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.h"
 #include "FoundationKit/Platform/Platform.h"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.h"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.h"
 #include "FoundationKit/std/function_cache.hpp"
 #include "FoundationKit/Platform/PlatformTLS.h"
 #include <vector>
@@ -43,7 +44,7 @@ static JavaVM* g_vm = nullptr;
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
-	ANDROID_LOGD("============== >>>>> JNI_OnLoad");
+	ANDROID_LOGE("============== >>>>> JNI_OnLoad");
     g_vm = vm;
     return JNI_VERSION_1_6;
 }
@@ -68,11 +69,18 @@ void testFunctionCache()
 
 JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
 {
-    ANDROID_LOGD("============== >>>>> foundationInit");
+    ANDROID_LOGE("============== >>>>> foundationInit");
      AndroidJNI::initializeJavaEnv(g_vm, JNI_VERSION_1_6, context);
      AndroidJavaObject  mainActive(context);
      mainActive.call("debug_Print", 100,"======", "========");
-    ANDROID_LOGD("========== MAC ADDRESS: %s", Platform::getMacAddress().c_str());
+    ANDROID_LOGE("========== MAC ADDRESS: %s", Platform::getMacAddress().c_str());
+
+    AndroidJavaClass  mainActiveClass("com.example.foundationkitunittest.MainActivity");
+
+    std::string mainClassName = mainActiveClass.callStatic<std::string>("getClassName");
+
+    ANDROID_LOGE("========== mainClassName: %s", mainClassName.c_str());
+     
 
 
 
