@@ -20,7 +20,7 @@
 
 NS_FK_BEGIN
 
-static const size_t MAX_LOG_LENGTH = 1024;
+static const size_t MAX_LOG_LENGTH = 256;
 static const char*  LevelMsg[] = {"VERBOSE","DEBUG", "INFO", "WARN", "ERROR", "ASSERT"};
 
 
@@ -59,6 +59,10 @@ void Logger::log( Level level, const char* message, ... )
             // Successfully wrote buffer. Added a NULL terminator in case it wasn't written.
             str[needed] = '\0';
             break;
+        }
+        if (needed < 0)
+        {
+            return;
         }
         size = needed > 0 ? (needed + 1) : (size * 2);
         dynamicBuffer.resize(size);

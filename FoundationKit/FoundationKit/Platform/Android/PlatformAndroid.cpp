@@ -95,7 +95,7 @@ float Platform::getTotalMemory()
 float Platform::getFreeMemory()
 {
     unsigned long long freeMem = PlatformHelper::getMemoryForKey("MemFree");
-    return freeMem / 1024;
+    return freeMem / 1024.0f;
 }
 
 

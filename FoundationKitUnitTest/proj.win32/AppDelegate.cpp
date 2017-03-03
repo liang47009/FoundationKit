@@ -80,6 +80,12 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::error_code ec;
     std::string strErr = ec.message();
 
+    const char *pNextSkillConfig = 0;
+    if (0 == std::strcmp(pNextSkillConfig, ""))
+    {
+        return true;
+    }
+
     //clientThread = std::thread([]()
     //{
     //    runClient();
