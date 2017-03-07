@@ -79,6 +79,14 @@ public:
     }
 
     template<typename T = void, typename... Args>
+    T callWithSig(const std::string& methodName, const std::string& sig, Args... args)
+    {
+      std::string rightSig(sig);
+      std::replace(rightSig.begin(), rightSig.end(), '.', '/');
+      return DevictMonitorAndroid::callWithSig<T>(getRawObject(), methodName, rightSig, std::forward<Args>(args)...);
+    }
+
+    template<typename T = void, typename... Args>
     T call(std::string methodName, Args... args)
     {
         return AndroidNode::call<T>(getRawObject(), methodName, std::forward<Args>(args)...);
@@ -94,6 +102,14 @@ public:
     T get(std::string fieldName, std::string sig = "")
     {
         return AndroidNode::getField<T>(getRawObject(), fieldName, sig);
+    }
+
+    template<typename T = void, typename... Args>
+    T callStaticWithSig(const std::string& methodName, const std::string& sig, Args... args)
+    {
+        std::string rightSig(sig);
+        std::replace(rightSig.begin(), rightSig.end(), '.', '/');
+        return DevictMonitorAndroid::callStaticWithSig<T>(getRawClass(), methodName, rightSig, std::forward<Args>(args)...);
     }
 
     template<typename T = void, typename... Args>

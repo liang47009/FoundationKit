@@ -67,6 +67,12 @@ public:
     }
 
     template<typename T = void, typename... Args>
+    T callStaticWithSig(const std::string& methodName, const std::string& sig, Args... args)
+    {
+     return DevictMonitorAndroid::callStaticWithSig<T>(_class, methodName, sig, std::forward<Args>(args)...);
+    }
+
+    template<typename T = void, typename... Args>
     T callStatic(std::string methodName, Args... args)
     {
         return AndroidNode::callStatic<T>(_class, methodName, std::forward<Args>(args)...);

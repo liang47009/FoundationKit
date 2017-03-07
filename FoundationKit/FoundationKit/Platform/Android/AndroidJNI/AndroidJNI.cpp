@@ -43,11 +43,11 @@ void AndroidJNI::initializeJavaEnv(JavaVM* vm, jint version, jobject activityIns
     {
         GCurrentJavaVM = vm;
         GCurrentJavaVersion = version;
-        GMainActivityRef = activityInstance;
         pthread_key_create(&GTlsSlot, &JavaEnvDestructor);
         JNIEnv* env = AndroidJNI::getJavaEnv();
         if (activityInstance)
         {
+            GMainActivityRef = env->NewGlobalRef(activityInstance);
             jclass classLoaderClass = env->FindClass("java/lang/ClassLoader");
             jclass classClass = env->FindClass("java/lang/Class");
             jmethodID classLoaderMethod = env->GetMethodID(classClass, "getClassLoader", "()Ljava/lang/ClassLoader;");
