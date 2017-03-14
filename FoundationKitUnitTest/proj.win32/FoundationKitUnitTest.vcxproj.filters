@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="excel">
+      <UniqueIdentifier>{94983af5-3b8a-4713-bf51-6a0c421993d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -27,6 +30,12 @@
     <ClCompile Include="tracey.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="excel\BasicExcel.cpp">
+      <Filter>excel</Filter>
+    </ClCompile>
+    <ClCompile Include="excel\ExcelFormat.cpp">
+      <Filter>excel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppDelegate.h">
@@ -40,6 +49,12 @@
     </ClInclude>
     <ClInclude Include="tracey.hpp">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="excel\BasicExcel.hpp">
+      <Filter>excel</Filter>
+    </ClInclude>
+    <ClInclude Include="excel\ExcelFormat.h">
+      <Filter>excel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

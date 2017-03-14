@@ -12,7 +12,8 @@ losemymind.libo@gmail.com
 #include "AndroidFoundation.h"
 
 namespace AndroidNode{
-
+//java class:android/net/NetworkInfo
+//java enum:android.net.NetworkInfo$State
 class AndroidJavaObject
 {
 public:

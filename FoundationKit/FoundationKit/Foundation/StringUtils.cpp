@@ -112,19 +112,30 @@ std::vector<std::string> StringUtils::split(const std::string &s, std::string de
     size_t delimLen = delim.size();
     size_t currentIndex = 0;
     size_t findPos = s.find(delim, currentIndex);
-    while (findPos != std::string::npos)
+    if (findPos == std::string::npos)
     {
-        if ((currentIndex + delimLen)>findPos)
+        elems.push_back(s);
+    }
+    else
+    {
+        if (findPos == currentIndex)
         {
-            elems.push_back("");
+            currentIndex = findPos + delimLen;
+            findPos = s.find(delim, currentIndex);
         }
-        else
+        do 
         {
             elems.push_back(s.substr(currentIndex, findPos - currentIndex));
+            currentIndex = findPos + delimLen;
+            findPos = s.find(delim, currentIndex);
+        } while (findPos != std::string::npos);
+
+        if (currentIndex < s.size())
+        {
+            elems.push_back(s.substr(currentIndex, s.size() - currentIndex));
         }
-        currentIndex = findPos + delimLen;
-        findPos = s.find(delim, currentIndex);
     }
+
     return elems;
 }
 

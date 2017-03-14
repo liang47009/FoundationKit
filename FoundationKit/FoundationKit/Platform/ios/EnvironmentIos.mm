@@ -52,6 +52,8 @@ namespace PlatformHelper {
         if (platformName == "iPhone9,2")    return "iPhone 7 Plus";
         if (platformName == "iPhone9,3")    return "iPhone 7";
         if (platformName == "iPhone9,4")    return "iPhone 7 Plus";
+		if (platformName == "iPhone9,5")    return "iPhone 7 Plus";
+		if (platformName == "iPhone9,6")    return "iPhone 7 Plus";
         
         if (platformName == "iPod1,1")      return "iPod Touch 1G";
         if (platformName == "iPod2,1")      return "iPod Touch 2G";
