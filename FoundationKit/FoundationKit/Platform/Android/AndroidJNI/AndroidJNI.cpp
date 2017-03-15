@@ -28,7 +28,16 @@ AndroidJNI::AndroidJNI()
 
 AndroidJNI::~AndroidJNI()
 {
+    JNIEnv* env = AndroidJNI::getJavaEnv();
+    if (GMainActivityRef)
+    {
+        env->DeleteGlobalRef(GMainActivityRef);
+    }
 
+    if (GClassLoader)
+    {
+        env->DeleteGlobalRef(GClassLoader);
+    }
 }
 
 static void JavaEnvDestructor(void*)
