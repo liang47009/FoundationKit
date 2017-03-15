@@ -58,8 +58,7 @@ template <typename C1, typename ...C> struct Concatenate < C1, C... >
 template <typename T>
 struct CPPToJNI
 {
-    //using JNIType = T;
-    //static_assert(false,"*** Cannot support this type");
+    //using JNIType = jobject;
     //using FunSig = CompileTimeString <''>;
     //inline static T convert(T obj){ return obj; };
 };
@@ -373,6 +372,8 @@ struct JNIToCPP<jboolean>
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "booleanValue", "()Z");
+        env->DeleteLocalRef(instanceClass);
+        env->DeleteLocalRef(clazz);
         return env->CallBooleanMethod(jobj, methodID);
     }
 };
@@ -389,6 +390,8 @@ struct JNIToCPP < jbyte >
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "byteValue", "()B");
+        env->DeleteLocalRef(instanceClass);
+        env->DeleteLocalRef(clazz);
         return env->CallByteMethod(jobj, methodID);
     }
 };
@@ -405,6 +408,8 @@ struct JNIToCPP < jchar >
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "charValue", "()C");
+        env->DeleteLocalRef(instanceClass);
+        env->DeleteLocalRef(clazz);
         return env->CallCharMethod(jobj, methodID);
     }
 };
@@ -421,6 +426,8 @@ struct JNIToCPP < jshort >
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "shortValue", "()S");
+        env->DeleteLocalRef(instanceClass);
+        env->DeleteLocalRef(clazz);
         return env->CallShortMethod(jobj, methodID);
     }
 };
@@ -437,6 +444,8 @@ struct JNIToCPP < jint >
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "intValue", "()I");
+        env->DeleteLocalRef(instanceClass);
+        env->DeleteLocalRef(clazz);
         return env->CallIntMethod(jobj, methodID);
     }
 };
@@ -453,6 +462,8 @@ struct JNIToCPP < jlong >
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "longValue", "()J");
+        env->DeleteLocalRef(instanceClass);
+        env->DeleteLocalRef(clazz);
         return env->CallLongMethod(jobj, methodID);
     }
 };
@@ -469,6 +480,8 @@ struct JNIToCPP < jfloat >
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "floatValue", "()F");
+        env->DeleteLocalRef(instanceClass);
+        env->DeleteLocalRef(clazz);
         return env->CallFloatMethod(jobj, methodID);
     }
 };
@@ -485,6 +498,8 @@ struct JNIToCPP < jdouble >
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
         jmethodID methodID = env->GetMethodID(clazz, "doubleValue", "()D");
+        env->DeleteLocalRef(instanceClass);
+        env->DeleteLocalRef(clazz);
         return env->CallDoubleMethod(jobj, methodID);
     }
 };
@@ -499,6 +514,7 @@ struct JNIToCPP < jstring >
         JNIEnv *env = AndroidJNI::getJavaEnv();
         jclass instanceClass = env->FindClass("java/lang/String");
         assert(env->IsInstanceOf(jobj, instanceClass));
+        env->DeleteLocalRef(instanceClass);
         return convert((jstring)jobj);
     }
 
@@ -1275,13 +1291,17 @@ struct JNICaller<std::string, Args...> {
     static std::string call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
     {
         auto obj = env->CallObjectMethod(instance, method, v...);
-        return JNIToCPP<jstring>::convert(obj);
+        std::string result = JNIToCPP<jstring>::convert(obj);
+        env->DeleteLocalRef(obj);
+        return result;
     }
 
     static std::string getField(JNIEnv * env, jobject instance, jfieldID fid)
     {
         auto obj = env->GetObjectField(instance, fid);
-        return JNIToCPP<jstring>::convert(obj);
+        std::string result = JNIToCPP<jstring>::convert(obj);
+        env->DeleteLocalRef(obj);
+        return result;
     }
 
     static void setField(JNIEnv* env, jobject instance, jfieldID fid, jstring fieldValue)
@@ -1292,12 +1312,16 @@ struct JNICaller<std::string, Args...> {
     static std::string callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
     {
         auto obj = env->CallStaticObjectMethod(clazz, method, v...);
-        return JNIToCPP<jstring>::convert(obj);
+        std::string result = JNIToCPP<jstring>::convert(obj);
+        env->DeleteLocalRef(obj);
+        return result;
     }
     static std::string getFieldStatic(JNIEnv * env, jclass clazz, jfieldID fid)
     {
         auto obj = env->GetStaticObjectField(clazz, fid);
-        return JNIToCPP<jstring>::convert(obj);
+        std::string result = JNIToCPP<jstring>::convert(obj);
+        env->DeleteLocalRef(obj);
+        return result;
     }
 
     static void setFieldStatic(JNIEnv* env, jclass clazz, jfieldID fid, jstring fieldValue)
@@ -1315,34 +1339,27 @@ const char * getJNISignature(Args...)
 {
     return Concatenate < 
         CompileTimeString<'('>,  //left parenthesis
-        typename CPPToJNI<Args>::FunSig...,      //params signature
+        typename CPPToJNI<typename std::decay<Args>::type>::FunSig...,      //params signature
         CompileTimeString<')'>,  //right parenthesis
-        typename CPPToJNI<T>::FunSig,                //return type signature
+        typename CPPToJNI<typename std::decay<T>::type>::FunSig,                //return type signature
         CompileTimeString < '\0' > 
     >::Result::value();
 }
 
-/** Generic call to instance method
- *  The generic parameter determines the field type.
- *  @param[in] instance   The java class instance.
- *  @param[in] methodName The name of the method
- *  @param[in] methodSignature The method signature.
- *  @param[in] v          Generic arguments
- *  @return   T type object.
- */
 template<typename T = void, typename... Args>
 T callWithSig(jobject instance, const std::string & methodName, const std::string&  methodSignature, Args... args)
 {
-    JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
-    jclass  clazz = jniEnv->GetObjectClass(instance);
+    JNIEnv* env = AndroidJNI::getJavaEnv();
+    jclass  clazz = env->GetObjectClass(instance);
     JavaClassMethod javaMethod = AndroidJNI::getClassMethod(clazz, methodName.c_str(), methodSignature.c_str());
-    return JNICaller<T, decltype(CPPToJNI<Args>::convert(args))...>::call(jniEnv, instance, javaMethod.method, CPPToJNI<Args>::convert(args)...);
+    env->DeleteLocalRef(clazz);
+    return JNICaller<T, decltype(CPPToJNI<typename std::decay<Args>::type>::convert(args))...>::call(env, instance, javaMethod.method, CPPToJNI<typename std::decay<Args>::type>::convert(args)...);
 }
 
 /** Generic call to instance method
  *  The generic parameter determines the field type.
  *  @param[in] instance   The java class instance.
- *  @param[in] methodName The name of the method
+ *  @param[in] methodName The name of the method 
  *  @param[in] v          Generic arguments
  *  @return   T type object.
  */
@@ -1359,7 +1376,7 @@ T callStaticWithSig(const std::string & className, const std::string & methodNam
 {
     JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
     JavaClassMethod javaMethod = AndroidJNI::getClassMethod(className.c_str(), methodName.c_str(), methodSignature.c_str(), true);
-    return JNICaller<T, decltype(CPPToJNI<Args>::convert(args))...>::callStatic(jniEnv, javaMethod.clazz, javaMethod.method, CPPToJNI<Args>::convert(args)...);
+    return JNICaller<T, decltype(CPPToJNI<typename std::decay<Args>::type>::convert(args))...>::callStatic(jniEnv, javaMethod.clazz, javaMethod.method, CPPToJNI<typename std::decay<Args>::type>::convert(args)...);
 }
 /** generic call to static method
  *  The generic parameter determines the field type.
@@ -1377,11 +1394,11 @@ T callStatic(const std::string & className, const std::string & methodName, Args
 }
 
 template<typename T = void, typename... Args>
-T callStaticWithSig(jclass clazz, const std::string & methodName, const std::string&  methodSignature, Args... args)
+T callStaticWithSig(jclass clazz, const std::string & methodName, const std::string&  methodSignature,Args... args)
 {
     JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
-    JavaClassMethod javaMethod = AndroidJNI::getClassMethod(clazz, methodName.c_str(), methodSignature.c_str(), true);
-    return JNICaller<T, decltype(CPPToJNI<Args>::convert(args))...>::callStatic(jniEnv, javaMethod.clazz, javaMethod.method, CPPToJNI<Args>::convert(args)...);
+    JavaClassMethod javaMethod = AndroidJNI::getClassMethod(clazz, methodName.c_str(),methodSignature.c_str(), true);
+    return JNICaller<T, decltype(CPPToJNI<typename std::decay<Args>::type>::convert(args))...>::callStatic(jniEnv, javaMethod.clazz, javaMethod.method, CPPToJNI<typename std::decay<Args>::type>::convert(args)...);
 }
 /** generic call to static method
  *  The generic parameter determines the field type.
@@ -1396,7 +1413,6 @@ T callStatic(jclass clazz, const std::string & methodName, Args... args)
     std::string methodSignature = getJNISignature<T, Args...>(args...);
     return callStaticWithSig<T>(clazz, methodName, methodSignature, std::forward<Args>(args)...);
 }
-
 
 /** Get the value of a field in an object (non-static).
  *  The generic parameter determines the field type.
@@ -1420,10 +1436,11 @@ T getField(jobject instance, const std::string & fieldName, std::string sig = ""
     std::string signature = sig;
     if (signature.empty())
     {
-        signature = Concatenate<typename CPPToJNI<T>::FunSig, CompileTimeString < '\0' > > ::Result::value();
+        signature = Concatenate<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
     }
     jfieldID fid = jniEnv->GetFieldID(clazz, fieldName.c_str(), signature.c_str());
-    return JNICaller<T>::getField(jniEnv, instance, fid);
+    jniEnv->DeleteLocalRef(clazz);
+    return JNICaller<typename std::decay<T>::type>::getField(jniEnv, instance, fid);
 }
 
 /** Get the value of a static field in an object type.
@@ -1446,11 +1463,11 @@ T getFieldStatic(jclass clazz, const std::string & fieldName, std::string sig = 
     JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
     std::string signature = sig;
     if (signature.empty())
-        signature = Concatenate<typename CPPToJNI<T>::FunSig, CompileTimeString < '\0' > > ::Result::value();
+        signature = Concatenate<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
     else
         std::replace(signature.begin(), signature.end(), '.', '/');
     jfieldID fid = jniEnv->GetStaticFieldID(clazz, fieldName.c_str(), signature.c_str());
-    return JNICaller<T>::getFieldStatic(jniEnv, clazz, fid);
+    return JNICaller<typename std::decay<T>::type>::getFieldStatic(jniEnv, clazz, fid);
 }
 
 /** Get the value of a static field in an object type.
@@ -1492,10 +1509,11 @@ void setField(jobject instance, const std::string& fieldName, T fieldValue, std:
     std::string signature = sig;
     if (signature.empty())
     {
-        signature = Concatenate<typename CPPToJNI<T>::FunSig, CompileTimeString < '\0' > > ::Result::value();
+        signature = Concatenate<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
     }
     jfieldID fid = jniEnv->GetFieldID(clazz, fieldName.c_str(), signature.c_str());
-    JNICaller<T>::setField(jniEnv, instance, fid, CPPToJNI<T>::convert(fieldValue));
+    jniEnv->DeleteLocalRef(clazz);
+    JNICaller<typename std::decay<T>::type>::setField(jniEnv, instance, fid, CPPToJNI<typename std::decay<T>::type>::convert(fieldValue));
 }
 
 /** Set the value of a static field in an object type.
@@ -1519,10 +1537,10 @@ void setFieldStatic(jclass clazz, const std::string& fieldName, T fieldValue, st
     std::string signature = sig;
     if (signature.empty())
     {
-        signature = Concatenate<typename CPPToJNI<T>::FunSig, CompileTimeString < '\0' > > ::Result::value();
+        signature = Concatenate<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
     }
     jfieldID fid = jniEnv->GetStaticFieldID(clazz, fieldName.c_str(), signature.c_str());
-    JNICaller<T>::setFieldStatic(jniEnv, clazz, fid, CPPToJNI<T>::convert(fieldValue));
+    JNICaller<typename std::decay<T>::type>::setFieldStatic(jniEnv, clazz, fid, CPPToJNI<typename std::decay<T>::type>::convert(fieldValue));
 }
 
 /** Set the value of a static field in an object type.
