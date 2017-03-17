@@ -8,7 +8,7 @@
 #define FOUNDATIONKIT_BYTESWAP_HPP
 
 #pragma once
-#include "FoundationKit/Base/Types.hpp"
+#include "FoundationKit/Base/types.hpp"
 NS_FK_BEGIN
 
 //=============== Endian ====================

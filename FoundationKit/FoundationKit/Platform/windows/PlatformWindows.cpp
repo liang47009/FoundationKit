@@ -148,7 +148,6 @@ std::string Platform::getDeviceName()
     default:
         return "Unknown";
     }
-    return "";
 }
 
 std::string Platform::getOperatingSystemVersion()

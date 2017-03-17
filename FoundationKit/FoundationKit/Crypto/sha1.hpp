@@ -6,7 +6,7 @@
 ****************************************************************************/
 #pragma once
 
-#include "FoundationKit/GenericPlatformMacros.h" // for NS_FK_BEGIN NS_FK_END
+#include "FoundationKit/GenericPlatformMacros.hpp" // for NS_FK_BEGIN NS_FK_END
 NS_FK_BEGIN
 
 

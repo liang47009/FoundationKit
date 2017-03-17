@@ -6,7 +6,6 @@ LOCAL_MODULE := foundationkit
 LOCAL_MODULE_FILENAME := libfoundationkit
 
 LOCAL_SRC_FILES := \
-../../FoundationKit/Base/Value.cpp \
 ../../FoundationKit/Crypto/aes.cpp \
 ../../FoundationKit/Crypto/Base64.cpp \
 ../../FoundationKit/external/ConvertUTF/ConvertUTFWrapper.cpp \
@@ -34,6 +33,7 @@ LOCAL_SRC_FILES := \
 ../../FoundationKit/Foundation/Vector3.cpp \
 ../../FoundationKit/Foundation/Vector4.cpp \
 ../../FoundationKit/Foundation/Version.cpp \
+../../FoundationKit/Foundation/Value.cpp \
 ../../FoundationKit/GenericPlatformMacros.cpp \
 ../../FoundationKit/Platform/Android/AndroidBridge.cpp \
 ../../FoundationKit/Platform/Android/AndroidJavaBridge.cpp \

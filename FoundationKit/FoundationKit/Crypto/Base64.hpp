@@ -3,7 +3,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "FoundationKit/Base/Types.hpp"
+#include "FoundationKit/Base/types.hpp"
 
 NS_FK_BEGIN
 

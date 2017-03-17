@@ -43,7 +43,7 @@
 #include <unordered_map>
 #include <string>
 #include "FoundationKit/FoundationMacros.hpp"
-#include "FoundationKit/Base/Types.hpp"
+#include "FoundationKit/Base/types.hpp"
 
 NS_FK_BEGIN
 

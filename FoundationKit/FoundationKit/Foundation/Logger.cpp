@@ -6,8 +6,8 @@
 ****************************************************************************/
 #include <vector>
 #include <stdarg.h>
-#include "Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Foundation/Logger.hpp"
 
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 #include <Winsock2.h>

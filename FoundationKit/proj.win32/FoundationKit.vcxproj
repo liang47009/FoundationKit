@@ -180,14 +180,13 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp" />
-    <ClInclude Include="..\FoundationKit\Base\ByteSwap.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\byte_swap.hpp" />
     <ClInclude Include="..\FoundationKit\Base\error_code.hpp" />
     <ClInclude Include="..\FoundationKit\Base\multiple_buffer.hpp" />
     <ClInclude Include="..\FoundationKit\Base\noncopyable.hpp" />
     <ClInclude Include="..\FoundationKit\Base\nonmovable.hpp" />
     <ClInclude Include="..\FoundationKit\Base\Runnable.hpp" />
-    <ClInclude Include="..\FoundationKit\Base\Types.hpp" />
-    <ClInclude Include="..\FoundationKit\Base\Value.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\types.hpp" />
     <ClInclude Include="..\FoundationKit\Cache\AbstractCache.h" />
     <ClInclude Include="..\FoundationKit\Cache\AbstractStrategy.h" />
     <ClInclude Include="..\FoundationKit\Cache\KeyValueArgs.h" />
@@ -220,6 +219,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\Quaternion.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\RandomHelper.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Rect.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Runnable.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Singleton.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Size.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.hpp" />
@@ -227,6 +227,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\TimerQueue.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Timespan.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\TupleApply.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Value.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Vector2.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Vector3.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Vector4.hpp" />
@@ -253,7 +254,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\std\memory_aligned.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\FoundationKit\Base\Value.cpp" />
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp" />
     <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.c" />
@@ -277,6 +277,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Foundation\Timer.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\TimerQueue.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Timespan.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Value.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Vector2.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Vector3.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Vector4.cpp" />
@@ -290,10 +291,10 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\FoundationKit\Base\Value.inl" />
     <None Include="..\FoundationKit\Foundation\MathUtil.inl" />
     <None Include="..\FoundationKit\Foundation\MathUtilNeon.inl" />
     <None Include="..\FoundationKit\Foundation\Matrix.inl" />
+    <None Include="..\FoundationKit\Foundation\Value.inl" />
     <None Include="..\FoundationKit\Foundation\Vector2.inl" />
     <None Include="..\FoundationKit\Foundation\Vector3.inl" />
     <None Include="..\FoundationKit\Foundation\Vector4.inl" />

@@ -120,21 +120,12 @@
     <ClInclude Include="..\FoundationKit\Base\nonmovable.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\ByteSwap.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\Runnable.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\Types.hpp">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\GenericPlatformMacros.hpp" />
     <ClInclude Include="..\FoundationKit\LanguageFeatures.hpp" />
     <ClInclude Include="..\FoundationKit\FoundationMacros.hpp" />
-    <ClInclude Include="..\FoundationKit\Base\Value.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Compression.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -246,6 +237,18 @@
     <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\types.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Runnable.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Value.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\byte_swap.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
@@ -288,9 +291,6 @@
       <Filter>Platform\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp" />
-    <ClCompile Include="..\FoundationKit\Base\Value.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Compression.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
@@ -351,11 +351,11 @@
     <ClCompile Include="..\FoundationKit\Foundation\Math.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Value.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\FoundationKit\Base\Value.inl">
-      <Filter>Base</Filter>
-    </None>
     <None Include="..\FoundationKit\Foundation\MathUtil.inl">
       <Filter>Foundation</Filter>
     </None>
@@ -372,6 +372,9 @@
       <Filter>Foundation</Filter>
     </None>
     <None Include="..\FoundationKit\Foundation\Vector4.inl">
+      <Filter>Foundation</Filter>
+    </None>
+    <None Include="..\FoundationKit\Foundation\Value.inl">
       <Filter>Foundation</Filter>
     </None>
   </ItemGroup>

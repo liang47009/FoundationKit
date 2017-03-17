@@ -10,7 +10,7 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include <vector>
-#include "FoundationKit/Base/Types.hpp"
+#include "FoundationKit/Base/types.hpp"
 #include "FoundationKit/Foundation/Timer.hpp"
 
 NS_FK_BEGIN
