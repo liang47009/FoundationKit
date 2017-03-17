@@ -1,6 +1,6 @@
 #include <jni.h>
-#include "FoundationKit/Foundation/DelegateManager.h"
-#include "AndroidJavaBridge.h"
+#include "FoundationKit/Foundation/DelegateManager.hpp"
+#include "AndroidJavaBridge.hpp"
 
 using namespace FoundationKit;
 using namespace FoundationKit::Android;

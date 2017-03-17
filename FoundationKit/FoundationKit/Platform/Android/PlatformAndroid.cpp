@@ -16,10 +16,10 @@
 #include <string>
 #include <unordered_map>
 #include "FoundationKit/Crypto/md5.hpp"
-#include "FoundationKit/Platform/Platform.h"
-#include "FoundationKit/Platform/Environment.h"
-#include "FoundationKit/Foundation/Logger.h"
-#include "FoundationKit/Foundation/StringUtils.h"
+#include "FoundationKit/Platform/Platform.hpp"
+#include "FoundationKit/Platform/Environment.hpp"
+#include "FoundationKit/Foundation/Logger.hpp"
+#include "FoundationKit/Foundation/StringUtils.hpp"
 
 NS_FK_BEGIN
 
@@ -221,14 +221,12 @@ std::string Platform::getDeviceId()
 
 std::string Platform::getDeviceName()
 {
-    //return PlatformHelper::getSystemProperty("ro.product.model");
-    return Environment::GetMachineName();
+    return PlatformHelper::getSystemProperty("ro.product.model");
 }
 
 std::string Platform::getOperatingSystemVersion()
 {
-    //return PlatformHelper::getSystemProperty("ro.build.version.release");
-    return Environment::GetOSVersion();
+    return PlatformHelper::getSystemProperty("ro.build.version.release");
 }
 
 std::string Platform::getCPUArchitecture()

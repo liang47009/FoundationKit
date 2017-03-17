@@ -1,17 +1,17 @@
 /****************************************************************************
-  Copyright (c) 2015 libo All rights reserved.
+  Copyright (c) 2017 libo All rights reserved.
  
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef LOSEMYMIND_NONCOPYABLE_H
-#define LOSEMYMIND_NONCOPYABLE_H
+#ifndef FOUNDATIONKIT_NONCOPYABLE_HPP
+#define FOUNDATIONKIT_NONCOPYABLE_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 
 NS_FK_BEGIN
 //  Private copy constructor and copy assignment ensure classes derived from
@@ -34,11 +34,5 @@ namespace noncopyable_  // protection from unintended ADL
 typedef noncopyable_::noncopyable noncopyable;
 
 NS_FK_END
-#endif // LOSEMYMIND_NONCOPYABLE_H
 
-
-
-
-
-
-
+#endif // FOUNDATIONKIT_NONCOPYABLE_HPP

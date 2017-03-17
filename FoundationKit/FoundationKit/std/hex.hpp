@@ -1,18 +1,21 @@
-#ifndef LOSEMYMIND_HEX_H
-#define LOSEMYMIND_HEX_H
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_HEX_HPP
+#define FOUNDATIONKIT_HEX_HPP
 
 #pragma once
 #include <stdexcept>
 #include <utility>
 #include <type_traits>
 #include <algorithm>
-#include "FoundationKit/GenericPlatformMacros.h"
-
 
 // code from boost hex:boost/algorithm/hex.hpp
 namespace std
 {
-
 struct hex_decode_error : virtual std::exception {};
 struct not_enough_input : virtual hex_decode_error {};
 struct non_hex_input : virtual hex_decode_error {};
@@ -242,7 +245,6 @@ String unhex(const String &input)
 
 } // namespace std
 
-
 #define ENABLE_TEXT_STD_HEX 0
 #if ENABLE_TEXT_STD_HEX
 
@@ -257,7 +259,4 @@ void hexTest()
 
 #endif // #if ENABLE_TEXT_STD_HEX
 
-#endif // LOSEMYMIND_HEX_H
-
-
-
+#endif // FOUNDATIONKIT_HEX_HPP

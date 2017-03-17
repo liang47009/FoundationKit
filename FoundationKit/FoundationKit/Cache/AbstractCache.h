@@ -12,8 +12,8 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 
 ****************************************************************************/
 
-#ifndef LOSEMYMIND_ABSTRACTCACHE_H
-#define LOSEMYMIND_ABSTRACTCACHE_H
+#ifndef FOUNDATIONKIT_ABSTRACTCACHE_H
+#define FOUNDATIONKIT_ABSTRACTCACHE_H
 
 #pragma once
 #include <unordered_map>
@@ -24,7 +24,7 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 #include <iostream>
 #include <list>
 #include "KeyValueArgs.h"
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 NS_FK_BEGIN
 
 template<typename TKey, typename TValue, typename TStrategy>
@@ -321,7 +321,7 @@ private:
 };
 
 NS_FK_END
-#endif // LOSEMYMIND_ABSTRACTCACHE_H
+#endif // FOUNDATIONKIT_ABSTRACTCACHE_H
 
 
 

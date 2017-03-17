@@ -1,3 +1,11 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_BASIC_STREAMBUF_HPP
+#define FOUNDATIONKIT_BASIC_STREAMBUF_HPP
 
 #include <algorithm>
 #include <cstring>
@@ -305,3 +313,4 @@ typedef basic_streambuf<> streambuf;
 
 NS_FK_END
 
+#endif // FOUNDATIONKIT_BASIC_STREAMBUF_HPP

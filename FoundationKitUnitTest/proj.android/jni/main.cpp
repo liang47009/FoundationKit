@@ -18,13 +18,13 @@
 #include <jni.h>
 #include <android/log.h>
 #include <stdio.h>
-#include "FoundationKit/Foundation/Logger.h"
-#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.h"
-#include "FoundationKit/Platform/Platform.h"
-#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.h"
-#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.h"
+#include "FoundationKit/Foundation/Logger.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
+#include "FoundationKit/Platform/Platform.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
 #include "FoundationKit/std/function_cache.hpp"
-#include "FoundationKit/Platform/PlatformTLS.h"
+#include "FoundationKit/Platform/PlatformTLS.hpp"
 #include <vector>
 #include <stdarg.h>
 

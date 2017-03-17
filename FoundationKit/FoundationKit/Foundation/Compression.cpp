@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <cassert>
 #include "zlib.h"
-#include "FoundationKit/Base/ElapsedTimer.h"
-#include "FoundationKit/Foundation/Logger.h"
-#include "Compression.h"
+#include "FoundationKit/Foundation/ElapsedTimer.hpp"
+#include "FoundationKit/Foundation/Logger.hpp"
+#include "FoundationKit/Foundation/Compression.hpp"
 
 NS_FK_BEGIN
 

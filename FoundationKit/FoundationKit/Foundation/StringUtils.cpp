@@ -1,5 +1,5 @@
 /****************************************************************************
-  Copyright (c) 2015 libo All rights reserved.
+  Copyright (c) 2017 libo All rights reserved.
 
   losemymind.libo@gmail.com
 
@@ -11,7 +11,7 @@
 #include <cctype>
 #include <sstream>
 //#include <codecvt>
-#include "StringUtils.h"
+#include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/external/ConvertUTF/ConvertUTF.h"
 
 NS_FK_BEGIN
@@ -64,6 +64,10 @@ std::string StringUtils::format( const char* format, ... )
 			str[needed] = '\0';
 			break;
 		}
+        if (needed < 0)
+        {
+            return format;
+        }
 		size = needed > 0 ? (needed + 1) : (size * 2);
 		dynamicBuffer.resize(size);
 		str = &dynamicBuffer[0];

@@ -1,9 +1,9 @@
 
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 
 #if (TARGET_PLATFORM == PLATFORM_ANDROID || TARGET_PLATFORM == PLATFORM_LINUX)
 
-#include "FoundationKit/Platform/FileUtils.h"
+#include "FoundationKit/Platform/FileUtils.hpp"
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
@@ -44,9 +44,7 @@ std::string FileUtils::getWritablePath() const
     return _writablePath;
 }
 
-
 NS_FK_END
-
 
 #endif
 

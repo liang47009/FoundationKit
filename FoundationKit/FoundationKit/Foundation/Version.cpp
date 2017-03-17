@@ -1,13 +1,13 @@
 /****************************************************************************
- Copyright (c) 2015 libo All rights reserved.
+ Copyright (c) 2017 libo All rights reserved.
 
  losemymind.libo@gmail.com
 
 ****************************************************************************/
 #include <vector>
 #include <stdexcept>
-#include "StringUtils.h"
-#include "Version.h"
+#include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Foundation/Version.hpp"
 NS_FK_BEGIN
 
 Version::Version()

@@ -1,12 +1,13 @@
 /****************************************************************************
-Copyright (c) 2015 libo.
+  Copyright (c) 2017 libo.
 
-losemymind.libo@gmail.com
+  losemymind.libo@gmail.com
 
 ****************************************************************************/
-#include "ProtectedMemoryAllocator.h"
 #include <windows.h>
 #include <assert.h>
+#include "FoundationKit/Platform/windows/ProtectedMemoryAllocator.hpp"
+
 ProtectedMemoryAllocator::ProtectedMemoryAllocator(size_t pool_size)
     : _poolSize(pool_size)
     , _nextAllocOffset(0)

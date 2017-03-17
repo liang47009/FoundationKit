@@ -1,12 +1,12 @@
 /****************************************************************************
-  Copyright (c) 2015 libo All rights reserved.
+  Copyright (c) 2017 libo All rights reserved.
  
   losemymind.libo@gmail.com
 
 ****************************************************************************/
 
 #include <typeinfo>
-#include "Exception.h"
+#include "FoundationKit/Foundation/Exception.hpp"
 
 NS_FK_BEGIN
 
@@ -112,7 +112,6 @@ void Exception::rethrow() const
 	throw *this;
 }
 
-
 IMPLEMENT_EXCEPTION(LogicException, Exception, "Logic exception")
 IMPLEMENT_EXCEPTION(AssertionViolationException, LogicException, "Assertion violation")
 IMPLEMENT_EXCEPTION(NullPointerException, LogicException, "Null pointer")
@@ -125,7 +124,6 @@ IMPLEMENT_EXCEPTION(IllegalStateException, LogicException, "Illegal state")
 IMPLEMENT_EXCEPTION(InvalidAccessException, LogicException, "Invalid access")
 IMPLEMENT_EXCEPTION(SignalException, LogicException, "Signal received")
 IMPLEMENT_EXCEPTION(UnhandledException, LogicException, "Unhandled exception")
-
 IMPLEMENT_EXCEPTION(RuntimeException, Exception, "Runtime exception")
 IMPLEMENT_EXCEPTION(NotFoundException, RuntimeException, "Not found")
 IMPLEMENT_EXCEPTION(ExistsException, RuntimeException, "Exists")
@@ -140,14 +138,12 @@ IMPLEMENT_EXCEPTION(PoolOverflowException, RuntimeException, "Pool overflow")
 IMPLEMENT_EXCEPTION(NoPermissionException, RuntimeException, "No permission")
 IMPLEMENT_EXCEPTION(OutOfMemoryException, RuntimeException, "Out of memory")
 IMPLEMENT_EXCEPTION(DataException, RuntimeException, "Data error")
-
 IMPLEMENT_EXCEPTION(InterruptedException, RuntimeException, "Interrupted")
 IMPLEMENT_EXCEPTION(IndexOutOfBoundsException, RuntimeException, "Index out of bounds")
 IMPLEMENT_EXCEPTION(UnsupportedOperationException, RuntimeException, "Unsupported operation")
 IMPLEMENT_EXCEPTION(EmptyStackException, RuntimeException, "Empty stack")
 IMPLEMENT_EXCEPTION(StackOverflowException, RuntimeException, "Stack overflow")
 IMPLEMENT_EXCEPTION(ArithmeticException, RuntimeException, "Arithmetic error")
-
 IMPLEMENT_EXCEPTION(DataFormatException, DataException, "Bad data format")
 IMPLEMENT_EXCEPTION(SyntaxException, DataException, "Syntax error")
 IMPLEMENT_EXCEPTION(CircularReferenceException, DataException, "Circular reference")
@@ -165,8 +161,6 @@ IMPLEMENT_EXCEPTION(OpenFileException, FileException, "Cannot open file")
 IMPLEMENT_EXCEPTION(WriteFileException, FileException, "Cannot write file")
 IMPLEMENT_EXCEPTION(ReadFileException, FileException, "Cannot read file")
 IMPLEMENT_EXCEPTION(UnknownURISchemeException, RuntimeException, "Unknown URI scheme")
-
-
 IMPLEMENT_EXCEPTION(ApplicationException, Exception, "Application exception")
 IMPLEMENT_EXCEPTION(BadCastException, RuntimeException, "Bad cast exception")
 

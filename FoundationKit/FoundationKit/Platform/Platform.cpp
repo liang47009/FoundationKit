@@ -4,7 +4,7 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
-#include "Platform.h"
+#include "FoundationKit/Platform/Platform.hpp"
 NS_FK_BEGIN
 
 Platform::Platform()

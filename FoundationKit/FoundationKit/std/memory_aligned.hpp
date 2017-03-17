@@ -1,19 +1,21 @@
 /****************************************************************************
-Copyright (c) 2016 libo All rights reserved.
-
-losemymind.libo@gmail.com
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef LOSEMYMIND_MEMORY_ALIGNED_H
-#define LOSEMYMIND_MEMORY_ALIGNED_H
+#ifndef FOUNDATIONKIT_MEMORY_ALIGNED_HPP
+#define FOUNDATIONKIT_MEMORY_ALIGNED_HPP
+
 #pragma once
 #include <utility>
 #include <type_traits>
 #include <cassert>
-#include "FoundationKit/GenericPlatformMacros.h"
-#include "FoundationKit/Base/Types.h"
+#include <memory>
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#include "FoundationKit/Base/Types.hpp"
 #include "FoundationKit/std/max_integer_of.hpp"
-
+#include "FoundationKit/Foundation/Logger.hpp"
 
 USING_NS_FK;
 
@@ -155,14 +157,4 @@ public:
 };
 
 } // namespace std
-
-#endif // LOSEMYMIND_MEMORY_ALIGNED_H
-
-
-
-
-
-
-
-
-
+#endif // FOUNDATIONKIT_MEMORY_ALIGNED_HPP

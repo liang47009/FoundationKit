@@ -1,11 +1,11 @@
 /****************************************************************************
-Copyright (c) 2016 libo All rights reserved.
-
-losemymind.libo@gmail.com
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef LOSEMYMIND_MAX_INTEGER_OF_H
-#define LOSEMYMIND_MAX_INTEGER_OF_H
+#ifndef FOUNDATIONKIT_MAX_INTEGER_OF_HPP
+#define FOUNDATIONKIT_MAX_INTEGER_OF_HPP
 
 #include <utility>
 namespace std
@@ -30,12 +30,4 @@ struct max_integer_of<N0, N1, R...> :std::integral_constant < size_t,
     max_integer_of<N1, R...>::value >{};
 
 } //namespace std
-
-#endif // LOSEMYMIND_MAX_INTEGER_OF_H
-
-
-
-
-
-
-
+#endif // FOUNDATIONKIT_MAX_INTEGER_OF_HPP

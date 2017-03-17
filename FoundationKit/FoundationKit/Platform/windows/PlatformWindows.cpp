@@ -4,7 +4,7 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
-#include "FoundationKit/Platform/Platform.h"
+#include "FoundationKit/Platform/Platform.hpp"
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 
 #include <windows.h>
@@ -12,8 +12,9 @@ losemymind.libo@gmail.com
 #include <psapi.h>
 #include <vector>
 #include <memory>
-#include "FoundationKit/Platform/Environment.h"
-#include "FoundationKit/Foundation/StringUtils.h"
+#include "FoundationKit/Platform/Environment.hpp"
+#include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Crypto/md5.hpp"
 
 #pragma   comment(lib,"Psapi.lib")
@@ -101,14 +102,74 @@ std::string Platform::getDeviceId()
     return MD5::md5_hash_hex(getMacAddress().c_str());
 }
 
+typedef LONG(NTAPI* fnRtlGetVersion)(PRTL_OSVERSIONINFOW lpVersionInformation);
 std::string Platform::getDeviceName()
 {
-    return Environment::GetMachineName();
+    RTL_OSVERSIONINFOEXW verInfo = { 0 };
+    verInfo.dwOSVersionInfoSize = sizeof(verInfo);
+    static auto RtlGetVersion = (fnRtlGetVersion)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
+    if (RtlGetVersion != 0)
+        RtlGetVersion((PRTL_OSVERSIONINFOW)&verInfo);
+
+    switch (verInfo.dwMajorVersion)
+    {
+    case 10:
+        switch (verInfo.dwMinorVersion)
+        {
+        case 0:
+            return verInfo.wProductType == VER_NT_WORKSTATION ? "Windows 10" : "Windows Server 2016";
+        }
+    case 6:
+        switch (verInfo.dwMinorVersion)
+        {
+        case 0:
+            return verInfo.wProductType == VER_NT_WORKSTATION ? "Windows Vista" : "Windows Server 2008";
+        case 1:
+            return verInfo.wProductType == VER_NT_WORKSTATION ? "Windows 7" : "Windows Server 2008 R2";
+        case 2:
+            return verInfo.wProductType == VER_NT_WORKSTATION ? "Windows 8" : "Windows Server 2012";
+        case 3:
+            return verInfo.wProductType == VER_NT_WORKSTATION ? "Windows 8.1" : "Windows Server 2012 R2";
+        default:
+            return "Unknown";
+        }
+    case 5:
+        switch (verInfo.dwMinorVersion)
+        {
+        case 0:
+            return "Windows 2000";
+        case 1:
+            return "Windows XP";
+        case 2:
+            return "Windows Server 2003/Windows Server 2003 R2";
+        default:
+            return "Unknown";
+        }
+    default:
+        return "Unknown";
+    }
+    return "";
 }
 
 std::string Platform::getOperatingSystemVersion()
 {
-    return Environment::GetOSVersion();
+    RTL_OSVERSIONINFOEXW verInfo = { 0 };
+    verInfo.dwOSVersionInfoSize = sizeof(verInfo);
+    static auto RtlGetVersion = (fnRtlGetVersion)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
+    if (RtlGetVersion != 0 && RtlGetVersion((PRTL_OSVERSIONINFOW)&verInfo) == 0)
+    {
+        std::ostringstream str;
+        str << verInfo.dwMajorVersion << "." << verInfo.dwMinorVersion << " (Build " << (verInfo.dwBuildNumber & 0xFFFF);
+        if (verInfo.szCSDVersion[0]) str << ": " << verInfo.szCSDVersion;
+        str << ")";
+        return str.str();
+    }
+    else
+    {
+        //throw SystemException("Cannot get OS version information");
+        LOG_ERROR("***** Cannot get OS version information.");
+    }
+    return "";
 }
 
 std::string Platform::getCPUArchitecture()
@@ -214,7 +275,6 @@ std::string Platform::executeSystemCommand(const std::string& command)
     return result;
 #endif
 }
-
 
 NS_FK_END
 

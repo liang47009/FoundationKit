@@ -1,4 +1,4 @@
-#include "ProtectedMemoryAllocator.h"
+#include "ProtectedMemoryAllocator.hpp"
 #include <assert.h>
 #include <sys/mman.h>
 #include <unistd.h>

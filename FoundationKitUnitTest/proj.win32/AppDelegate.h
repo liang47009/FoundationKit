@@ -1,6 +1,6 @@
 #pragma once
 #include "Application.h"
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 
 
 class  AppDelegate : private Application

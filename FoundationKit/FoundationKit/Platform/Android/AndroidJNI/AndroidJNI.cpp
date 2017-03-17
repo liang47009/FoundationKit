@@ -7,7 +7,7 @@ losemymind.libo@gmail.com
 #include <pthread.h>
 #include <algorithm>
 #include <android/asset_manager_jni.h>
-#include "AndroidJNI.h"
+#include "AndroidJNI.hpp"
 
 std::string GExternalFilePath;
 std::string GFilePathBase;

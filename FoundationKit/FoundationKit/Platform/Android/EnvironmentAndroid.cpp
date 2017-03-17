@@ -2,9 +2,8 @@
 
 #include <sstream>
 #include <stdlib.h>
-#include <sys/system_properties.h>//for __system_property_get
-#include "FoundationKit/Platform/Environment.h"
-#include "FoundationKit/Foundation/Exception.h"
+#include "FoundationKit/Platform/Environment.hpp"
+#include "FoundationKit/Foundation/Exception.hpp"
 
 NS_FK_BEGIN
 
@@ -34,24 +33,6 @@ void Environment::SetEnvironmentVariable(const std::string& variable, const std:
         throw SystemException(msg);
     }
 }
-
-
-std::string Environment::GetMachineName()
-{
-    char propValue[PROP_VALUE_MAX + 1] = { 0 };
-    __system_property_get("ro.product.model", propValue);
-    return propValue;
-}
-
-
-std::string Environment::GetOSVersion()
-{
-    char propValue[PROP_VALUE_MAX + 1] = { 0 };
-    __system_property_get("ro.build.version.release", propValue);
-    return propValue;
-}
-
-
 
 NS_FK_END
 

@@ -1,11 +1,11 @@
 /****************************************************************************
-  Copyright (c) 2015 libo All rights reserved.
-
+  Copyright (c) 2017 libo All rights reserved.
+ 
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef LOSEMYMIND_FUNCTION_TRAITS_H
-#define LOSEMYMIND_FUNCTION_TRAITS_H
+#ifndef FOUNDATIONKIT_FUNCTION_TRAITS_HPP
+#define FOUNDATIONKIT_FUNCTION_TRAITS_HPP
 
 #pragma once
 #include <tuple>
@@ -151,15 +151,6 @@ typename function_traits<Function>::pointer to_function_pointer(const Function& 
 
 } // namespace std
 
-
-#endif // LOSEMYMIND_FUNCTION_TRAITS_H
-
-
-
-
-
-
-
-
+#endif // FOUNDATIONKIT_FUNCTION_TRAITS_HPP
 
 

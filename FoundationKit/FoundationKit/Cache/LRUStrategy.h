@@ -12,14 +12,14 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 
 ****************************************************************************/
 
-#ifndef LOSEMYMIND_LRUSTRATEGY_H
-#define LOSEMYMIND_LRUSTRATEGY_H
+#ifndef FOUNDATIONKIT_LRUSTRATEGY_H
+#define FOUNDATIONKIT_LRUSTRATEGY_H
 
 #pragma once
 #include <list>
 #include <unordered_map>
 #include "AbstractStrategy.h"
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 NS_FK_BEGIN
 
 // An LRUStrategy implements least recently used cache replacement.
@@ -130,7 +130,7 @@ protected:
 };
 
 NS_FK_END
-#endif // LOSEMYMIND_LRUSTRATEGY_H
+#endif // FOUNDATIONKIT_LRUSTRATEGY_H
 
 
 

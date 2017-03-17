@@ -1,11 +1,11 @@
 /****************************************************************************
-Copyright (c) 2016 libo All rights reserved.
-
-losemymind.libo@gmail.com
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef LOSEMYMIND_DISABLE_IF_H
-#define LOSEMYMIND_DISABLE_IF_H
+#ifndef FOUNDATIONKIT_DISABLE_IF_HPP
+#define FOUNDATIONKIT_DISABLE_IF_HPP
 
 #include <utility>
 namespace std
@@ -19,7 +19,4 @@ using disable_if = std::enable_if < !_Test, _Ty >;
 
 } //namespace std
 
-#endif // LOSEMYMIND_DISABLE_IF_H
-
-
-
+#endif // FOUNDATIONKIT_DISABLE_IF_HPP

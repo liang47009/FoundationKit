@@ -1,11 +1,11 @@
 /****************************************************************************
-Copyright (c) 2016 libo All rights reserved.
-
-losemymind.libo@gmail.com
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef LOSEMYMIND_HAS_MEMBER_H
-#define LOSEMYMIND_HAS_MEMBER_H
+#ifndef FOUNDATIONKIT_HAS_MEMBER_HPP
+#define FOUNDATIONKIT_HAS_MEMBER_HPP
 
 #include <utility>
 namespace std
@@ -59,13 +59,4 @@ public:\
 };
 
 } //namespace std
-
-#endif // LOSEMYMIND_HAS_MEMBER_H
-
-
-
-
-
-
-
-
+#endif // FOUNDATIONKIT_HAS_MEMBER_HPP

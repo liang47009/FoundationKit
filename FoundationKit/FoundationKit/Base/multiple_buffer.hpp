@@ -1,16 +1,22 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
-#ifndef LOSEMYMIND_MULTIPLE_BUFFER_HPP
-#define LOSEMYMIND_MULTIPLE_BUFFER_HPP
+****************************************************************************/
+#ifndef FOUNDATIONKIT_MULTIPLE_BUFFER_HPP
+#define FOUNDATIONKIT_MULTIPLE_BUFFER_HPP
+
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include "FoundationKit/GenericPlatformMacros.h"
-#include "FoundationKit/Base/Types.h"
 #include <type_traits>
 #include <string>
 #include <vector>
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#include "FoundationKit/Base/Types.hpp"
 
 NS_FK_BEGIN
 
@@ -393,13 +399,5 @@ inline const_buffer make_const_buffer(std::basic_string<unsigned char>& buffers)
 }
 
 NS_FK_END
-#endif // LOSEMYMIND_MULTIPLE_BUFFER_HPP
 
-
-
-
-
-
-
-
-
+#endif // FOUNDATIONKIT_MULTIPLE_BUFFER_HPP

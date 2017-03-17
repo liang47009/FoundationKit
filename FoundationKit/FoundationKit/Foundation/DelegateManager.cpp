@@ -1,11 +1,11 @@
 /****************************************************************************
- Copyright (c) 2016 libo All rights reserved.
+ Copyright (c) 2017 libo All rights reserved.
  
  losemymind.libo@gmail.com
  
  ****************************************************************************/
 
-#include "DelegateManager.h"
+#include "FoundationKit/Foundation/DelegateManager.hpp"
 NS_FK_BEGIN
 
 /************************************************************************/

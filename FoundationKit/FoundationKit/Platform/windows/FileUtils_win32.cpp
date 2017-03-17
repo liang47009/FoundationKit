@@ -4,7 +4,7 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 
 #include <codecvt>
@@ -12,9 +12,9 @@ losemymind.libo@gmail.com
 #include <Shlobj.h>
 #include <cstdlib>
 #include <Windows.h>
-#include "FoundationKit/Foundation/StringUtils.h"
-#include "FoundationKit/Foundation/Logger.h"
-#include "FoundationKit/Platform/FileUtils.h"
+#include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Foundation/Logger.hpp"
+#include "FoundationKit/Platform/FileUtils.hpp"
 
 NS_FK_BEGIN
 #define IS_WMAIN 1
@@ -253,7 +253,6 @@ std::string FileUtils::getWritablePath() const
         }
     }
     if (retPath.empty())
-        //#endif // not defined _DEBUG
     {
         // If fetching of local app data directory fails, use the executable one
         retPath = full_path;

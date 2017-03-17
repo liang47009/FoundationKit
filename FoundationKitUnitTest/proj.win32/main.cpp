@@ -4,8 +4,8 @@
 #include <thread>
 #include <iostream>
 #include <atomic>
-#include "FoundationKit/Base/Timer.h"
-#include "FoundationKit/Foundation/Logger.h"
+#include "FoundationKit/Foundation/Timer.hpp"
+#include "FoundationKit/Foundation/Logger.hpp"
 
 USING_NS_FK;
 

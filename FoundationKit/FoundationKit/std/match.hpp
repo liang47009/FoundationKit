@@ -1,6 +1,11 @@
-#ifndef LOSEMYMIND_MATCH_H
-#define LOSEMYMIND_MATCH_H
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
+****************************************************************************/
+#ifndef FOUNDATIONKIT_MATCH_HPP
+#define FOUNDATIONKIT_MATCH_HPP
 
 #pragma once
 #include "FoundationKit/std/function_traits.hpp"
@@ -90,5 +95,4 @@ void matchTest()
 
 #endif
 
-#endif // LOSEMYMIND_MATCH_H
-
+#endif // FOUNDATIONKIT_MATCH_HPP

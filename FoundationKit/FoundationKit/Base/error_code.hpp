@@ -1,12 +1,18 @@
-#ifndef LOSEMYMIND_ERROR_CODE_HPP
-#define LOSEMYMIND_ERROR_CODE_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_ERROR_CODE_HPP
+#define FOUNDATIONKIT_ERROR_CODE_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include <system_error>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/noncopyable.hpp"
 
 NS_FK_BEGIN
@@ -138,8 +144,4 @@ static int  WinErrorCodeToErrc(int _Errcode)
 NS_FK_END
 
 
-#endif // LOSEMYMIND_ERROR_CODE_HPP
-
-
-
-
+#endif // FOUNDATIONKIT_ERROR_CODE_HPP

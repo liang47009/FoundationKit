@@ -6,7 +6,7 @@
 #pragma once
 
 
-#include "ProtectedMemoryAllocator.h"
+#include "ProtectedMemoryAllocator.hpp"
 
 class MemObj
 {

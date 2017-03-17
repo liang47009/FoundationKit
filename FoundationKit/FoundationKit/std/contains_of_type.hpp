@@ -1,11 +1,11 @@
 /****************************************************************************
-Copyright (c) 2016 libo All rights reserved.
-
-losemymind.libo@gmail.com
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef LOSEMYMIND_CONTAINS_OF_TYPE_H
-#define LOSEMYMIND_CONTAINS_OF_TYPE_H
+#ifndef FOUNDATIONKIT_CONTAINS_OF_TYPE_HPP
+#define FOUNDATIONKIT_CONTAINS_OF_TYPE_HPP
 
 #include <utility>
 namespace std
@@ -30,16 +30,4 @@ struct contains_of_type<T, H, R...>
     : std::conditional < std::is_same<T, H>::value, std::true_type, contains_of_type < T, R... > > ::type{};
 
 } //namespace std
-
-#endif // LOSEMYMIND_CONTAINS_OF_TYPE_H
-
-
-
-
-
-
-
-
-
-
-
+#endif // FOUNDATIONKIT_CONTAINS_OF_TYPE_HPP

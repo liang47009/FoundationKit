@@ -12,14 +12,14 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 
 ****************************************************************************/
 
-#ifndef LOSEMYMIND_LRUCACHE_H
-#define LOSEMYMIND_LRUCACHE_H
+#ifndef FOUNDATIONKIT_LRUCACHE_H
+#define FOUNDATIONKIT_LRUCACHE_H
 
 #pragma once
 
 #include "AbstractCache.h"
 #include "LRUStrategy.h"
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 NS_FK_BEGIN
 
 template < typename TKey, typename TValue >
@@ -44,7 +44,7 @@ private:
 };
 
 NS_FK_END
-#endif // LOSEMYMIND_LRUCACHE_H
+#endif // FOUNDATIONKIT_LRUCACHE_H
 
 
 

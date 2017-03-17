@@ -1,13 +1,11 @@
 /****************************************************************************
-  Copyright (c) 2015 libo All rights reserved.
+  Copyright (c) 2017 libo All rights reserved.
  
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-//================= Template Method =================
-
-#ifndef LOSEMYMIND_VALUE_INL
-#define LOSEMYMIND_VALUE_INL
+#ifndef FOUNDATIONKIT_VALUE_INL
+#define FOUNDATIONKIT_VALUE_INL
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -22,7 +20,6 @@ T Value::as()
 {
     assert(false);
 }
-
 
 template<>
 inline uint8 Value::as<uint8>()
@@ -116,7 +113,5 @@ inline std::string Value::as<std::string>()
 }
 
 NS_FK_END
-#endif // LOSEMYMIND_VALUE_INL
 
-
-
+#endif // FOUNDATIONKIT_VALUE_INL

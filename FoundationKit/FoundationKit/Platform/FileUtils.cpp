@@ -1,5 +1,5 @@
 /****************************************************************************
- Copyright (c) 2015 libo All rights reserved.
+ Copyright (c) 2017 libo All rights reserved.
  
  losemymind.libo@gmail.com
  
@@ -10,9 +10,9 @@
 #include <cassert>
 #include <locale>
 #include <dirent.h> // for DIR
-#include "FileUtils.h"
-#include "FoundationKit/Foundation/Logger.h"
-#include "FoundationKit/Foundation/StringUtils.h"
+#include "FoundationKit/Platform/FileUtils.hpp"
+#include "FoundationKit/Foundation/Logger.hpp"
+#include "FoundationKit/Foundation/StringUtils.hpp"
 #include "unzip.h"
 
 //#include <codecvt> //ndk is not support
@@ -508,7 +508,6 @@ std::string FileUtils::getDirName(const std::string& dirPath)const
     {
         dirName = tempPath.substr(pos+1, tempPath.length());
     }
-
     return dirName;
 }
 

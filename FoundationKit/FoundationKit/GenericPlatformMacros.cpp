@@ -3,8 +3,8 @@
 #include <cstdarg>
 #include <cstdio>
 #include <cassert>
-#include "FoundationKit/Foundation/StringUtils.h"
-#include "FoundationMacros.h"
+#include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationMacros.hpp"
 #if (TARGET_PLATFORM == PLATFORM_ANDROID)
 #include <android/log.h>
 #elif (TARGET_PLATFORM == PLATFORM_WINDOWS)

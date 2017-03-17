@@ -13,12 +13,12 @@ Original file from pocoproject: https://github.com/pocoproject/poco
 ****************************************************************************/
 
 
-#ifndef LOSEMYMIND_ABSTRACTSTRATEGY_H
-#define LOSEMYMIND_ABSTRACTSTRATEGY_H
+#ifndef FOUNDATIONKIT_ABSTRACTSTRATEGY_H
+#define FOUNDATIONKIT_ABSTRACTSTRATEGY_H
 
 #pragma once
 #include "KeyValueArgs.h"
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 NS_FK_BEGIN
 
 template <class TKey, class TValue>
@@ -68,7 +68,7 @@ public:
 };
 
 NS_FK_END
-#endif // LOSEMYMIND_ABSTRACTSTRATEGY_H
+#endif // FOUNDATIONKIT_ABSTRACTSTRATEGY_H
 
 
 
