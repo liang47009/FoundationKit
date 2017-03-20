@@ -18,6 +18,9 @@
     <ClCompile Include="..\HTTPClient\MimeTypes.cpp">
       <Filter>HTTPClient</Filter>
     </ClCompile>
+    <ClCompile Include="..\HTTPClient\libcurl_init.cpp">
+      <Filter>HTTPClient</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\HTTPClient\HTTPClient.hpp">
@@ -30,6 +33,9 @@
       <Filter>HTTPClient</Filter>
     </ClInclude>
     <ClInclude Include="..\HTTPClient\MimeTypes.h">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\HTTPClient\libcurl_init.hpp">
       <Filter>HTTPClient</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,8 +2,8 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include "FoundationKit/FoundationMacros.h"
-#include "FoundationKit/Base/Types.h"
+#include "FoundationKit/FoundationMacros.hpp"
+#include "FoundationKit/Base/types.hpp"
 
 NS_FK_BEGIN
 namespace network{

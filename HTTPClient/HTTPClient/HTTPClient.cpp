@@ -1,7 +1,7 @@
 #include "HTTPClient.hpp"
-#include "FoundationKit/Foundation/Logger.h"
-#include "FoundationKit/Platform/FileUtils.h"
-#include "FoundationKit/Networking/libcurl_init.hpp"
+#include "FoundationKit/Foundation/Logger.hpp"
+#include "FoundationKit/Platform/FileUtils.hpp"
+#include "libcurl_init.hpp"
 
 #if TARGET_PLATFORM == PLATFORM_ANDROID
 // in AndroidJNI::initializeJavaEnv

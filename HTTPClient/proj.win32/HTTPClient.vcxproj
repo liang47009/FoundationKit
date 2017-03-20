@@ -14,12 +14,14 @@
     <ClCompile Include="..\HTTPClient\HTTPClient.cpp" />
     <ClCompile Include="..\HTTPClient\HTTPRequest.cpp" />
     <ClCompile Include="..\HTTPClient\HTTPResponse.cpp" />
+    <ClCompile Include="..\HTTPClient\libcurl_init.cpp" />
     <ClCompile Include="..\HTTPClient\MimeTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\HTTPClient\HTTPClient.hpp" />
     <ClInclude Include="..\HTTPClient\HTTPRequest.hpp" />
     <ClInclude Include="..\HTTPClient\HTTPResponse.hpp" />
+    <ClInclude Include="..\HTTPClient\libcurl_init.hpp" />
     <ClInclude Include="..\HTTPClient\MimeTypes.h" />
   </ItemGroup>
   <ItemGroup>
@@ -63,9 +65,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../FoundationKit;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit;$(ProjectDir)/../HTTPClient/external/win32/i386/include/curl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -80,9 +82,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../FoundationKit</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit;$(ProjectDir)/../HTTPClient/external/win32/i386/include/curl</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

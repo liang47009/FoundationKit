@@ -8,9 +8,9 @@
 #include <memory>
 #include <unordered_map>
 #include "curl.h"
-#include "FoundationKit/FoundationMacros.h"
-#include "FoundationKit/Foundation/ITickable.h"
-#include "FoundationKit/Base/Types.h"
+#include "FoundationKit/FoundationMacros.hpp"
+#include "FoundationKit/Foundation/ITickable.hpp"
+#include "FoundationKit/Base/types.hpp"
 
 
 NS_FK_BEGIN
@@ -18,9 +18,6 @@ NS_FK_BEGIN
 #ifdef DELETE
 #undef DELETE
 #endif
-
-#define REQUIRED
-#define OPTIONAL
 
 namespace network{
 enum class HttpStatusCode

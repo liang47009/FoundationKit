@@ -8,9 +8,8 @@ losemymind.libo@gmail.com
 #define LOSEMYMIND_MIMETYPES_H
 
 #pragma once
+#include "FoundationKit/GenericPlatformMacros.hpp"
 #include <string>
-
-#include "FoundationKit/GenericPlatformMacros.h"
 
 NS_FK_BEGIN
 namespace network{

@@ -1,8 +1,8 @@
 
 #include "HTTPRequest.hpp"
 #include "HTTPResponse.hpp"
-#include "FoundationKit/Foundation/Logger.h"
-#include "FoundationKit/Foundation/StringUtils.h"
+#include "FoundationKit/Foundation/Logger.hpp"
+#include "FoundationKit/Foundation/StringUtils.hpp"
 NS_FK_BEGIN
 namespace network{
 HTTPResponse::HTTPResponse(RequestPtr pRequest)
