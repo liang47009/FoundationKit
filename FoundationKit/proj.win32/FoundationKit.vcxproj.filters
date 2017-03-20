@@ -120,9 +120,6 @@
     <ClInclude Include="..\FoundationKit\Base\nonmovable.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\Runnable.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\GenericPlatformMacros.hpp" />
     <ClInclude Include="..\FoundationKit\LanguageFeatures.hpp" />
     <ClInclude Include="..\FoundationKit\FoundationMacros.hpp" />

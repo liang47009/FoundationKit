@@ -185,7 +185,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\multiple_buffer.hpp" />
     <ClInclude Include="..\FoundationKit\Base\noncopyable.hpp" />
     <ClInclude Include="..\FoundationKit\Base\nonmovable.hpp" />
-    <ClInclude Include="..\FoundationKit\Base\Runnable.hpp" />
     <ClInclude Include="..\FoundationKit\Base\types.hpp" />
     <ClInclude Include="..\FoundationKit\Cache\AbstractCache.h" />
     <ClInclude Include="..\FoundationKit\Cache\AbstractStrategy.h" />
