@@ -4,13 +4,14 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 
 #if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
-#include "FileUtils.h"
-#include "FoundationKit/Foundation/Logger.h"
-#include <ftw.h>
+
 #import <Foundation/Foundation.h>
+#include <ftw.h>
+#include "FoundationKit/Foundation/Logger.hpp"
+#include "FileUtils.hpp"
 NS_FK_BEGIN
 
 void FileUtils::initRootPath()

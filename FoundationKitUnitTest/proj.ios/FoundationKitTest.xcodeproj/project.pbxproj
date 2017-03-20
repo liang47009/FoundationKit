@@ -8,17 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0907E8421CE0940900A65A3C /* AdSupport.framework */; };
+		093490EC1E7F7D740034ECF2 /* libFoundationKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 093490EB1E7F7D740034ECF2 /* libFoundationKit.a */; };
 		09C19B011BABB760007A8C99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B001BABB760007A8C99 /* main.m */; };
 		09C19B041BABB760007A8C99 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B031BABB760007A8C99 /* AppDelegate.mm */; };
 		09C19B071BABB760007A8C99 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B061BABB760007A8C99 /* ViewController.m */; };
 		09C19B0A1BABB760007A8C99 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09C19B081BABB760007A8C99 /* Main.storyboard */; };
 		09C19B0C1BABB761007A8C99 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09C19B0B1BABB761007A8C99 /* Images.xcassets */; };
 		09C19B0F1BABB761007A8C99 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09C19B0D1BABB761007A8C99 /* LaunchScreen.xib */; };
-		09C19B251BABB7FC007A8C99 /* libFoundationKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09C19B241BABB7FC007A8C99 /* libFoundationKit.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0907E8421CE0940900A65A3C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		093490EB1E7F7D740034ECF2 /* libFoundationKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFoundationKit.a; path = "../../../../../Library/Developer/Xcode/DerivedData/FoundationKitFramework-gqtmmrnbxavaofbusneqnsvkmpwv/Build/Products/Debug-iphoneos/libFoundationKit.a"; sourceTree = "<group>"; };
 		09C19AFB1BABB760007A8C99 /* FoundationKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoundationKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C19AFF1BABB760007A8C99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		09C19B001BABB760007A8C99 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -29,7 +30,6 @@
 		09C19B091BABB760007A8C99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		09C19B0B1BABB761007A8C99 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		09C19B0E1BABB761007A8C99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		09C19B241BABB7FC007A8C99 /* libFoundationKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFoundationKit.a; path = "../../../../../Users/libo/Library/Developer/Xcode/DerivedData/DevelopmentFramework-fuuadyvxzevfhybsvwcaaycwclyi/Build/Products/Debug-iphoneos/libFoundationKit.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,21 +37,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				093490EC1E7F7D740034ECF2 /* libFoundationKit.a in Frameworks */,
 				0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */,
-				09C19B251BABB7FC007A8C99 /* libFoundationKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		093490EA1E7F7D740034ECF2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				093490EB1E7F7D740034ECF2 /* libFoundationKit.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		09C19AF21BABB760007A8C99 = {
 			isa = PBXGroup;
 			children = (
 				0907E8421CE0940900A65A3C /* AdSupport.framework */,
-				09C19B241BABB7FC007A8C99 /* libFoundationKit.a */,
 				09C19AFD1BABB760007A8C99 /* FoundationKitTest */,
 				09C19AFC1BABB760007A8C99 /* Products */,
+				093490EA1E7F7D740034ECF2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -113,7 +121,7 @@
 		09C19AF31BABB760007A8C99 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = libo;
 				TargetAttributes = {
 					09C19AFA1BABB760007A8C99 = {
@@ -200,8 +208,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -224,7 +234,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "42480b84-275f-4c81-a8e4-be293fa98f6a";
@@ -246,8 +256,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -263,7 +275,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "42480b84-275f-4c81-a8e4-be293fa98f6a";
 				SDKROOT = iphoneos;
@@ -293,7 +305,7 @@
 					../../FoundationKit,
 				);
 				INFOPLIST_FILE = FoundationKitTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -327,7 +339,7 @@
 					../../FoundationKit,
 				);
 				INFOPLIST_FILE = FoundationKitTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

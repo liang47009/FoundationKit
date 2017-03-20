@@ -5,8 +5,8 @@
 #ifndef LOSEMYMIND_APPLEPLATFORMTLS_H
 #define LOSEMYMIND_APPLEPLATFORMTLS_H
 
-#include "FoundationKit/GenericPlatformMacros.h"
-#include "FoundationKit/Base/Types.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#include "FoundationKit/Base/types.hpp"
 #include <pthread.h>
 NS_FK_BEGIN
 

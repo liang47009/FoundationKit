@@ -7,16 +7,13 @@
 //
 
 #import "AppDelegate.h"
-#include "FoundationKit/Foundation/Scheduler.h"
-#include "FoundationKit/Foundation/Logger.h"
-#include "FoundationKit/Base/Dictionary.h"
-#include "FoundationKit/std/any.hpp"
-#include "FoundationKit/std/optional.hpp"
+#include "FoundationKit/Foundation/Logger.hpp"
+#include "FoundationKit/Foundation/Dictionary.hpp"
+#include "FoundationKit/Foundation/DateTime.hpp"
+#include "FoundationKit/Foundation/Rect.hpp"
+#include "FoundationKit/Platform/PlatformTLS.hpp"
+#include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/std/function_traits.hpp"
-#include "FoundationKit/Platform/Platform.h"
-#include "FoundationKit/Base/DateTime.h"
-#include "FoundationKit/Base/Rect.h"
-#include "FoundationKit/Platform/PlatformTLS.h"
 
 using namespace FoundationKit;
 
@@ -30,8 +27,6 @@ using namespace FoundationKit;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
-    LOG_INFO("======= didFinishLaunchingWithOptions ");
-    Scheduler::getInstance()->setTimeScale(1.0f);
     LOG_INFO("==== mac address:%s", Platform::getMacAddress().c_str());
 
     LOG_INFO("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());

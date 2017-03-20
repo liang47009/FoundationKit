@@ -4,7 +4,7 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
-#include "ProtectedMemoryAllocator.h"
+#include "ProtectedMemoryAllocator.hpp"
 #include <assert.h>
 
 ProtectedMemoryAllocator::ProtectedMemoryAllocator(vm_size_t pool_size)
