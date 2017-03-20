@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="HTTPClient">
+      <UniqueIdentifier>{210ff8e0-229c-446b-8dca-0dd3265c00de}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\HTTPClient\HTTPClient.cpp">
+      <Filter>HTTPClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\HTTPClient\HTTPRequest.cpp">
+      <Filter>HTTPClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\HTTPClient\HTTPResponse.cpp">
+      <Filter>HTTPClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\HTTPClient\MimeTypes.cpp">
+      <Filter>HTTPClient</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\HTTPClient\HTTPClient.hpp">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\HTTPClient\HTTPRequest.hpp">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\HTTPClient\HTTPResponse.hpp">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\HTTPClient\MimeTypes.h">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

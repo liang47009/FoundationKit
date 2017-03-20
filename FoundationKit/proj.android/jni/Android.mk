@@ -47,15 +47,11 @@ LOCAL_SRC_FILES := \
 
 LOCAL_C_INCLUDES := \
 $(LOCAL_PATH)/../../ \
-$(LOCAL_PATH)/../../FoundationKit/external/unzip \
-$(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/curl \
-$(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/luajit
+$(LOCAL_PATH)/../../FoundationKit/external/unzip
 
 LOCAL_EXPORT_C_INCLUDES := \
 $(LOCAL_PATH)/../../ \
-$(LOCAL_PATH)/../../FoundationKit/external/unzip \
-$(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/curl \
-$(LOCAL_PATH)/../../FoundationKit/external/android/$(TARGET_ARCH_ABI)/include/luajit
+$(LOCAL_PATH)/../../FoundationKit/external/unzip
 
 LOCAL_CFLAGS :=  -DUSE_FILE32API -DANDROID
 LOCAL_EXPORT_CFLAGS += -DUSE_FILE32API -DANDROID
@@ -78,14 +74,10 @@ LOCAL_EXPORT_CPPFLAGS += -DUSE_NEON
 endif
 
 LOCAL_WHOLE_STATIC_LIBRARIES += androidjni
-LOCAL_WHOLE_STATIC_LIBRARIES += libluajit_static
-LOCAL_WHOLE_STATIC_LIBRARIES += libcurl_static
-
 
 include $(BUILD_STATIC_LIBRARY)
 $(call import-add-path,$(LOCAL_PATH)/../../FoundationKit)
 $(call import-module,Platform/Android/AndroidJNI)
-$(call import-module,external/android)
 
 #==============================================================
 $(info ----------------- Compile libfoundationkit infomation -------------------)
