@@ -141,10 +141,15 @@ std::string FileUtils::fullPathForFilename(const std::string &filename) const
     {
         return filename;
     }
+    std::string fullPath = _resourceRootPath + filename;
+    if (isFileExist(fullPath))
+    {
+        return fullPath;
+    }
 
     for (const auto& searchIt : _searchPaths)
     {
-        std::string fullPath = _resourceRootPath + searchIt + filename;
+        fullPath = _resourceRootPath + searchIt + filename;
         if (isFileExist(fullPath))
         {
             return fullPath;
@@ -383,10 +388,10 @@ std::string FileUtils::getFileNameWithoutExtension(const std::string& filePath)c
         size_t posEnd = filePath.find_last_of(".");
         if (posEnd == std::string::npos)
             posEnd = filePath.size() - 1;
-        if (posStart != std::string::npos)
-        {
-            fileName = filePath.substr(posStart + 1, posEnd - posStart-1);
-        }
+        if (posStart == std::string::npos)
+            posStart = -1;
+
+        fileName = filePath.substr(posStart + 1, posEnd - posStart - 1);
     }
     return fileName;
 }
@@ -511,6 +516,22 @@ std::string FileUtils::getDirName(const std::string& dirPath)const
     return dirName;
 }
 
+
+std::string FoundationKit::FileUtils::getDirPath(const std::string& path)
+{
+    if (isDirectory(path))
+        return path;
+
+    std::string tempPath = convertPathFormatToUnixStyle(path);
+    std::string dirPath;
+    size_t pos = tempPath.find_last_of('/');
+    if (pos != std::string::npos)
+    {
+        dirPath = tempPath.substr(0, pos+1);
+    }
+    return dirPath;
+
+}
 
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 // windows os implement should override in platform specific FileUtiles class
