@@ -189,6 +189,7 @@ private:
 
     void move(mutable_buffer&& other)
     {
+        clear();
         this->_data = other._data;
         this->_size = other._size;
         this->_owner = other._owner;
