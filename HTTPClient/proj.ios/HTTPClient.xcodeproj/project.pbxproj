@@ -244,6 +244,8 @@
 		0934922C1E80F26F0034ECF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../FoundationKit/",
 					"$(PROJECT_DIR)/../HTTPClient/external/ios/include/curl/",
@@ -257,6 +259,8 @@
 		0934922D1E80F26F0034ECF2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../FoundationKit/",
 					"$(PROJECT_DIR)/../HTTPClient/external/ios/include/curl/",

@@ -303,6 +303,7 @@
 					FK_TARGET_OS_IPHONE,
 					IOS,
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../FoundationKit";
 				INFOPLIST_FILE = FoundationKitTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -330,6 +331,7 @@
 					FK_TARGET_OS_IPHONE,
 					IOS,
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../FoundationKit";
 				INFOPLIST_FILE = FoundationKitTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
