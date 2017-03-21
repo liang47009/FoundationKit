@@ -28,7 +28,8 @@ class Singleton : noncopyable
 public:
     inline static instance_pointer getInstance()
     {
-        std::call_once(m_once, [&]{
+        std::call_once(m_once, [&]
+        {
             m_instance = new (std::nothrow) instance_type();
             if (destroy_on_exit)
             {

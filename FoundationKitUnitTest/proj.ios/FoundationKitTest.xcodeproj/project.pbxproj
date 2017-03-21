@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0907E8421CE0940900A65A3C /* AdSupport.framework */; };
 		093490EC1E7F7D740034ECF2 /* libFoundationKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 093490EB1E7F7D740034ECF2 /* libFoundationKit.a */; };
+		093492E01E8106FF0034ECF2 /* libHTTPClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 093492DF1E8106FF0034ECF2 /* libHTTPClient.a */; };
 		09C19B011BABB760007A8C99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B001BABB760007A8C99 /* main.m */; };
 		09C19B041BABB760007A8C99 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B031BABB760007A8C99 /* AppDelegate.mm */; };
 		09C19B071BABB760007A8C99 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B061BABB760007A8C99 /* ViewController.m */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		0907E8421CE0940900A65A3C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		093490EB1E7F7D740034ECF2 /* libFoundationKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFoundationKit.a; path = "../../../../../Library/Developer/Xcode/DerivedData/FoundationKitFramework-gqtmmrnbxavaofbusneqnsvkmpwv/Build/Products/Debug-iphoneos/libFoundationKit.a"; sourceTree = "<group>"; };
+		093492DF1E8106FF0034ECF2 /* libHTTPClient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHTTPClient.a; path = "../../../../../Library/Developer/Xcode/DerivedData/FoundationKitFramework-gqtmmrnbxavaofbusneqnsvkmpwv/Build/Products/Debug-iphoneos/libHTTPClient.a"; sourceTree = "<group>"; };
 		09C19AFB1BABB760007A8C99 /* FoundationKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoundationKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C19AFF1BABB760007A8C99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		09C19B001BABB760007A8C99 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -37,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				093492E01E8106FF0034ECF2 /* libHTTPClient.a in Frameworks */,
 				093490EC1E7F7D740034ECF2 /* libFoundationKit.a in Frameworks */,
 				0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */,
 			);
@@ -48,6 +51,7 @@
 		093490EA1E7F7D740034ECF2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				093492DF1E8106FF0034ECF2 /* libHTTPClient.a */,
 				093490EB1E7F7D740034ECF2 /* libFoundationKit.a */,
 			);
 			name = Frameworks;
@@ -299,7 +303,8 @@
 					FK_TARGET_OS_IPHONE,
 					IOS,
 				);
-				HEADER_SEARCH_PATHS = ../../FoundationKit;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../FoundationKit";
 				INFOPLIST_FILE = FoundationKitTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -326,7 +331,8 @@
 					FK_TARGET_OS_IPHONE,
 					IOS,
 				);
-				HEADER_SEARCH_PATHS = ../../FoundationKit;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../FoundationKit";
 				INFOPLIST_FILE = FoundationKitTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

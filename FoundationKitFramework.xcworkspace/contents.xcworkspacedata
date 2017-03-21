@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:HTTPClient/proj.ios/HTTPClient.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:FoundationKitUnitTest/proj.ios/FoundationKitTest.xcodeproj">
    </FileRef>
    <FileRef

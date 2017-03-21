@@ -50,9 +50,9 @@ public:
     /**
      * Delegate called when an Http request completes
      *
-     * @param first parameter - original Http request that started things
-     * @param second parameter - response received from the server if a successful connection was established
-     * @param third parameter - indicates whether or not the request was able to connect successfully
+     * first parameter - original Http request that started things
+     * second parameter - response received from the server if a successful connection was established
+     * third parameter - indicates whether or not the request was able to connect successfully
      */
     using HttpRequestCompleteDelegate = std::function < void(HTTPRequest::Pointer, ResponsePtr, bool) >;
     //typedef std::function < void(HTTPRequest::Pointer, ResponsePtr, bool) > HttpRequestCompleteDelegate;
@@ -60,11 +60,11 @@ public:
     /**
      * Delegate called per tick to update an Http request upload or download size progress
      *
-     * @param 1 parameter - original Http request that started things
-     * @param 2 parameter - the number of bytes total download in the request so far.
-     * @param 3 parameter - the number of bytes current download in the request so far.
-     * @param 4 parameter - the number of bytes total upload in the request so far.
-     * @param 5 parameter - the number of bytes current upload in the request so far.
+     * 1 parameter - original Http request that started things
+     * 2 parameter - the number of bytes total download in the request so far.
+     * 3 parameter - the number of bytes current download in the request so far.
+     * 4 parameter - the number of bytes total upload in the request so far.
+     * 5 parameter - the number of bytes current upload in the request so far.
      */
     using HttpRequestProgressDelegate = std::function < void(HTTPRequest::Pointer, int64, int64, int64, int64) >;
     //typedef std::function < void(HTTPRequest::Pointer, int32, int32) > HttpRequestProgressDelegate;
@@ -199,7 +199,7 @@ private:
     /**
      * Method called when libcurl wants us to supply more data (see CURLOPT_READFUNCTION)
      *
-     * @param ptr buffer to copy data to (allocated and managed by libcurl)
+     * @param buffer buffer to copy data to (allocated and managed by libcurl)
      * @param sizeInBlocks size of above buffer, in 'blocks'
      * @param blockSizeInBytes size of a single block
      * @return number of bytes actually written to buffer, or CURL_READFUNC_ABORT to abort the operation
@@ -211,9 +211,9 @@ private:
      * line by line (i.e. this callback will be called with a full line), not necessarily zero-terminated. This callback will
      * be also passed any intermediate headers, not only final response's ones.
      *
-     * @param ptr buffer to copy data to (allocated and managed by libcurl)
+     * @param buffer buffer to copy data to (allocated and managed by libcurl)
      * @param sizeInBlocks size of above buffer, in 'blocks'
-     * @param BlockSizeInBytes size of a single block
+     * @param blockSizeInBytes size of a single block
      * @return number of bytes actually processed, error is triggered if it does not match number of bytes passed
      */
     size_t receiveResponseHeaderCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes);
@@ -221,7 +221,7 @@ private:
     /**
      * Method called when libcurl wants us to receive response body (see CURLOPT_WRITEFUNCTION)
      *
-     * @param ptr buffer to copy data to (allocated and managed by libcurl)
+     * @param buffer buffer to copy data to (allocated and managed by libcurl)
      * @param sizeInBlocks size of above buffer, in 'blocks'
      * @param blockSizeInBytes size of a single block
      * @return number of bytes actually processed, error is triggered if it does not match number of bytes passed
