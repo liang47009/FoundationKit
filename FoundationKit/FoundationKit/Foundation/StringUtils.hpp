@@ -54,7 +54,7 @@ static std::string join(std::string delim, std::vector<std::string> values);
 /**
  * @brief Converts basic numeric types to strings.
  * @param[in]  val         The basic numeric.
- * @param[in]  percision   Number of precision.
+ * @param[in]  precision   Number of precision.
  * @usage tostring(val);
  */
 template<class _Val>

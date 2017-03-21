@@ -10,7 +10,7 @@ namespace
     /**
      * A callback that libcurl will use to allocate memory
      *
-     * @param Size size of allocation in bytes
+     * @param size size of allocation in bytes
      * @return Pointer to memory chunk or NULL if failed
      */
     void* custom_curl_malloc(size_t size)
@@ -21,7 +21,7 @@ namespace
     /**
      * A callback that libcurl will use to free memory
      *
-     * @param Ptr pointer to memory chunk (may be NULL)
+     * @param ptr pointer to memory chunk (may be NULL)
      */
     void custom_curl_free(void* ptr)
     {
@@ -31,8 +31,8 @@ namespace
     /**
      * A callback that libcurl will use to reallocate memory
      *
-     * @param Ptr pointer to existing memory chunk (may be NULL)
-     * @param Size size of allocation in bytes
+     * @param ptr pointer to existing memory chunk (may be NULL)
+     * @param size size of allocation in bytes
      * @return Pointer to memory chunk or NULL if failed
      */
     void* custom_curl_realloc(void* ptr, size_t size)
@@ -43,7 +43,7 @@ namespace
     /**
      * A callback that libcurl will use to duplicate a string
      *
-     * @param ZeroTerminatedString pointer to string (ANSI or UTF-8, but this does not matter in this case)
+     * @param zeroTerminatedString pointer to string (ANSI or UTF-8, but this does not matter in this case)
      * @return Pointer to a copy of string
      */
     char* custom_curl_strdup(const char * zeroTerminatedString)
@@ -65,8 +65,8 @@ namespace
     /**
      * A callback that libcurl will use to allocate zero-initialized memory
      *
-     * @param NumElems number of elements to allocate (may be 0, then NULL should be returned)
-     * @param ElemSize size of each element in bytes (may be 0)
+     * @param numElems number of elements to allocate (may be 0, then NULL should be returned)
+     * @param elemSize size of each element in bytes (may be 0)
      * @return Pointer to memory chunk, filled with zeroes or NULL if failed
      */
     void* custom_curl_calloc(size_t numElems, size_t elemSize)
