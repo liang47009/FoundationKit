@@ -26,7 +26,7 @@ void __fail__(const char* expr, const char* file, int line)
     _assert(expr, file, line);
 # elif defined _MSC_VER
     #if DEBUG_MODE
-        _CrtDbgReport(_CRT_ASSERT, file, line, expr, "");
+    _CrtDbgReport(_CRT_ASSERT, file, line, file, expr);
     #else
     UNUSED_ARG(file);
     UNUSED_ARG(line);

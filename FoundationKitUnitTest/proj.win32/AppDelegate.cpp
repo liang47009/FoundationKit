@@ -52,12 +52,14 @@ void runClient();
 
 void ParseAppleDeviceData();
 
-AppDelegate::AppDelegate() {
+AppDelegate::AppDelegate() 
+{
 
 }
 
 AppDelegate::~AppDelegate() 
 {
+
 }
 
 
@@ -72,82 +74,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     std::error_code ec;
     std::string strErr = ec.message();
-    FileUtils* pFileUtils = FileUtils::getInstance();
-    pFileUtils->setDefaultResourceRootPath("F:/temp/com.netease.zztj/files/NeoX/");
-
-    auto is_npk_file = [](const std::string& path)
-    {
-        return (path.find(".npk") != std::string::npos);
-    };
-
-    auto is_npkheader_file = [](const std::string& path)
-    {
-        return (path.find(".npk.header") != std::string::npos);
-    };
-
-    auto is_npkmap_file = [](const std::string& path)
-    {
-        return (path.find(".npk.map") != std::string::npos);
-    };
-
-    std::vector<std::string>  npkFilesPath;
-    std::vector<std::string>  npkMapsPath;
-    std::vector<std::string>  npkHeadersPath;
-
-    std::vector<std::string> filelist = pFileUtils->readAllLines(pFileUtils->fullPathForFilename("filelist.txt"));
-    for (auto& fileline : filelist)
-    {
-        std::vector<std::string> lineArgs = StringUtils::split(fileline, "\t");
-        if (lineArgs.size()==0) continue;
-
-        if (is_npkheader_file(lineArgs[0]))
-        {
-            npkHeadersPath.push_back(lineArgs[0]);
-            continue;
-        }
-
-        if (is_npkmap_file(lineArgs[0]))
-        {
-            npkMapsPath.push_back(lineArgs[0]);
-            continue;
-        }
-
-        if (is_npk_file(lineArgs[0]))
-        {
-            npkFilesPath.push_back(lineArgs[0]);
-        }
-    }
-
-    std::string fileName111 = pFileUtils->getFileNameWithoutExtension(pFileUtils->fullPathForFilename("filelist.txt"));
-    std::string releaseRootPath = pFileUtils->getResourceRootPath() + "Documents/";
-    for (auto& npkFile : npkFilesPath)
-    {
-        std::string npkfullpath = pFileUtils->fullPathForFilename(npkFile);
-        std::string npkMapfullpath = pFileUtils->fullPathForFilename(npkFile+".map");
-        std::string fileName = pFileUtils->getFileNameWithoutExtension(npkFile);
-        std::string finallyPath = releaseRootPath + fileName+"/";
-        pFileUtils->createDirectory(finallyPath);
-        std::vector<std::string> npkMapLines = pFileUtils->readAllLines(npkMapfullpath);
-        if (npkMapLines.size() == 0)continue;
-        FILE* npkfp = fopen(npkfullpath.c_str(), "rb");
-        for (auto& npkmapline:npkMapLines)
-        {
-            std::vector<std::string> lineArgs = StringUtils::split(npkmapline, "\t");
-            if (lineArgs.size() != 7) continue;
-            std::string filePath = lineArgs[0];
-            int     compressSize = atoi(lineArgs[2].c_str());
-            if (compressSize == 0) continue;
-            int     uncompressSize = atoi(lineArgs[4].c_str());
-            int     offset = atoi(lineArgs[6].c_str());
-            char* fileData = new char[compressSize];
-            fseek(npkfp, offset, SEEK_CUR);
-            fread(fileData, 1, compressSize, npkfp);
-            pFileUtils->createDirectory(pFileUtils->getDirPath(finallyPath + filePath));
-            pFileUtils->writeDataToFile(mutable_buffer(fileData, compressSize), finallyPath + filePath);
-            delete fileData;
-        }
-        fclose(npkfp);
-    }
 
     //std::vector<std::string>  files;
     //FileUtils::getInstance()->getFilesFromDir("E:\\GitHub\\FoundationKit\\FoundationKit\\FoundationKit", files, true);

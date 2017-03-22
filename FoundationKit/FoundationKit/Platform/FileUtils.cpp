@@ -114,7 +114,7 @@ std::string FileUtils::convertPathFormatToUnixStyle(const std::string& path)
 
 void FileUtils::setDefaultResourceRootPath(const std::string& path)
 {
-    LOG_ASSERT(!path.empty(), "setDefaultResourceRootPath:Invalid path.");
+    ASSERTED(!path.empty(), "path must be not empty.");
     _resourceRootPath = path;
     if (_resourceRootPath.back() != '/' && _resourceRootPath.back() != '\\')
     {
@@ -192,7 +192,7 @@ const std::vector<std::string>& FileUtils::getSearchPaths() const
 
 void FileUtils::setWritablePath(const std::string& writablePath)
 {
-    LOG_ASSERT(!writablePath.empty(), "setDefaultResourceRootPath:Invalid path.");
+    ASSERTED(!writablePath.empty(), "writablePath is a invalid path.");
     _writablePath = writablePath;
     if (_writablePath.back() != '/' && _writablePath.back() != '\\')
     {
@@ -224,6 +224,7 @@ bool FileUtils::isDirectoryExist(const std::string& dirPath) const
 
 bool FileUtils::isDirectory(const std::string& path)const
 {
+    ASSERTED(!path.empty(),"path must be not empty.");
     return path[path.size() - 1] == '/' || path[path.size() - 1] == '\\';
 }
 
@@ -317,7 +318,8 @@ bool FileUtils::writeStringToFile(const std::string& dataStr, const std::string&
 
 bool FileUtils::writeDataToFile(mutable_buffer retData, const std::string& fullPath, bool append/* = false*/)
 {
-    LOG_ASSERT(!fullPath.empty() && retData.size() != 0, "Invalid parameters.");
+    ASSERTED(retData.size() != 0, "Invalid parameters:retData.");
+    ASSERTED(!fullPath.empty(), "fullPath must be not empty.");
     do
     {
         // Read the file from hardware
@@ -387,11 +389,11 @@ std::string FileUtils::getFileNameWithoutExtension(const std::string& filePath)c
         size_t posStart = filePath.find_last_of("/");
         size_t posEnd = filePath.find_last_of(".");
         if (posEnd == std::string::npos)
-            posEnd = filePath.size() - 1;
+            posEnd = filePath.size();
         if (posStart == std::string::npos)
-            posStart = -1;
-
-        fileName = filePath.substr(posStart + 1, posEnd - posStart - 1);
+            fileName = filePath.substr(0, posEnd);
+        else
+            fileName = filePath.substr(posStart + 1, posEnd - posStart - 1);
     }
     return fileName;
 }
@@ -412,8 +414,7 @@ std::string FileUtils::getFilePathWithoutFileName(const std::string& filePath)co
 
 long FileUtils::getFileSize(const std::string &filepath)const
 {
-    LOG_ASSERT(!filepath.empty(), "Invalid path");
-
+    ASSERTED(!filepath.empty(), "filepath must be not empty.");
     std::string fullpath = filepath;
     if (!isAbsolutePath(filepath))
     {
