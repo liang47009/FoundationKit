@@ -1,10 +1,10 @@
 
 LOCAL_PATH := $(call my-dir)
 
-include $(CLEAR_VARS)
-SRCROOT := ../..
-PROJECT_DIR=$(LOCAL_PATH)/../..
 
+include $(CLEAR_VARS)
+SRCROOT := ../../..
+PROJECT_DIR=$(LOCAL_PATH)/../../..
 LOCAL_MODULE := foundationkit
 LOCAL_MODULE_FILENAME := libfoundationkit
 LOCAL_SRC_FILES := \
