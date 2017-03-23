@@ -69,7 +69,7 @@ typedef signed long long	int64;		// 64-bit signed.
 // Floating point types
 typedef float		        float32;    // 32-bit signed.
 typedef double		        float64;    // 64-bit signed.
-typedef long double         float128;   // 80-bit signed.
+//typedef long double         float128;   // 80-bit signed.
 
 // Character types.
 typedef char				ANSICHAR;	// An ANSI character       -                  8-bit fixed-width representation of 7-bit characters.
@@ -119,7 +119,7 @@ namespace TypeTest
     static_assert(sizeof(int64) == 8, "int64 type size test failed.");
     static_assert(sizeof(float32) == 4, "float32 type size test failed.");
     static_assert(sizeof(float64) == 8, "float64 type size test failed.");
-    static_assert(sizeof(float128) == 8, "float128 type size test failed.");//有待商榷
+    //static_assert(sizeof(float128) == 8, "float128 type size test failed.");//有待商榷
     static_assert(sizeof(PTRINT) == sizeof(void *), "PTRINT type size test failed.");
     static_assert(sizeof(UPTRINT) == sizeof(void *), "UPTRINT type size test failed.");
 
