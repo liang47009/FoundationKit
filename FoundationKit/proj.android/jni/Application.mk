@@ -30,7 +30,7 @@ APP_ABI := armeabi armeabi-v7a x86
 NDK_TOOLCHAIN_VERSION := 4.8
 #NDK_TOOLCHAIN_VERSION := clang
 
-#APP_PLATFORM=android-19
+APP_PLATFORM=android-10
 
 APP_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11
 APP_LDFLAGS := -latomic -llog -landroid
