@@ -43,6 +43,11 @@
 		093490E31E7F7BA30034ECF2 /* ProtectedMemoryAllocator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 093490651E7F7BA20034ECF2 /* ProtectedMemoryAllocator.mm */; };
 		093490E41E7F7BA30034ECF2 /* Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490671E7F7BA20034ECF2 /* Platform.cpp */; };
 		095286721ACA31DB00718FA9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 095286711ACA31DB00718FA9 /* Foundation.framework */; };
+		0992FFC71E863E470099635E /* PlatformDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0992FFC61E863E470099635E /* PlatformDevice.mm */; };
+		0992FFCD1E863F7E0099635E /* FCUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 0992FFCA1E863F7E0099635E /* FCUUID.m */; };
+		0992FFCE1E863F7E0099635E /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0992FFCC1E863F7E0099635E /* UICKeyChainStore.m */; };
+		0992FFD31E8643A70099635E /* Reachability_libo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0992FFD01E8643A70099635E /* Reachability_libo.m */; };
+		0992FFD41E8643A70099635E /* UIDeviceHardware.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0992FFD21E8643A70099635E /* UIDeviceHardware.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -172,6 +177,16 @@
 		0934907E1E7F7BA20034ECF2 /* memory_aligned.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = memory_aligned.hpp; sourceTree = "<group>"; };
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0977BAF61AB6CC31006BC260 /* libFoundationKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundationKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0992FFC51E863E3D0099635E /* PlatformDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlatformDevice.hpp; sourceTree = "<group>"; };
+		0992FFC61E863E470099635E /* PlatformDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlatformDevice.mm; sourceTree = "<group>"; };
+		0992FFC91E863F7E0099635E /* FCUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCUUID.h; sourceTree = "<group>"; };
+		0992FFCA1E863F7E0099635E /* FCUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCUUID.m; sourceTree = "<group>"; };
+		0992FFCB1E863F7E0099635E /* UICKeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICKeyChainStore.h; sourceTree = "<group>"; };
+		0992FFCC1E863F7E0099635E /* UICKeyChainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICKeyChainStore.m; sourceTree = "<group>"; };
+		0992FFCF1E8643A70099635E /* Reachability_libo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability_libo.h; sourceTree = "<group>"; };
+		0992FFD01E8643A70099635E /* Reachability_libo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability_libo.m; sourceTree = "<group>"; };
+		0992FFD11E8643A70099635E /* UIDeviceHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDeviceHardware.h; sourceTree = "<group>"; };
+		0992FFD21E8643A70099635E /* UIDeviceHardware.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIDeviceHardware.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -345,6 +360,7 @@
 		093490491E7F7BA20034ECF2 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
+				0992FFC51E863E3D0099635E /* PlatformDevice.hpp */,
 				0934905C1E7F7BA20034ECF2 /* Environment.hpp */,
 				0934905D1E7F7BA20034ECF2 /* FileUtils.cpp */,
 				0934905E1E7F7BA20034ECF2 /* FileUtils.hpp */,
@@ -360,6 +376,8 @@
 		0934905F1E7F7BA20034ECF2 /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				0992FFC81E863F7E0099635E /* detail */,
+				0992FFC61E863E470099635E /* PlatformDevice.mm */,
 				093490601E7F7BA20034ECF2 /* ApplePlatformTLS.hpp */,
 				093490611E7F7BA20034ECF2 /* EnvironmentIos.mm */,
 				093490621E7F7BA20034ECF2 /* FileUtils_apple.mm */,
@@ -401,6 +419,21 @@
 				0977BAF61AB6CC31006BC260 /* libFoundationKit.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0992FFC81E863F7E0099635E /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				0992FFCF1E8643A70099635E /* Reachability_libo.h */,
+				0992FFD01E8643A70099635E /* Reachability_libo.m */,
+				0992FFD11E8643A70099635E /* UIDeviceHardware.h */,
+				0992FFD21E8643A70099635E /* UIDeviceHardware.mm */,
+				0992FFC91E863F7E0099635E /* FCUUID.h */,
+				0992FFCA1E863F7E0099635E /* FCUUID.m */,
+				0992FFCB1E863F7E0099635E /* UICKeyChainStore.h */,
+				0992FFCC1E863F7E0099635E /* UICKeyChainStore.m */,
+			);
+			path = detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -459,6 +492,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0992FFCD1E863F7E0099635E /* FCUUID.m in Sources */,
 				093490CE1E7F7BA30034ECF2 /* StringUtils.cpp in Sources */,
 				093490CB1E7F7BA30034ECF2 /* Quaternion.cpp in Sources */,
 				093490CA1E7F7BA30034ECF2 /* Matrix.cpp in Sources */,
@@ -473,24 +507,28 @@
 				093490D51E7F7BA30034ECF2 /* Vector4.cpp in Sources */,
 				093490CC1E7F7BA30034ECF2 /* Rect.cpp in Sources */,
 				093490A41E7F7BA20034ECF2 /* ConvertUTF.c in Sources */,
+				0992FFD41E8643A70099635E /* UIDeviceHardware.mm in Sources */,
 				093490E01E7F7BA30034ECF2 /* EnvironmentIos.mm in Sources */,
 				093490D31E7F7BA30034ECF2 /* Vector2.cpp in Sources */,
 				093490CF1E7F7BA30034ECF2 /* Timer.cpp in Sources */,
 				093490CD1E7F7BA30034ECF2 /* Size.cpp in Sources */,
 				093490C71E7F7BA30034ECF2 /* Logger.cpp in Sources */,
 				093490D41E7F7BA30034ECF2 /* Vector3.cpp in Sources */,
+				0992FFCE1E863F7E0099635E /* UICKeyChainStore.m in Sources */,
 				093490D61E7F7BA30034ECF2 /* Version.cpp in Sources */,
 				093490BA1E7F7BA30034ECF2 /* unzip.cpp in Sources */,
 				093490A51E7F7BA20034ECF2 /* ConvertUTFWrapper.cpp in Sources */,
 				093490E31E7F7BA30034ECF2 /* ProtectedMemoryAllocator.mm in Sources */,
 				093490E41E7F7BA30034ECF2 /* Platform.cpp in Sources */,
 				093490B91E7F7BA30034ECF2 /* ioapi_mem.cpp in Sources */,
+				0992FFC71E863E470099635E /* PlatformDevice.mm in Sources */,
 				093490E21E7F7BA30034ECF2 /* PlatformIos.mm in Sources */,
 				093490C91E7F7BA30034ECF2 /* MathUtil.cpp in Sources */,
 				093490D11E7F7BA30034ECF2 /* Timespan.cpp in Sources */,
 				093490E11E7F7BA30034ECF2 /* FileUtils_apple.mm in Sources */,
 				093490D01E7F7BA30034ECF2 /* TimerQueue.cpp in Sources */,
 				093490C41E7F7BA30034ECF2 /* DateTime.cpp in Sources */,
+				0992FFD31E8643A70099635E /* Reachability_libo.m in Sources */,
 				093490B81E7F7BA30034ECF2 /* ioapi.cpp in Sources */,
 				093490DF1E7F7BA30034ECF2 /* FileUtils.cpp in Sources */,
 				093490D21E7F7BA30034ECF2 /* Value.cpp in Sources */,
