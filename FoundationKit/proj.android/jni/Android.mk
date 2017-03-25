@@ -43,17 +43,21 @@ $(SRCROOT)/FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/EnvironmentAndroid.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/FileUtils_android.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/PlatformAndroid.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/PlatformDevice.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/ProtectedMemoryAllocator.cpp \
 $(SRCROOT)/FoundationKit/Platform/FileUtils.cpp \
 $(SRCROOT)/FoundationKit/Platform/Platform.cpp \
 
+
 LOCAL_C_INCLUDES := \
 $(PROJECT_DIR)/ \
-$(PROJECT_DIR)/FoundationKit/external/unzip
+$(PROJECT_DIR)/FoundationKit/external/unzip \
+cpufeatures/
 
 LOCAL_EXPORT_C_INCLUDES := \
 $(PROJECT_DIR)/ \
-$(PROJECT_DIR)/FoundationKit/external/unzip
+$(PROJECT_DIR)/FoundationKit/external/unzip \
+cpufeatures/
 
 LOCAL_CFLAGS :=  -DUSE_FILE32API -DANDROID
 LOCAL_EXPORT_CFLAGS += -DUSE_FILE32API -DANDROID
@@ -75,12 +79,15 @@ ifeq (armeabi-v7a,$(TARGET_ARCH_ABI))
 LOCAL_EXPORT_CPPFLAGS += -DUSE_NEON
 endif
 
+LOCAL_STATIC_LIBRARIES += cpufeatures
+
 LOCAL_WHOLE_STATIC_LIBRARIES += androidjni
 
 include $(BUILD_STATIC_LIBRARY)
-
 $(call import-add-path,$(PROJECT_DIR)/FoundationKit)
+$(call import-module,android/cpufeatures)
 $(call import-module,Platform/Android/AndroidJNI)
+
 
 #==============================================================
 $(info ----------------- Compile libfoundationkit infomation -------------------)

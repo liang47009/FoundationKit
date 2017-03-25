@@ -246,6 +246,9 @@
     <ClInclude Include="..\FoundationKit\Base\byte_swap.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\PlatformDevice.hpp">
+      <Filter>Platform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

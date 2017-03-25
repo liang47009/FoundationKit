@@ -43,6 +43,7 @@ $(SRCROOT)/FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/EnvironmentAndroid.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/FileUtils_android.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/PlatformAndroid.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/PlatformDevice.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/ProtectedMemoryAllocator.cpp \
 $(SRCROOT)/FoundationKit/Platform/FileUtils.cpp \
 $(SRCROOT)/FoundationKit/Platform/Platform.cpp \
