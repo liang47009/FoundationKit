@@ -25,8 +25,7 @@ public:
     static std::string GetManufacturer();
     static std::string GetSystemVersion();
     static std::string GetSDKVersion();
-    static std::string GetOpenGLVersion();
-    static std::string GetOpenGLVersionString();
+    static std::string GetRendererVersion();
     static std::string GetCPUArch();
     static int         GetCPUCoreCount();
 

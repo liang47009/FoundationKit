@@ -15,6 +15,7 @@
 #include <limits>
 #include <cmath>
 #include <algorithm>
+#include <type_traits>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Foundation/MathContent.hpp"
 
@@ -25,7 +26,12 @@ NS_FK_BEGIN
 /// https://github.com/mosra/magnum/tree/master/src/Magnum/Math
 namespace Math
 {
-
+#ifdef max
+#undef max
+#endif
+#ifdef min
+#undef min
+#endif
     /// returns the maximum of two values
     template< typename T >
     FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type

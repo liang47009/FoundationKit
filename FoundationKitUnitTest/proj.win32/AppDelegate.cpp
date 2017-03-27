@@ -31,7 +31,7 @@
 #include "FoundationKit/Foundation/Compression.hpp"
 #include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Foundation/TimerQueue.hpp"
-
+#include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "excel/BasicExcel.hpp"
 
 
@@ -74,6 +74,14 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     std::error_code ec;
     std::string strErr = ec.message();
+
+    auto arg0 = PlatformDevice::GetAvailableMemory();
+    auto arg1 = PlatformDevice::GetTotalMemory();
+    auto arg2 = PlatformDevice::GetScreenResolution();
+    auto arg3 = PlatformDevice::GetScreenNativeResolution();
+    auto arg4 = PlatformDevice::GetScreenXDPI();
+    auto arg5 = PlatformDevice::GetScreenYDPI();
+    auto arg6 = PlatformDevice::GetScreenDPI();
 
     //std::vector<std::string>  files;
     //FileUtils::getInstance()->getFilesFromDir("E:\\GitHub\\FoundationKit\\FoundationKit\\FoundationKit", files, true);

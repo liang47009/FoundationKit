@@ -354,6 +354,9 @@
     <ClCompile Include="..\FoundationKit\Foundation\Value.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\PlatformDevice.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\Foundation\MathUtil.inl">

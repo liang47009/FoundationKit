@@ -246,23 +246,27 @@ std::string Platform::executeSystemCommand(const std::string& command)
 
     std::string result = "";
     FILE* pipe = popen(command.c_str(), "r");
-    if (!pipe) throw std::runtime_error("popen() failed!");
+    if (!pipe)
+    {
+        LOG_ERROR("****** popen() failed!");
+    }
     try {
-        char buffer[128]={0};
+        char buffer[1024] = { 0 };
         while (!feof(pipe))
         {
-            if (fgets(buffer, 128, pipe) != NULL)
+            if (fgets(buffer, 1024, pipe) != NULL)
                 result += buffer;
         }
     }
     catch (...)
     {
         pclose(pipe);
-        throw;
+        LOG_ERROR("****** Cannot execute command:%s with errno:%d", command.c_str(), errno);
     }
     pclose(pipe);
     return result;
 }
+
 
 NS_FK_END
 

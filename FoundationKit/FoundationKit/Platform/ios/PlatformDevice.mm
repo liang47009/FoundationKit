@@ -262,37 +262,7 @@ std::string PlatformDevice::GetSDKVersion()
     return [systemVersion UTF8String];
 }
 
-static std::unordered_map<std::string, std::string> OpenGLESVersionTable=
-{
-    {"65535", "OpenGL ES 1.0"},
-    {"65536", "OpenGL ES 1.1"},
-    {"65537", "OpenGL ES 1.2"},
-    {"65538", "OpenGL ES 1.3"},
-    {"65539", "OpenGL ES 1.4"},
-    {"65540", "OpenGL ES 1.5"},
-    {"131072", "OpenGL ES 2.0"},
-    {"131073", "OpenGL ES 2.1"},
-    {"196608", "OpenGL ES 3.0"},
-    {"196608", "OpenGL ES 3.0"},
-    {"196609", "OpenGL ES 3.1"},
-    {"196610", "OpenGL ES 3.2"},
-    {"196611", "OpenGL ES 3.3"},
-};
-std::string PlatformDevice::GetOpenGLVersion()
-{
-    std::string strOpenGLVersionString = GetOpenGLVersionString();
-    std::string strOpenglVersion="N/A";
-    for (auto iter = OpenGLESVersionTable.begin(); iter != OpenGLESVersionTable.end(); ++iter)
-    {
-        if (strOpenGLVersionString.find(iter->second) != std::string::npos)
-        {
-            strOpenglVersion = iter->first;
-        }
-    }
-    return strOpenglVersion;
-}
-
-std::string PlatformDevice::GetOpenGLVersionString()
+std::string PlatformDevice::GetRendererVersion()
 {
     char* szOpenGLVersionString = (char*)glGetString(GL_VERSION);
     return szOpenGLVersionString?szOpenGLVersionString:"";
