@@ -10,7 +10,9 @@
 #include <functional>
 #include <cctype>
 #include <sstream>
+#include <cassert>
 //#include <codecvt>
+#include "FoundationKit/Base/scope_locale.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/external/ConvertUTF/ConvertUTF.h"
 
@@ -170,32 +172,45 @@ bool StringUtils::isNumber( const std::string& val )
 
 
 // Other impl see:http://blog.poxiao.me/p/unicode-character-encoding-conversion-in-cpp11/
-
 std::string StringUtils::wstring2UTF8string(const std::wstring &input)
 {
-    std::locale old_loc = std::locale::global(std::locale(""));
-    const wchar_t* src_wstr = input.c_str();
-    size_t buffer_size = input.size() * 4 + 1;
-    char* dst_str = new char[buffer_size];
-    memset(dst_str, 0, buffer_size);
-    wcstombs(dst_str, src_wstr, buffer_size);
-    std::string result = dst_str;
-    delete[]dst_str;
-    std::locale::global(old_loc);
+    scope_locale  sl("");
+    std::string result;
+    // First, determine the length of the destination buffer.
+    size_t mbs_length = wcstombs(NULL, input.c_str(), 0);
+    if (mbs_length == ((size_t)-1))
+    {
+        return result;
+    }
+    assert(mbs_length > 0);
+    std::vector<char> mbs_v(mbs_length+1);
+    // Now, convert.
+    if (wcstombs(&mbs_v[0], input.c_str(), mbs_length) == ((size_t)-1))
+    {
+        return result;
+    }
+    result = &mbs_v[0];
     return result;
 }
 
 std::wstring StringUtils::string2UTF8wstring(const std::string &input)
 {
-    std::locale old_loc = std::locale::global(std::locale(""));
-    const char* src_str = input.c_str();
-    const size_t buffer_size = input.size() + 1;
-    wchar_t* dst_wstr = new wchar_t[buffer_size];
-    wmemset(dst_wstr, 0, buffer_size);
-    mbstowcs(dst_wstr, src_str, buffer_size);
-    std::wstring result = dst_wstr;
-    delete[]dst_wstr;
-    std::locale::global(old_loc);
+    scope_locale  sl("");
+    // First, determine the length of the destination buffer.
+    size_t wcs_length = mbstowcs(NULL, input.c_str(), 0);
+    if (wcs_length == ((size_t)-1))
+    {
+        return false;
+    }
+
+    assert(wcs_length > 0);
+    std::vector<wchar_t> wcs_v(wcs_length+1);
+    // Now, convert.
+    if (mbstowcs(&wcs_v[0], input.c_str(), wcs_length) == ((size_t)-1))
+    {
+        return false;
+    }
+    std::wstring result = &wcs_v[0];
     return result;
 }
 

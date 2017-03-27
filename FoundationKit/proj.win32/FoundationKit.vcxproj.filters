@@ -249,6 +249,9 @@
     <ClInclude Include="..\FoundationKit\Platform\PlatformDevice.hpp">
       <Filter>Platform</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\scope_locale.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

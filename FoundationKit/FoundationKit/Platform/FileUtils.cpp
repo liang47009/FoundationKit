@@ -13,6 +13,7 @@
 #include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Base/scope_locale.hpp"
 #include "unzip.h"
 
 //#include <codecvt> //ndk is not support
@@ -486,23 +487,20 @@ bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newf
 
 void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild)const
 {
-    std::locale old_loc = std::locale::global(std::locale("")); //for dirent.h wcstombs_s and mbstowcs_s method.
+    scope_locale sl("");//for dirent.h wcstombs_s and mbstowcs_s method.
     internalGetFilesFromDir(dirPath, files, includeChild);
-    std::locale::global(old_loc);
 }
 
 void FileUtils::getFilesFromDir(const std::string& dirPath, bool includeChild, const std::function<void(const std::string&)>& callback)const
 {
-    std::locale old_loc = std::locale::global(std::locale("")); //for dirent.h wcstombs_s and mbstowcs_s method.
+    scope_locale sl("");//for dirent.h wcstombs_s and mbstowcs_s method.
     internalGetFilesFromDir(dirPath, includeChild, callback);
-    std::locale::global(old_loc);
 }
 
 void FileUtils::getDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild)const
 {
-    std::locale old_loc = std::locale::global(std::locale("")); //for dirent.h wcstombs_s and mbstowcs_s method.
+    scope_locale sl("");//for dirent.h wcstombs_s and mbstowcs_s method.
     internalGetDirs(dirPath, dirs, includeChild);
-    std::locale::global(old_loc);
 }
 
 std::string FileUtils::getDirName(const std::string& dirPath)const
