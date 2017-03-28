@@ -34,7 +34,6 @@
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "excel/BasicExcel.hpp"
 
-
 #include <sqltypes.h>
 #include <sql.h>
 #include <sqlext.h>
@@ -75,13 +74,14 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::error_code ec;
     std::string strErr = ec.message();
 
-    auto arg0 = PlatformDevice::GetAvailableMemory();
-    auto arg1 = PlatformDevice::GetTotalMemory();
-    auto arg2 = PlatformDevice::GetScreenResolution();
-    auto arg3 = PlatformDevice::GetScreenNativeResolution();
-    auto arg4 = PlatformDevice::GetScreenXDPI();
-    auto arg5 = PlatformDevice::GetScreenYDPI();
-    auto arg6 = PlatformDevice::GetScreenDPI();
+    std::string source = "F:/temp/VBoxHardening.log";
+    std::string dest = "F:/temp/VBoxHardening.gz";
+    std::string rawDest = "F:/temp/VBoxHardening1.log";
+    Compression::compressFile(source, dest);
+    Compression::uncompressFile(dest, rawDest);
+
+
+
 
     //std::vector<std::string>  files;
     //FileUtils::getInstance()->getFilesFromDir("E:\\GitHub\\FoundationKit\\FoundationKit\\FoundationKit", files, true);

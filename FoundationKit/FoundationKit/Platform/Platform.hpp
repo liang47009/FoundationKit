@@ -33,29 +33,6 @@ public:
 	Platform();
 	~Platform();
 
-	// MB
-	static float getTotalMemory();
-
-	// MB
-    static float getFreeMemory();
-
-	// MB
-    static float getProcessMemory();
-
-    static std::vector<uint8> getMacAddressRaw();
-    static std::string getMacAddress();
-
-    static std::string getDeviceId();
-
-    static std::string getDeviceName();
-
-    static std::string getOperatingSystemVersion();
-
-    static std::string getCPUArchitecture();
-
-    static int64 getTickCount();
-
-    static std::string executeSystemCommand(const std::string& command);
 };
 
 NS_FK_END

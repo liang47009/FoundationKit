@@ -220,6 +220,7 @@ bool Compression::compressFile(const std::string& srcFilePath, const std::string
             gzwrite(gFile, buffer, static_cast<unsigned int>(readsize));
         } while (readsize == defaultBufferLength);
         delete[] buffer;
+        gzflush(gFile, Z_FINISH);
         fclose(srcFp);
         gzclose(gFile);
         succeed = true;
@@ -248,6 +249,7 @@ bool Compression::uncompressFile(const std::string& srcFilePath, const std::stri
         } while (readsize == defaultBufferLength);
 
         delete[] buffer;
+        fflush(desFp);
         fclose(desFp);
         gzclose(gFile);
         succeed = true;
