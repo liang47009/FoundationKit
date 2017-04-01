@@ -196,11 +196,12 @@ std::string StringUtils::wstring2UTF8string(const std::wstring &input)
 std::wstring StringUtils::string2UTF8wstring(const std::string &input)
 {
     scope_locale  sl("");
+    std::wstring result;
     // First, determine the length of the destination buffer.
     size_t wcs_length = mbstowcs(NULL, input.c_str(), 0);
     if (wcs_length == ((size_t)-1))
     {
-        return false;
+        return result;
     }
 
     assert(wcs_length > 0);
@@ -208,9 +209,9 @@ std::wstring StringUtils::string2UTF8wstring(const std::string &input)
     // Now, convert.
     if (mbstowcs(&wcs_v[0], input.c_str(), wcs_length) == ((size_t)-1))
     {
-        return false;
+        return result;
     }
-    std::wstring result = &wcs_v[0];
+    result = &wcs_v[0];
     return result;
 }
 

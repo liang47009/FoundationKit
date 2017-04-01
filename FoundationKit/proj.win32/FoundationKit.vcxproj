@@ -187,6 +187,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\nonmovable.hpp" />
     <ClInclude Include="..\FoundationKit\Base\scope_locale.hpp" />
     <ClInclude Include="..\FoundationKit\Base\types.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\type_cast.hpp" />
     <ClInclude Include="..\FoundationKit\Cache\AbstractCache.h" />
     <ClInclude Include="..\FoundationKit\Cache\AbstractStrategy.h" />
     <ClInclude Include="..\FoundationKit\Cache\KeyValueArgs.h" />
@@ -253,6 +254,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\std\match.hpp" />
     <ClInclude Include="..\FoundationKit\std\max_integer_of.hpp" />
     <ClInclude Include="..\FoundationKit\std\memory_aligned.hpp" />
+    <ClInclude Include="..\FoundationKit\std\tuple_helper.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp" />

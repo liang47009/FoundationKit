@@ -252,6 +252,12 @@
     <ClInclude Include="..\FoundationKit\Base\scope_locale.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\tuple_helper.hpp">
+      <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\type_cast.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
