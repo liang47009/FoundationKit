@@ -8,8 +8,8 @@
 #include <unordered_map>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #include "detail/FCUUID.h"
-#include "detail/UICKeyChainStore.h"
-#include "detail/UIDeviceHardware.h"
+#include "detail/UICKeyChainStore.h" //Based on https://github.com/kishikawakatsumi/UICKeyChainStore
+#include "detail/UIDeviceHardware.h" //Based on https://github.com/fahrulazmi/UIDeviceHardware
 #include "detail/Reachability_libo.h"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/OpenGL.hpp"
@@ -34,6 +34,7 @@ namespace detail
         SCREEN_SIZE,//inches
     };
     
+    // Data source:http://www.blakespot.com/ios_device_specifications_grid.html
     std::unordered_map<std::string, std::vector<std::string>> AppleDeviceData =
     {
         { "iPhone1,1", { "128", "ARM1176JZ(F)-S v1.0", "ARMv6", "1", "412", "PowerVR MBX Lite", "1", "60", "480 x 320", "163", "3.50" } },
