@@ -33,7 +33,7 @@ namespace detail
         SCREEN_PPI,
         SCREEN_SIZE,//inches
     };
-    
+    // https://support.hockeyapp.net/kb/client-integration-ios-mac-os-x-tvos/ios-device-types
     // Data source:http://www.blakespot.com/ios_device_specifications_grid.html
     std::unordered_map<std::string, std::vector<std::string>> AppleDeviceData =
     {
