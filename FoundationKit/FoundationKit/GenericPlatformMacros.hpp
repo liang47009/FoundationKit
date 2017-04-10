@@ -38,6 +38,7 @@
 #if defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
 // TARGET_OS_IPHONE inlcudes TARGET_OS_IOS TARGET_OS_TV and TARGET_OS_WATCH. see TargetConditionals.h
 #include <TargetConditionals.h>
+#include <AvailabilityMacros.h>
 #endif
 
 #if defined(TARGET_OS_IOS) && (TARGET_OS_IOS == 1)
