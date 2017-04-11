@@ -13,8 +13,65 @@ namespace HTTPCode
 struct HTTPCodePair
 {
     unsigned code;
-    const char *const description;
+    const char *message;
+
+    HTTPCodePair();
+    HTTPCodePair(unsigned code);
+    HTTPCodePair(unsigned code, const char * des);
+
+    bool operator==(unsigned httpCode)
+    {
+        return (code == httpCode);
+    }
+
+    bool operator!=(unsigned httpCode)
+    {
+        return (code != httpCode);
+    }
 };
+
+
+extern const HTTPCodePair* HTTPCodeList[];
+
+HTTPCode::HTTPCodePair::HTTPCodePair()
+    : code(-1)
+    , message("Unknown")
+{
+
+}
+
+HTTPCode::HTTPCodePair::HTTPCodePair(unsigned httpcode)
+    : code(httpcode)
+{
+    size_t index = 0;
+    const HTTPCodePair* pHTTPCodePair = HTTPCodeList[index];
+    while (pHTTPCodePair)
+    {
+        if (pHTTPCodePair->code == httpcode)
+        {
+            message = pHTTPCodePair->message;
+            break;
+        }
+        pHTTPCodePair = HTTPCodeList[++index];
+    }
+}
+
+HTTPCode::HTTPCodePair::HTTPCodePair(unsigned httpcode, const char * des)
+    : code(httpcode)
+    , message(des)
+{
+
+}
+
+bool operator==(const HTTPCodePair& hcp, unsigned httpCode)
+{
+    return (hcp.code == httpCode);
+}
+
+bool operator!=(const HTTPCodePair& hcp, unsigned httpCode)
+{
+    return (hcp.code != httpCode);
+}
 
 /*/ 0XX 'route66'
 /*/
@@ -71,7 +128,6 @@ extern const HTTPCodePair GATEWAY_TIMEOUT;
 extern const HTTPCodePair VERSION_NOT_SUP;
 
 
-
 /*/ 1XX informational
 /*/ const HTTPCodePair SHUTDOWN = { 0, "Shutdown requested" };
 /*/ 1XX informational
@@ -119,6 +175,54 @@ extern const HTTPCodePair VERSION_NOT_SUP;
 /*/ const HTTPCodePair SERVICE_UNAVAIL = { 503, "The service is temporarily overloaded." }; /*/
 /*/ const HTTPCodePair GATEWAY_TIMEOUT = { 504, "The request was timed out waiting for a gateway." }; /*/
 /*/ const HTTPCodePair VERSION_NOT_SUP = { 505, "The server does not support the HTTP protocol version that was used in the request message." };
+
+
+const HTTPCodePair* HTTPCodeList[] =
+{
+    &SHUTDOWN,
+    &CONTINUE,
+    &SWITCH_PROTOCOLS,
+    &OK,
+    &CREATED,
+    &ACCEPTED,
+    &PARTIAL,
+    &NO_CONTENT,
+    &RESET_CONTENT,
+    &PARTIAL_CONTENT,
+    &WEBDAV_MULTI_STATUS,
+    &AMBIGUOUS,
+    &MOVED,
+    &REDIRECT,
+    &REDIRECT_METHOD,
+    &NOT_MODIFIED,
+    &USE_PROXY,
+    &REDIRECT_KEEP_VERB,
+    &BAD_REQUEST,
+    &DENIED,
+    &PAYMENT_REQ,
+    &FORBIDDEN,
+    &NOT_FOUND,
+    &BAD_METHOD,
+    &NONE_ACCEPTABLE,
+    &PROXY_AUTH_REQ,
+    &REQUEST_TIMEOUT,
+    &CONFLICT,
+    &GONE,
+    &LENGTH_REQUIRED,
+    &PRECOND_FAILED,
+    &REQUEST_TOO_LARGE,
+    &URI_TOO_LONG,
+    &UNSUPPORTED_MEDIA,
+    &RETRY_WITH,
+    &SERVER_ERROR,
+    &NOT_SUPPORTED,
+    &BAD_GATEWAY,
+    &SERVICE_UNAVAIL,
+    &GATEWAY_TIMEOUT,
+    &VERSION_NOT_SUP,
+    nullptr
+};
+
 
  } // end namespace HTTPCode
 #endif // FOUNDATIONKIT_HTTPCODE_HPP

@@ -73,7 +73,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::error_code ec;
     std::string strErr = ec.message();
 
-    HTTPCode::HTTPCodePair hcp = HTTPCode::OK;
+    HTTPCode::HTTPCodePair hcp(2000);
 
 
     //std::vector<std::string>  files;
