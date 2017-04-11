@@ -14,6 +14,10 @@ IF EXIST "Debug" (
     rmdir "Debug" /s /q
 )
 
+IF EXIST "publish" (
+    rmdir "publish" /s /q
+)
+
 IF EXIST "FoundationKit\proj.android\obj" (
     rmdir "FoundationKit\proj.android\obj" /s /q
 )
@@ -56,6 +60,14 @@ IF EXIST "HTTPClient\proj.win32\Debug" (
 
 IF EXIST "HTTPClient\proj.win32\Release" (
     rmdir "HTTPClient\proj.win32\Release" /s /q
+)
+
+IF EXIST "FoundationKitCPP03\proj.win32\Debug" (
+    rmdir "FoundationKitCPP03\proj.win32\Debug" /s /q
+)
+
+IF EXIST "FoundationKitCPP03\proj.win32\Release" (
+    rmdir "FoundationKitCPP03\proj.win32\Release" /s /q
 )
 
 pause
