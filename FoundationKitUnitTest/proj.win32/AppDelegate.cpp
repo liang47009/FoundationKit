@@ -32,11 +32,12 @@
 #include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Foundation/TimerQueue.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-#include "excel/BasicExcel.hpp"
+#include "FoundationKit/Base/type_cast.hpp"
 
-#include <sqltypes.h>
-#include <sql.h>
-#include <sqlext.h>
+
+#include "HTTPClient/HTTPClient.hpp"
+#include "HTTPClient/HTTPCode.hpp"
+
 
 using namespace std;
 USING_NS_FK;
@@ -67,20 +68,12 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
 
-    std::string source = "F:/temp/VBoxHardening.log";
-    std::string dest = "F:/temp/VBoxHardening.gz";
-    std::string rawDest = "F:/temp/VBoxHardening1.log";
-    Compression::compressFile(source, dest);
-    Compression::uncompressFile(dest, rawDest);
-
-
+    HTTPCode::HTTPCodePair hcp = HTTPCode::OK;
 
 
     //std::vector<std::string>  files;
@@ -143,109 +136,109 @@ void AppDelegate::mainLoop()
 {
 
 }
-
-void ParseAppleDeviceData()
-{
-    YExcel::BasicExcel           _basicExcel;
-    YExcel::BasicExcelWorksheet* _workSheet;
-    _basicExcel.Load("E:\\temp\\DeviceInfo.xls");
-    _workSheet = _basicExcel.GetWorksheet(0);
-
-    int rowIndex = 2;
-    std::string serialization;
-    auto GetExcelString = [&](int row, int col)
-    {
-        std::string result;
-        const char* value = _workSheet->Cell(row, col)->GetString();
-        if (value)
-        {
-            result = value;
-        }
-        else
-        {
-            const wchar_t* wvalue = _workSheet->Cell(row, col)->GetWString();
-            if (wvalue)
-            {
-                result = StringUtils::wstring2string(wvalue);
-            }
-        }
-        return result;
-    };
-    while (true)
-    {
-        std::string deviceModel = GetExcelString(rowIndex, 1);
-        if (deviceModel.empty())
-        {
-            break;
-        }
-
-        auto deviceModelList = StringUtils::split(deviceModel, " \" ");
-        size_t modelIndex = 0;
-        for (auto& strDeviceModel : deviceModelList)
-        {
-            std::string realModelName = strDeviceModel;
-            if (modelIndex > 0)
-            {
-                std::string tmpModel = deviceModelList[0];
-                realModelName = tmpModel.substr(0, tmpModel.size() - 3);
-                realModelName = StringUtils::trim(realModelName);
-                realModelName += strDeviceModel;
-            }
-            ++modelIndex;
-            serialization += "{\"";
-            serialization += realModelName;
-            serialization += "\",{";
-
-            serialization += "\"";
-            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 4)->GetInteger()); //RAM
-            serialization += "\",";
-
-            serialization += "\"";
-            serialization += GetExcelString(rowIndex, 7); //CPU NAME
-            serialization += "\",";
-
-            serialization += "\"";
-            serialization += GetExcelString(rowIndex, 8); //CPU arch
-            serialization += "\",";
-
-            serialization += "\"";
-            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 10)->GetInteger()); //CPU cores
-            serialization += "\",";
-
-            serialization += "\"";
-            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 11)->GetInteger()); //CPU clocks
-            serialization += "\",";
-
-            serialization += "\"";
-            serialization += GetExcelString(rowIndex, 16); //GPU NAME
-            serialization += "\",";
-
-            serialization += "\"";
-            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 17)->GetInteger()); //GPU cores
-            serialization += "\",";
-
-            serialization += "\"";
-            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 18)->GetInteger()); //GPU clocks
-            serialization += "\",";
-
-            serialization += "\"";
-            serialization += GetExcelString(rowIndex, 19); //  Screen Res 
-            serialization += "\",";
-
-            serialization += "\"";
-            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 20)->GetInteger()); //  PPI 
-            serialization += "\",";
-
-            serialization += "\"";
-            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 21)->GetDouble()); //  Screen Size (inches)
-            serialization += "\"";
-
-            serialization += "}},\n";
-        }
-        ++rowIndex;
-    }
-}
-
-
-
+//
+//void ParseAppleDeviceData()
+//{
+//    YExcel::BasicExcel           _basicExcel;
+//    YExcel::BasicExcelWorksheet* _workSheet;
+//    _basicExcel.Load("E:\\temp\\DeviceInfo.xls");
+//    _workSheet = _basicExcel.GetWorksheet(0);
+//
+//    int rowIndex = 2;
+//    std::string serialization;
+//    auto GetExcelString = [&](int row, int col)
+//    {
+//        std::string result;
+//        const char* value = _workSheet->Cell(row, col)->GetString();
+//        if (value)
+//        {
+//            result = value;
+//        }
+//        else
+//        {
+//            const wchar_t* wvalue = _workSheet->Cell(row, col)->GetWString();
+//            if (wvalue)
+//            {
+//                result = StringUtils::wstring2string(wvalue);
+//            }
+//        }
+//        return result;
+//    };
+//    while (true)
+//    {
+//        std::string deviceModel = GetExcelString(rowIndex, 1);
+//        if (deviceModel.empty())
+//        {
+//            break;
+//        }
+//
+//        auto deviceModelList = StringUtils::split(deviceModel, " \" ");
+//        size_t modelIndex = 0;
+//        for (auto& strDeviceModel : deviceModelList)
+//        {
+//            std::string realModelName = strDeviceModel;
+//            if (modelIndex > 0)
+//            {
+//                std::string tmpModel = deviceModelList[0];
+//                realModelName = tmpModel.substr(0, tmpModel.size() - 3);
+//                realModelName = StringUtils::trim(realModelName);
+//                realModelName += strDeviceModel;
+//            }
+//            ++modelIndex;
+//            serialization += "{\"";
+//            serialization += realModelName;
+//            serialization += "\",{";
+//
+//            serialization += "\"";
+//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 4)->GetInteger()); //RAM
+//            serialization += "\",";
+//
+//            serialization += "\"";
+//            serialization += GetExcelString(rowIndex, 7); //CPU NAME
+//            serialization += "\",";
+//
+//            serialization += "\"";
+//            serialization += GetExcelString(rowIndex, 8); //CPU arch
+//            serialization += "\",";
+//
+//            serialization += "\"";
+//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 10)->GetInteger()); //CPU cores
+//            serialization += "\",";
+//
+//            serialization += "\"";
+//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 11)->GetInteger()); //CPU clocks
+//            serialization += "\",";
+//
+//            serialization += "\"";
+//            serialization += GetExcelString(rowIndex, 16); //GPU NAME
+//            serialization += "\",";
+//
+//            serialization += "\"";
+//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 17)->GetInteger()); //GPU cores
+//            serialization += "\",";
+//
+//            serialization += "\"";
+//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 18)->GetInteger()); //GPU clocks
+//            serialization += "\",";
+//
+//            serialization += "\"";
+//            serialization += GetExcelString(rowIndex, 19); //  Screen Res 
+//            serialization += "\",";
+//
+//            serialization += "\"";
+//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 20)->GetInteger()); //  PPI 
+//            serialization += "\",";
+//
+//            serialization += "\"";
+//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 21)->GetDouble()); //  Screen Size (inches)
+//            serialization += "\"";
+//
+//            serialization += "}},\n";
+//        }
+//        ++rowIndex;
+//    }
+//}
+//
+//
+//
 
