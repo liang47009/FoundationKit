@@ -36,11 +36,7 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include <cstdint>
 #include <vector>
-#include <list>
-#include <map>
-#include <unordered_map>
 #include <string>
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/Base/types.hpp"

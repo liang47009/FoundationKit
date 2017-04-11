@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_HTTPREQUEST_H
-#define LOSEMYMIND_HTTPREQUEST_H
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_HTTPREQUEST_HPP
+#define FOUNDATIONKIT_HTTPREQUEST_HPP
 
 
 #include <string>
@@ -299,10 +305,4 @@ private:
 NS_FK_END
 
 
-#endif // LOSEMYMIND_HTTPREQUEST_H
-
-
-
-
-
-
+#endif // FOUNDATIONKIT_HTTPREQUEST_HPP

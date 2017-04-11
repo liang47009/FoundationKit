@@ -7,11 +7,10 @@ losemymind.libo@gmail.com
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 
-#include <codecvt>
-#include <regex>
 #include <Shlobj.h>
 #include <cstdlib>
 #include <Windows.h>
+#include <regex>
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Platform/FileUtils.hpp"

@@ -49,7 +49,7 @@ static std::vector<std::string> split(const std::string &s, char delim);
 
 static std::vector<std::string> split(const std::string &s, std::string delim);
     
-static std::string join(std::string delim, std::vector<std::string> values);
+static std::string join(std::string delim, const std::vector<std::string>& values);
 
 /**
  * @brief Converts basic numeric types to strings.

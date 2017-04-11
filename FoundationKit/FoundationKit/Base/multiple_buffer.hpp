@@ -12,7 +12,6 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include <type_traits>
 #include <string>
 #include <vector>
 #include "FoundationKit/GenericPlatformMacros.hpp"

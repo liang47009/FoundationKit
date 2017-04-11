@@ -1,11 +1,11 @@
 /****************************************************************************
-Copyright (c) 2015 libo.
-
-losemymind.libo@gmail.com
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef LOSEMYMIND_MIMETYPES_H
-#define LOSEMYMIND_MIMETYPES_H
+#ifndef FOUNDATIONKIT_MIMETYPES_HPP
+#define FOUNDATIONKIT_MIMETYPES_HPP
 
 #pragma once
 #include "FoundationKit/GenericPlatformMacros.hpp"
@@ -19,5 +19,7 @@ namespace MimeTypes
 };
 } // namespace network
 NS_FK_END
-#endif // LOSEMYMIND_MIMETYPES_H
 
+
+
+#endif // FOUNDATIONKIT_MIMETYPES_HPP

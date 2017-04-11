@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_HTTPCLIENT_H
-#define LOSEMYMIND_HTTPCLIENT_H
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_HTTPCLIENT_HPP
+#define FOUNDATIONKIT_HTTPCLIENT_HPP
 
 
 #include <string>
@@ -90,12 +96,4 @@ private:
 NS_FK_END
 
 
-
-#endif // LOSEMYMIND_HTTPCLIENT_H
-
-
-
-
-
-
-
+#endif // FOUNDATIONKIT_HTTPCLIENT_HPP

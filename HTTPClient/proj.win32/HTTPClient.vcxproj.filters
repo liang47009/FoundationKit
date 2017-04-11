@@ -32,10 +32,13 @@
     <ClInclude Include="..\HTTPClient\HTTPResponse.hpp">
       <Filter>HTTPClient</Filter>
     </ClInclude>
-    <ClInclude Include="..\HTTPClient\MimeTypes.h">
+    <ClInclude Include="..\HTTPClient\libcurl_init.hpp">
       <Filter>HTTPClient</Filter>
     </ClInclude>
-    <ClInclude Include="..\HTTPClient\libcurl_init.hpp">
+    <ClInclude Include="..\HTTPClient\HTTPCode.hpp">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\HTTPClient\MimeTypes.hpp">
       <Filter>HTTPClient</Filter>
     </ClInclude>
   </ItemGroup>

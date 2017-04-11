@@ -1,5 +1,12 @@
-#ifndef LOSEMYMIND_LIBCURL_INIT_HPP
-#define LOSEMYMIND_LIBCURL_INIT_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_LIBCURL_INIT_HPP
+#define FOUNDATIONKIT_LIBCURL_INIT_HPP
+
 # pragma once
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "curl.h"
@@ -49,7 +56,7 @@ NS_FK_END
 
 //#include "libcurl_init.ipp"
 
-#endif // LOSEMYMIND_LIBCURL_INIT_HPP
 
 
 
+#endif // FOUNDATIONKIT_LIBCURL_INIT_HPP

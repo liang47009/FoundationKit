@@ -145,7 +145,7 @@ std::vector<std::string> StringUtils::split(const std::string &s, std::string de
     return elems;
 }
 
-std::string StringUtils::join(std::string delim, std::vector<std::string> values)
+std::string StringUtils::join(std::string delim, const std::vector<std::string>& values)
 {
 	std::string ret;
 	size_t index = 0;

@@ -5,7 +5,7 @@
 #include "HTTPRequest.hpp"
 #include "HTTPClient.hpp"
 #include "HTTPResponse.hpp"
-#include "MimeTypes.h"
+#include "MimeTypes.hpp"
 #include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 

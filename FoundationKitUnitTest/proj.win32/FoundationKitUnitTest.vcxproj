@@ -100,7 +100,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;$(ProjectDir)/../../FoundationKit/FoundationKit/external/;../../FoundationKit/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;$(ProjectDir)/../../FoundationKit/FoundationKit/external/;../../FoundationKit/;../../HTTPClient/;../../HTTPClient/HTTPClient/external/win32/i386/include/curl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
@@ -140,7 +140,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;$(ProjectDir)/../../FoundationKit/FoundationKit/external/;../../FoundationKit/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;$(ProjectDir)/../../FoundationKit/FoundationKit/external/;../../FoundationKit/;../../HTTPClient/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
@@ -177,8 +177,6 @@
   <ItemGroup>
     <ClCompile Include="AppDelegate.cpp" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="excel\BasicExcel.cpp" />
-    <ClCompile Include="excel\ExcelFormat.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tracey.cpp" />
   </ItemGroup>
@@ -186,13 +184,14 @@
     <ProjectReference Include="..\..\FoundationKit\proj.win32\FoundationKit.vcxproj">
       <Project>{8f5a5344-1249-4c82-ba4d-8b4733161585}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\HTTPClient\proj.win32\HTTPClient.vcxproj">
+      <Project>{b51a8c8e-b23f-425b-a76c-e87a0ee5a1d2}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppDelegate.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="ApplicationProtocol.h" />
-    <ClInclude Include="excel\BasicExcel.hpp" />
-    <ClInclude Include="excel\ExcelFormat.h" />
     <ClInclude Include="tracey.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

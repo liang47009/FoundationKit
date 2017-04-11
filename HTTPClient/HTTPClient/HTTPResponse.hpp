@@ -1,3 +1,12 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_HTTPRESPONSE_HPP
+#define FOUNDATIONKIT_HTTPRESPONSE_HPP
+
 
 #include <vector>
 #include <unordered_map>
@@ -68,6 +77,4 @@ private:
 } // namespace network
 NS_FK_END
 
-
-
-
+#endif // FOUNDATIONKIT_HTTPRESPONSE_HPP

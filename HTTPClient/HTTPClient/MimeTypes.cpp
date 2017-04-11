@@ -5,7 +5,7 @@ losemymind.libo@gmail.com
 
 ****************************************************************************/
 
-#include "MimeTypes.h"
+#include "MimeTypes.hpp"
 NS_FK_BEGIN
 namespace network{
 namespace MimeTypes
