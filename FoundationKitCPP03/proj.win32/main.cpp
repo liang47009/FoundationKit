@@ -49,6 +49,18 @@ int wmain()
 
 LRESULT CALLBACK onMsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
+    switch(uMsg)
+    {
+        case WM_RBUTTONDOWN:
+        case WM_LBUTTONDOWN:
+        {
+            int aa = 0;
+            aa += 10;
+        }
+        break;
+        default:
+            break;
+    }
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 int APIENTRY wWinMain(HINSTANCE hInstance,
@@ -144,10 +156,13 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
     } while (false);
 
     MSG msg;
-    while (GetMessage(&msg, NULL, 0, 0))
+    while (true)
     {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
+        if(PeekMessage(&msg,_mainWindow,0,0, PM_REMOVE))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
     }
 
     return 0;

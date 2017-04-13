@@ -278,9 +278,9 @@ std::string PlatformDevice::GetGPUVendor()
 
 Size PlatformDevice::GetScreenResolution()
 {
-    int with = GetSystemMetrics(SM_CXFULLSCREEN);
-    int heigh = GetSystemMetrics(SM_CYFULLSCREEN);
-    return Size(static_cast<float>(with), static_cast<float>(heigh));
+    int width = GetSystemMetrics(SM_CXFULLSCREEN);
+    int height = GetSystemMetrics(SM_CYFULLSCREEN);
+    return Size(static_cast<float>(width), static_cast<float>(height));
 }
 
 Size PlatformDevice::GetScreenNativeResolution()

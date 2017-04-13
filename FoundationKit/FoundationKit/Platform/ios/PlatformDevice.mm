@@ -284,6 +284,10 @@ std::string PlatformDevice::GetCPUArch()
             break;
         case CPU_TYPE_X86:
             strCpuArch = "x86";
+			if(sub_type ==CPU_TYPE_X86_64|| sub_type == CPU_SUBTYPE_X86_64_H)
+			{
+				strCpuArch += "_64";
+			}
             break;
         case CPU_TYPE_ARM:
             strCpuArch = "arm";
