@@ -37,7 +37,7 @@
 		093492BA1E80F2960034ECF2 /* libcurl_init.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libcurl_init.cpp; sourceTree = "<group>"; };
 		093492BB1E80F2960034ECF2 /* libcurl_init.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = libcurl_init.hpp; sourceTree = "<group>"; };
 		093492BC1E80F2960034ECF2 /* MimeTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MimeTypes.cpp; sourceTree = "<group>"; };
-		093492BD1E80F2960034ECF2 /* MimeTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MimeTypes.h; sourceTree = "<group>"; };
+		093492BD1E80F2960034ECF2 /* MimeTypes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MimeTypes.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +79,7 @@
 				093492BA1E80F2960034ECF2 /* libcurl_init.cpp */,
 				093492BB1E80F2960034ECF2 /* libcurl_init.hpp */,
 				093492BC1E80F2960034ECF2 /* MimeTypes.cpp */,
-				093492BD1E80F2960034ECF2 /* MimeTypes.h */,
+				093492BD1E80F2960034ECF2 /* MimeTypes.hpp */,
 			);
 			name = HTTPClient;
 			path = ../HTTPClient;

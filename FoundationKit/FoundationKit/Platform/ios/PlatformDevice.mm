@@ -346,46 +346,48 @@ int PlatformDevice::GetNetworkType()
     Reachability_libo* reachability = [Reachability_libo reachabilityForInternetConnection];
     [reachability startNotifier];
     NetworkStatus status = [reachability currentReachabilityStatus];
+    int result = 0;
     switch (status)
     {
         case ReachableViaWWAN:
         {
-            CTTelephonyNetworkInfo *info = [CTTelephonyNetworkInfo new];
+            CTTelephonyNetworkInfo *info = [[CTTelephonyNetworkInfo alloc] init];
             NSString *radioAccessTechnology = info.currentRadioAccessTechnology;
             if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyGPRS]) {
-                return 2;
+                result = 2;
             } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyEdge]) {
-                return 2;
+                result =  2;
             } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyWCDMA]) {
-                return 3;
+                result =  3;
             } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyHSDPA]) {
-                return 3;
+                result =  3;
             } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyHSUPA]) {
-                return 3;
+                result =  3;
             } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMA1x]) {
-                return 3;
+                result =  3;
             } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORev0]) {
-                return 3;;
+                result =  3;;
             } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevA]) {
-                return 3;
+                result =  3;
             } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevB]) {
-                return 3;
+                result =  3;
             } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyeHRPD]) {
-                return 3;
+                result =  3;
             } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyLTE]) {
-                return 4;
+                result =  4;
             }
+            [info release];
             break;
         }
         case ReachableViaWiFi:
         {
-            return 1;
+            result =  1;
             break;
         }
         default:
             break;
     }
-    return 0;
+    return result;
 }
 
 std::string PlatformDevice::GetIpAddressV4()
