@@ -73,7 +73,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::error_code ec;
     std::string strErr = ec.message();
 
-    HTTPCode::HTTPCodePair hcp(2000);
+    auto aa = PlatformDevice::GetScreenResolution();
+    auto bb = PlatformDevice::GetScreenNativeResolution();
 
 
     //std::vector<std::string>  files;

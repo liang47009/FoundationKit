@@ -5,6 +5,7 @@
 #include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Platform/FileUtils.hpp"
+#include "FoundationKit/Foundation/Size.hpp"
 
 USING_NS_FK;
 
@@ -47,10 +48,25 @@ int wmain()
     return 0;
 }
 
+void setWindowSize(HWND mainWindow, Size size)
+{
+    Size _winScreenSize = Size(GetSystemMetrics(SM_CXFULLSCREEN), GetSystemMetrics(SM_CYFULLSCREEN));
+    SetWindowPos(mainWindow
+        , NULL
+        ,(_winScreenSize.width - size.width) / 2
+        ,(_winScreenSize.height - size.height) / 2
+        ,size.width
+        ,size.height,SWP_NOZORDER|SWP_SHOWWINDOW);
+    UpdateWindow(mainWindow);
+}
+
 LRESULT CALLBACK onMsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
     switch(uMsg)
     {
+        case WM_DESTROY:
+        PostQuitMessage(0);
+        break;
         case WM_RBUTTONDOWN:
         case WM_LBUTTONDOWN:
         {
@@ -58,6 +74,28 @@ LRESULT CALLBACK onMsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
             aa += 10;
         }
         break;
+        case WM_SIZE:
+            {
+                RECT rc;
+                switch(wParam)
+                {
+                case SIZE_MAXIMIZED:
+                    GetWindowRect(hWnd,&rc);
+                    LOG_ERROR("======= SIZE_MAXIMIZED width:%d, height%d", rc.right -rc.left, rc.bottom-rc.top);
+                    break;
+                case SIZE_MINIMIZED:
+                    GetWindowRect(hWnd,&rc);
+                    LOG_ERROR("======= SIZE_MINIMIZED width:%d, height%d", rc.right -rc.left, rc.bottom-rc.top);
+                    break;
+                case SIZE_RESTORED:
+                    GetWindowRect(hWnd,&rc);
+                    LOG_ERROR("======= SIZE_RESTORED width:%d, height%d", rc.right -rc.left, rc.bottom-rc.top);
+                    break;
+                default:
+                    break;
+                }
+            }
+            break;
         default:
             break;
     }
@@ -114,25 +152,20 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
         wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
         wndclass.lpszMenuName = NULL;
         wndclass.lpszClassName = TEXT("fm_main");
-
-
         RegisterClassEx(&wndclass);
 
-        RECT winRect;
-        SetRect(&winRect,0,0,600,320);
-        AdjustWindowRectEx(&winRect, WS_CAPTION|WS_SYSMENU, false, 0);
+        Size winScreenSize = Size(GetSystemMetrics(SM_CXFULLSCREEN), GetSystemMetrics(SM_CYFULLSCREEN));
+        winScreenSize.width  += GetSystemMetrics(SM_CXDLGFRAME)*2;
+        winScreenSize.height += GetSystemMetrics(SM_CYDLGFRAME)*2;
+        winScreenSize.height +=GetSystemMetrics(SM_CYCAPTION);
 
-        int x =  -winRect.left;
-        winRect.left += x;
-        winRect.right += x;
-        int y =  -winRect.top;
-        winRect.top += y;
-        winRect.bottom += y;
-
-        int dwStyle = WS_VISIBLE|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX;
+        Size windowSize = winScreenSize;
+        int dwStyle = WS_VISIBLE|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX;
+        int fixedXPos = GetSystemMetrics(SM_CXDLGFRAME);
         int nCmdWindow = SW_SHOW;
         if (!bWindowed)
         {
+            fixedXPos = 0;
             dwStyle = WS_POPUP;
             nCmdWindow = SW_MAXIMIZE;
         }
@@ -140,9 +173,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
         WCHAR title[256] = { 0 };
         swprintf_s(title, wstrViewName.c_str());
         _mainWindow = CreateWindow(TEXT("fm_main"), title, dwStyle,
-            (GetSystemMetrics(SM_CXSCREEN) - 600) / 2, 
-            (GetSystemMetrics(SM_CYSCREEN) - 320) / 2, 
-            winRect.right-winRect.left, winRect.bottom-winRect.top, NULL, NULL, hInstance, NULL);
+            (winScreenSize.width- windowSize.width) / 2-fixedXPos, 
+            (winScreenSize.height - windowSize.height) / 2, 
+            windowSize.width, windowSize.height, NULL, NULL, hInstance, NULL);
 
         if (_mainWindow == NULL)
         {
