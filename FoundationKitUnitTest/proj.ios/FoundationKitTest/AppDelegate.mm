@@ -27,8 +27,6 @@ using namespace FoundationKit;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
-    LOG_INFO("==== mac address:%s", Platform::getMacAddress().c_str());
-
     LOG_INFO("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());
     return YES;
 }

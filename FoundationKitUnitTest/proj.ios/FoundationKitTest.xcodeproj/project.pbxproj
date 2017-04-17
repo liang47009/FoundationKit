@@ -304,7 +304,10 @@
 					IOS,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../FoundationKit";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../FoundationKit",
+					"$(PROJECT_DIR)/../../ThirdParty/spdlog/include/",
+				);
 				INFOPLIST_FILE = FoundationKitTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -332,7 +335,10 @@
 					IOS,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../FoundationKit";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../FoundationKit",
+					"$(PROJECT_DIR)/../../ThirdParty/spdlog/include/",
+				);
 				INFOPLIST_FILE = FoundationKitTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -6,7 +6,8 @@
  ****************************************************************************/
  #include "FoundationKit/GenericPlatformMacros.hpp"
  #if TARGET_PLATFORM == PLATFORM_IOS
-
+#include <unistd.h>
+#include <sys/sysctl.h>
 #include "FoundationKit/Platform/Platform.hpp"
 
 NS_FK_BEGIN

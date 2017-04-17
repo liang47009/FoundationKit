@@ -554,7 +554,7 @@ bool FileUtils::moveFile(const std::string &oldfullpath, const std::string &newf
 
 bool FileUtils::createDirectory(const std::string& path)const
 {
-    LOG_ASSERT(!path.empty(), "Invalid path");
+    ASSERTED(!path.empty(), "Invalid path");
 
     if (isDirectoryExist(path))
         return true;
@@ -647,8 +647,8 @@ bool FileUtils::removeFile(const std::string &path)
 
 bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &newfullpath)
 {
-    LOG_ASSERT(!oldfullpath.empty(), "Invalid path");
-    LOG_ASSERT(!newfullpath.empty(), "Invalid path");
+    ASSERTED(!oldfullpath.empty(), "Invalid path");
+    ASSERTED(!newfullpath.empty(), "Invalid path");
 
     int errorCode = rename(oldfullpath.c_str(), newfullpath.c_str());
 
@@ -662,7 +662,7 @@ bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &ne
 
 bool FileUtils::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
 {
-    LOG_ASSERT(!path.empty(), "Invalid path");
+    ASSERTED(!path.empty(), "Invalid path");
     std::string oldPath = path + oldname;
     std::string newPath = path + name;
 

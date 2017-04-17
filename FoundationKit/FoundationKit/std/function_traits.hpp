@@ -97,7 +97,7 @@ struct function_traits<Ret(Args...)>
     typedef  Ret(*pointer)(Args...);
     using stl_function_type = std::function<function_type>;
     using args_raw_tuple_type = std::tuple<Args...>;
-    using args_tuple_type = std::tuple <std::remove_cv_t<std::remove_reference_t<Args> >...>;
+    using args_tuple_type = std::tuple <typename std::remove_cv<typename std::remove_reference<Args>::type >::type...>;
     using return_type = Ret;
     using arity       = std::integral_constant < unsigned, sizeof...(Args) > ;
 
