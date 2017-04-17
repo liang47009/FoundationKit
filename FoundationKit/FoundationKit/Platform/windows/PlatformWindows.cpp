@@ -11,9 +11,9 @@ NS_FK_BEGIN
 
 
 
-bool Platform::isDebuggerActive()
+bool Platform::IsDebuggerPresent()
 {
-
+    return ::IsDebuggerPresent();
 }
 
 

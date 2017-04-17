@@ -22,7 +22,7 @@ class Platform
 public:
 	Platform();
 	~Platform();
-    bool isDebuggerActive();
+    bool IsDebuggerPresent();
 };
 
 NS_FK_END
