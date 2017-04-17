@@ -68,13 +68,17 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
-
+    Logger::getInstance()->init("E:\\linux\\FoundationKit.log");
     auto aa = PlatformDevice::GetScreenResolution();
     auto bb = PlatformDevice::GetScreenNativeResolution();
+
+    LOG_ERROR("FoundationKit applicationDidFinishLaunching run:{0},{1}", aa.width, aa.height);
+
 
 
     //std::vector<std::string>  files;

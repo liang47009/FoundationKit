@@ -17,22 +17,12 @@
 
 NS_FK_BEGIN
 
-enum UnitOfMemory : int64
-{
-    Kb = 1 * 1024,
-    Mb = Kb * 1024,
-    Gb = Mb * 1024,
-    Tb = Gb * 1024,
-    Pb = Tb * 1024,
-    Eb = Pb * 1024
-};
-
 class Platform
 {
 public:
 	Platform();
 	~Platform();
-
+    bool isDebuggerActive();
 };
 
 NS_FK_END

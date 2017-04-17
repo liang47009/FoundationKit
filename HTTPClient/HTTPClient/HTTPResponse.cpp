@@ -54,7 +54,7 @@ std::string HTTPResponse::getHeader(const std::string& headerName)
     std::string result;
     if (!_bIsReady)
     {
-        LOG_WARN("Can't get cached header [%s]. Response still processing. %p", headerName.c_str(), &_request);
+        LOG_WARN("Can't get cached header [%s]. Response still processing. %p", headerName.c_str(), (void*)&_request);
     }
     else
     {
@@ -72,7 +72,7 @@ std::vector<std::string> HTTPResponse::getAllHeaders()
     std::vector<std::string> result;
     if (!_bIsReady)
     {
-        LOG_WARN("Can't get cached headers. Response still processing. %p", &_request);
+        LOG_WARN("Can't get cached headers. Response still processing. %p", (void*)&_request);
     }
     else
     {

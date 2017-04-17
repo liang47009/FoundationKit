@@ -34,8 +34,8 @@ struct HTTPCodePair
 extern const HTTPCodePair* HTTPCodeList[];
 
 HTTPCode::HTTPCodePair::HTTPCodePair()
-    : code(-1)
-    , message("Unknown")
+    : code(0)
+    , message("OK")
 {
 
 }

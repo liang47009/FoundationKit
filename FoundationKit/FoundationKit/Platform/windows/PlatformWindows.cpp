@@ -9,6 +9,14 @@ losemymind.libo@gmail.com
 
 NS_FK_BEGIN
 
+
+
+bool Platform::isDebuggerActive()
+{
+
+}
+
+
 NS_FK_END
 
 #endif

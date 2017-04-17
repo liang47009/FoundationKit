@@ -8,7 +8,6 @@
 #include <stdarg.h>
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Logger.hpp"
-
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 #include <Winsock2.h>
 #endif
@@ -20,82 +19,52 @@
 
 NS_FK_BEGIN
 
-static const size_t MAX_LOG_LENGTH = 256;
-static const char*  LevelMsg[] = {"VERBOSE","DEBUG", "INFO", "WARN", "ERROR", "ASSERT"};
-
-
-Logger::State::State():enabled(true){}
-
 Logger::~Logger()
 {
+    _log->flush();
+    _console_log->flush();
+    //spdlog::apply_all([&](std::shared_ptr<spdlog::logger> l)
+    //{
+    //    l->info("End of Logger.");
+    //});
+    //spdlog::drop_all();
+}
+
+
+Logger::Logger()
+{
 
 }
 
-void Logger::log( Level level, const char* message, ... )
+bool Logger::init(const std::string& fileName)
 {
-    Logger::State& state = _states[level];
-    if (!state.enabled)
-        return;
-    std::string strPreMsg = LevelMsg[level];
-    strPreMsg += ":";
-    va_list args;
-
-    // Declare a moderately sized buffer on the stack that should be
-    // large enough to accommodate most log requests.
-    int size = MAX_LOG_LENGTH;
-    //char stackBuffer[MAX_LOG_LENGTH] = { 0 };
-    std::vector<char> dynamicBuffer(MAX_LOG_LENGTH);
-    char* str = &dynamicBuffer[0];
-    for (;;)
+    try
     {
-        va_start(args, message);
-        // Pass one less than size to leave room for NULL terminator
-        int needed = vsnprintf(str, size - 1, message, args);
-        va_end(args);
-        // NOTE: Some platforms return -1 when vsnprintf runs out of room, while others return
-        // the number of characters actually needed to fill the buffer.
-        if (needed >= 0 && needed < size)
-        {
-            // Successfully wrote buffer. Added a NULL terminator in case it wasn't written.
-            str[needed] = '\0';
-            break;
-        }
-        if (needed < 0)
-        {
-            return;
-        }
-        size = needed > 0 ? (needed + 1) : (size * 2);
-        dynamicBuffer.resize(size);
-        str = &dynamicBuffer[0];
+        _log = spdlog::rotating_logger_mt("file_logger", fileName, 1024 * 1024 * 10, 2);
+        _console_log = spdlog::stdout_logger_mt("console_logger");
     }
-    strPreMsg += str;
-    strPreMsg += "\n";
+    catch (std::exception&)
+    {
+        return false;
+    }
+    catch (...)
+    {
+        return false;
+    }
 
-#if (TARGET_PLATFORM == PLATFORM_ANDROID)
-    __android_log_print(ANDROID_LOG_DEBUG, "FoundationKit", "%s", strPreMsg.c_str());
-#elif TARGET_PLATFORM ==  PLATFORM_WINDOWS
-    std::wstring wstr = StringUtils::string2UTF8wstring(strPreMsg);
-    OutputDebugStringW(wstr.c_str());
-    printf("%s", strPreMsg.c_str());
-    fflush(stdout);
-#else
-    // Linux, Mac, iOS, etc
-    fprintf(stdout, "%s", strPreMsg.c_str());
-    fflush(stdout);
-#endif
+    return true;
 }
 
-bool Logger::isEnabled( Level level )
+
+Logger::pointer Logger::get_log()
 {
-    return _states[level].enabled;
+    return _log;
 }
 
-void Logger::setEnabled( Level level, bool enabled )
+Logger::pointer Logger::get_console_log()
 {
-    _states[level].enabled = enabled;
+    return _console_log;
 }
-
 
 NS_FK_END
-
 

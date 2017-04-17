@@ -67,31 +67,31 @@ std::string Timespan::toString( const char* format ) const
 
 Timespan Timespan::fromDays( double days )
 {
-    LOG_ASSERT((days >= minValue().getTotalDays()) && (days <= maxValue().getTotalDays()), "The days param invalid.");
+    ASSERTED((days >= minValue().getTotalDays()) && (days <= maxValue().getTotalDays()), "The days param invalid.");
     return Timespan(static_cast<int64>(days * ETimespan::TicksPerDay));
 }
 
 Timespan Timespan::fromHours( double hours )
 {
-    LOG_ASSERT((hours >= minValue().getTotalHours()) && (hours <= maxValue().getTotalHours()), "The hours param invalid.");
+    ASSERTED((hours >= minValue().getTotalHours()) && (hours <= maxValue().getTotalHours()), "The hours param invalid.");
     return Timespan(static_cast<int64>(hours * ETimespan::TicksPerHour));
 }
 
 Timespan Timespan::fromMinutes(double minutes)
 {
-    LOG_ASSERT((minutes >= minValue().getTotalMinutes()) && (minutes <= maxValue().getTotalMinutes()), "The minutes param invalid.");
+    ASSERTED((minutes >= minValue().getTotalMinutes()) && (minutes <= maxValue().getTotalMinutes()), "The minutes param invalid.");
     return Timespan(static_cast<int64>(minutes * ETimespan::TicksPerMinute));
 }
 
 Timespan Timespan::fromSeconds(double seconds)
 {
-    LOG_ASSERT((seconds >= minValue().getTotalSeconds()) && (seconds <= maxValue().getTotalSeconds()), "The seconds param invalid.");
+    ASSERTED((seconds >= minValue().getTotalSeconds()) && (seconds <= maxValue().getTotalSeconds()), "The seconds param invalid.");
     return Timespan(static_cast<int64>(seconds * ETimespan::TicksPerSecond));
 }
 
 Timespan Timespan::fromMilliseconds( double milliseconds )
 {
-    LOG_ASSERT((milliseconds >= minValue().getTotalMilliseconds()) && (milliseconds <= maxValue().getTotalMilliseconds()), "The milliseconds param invalid.");
+    ASSERTED((milliseconds >= minValue().getTotalMilliseconds()) && (milliseconds <= maxValue().getTotalMilliseconds()), "The milliseconds param invalid.");
     return Timespan(static_cast<int64>(milliseconds * ETimespan::TicksPerMillisecond));
 }
 
@@ -129,7 +129,7 @@ bool Timespan::parse( const std::string& timespanString, Timespan& outTimespan )
 void Timespan::assign( int32 days, int32 hours, int32 minutes, int32 seconds, int32 milliseconds )
 {
     int64 totalms = 1000 * (60 * 60 * 24 * (int64)days + 60 * 60 * (int64)hours + 60 * (int64)minutes + (int64)seconds) + (int64)milliseconds;
-    LOG_ASSERT((totalms >= minValue().getTotalMilliseconds()) && (totalms <= maxValue().getTotalMilliseconds()), "Total millisecond is invalid.");
+    ASSERTED((totalms >= minValue().getTotalMilliseconds()) && (totalms <= maxValue().getTotalMilliseconds()), "Total millisecond is invalid.");
 	_ticks = totalms * ETimespan::TicksPerMillisecond;
 }
 

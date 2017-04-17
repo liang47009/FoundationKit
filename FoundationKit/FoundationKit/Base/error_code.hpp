@@ -24,7 +24,7 @@ inline void throw_exception(const Exception& e)
     throw e;
 }
 
-static void throw_error_if(const std::error_code& err, const char* location= nullptr)
+static inline void throw_error_if(const std::error_code& err, const char* location = nullptr)
 {
     if (err)
     {
@@ -130,7 +130,7 @@ static const _Map_errtab_t _Map_errtab[] =
     0, std::errc::operation_not_supported
 };
 
-static int  WinErrorCodeToErrc(int _Errcode)
+static inline int  WinErrorCodeToErrc(int _Errcode)
 {
     const _Map_errtab_t *_Ptr = &_Map_errtab[0];
     for (; _Ptr->_Win_Errcode != 0; ++_Ptr)

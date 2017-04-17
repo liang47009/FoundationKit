@@ -147,7 +147,7 @@ const int32 DateTime::DaysToMonth[] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 
 
 DateTime::DateTime( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond )
 {
-    LOG_ASSERT(validate(year, month, day, hour, minute, second, millisecond), "Input date time is invalid.");
+    ASSERTED(validate(year, month, day, hour, minute, second, millisecond), "Input date time is invalid.");
 
 	int32 totalDays = 0;
 
@@ -310,7 +310,7 @@ std::string DateTime::toString( const char* format ) const
 
 int32 DateTime::daysInMonth( int32 year, int32 month )
 {
-    LOG_ASSERT((month >= 1) && (month <= 12), "The month param is invaild.");
+    ASSERTED((month >= 1) && (month <= 12), "The month param is invaild.");
     if ((month == 2) && isLeapYear(year))
 	{
 		return 29;
