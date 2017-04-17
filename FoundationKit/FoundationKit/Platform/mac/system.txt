@@ -1,0 +1,8 @@
+sudo nano -w /System/Library/CoreServices/SystemVersion.plist
+
+NSDictionary *systemVersionDictionary =
+    [NSDictionary dictionaryWithContentsOfFile:
+        @"/System/Library/CoreServices/SystemVersion.plist"];
+
+NSString *systemVersion =
+    [systemVersionDictionary objectForKey:@"ProductVersion"];

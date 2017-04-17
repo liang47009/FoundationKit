@@ -110,6 +110,12 @@ public:
         return reinterpret_cast<void*>(_data);;
     }
 
+    /// Get the size of the memory range.
+    std::size_t size() const
+    {
+        return _size;
+    }
+
     const char* c_str()const
     {
         return reinterpret_cast<const char*>(_data);
@@ -135,12 +141,6 @@ public:
         _data = reinterpret_cast<uint8*>(data);
         _size = size;
         _owner = need_del;
-    }
-
-    /// Get the size of the memory range.
-    std::size_t size() const
-    {
-        return _size;
     }
 
     void clear()
@@ -319,6 +319,12 @@ public:
         return _data;
     }
 
+    /// Get the size of the memory range.
+    std::size_t size() const
+    {
+        return _size;
+    }
+
     const char* c_str()const
     {
         return reinterpret_cast<const char*>(_data);
@@ -334,12 +340,6 @@ public:
         clear();
         _data = data;
         _size = size;
-    }
-
-    /// Get the size of the memory range.
-    std::size_t size() const
-    {
-        return _size;
     }
 
     void clear()

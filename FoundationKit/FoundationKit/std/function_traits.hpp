@@ -96,7 +96,8 @@ struct function_traits<Ret(Args...)>
     typedef  Ret signature(Args...);
     typedef  Ret(*pointer)(Args...);
     using stl_function_type = std::function<function_type>;
-    using args_tuple  = std::tuple < Args... > ;
+    using args_raw_tuple_type = std::tuple<Args...>;
+    using args_tuple_type = std::tuple <std::remove_cv_t<std::remove_reference_t<Args> >...>;
     using return_type = Ret;
     using arity       = std::integral_constant < unsigned, sizeof...(Args) > ;
 
@@ -105,7 +106,7 @@ struct function_traits<Ret(Args...)>
     {
         static_assert(I < arity::value, "index is out of range, index must less than sizeof Args");
         // C++14 is std::tuple_element
-        using type = typename std::tuple_element<I, args_tuple>::type;
+        using type = typename std::tuple_element<I, args_raw_tuple_type>::type;
     };
 };
 

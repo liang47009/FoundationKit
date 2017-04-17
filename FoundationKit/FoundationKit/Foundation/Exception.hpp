@@ -104,15 +104,20 @@ public:
 	 */
 	virtual void rethrow() const;
 
+    operator bool() const noexcept
+    {
+        return _error_code == 0;
+    }
+
 protected:
 	Exception(int code = 0);
 	void message(const std::string& msg);
 	void extendedMessage(const std::string& arg);
 
 private:
-	std::string _msg;
+	std::string _error_msg;
 	Exception*  _pNested;
-	int			_code;
+	int			_error_code;
 };
 
 
@@ -127,19 +132,19 @@ inline const Exception* Exception::nested() const
 
 inline const std::string& Exception::message() const
 {
-	return _msg;
+    return _error_msg;
 }
 
 
 inline void Exception::message(const std::string& msg)
 {
-	_msg = msg;
+    _error_msg = msg;
 }
 
 
 inline int Exception::code() const
 {
-	return _code;
+    return _error_code;
 }
 
 /**

@@ -10,33 +10,44 @@
 
 NS_FK_BEGIN
 
-Exception::Exception(int code): _pNested(nullptr), _code(code)
+Exception::Exception(int code) 
+: _pNested(nullptr)
+, _error_code(code)
 {
 }
 
 
-Exception::Exception(const std::string& msg, int code): _msg(msg), _pNested(nullptr), _code(code)
+Exception::Exception(const std::string& msg, int code) 
+    : _error_msg(msg)
+    , _pNested(nullptr)
+    , _error_code(code)
 {
 }
 
 
-Exception::Exception(const std::string& msg, const std::string& arg, int code): _msg(msg), _pNested(nullptr), _code(code)
+Exception::Exception(const std::string& msg, const std::string& arg, int code) 
+    : _error_msg(msg)
+    , _pNested(nullptr)
+    , _error_code(code)
 {
 	if (!arg.empty())
 	{
-		_msg.append(": ");
-		_msg.append(arg);
+        _error_msg.append(": ");
+        _error_msg.append(arg);
 	}
 }
 
-Exception::Exception(const std::string& msg, const Exception& nested, int code): _msg(msg), _pNested(nested.clone()), _code(code)
+Exception::Exception(const std::string& msg, const Exception& nested, int code)
+    : _error_msg(msg)
+    , _pNested(nested.clone())
+    , _error_code(code)
 {
 }
 
-Exception::Exception(const Exception& exc):
-	std::exception(exc),
-	_msg(exc._msg),
-	_code(exc._code)
+Exception::Exception(const Exception& exc)
+    :std::exception(exc)
+    , _error_msg(exc._error_msg)
+    , _error_code(exc._error_code)
 {
 	_pNested = exc._pNested ? exc._pNested->clone() : 0;
 }
@@ -53,9 +64,9 @@ Exception& Exception::operator = (const Exception& exc)
 	if (&exc != this)
 	{
 		delete _pNested;
-		_msg     = exc._msg;
-		_pNested = exc._pNested ? exc._pNested->clone() : 0;
-		_code    = exc._code;
+        _error_msg  = exc._error_msg;
+		_pNested    = exc._pNested ? exc._pNested->clone() : 0;
+        _error_code = exc._error_code;
 	}
 	return *this;
 }
@@ -82,10 +93,10 @@ const char* Exception::what() const throw()
 std::string Exception::displayText() const
 {
 	std::string txt = name();
-	if (!_msg.empty())
+    if (!_error_msg.empty())
 	{
 		txt.append(": ");
-		txt.append(_msg);
+        txt.append(_error_msg);
 	}
 	return txt;
 }
@@ -95,8 +106,8 @@ void Exception::extendedMessage(const std::string& arg)
 {
 	if (!arg.empty())
 	{
-		if (!_msg.empty()) _msg.append(": ");
-		_msg.append(arg);
+        if (!_error_msg.empty()) _error_msg.append(": ");
+        _error_msg.append(arg);
 	}
 }
 
