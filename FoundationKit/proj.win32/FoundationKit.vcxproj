@@ -202,6 +202,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h" />
+    <ClInclude Include="..\FoundationKit\forward.hpp" />
     <ClInclude Include="..\FoundationKit\FoundationMacros.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Compression.hpp" />

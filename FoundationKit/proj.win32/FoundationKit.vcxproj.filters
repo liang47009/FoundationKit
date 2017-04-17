@@ -258,6 +258,7 @@
     <ClInclude Include="..\FoundationKit\Base\type_cast.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\forward.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
