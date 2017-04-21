@@ -4,7 +4,10 @@
 
 
 NS_FK_BEGIN
-
+bool Platform::IsDebuggerPresent()
+{
+    return false;
+}
 
 NS_FK_END
 

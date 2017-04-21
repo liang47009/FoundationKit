@@ -69,8 +69,6 @@ static inline void LOG_CRITICAL(const char* fmt, const Args&... args)
 template<typename... Args>
 static inline void LOG_DEBUG(const char* fmt, const Args&... args)
 {
-    Logger::getInstance()->get_log()->set_level(spdlog::level::debug);
-    Logger::getInstance()->get_log()->debug(fmt, args...);
     Logger::getInstance()->get_console_log()->set_level(spdlog::level::debug);
     Logger::getInstance()->get_console_log()->debug(fmt, args...);
 }

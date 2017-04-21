@@ -34,6 +34,9 @@
     <Filter Include="Platform\windows\system">
       <UniqueIdentifier>{bef2ae3c-6bfc-4e28-9173-943161f875f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="experimental">
+      <UniqueIdentifier>{77ba71ed-6746-4d2a-8085-4d7e997e5f01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp">
@@ -252,13 +255,16 @@
     <ClInclude Include="..\FoundationKit\Base\scope_locale.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\std\tuple_helper.hpp">
-      <Filter>std</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\type_cast.hpp">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\forward.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\ArgumentUnpacker.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\FunctionProtocol.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

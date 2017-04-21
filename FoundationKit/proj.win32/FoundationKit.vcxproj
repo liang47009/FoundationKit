@@ -198,6 +198,8 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Crypto\Base64.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\ArgumentUnpacker.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\FunctionProtocol.hpp" />
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
@@ -255,7 +257,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\std\match.hpp" />
     <ClInclude Include="..\FoundationKit\std\max_integer_of.hpp" />
     <ClInclude Include="..\FoundationKit\std\memory_aligned.hpp" />
-    <ClInclude Include="..\FoundationKit\std\tuple_helper.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp" />

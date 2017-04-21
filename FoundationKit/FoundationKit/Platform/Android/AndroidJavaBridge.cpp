@@ -44,8 +44,7 @@ extern "C"
         }
         FoundationKit::DelegateManager::getInstance()->invokeDelegate(strFunName, &arguments);
 
-
-        /**
+        /*
         size_t argIndex = 0;
         while (argIndex < count)
         {
@@ -100,7 +99,7 @@ extern "C"
             case 'T':
                 break;
             default:
-                LOGE("argument signature [%c] is error", argType);
+                ANDROID_LOGE("argument signature [%c] is error", argType);
                 break;
             }
             ++argIndex;

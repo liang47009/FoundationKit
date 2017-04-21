@@ -12,30 +12,6 @@
 #include <functional>
 
 namespace std{
-/**
-    define function pointer
-    typedef ReturnType(*FunctionName)(Parameter1Type, Parameter2Type, ...);
-    typedef ReturnType(ClassType::*FunctionName)(Parameter1Type, Parameter2Type, ...);
-example:
-    // Normal function
-    int add(int a, int b){ return a + b; }
-    typedef int(*FunAddPtr)(int, int);
-    FunAddPtr funAdd = &add;
-    int ret = funAdd(10,20);
-
-    //Menber function
-    class Foo
-    {
-    public:
-        double One(long inVal, long inVal1){ return inVal / inVal1; };
-        double Two(long inVal){ return 0; };
-    };
-
-    typedef double(Foo::*FooFun)(long, long);
-    Foo aFoo;
-    FooFun fone = &Foo::One;
-    double ret1 = (aFoo.*fone)(10, 30);
-*/
      
 /** 
  * 
@@ -66,71 +42,77 @@ example:
  *   {
  *       LOG_INFO("======= TestFunctionTraits =======");
  *       std::function<int(int)> fn = [](int a){ return a; };
- *       printType<function_traits<std::function<int(int)>>::signature>();
- *       printType<function_traits<std::function<int(int)>>::arg<0>::type>();
- *       printType<function_traits<decltype(fn)>::signature>();
- *       printType<function_traits<decltype(free_function)>::signature>();
- *       printType<function_traits<decltype(castfunc)>::signature>();
- *       printType<function_traits<AA>::signature>();
+ *       printType<function_traits<std::function<int(int)>>::function_type>();
+ *       printType<function_traits<std::function<int(int)>>::args<0>::type>();
+ *       printType<function_traits<decltype(fn)>::function_type>();
+ *       printType<function_traits<decltype(free_function)>::function_type>();
+ *       printType<function_traits<decltype(castfunc)>::function_type>();
+ *       printType<function_traits<AA>::function_type>();
  *       using T = decltype(&AA::f);
  *       printType<T>();
- *       printType<function_traits<decltype(&AA::f)>::signature>();
+ *       printType<function_traits<decltype(&AA::f)>::function_type>();
  *   }
  * @endcode
  */
-//Normal functions
-//Function pointer
-//function/lambda
-//Member functions
-//Callable object
-template<typename T>
-struct function_traits;
 
-//Ordinary functions
+/*
+* 1. function type							==>	Ret(Args...)
+* 2. function pointer						==>	Ret(*)(Args...)
+* 3. function reference						==>	Ret(&)(Args...)
+* 4. pointer to non-static member function	==> Ret(T::*)(Args...)
+* 5. function object and functor		    ==> &T::operator()
+* 6. function with generic operator call	==> template <typeanme ... Args> &T::operator()
+*/
+template <typename T>
+struct function_traits_impl;
+
+template<typename T>
+struct function_traits : function_traits_impl<
+    std::remove_cv_t<std::remove_reference_t<T>>>
+{};
+
 template<typename Ret, typename... Args>
-struct function_traits<Ret(Args...)>
+struct function_traits_impl<Ret(Args...)>
 {
-    //using function_type = Ret(Args...); //C++ 14 support
-    //using signature = Ret(Args...); //C++ 14 support
+public:
     typedef  Ret function_type(Args...);
-    typedef  Ret signature(Args...);
     typedef  Ret(*pointer)(Args...);
-    using stl_function_type = std::function<function_type>;
-    using args_raw_tuple_type = std::tuple<Args...>;
-    using args_tuple_type = std::tuple <typename std::remove_cv<typename std::remove_reference<Args>::type >::type...>;
+    using stl_function_type = std::function < function_type > ;
+    using args_raw_tuple_type = std::tuple < Args... > ;
+    using args_tuple_type = std::tuple < typename std::remove_cv<typename std::remove_reference<Args>::type >::type... > ;
     using return_type = Ret;
-    using arity       = std::integral_constant < unsigned, sizeof...(Args) > ;
+    using arity = std::integral_constant < unsigned, sizeof...(Args) > ;
 
     template<size_t I>
     struct args
     {
         static_assert(I < arity::value, "index is out of range, index must less than sizeof Args");
-        // C++14 is std::tuple_element
         using type = typename std::tuple_element<I, args_raw_tuple_type>::type;
     };
 };
 
-//Function pointer
+// function pointer
 template<typename Ret, typename... Args>
-struct function_traits<Ret(*)(Args...)> : function_traits<Ret(Args...)>{};
+struct function_traits_impl<Ret(*)(Args...)> : function_traits<Ret(Args...)>{};
 
-//std::function
+// std::function
 template <typename Ret, typename... Args>
-struct function_traits<std::function<Ret(Args...)>> : function_traits<Ret(Args...)>{};
+struct function_traits_impl<std::function<Ret(Args...)>> : function_traits_impl<Ret(Args...)>{};
 
 //member function
 #define FUNCTION_TRAITS(...)\
 template <typename ReturnType, typename ClassType, typename... Args>\
-struct function_traits<ReturnType(ClassType::*)(Args...) __VA_ARGS__> : function_traits<ReturnType(Args...)>{};
+struct function_traits_impl<ReturnType(ClassType::*)(Args...) __VA_ARGS__> : function_traits_impl<ReturnType(Args...)>{};
 
+// pointer of non-static member function
 FUNCTION_TRAITS()
 FUNCTION_TRAITS(const)
 FUNCTION_TRAITS(volatile)
 FUNCTION_TRAITS(const volatile)
 
-//Callable object
+// functor
 template<typename Callable>
-struct function_traits : function_traits<decltype(&Callable::operator())>{};
+struct function_traits_impl : function_traits_impl<decltype(&Callable::operator())> {};
 
 template <typename Function>
 typename function_traits<Function>::stl_function_type to_function(const Function& lambda)
@@ -149,6 +131,8 @@ typename function_traits<Function>::pointer to_function_pointer(const Function& 
 {
     return static_cast<typename function_traits<Function>::pointer>(lambda);
 }
+
+
 
 } // namespace std
 

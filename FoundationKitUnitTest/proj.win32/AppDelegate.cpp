@@ -33,8 +33,7 @@
 #include "FoundationKit/Foundation/TimerQueue.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Base/type_cast.hpp"
-
-
+#include "FoundationKit/experimental/FunctionProtocol.hpp"
 #include "HTTPClient/HTTPClient.hpp"
 #include "HTTPClient/HTTPCode.hpp"
 
@@ -68,6 +67,49 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+template<typename T>
+void printType()
+{
+    std::cout << typeid(T).name() << std::endl;
+
+}
+
+float(*castfunc)(std::string, int);
+float free_function(const std::string&a, int b)
+{
+    return (float)a.size() / b;
+
+}
+
+struct AA
+{
+    int f(int a, int b) volatile{ return a + b; }
+    int operator()(int)const { return 0; }
+
+};
+
+void TestFunctionTraits()
+{
+    LOG_INFO("======= TestFunctionTraits =======");
+    std::function<int(int)> fn = [](int a){ return a; };
+    printType<function_traits<std::function<int(int)>>::function_type>();
+    printType<function_traits<std::function<int(int)>>::args<0>::type>();
+    printType<function_traits<decltype(fn)>::function_type>();
+    printType<function_traits<decltype(free_function)>::function_type>();
+    printType<function_traits<decltype(castfunc)>::function_type>();
+    printType<function_traits<AA>::function_type>();
+    using T = decltype(&AA::f);
+    printType<T>();
+    printType<function_traits<decltype(&AA::f)>::function_type>();
+
+}
+
+int TestTuple(int* pi,char* p, int i, const std::string& str)
+{
+    int aa = 10;
+    return ++aa;
+}
+
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
@@ -76,8 +118,23 @@ bool AppDelegate::applicationDidFinishLaunching()
     Logger::getInstance()->init("E:\\linux\\FoundationKit.log");
     auto aa = PlatformDevice::GetScreenResolution();
     auto bb = PlatformDevice::GetScreenNativeResolution();
+    TestFunctionTraits();
 
-    LOG_ERROR("FoundationKit applicationDidFinishLaunching run:{0},{1}", aa.width, aa.height);
+    int* i = new int(100);
+
+    char ibuffer[sizeof(i)];
+    memcpy(ibuffer, i, 4);
+
+    int* ib = (int*)ibuffer;
+
+
+    FunctionProtocolBase* fpb = new FunctionProtocol<decltype(TestTuple)>(&TestTuple);
+    ArgumentPacker  ap;
+    ap.pack_arg(i, 4);
+    ap.pack_arg("aaaa", 4);
+    ap.pack_arg<int>(10);
+    ap.pack_arg("aaa", 3);
+    fpb->invoke(ap);
 
 
 

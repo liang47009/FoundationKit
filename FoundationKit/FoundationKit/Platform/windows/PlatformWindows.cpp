@@ -13,7 +13,7 @@ NS_FK_BEGIN
 
 bool Platform::IsDebuggerPresent()
 {
-    return ::IsDebuggerPresent();
+    return ::IsDebuggerPresent() == TRUE;
 }
 
 
