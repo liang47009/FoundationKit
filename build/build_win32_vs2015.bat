@@ -13,8 +13,8 @@ call "%DEVENV%" ..\FoundationKitFramework.sln /rebuild "Debug|win32" /project Fo
 call "%DEVENV%" ..\FoundationKitFramework.sln /rebuild "Release|win32" /project FoundationKit /projectconfig "Release|win32"
 
 ::Build Solution FoundationKitCPP03.sln
-::call "%DEVENV%" ..\FoundationKitCPP03\proj.win32\FoundationKitCPP03.sln /rebuild "Debug|win32"
-::call "%DEVENV%" ..\FoundationKitCPP03\proj.win32\FoundationKitCPP03.sln /rebuild "Release|win32"
+::call "%DEVENV%" ..\FoundationKitFramework.sln /rebuild "Debug|win32"
+::call "%DEVENV%" ..\FoundationKitFramework.sln /rebuild "Release|win32"
 
 set PUBLISH_DIR="..\publish\vs2015\"
 
