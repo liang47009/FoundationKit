@@ -67,9 +67,9 @@ template <typename T>
 struct function_traits_impl;
 
 template<typename T>
-struct function_traits : function_traits_impl<
-    std::remove_cv_t<std::remove_reference_t<T>>>
-{};
+struct function_traits : function_traits_impl<std::remove_cv_t<std::remove_reference_t<T>>>
+{
+};
 
 template<typename Ret, typename... Args>
 struct function_traits_impl<Ret(Args...)>
