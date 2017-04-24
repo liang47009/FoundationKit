@@ -2,7 +2,7 @@
 #那么编译的ABI只能是 armeabi-v7a以上，clang下的armeabi架构
 #不支持原子库
 
-# (default)	The default minimal system C++ runtime library.	N/A
+#   (default)	The default minimal system C++ runtime library.	N/A
 #APP_STL :=libstdc++
 #	The GAbi++ runtime (static).	C++ Exceptions and RTTI
 #APP_STL :=gabi++_static
@@ -10,15 +10,15 @@
 #APP_STL :=gabi++_shared
 #	The STLport runtime (static).	C++ Exceptions and RTTI; Standard Library
 #APP_STL :=stlport_static
-#The STLport runtime (shared).	C++ Exceptions and RTTI; Standard Library
+#   The STLport runtime (shared).	C++ Exceptions and RTTI; Standard Library
 #APP_STL :=stlport_shared
 #	The GNU STL (static).	C++ Exceptions and RTTI; Standard Library
 APP_STL :=gnustl_static
-#The GNU STL (shared).	C++ Exceptions and RTTI; Standard Library
+#   The GNU STL (shared).	C++ Exceptions and RTTI; Standard Library
 #APP_STL :=gnustl_shared
-#The LLVM libc++ runtime (static).	C++ Exceptions and RTTI; Standard Library
+#   The LLVM libc++ runtime (static).	C++ Exceptions and RTTI; Standard Library
 #APP_STL :=c++_static
-#The LLVM libc++ runtime (shared).	C++ Exceptions and RTTI; Standard Library
+#   The LLVM libc++ runtime (shared).	C++ Exceptions and RTTI; Standard Library
 #APP_STL :=c++_shared
 
 #armeabi can not support atomic
@@ -30,7 +30,7 @@ APP_ABI := armeabi armeabi-v7a x86
 NDK_TOOLCHAIN_VERSION := 4.8
 #NDK_TOOLCHAIN_VERSION := clang
 
-APP_PLATFORM=android-10
+APP_PLATFORM=android-15
 
 APP_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11
 APP_LDFLAGS := -latomic -llog -landroid

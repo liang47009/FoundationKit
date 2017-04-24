@@ -11,6 +11,307 @@
 #include <type_traits>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
+#if defined(__GNUC__)
+#include <sstream>
+#include <iomanip>
+#include <stdlib.h>
+#include <wchar.h>
+#define _STRTO_LL	strtoll
+#define _STRTO_ULL	strtoull 
+#define _STRTO_F	strtod
+#define _STRTO_LD	strtod
+
+#define _WCSTO_LL	wcstol
+#define _WCSTO_ULL	wcstoul
+#define _WCSTO_F	wcstod
+#define _WCSTO_LD	wcstod
+namespace std
+{
+    inline int stoi(const string& _Str, size_t *_Idx = 0,
+        int _Base = 10)
+    {	// convert string to int
+        const char *_Ptr = _Str.c_str();
+        char *_Eptr;
+        errno = 0;
+        long _Ans = std::strtol(_Ptr, &_Eptr, _Base);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stoi argument");
+        if (errno == ERANGE || _Ans < INT_MIN != INT_MAX < _Ans)
+            throw std::out_of_range("stoi argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return ((int)_Ans);
+    }
+
+    inline long stol(const string& _Str, size_t *_Idx = 0,
+        int _Base = 10)
+    {	// convert string to long
+        const char *_Ptr = _Str.c_str();
+        char *_Eptr;
+        errno = 0;
+        long _Ans = std::strtol(_Ptr, &_Eptr, _Base);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stol argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stol argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    inline unsigned long stoul(const string& _Str, size_t *_Idx = 0,
+        int _Base = 10)
+    {	// convert string to unsigned long
+        const char *_Ptr = _Str.c_str();
+        char *_Eptr;
+        errno = 0;
+        unsigned long _Ans = std::strtoul(_Ptr, &_Eptr, _Base);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stoul argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stoul argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    inline long long stoll(const string& _Str, size_t *_Idx = 0,
+        int _Base = 10)
+    {	// convert string to long long
+        const char *_Ptr = _Str.c_str();
+        char *_Eptr;
+        errno = 0;
+        long long _Ans = _STRTO_LL(_Ptr, &_Eptr, _Base);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stoll argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stoll argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    inline unsigned long long stoull(const string& _Str, size_t *_Idx = 0,
+        int _Base = 10)
+    {	// convert string to unsigned long long
+        const char *_Ptr = _Str.c_str();
+        errno = 0;
+        char *_Eptr;
+        unsigned long long _Ans = _STRTO_ULL(_Ptr, &_Eptr, _Base);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stoull argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stoull argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    inline float stof(const string& _Str, size_t *_Idx = 0)
+    {	// convert string to float
+        const char *_Ptr = _Str.c_str();
+        errno = 0;
+        char *_Eptr;
+        float _Ans = (float)std::_STRTO_F(_Ptr, &_Eptr);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stof argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stof argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    inline double stod(const string& _Str, size_t *_Idx = 0)
+    {	// convert string to double
+        const char *_Ptr = _Str.c_str();
+        errno = 0;
+        char *_Eptr;
+        double _Ans = std::strtod(_Ptr, &_Eptr);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stod argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stod argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    inline long double stold(const string& _Str, size_t *_Idx = 0)
+    {	// convert string to long double
+        const char *_Ptr = _Str.c_str();
+        errno = 0;
+        char *_Eptr;
+        long double _Ans = std::_STRTO_LD(_Ptr, &_Eptr);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stold argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stold argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    // sto* WIDE CONVERSIONS
+    inline int stoi(const wstring& _Str, size_t *_Idx = 0,
+        int _Base = 10)
+    {	// convert wstring to int
+        const wchar_t *_Ptr = _Str.c_str();
+        wchar_t *_Eptr;
+        errno = 0;
+        long _Ans = std::wcstol(_Ptr, &_Eptr, _Base);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stoi argument");
+        if (errno == ERANGE || _Ans < INT_MIN != INT_MAX < _Ans)
+            throw std::out_of_range("stoi argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return ((int)_Ans);
+    }
+
+    inline long stol(const wstring& _Str, size_t *_Idx = 0,
+        int _Base = 10)
+    {	// convert wstring to long
+        const wchar_t *_Ptr = _Str.c_str();
+        wchar_t *_Eptr;
+        errno = 0;
+        long _Ans = std::wcstol(_Ptr, &_Eptr, _Base);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stol argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stol argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    inline unsigned long stoul(const wstring& _Str, size_t *_Idx = 0,
+        int _Base = 10)
+    {	// convert wstring to unsigned long
+        const wchar_t *_Ptr = _Str.c_str();
+        wchar_t *_Eptr;
+        errno = 0;
+        unsigned long _Ans = std::wcstoul(_Ptr, &_Eptr, _Base);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stoul argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stoul argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    inline long long stoll(const wstring& _Str, size_t *_Idx = 0,
+        int _Base = 10)
+    {	// convert wstring to long long
+        const wchar_t *_Ptr = _Str.c_str();
+        wchar_t *_Eptr;
+        errno = 0;
+        long long _Ans = _WCSTO_LL(_Ptr, &_Eptr, _Base);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stoll argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stoll argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    inline unsigned long long stoull(const wstring& _Str, size_t *_Idx = 0,
+        int _Base = 10)
+    {	// convert wstring to unsigned long long
+        const wchar_t *_Ptr = _Str.c_str();
+        errno = 0;
+        wchar_t *_Eptr;
+        unsigned long long _Ans = _WCSTO_ULL(_Ptr, &_Eptr, _Base);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stoull argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stoull argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    inline float stof(const wstring& _Str, size_t *_Idx = 0)
+    {	// convert wstring to float
+        const wchar_t *_Ptr = _Str.c_str();
+        errno = 0;
+        wchar_t *_Eptr;
+        float _Ans = (float)std::_WCSTO_F(_Ptr, &_Eptr);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stof argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stof argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    inline double stod(const wstring& _Str, size_t *_Idx = 0)
+    {	// convert wstring to double
+        const wchar_t *_Ptr = _Str.c_str();
+        errno = 0;
+        wchar_t *_Eptr;
+        double _Ans = std::wcstod(_Ptr, &_Eptr);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stod argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stod argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    inline long double stold(const wstring& _Str, size_t *_Idx = 0)
+    {	// convert wstring to long double
+        const wchar_t *_Ptr = _Str.c_str();
+        errno = 0;
+        wchar_t *_Eptr;
+        long double _Ans = std::_WCSTO_LD(_Ptr, &_Eptr);
+
+        if (_Ptr == _Eptr)
+            throw std::invalid_argument("invalid stold argument");
+        if (errno == ERANGE)
+            throw std::out_of_range("stold argument out of range");
+        if (_Idx != 0)
+            *_Idx = (size_t)(_Eptr - _Ptr);
+        return (_Ans);
+    }
+
+    template<class _Val>
+    inline std::wstring to_wstring(_Val val, int precision = 2)
+    {
+        std::wostringstream oss;
+        oss << std::fixed << std::setprecision(precision) << val;
+        return oss.str();
+    }
+
+    template<class _Val>
+    inline std::string to_string(_Val val, int precision = 2)
+    {
+        std::ostringstream oss;
+        oss << std::fixed << std::setprecision(precision) << val;
+        return oss.str();
+    }
+}
+#endif
+
 NS_FK_BEGIN
 
 namespace detail

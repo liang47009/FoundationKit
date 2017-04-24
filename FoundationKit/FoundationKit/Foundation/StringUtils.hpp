@@ -58,11 +58,19 @@ static std::string join(std::string delim, const std::vector<std::string>& value
  * @usage tostring(val);
  */
 template<class _Val>
-static std::string to_string(_Val val,int precision = 2)
+static std::wstring to_wstring(_Val val,int precision = 2)
 {
-	std::ostringstream oss;
+	std::wostringstream oss;
 	oss << std::fixed << std::setprecision(precision) << val;
 	return oss.str();
+}
+
+template<class _Val>
+static std::string to_string(_Val val, int precision = 2)
+{
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(precision) << val;
+    return oss.str();
 }
 
 /**
