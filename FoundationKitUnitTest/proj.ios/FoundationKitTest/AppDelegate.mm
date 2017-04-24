@@ -14,6 +14,7 @@
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 #include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/std/function_traits.hpp"
+#include "FoundationKit/Base/type_cast.hpp"
 
 using namespace FoundationKit;
 

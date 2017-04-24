@@ -175,6 +175,8 @@
 		0934907C1E7F7BA20034ECF2 /* match.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = match.hpp; sourceTree = "<group>"; };
 		0934907D1E7F7BA20034ECF2 /* max_integer_of.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = max_integer_of.hpp; sourceTree = "<group>"; };
 		0934907E1E7F7BA20034ECF2 /* memory_aligned.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = memory_aligned.hpp; sourceTree = "<group>"; };
+		0944ED821EADD135006CC42F /* scope_locale.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = scope_locale.hpp; sourceTree = "<group>"; };
+		0944ED831EADD135006CC42F /* type_cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = type_cast.hpp; sourceTree = "<group>"; };
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0977BAF61AB6CC31006BC260 /* libFoundationKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundationKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0992FFC51E863E3D0099635E /* PlatformDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlatformDevice.hpp; sourceTree = "<group>"; };
@@ -223,6 +225,8 @@
 		09348EC81E7F7BA20034ECF2 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				0944ED821EADD135006CC42F /* scope_locale.hpp */,
+				0944ED831EADD135006CC42F /* type_cast.hpp */,
 				09348EC91E7F7BA20034ECF2 /* basic_streambuf.hpp */,
 				09348ECA1E7F7BA20034ECF2 /* byte_swap.hpp */,
 				09348ECB1E7F7BA20034ECF2 /* error_code.hpp */,
