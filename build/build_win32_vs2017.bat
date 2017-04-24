@@ -30,7 +30,4 @@ xcopy /Y /Q /S "..\Win32\Release\*.lib" "%PUBLISH_DIR%libs\Release\"
 xcopy /Y /Q /S "..\Win32\Debug\*.dll" "%PUBLISH_DIR%libs\Debug\"
 xcopy /Y /Q /S "..\Win32\Release\*.dll" "%PUBLISH_DIR%libs\Release\"
 
-
-goto :eof
-:END
-echo %1
+pause

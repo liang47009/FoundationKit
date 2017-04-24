@@ -24,6 +24,4 @@ xcopy /Y /Q /S "..\FoundationKitCPP03\FoundationKit\*.inl" "..\publish\vs2005\in
 xcopy /Y /Q /S "..\FoundationKitCPP03\proj.win32\Debug\*.lib" "..\publish\vs2005\libs\Debug\"
 xcopy /Y /Q /S "..\FoundationKitCPP03\proj.win32\Release\*.lib" "..\publish\vs2005\libs\Release\"
 
-goto :eof
-:END
-echo %1
+pause

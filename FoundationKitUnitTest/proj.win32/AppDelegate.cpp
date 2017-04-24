@@ -135,6 +135,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     ap.pack_arg<int>(10);
     ap.pack_arg("aaa", 3);
     fpb->invoke(ap);
+    delete i;
+    delete fpb;
 
 
 
