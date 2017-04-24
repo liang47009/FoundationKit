@@ -36,6 +36,7 @@
 #include <FoundationKit/Base/multiple_buffer.hpp>
 #include <FoundationKit/Base/noncopyable.hpp>
 #include <FoundationKit/Base/nonmovable.hpp>
+#include <FoundationKit/Base/scope_locale.hpp>
 #include <FoundationKit/Base/type_cast.hpp>
 #include <FoundationKit/Base/types.hpp>
 

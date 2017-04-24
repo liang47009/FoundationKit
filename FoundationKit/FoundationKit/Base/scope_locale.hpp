@@ -10,7 +10,7 @@
 class scope_locale 
 {
 public:
-    scope_locale(const char *_Locname)
+    scope_locale(const char *_Locname = "")
     {
         old_loc = std::locale::global(std::locale(_Locname));
     }
