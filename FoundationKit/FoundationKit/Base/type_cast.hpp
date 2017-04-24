@@ -12,7 +12,7 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
 #if defined(__GNUC__)
-// NDK的GCC不支持 std::stoX,这里实现Gcc下相关的函数
+// NDK GCC not support std::stoX
 #include <sstream>
 #include <iomanip>
 #include <stdlib.h>

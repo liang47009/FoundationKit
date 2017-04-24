@@ -68,9 +68,15 @@ template <typename T>
 struct function_traits_impl;
 
 template<typename T>
-    struct function_traits : function_traits_impl<typename std::remove_cv<typename std::remove_reference<T>::type>::type>
+struct function_traits : function_traits_impl<typename std::remove_cv<typename std::remove_reference<T>::type>::type>
 {
 };
+
+// new version
+//template<typename T>
+//struct function_traits : function_traits_impl <std::remove_cv_t<std::remove_reference_t<T>>>
+//{
+//};
 
 template<typename Ret, typename... Args>
 struct function_traits_impl<Ret(Args...)>
@@ -80,7 +86,9 @@ public:
     typedef  Ret(*pointer)(Args...);
     using stl_function_type = std::function < function_type > ;
     using args_raw_tuple_type = std::tuple < Args... > ;
-    using args_tuple_type = std::tuple < typename std::remove_cv<typename std::remove_reference<Args>::type >::type... > ;
+    // new version
+    //using args_tuple_type = std::tuple < std::remove_cv_t<std::remove_reference_t<Args> >... > ;
+    using args_tuple_type = std::tuple < typename std::remove_cv<typename std::remove_reference<Args>::type >::type... >;
     using return_type = Ret;
     using arity = std::integral_constant < unsigned, sizeof...(Args) > ;
 
