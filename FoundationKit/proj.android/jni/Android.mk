@@ -52,11 +52,13 @@ $(SRCROOT)/FoundationKit/Platform/Platform.cpp \
 LOCAL_C_INCLUDES := \
 $(PROJECT_DIR)/ \
 $(PROJECT_DIR)/FoundationKit/external/unzip \
+$(PROJECT_DIR)/../ThirdParty/spdlog/include \
 cpufeatures/
 
 LOCAL_EXPORT_C_INCLUDES := \
 $(PROJECT_DIR)/ \
 $(PROJECT_DIR)/FoundationKit/external/unzip \
+$(PROJECT_DIR)/../ThirdParty/spdlog/include \
 cpufeatures/
 
 LOCAL_CFLAGS :=  -DUSE_FILE32API -DANDROID
