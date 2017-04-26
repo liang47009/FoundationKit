@@ -64,10 +64,7 @@ protected:
     template<typename Duration>
     typename Duration::rep elapsed()const
     {
-        time_t tNow = clock_type::to_time_t(clock_type::now());
-        time_t tBegin = clock_type::to_time_t(_begin);
-        time_t tElapsed = tNow - tBegin;
-        clock_type::time_point tpElapsed = clock_type::from_time_t(tElapsed);
+        clock_type::time_point tpElapsed = clock_type::now() - _begin;
         return std::chrono::duration_cast<Duration>(tpElapsed.time_since_epoch()).count();
     }
 private:

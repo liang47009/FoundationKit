@@ -63,6 +63,11 @@ void AppDelegate::applicationDidLaunching()
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
+
+    ElapsedTimer et;
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    double aaab = et.secondsf();
+
     std::error_code ec;
     std::string strErr = ec.message();
 

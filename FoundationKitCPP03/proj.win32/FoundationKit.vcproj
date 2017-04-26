@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\;..\FoundationKit\external\win32\i386\include\zlib;..\FoundationKit\external\win32\i386\include\curl;..\FoundationKit\external\unzip;..\FoundationKit\external;..\FoundationKit\Platform\windows\system;&quot;%(AdditionalIncludeDirectories)&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_USING_V110_SDK71_;_WIN32_WINNT=0x0600"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_USING_V110_SDK71_;_WIN32_WINNT=0x0600;WIN32_LEAN_AND_MEAN=1"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -105,7 +105,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\;..\FoundationKit\external\win32\i386\include\zlib;..\FoundationKit\external\win32\i386\include\curl;..\FoundationKit\external\unzip;..\FoundationKit\external;..\FoundationKit\Platform\windows\system;&quot;%(AdditionalIncludeDirectories)&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_USING_V110_SDK71_;_WIN32_WINNT=0x0600"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_USING_V110_SDK71_;_WIN32_WINNT=0x0600;WIN32_LEAN_AND_MEAN=1"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
