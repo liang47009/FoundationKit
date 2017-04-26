@@ -75,7 +75,7 @@ namespace chrono
     {
         typedef ratio_divide<_Period, typename _To::period> _CF;
         typedef typename _To::rep _ToRep;
-        typedef long long _CR;
+        typedef _ToRep _CR;
         if (_CF::num == 1 && _CF::den == 1)
             return (_To(static_cast<_ToRep>(_Dur.count())));
         else if (_CF::num != 1 && _CF::den == 1)
@@ -241,8 +241,7 @@ namespace chrono
     typedef duration<int, ratio<60> > minutes;
     typedef duration<int, ratio<3600> > hours;
 
-    template<class _Clock,
-    class _Duration = typename _Clock::duration>
+    template<class _Clock, class _Duration = typename _Clock::duration>
     class time_point
     {	// represents a point in time
     public:
@@ -298,10 +297,42 @@ namespace chrono
         _Duration _MyDur;	// duration since the epoch
     };
 
+    template<class _Rep1, class _Period1, class _Rep2, class _Period2> 
+    inline typename duration<_Rep1, _Period1> operator+( const duration<_Rep1, _Period1>& _Left, const duration<_Rep2, _Period2>& _Right)
+    {	// add two durations
+        typedef typename duration<_Rep1, _Period1> _CD;
+        return (_CD(_Left) += _Right);
+    }
+
+    template<class _Rep1, class _Period1, class _Rep2, class _Period2> 
+    inline typename duration<_Rep1, _Period1> operator-( const duration<_Rep1, _Period1>& _Left, const duration<_Rep2, _Period2>& _Right)
+    {	// subtract two durations
+        typedef typename duration<_Rep1, _Period1> _CD;
+        return (_CD(_Left) -= _Right);
+    }
+
+    template<class _Clock, class _Duration>
+    inline time_point<_Clock,_Duration> operator+( const time_point<_Clock, _Duration>& _Left, const time_point<_Clock, _Duration>& _Right)
+    {	// add time_point to duration
+        return time_point<_Clock,_Duration>(_Right.time_since_epoch() + _Left.time_since_epoch());
+    }
+
+    template<class _Clock, class _Duration> 
+    inline time_point<_Clock,_Duration> operator-( const time_point<_Clock, _Duration>& _Left, const time_point<_Clock, _Duration>& _Right)
+    {	// subtract duration from time_point
+        return time_point<_Clock,_Duration>(_Left.time_since_epoch() - _Right.time_since_epoch());
+    }
 
 
     #define _XTIME_NSECS_PER_TICK	100
     #define _XTIME_TICKS_PER_TIME_T	(_LONGLONG)10000000
+    #define _EPOCHFILETIME   (116444736000000000i64)
+    inline _LONGLONG _Xtime_get_ticks()
+    {
+        _LONGLONG ft;
+        GetSystemTimeAsFileTime((FILETIME*)&ft);
+        return ft - _EPOCHFILETIME;
+    }
     struct system_clock
     {	// wraps system clock
         typedef _LONGLONG rep;
@@ -313,14 +344,7 @@ namespace chrono
 
         static time_point now() _NOEXCEPT
         {	// get current time
-            FILETIME ft;
-            ::GetSystemTimeAsFileTime( &ft );  // never fails
-            return system_clock::time_point(
-                system_clock::duration(
-                ((static_cast<__int64>( ft.dwHighDateTime ) << 32) | ft.dwLowDateTime)
-                - 116444736000000000LL
-                //- (134775LL*864000000000LL)
-                ));
+            return system_clock::time_point( system_clock::duration(_Xtime_get_ticks()));
         }
 
         // C conversions
