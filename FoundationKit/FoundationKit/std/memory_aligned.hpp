@@ -65,7 +65,7 @@ constexpr inline bool is_alignment(std::size_t value) noexcept
  * @param Ptr - The pointer to check.
  * @return true if the pointer is aligned, false otherwise.
  */
-inline bool is_aligned(const /*volatile*/ void* ptr, std::size_t alignment)noexcept
+ inline bool is_alignment(const /*volatile*/ void* ptr, std::size_t alignment)noexcept
 {
     ASSERTED(is_alignment(alignment),"alignment must be is ");
     return (address(ptr) & (alignment - 1)) == 0;

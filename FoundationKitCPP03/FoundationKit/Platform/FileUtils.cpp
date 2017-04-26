@@ -296,7 +296,7 @@ mutable_buffer FileUtils::readDataFromZip(const std::string& zipFilePath, const 
         BREAK_IF(UNZ_OK != ret);
         unsigned char * buffer = new unsigned char[fileInfo.uncompressed_size];
         int readedSize = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
-        LOG_ASSERT(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
+        ASSERTED(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
         UNUSED_ARG(readedSize);
         *size = fileInfo.uncompressed_size;
         unzCloseCurrentFile(file);

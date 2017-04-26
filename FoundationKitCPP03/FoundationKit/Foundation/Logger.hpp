@@ -79,12 +79,5 @@ NS_FK_END
 #define LOG_INFO( format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_INFO, format, ##__VA_ARGS__)
 #define LOG_WARN( format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_WARN, format, ##__VA_ARGS__)
 #define LOG_ERROR(format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_ERROR, format, ##__VA_ARGS__)
-#define LOG_ASSERT(cond, format,...) \
-do{ \
-    if (!(cond)) { \
-        NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_ASSERT, format, ##__VA_ARGS__); \
-        assert(cond); \
-        } \
-} \
-while (false)
+
 #endif // FOUNDATIONKIT_LOGGER_HPP
