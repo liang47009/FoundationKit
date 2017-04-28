@@ -196,8 +196,10 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Cache\LRUStrategy.h" />
     <ClInclude Include="..\FoundationKit\Crypto\aes.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\Base64.hpp" />
+    <ClInclude Include="..\FoundationKit\Crypto\des.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp" />
+    <ClInclude Include="..\FoundationKit\Crypto\urlencode.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\ArgumentUnpacker.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\FunctionProtocol.hpp" />
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h" />
@@ -261,6 +263,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp" />
     <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp" />
+    <ClCompile Include="..\FoundationKit\Crypto\des.cpp" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.c" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTFWrapper.cpp" />
     <ClCompile Include="..\FoundationKit\external\unzip\ioapi.cpp" />

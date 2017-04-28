@@ -66,7 +66,7 @@
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\FoundationKit\external\win32\i386\libs\Debug"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool

@@ -265,6 +265,12 @@
     <ClInclude Include="..\FoundationKit\experimental\FunctionProtocol.hpp">
       <Filter>experimental</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Crypto\des.hpp">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Crypto\urlencode.hpp">
+      <Filter>Crypto</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
@@ -372,6 +378,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\PlatformDevice.cpp">
       <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Crypto\des.cpp">
+      <Filter>Crypto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

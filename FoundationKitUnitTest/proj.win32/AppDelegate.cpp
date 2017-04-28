@@ -34,8 +34,12 @@
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Base/type_cast.hpp"
 #include "FoundationKit/experimental/FunctionProtocol.hpp"
+#include "FoundationKit/Crypto/des.hpp"
+#include "FoundationKit/Crypto/aes.hpp"
+#include "FoundationKit/Crypto/urlencode.hpp"
 #include "HTTPClient/HTTPClient.hpp"
 #include "HTTPClient/HTTPCode.hpp"
+
 
 
 using namespace std;
@@ -110,33 +114,48 @@ int TestTuple(int* pi,char* p, int i, const std::string& str)
     return ++aa;
 }
 
+void TestShared(const std::shared_ptr<int>& pInt)
+{
+
+}
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
     Logger::getInstance()->init("E:\\linux\\FoundationKit.log");
-    auto aa = PlatformDevice::GetScreenResolution();
-    auto bb = PlatformDevice::GetScreenNativeResolution();
-    TestFunctionTraits();
 
-    int* i = new int(100);
-
-    char ibuffer[sizeof(i)];
-    memcpy(ibuffer, i, 4);
-
-    int* ib = (int*)ibuffer;
+    unsigned char cipherbuf[256] = {0};
+    unsigned char plainbuf[256] = {0};
+    unsigned char plaintext[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // our plaintext to encrypt
+    int written = DES::desEncrypt(cipherbuf, 256, plaintext, 26);
+    written = DES::desDecrypt(plainbuf, 256, cipherbuf, written);
 
 
-    FunctionProtocolBase* fpb = new FunctionProtocol<decltype(TestTuple)>(&TestTuple);
-    ArgumentPacker  ap;
-    ap.pack_arg(i, 4);
-    ap.pack_arg("aaaa", 4);
-    ap.pack_arg<int>(10);
-    ap.pack_arg("aaa", 3);
-    fpb->invoke(ap);
-    delete i;
-    delete fpb;
+
+
+    //unsigned char cipherbuf[256];
+    //unsigned char plainbuf[256];
+    //unsigned char plaintext[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // our plaintext to encrypt
+    //unsigned char secret[] = "A SECRET PASSWORD"; // 16 bytes long
+    //int written = AES::aesEncrypt(cipherbuf, 256, plaintext, 26, secret);
+    //written = AES::aesDecrypt(plainbuf, 256, cipherbuf, written, secret);
+
+
+    //TestFunctionTraits();
+    //int* i = new int(100);
+    //char ibuffer[sizeof(i)];
+    //memcpy(ibuffer, i, 4);
+    //int* ib = (int*)ibuffer;
+    //FunctionProtocolBase* fpb = new FunctionProtocol<decltype(TestTuple)>(&TestTuple);
+    //ArgumentPacker  ap;
+    //ap.pack_arg(i, 4);
+    //ap.pack_arg("aaaa", 4);
+    //ap.pack_arg<int>(10);
+    //ap.pack_arg("aaa", 3);
+    //fpb->invoke(ap);
+    //delete i;
+    //delete fpb;
 
 
 

@@ -1277,7 +1277,7 @@ void aesDoDecrypt(const u32 *rk, int nrounds, const u8 ciphertext[16],
 #define BLOCK_SIZE 16
 
 
-namespace aes{
+namespace AES{
 
 int aesEncrypt(unsigned char* output, int outlen, unsigned char* input, int inlen, unsigned char* password)
 {
@@ -1366,7 +1366,7 @@ int aesDecrypt(unsigned char* output, int outlen, unsigned char* input, int inle
   return totalout - outlen;
 }
 
-} // namespace aes
+} // namespace AES
 
 NS_FK_END
 

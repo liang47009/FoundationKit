@@ -67,11 +67,9 @@ LRESULT CALLBACK onMsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
         case WM_DESTROY:
         PostQuitMessage(0);
         break;
-        case WM_RBUTTONDOWN:
-        case WM_LBUTTONDOWN:
+        case WM_LBUTTONUP:
         {
-            int aa = 0;
-            aa += 10;
+            LOG_ERROR("============ WM_LBUTTONUP");
         }
         break;
         case WM_SIZE:
@@ -165,8 +163,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
         winScreenSize.height += GetSystemMetrics(SM_CYDLGFRAME)*2;
         winScreenSize.height +=GetSystemMetrics(SM_CYCAPTION);
 
-        Size windowSize = winScreenSize;
-        //Size windowSize(1280,720);
+        //Size windowSize = winScreenSize;
+        Size windowSize(1280,720);
         int dwStyle = WS_VISIBLE|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX;
         int fixedXPos = GetSystemMetrics(SM_CXDLGFRAME);
         int nCmdWindow = SW_SHOW;
