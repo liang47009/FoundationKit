@@ -19,11 +19,7 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"  // for NS_FK_BEGIN NS_FK_END
 NS_FK_BEGIN
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-namespace aes{
+namespace AES{
 
 /**
  * Encrypt a block of data using AES.
@@ -69,11 +65,8 @@ int aesEncrypt(unsigned char* output, int outlen, unsigned char* input, int inle
  */
 int aesDecrypt(unsigned char* output, int outlen, unsigned char* input, int inlen, unsigned char* password);
 
-} //namespace aes
+} //namespace AES
 
-#ifdef __cplusplus
-}
-#endif
 
 NS_FK_END
 

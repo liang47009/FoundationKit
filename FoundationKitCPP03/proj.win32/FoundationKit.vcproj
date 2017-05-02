@@ -233,11 +233,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\FoundationKit\Crypto\des.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Crypto\des.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\FoundationKit\Crypto\md5.hpp"
 				>
 			</File>
 			<File
 				RelativePath="..\FoundationKit\Crypto\sha1.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Crypto\urlencode.hpp"
 				>
 			</File>
 		</Filter>
