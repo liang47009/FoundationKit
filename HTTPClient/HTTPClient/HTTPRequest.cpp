@@ -356,11 +356,6 @@ void HTTPRequest::tick(float deltaTime)
 
 }
 
-bool HTTPRequest::isTickable()const
-{
-    return true;
-}
-
 void HTTPRequest::setCompleted(CURLcode completionResult)
 {
     _bCompleted = true;

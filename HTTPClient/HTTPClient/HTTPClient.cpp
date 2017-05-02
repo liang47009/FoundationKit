@@ -288,10 +288,6 @@ void HTTPClient::tick(float deltaTime)
 
 }
 
-bool HTTPClient::isTickable() const
-{
-    return true;
-}
 
 void HTTPClient::sendRequestAsync(HTTPRequest::Pointer request)
 {

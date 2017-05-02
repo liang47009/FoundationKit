@@ -15,7 +15,6 @@
 #include <unordered_map>
 #include "curl.h"
 #include "FoundationKit/FoundationMacros.hpp"
-#include "FoundationKit/Foundation/ITickable.hpp"
 #include "FoundationKit/Base/types.hpp"
 
 
@@ -46,7 +45,7 @@ enum class HttpStatusCode
 };
 
 class HTTPResponse;
-class HTTPRequest : public ITickable, public std::enable_shared_from_this<HTTPRequest>
+class HTTPRequest : public std::enable_shared_from_this<HTTPRequest>
 {
 public:
     typedef std::unordered_map<std::string, std::string> KeyValueMap;
@@ -129,8 +128,7 @@ public:
     bool                     isFinished();
     void                     dumpInfo();
 
-    virtual void tick(float deltaTime) override;
-    virtual bool isTickable() const override;
+    void tick(float deltaTime);
 protected:
     bool                     build();
     void                     setCompleted(CURLcode completionResult);

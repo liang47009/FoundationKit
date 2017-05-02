@@ -17,7 +17,6 @@
 #include "curl.h"
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"
-#include "FoundationKit/Foundation/ITickable.hpp"
 #include "HTTPRequest.hpp"
 
 NS_FK_BEGIN
@@ -31,7 +30,7 @@ namespace network{
  * simple http client
  * First must be call HTTPClient::initialize() to initialize http client.
  */
-class HTTPClient : public ITickable, public Singleton<HTTPClient>
+class HTTPClient : public Singleton<HTTPClient>
 {
     friend Singleton < HTTPClient > ;
     HTTPClient();
@@ -39,8 +38,7 @@ public:
     ~HTTPClient();
     static void  initialize();
     void         sendRequestAsync(HTTPRequest::Pointer request);
-    virtual void tick(float deltaTime) override;
-    virtual bool isTickable() const override;
+    void tick(float deltaTime);
 public:
 
     static struct RequestOptions

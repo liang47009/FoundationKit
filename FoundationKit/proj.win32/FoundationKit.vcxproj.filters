@@ -153,9 +153,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\Exception.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\ITickable.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Logger.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
