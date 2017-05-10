@@ -50,7 +50,7 @@ std::string StringUtils::toupper( const std::string& str )
 
 std::string StringUtils::format( const char* format, ... )
 {
-	const static unsigned int MAX_STRING_LENGTH = 64;
+	const static unsigned int MAX_STRING_LENGTH = 1024;
 	va_list arglist;
 	int size = MAX_STRING_LENGTH;
 	std::vector<char> dynamicBuffer(MAX_STRING_LENGTH);
