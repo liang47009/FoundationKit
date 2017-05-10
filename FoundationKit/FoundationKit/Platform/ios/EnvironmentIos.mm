@@ -8,11 +8,15 @@
 #include <sys/utsname.h>
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/Foundation/Exception.hpp"
+#include "FoundationKit/Foundation/StringUtils.hpp"
 #import <UIKit/UIKit.h>
 
 NS_FK_BEGIN
-
-
+static std::string GSavedCommandLine = "";
+Environment::stringvec Environment::GetEnvironmentVariables()
+{
+    return stringvec();
+}
 
 std::string Environment::GetEnvironmentVariable(const std::string& variable)
 {
@@ -39,6 +43,12 @@ void Environment::SetEnvironmentVariable(const std::string& variable, const std:
         msg.append(variable);
         throw SystemException(msg);
     }
+}
+
+Environment::stringvec Environment::GetCommandLineArgs()
+{
+    stringvec commandArgs = StringUtils::split(GSavedCommandLine, ' ');
+    return commandArgs;
 }
 
 NS_FK_END
