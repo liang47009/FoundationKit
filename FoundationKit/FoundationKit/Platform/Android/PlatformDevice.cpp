@@ -19,7 +19,48 @@ NS_FK_BEGIN
 
 namespace detail
 {
-    std::string GetSystemProperty(const std::string& propName)
+   /**
+    * @brief Returns value in bytes from a status line
+    * @param Line in format "Blah:  10000 kB" - needs to be writable as it will modify it
+    * @return value in bytes (10240000, i.e. 10000 * 1024 for the above example)
+    */
+    static uint64 GetBytesFromStatusLine(char * Line)
+    {
+        if (!Line) return 0;
+        int Len = strlen(Line);
+
+        // Len should be long enough to hold at least " kB\n"
+        const int kSuffixLength = 4;	// " kB\n"
+        if (Len <= kSuffixLength)
+        {
+            return 0;
+        }
+
+        // let's check that this is indeed "kB"
+        char * Suffix = &Line[Len - kSuffixLength];
+        if (strcmp(Suffix, " kB\n") != 0)
+        {
+            // Linux the kernel changed the format, huh?
+            return 0;
+        }
+
+        // kill the kB
+        *Suffix = 0;
+
+        // find the beginning of the number
+        for (const char * NumberBegin = Suffix; NumberBegin >= Line; --NumberBegin)
+        {
+            if (*NumberBegin == ' ')
+            {
+                return static_cast< uint64 >(atol(NumberBegin + 1)) * 1024ULL;
+            }
+        }
+
+        // we were unable to find whitespace in front of the number
+        return 0;
+    }
+
+    static std::string GetSystemProperty(const std::string& propName)
     {
         char propValue[PROP_VALUE_MAX + 1] = { 0 };
         __system_property_get(propName.c_str(), propValue);
@@ -506,6 +547,119 @@ float PlatformDevice::GetScreenYDPI()
 float PlatformDevice::GetNativeScale()
 {
     return GLOBAL_DisplayInfo.nativeScale;
+}
+
+PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
+{
+    static PlatformMemoryConstants MemoryConstants;
+
+    // Gather platform memory stats.
+    struct sysinfo SysInfo;
+    unsigned long long MaxPhysicalRAMBytes = 0;
+    unsigned long long MaxVirtualRAMBytes = 0;
+
+    if (0 == sysinfo(&SysInfo))
+    {
+        MaxPhysicalRAMBytes = static_cast<unsigned long long>(SysInfo.mem_unit) * static_cast<unsigned long long>(SysInfo.totalram);
+        MaxVirtualRAMBytes = static_cast<unsigned long long>(SysInfo.mem_unit) * static_cast<unsigned long long>(SysInfo.totalswap);
+    }
+
+    MemoryConstants.TotalPhysical = MaxPhysicalRAMBytes;
+    MemoryConstants.TotalVirtual = MaxVirtualRAMBytes;
+    MemoryConstants.PageSize = sysconf(_SC_PAGESIZE);
+
+    if (FILE* FileGlobalMemStats = fopen("/proc/meminfo", "r"))
+    {
+        int FieldsSetSuccessfully = 0;
+        size_t MemFree = 0, Cached = 0, Buffers = 0;
+        do
+        {
+            char LineBuffer[256] = { 0 };
+            char *Line = fgets(LineBuffer, sizeof(LineBuffer), FileGlobalMemStats);
+            if (Line == nullptr)
+            {
+                break;	// eof or an error
+            }
+
+            // if we have MemAvailable, favor that (see http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773)
+            if (strstr(Line, "MemAvailable:") == Line)
+            {
+                MemoryConstants.AvailablePhysical = detail::GetBytesFromStatusLine(Line);
+                ++FieldsSetSuccessfully;
+            }
+            else if (strstr(Line, "SwapFree:") == Line)
+            {
+                MemoryConstants.AvailableVirtual = detail::GetBytesFromStatusLine(Line);
+                ++FieldsSetSuccessfully;
+            }
+            else if (strstr(Line, "MemFree:") == Line)
+            {
+                MemFree = detail::GetBytesFromStatusLine(Line);
+                ++FieldsSetSuccessfully;
+            }
+            else if (strstr(Line, "Cached:") == Line)
+            {
+                Cached = detail::GetBytesFromStatusLine(Line);
+                ++FieldsSetSuccessfully;
+            }
+            else if (strstr(Line, "Buffers:") == Line)
+            {
+                Buffers = detail::GetBytesFromStatusLine(Line);
+                ++FieldsSetSuccessfully;
+            }
+        } while (FieldsSetSuccessfully < 5);
+
+        // if we didn't have MemAvailable (kernels < 3.14 or CentOS 6.x), use free + cached as a (bad) approximation
+        if (MemoryConstants.AvailablePhysical == 0)
+        {
+            MemoryConstants.AvailablePhysical = Math::min((uint64)(MemFree + Cached + Buffers), MemoryConstants.TotalPhysical);
+        }
+
+        fclose(FileGlobalMemStats);
+    }
+
+    // again /proc "API" :/
+    if (FILE* ProcMemStats = fopen("/proc/self/status", "r"))
+    {
+        int FieldsSetSuccessfully = 0;
+        do
+        {
+            char LineBuffer[256] = { 0 };
+            char *Line = fgets(LineBuffer, sizeof(LineBuffer), ProcMemStats);
+            if (Line == nullptr)
+            {
+                break;	// eof or an error
+            }
+
+            if (strstr(Line, "VmPeak:") == Line)
+            {
+                MemoryConstants.PeakUsedVirtual = detail::GetBytesFromStatusLine(Line);
+                ++FieldsSetSuccessfully;
+            }
+            else if (strstr(Line, "VmSize:") == Line)
+            {
+                MemoryConstants.UsedVirtual = detail::GetBytesFromStatusLine(Line);
+                ++FieldsSetSuccessfully;
+            }
+            else if (strstr(Line, "VmHWM:") == Line)
+            {
+                MemoryConstants.PeakUsedPhysical = detail::GetBytesFromStatusLine(Line);
+                ++FieldsSetSuccessfully;
+            }
+            else if (strstr(Line, "VmRSS:") == Line)
+            {
+                MemoryConstants.UsedPhysical = detail::GetBytesFromStatusLine(Line);
+                ++FieldsSetSuccessfully;
+            }
+        } while (FieldsSetSuccessfully < 4);
+
+        fclose(ProcMemStats);
+    }
+
+    // sanitize stats as sometimes peak < used for some reason
+    MemoryConstants.PeakUsedVirtual = Math::max(MemoryConstants.PeakUsedVirtual, MemoryConstants.UsedVirtual);
+    MemoryConstants.PeakUsedPhysical = Math::max(MemoryConstants.PeakUsedPhysical, MemoryConstants.UsedPhysical);
+    return MemoryConstants;
 }
 
 std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)

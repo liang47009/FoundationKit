@@ -330,6 +330,36 @@ float PlatformDevice::GetNativeScale()
     return 1.0f;
 }
 
+PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
+{
+    static PlatformMemoryConstants MemoryConstants;
+
+    // Gather platform memory stats.
+    MEMORYSTATUSEX MemoryStatusEx;
+    memset(&MemoryStatusEx, 0,sizeof(MemoryStatusEx));
+    MemoryStatusEx.dwLength = sizeof(MemoryStatusEx);
+    ::GlobalMemoryStatusEx(&MemoryStatusEx);
+
+    PROCESS_MEMORY_COUNTERS ProcessMemoryCounters;
+    memset(&ProcessMemoryCounters, 0, sizeof(ProcessMemoryCounters));
+    ::GetProcessMemoryInfo(::GetCurrentProcess(), &ProcessMemoryCounters, sizeof(ProcessMemoryCounters));
+
+    SYSTEM_INFO SystemInfo;
+    memset(&SystemInfo, 0, sizeof(SystemInfo));
+    ::GetSystemInfo(&SystemInfo);
+
+    MemoryConstants.TotalPhysical     = MemoryStatusEx.ullTotalPhys;
+    MemoryConstants.TotalVirtual      = MemoryStatusEx.ullTotalVirtual;
+    MemoryConstants.PageSize          = SystemInfo.dwAllocationGranularity;	// Use this so we get larger 64KiB pages, instead of 4KiB
+    MemoryConstants.AvailablePhysical = MemoryStatusEx.ullAvailPhys;
+    MemoryConstants.AvailableVirtual  = MemoryStatusEx.ullAvailVirtual;
+    MemoryConstants.UsedPhysical      = ProcessMemoryCounters.WorkingSetSize;
+    MemoryConstants.PeakUsedPhysical  = ProcessMemoryCounters.PeakWorkingSetSize;
+    MemoryConstants.UsedVirtual       = ProcessMemoryCounters.PagefileUsage;
+    MemoryConstants.PeakUsedVirtual   = ProcessMemoryCounters.PeakPagefileUsage;
+    return MemoryConstants;
+}
+
 #define USER_POPEN 0
 std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
 {
