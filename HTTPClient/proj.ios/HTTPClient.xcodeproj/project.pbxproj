@@ -12,6 +12,11 @@
 		093492DC1E80F2960034ECF2 /* HTTPResponse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093492B81E80F2960034ECF2 /* HTTPResponse.cpp */; };
 		093492DD1E80F2960034ECF2 /* libcurl_init.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093492BA1E80F2960034ECF2 /* libcurl_init.cpp */; };
 		093492DE1E80F2960034ECF2 /* MimeTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093492BC1E80F2960034ECF2 /* MimeTypes.cpp */; };
+		094C50E31EC401C600AB3021 /* HTTPClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093492B41E80F2960034ECF2 /* HTTPClient.cpp */; };
+		094C50E41EC401C600AB3021 /* MimeTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093492BC1E80F2960034ECF2 /* MimeTypes.cpp */; };
+		094C50E51EC401C600AB3021 /* libcurl_init.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093492BA1E80F2960034ECF2 /* libcurl_init.cpp */; };
+		094C50E61EC401C600AB3021 /* HTTPResponse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093492B81E80F2960034ECF2 /* HTTPResponse.cpp */; };
+		094C50E71EC401C600AB3021 /* HTTPRequest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093492B61E80F2960034ECF2 /* HTTPRequest.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,10 +29,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		094C50E91EC401C600AB3021 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		093492221E80F26F0034ECF2 /* libHTTPClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHTTPClient.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		093492221E80F26F0034ECF2 /* libHTTPClient_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHTTPClient_iOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		093492B41E80F2960034ECF2 /* HTTPClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HTTPClient.cpp; sourceTree = "<group>"; };
 		093492B51E80F2960034ECF2 /* HTTPClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HTTPClient.hpp; sourceTree = "<group>"; };
 		093492B61E80F2960034ECF2 /* HTTPRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HTTPRequest.cpp; sourceTree = "<group>"; };
@@ -38,10 +52,18 @@
 		093492BB1E80F2960034ECF2 /* libcurl_init.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = libcurl_init.hpp; sourceTree = "<group>"; };
 		093492BC1E80F2960034ECF2 /* MimeTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MimeTypes.cpp; sourceTree = "<group>"; };
 		093492BD1E80F2960034ECF2 /* MimeTypes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MimeTypes.hpp; sourceTree = "<group>"; };
+		094C50ED1EC401C600AB3021 /* libHTTPClient_Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHTTPClient_Mac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		0934921F1E80F26F0034ECF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		094C50E81EC401C600AB3021 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -62,7 +84,8 @@
 		093492231E80F26F0034ECF2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				093492221E80F26F0034ECF2 /* libHTTPClient.a */,
+				093492221E80F26F0034ECF2 /* libHTTPClient_iOS.a */,
+				094C50ED1EC401C600AB3021 /* libHTTPClient_Mac.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -88,9 +111,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		093492211E80F26F0034ECF2 /* HTTPClient */ = {
+		093492211E80F26F0034ECF2 /* HTTPClient_iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0934922B1E80F26F0034ECF2 /* Build configuration list for PBXNativeTarget "HTTPClient" */;
+			buildConfigurationList = 0934922B1E80F26F0034ECF2 /* Build configuration list for PBXNativeTarget "HTTPClient_iOS" */;
 			buildPhases = (
 				0934921E1E80F26F0034ECF2 /* Sources */,
 				0934921F1E80F26F0034ECF2 /* Frameworks */,
@@ -100,9 +123,26 @@
 			);
 			dependencies = (
 			);
-			name = HTTPClient;
+			name = HTTPClient_iOS;
 			productName = HTTPClient;
-			productReference = 093492221E80F26F0034ECF2 /* libHTTPClient.a */;
+			productReference = 093492221E80F26F0034ECF2 /* libHTTPClient_iOS.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		094C50E11EC401C600AB3021 /* HTTPClient_Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 094C50EA1EC401C600AB3021 /* Build configuration list for PBXNativeTarget "HTTPClient_Mac" */;
+			buildPhases = (
+				094C50E21EC401C600AB3021 /* Sources */,
+				094C50E81EC401C600AB3021 /* Frameworks */,
+				094C50E91EC401C600AB3021 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HTTPClient_Mac;
+			productName = HTTPClient;
+			productReference = 094C50ED1EC401C600AB3021 /* libHTTPClient_Mac.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -132,7 +172,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				093492211E80F26F0034ECF2 /* HTTPClient */,
+				093492211E80F26F0034ECF2 /* HTTPClient_iOS */,
+				094C50E11EC401C600AB3021 /* HTTPClient_Mac */,
 			);
 		};
 /* End PBXProject section */
@@ -147,6 +188,18 @@
 				093492DD1E80F2960034ECF2 /* libcurl_init.cpp in Sources */,
 				093492DC1E80F2960034ECF2 /* HTTPResponse.cpp in Sources */,
 				093492DB1E80F2960034ECF2 /* HTTPRequest.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		094C50E21EC401C600AB3021 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				094C50E31EC401C600AB3021 /* HTTPClient.cpp in Sources */,
+				094C50E41EC401C600AB3021 /* MimeTypes.cpp in Sources */,
+				094C50E51EC401C600AB3021 /* libcurl_init.cpp in Sources */,
+				094C50E61EC401C600AB3021 /* HTTPResponse.cpp in Sources */,
+				094C50E71EC401C600AB3021 /* HTTPRequest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +326,40 @@
 			};
 			name = Release;
 		};
+		094C50EB1EC401C600AB3021 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../FoundationKit/",
+					"$(PROJECT_DIR)/../HTTPClient/external/ios/include/curl/",
+					"$(PROJECT_DIR)/../../ThirdParty/spdlog/include/",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		094C50EC1EC401C600AB3021 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../FoundationKit/",
+					"$(PROJECT_DIR)/../HTTPClient/external/ios/include/curl/",
+					"$(PROJECT_DIR)/../../ThirdParty/spdlog/include/",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -285,11 +372,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0934922B1E80F26F0034ECF2 /* Build configuration list for PBXNativeTarget "HTTPClient" */ = {
+		0934922B1E80F26F0034ECF2 /* Build configuration list for PBXNativeTarget "HTTPClient_iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0934922C1E80F26F0034ECF2 /* Debug */,
 				0934922D1E80F26F0034ECF2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		094C50EA1EC401C600AB3021 /* Build configuration list for PBXNativeTarget "HTTPClient_Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				094C50EB1EC401C600AB3021 /* Debug */,
+				094C50EC1EC401C600AB3021 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

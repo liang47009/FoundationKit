@@ -15,7 +15,7 @@
 #include <string>
 #include <vector>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Base/Types.hpp"
+#include "FoundationKit/Base/types.hpp"
 
 NS_FK_BEGIN
 

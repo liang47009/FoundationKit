@@ -20,14 +20,14 @@ void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, 
 {
     SYSTEMTIME st;
     GetLocalTime(&st);
-    year = st.wYear;
-    month = st.wMonth;
+    year      = st.wYear;
+    month     = st.wMonth;
     dayOfWeek = st.wDayOfWeek;
-    day = st.wDay;
-    hour = st.wHour;
-    min = st.wMinute;
-    sec = st.wSecond;
-    msec = st.wMilliseconds;
+    day       = st.wDay;
+    hour      = st.wHour;
+    min       = st.wMinute;
+    sec       = st.wSecond;
+    msec      = st.wMilliseconds;
 }
 
 /** Returns the UTC time. */
@@ -35,60 +35,16 @@ void utcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int
 {
     SYSTEMTIME st;
     GetSystemTime(&st);
-    year = st.wYear;
-    month = st.wMonth;
+    year      = st.wYear;
+    month     = st.wMonth;
     dayOfWeek = st.wDayOfWeek;
-    day = st.wDay;
-    hour = st.wHour;
-    min = st.wMinute;
-    sec = st.wSecond;
-    msec = st.wMilliseconds;
+    day       = st.wDay;
+    hour      = st.wHour;
+    min       = st.wMinute;
+    sec       = st.wSecond;
+    msec      = st.wMilliseconds;
 }
-#elif TARGET_PLATFORM == PLATFORM_ANDROID
-/** Returns the system time. */
-void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
-{
-    // query for calendar time
-    struct timeval tmVal;
-    gettimeofday(&tmVal, NULL);
-
-    // convert it to local time
-    struct tm localTime;
-    localtime_r(&tmVal.tv_sec, &localTime);
-
-    // pull out data/time
-    year = localTime.tm_year + 1900;
-    month = localTime.tm_mon + 1;
-    dayOfWeek = localTime.tm_wday;
-    day = localTime.tm_mday;
-    hour = localTime.tm_hour;
-    min = localTime.tm_min;
-    sec = localTime.tm_sec;
-    msec = tmVal.tv_usec / 1000;
-}
-
-/** Returns the UTC time. */
-void utcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
-{
-    // query for calendar time
-    struct timeval tmVal;
-    gettimeofday(&tmVal, NULL);
-
-    // convert it to UTC
-    struct tm utcTime;
-    gmtime_r(&tmVal.tv_sec, &utcTime);
-
-    // pull out data/time
-    year = utcTime.tm_year + 1900;
-    month = utcTime.tm_mon + 1;
-    dayOfWeek = utcTime.tm_wday;
-    day = utcTime.tm_mday;
-    hour = utcTime.tm_hour;
-    min = utcTime.tm_min;
-    sec = utcTime.tm_sec;
-    msec = tmVal.tv_usec / 1000;
-}
-#elif TARGET_PLATFORM == PLATFORM_IOS
+#elif (TARGET_PLATFORM == PLATFORM_ANDROID) ||(TARGET_PLATFORM == PLATFORM_IOS) ||((TARGET_PLATFORM == PLATFORM_MAC))
 #include <sys/time.h>
 /** Returns the system time. */
 void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
@@ -110,6 +66,7 @@ void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, 
     min       = localTime.tm_min;
     sec       = localTime.tm_sec;
     msec      = tmVal.tv_usec / 1000;
+    
 }
 
 /** Returns the UTC time. */

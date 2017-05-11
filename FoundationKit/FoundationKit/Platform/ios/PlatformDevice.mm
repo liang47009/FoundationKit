@@ -153,14 +153,15 @@ namespace detail
                 char addrBuf[ MAX(INET_ADDRSTRLEN, INET6_ADDRSTRLEN) ];
                 if(addr && (addr->sin_family==AF_INET || addr->sin_family==AF_INET6)) {
                     NSString *name = [NSString stringWithUTF8String:interface->ifa_name];
-                    NSString *type;
+                    NSString *type = nil;
                     if(addr->sin_family == AF_INET) {
                         if(inet_ntop(AF_INET, &addr->sin_addr, addrBuf, INET_ADDRSTRLEN)) {
                             type = IP_ADDR_IPv4;
                         }
                     } else {
                         const struct sockaddr_in6 *addr6 = (const struct sockaddr_in6*)interface->ifa_addr;
-                        if(inet_ntop(AF_INET6, &addr6->sin6_addr, addrBuf, INET6_ADDRSTRLEN)) {
+                        if(inet_ntop(AF_INET6, &addr6->sin6_addr, addrBuf, INET6_ADDRSTRLEN))
+                        {
                             type = IP_ADDR_IPv6;
                         }
                     }

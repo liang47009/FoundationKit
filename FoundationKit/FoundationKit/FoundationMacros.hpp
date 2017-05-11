@@ -184,7 +184,7 @@ public: virtual const varType& get##funName(void) const { return varName; }
     void (__cdecl*name##_)(void) = &name ## __::init; \
     void name ## __::name(void)
 
-#elif TARGET_PLATFORM == PLATFORM_ANDROID || TARGET_PLATFORM == PLATFORM_IOS
+#elif (TARGET_PLATFORM == PLATFORM_ANDROID) || (TARGET_PLATFORM == PLATFORM_IOS) || (TARGET_PLATFORM == PLATFORM_MAC)
     // Constructor attribute support for gcc
     #define constructor__(name)         \
     struct name ## __                   \
