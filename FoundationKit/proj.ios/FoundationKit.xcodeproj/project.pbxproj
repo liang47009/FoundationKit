@@ -71,8 +71,8 @@
 		094C50D61EC3FF1B00AB3021 /* FileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934905D1E7F7BA20034ECF2 /* FileUtils.cpp */; };
 		094C50D71EC3FF1B00AB3021 /* Value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490371E7F7BA20034ECF2 /* Value.cpp */; };
 		094C50D91EC3FF1B00AB3021 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 095286711ACA31DB00718FA9 /* Foundation.framework */; };
-		094C517C1EC4787500AB3021 /* EnvironmentIos.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C51781EC4787500AB3021 /* EnvironmentIos.mm */; };
-		094C517D1EC4787500AB3021 /* FileUtils_apple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C51791EC4787500AB3021 /* FileUtils_apple.mm */; };
+		094C517C1EC4787500AB3021 /* EnvironmentApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C51781EC4787500AB3021 /* EnvironmentApple.mm */; };
+		094C517D1EC4787500AB3021 /* FileUtilsApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C51791EC4787500AB3021 /* FileUtilsApple.mm */; };
 		094C517E1EC4787500AB3021 /* ProtectedMemoryAllocator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C517B1EC4787500AB3021 /* ProtectedMemoryAllocator.mm */; };
 		094C51811EC4787E00AB3021 /* PlatformDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C517F1EC4787E00AB3021 /* PlatformDevice.mm */; };
 		094C51821EC4787E00AB3021 /* PlatformIos.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C51801EC4787E00AB3021 /* PlatformIos.mm */; };
@@ -217,8 +217,8 @@
 		0944ED831EADD135006CC42F /* type_cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = type_cast.hpp; sourceTree = "<group>"; };
 		094C50DE1EC3FF1B00AB3021 /* libFoundationKit_Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundationKit_Mac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		094C51771EC4787500AB3021 /* ApplePlatformTLS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ApplePlatformTLS.hpp; sourceTree = "<group>"; };
-		094C51781EC4787500AB3021 /* EnvironmentIos.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EnvironmentIos.mm; sourceTree = "<group>"; };
-		094C51791EC4787500AB3021 /* FileUtils_apple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FileUtils_apple.mm; sourceTree = "<group>"; };
+		094C51781EC4787500AB3021 /* EnvironmentApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EnvironmentApple.mm; sourceTree = "<group>"; };
+		094C51791EC4787500AB3021 /* FileUtilsApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FileUtilsApple.mm; sourceTree = "<group>"; };
 		094C517A1EC4787500AB3021 /* ProtectedMemoryAllocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ProtectedMemoryAllocator.hpp; sourceTree = "<group>"; };
 		094C517B1EC4787500AB3021 /* ProtectedMemoryAllocator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ProtectedMemoryAllocator.mm; sourceTree = "<group>"; };
 		094C517F1EC4787E00AB3021 /* PlatformDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlatformDevice.mm; sourceTree = "<group>"; };
@@ -472,8 +472,8 @@
 			isa = PBXGroup;
 			children = (
 				094C51771EC4787500AB3021 /* ApplePlatformTLS.hpp */,
-				094C51781EC4787500AB3021 /* EnvironmentIos.mm */,
-				094C51791EC4787500AB3021 /* FileUtils_apple.mm */,
+				094C51781EC4787500AB3021 /* EnvironmentApple.mm */,
+				094C51791EC4787500AB3021 /* FileUtilsApple.mm */,
 				094C517A1EC4787500AB3021 /* ProtectedMemoryAllocator.hpp */,
 				094C517B1EC4787500AB3021 /* ProtectedMemoryAllocator.mm */,
 			);
@@ -625,7 +625,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				094C517D1EC4787500AB3021 /* FileUtils_apple.mm in Sources */,
+				094C517D1EC4787500AB3021 /* FileUtilsApple.mm in Sources */,
 				0992FFCD1E863F7E0099635E /* FCUUID.m in Sources */,
 				093490CE1E7F7BA30034ECF2 /* StringUtils.cpp in Sources */,
 				093490CB1E7F7BA30034ECF2 /* Quaternion.cpp in Sources */,
@@ -653,7 +653,7 @@
 				093490A51E7F7BA20034ECF2 /* ConvertUTFWrapper.cpp in Sources */,
 				093490E41E7F7BA30034ECF2 /* Platform.cpp in Sources */,
 				093490B91E7F7BA30034ECF2 /* ioapi_mem.cpp in Sources */,
-				094C517C1EC4787500AB3021 /* EnvironmentIos.mm in Sources */,
+				094C517C1EC4787500AB3021 /* EnvironmentApple.mm in Sources */,
 				0992FFC71E863E470099635E /* PlatformDevice.mm in Sources */,
 				093490E21E7F7BA30034ECF2 /* PlatformIos.mm in Sources */,
 				093490C91E7F7BA30034ECF2 /* MathUtil.cpp in Sources */,
