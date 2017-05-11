@@ -9,10 +9,25 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>HTTPClient_Mac.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>HTTPClient_iOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>093492211E80F26F0034ECF2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>094C50E11EC401C600AB3021</key>
 		<dict>
 			<key>primary</key>
 			<true/>
