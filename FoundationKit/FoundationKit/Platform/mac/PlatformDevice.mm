@@ -457,57 +457,47 @@ float PlatformDevice::GetNativeScale()
 PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
 {
     static PlatformMemoryConstants MemoryConstants;
+    // Get page size.
+    vm_size_t PageSize;
+    host_page_size(mach_host_self(), &PageSize);
+    
+    // Get swap file info
+    xsw_usage SwapUsage;
+    size_t Size = sizeof(SwapUsage);
+    sysctlbyname("vm.swapusage", &SwapUsage, &Size, NULL, 0);
+    
+    // Get memory.
+    int64 TotalPhysical = 0;
+    int Mib[] = {CTL_HW, HW_MEMSIZE};
+    size_t Length = sizeof(int64);
+    sysctl(Mib, 2, &TotalPhysical, &Length, NULL, 0);
+    
+    // Gather platform memory stats.
+    vm_statistics64 Stats;
+    mach_msg_type_number_t StatsSize = sizeof(Stats);
+    host_statistics64(mach_host_self(), HOST_VM_INFO64, (host_info64_t)&Stats, &StatsSize);
 
-		// Gather platform memory constants.
+    mach_task_basic_info_data_t TaskInfo;
+    mach_msg_type_number_t TaskInfoCount = MACH_TASK_BASIC_INFO_COUNT;
+    task_info( mach_task_self(), MACH_TASK_BASIC_INFO, (task_info_t)&TaskInfo, &TaskInfoCount );
 
-		// Get page size.
-		vm_size_t PageSize;
-		host_page_size(mach_host_self(), &PageSize);
-
-		// Get swap file info
-		xsw_usage SwapUsage;
-		SIZE_T Size = sizeof(SwapUsage);
-		sysctlbyname("vm.swapusage", &SwapUsage, &Size, NULL, 0);
-
-		// Get memory.
-		int64 AvailablePhysical = 0;
-		int Mib[] = {CTL_HW, HW_MEMSIZE};
-		size_t Length = sizeof(int64);
-		sysctl(Mib, 2, &AvailablePhysical, &Length, NULL, 0);
-		
-		MemoryConstants.TotalPhysical = AvailablePhysical;
-		MemoryConstants.TotalVirtual = AvailablePhysical + SwapUsage.xsu_total;
-		MemoryConstants.PageSize = (uint32)PageSize;
-
-
-			// Gather platform memory stats.
-	vm_statistics Stats;
-	mach_msg_type_number_t StatsSize = sizeof(Stats);
-	host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&Stats, &StatsSize);
-	uint64_t FreeMem = Stats.free_count * MemoryConstants.PageSize;
-	MemoryStats.AvailablePhysical = FreeMem;
-	
-	// Get swap file info
-	xsw_usage SwapUsage;
-	SIZE_T Size = sizeof(SwapUsage);
-	sysctlbyname("vm.swapusage", &SwapUsage, &Size, NULL, 0);
-	MemoryStats.AvailableVirtual = FreeMem + SwapUsage.xsu_avail;
-
-	// Just get memory information for the process and report the working set instead
-	mach_task_basic_info_data_t TaskInfo;
-	mach_msg_type_number_t TaskInfoCount = MACH_TASK_BASIC_INFO_COUNT;
-	task_info( mach_task_self(), MACH_TASK_BASIC_INFO, (task_info_t)&TaskInfo, &TaskInfoCount );
-	MemoryStats.UsedPhysical = TaskInfo.resident_size;
-	if(MemoryStats.UsedPhysical > MemoryStats.PeakUsedPhysical)
+    uint64_t FreeMem = Stats.free_count * PageSize;
+    
+    MemoryConstants.TotalPhysical     = TotalPhysical;
+    MemoryConstants.TotalVirtual      = TotalPhysical + SwapUsage.xsu_total;
+    MemoryConstants.PageSize          = PageSize;
+    MemoryConstants.AvailablePhysical = FreeMem;
+    MemoryConstants.AvailableVirtual  = FreeMem + SwapUsage.xsu_avail;
+    MemoryConstants.UsedPhysical      = TaskInfo.resident_size;
+    MemoryConstants.UsedVirtual       = TaskInfo.virtual_size;
+	if(MemoryConstants.UsedPhysical > MemoryConstants.PeakUsedPhysical)
 	{
-		MemoryStats.PeakUsedPhysical = MemoryStats.UsedPhysical;
+		MemoryConstants.PeakUsedPhysical = MemoryConstants.UsedPhysical;
 	}
-	MemoryStats.UsedVirtual = TaskInfo.virtual_size;
-	if(MemoryStats.UsedVirtual > MemoryStats.PeakUsedVirtual)
+	if(MemoryConstants.UsedVirtual > MemoryConstants.PeakUsedVirtual)
 	{
-		MemoryStats.PeakUsedVirtual = MemoryStats.UsedVirtual;
+		MemoryConstants.PeakUsedVirtual = MemoryConstants.UsedVirtual;
 	}
-
     return MemoryConstants;
 }
 

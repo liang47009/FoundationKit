@@ -354,8 +354,8 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
     MemoryConstants.AvailablePhysical = MemoryStatusEx.ullAvailPhys;
     MemoryConstants.AvailableVirtual  = MemoryStatusEx.ullAvailVirtual;
     MemoryConstants.UsedPhysical      = ProcessMemoryCounters.WorkingSetSize;
-    MemoryConstants.PeakUsedPhysical  = ProcessMemoryCounters.PeakWorkingSetSize;
     MemoryConstants.UsedVirtual       = ProcessMemoryCounters.PagefileUsage;
+    MemoryConstants.PeakUsedPhysical  = ProcessMemoryCounters.PeakWorkingSetSize;
     MemoryConstants.PeakUsedVirtual   = ProcessMemoryCounters.PeakPagefileUsage;
     return MemoryConstants;
 }
