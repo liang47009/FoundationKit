@@ -293,7 +293,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Platform\FileUtils.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Platform.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\windows\FileUtils_win32.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\FileUtilsWindows.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\PlatformDevice.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\PlatformWindows.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp" />

@@ -279,9 +279,6 @@
     <ClCompile Include="..\FoundationKit\Platform\FileUtils.cpp">
       <Filter>Platform</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\windows\FileUtils_win32.cpp">
-      <Filter>Platform\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\PlatformWindows.cpp">
       <Filter>Platform\windows</Filter>
     </ClCompile>
@@ -378,6 +375,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Crypto\des.cpp">
       <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\FileUtilsWindows.cpp">
+      <Filter>Platform\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
