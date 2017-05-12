@@ -5,7 +5,7 @@
  
  ****************************************************************************/
  #include "FoundationKit/GenericPlatformMacros.hpp"
- #if TARGET_PLATFORM == PLATFORM_IOS
+ #if TARGET_PLATFORM == PLATFORM_MAC
 #include <unistd.h>
 #include <sys/sysctl.h>
 #include "FoundationKit/Platform/Platform.hpp"
@@ -22,7 +22,7 @@ bool Platform::IsDebuggerPresent()
 }
 NS_FK_END
 
-#endif //TARGET_PLATFORM == PLATFORM_IOS
+#endif //TARGET_PLATFORM == PLATFORM_MAC
 
 
 

@@ -9,7 +9,6 @@
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/Foundation/Exception.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#import <UIKit/UIKit.h>
 
 NS_FK_BEGIN
 static std::string GSavedCommandLine = "";

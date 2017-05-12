@@ -74,8 +74,11 @@
 		094C517C1EC4787500AB3021 /* EnvironmentApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C51781EC4787500AB3021 /* EnvironmentApple.mm */; };
 		094C517D1EC4787500AB3021 /* FileUtilsApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C51791EC4787500AB3021 /* FileUtilsApple.mm */; };
 		094C517E1EC4787500AB3021 /* ProtectedMemoryAllocator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C517B1EC4787500AB3021 /* ProtectedMemoryAllocator.mm */; };
-		094C51811EC4787E00AB3021 /* PlatformDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C517F1EC4787E00AB3021 /* PlatformDevice.mm */; };
-		094C51821EC4787E00AB3021 /* PlatformIos.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C51801EC4787E00AB3021 /* PlatformIos.mm */; };
+		094C51831EC54DB100AB3021 /* PlatformDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C517F1EC4787E00AB3021 /* PlatformDevice.mm */; };
+		094C51841EC54DB500AB3021 /* PlatformIos.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C51801EC4787E00AB3021 /* PlatformIos.mm */; };
+		094C51851EC54DB900AB3021 /* EnvironmentApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C51781EC4787500AB3021 /* EnvironmentApple.mm */; };
+		094C51861EC54DBC00AB3021 /* FileUtilsApple.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C51791EC4787500AB3021 /* FileUtilsApple.mm */; };
+		094C51871EC54DBF00AB3021 /* ProtectedMemoryAllocator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C517B1EC4787500AB3021 /* ProtectedMemoryAllocator.mm */; };
 		095286721ACA31DB00718FA9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 095286711ACA31DB00718FA9 /* Foundation.framework */; };
 		0992FFC71E863E470099635E /* PlatformDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0992FFC61E863E470099635E /* PlatformDevice.mm */; };
 		0992FFCD1E863F7E0099635E /* FCUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 0992FFCA1E863F7E0099635E /* FCUUID.m */; };
@@ -587,6 +590,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				094C51861EC54DBC00AB3021 /* FileUtilsApple.mm in Sources */,
 				094C50B11EC3FF1B00AB3021 /* StringUtils.cpp in Sources */,
 				094C50B21EC3FF1B00AB3021 /* Quaternion.cpp in Sources */,
 				094C50B31EC3FF1B00AB3021 /* Matrix.cpp in Sources */,
@@ -594,13 +598,17 @@
 				094C50B51EC3FF1B00AB3021 /* Math.cpp in Sources */,
 				094C50B61EC3FF1B00AB3021 /* GenericPlatformMacros.cpp in Sources */,
 				094C50B71EC3FF1B00AB3021 /* Exception.cpp in Sources */,
+				094C51841EC54DB500AB3021 /* PlatformIos.mm in Sources */,
+				094C51851EC54DB900AB3021 /* EnvironmentApple.mm in Sources */,
 				094C50B81EC3FF1B00AB3021 /* DelegateManager.cpp in Sources */,
+				094C51871EC54DBF00AB3021 /* ProtectedMemoryAllocator.mm in Sources */,
 				094C50B91EC3FF1B00AB3021 /* aes.cpp in Sources */,
 				094C50BA1EC3FF1B00AB3021 /* DataStream.cpp in Sources */,
 				094C50BB1EC3FF1B00AB3021 /* Compression.cpp in Sources */,
 				094C50BC1EC3FF1B00AB3021 /* Vector4.cpp in Sources */,
 				094C50BD1EC3FF1B00AB3021 /* Rect.cpp in Sources */,
 				094C50BE1EC3FF1B00AB3021 /* ConvertUTF.c in Sources */,
+				094C51831EC54DB100AB3021 /* PlatformDevice.mm in Sources */,
 				094C50C11EC3FF1B00AB3021 /* Vector2.cpp in Sources */,
 				094C50C21EC3FF1B00AB3021 /* Timer.cpp in Sources */,
 				094C50C31EC3FF1B00AB3021 /* Size.cpp in Sources */,
@@ -660,9 +668,7 @@
 				093490D11E7F7BA30034ECF2 /* Timespan.cpp in Sources */,
 				093490D01E7F7BA30034ECF2 /* TimerQueue.cpp in Sources */,
 				093490C41E7F7BA30034ECF2 /* DateTime.cpp in Sources */,
-				094C51811EC4787E00AB3021 /* PlatformDevice.mm in Sources */,
 				0992FFD31E8643A70099635E /* Reachability_libo.m in Sources */,
-				094C51821EC4787E00AB3021 /* PlatformIos.mm in Sources */,
 				094C517E1EC4787500AB3021 /* ProtectedMemoryAllocator.mm in Sources */,
 				093490B81E7F7BA30034ECF2 /* ioapi.cpp in Sources */,
 				093490DF1E7F7BA30034ECF2 /* FileUtils.cpp in Sources */,

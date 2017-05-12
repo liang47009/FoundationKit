@@ -1,105 +1,30 @@
 #include <mach/machine.h>
-#include <sys/sysctl.h>
-#include <ifaddrs.h>
-#include <net/if.h>
-#include <arpa/inet.h>
 #include <mach/mach.h>
 #include <mach/mach_host.h>
+#include <mach/vm_statistics.h>
+#include <mach/mach_types.h>
+#include <mach/mach_init.h>
+#include <sys/sysctl.h>
+#include <sys/types.h>
+#include <sys/utsname.h>
+#include <sys/socket.h>
+#include <net/if.h>
+#include <net/if_dl.h>
+#include <arpa/inet.h>
+#include <ifaddrs.h>
 #include <unordered_map>
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#include "detail/FCUUID.h"
-#include "detail/UICKeyChainStore.h" //Based on https://github.com/kishikawakatsumi/UICKeyChainStore
-#include "detail/UIDeviceHardware.h" //Based on https://github.com/fahrulazmi/UIDeviceHardware
-#include "detail/Reachability_libo.h"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Foundation/Logger.hpp"
+#include "FoundationKit/Foundation/StringUtils.hpp"
+#import <IOKit/IOKitLib.h>
+#import <Foundation/Foundation.h>
+
 
 NS_FK_BEGIN
 
 namespace detail
 {
-    enum DeviceDataFeild
-    {
-        RAM,
-        CPU_NAME,
-        CPU_ARCH,
-        CPU_CORES,
-        CPU_CLOCK,
-        GPU_NAME,
-        GPU_CORES,
-        GPU_CLOCK,
-        SCREEN_RES,
-        SCREEN_PPI,
-        SCREEN_SIZE,//inches
-    };
-    // https://support.hockeyapp.net/kb/client-integration-ios-mac-os-x-tvos/ios-device-types
-    // Data source:http://www.blakespot.com/ios_device_specifications_grid.html
-    std::unordered_map<std::string, std::vector<std::string>> AppleDeviceData =
-    {
-        { "iPhone1,1", { "128", "ARM1176JZ(F)-S v1.0", "ARMv6", "1", "412", "PowerVR MBX Lite", "1", "60", "480 x 320", "163", "3.50" } },
-        { "iPod1,1", { "128", "ARM1176JZ(F)-S v1.0", "ARMv6", "1", "412", "PowerVR MBX Lite", "1", "60", "480 x 320", "163", "3.50" } },
-        { "iPhone1,2", { "128", "ARM1176JZ(F)-S v1.0", "ARMv6", "1", "412", "PowerVR MBX Lite", "1", "60", "480 x 320", "163", "3.50" } },
-        { "iPod2,1", { "128", "ARM1176JZ(F)-S v1.0", "ARMv6", "1", "532", "PowerVR MBX Lite", "1", "60", "480 x 320", "163", "3.50" } },
-        { "iPhone2,1", { "256", "ARM Cortex-A8", "ARMv7", "1", "600", "PowerVR SGX535", "1", "150", "480 x 320", "163", "3.50" } },
-        { "iPod3,1", { "256", "ARM Cortex-A8", "ARMv7", "1", "600", "PowerVR SGX535", "1", "0", "480 x 320", "163", "3.50" } },
-        { "iPad1,1", { "256", "ARM Cortex-A8", "ARMv7", "1", "1000", "PowerVR SGX535", "1", "200", "1024 x 768", "132", "9.70" } },
-        { "iPhone3,1", { "512", "ARM Cortex-A8", "ARMv7", "1", "800", "PowerVR SGX535", "1", "200", "960 x 640", "326", "3.50" } },
-        { "iPhone3,2", { "512", "ARM Cortex-A8", "ARMv7", "1", "800", "PowerVR SGX535", "1", "200", "960 x 640", "326", "3.50" } },
-        { "iPhone3,3", { "512", "ARM Cortex-A8", "ARMv7", "1", "800", "PowerVR SGX535", "1", "200", "960 x 640", "326", "3.50" } },
-        { "iPod4,1", { "256", "ARM Cortex-A8", "ARMv7", "1", "800", "PowerVR SGX535", "1", "200", "960 x 640", "326", "3.50" } },
-        { "iPad2,1", { "512", "ARM Cortex-A9", "ARMv7", "2", "1000", "PowerVR SGX543MP2", "2", "250", "1024 x 768", "132", "9.70" } },
-        { "iPad2,2", { "512", "ARM Cortex-A9", "ARMv7", "2", "1000", "PowerVR SGX543MP2", "2", "250", "1024 x 768", "132", "9.70" } },
-        { "iPad2,3", { "512", "ARM Cortex-A9", "ARMv7", "2", "1000", "PowerVR SGX543MP2", "2", "250", "1024 x 768", "132", "9.70" } },
-        { "iPhone4,1", { "512", "ARM Cortex-A9", "ARMv7", "2", "800", "PowerVR SGX543MP2", "2", "250", "960 x 640", "326", "3.50" } },
-        { "iPad3,1", { "1024", "ARM Cortex-A9", "ARMv7", "2", "1000", "PowerVR SGX543MP4", "4", "250", "2048 x 1536", "264", "9.70" } },
-        { "iPad3,2", { "1024", "ARM Cortex-A9", "ARMv7", "2", "1000", "PowerVR SGX543MP4", "4", "250", "2048 x 1536", "264", "9.70" } },
-        { "iPad3,3", { "1024", "ARM Cortex-A9", "ARMv7", "2", "1000", "PowerVR SGX543MP4", "4", "250", "2048 x 1536", "264", "9.70" } },
-        { "iPhone5,1", { "1024", "Swift (Apple)", "ARMv7s", "2", "1300", "PowerVR SGX543MP3", "3", "266", "1136 x 640", "326", "4.00" } },
-        { "iPhone5,2", { "1024", "Swift (Apple)", "ARMv7s", "2", "1300", "PowerVR SGX543MP3", "3", "266", "1136 x 640", "326", "4.00" } },
-        { "iPod5,1", { "512", "ARM Cortex-A9", "ARMv7", "2", "800", "PowerVR SGX543MP2", "2", "250", "1136 x 640", "326", "4.00" } },
-        { "iPad3,4", { "1024", "Swift (Apple)", "ARMv7s", "2", "1400", "PowerVR SGX554MP4", "4", "0", "2048 x 1536", "264", "9.70" } },
-        { "iPad3,5", { "1024", "Swift (Apple)", "ARMv7s", "2", "1400", "PowerVR SGX554MP4", "4", "0", "2048 x 1536", "264", "9.70" } },
-        { "iPad3,6", { "1024", "Swift (Apple)", "ARMv7s", "2", "1400", "PowerVR SGX554MP4", "4", "0", "2048 x 1536", "264", "9.70" } },
-        { "iPad2,5", { "512", "ARM Cortex-A9", "ARMv7", "2", "1000", "PowerVR SGX543MP2", "2", "250", "1024 x 768", "163", "7.90" } },
-        { "iPad2,6", { "512", "ARM Cortex-A9", "ARMv7", "2", "1000", "PowerVR SGX543MP2", "2", "250", "1024 x 768", "163", "7.90" } },
-        { "iPad2,7", { "512", "ARM Cortex-A9", "ARMv7", "2", "1000", "PowerVR SGX543MP2", "2", "250", "1024 x 768", "163", "7.90" } },
-        { "iPhone5,3", { "1024", "Swift (Apple)", "ARMv7s", "2", "1300", "PowerVR SGX543MP3", "3", "266", "1136 x 640", "326", "4.00" } },
-        { "iPhone5,4", { "1024", "Swift (Apple)", "ARMv7s", "2", "1300", "PowerVR SGX543MP3", "3", "266", "1136 x 640", "326", "4.00" } },
-        { "iPhone6,1", { "1024", "Cyclone (Apple)", "ARMv8", "2", "1300", "PowerVR G6430", "4", "0", "1136 x 640", "326", "4.00" } },
-        { "iPhone6,2", { "1024", "Cyclone (Apple)", "ARMv8", "2", "1300", "PowerVR G6430", "4", "0", "1136 x 640", "326", "4.00" } },
-        { "iPhone6,3", { "1024", "Cyclone (Apple)", "ARMv8", "2", "1300", "PowerVR G6430", "4", "0", "1136 x 640", "326", "4.00" } },
-        { "iPad4,1", { "1024", "Cyclone (Apple)", "ARMv8", "2", "1400", "PowerVR G6430", "4", "0", "2048 x 1536", "264", "9.70" } },
-        { "iPad4,2", { "1024", "Cyclone (Apple)", "ARMv8", "2", "1400", "PowerVR G6430", "4", "0", "2048 x 1536", "264", "9.70" } },
-        { "iPad4,3", { "1024", "Cyclone (Apple)", "ARMv8", "2", "1400", "PowerVR G6430", "4", "0", "2048 x 1536", "264", "9.70" } },
-        { "iPad4,4", { "1024", "Cyclone (Apple)", "ARMv8", "2", "1300", "PowerVR G6430", "4", "0", "2048 x 1536", "326", "7.90" } },
-        { "iPad4,5", { "1024", "Cyclone (Apple)", "ARMv8", "2", "1300", "PowerVR G6430", "4", "0", "2048 x 1536", "326", "7.90" } },
-        { "iPad4,6", { "1024", "Cyclone (Apple)", "ARMv8", "2", "1300", "PowerVR G6430", "4", "0", "2048 x 1536", "326", "7.90" } },
-        { "iPhone7,2", { "1024", "Typhoon (Apple)", "ARMv8", "2", "1400", "PowerVR GX6450", "4", "450", "1334 x 750", "326", "4.70" } },
-        { "iPhone7,1", { "1024", "Typhoon (Apple)", "ARMv8", "2", "1400", "PowerVR GX6450", "4", "450", "1920 x 1080", "401", "5.50" } },
-        { "iPad5,3", { "2048", "Typhoon (Apple)", "ARMv8", "3", "1500", "PowerVR GXA6850", "8", "450", "2048 x 1536", "264", "9.70" } },
-        { "iPad5,4", { "2048", "Typhoon (Apple)", "ARMv8", "3", "1500", "PowerVR GXA6850", "8", "450", "2048 x 1536", "264", "9.70" } },
-        { "iPad4,7", { "1024", "Cyclone (Apple)", "ARMv8", "2", "1300", "PowerVR G6430", "4", "0", "2048 x 1536", "326", "7.90" } },
-        { "iPad4,8", { "1024", "Cyclone (Apple)", "ARMv8", "2", "1300", "PowerVR G6430", "4", "0", "2048 x 1536", "326", "7.90" } },
-        { "iPad4,9", { "1024", "Cyclone (Apple)", "ARMv8", "2", "1300", "PowerVR G6430", "4", "0", "2048 x 1536", "326", "7.90" } },
-        { "iPod7,1", { "1024", "Typhoon (Apple)", "ARMv8", "2", "1100", "PowerVR GX6450", "4", "450", "1334 x 750", "326", "4.70" } },
-        { "iPad6,7", { "4096", "Twister (Apple)", "ARMv8-A", "2", "2260", "PowerVR Series7", "12", "0", "2732 x 2048", "264", "12.90" } },
-        { "iPad6,8", { "4096", "Twister (Apple)", "ARMv8-A", "2", "2260", "PowerVR Series7", "12", "0", "2732 x 2048", "264", "12.90" } },
-        { "iPad5,1", { "1024", "Typhoon (Apple)", "ARMv8", "2", "1400", "PowerVR GX6450", "4", "450", "2048 x 1536", "264", "7.90" } },
-        { "iPad5,2", { "1024", "Typhoon (Apple)", "ARMv8", "2", "1400", "PowerVR GX6450", "4", "450", "2048 x 1536", "264", "7.90" } },
-        { "iPhone8,1", { "2048", "Twister (Apple)", "ARMv8", "2", "1850", "PowerVR GT7600", "6", "0", "1334 x 750", "326", "4.70" } },
-        { "iPhone8,2", { "2048", "Twister (Apple)", "ARMv8", "2", "1850", "PowerVR GT7600", "6", "0", "1920 x 1080", "401", "5.50" } },
-        { "iPhone8,4", { "2048", "Twister (Apple)", "ARMv8", "2", "1850", "PowerVR GT7600", "6", "0", "1136 x 640", "326", "4.00" } },
-        { "iPad6,3", { "4096", "Twister (Apple)", "ARMv8-A", "2", "2160", "PowerVR Series7", "12", "0", "2048 x 1536", "264", "9.70" } },
-        { "iPad6,4", { "4096", "Twister (Apple)", "ARMv8-A", "2", "2160", "PowerVR Series7", "12", "0", "2048 x 1536", "264", "9.70" } },
-        { "iPhone9,1", { "2048", "Twister (Apple)", "ARMv8", "0", "2340", "PowerVR GT7600 Plus", "6", "0", "1334 x 750", "326", "4.70" } },
-        { "iPhone9,2", { "2048", "Twister (Apple)", "ARMv8", "0", "2340", "PowerVR GT7600 Plus", "6", "0", "1334 x 750", "326", "4.70" } },
-        { "iPhone9,3", { "2048", "Twister (Apple)", "ARMv8", "0", "2340", "PowerVR GT7600 Plus", "6", "0", "1334 x 750", "326", "4.70" } },
-        { "iPhone9,4", { "3072", "Twister (Apple)", "ARMv8", "0", "2340", "PowerVR GT7600 Plus", "6", "0", "1920 x 1080", "401", "5.50" } },
-        { "iPhone9,5", { "3072", "Twister (Apple)", "ARMv8", "0", "2340", "PowerVR GT7600 Plus", "6", "0", "1920 x 1080", "401", "5.50" } },
-        { "iPhone9,6", { "3072", "Twister (Apple)", "ARMv8", "0", "2340", "PowerVR GT7600 Plus", "6", "0", "1920 x 1080", "401", "5.50" } },
-    };
-    
 #define IOS_CELLULAR    @"pdp_ip0"
 #define IOS_WIFI        @"en0"
 #define IOS_VPN         @"utun0"
@@ -194,20 +119,65 @@ namespace detail
          } ];
         return address ? [address UTF8String] : "0.0.0.0";
     }
+    
+    std::string getHardwareProperty(const char* name)
+    {
+        size_t size;
+        sysctlbyname(name, NULL, &size, NULL, 0);
+        char *machine = new char[size+1];
+        memset(machine, 0, size+1);
+        sysctlbyname(name, machine, &size, NULL, 0);
+        std::string platformName = machine;
+        delete[] machine;
+        return platformName;
+    }
+    
+    // ioreg -d2 -c IOPlatformExpertDevice
+    std::string getPlatformExpertDeviceProperty(const char* name)
+    {
+        std::string propertyValue;
+        io_service_t platformExpert = IOServiceGetMatchingService(
+                                                                  kIOMasterPortDefault,
+                                                                  IOServiceMatching("IOPlatformExpertDevice"));
+        if (platformExpert)
+        {
+            CFStringRef cfName = CFStringCreateWithCString(kCFAllocatorDefault, name, kCFStringEncodingUTF8);
+            CFTypeRef modelString = IORegistryEntryCreateCFProperty(
+                                                                    platformExpert,
+                                                                    cfName,
+                                                                    kCFAllocatorDefault,
+                                                                    0);
+            CFRelease(cfName);
+            if(!modelString)
+                return propertyValue;
+            
+            if (CFGetTypeID(modelString) == CFStringGetTypeID())
+            {
+                propertyValue = [(__bridge NSString*)(CFStringRef)modelString UTF8String];
+            }
+            else if(CFGetTypeID(modelString) == CFDataGetTypeID())
+            {
+                NSData* nsdata = (__bridge NSData*)modelString;
+                NSString* nsValue = [[NSString alloc] initWithData:nsdata encoding:NSUTF8StringEncoding];
+                propertyValue = [nsValue UTF8String];
+                
+            }
+            CFRelease(modelString);
+            IOObjectRelease(platformExpert);
+        }
+        return propertyValue;
+    }
+    
 } // namespace detail
 
 std::string PlatformDevice::GetDeviceId()
 {
-    NSString* nsDeviceId = [FCUUID uuidForDevice];
-    std::string strDeviceId ="N/A";
-    if(nsDeviceId)
-        strDeviceId = [nsDeviceId UTF8String];
-    return strDeviceId;
+    return detail::getPlatformExpertDeviceProperty("IOPlatformSerialNumber");
 }
 
 std::string PlatformDevice::GetProduct()
 {
-    return "Apple";
+    return detail::getPlatformExpertDeviceProperty("product-name");
 }
 
 std::string PlatformDevice::GetHardware()
@@ -217,8 +187,7 @@ std::string PlatformDevice::GetHardware()
 
 std::string PlatformDevice::GetDevice()
 {
-    NSString* model = [UIDeviceHardware platformString];
-    return [model UTF8String];
+    return GetProduct();
 }
 
 std::string PlatformDevice::GetBrandName()
@@ -228,40 +197,24 @@ std::string PlatformDevice::GetBrandName()
 
 std::string PlatformDevice::GetModel()
 {
-    NSString* model = [UIDeviceHardware platformString];
-    return [model UTF8String];
+    return detail::getPlatformExpertDeviceProperty("model");
 }
 
 std::string PlatformDevice::GetManufacturer()
 {
-    return "Apple";
+    return detail::getPlatformExpertDeviceProperty("manufacturer");
 }
 
 std::string PlatformDevice::GetSystemVersion()
 {
-    NSString* systemVersion= [UIDevice currentDevice].systemVersion;
-    std::string strVersion = [systemVersion UTF8String];
-    int mib[2] = {CTL_KERN, KERN_OSVERSION};
-    u_int nameLen = sizeof(mib)/ sizeof(mib[0]);
-    size_t bufferSize= 0;
-    sysctl(mib, nameLen, nullptr, &bufferSize, NULL, 0);
-    char *sysVersion = new char[bufferSize+1];
-    memset(sysVersion, 0, bufferSize+1);
-    int result = sysctl(mib, nameLen, sysVersion, &bufferSize, NULL, 0);
-    if (result >= 0)
-    {
-        strVersion += "(";
-        strVersion += sysVersion;
-        strVersion += ")";
-    }
-    delete[] sysVersion;
-    return strVersion;
+    NSDictionary* sysinfo = [NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"];
+    NSString* systemVersion = [sysinfo objectForKey:@"ProductVersion"];
+    return [systemVersion UTF8String];
 }
 
 std::string PlatformDevice::GetSDKVersion()
 {
-    NSString* systemVersion= [UIDevice currentDevice].systemVersion;
-    return [systemVersion UTF8String];
+    return GetSystemVersion();
 }
 
 std::string PlatformDevice::GetRendererVersion()
@@ -272,46 +225,44 @@ std::string PlatformDevice::GetRendererVersion()
 
 std::string PlatformDevice::GetCPUArch()
 {
-    cpu_type_t  type;
-    cpu_subtype_t sub_type;
-    size_t type_size = sizeof(type);
-    sysctlbyname("hw.cputype", &type, &type_size, NULL, 0);
-    type_size = sizeof(sub_type);
-    sysctlbyname("hw.cpusubtype", &sub_type, &type_size, NULL, 0);
-    std::string strCpuArch;
-    switch (type) {
-        case CPU_TYPE_X86_64:
-            strCpuArch = "x86_64";
-            break;
-        case CPU_TYPE_X86:
-            strCpuArch = "x86";
-			if(sub_type ==CPU_TYPE_X86_64|| sub_type == CPU_SUBTYPE_X86_64_H)
-			{
-				strCpuArch += "_64";
-			}
-            break;
+    cpu_type_t cpuType;
+    cpu_subtype_t cpuSubType;
+    size_t size = sizeof(cpuType);
+    sysctlbyname("hw.cputype", &cpuType, &size, nullptr, 0);
+    
+    size = sizeof(cpuSubType);
+    sysctlbyname("hw.cpusubtype", &cpuSubType, &size, nullptr, 0);
+    std::string cpuTypeString;
+    switch (cpuType)
+    {
         case CPU_TYPE_ARM:
-            strCpuArch = "arm";
-            switch (sub_type) {
-                case CPU_SUBTYPE_ARM_V6:
-                    strCpuArch += "v6";
-                    break;
-                case CPU_SUBTYPE_ARM_V8:
-                    strCpuArch += "v8";
-                    break;
-                default:
-                    strCpuArch += "v7s";
-                    break;
-            }
+            cpuTypeString.append("arm");
+            if(cpuSubType == CPU_SUBTYPE_ARM_V6) cpuTypeString.append("v6");
+            else if(cpuSubType == CPU_SUBTYPE_ARM_V7) cpuTypeString.append("v7");
+            else if(cpuSubType == CPU_SUBTYPE_ARM_V7F) cpuTypeString.append("v7f");
+            else if(cpuSubType == CPU_SUBTYPE_ARM_V7S) cpuTypeString.append("v7s");
+            else if(cpuSubType == CPU_SUBTYPE_ARM_V7K) cpuTypeString.append("v7k");
+            else if(cpuSubType == CPU_SUBTYPE_ARM_V8) cpuTypeString.append("v8");
+            else cpuTypeString.append(StringUtils::to_string(cpuSubType));
             break;
         case CPU_TYPE_ARM64:
-            strCpuArch += "arm64";
+            cpuTypeString.append("arm64");
+            break;
+        case CPU_TYPE_X86:
+            cpuTypeString.append("x86");
+            if(cpuSubType == CPU_SUBTYPE_X86_64_H)
+            {
+                cpuTypeString.append("_64");
+            }
+            break;
+        case CPU_TYPE_X86_64:
+            cpuTypeString.append("x86_64");
             break;
         default:
-            strCpuArch += "N/A";
+            cpuTypeString.append(StringUtils::to_string(cpuType) + StringUtils::to_string(cpuSubType));
             break;
     }
-    return strCpuArch;
+    return cpuTypeString;
 }
 
 int PlatformDevice::GetCPUCoreCount()
