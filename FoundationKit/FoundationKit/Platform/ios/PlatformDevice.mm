@@ -503,6 +503,55 @@ float PlatformDevice::GetNativeScale()
         return [[UIScreen mainScreen] scale];
 }
 
+PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
+{
+    static PlatformMemoryConstants MemoryConstants;
+
+		// Gather platform memory constants.
+		
+		// Get page size.
+		vm_size_t PageSize;
+		host_page_size(mach_host_self(), &PageSize);
+
+		// Get swap file info
+		xsw_usage SwapUsage;
+		SIZE_T Size = sizeof(SwapUsage);
+		sysctlbyname("vm.swapusage", &SwapUsage, &Size, NULL, 0);
+
+		// Get memory.
+		vm_statistics Stats;
+		mach_msg_type_number_t StatsSize = sizeof(Stats);
+		host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&Stats, &StatsSize);
+		uint64_t FreeMem = Stats.free_count * PageSize;
+		uint64_t UsedMem = (Stats.active_count + Stats.inactive_count + Stats.wire_count) * PageSize;
+		uint64_t TotalPhys = FreeMem + UsedMem;
+		uint64_t TotalPageFile = SwapUsage.xsu_total;
+		uint64_t TotalVirtual = TotalPhys + TotalPageFile;
+	
+		MemoryConstants.TotalPhysical = TotalPhys;
+		MemoryConstants.TotalVirtual = TotalVirtual;
+		MemoryConstants.PageSize = (uint32)PageSize;
+
+			// Gather system-wide memory stats.
+	vm_statistics Stats;
+	mach_msg_type_number_t StatsSize = sizeof(Stats);
+	host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&Stats, &StatsSize);
+	uint64_t FreeMem = Stats.free_count * MemoryConstants.PageSize;
+	uint64_t SysUsedMem = (Stats.active_count + Stats.inactive_count + Stats.wire_count) * MemoryConstants.PageSize;
+
+	// Gather process memory stats.
+	task_basic_info Info;
+	mach_msg_type_number_t InfoSize = sizeof(Info);
+	task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)&Info, &InfoSize);
+
+	MemoryStats.AvailablePhysical = FreeMem;
+	MemoryStats.AvailableVirtual = 0;
+	MemoryStats.UsedPhysical = Info.resident_size;
+	MemoryStats.UsedVirtual = Info.virtual_size;
+
+    return MemoryConstants;
+}
+
 std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
 {
     char buffer[1024]={0};

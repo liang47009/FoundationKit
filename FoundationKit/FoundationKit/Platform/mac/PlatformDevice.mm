@@ -454,6 +454,63 @@ float PlatformDevice::GetNativeScale()
         return [[UIScreen mainScreen] scale];
 }
 
+PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
+{
+    static PlatformMemoryConstants MemoryConstants;
+
+		// Gather platform memory constants.
+
+		// Get page size.
+		vm_size_t PageSize;
+		host_page_size(mach_host_self(), &PageSize);
+
+		// Get swap file info
+		xsw_usage SwapUsage;
+		SIZE_T Size = sizeof(SwapUsage);
+		sysctlbyname("vm.swapusage", &SwapUsage, &Size, NULL, 0);
+
+		// Get memory.
+		int64 AvailablePhysical = 0;
+		int Mib[] = {CTL_HW, HW_MEMSIZE};
+		size_t Length = sizeof(int64);
+		sysctl(Mib, 2, &AvailablePhysical, &Length, NULL, 0);
+		
+		MemoryConstants.TotalPhysical = AvailablePhysical;
+		MemoryConstants.TotalVirtual = AvailablePhysical + SwapUsage.xsu_total;
+		MemoryConstants.PageSize = (uint32)PageSize;
+
+
+			// Gather platform memory stats.
+	vm_statistics Stats;
+	mach_msg_type_number_t StatsSize = sizeof(Stats);
+	host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&Stats, &StatsSize);
+	uint64_t FreeMem = Stats.free_count * MemoryConstants.PageSize;
+	MemoryStats.AvailablePhysical = FreeMem;
+	
+	// Get swap file info
+	xsw_usage SwapUsage;
+	SIZE_T Size = sizeof(SwapUsage);
+	sysctlbyname("vm.swapusage", &SwapUsage, &Size, NULL, 0);
+	MemoryStats.AvailableVirtual = FreeMem + SwapUsage.xsu_avail;
+
+	// Just get memory information for the process and report the working set instead
+	mach_task_basic_info_data_t TaskInfo;
+	mach_msg_type_number_t TaskInfoCount = MACH_TASK_BASIC_INFO_COUNT;
+	task_info( mach_task_self(), MACH_TASK_BASIC_INFO, (task_info_t)&TaskInfo, &TaskInfoCount );
+	MemoryStats.UsedPhysical = TaskInfo.resident_size;
+	if(MemoryStats.UsedPhysical > MemoryStats.PeakUsedPhysical)
+	{
+		MemoryStats.PeakUsedPhysical = MemoryStats.UsedPhysical;
+	}
+	MemoryStats.UsedVirtual = TaskInfo.virtual_size;
+	if(MemoryStats.UsedVirtual > MemoryStats.PeakUsedVirtual)
+	{
+		MemoryStats.PeakUsedVirtual = MemoryStats.UsedVirtual;
+	}
+
+    return MemoryConstants;
+}
+
 std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
 {
     char buffer[1024]={0};
