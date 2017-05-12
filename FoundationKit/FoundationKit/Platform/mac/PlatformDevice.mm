@@ -18,6 +18,7 @@
 #include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #import <IOKit/IOKitLib.h>
+#import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
 
 
@@ -418,17 +419,12 @@ Size PlatformDevice::GetScreenNativeResolution()
     return resolution;
 }
 
-int PlatformDevice::GetScreenDPI()
+float PlatformDevice::GetScreenDPI()
 {
-    int ppi = 0;
-    std::string model = [[UIDeviceHardware platform] UTF8String];
-    auto modelIter =detail::AppleDeviceData.find(model);
-    if(modelIter != detail::AppleDeviceData.end())
-    {
-        ppi = ::atoi(modelIter->second[detail::DeviceDataFeild::SCREEN_PPI].c_str());
-        
-    }
-    return ppi;
+    NSScreen* mainScreen = [NSScreen mainScreen];
+    NSDictionary* description = [mainScreen deviceDescription];
+    NSSize resolution = [[description objectForKey:NSDeviceResolution] sizeValue];
+    return (resolution.width+resolution.height) / 2;
 }
 
 float PlatformDevice::GetScreenFPS()
@@ -438,20 +434,23 @@ float PlatformDevice::GetScreenFPS()
 
 float PlatformDevice::GetScreenXDPI()
 {
-    return GetScreenDPI();
+    NSScreen* mainScreen = [NSScreen mainScreen];
+    NSDictionary* description = [mainScreen deviceDescription];
+    NSSize resolution = [[description objectForKey:NSDeviceResolution] sizeValue];
+    return resolution.width;
 }
 
 float PlatformDevice::GetScreenYDPI()
 {
-    return GetScreenDPI();
+    NSScreen* mainScreen = [NSScreen mainScreen];
+    NSDictionary* description = [mainScreen deviceDescription];
+    NSSize resolution = [[description objectForKey:NSDeviceResolution] sizeValue];
+    return resolution.height;
 }
 
 float PlatformDevice::GetNativeScale()
 {
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(nativeScale)])
-        return [[UIScreen mainScreen] nativeScale];
-    else
-        return [[UIScreen mainScreen] scale];
+    return [[NSScreen mainScreen] backingScaleFactor];
 }
 
 PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()

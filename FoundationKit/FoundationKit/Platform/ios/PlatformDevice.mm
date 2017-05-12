@@ -467,14 +467,14 @@ Size PlatformDevice::GetScreenNativeResolution()
     return resolution;
 }
 
-int PlatformDevice::GetScreenDPI()
+float PlatformDevice::GetScreenDPI()
 {
-    int ppi = 0;
+    float ppi = 0.0f;
     std::string model = [[UIDeviceHardware platform] UTF8String];
     auto modelIter =detail::AppleDeviceData.find(model);
     if(modelIter != detail::AppleDeviceData.end())
     {
-        ppi = ::atoi(modelIter->second[detail::DeviceDataFeild::SCREEN_PPI].c_str());
+        ppi = ::atof(modelIter->second[detail::DeviceDataFeild::SCREEN_PPI].c_str());
         
     }
     return ppi;

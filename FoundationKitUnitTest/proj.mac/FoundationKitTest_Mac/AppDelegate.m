@@ -16,6 +16,11 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    
+    NSScreen* mainScreen = [NSScreen mainScreen];
+    NSDictionary* description = [mainScreen deviceDescription];
+    NSSize resoultion = [[description objectForKey:NSDeviceResolution] sizeValue];
+    
 }
 
 

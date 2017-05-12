@@ -136,7 +136,7 @@ public:
     //px = dp * (dpi / 160)
     //dp = px/(dpi/160)
     //dpi = px/dp*160
-    static int   GetScreenDPI();
+    static float   GetScreenDPI();
     static float GetScreenFPS();
     static float GetScreenXDPI();
     static float GetScreenYDPI();

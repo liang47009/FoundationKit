@@ -290,10 +290,10 @@ Size PlatformDevice::GetScreenNativeResolution()
     return Size(static_cast<float>(dwWidth), static_cast<float>(dwHeight));
 }
 
-int PlatformDevice::GetScreenDPI()
+float PlatformDevice::GetScreenDPI()
 {
-    static int dpi = -1;
-    if (dpi == -1)
+    static float dpi = 0.0f;
+    if (dpi < 1.0f)
     {
         HDC hScreenDC = GetDC(nullptr);
         int PixelsX = GetDeviceCaps(hScreenDC, HORZRES);

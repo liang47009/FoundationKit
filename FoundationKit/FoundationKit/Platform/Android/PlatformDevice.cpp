@@ -520,7 +520,7 @@ Size PlatformDevice::GetScreenNativeResolution()
     return GLOBAL_DisplayInfo.realSize;
 }
 
-int PlatformDevice::GetScreenDPI()
+float PlatformDevice::GetScreenDPI()
 {
     lazyGetScreenResolution();
     return GLOBAL_DisplayInfo.densityDpi;
