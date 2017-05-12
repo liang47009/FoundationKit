@@ -7,23 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		094C51641EC477E100AB3021 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 094C51631EC477E100AB3021 /* AppDelegate.m */; };
+		094C51641EC477E100AB3021 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094C51631EC477E100AB3021 /* AppDelegate.mm */; };
 		094C51671EC477E100AB3021 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 094C51661EC477E100AB3021 /* main.m */; };
 		094C516A1EC477E100AB3021 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 094C51691EC477E100AB3021 /* ViewController.m */; };
 		094C516C1EC477E100AB3021 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 094C516B1EC477E100AB3021 /* Assets.xcassets */; };
 		094C516F1EC477E100AB3021 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 094C516D1EC477E100AB3021 /* Main.storyboard */; };
+		094C518A1EC58CE100AB3021 /* libFoundationKit_Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 094C51891EC58CE100AB3021 /* libFoundationKit_Mac.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		094C515F1EC477E100AB3021 /* FoundationKitTest_Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoundationKitTest_Mac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		094C51621EC477E100AB3021 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		094C51631EC477E100AB3021 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		094C51631EC477E100AB3021 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		094C51661EC477E100AB3021 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		094C51681EC477E100AB3021 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		094C51691EC477E100AB3021 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		094C516B1EC477E100AB3021 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		094C516E1EC477E100AB3021 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		094C51701EC477E100AB3021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		094C51891EC58CE100AB3021 /* libFoundationKit_Mac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFoundationKit_Mac.a; path = "../../../../../Library/Developer/Xcode/DerivedData/FoundationKitFramework-gqtmmrnbxavaofbusneqnsvkmpwv/Build/Products/Debug/libFoundationKit_Mac.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				094C518A1EC58CE100AB3021 /* libFoundationKit_Mac.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +45,7 @@
 			children = (
 				094C51611EC477E100AB3021 /* FoundationKitTest_Mac */,
 				094C51601EC477E100AB3021 /* Products */,
+				094C51881EC58CE100AB3021 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,7 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				094C51621EC477E100AB3021 /* AppDelegate.h */,
-				094C51631EC477E100AB3021 /* AppDelegate.m */,
+				094C51631EC477E100AB3021 /* AppDelegate.mm */,
 				094C51681EC477E100AB3021 /* ViewController.h */,
 				094C51691EC477E100AB3021 /* ViewController.m */,
 				094C516B1EC477E100AB3021 /* Assets.xcassets */,
@@ -74,6 +78,14 @@
 				094C51661EC477E100AB3021 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		094C51881EC58CE100AB3021 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				094C51891EC58CE100AB3021 /* libFoundationKit_Mac.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,7 +160,7 @@
 			files = (
 				094C516A1EC477E100AB3021 /* ViewController.m in Sources */,
 				094C51671EC477E100AB3021 /* main.m in Sources */,
-				094C51641EC477E100AB3021 /* AppDelegate.m in Sources */,
+				094C51641EC477E100AB3021 /* AppDelegate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,8 +272,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../FoundationKit",
+					"$(PROJECT_DIR)/../../ThirdParty/spdlog/include/",
+				);
 				INFOPLIST_FILE = FoundationKitTest_Mac/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.snailgames.FoundationKitTest-Mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -272,8 +289,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../FoundationKit",
+					"$(PROJECT_DIR)/../../ThirdParty/spdlog/include/",
+				);
 				INFOPLIST_FILE = FoundationKitTest_Mac/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.snailgames.FoundationKitTest-Mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -298,6 +320,7 @@
 				094C51751EC477E100AB3021 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -117,7 +117,7 @@ public:
      */
     static int         GetCPUMinFreq(int cpuIndex = -1);
 
-    //1 WIFI£¬2 2G£¬3 3G£¬4 4G£¬0 other.
+    //1 WIFI,2 2G,3 3G,4 4G,0 other.
     static int         GetNetworkType();
     static std::string GetIpAddressV4();
     static std::string GetIpAddressV6();
@@ -136,7 +136,7 @@ public:
     //px = dp * (dpi / 160)
     //dp = px/(dpi/160)
     //dpi = px/dp*160
-    static float   GetScreenDPI();
+    static float GetScreenDPI();
     static float GetScreenFPS();
     static float GetScreenXDPI();
     static float GetScreenYDPI();

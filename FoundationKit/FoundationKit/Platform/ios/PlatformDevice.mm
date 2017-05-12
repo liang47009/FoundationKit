@@ -234,7 +234,7 @@ std::string PlatformDevice::GetModel()
 
 std::string PlatformDevice::GetManufacturer()
 {
-    return "Apple";
+    return "Apple Inc.";
 }
 
 std::string PlatformDevice::GetSystemVersion()

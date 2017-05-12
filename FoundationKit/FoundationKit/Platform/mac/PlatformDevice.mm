@@ -273,15 +273,11 @@ int PlatformDevice::GetCPUCoreCount()
 
 int PlatformDevice::GetCPUMaxFreq(int cpuIndex/* = -1*/)
 {
-    int cpuFreq = 0;
-    std::string model = [[UIDeviceHardware platform] UTF8String];
-    auto modelIter =detail::AppleDeviceData.find(model);
-    if(modelIter != detail::AppleDeviceData.end())
-    {
-        cpuFreq = ::atoi(modelIter->second[detail::DeviceDataFeild::CPU_CLOCK].c_str());
-        
-    }
-    return cpuFreq;
+    int64 cpufreq = 0;
+    int Mib[] = {CTL_HW, HW_CPU_FREQ};
+    size_t Length = sizeof(int64);
+    sysctl(Mib, 2, &cpufreq, &Length, NULL, 0);
+    return (cpufreq/1000); //KHz
 }
 
 int PlatformDevice::GetCPUCurFreq(int cpuIndex/* = -1*/)
@@ -296,50 +292,50 @@ int PlatformDevice::GetCPUMinFreq(int cpuIndex/* = -1*/)
 
 int PlatformDevice::GetNetworkType()
 {
-    Reachability_libo* reachability = [Reachability_libo reachabilityForInternetConnection];
-    [reachability startNotifier];
-    NetworkStatus status = [reachability currentReachabilityStatus];
+//    Reachability_libo* reachability = [Reachability_libo reachabilityForInternetConnection];
+//    [reachability startNotifier];
+//    NetworkStatus status = [reachability currentReachabilityStatus];
     int result = 0;
-    switch (status)
-    {
-        case ReachableViaWWAN:
-        {
-            CTTelephonyNetworkInfo *info = [[CTTelephonyNetworkInfo alloc] init];
-            NSString *radioAccessTechnology = info.currentRadioAccessTechnology;
-            if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyGPRS]) {
-                result = 2;
-            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyEdge]) {
-                result =  2;
-            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyWCDMA]) {
-                result =  3;
-            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyHSDPA]) {
-                result =  3;
-            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyHSUPA]) {
-                result =  3;
-            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMA1x]) {
-                result =  3;
-            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORev0]) {
-                result =  3;;
-            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevA]) {
-                result =  3;
-            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevB]) {
-                result =  3;
-            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyeHRPD]) {
-                result =  3;
-            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyLTE]) {
-                result =  4;
-            }
-            [info release];
-            break;
-        }
-        case ReachableViaWiFi:
-        {
-            result =  1;
-            break;
-        }
-        default:
-            break;
-    }
+//    switch (status)
+//    {
+//        case ReachableViaWWAN:
+//        {
+//            CTTelephonyNetworkInfo *info = [[CTTelephonyNetworkInfo alloc] init];
+//            NSString *radioAccessTechnology = info.currentRadioAccessTechnology;
+//            if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyGPRS]) {
+//                result = 2;
+//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyEdge]) {
+//                result =  2;
+//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyWCDMA]) {
+//                result =  3;
+//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyHSDPA]) {
+//                result =  3;
+//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyHSUPA]) {
+//                result =  3;
+//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMA1x]) {
+//                result =  3;
+//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORev0]) {
+//                result =  3;;
+//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevA]) {
+//                result =  3;
+//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevB]) {
+//                result =  3;
+//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyeHRPD]) {
+//                result =  3;
+//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyLTE]) {
+//                result =  4;
+//            }
+//            [info release];
+//            break;
+//        }
+//        case ReachableViaWiFi:
+//        {
+//            result =  1;
+//            break;
+//        }
+//        default:
+//            break;
+//    }
     return result;
 }
 
@@ -397,25 +393,17 @@ std::string PlatformDevice::GetGPUVendor()
 
 Size PlatformDevice::GetScreenResolution()
 {
-    auto scale =  [[UIScreen mainScreen] scale];
-    CGSize renderedSize =[UIScreen mainScreen].bounds.size;
-    Size resolution = Size(renderedSize.width*scale , renderedSize.height*scale);
+    NSScreen* mainScreen = [NSScreen mainScreen];
+    NSRect screenRect = [mainScreen visibleFrame];
+    Size resolution = Size(screenRect.size.width, screenRect.size.height);
     return resolution;
 }
 
 Size PlatformDevice::GetScreenNativeResolution()
 {
-    Size resolution;
-    if ([[UIScreen mainScreen] respondsToSelector:@selector(nativeScale)])
-    {
-        auto scale =  [[UIScreen mainScreen] nativeScale];
-        CGSize physicalSize =[UIScreen mainScreen].bounds.size;
-        resolution = Size(physicalSize.width*scale , physicalSize.height*scale);
-    }
-    else
-    {
-        resolution = GetScreenResolution();
-    }
+    NSScreen* mainScreen = [NSScreen mainScreen];
+    NSRect screenRect = [mainScreen frame];
+    Size resolution = Size(screenRect.size.width, screenRect.size.height);
     return resolution;
 }
 
