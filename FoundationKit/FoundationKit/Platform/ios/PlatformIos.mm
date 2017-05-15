@@ -7,6 +7,7 @@
  #include "FoundationKit/GenericPlatformMacros.hpp"
  #if TARGET_PLATFORM == PLATFORM_IOS
 #include <unistd.h>
+#import <malloc/malloc.h>
 #include <sys/sysctl.h>
 #include "FoundationKit/Platform/Platform.hpp"
 
@@ -20,6 +21,12 @@ bool Platform::IsDebuggerPresent()
 	sysctl( Mib, sizeof( Mib ) / sizeof( *Mib ), &Info, &Size, NULL, 0 );
 	return ( Info.kp_proc.p_flag & P_TRACED ) != 0;
 }
+
+size_t Platform::MallocUsableSize(void* ptr)
+{
+    return malloc_size(ptr);
+}
+
 NS_FK_END
 
 #endif //TARGET_PLATFORM == PLATFORM_IOS

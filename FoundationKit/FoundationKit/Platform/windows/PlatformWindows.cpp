@@ -16,6 +16,11 @@ bool Platform::IsDebuggerPresent()
     return ::IsDebuggerPresent() == TRUE;
 }
 
+size_t Platform::MallocUsableSize(void* ptr)
+{
+    return _msize(ptr);
+}
+
 
 NS_FK_END
 
