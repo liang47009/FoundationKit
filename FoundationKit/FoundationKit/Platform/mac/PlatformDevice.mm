@@ -292,50 +292,7 @@ int PlatformDevice::GetCPUMinFreq(int cpuIndex/* = -1*/)
 
 int PlatformDevice::GetNetworkType()
 {
-//    Reachability_libo* reachability = [Reachability_libo reachabilityForInternetConnection];
-//    [reachability startNotifier];
-//    NetworkStatus status = [reachability currentReachabilityStatus];
     int result = 0;
-//    switch (status)
-//    {
-//        case ReachableViaWWAN:
-//        {
-//            CTTelephonyNetworkInfo *info = [[CTTelephonyNetworkInfo alloc] init];
-//            NSString *radioAccessTechnology = info.currentRadioAccessTechnology;
-//            if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyGPRS]) {
-//                result = 2;
-//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyEdge]) {
-//                result =  2;
-//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyWCDMA]) {
-//                result =  3;
-//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyHSDPA]) {
-//                result =  3;
-//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyHSUPA]) {
-//                result =  3;
-//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMA1x]) {
-//                result =  3;
-//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORev0]) {
-//                result =  3;;
-//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevA]) {
-//                result =  3;
-//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevB]) {
-//                result =  3;
-//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyeHRPD]) {
-//                result =  3;
-//            } else if ([radioAccessTechnology isEqualToString:CTRadioAccessTechnologyLTE]) {
-//                result =  4;
-//            }
-//            [info release];
-//            break;
-//        }
-//        case ReachableViaWiFi:
-//        {
-//            result =  1;
-//            break;
-//        }
-//        default:
-//            break;
-//    }
     return result;
 }
 
