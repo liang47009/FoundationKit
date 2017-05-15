@@ -122,13 +122,33 @@ std::string PlatformDevice::GetProduct()
 
 std::string PlatformDevice::GetHardware()
 {
-    return "";
+    return "Windows";
 }
 
 
 std::string PlatformDevice::GetDevice()
 {
-    return GetProduct();
+    wchar_t wzComputerName[256] = { 0 };
+    DWORD dwNameLenght = sizeof(wzComputerName) / sizeof(wzComputerName[0]);
+
+    if (0 == GetComputerNameW(wzComputerName, &dwNameLenght))
+    {
+        LOG_ERROR("ERROR: GetComputerName failed with %d!\n", GetLastError());
+    }
+    std::string strComputerName = StringUtils::wstring2UTF8string(wzComputerName);
+    // dwNameLenght is the length of wzComputerName without NULL 
+    if (dwNameLenght < 0 || dwNameLenght >(sizeof(wzComputerName) / sizeof(wzComputerName[0]) - 1))
+    {
+        LOG_ERROR("ERROR: GetComputerName returned %s with dwNameLenght = %u whereas the passed in buffer size is %d!\n", strComputerName.c_str(), dwNameLenght, sizeof(wzComputerName) / sizeof(wzComputerName[0]));
+        return "";
+    }
+    // dwNameLenght is the length of wzComputerName without NULL
+    if (dwNameLenght != wcslen(wzComputerName))
+    {
+        LOG_ERROR("ERROR: GetComputerName returned %s of length %d which is not equal to dwSize = %u!\n", strComputerName.c_str(), wcslen(wzComputerName), dwNameLenght);
+        return "";
+    }
+    return StringUtils::wstring2UTF8string(wzComputerName);
 }
 
 std::string PlatformDevice::GetBrandName()
@@ -202,7 +222,10 @@ std::string PlatformDevice::GetCPUArch()
 
 int PlatformDevice::GetCPUCoreCount()
 {
-    return 0;
+    SYSTEM_INFO SystemInfo;
+    memset(&SystemInfo, 0, sizeof(SystemInfo));
+    ::GetSystemInfo(&SystemInfo);
+    return SystemInfo.dwNumberOfProcessors;
 }
 
 int PlatformDevice::GetCPUMaxFreq(int cpuIndex/* = -1*/)
