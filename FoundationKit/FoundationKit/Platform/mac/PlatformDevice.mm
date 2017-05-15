@@ -277,7 +277,7 @@ int PlatformDevice::GetCPUMaxFreq(int cpuIndex/* = -1*/)
     int Mib[] = {CTL_HW, HW_CPU_FREQ};
     size_t Length = sizeof(int64);
     sysctl(Mib, 2, &cpufreq, &Length, NULL, 0);
-    return (cpufreq/1000); //KHz
+    return static_cast<int>((cpufreq/1000)); //KHz
 }
 
 int PlatformDevice::GetCPUCurFreq(int cpuIndex/* = -1*/)
