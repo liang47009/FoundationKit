@@ -48,15 +48,22 @@ public:
     mutable_buffer()
         : _data(nullptr)
         , _size(0)
+        , _owner(false)
     {
     }
 
     mutable_buffer(const mutable_buffer& other)
+        : _data(nullptr)
+        , _size(0)
+        , _owner(false)
     {
         copy(other);
     }
 
     mutable_buffer(mutable_buffer&& other)
+        : _data(nullptr)
+        , _size(0)
+        , _owner(false)
     {
         move(std::forward<mutable_buffer&&>(other));
     }

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <fstream>
 #include <string.h>
-#include <conio.h>
 #include <iostream>
 #include "aes.hpp"
 
@@ -514,7 +513,7 @@ int desDecrypt(unsigned char* output, int outlen, unsigned char* input, int inle
         memcpy(ciphertext, input, BLOCK_SIZE); // stuff a block from input in ciphertext
         input += BLOCK_SIZE;
         inlen -= BLOCK_SIZE;
-        int decodeLen = desimpl.Decrypt(plaintext, BLOCK_SIZE, ciphertext, BLOCK_SIZE);
+        desimpl.Decrypt(plaintext, BLOCK_SIZE, ciphertext, BLOCK_SIZE);
         if (inlen < BLOCK_SIZE) { // we're on our last block.  check the padding to determine the size of the original data
             int padlen = plaintext[BLOCK_SIZE - 1]; // look at the last byte
             if (padlen < 1 || padlen > 8) // check for bogus padlen

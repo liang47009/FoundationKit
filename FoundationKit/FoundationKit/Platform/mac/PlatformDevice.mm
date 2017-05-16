@@ -161,6 +161,7 @@ namespace detail
                 NSData* nsdata = (__bridge NSData*)modelString;
                 NSString* nsValue = [[NSString alloc] initWithData:nsdata encoding:NSUTF8StringEncoding];
                 propertyValue = [nsValue UTF8String];
+                [nsValue autorelease];
                 
             }
             CFRelease(modelString);
