@@ -15,9 +15,6 @@
 #define STDLIB_HAS_CXX11 1
 #endif
 #elif defined(__clang__)
-#ifndef _LIBCPP_VERSION
-#include <ciso646>
-#endif
 #ifdef _LIBCPP_VERSION
 #define STDLIB_HAS_CXX11 1
 #endif

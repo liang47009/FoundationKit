@@ -217,6 +217,10 @@ __pragma (warning(disable:4127))
 #define _SCL_SECURE_NO_WARNINGS 1
 #endif
 
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0502
+#endif
+
 /*
  * Include windows.h without Windows Sockets 1.1 to prevent conflicts with
  * Windows Sockets 2.0.
