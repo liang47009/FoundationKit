@@ -22,8 +22,8 @@ class Platform
 public:
 	Platform();
 	~Platform();
-    bool IsDebuggerPresent();
-    size_t MallocUsableSize(void* ptr);
+    static bool IsDebuggerPresent();
+    static size_t MallocUsableSize(void* ptr);
 };
 
 NS_FK_END

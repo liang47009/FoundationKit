@@ -131,7 +131,11 @@ bool AppDelegate::applicationDidFinishLaunching()
     int written = DES::desEncrypt(cipherbuf, 256, plaintext, 26);
     written = DES::desDecrypt(plainbuf, 256, cipherbuf, written);
 
-
+    LOG_CRITICAL("FFFFFFFF ");
+    LOG_DEBUG("SFDSFSDFDSF");
+    LOG_ERROR("SFSBTEWVSDFSDF");
+    LOG_INFO("SFSDFDSFSDFDS");
+    LOG_TRACE("FSDFGGHREWRTWE");
 
 
     //unsigned char cipherbuf[256];

@@ -42,6 +42,7 @@ bool Logger::init(const std::string& fileName)
     {
         _log = spdlog::rotating_logger_mt("file_logger", fileName, 1024 * 1024 * 10, 2);
         _console_log = spdlog::stdout_logger_mt("console_logger");
+        _console_log->set_level(spdlog::level::trace);
     }
     catch (std::exception&)
     {
@@ -56,12 +57,28 @@ bool Logger::init(const std::string& fileName)
 }
 
 
-Logger::pointer Logger::get_log()
+void Logger::setLogLevel(LOG_LEVEL_ENUM logLevel)
+{
+    if (_log)
+    {
+        _log->set_level(static_cast<spdlog::level::level_enum>(logLevel));
+    }
+}
+
+void Logger::setConsoleLogLevel(LOG_LEVEL_ENUM logLevel)
+{
+    if (_console_log)
+    {
+        _console_log->set_level(static_cast<spdlog::level::level_enum>(logLevel));
+    }
+}
+
+Logger::pointer Logger::getLog()
 {
     return _log;
 }
 
-Logger::pointer Logger::get_console_log()
+Logger::pointer Logger::getConsoleLog()
 {
     return _console_log;
 }
