@@ -125,17 +125,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::string strErr = ec.message();
     Logger::getInstance()->init("E:\\linux\\FoundationKit.log");
 
-    unsigned char cipherbuf[256] = {0};
-    unsigned char plainbuf[256] = {0};
-    unsigned char plaintext[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // our plaintext to encrypt
-    int written = DES::desEncrypt(cipherbuf, 256, plaintext, 26);
-    written = DES::desDecrypt(plainbuf, 256, cipherbuf, written);
-
-    LOG_CRITICAL("FFFFFFFF ");
-    LOG_DEBUG("SFDSFSDFDSF");
-    LOG_ERROR("SFSBTEWVSDFSDF");
-    LOG_INFO("SFSDFDSFSDFDS");
-    LOG_TRACE("FSDFGGHREWRTWE");
 
 
     //unsigned char cipherbuf[256];

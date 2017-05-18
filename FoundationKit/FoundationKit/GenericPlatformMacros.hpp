@@ -7,7 +7,7 @@
 #define LIBFK_VERSION_MAJOR 2
 #define LIBFK_VERSION_MINOR 8
 #define LIBFK_VERSION_PATCH 0
-#define LIBFK_VERSION_NUM 0x070800
+#define LIBFK_VERSION_NUM 0x020800
 
 #include "LanguageFeatures.hpp"
 // namespace FoundationKit {}

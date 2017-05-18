@@ -9,6 +9,12 @@
 
 #include "stddefine.h"
 
+// Note: TryEnterCriticalSection only exists on NT-derived systems.
+// But we do not run on Win9x currently anyway, so just accept it.
+#if !defined _WIN32_WINNT || _WIN32_WINNT < 0x0400
+extern "C" WINBASEAPI BOOL WINAPI TryEnterCriticalSection( IN OUT LPCRITICAL_SECTION lpCriticalSection );
+#endif
+
 namespace std
 {
 
@@ -28,7 +34,7 @@ public:
     inline void lock()
     {
         EnterCriticalSection(&mHandle);
-        while (mAlreadyLocked) Sleep(1000); // Simulate deadlock...
+        while (mAlreadyLocked) Sleep(1000);
         mAlreadyLocked = true;
     }
 
