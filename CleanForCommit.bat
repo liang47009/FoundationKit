@@ -18,6 +18,10 @@ IF EXIST "publish" (
     rmdir "publish" /s /q
 )
 
+IF EXIST "FoundationKit\proj.android\libs" (
+    rmdir "FoundationKit\proj.android\libs" /s /q
+)
+
 IF EXIST "FoundationKit\proj.android\obj" (
     rmdir "FoundationKit\proj.android\obj" /s /q
 )

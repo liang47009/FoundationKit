@@ -33,7 +33,7 @@ NDK_TOOLCHAIN_VERSION := 4.8
 APP_PLATFORM=android-15
 
 APP_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11
-APP_LDFLAGS := -latomic -llog -landroid
+APP_LDFLAGS := -latomic -landroid -llog -lz
 
 APP_DEBUG := $(strip $(NDK_DEBUG))
 ifeq ($(APP_DEBUG),1)

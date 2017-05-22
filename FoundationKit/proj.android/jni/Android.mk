@@ -62,12 +62,10 @@ $(PROJECT_DIR)/../ThirdParty/spdlog/include \
 cpufeatures/
 
 LOCAL_CFLAGS :=  -DUSE_FILE32API -DANDROID
-LOCAL_EXPORT_CFLAGS += -DUSE_FILE32API -DANDROID
+LOCAL_EXPORT_CFLAGS := -DUSE_FILE32API -DANDROID
 
-LOCAL_CPPFLAGS += -frtti -fexceptions -fsigned-char -std=c++11 -DUSE_FILE32API -DANDROID
-LOCAL_EXPORT_CPPFLAGS   += -frtti -fexceptions -fsigned-char -std=c++11 -DUSE_FILE32API -DANDROID
-
-LOCAL_EXPORT_LDLIBS     += -llog -lz -landroid
+LOCAL_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11 -DUSE_FILE32API -DANDROID
+LOCAL_EXPORT_CPPFLAGS   := -frtti -fexceptions -fsigned-char -std=c++11 -DUSE_FILE32API -DANDROID
 
 ifeq ($(NDK_DEBUG),1)
   LOCAL_CPPFLAGS += -DDEBUG
@@ -81,11 +79,14 @@ ifeq (armeabi-v7a,$(TARGET_ARCH_ABI))
 LOCAL_EXPORT_CPPFLAGS += -DUSE_NEON
 endif
 
-LOCAL_STATIC_LIBRARIES += cpufeatures
+LOCAL_LDLIBS     := -landroid -llog -lz -lEGL -lGLESv1_CM -lGLESv2 -lc
+LOCAL_EXPORT_LDLIBS     := -landroid -llog -lz -lEGL -lGLESv1_CM -lGLESv2
 
-LOCAL_WHOLE_STATIC_LIBRARIES += androidjni
+LOCAL_STATIC_LIBRARIES += cpufeatures androidjni
+#LOCAL_WHOLE_STATIC_LIBRARIES += androidjni
 
-include $(BUILD_STATIC_LIBRARY)
+#include $(BUILD_STATIC_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 $(call import-add-path,$(PROJECT_DIR)/FoundationKit)
 $(call import-module,android/cpufeatures)
 $(call import-module,Platform/Android/AndroidJNI)
