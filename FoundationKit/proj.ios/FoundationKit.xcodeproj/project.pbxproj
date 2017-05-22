@@ -152,7 +152,6 @@
 		093490151E7F7BA20034ECF2 /* ElapsedTimer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ElapsedTimer.hpp; sourceTree = "<group>"; };
 		093490161E7F7BA20034ECF2 /* Exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
 		093490171E7F7BA20034ECF2 /* Exception.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Exception.hpp; sourceTree = "<group>"; };
-		093490181E7F7BA20034ECF2 /* ITickable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ITickable.hpp; sourceTree = "<group>"; };
 		093490191E7F7BA20034ECF2 /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
 		0934901A1E7F7BA20034ECF2 /* Logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logger.hpp; sourceTree = "<group>"; };
 		0934901B1E7F7BA20034ECF2 /* Math.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Math.cpp; sourceTree = "<group>"; };
@@ -377,7 +376,6 @@
 				093490151E7F7BA20034ECF2 /* ElapsedTimer.hpp */,
 				093490161E7F7BA20034ECF2 /* Exception.cpp */,
 				093490171E7F7BA20034ECF2 /* Exception.hpp */,
-				093490181E7F7BA20034ECF2 /* ITickable.hpp */,
 				093490191E7F7BA20034ECF2 /* Logger.cpp */,
 				0934901A1E7F7BA20034ECF2 /* Logger.hpp */,
 				0934901B1E7F7BA20034ECF2 /* Math.cpp */,

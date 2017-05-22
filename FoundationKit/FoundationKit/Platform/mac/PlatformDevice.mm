@@ -349,20 +349,20 @@ std::string PlatformDevice::GetGPUVendor()
 }
 
 
-Size PlatformDevice::GetScreenResolution()
+Rect PlatformDevice::GetScreenResolution()
 {
     NSScreen* mainScreen = [NSScreen mainScreen];
     NSRect screenRect = [mainScreen visibleFrame];
-    Size resolution = Size(screenRect.size.width, screenRect.size.height);
-    return resolution;
+    Rect bounds(screenRect.origin.x, screenRect.origin.y, screenRect.size.width, screenRect.size.height);
+    return bounds;
 }
 
-Size PlatformDevice::GetScreenNativeResolution()
+Rect PlatformDevice::GetScreenNativeResolution()
 {
     NSScreen* mainScreen = [NSScreen mainScreen];
     NSRect screenRect = [mainScreen frame];
-    Size resolution = Size(screenRect.size.width, screenRect.size.height);
-    return resolution;
+    Rect bounds(screenRect.origin.x, screenRect.origin.y, screenRect.size.width, screenRect.size.height);
+    return bounds;
 }
 
 float PlatformDevice::GetScreenDPI()

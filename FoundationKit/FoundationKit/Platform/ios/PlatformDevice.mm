@@ -443,28 +443,32 @@ std::string PlatformDevice::GetGPUVendor()
 }
 
 
-Size PlatformDevice::GetScreenResolution()
+Rect PlatformDevice::GetScreenResolution()
 {
     auto scale =  [[UIScreen mainScreen] scale];
     CGSize renderedSize =[UIScreen mainScreen].bounds.size;
     Size resolution = Size(renderedSize.width*scale , renderedSize.height*scale);
-    return resolution;
+    Rect bounds;
+    bounds.size = resolution;
+    bounds.origin.set(0.0f, 0.0f);
+    return bounds;
 }
 
-Size PlatformDevice::GetScreenNativeResolution()
+Rect PlatformDevice::GetScreenNativeResolution()
 {
-    Size resolution;
+    Rect bounds;
     if ([[UIScreen mainScreen] respondsToSelector:@selector(nativeScale)])
     {
         auto scale =  [[UIScreen mainScreen] nativeScale];
-        CGSize physicalSize =[UIScreen mainScreen].bounds.size;
-        resolution = Size(physicalSize.width*scale , physicalSize.height*scale);
+        CGRect physicalRect =[UIScreen mainScreen].bounds;
+        bounds.size.setSize(physicalRect.size.width*scale , physicalRect.size.height*scale);
+        bounds.origin.set(physicalRect.origin.x, physicalRect.origin.y);
     }
     else
     {
-        resolution = GetScreenResolution();
+        bounds = GetScreenResolution();
     }
-    return resolution;
+    return bounds;
 }
 
 float PlatformDevice::GetScreenDPI()
