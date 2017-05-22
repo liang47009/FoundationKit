@@ -508,16 +508,22 @@ static void lazyGetScreenResolution()
     }
 }
 
-Size PlatformDevice::GetScreenResolution()
+Rect PlatformDevice::GetScreenResolution()
 {
     lazyGetScreenResolution();
-    return GLOBAL_DisplayInfo.appSize;
+    return Rect(static_cast<float>(0)
+        , static_cast<float>(0)
+        , static_cast<float>(GLOBAL_DisplayInfo.appSize.width)
+        , static_cast<float>(GLOBAL_DisplayInfo.appSize.height));
 }
 
-Size PlatformDevice::GetScreenNativeResolution()
+Rect PlatformDevice::GetScreenNativeResolution()
 {
     lazyGetScreenResolution();
-    return GLOBAL_DisplayInfo.realSize;
+     return Rect(static_cast<float>(0)
+        , static_cast<float>(0)
+        , static_cast<float>(GLOBAL_DisplayInfo.realSize.width)
+        , static_cast<float>(GLOBAL_DisplayInfo.realSize.height));
 }
 
 float PlatformDevice::GetScreenDPI()

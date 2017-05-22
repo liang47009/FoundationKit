@@ -9,7 +9,7 @@
 
 #include <string>
 #include <vector>
-#include "FoundationKit/Foundation/Size.hpp"
+#include "FoundationKit/Foundation/Rect.hpp"
 #include "FoundationKit/Base/types.hpp"
 NS_FK_BEGIN
 
