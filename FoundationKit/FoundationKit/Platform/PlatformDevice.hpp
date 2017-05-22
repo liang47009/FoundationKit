@@ -129,9 +129,9 @@ public:
     static std::string GetGPURenderer();
     static std::string GetGPUVendor();
     /// Get the screen resolution, not including the virtual button area
-    static Size GetScreenResolution();
+    static Rect GetScreenResolution();
     /// Get the screen resolution, including the virtual button area
-    static Size GetScreenNativeResolution();
+    static Rect GetScreenNativeResolution();
 
     //px = dp * (dpi / 160)
     //dp = px/(dpi/160)

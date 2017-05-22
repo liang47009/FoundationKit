@@ -299,18 +299,24 @@ std::string PlatformDevice::GetGPUVendor()
     return szVendor ? szVendor : "";
 }
 
-Size PlatformDevice::GetScreenResolution()
+Rect PlatformDevice::GetScreenResolution()
 {
     int width = GetSystemMetrics(SM_CXFULLSCREEN);
     int height = GetSystemMetrics(SM_CYFULLSCREEN);
-    return Size(static_cast<float>(width), static_cast<float>(height));
+    return Rect(static_cast<float>(0)
+        , static_cast<float>(0)
+        , static_cast<float>(width)
+        , static_cast<float>(height));
 }
 
-Size PlatformDevice::GetScreenNativeResolution()
+Rect PlatformDevice::GetScreenNativeResolution()
 {
     int dwWidth = GetSystemMetrics(SM_CXSCREEN);
     int dwHeight = GetSystemMetrics(SM_CYSCREEN);
-    return Size(static_cast<float>(dwWidth), static_cast<float>(dwHeight));
+    return Rect(static_cast<float>(0)
+        , static_cast<float>(0)
+        , static_cast<float>(dwWidth)
+        , static_cast<float>(dwHeight));
 }
 
 float PlatformDevice::GetScreenDPI()
