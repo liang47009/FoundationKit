@@ -135,11 +135,11 @@ namespace detail
             int cpuCount = PlatformDevice::GetCPUCoreCount();
             for (int i = 0; i < cpuCount; ++i)
             {
-                std::string cpufreqpath = StringUtils::format("/sys/devices/system/cpu/cpu%d/cpufreq/scaling_%s_freq", i, freq);
+                std::string cpufreqpath = StringUtils::Format("/sys/devices/system/cpu/cpu%d/cpufreq/scaling_%s_freq", i, freq);
                 int freqValue = ReadIntWithFile(cpufreqpath.c_str());
                 if (freqValue == 0)
                 {
-                    cpufreqpath = StringUtils::format("/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_%s_freq", i, freq);
+                    cpufreqpath = StringUtils::Format("/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_%s_freq", i, freq);
                     freqValue = ReadIntWithFile(cpufreqpath.c_str());
                 }
                 if (result != 0)
@@ -157,11 +157,11 @@ namespace detail
         }
         else
         {
-            std::string cpufreqpath = StringUtils::format("/sys/devices/system/cpu/cpu%d/cpufreq/scaling_%s_freq", cpuIndex, freq);
+            std::string cpufreqpath = StringUtils::Format("/sys/devices/system/cpu/cpu%d/cpufreq/scaling_%s_freq", cpuIndex, freq);
             result = ReadIntWithFile(cpufreqpath.c_str());
             if (result == 0)
             {
-                cpufreqpath = StringUtils::format("/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_%s_freq", cpuIndex, freq);
+                cpufreqpath = StringUtils::Format("/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_%s_freq", cpuIndex, freq);
                 result = ReadIntWithFile(cpufreqpath.c_str());
             }
         }
@@ -403,7 +403,7 @@ std::string PlatformDevice::GetIpAddressV4()
             ipaddressv4 = result.substr(inetPos + strlen("inet"), chPos - inetPos - strlen("inet"));
         }
     }
-    return StringUtils::trim(ipaddressv4);
+    return StringUtils::Trim(ipaddressv4);
 }
 
 std::string PlatformDevice::GetIpAddressV6()
@@ -419,7 +419,7 @@ std::string PlatformDevice::GetIpAddressV6()
             ipaddressv6 = result.substr(inet6Pos + strlen("inet6"), chPos - inet6Pos - strlen("inet6"));
         }
     }
-    return StringUtils::trim(ipaddressv6);
+    return StringUtils::Trim(ipaddressv6);
 }
 
 PlatformDevice::string_list PlatformDevice::GetDNS()
@@ -428,7 +428,7 @@ PlatformDevice::string_list PlatformDevice::GetDNS()
     for (int i = 1; i <= 4; ++i)
     {
         std::string propName = "net.dns";
-        propName += StringUtils::to_string(i);
+        propName += StringUtils::Tostring(i);
         std::string propValue = detail::GetSystemProperty(propName.c_str());
         if (propValue.size() > 0)
         {

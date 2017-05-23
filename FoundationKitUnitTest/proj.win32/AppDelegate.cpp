@@ -123,7 +123,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     std::error_code ec;
     std::string strErr = ec.message();
-    Logger::getInstance()->init("E:\\linux\\FoundationKit.log");
+    Logger::GetInstance()->init("E:\\linux\\FoundationKit.log");
 
 
 

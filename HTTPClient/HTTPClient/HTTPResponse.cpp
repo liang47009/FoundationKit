@@ -136,9 +136,9 @@ void HTTPResponse::dumpInfo()
     responseInfo += "URL:";  responseInfo += getURL();
     responseInfo += "\n";
     responseInfo += "Headers:\n";
-    responseInfo += StringUtils::join("\n", getAllHeaders());
+    responseInfo += StringUtils::Join("\n", getAllHeaders());
     responseInfo += "\n";
-    responseInfo += "ResponseCode:";  responseInfo += StringUtils::to_string(getResponseCode());
+    responseInfo += "ResponseCode:";  responseInfo += StringUtils::Tostring(getResponseCode());
     responseInfo += "\n";
     responseInfo += "Cookies:";  responseInfo += getCookies();
     responseInfo += "\n";
@@ -148,7 +148,7 @@ void HTTPResponse::dumpInfo()
     responseInfo += "\n";
     responseInfo += "ContentType:";  responseInfo += getContentType();
     responseInfo += "\n";
-    responseInfo += "ContentSize:";  responseInfo += StringUtils::to_string(getContentSize());
+    responseInfo += "ContentSize:";  responseInfo += StringUtils::Tostring(getContentSize());
     responseInfo += "\n";
     responseInfo += "ContentData:"; 
     if (!_contentData.empty())

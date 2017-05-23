@@ -30,7 +30,7 @@ public:
 	 * Do whatever the thread needs to do. Must
 	 * be overridden by subclasses.
 	 */
-	virtual void run() = 0;
+	virtual void Run() = 0;
 };
 
 NS_FK_END

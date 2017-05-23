@@ -28,20 +28,20 @@ Value::Value()
 
 Value::~Value()
 {
-    this->clear();
+    this->Clear();
 }
 
 Value::Value(const Value& other)
     : Value()
 {
-    copy(const_cast<Value&>(other));
+    Copy(const_cast<Value&>(other));
 }
 
 
 Value::Value(Value&& other)
     : Value()
 {
-    move(std::forward<Value>(other));
+    Move(std::forward<Value>(other));
 }
 
 Value::Value(unsigned char data)
@@ -129,30 +129,30 @@ Value::Value(const std::string& data)
 
 Value& Value::operator=(const Value& value)
 {
-    copy(const_cast<Value&>(value));
+    Copy(const_cast<Value&>(value));
     return *this;
 }
 
 Value& Value::operator=(Value&& other)
 {
-    move(std::forward<Value>(other));
+    Move(std::forward<Value>(other));
     return *this;
 }
 Value& Value::operator=(unsigned char data)
 {
-    reset(Type::UCHAR);
+    Reset(Type::UCHAR);
     _field._ucharVal = data;
     return *this;
 }
 Value& Value::operator=(unsigned short data)
 {
-    reset(Type::USHORT);
+    Reset(Type::USHORT);
     _field._ushortVal = data;
     return *this;
 }
 Value& Value::operator=(unsigned int data)
 {
-    reset(Type::UINT);
+    Reset(Type::UINT);
     _field._uintVal = data;
     return *this;
 }
@@ -160,56 +160,56 @@ Value& Value::operator=(unsigned int data)
 
 Value& Value::operator=(unsigned long long data)
 {
-    reset(Type::ULONGLONG);
+    Reset(Type::ULONGLONG);
     _field._ulonglongVal = data;
     return *this;
 }
 Value& Value::operator=(bool data)
 {
-    reset(Type::BOOL);
+    Reset(Type::BOOL);
     _field._boolVal = data;
     return *this;
 }
 Value& Value::operator=(char data)
 {
-    reset(Type::CHAR);
+    Reset(Type::CHAR);
     _field._charVal = data;
     return *this;
 }
 Value& Value::operator=(short data)
 {
-    reset(Type::SHORT);
+    Reset(Type::SHORT);
     _field._shortVal = data;
     return *this;
 }
 Value& Value::operator=(int data)
 {
-    reset(Type::INT);
+    Reset(Type::INT);
     _field._intVal = data;
     return *this;
 }
 
 Value& Value::operator=(long long data)
 {
-    reset(Type::LONGLONG);
+    Reset(Type::LONGLONG);
     _field._longlongVal = data;
     return *this;
 }
 Value& Value::operator=(float data)
 {
-    reset(Type::FLOAT);
+    Reset(Type::FLOAT);
     _field._floatVal = data;
     return *this;
 }
 Value& Value::operator=(double data)
 {
-    reset(Type::DOUBLE);
+    Reset(Type::DOUBLE);
     _field._doubleVal = data;
     return *this;
 }
 Value& Value::operator=(const char* data)
 {
-    reset(Type::PCHAR);
+    Reset(Type::PCHAR);
     size_t len = strlen(data);
     _field._pcharVal = new char[len + 1];
     memcpy(_field._pcharVal, data, len);
@@ -218,7 +218,7 @@ Value& Value::operator=(const char* data)
 }
 Value& Value::operator=(const std::string& data)
 {
-    reset(Type::STRING);
+    Reset(Type::STRING);
     _field._stringVal = new char[data.size() + 1];
     memcpy(_field._stringVal, data.c_str(), data.size());
     _field._stringVal[data.size()] = '\0';
@@ -245,7 +245,7 @@ bool Value::operator== (const Value& other) const
 {
     if (this == &other) return true;
     if (other._type != this->_type) return false;
-    if (this->isNull()) return true;
+    if (this->IsNull()) return true;
     switch (_type)
     {
     case Value::Type::NONE:
@@ -269,51 +269,51 @@ bool Value::operator== (const Value& other) const
     return false;
 }
 
-void Value::copy(Value& other)
+void Value::Copy(Value& other)
 {
-    _type = other.getType();
+    _type = other.GetType();
     switch (_type)
     {
     case Value::Type::NONE:
         memset(&_field, 0, sizeof(_field));
         break;
     case Value::Type::UCHAR:
-        _field._ucharVal = other.as<unsigned char>();
+        _field._ucharVal = other.As<unsigned char>();
         break;
     case Value::Type::USHORT:
-        _field._ushortVal = other.as<unsigned short>();
+        _field._ushortVal = other.As<unsigned short>();
         break;
     case Value::Type::UINT:
-        _field._uintVal = other.as<unsigned int>();
+        _field._uintVal = other.As<unsigned int>();
         break;
     case Value::Type::ULONGLONG:
-        _field._ulonglongVal = other.as<unsigned long long>();
+        _field._ulonglongVal = other.As<unsigned long long>();
         break;
     case Value::Type::BOOL:
-        _field._boolVal = other.as<bool>();
+        _field._boolVal = other.As<bool>();
         break;
     case Value::Type::CHAR:
-        _field._charVal = other.as<char>();
+        _field._charVal = other.As<char>();
         break;
     case Value::Type::SHORT:
-        _field._shortVal = other.as<short>();
+        _field._shortVal = other.As<short>();
         break;
     case Value::Type::INT:
-        _field._intVal = other.as<int>();
+        _field._intVal = other.As<int>();
         break;
     case Value::Type::LONGLONG:
-        _field._longlongVal = other.as<long long>();
+        _field._longlongVal = other.As<long long>();
         break;
     case Value::Type::FLOAT:
-        _field._floatVal = other.as<float>();
+        _field._floatVal = other.As<float>();
         break;
     case Value::Type::DOUBLE:
-        _field._doubleVal = other.as<double>();
+        _field._doubleVal = other.As<double>();
         break;
     case Value::Type::PCHAR:
         {
             SAFE_DELETE(_field._pcharVal);
-            char* val = other.as<char*>();
+            char* val = other.As<char*>();
             size_t len = strlen(val);
             _field._pcharVal = new char[len + 1];
             memcpy(_field._pcharVal, val, len);
@@ -323,7 +323,7 @@ void Value::copy(Value& other)
     case Value::Type::STRING:
         {
             SAFE_DELETE(_field._stringVal);
-            std::string val = other.as<std::string>();
+            std::string val = other.As<std::string>();
             _field._stringVal = new char[val.size() + 1];
             memcpy(_field._stringVal, val.c_str(), val.size());
             _field._stringVal[val.size()] = '\0';
@@ -334,7 +334,7 @@ void Value::copy(Value& other)
     }
 }
 
-void Value::move(Value&& other)
+void Value::Move(Value&& other)
 {
     _type = std::move(other._type);
     _field = std::move(other._field);
@@ -342,13 +342,13 @@ void Value::move(Value&& other)
     other._type = Type::NONE; 
 }
 
-void Value::swap(Value& other)
+void Value::Swap(Value& other)
 {
     std::swap(_type, other._type);
     std::swap(_field, other._field);
 }
 
-void Value::clear()
+void Value::Clear()
 {
     if (_type == Type::NONE)
         return;
@@ -369,7 +369,7 @@ void Value::clear()
 }
 
 
-void Value::reset(Type valType)
+void Value::Reset(Type valType)
 {
     if (_type == valType)
         return;

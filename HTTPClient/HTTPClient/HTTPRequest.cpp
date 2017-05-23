@@ -203,10 +203,10 @@ std::string HTTPRequest::getURL() const
 std::string HTTPRequest::getURLParameter(const std::string& parameterName)
 {
     std::string result;
-    auto urlParams = StringUtils::split(_url, '&');
+    auto urlParams = StringUtils::Split(_url, '&');
     for (auto& paramItem : urlParams)
     {
-        auto paramKeyValue = StringUtils::split(paramItem, '=');
+        auto paramKeyValue = StringUtils::Split(paramItem, '=');
         if (paramKeyValue[0] == parameterName)
         {
             int outSize = 0;
@@ -295,7 +295,7 @@ void HTTPRequest::dumpInfo()
     std::string requestInfo;
     requestInfo += getURL();
     requestInfo += "\n";
-    requestInfo += StringUtils::join("\n", getAllHeaders());
+    requestInfo += StringUtils::Join("\n", getAllHeaders());
     requestInfo += "\n";
     requestInfo += "------PostFields---------------------\n";
     for (auto iter: _postFields)
@@ -335,7 +335,7 @@ void HTTPRequest::dumpInfo()
 
     requestInfo += "\n";
     requestInfo += "Request Status:";
-    requestInfo += StringUtils::to_string(static_cast<int>(_requestStatus));
+    requestInfo += StringUtils::Tostring(static_cast<int>(_requestStatus));
     LOG_INFO("---------------------Dump Request-----------------------\n");
     LOG_INFO(requestInfo.c_str());
     LOG_INFO("---------------------Dump Request End-----------------------\n");
@@ -452,13 +452,13 @@ bool HTTPRequest::build()
     // set up headers
     if (getHeader("User-Agent").empty())
     {
-        setHeader("User-Agent", StringUtils::format("author=%s, client=%s, version=%s", "libo", "HTTPClient", HTTPClientVersionString));
+        setHeader("User-Agent", StringUtils::Format("author=%s, client=%s, version=%s", "libo", "HTTPClient", HTTPClientVersionString));
     }
 
     // content-length should be present http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.4
     if (getHeader("Content-Length").empty())
     {
-        //setHeader("Content-Length", StringUtils::format("%d", _requestPayload.size()));
+        //setHeader("Content-Length", StringUtils::Format("%d", _requestPayload.size()));
     }
 
     // Add "Pragma: no-cache" to mimic WinInet behavior
@@ -722,7 +722,7 @@ size_t HTTPRequest::receiveResponseHeaderCallback(void* buffer, size_t sizeInBlo
             {
                 LOG_INFO("%p: Received response header '%s'.", (void*)this, headers.c_str());
             }
-            auto headerKeyValue = StringUtils::split(headers, ':');
+            auto headerKeyValue = StringUtils::Split(headers, ':');
 
             if (headerKeyValue.size() == 2)
             {
@@ -736,13 +736,13 @@ size_t HTTPRequest::receiveResponseHeaderCallback(void* buffer, size_t sizeInBlo
                     {
                         newValue = previousValue + ", ";
                     }
-                    newValue += StringUtils::trim(headerValue);
+                    newValue += StringUtils::Trim(headerValue);
                     _response->setHeader(headerKey, newValue);
 
                     //Store the content length so OnRequestProgress() delegates have something to work with
                     if (headerKey == ("Content-Length"))
                     {
-                        _response->setContentSize(std::atoi(StringUtils::trim(headerValue).c_str()));
+                        _response->setContentSize(std::atoi(StringUtils::Trim(headerValue).c_str()));
                     }
                 }
             }

@@ -26,19 +26,19 @@ class TimerQueue
 public:
     TimerQueue();
     ~TimerQueue();
-    void   tick(float deltaTime);
-    int32  enqueue(const TimerOption& timerOption);
-    int32  insert(const Timer::pointer timer);
-    void   erase(const Timer::pointer timer);
-    void   erase(int32 timerid);
-    bool   exist(int32 timerid);
-    void   enable(int32 timerid, bool value);
-    void   start(int32 timerid);
-    void   stop(int timerid);
-    Timer::pointer getTimer(int32 timerid);
+    void   Tick(float deltaTime);
+    int32  Enqueue(const TimerOption& timerOption);
+    int32  Insert(const Timer::pointer timer);
+    void   Erase(const Timer::pointer timer);
+    void   Erase(int32 timerid);
+    bool   Exist(int32 timerid);
+    void   Enable(int32 timerid, bool value);
+    void   Start(int32 timerid);
+    void   Stop(int timerid);
+    Timer::pointer GetTimer(int32 timerid);
 
 protected:
-    void internalErase(int32 timerid);
+    void InternalErase(int32 timerid);
 
 private:
     std::vector<Timer::pointer>  _timerlist;

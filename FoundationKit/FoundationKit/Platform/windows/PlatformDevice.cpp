@@ -55,7 +55,7 @@ namespace detail
         std::vector<uint8> macVec = GetMacAddressRaw();
         std::string result;
         // Copy the data and say we did
-        result = StringUtils::format("%02X%02X%02X%02X%02X%02X"
+        result = StringUtils::Format("%02X%02X%02X%02X%02X%02X"
             , macVec[0]
             , macVec[1]
             , macVec[2]
@@ -252,14 +252,14 @@ std::string PlatformDevice::GetIpAddressV4()
 {
     std::string ipaddressv4;
 
-    return StringUtils::trim(ipaddressv4);
+    return StringUtils::Trim(ipaddressv4);
 }
 
 std::string PlatformDevice::GetIpAddressV6()
 {
     std::string ipaddressv6;
 
-    return StringUtils::trim(ipaddressv6);
+    return StringUtils::Trim(ipaddressv6);
 }
 
 PlatformDevice::string_list PlatformDevice::GetDNS()

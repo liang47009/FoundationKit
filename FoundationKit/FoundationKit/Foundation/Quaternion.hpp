@@ -60,9 +60,6 @@ class Matrix;
  */
 class Quaternion
 {
-    friend class Curve;
-    friend class Transform;
-
 public:
 
     /**

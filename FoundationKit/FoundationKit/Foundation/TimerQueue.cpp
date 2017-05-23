@@ -1,4 +1,4 @@
-
+#include <algorithm>
 #include "FoundationKit/Foundation/TimerQueue.hpp"
 
 NS_FK_BEGIN
@@ -13,7 +13,7 @@ TimerQueue::~TimerQueue()
 
 }
 
-void TimerQueue::tick(float deltaTime)
+void TimerQueue::Tick(float deltaTime)
 {
     if (!_timersCache.empty())
     {
@@ -28,46 +28,50 @@ void TimerQueue::tick(float deltaTime)
     {
         for (auto timerid : _willErase)
         {
-            internalErase(timerid);
+            std::vector<Timer::pointer>::iterator timerIter = std::find(_timerlist.begin(), _timerlist.end(), timerid);
+            if (timerIter != _timerlist.end())
+            {
+                _timerlist.erase(timerIter);
+            }
         }
         _willErase.clear();
     }
 
     for (auto& timer : _timerlist)
     {
-        timer->update(deltaTime);
+        timer->Tick(deltaTime);
     }
 }
 
-int32 TimerQueue::enqueue(const TimerOption& timerOption)
+int32 TimerQueue::Enqueue(const TimerOption& timerOption)
 {
-    Timer::pointer pTimer = Timer::create(timerOption);
-    return insert(pTimer);
+    Timer::pointer pTimer = Timer::Create(timerOption);
+    return Insert(pTimer);
 }
 
-int32 TimerQueue::insert(const Timer::pointer timer)
+int32 TimerQueue::Insert(const Timer::pointer timer)
 {
-    int32 timerid = timer->get_id();
+    int32 timerid = timer->GetId();
     _timersCache.push_back(timer);
     return timerid;
 }
 
-void TimerQueue::erase(const Timer::pointer timer)
+void TimerQueue::Erase(const Timer::pointer timer)
 {
-    erase(timer->get_id());
+    Erase(timer->GetId());
 }
 
-void  TimerQueue::erase(int32 timerid)
+void  TimerQueue::Erase(int32 timerid)
 {
     _willErase.push_back(timerid);
 }
 
-bool TimerQueue::exist(int32 timerid)
+bool TimerQueue::Exist(int32 timerid)
 {
     bool bExist = false;
     for (auto& timer : _timerlist)
     {
-        if (timer->get_id() == timerid)
+        if (timer->GetId() == timerid)
         {
             bExist = true;
             break;
@@ -76,57 +80,45 @@ bool TimerQueue::exist(int32 timerid)
     return bExist;
 }
 
-void TimerQueue::enable(int32 timerid, bool value)
+void TimerQueue::Enable(int32 timerid, bool value)
 {
-    Timer::pointer pTimer = getTimer(timerid);
+    Timer::pointer pTimer = GetTimer(timerid);
     if (pTimer)
     {
-        pTimer->setEnabled(value);
+        pTimer->SetEnabled(value);
     }
 }
 
-void TimerQueue::start(int32 timerid)
+void TimerQueue::Start(int32 timerid)
 {
-    Timer::pointer pTimer = getTimer(timerid);
+    Timer::pointer pTimer = GetTimer(timerid);
     if (pTimer)
     {
-        pTimer->start();
+        pTimer->Start();
     }
 }
 
-void TimerQueue::stop(int timerid)
+void TimerQueue::Stop(int timerid)
 {
-    Timer::pointer pTimer = getTimer(timerid);
+    Timer::pointer pTimer = GetTimer(timerid);
     if (pTimer)
     {
-        pTimer->stop();
+        pTimer->Stop();
     }
 }
 
-Timer::pointer TimerQueue::getTimer(int32 timerid)
+Timer::pointer TimerQueue::GetTimer(int32 timerid)
 {
     Timer::pointer pTimer = nullptr;
     for (auto& timer : _timerlist)
     {
-        if (timer->get_id() == timerid)
+        if (timer->GetId() == timerid)
         {
             pTimer = timer;
             break;
         }
     }
     return pTimer;
-}
-
-void TimerQueue::internalErase(int32 timerid)
-{
-    for (std::vector<Timer::pointer>::iterator timerIter = _timerlist.begin(); timerIter != _timerlist.end(); ++timerIter)
-    {
-        if ((*timerIter)->get_id() == timerid)
-        {
-            _timerlist.erase(timerIter);
-            break;
-        }
-    }
 }
 
 NS_FK_END

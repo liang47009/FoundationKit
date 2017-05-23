@@ -40,13 +40,13 @@ public:
 
     inline Size& operator= (const Size& other)
     {
-        setSize(other.width, other.height);
+        SetSize(other.width, other.height);
         return *this;
     }
 
     inline Size& operator= (const Vector2& point)
     {
-        setSize(point.x, point.y);
+        SetSize(point.x, point.y);
         return *this;
     }
 
@@ -70,9 +70,9 @@ public:
         return Size(this->width / a, this->height / a);
     }
 
-    void setSize(float width, float height);
+    void SetSize(float width, float height);
 
-    bool equals(const Size& target) const;
+    bool Equals(const Size& target) const;
 
     static const Size ZERO;
 };

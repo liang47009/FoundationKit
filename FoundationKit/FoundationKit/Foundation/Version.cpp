@@ -29,7 +29,7 @@ Version::Version(const std::string& version)
     , MajorRevision(-1)
     , MinorRevision(-1)
 {
-    tryParse(version, *this);
+    TryParse(version, *this);
 }
 
 Version::Version(int major, int minor)
@@ -40,7 +40,7 @@ Version::Version(int major, int minor)
     , MajorRevision(-1)
     , MinorRevision(-1)
 {
-    init(major, minor, 0, 0);
+    Init(major, minor, 0, 0);
 }
 
 Version::Version(int major, int minor, int build)
@@ -51,7 +51,7 @@ Version::Version(int major, int minor, int build)
     , MajorRevision(-1)
     , MinorRevision(-1)
 {
-    init(major, minor, build, 0);
+    Init(major, minor, build, 0);
 }
 
 Version::Version(int major, int minor, int build, int revision)
@@ -62,10 +62,10 @@ Version::Version(int major, int minor, int build, int revision)
     , MajorRevision(-1)
     , MinorRevision(-1)
 {
-    init(major, minor, build, revision);
+    Init(major, minor, build, revision);
 }
 
-bool Version::init(int major, int minor, int build, int revision)
+bool Version::Init(int major, int minor, int build, int revision)
 {
     if (major < 0)
         throw std::invalid_argument("ArgumentOutOfRange_Version");
@@ -84,12 +84,12 @@ bool Version::init(int major, int minor, int build, int revision)
     return true;
 }
 
-FoundationKit::Version Version::clone()
+FoundationKit::Version Version::Clone()
 {
     return Version(this->Major, this->Minor, this->Build, this->Revision);
 }
 
-int Version::compareTo(Version other)
+int Version::CompareTo(Version other)
 {
     if (this->Major != other.Major)
     {
@@ -122,7 +122,7 @@ int Version::compareTo(Version other)
     return 0;
 }
 
-bool Version::equals(Version other)
+bool Version::Equals(Version other)
 {
     if (this->Major    != other.Major ||
         this->Minor    != other.Minor ||
@@ -132,7 +132,7 @@ bool Version::equals(Version other)
     return true;
 }
 
-int Version::getHashCode()
+int Version::GetHashCode()
 {
     int accumulator = 0;
     accumulator |= (this->Major    & 0x0000000F) << 28;
@@ -142,14 +142,14 @@ int Version::getHashCode()
     return accumulator;
 }
 
-std::string Version::toString()
+std::string Version::ToString()
 {
-    if (this->Build == -1)return toString(2);
-    if (this->Revision == -1) return toString(3);
-    return toString(4);
+    if (this->Build == -1)return ToString(2);
+    if (this->Revision == -1) return ToString(3);
+    return ToString(4);
 }
 
-std::string Version::toString(int fieldCount)
+std::string Version::ToString(int fieldCount)
 {
     std::string result;
     switch (fieldCount)
@@ -157,34 +157,34 @@ std::string Version::toString(int fieldCount)
     case 0:
         break;
     case 1:
-        result.append(StringUtils::to_string(this->Major));
+        result.append(StringUtils::Tostring(this->Major));
         break;
     case 2:
-        result.append(StringUtils::to_string(this->Major));
+        result.append(StringUtils::Tostring(this->Major));
         result.append(".");
-        result.append(StringUtils::to_string(this->Minor));
+        result.append(StringUtils::Tostring(this->Minor));
         break;
     case 3:
         if (this->Build == -1)
             throw std::invalid_argument("ArgumentOutOfRange_Bounds_Lower_upper");
         else
-            result += StringUtils::to_string(this->Major)
+            result += StringUtils::Tostring(this->Major)
             + "."
-            + StringUtils::to_string(this->Minor)
+            + StringUtils::Tostring(this->Minor)
             + "."
-            + StringUtils::to_string(this->Build);
+            + StringUtils::Tostring(this->Build);
         break;
     case 4:
         if (this->Revision == -1)
             throw std::invalid_argument("ArgumentOutOfRange_Bounds_Lower_upper");
         else
-            result += StringUtils::to_string(this->Major)
+            result += StringUtils::Tostring(this->Major)
             + "."
-            + StringUtils::to_string(this->Minor)
+            + StringUtils::Tostring(this->Minor)
             + "."
-            + StringUtils::to_string(this->Build)
+            + StringUtils::Tostring(this->Build)
             + "."
-            + StringUtils::to_string(this->Revision);
+            + StringUtils::Tostring(this->Revision);
         break;
     default:
         break;
@@ -192,14 +192,14 @@ std::string Version::toString(int fieldCount)
     return result;
 }
 
-FoundationKit::Version Version::parse(const std::string& input)
+FoundationKit::Version Version::Parse(const std::string& input)
 {
     Version version;
-    Version::tryParse(input, version);
+    Version::TryParse(input, version);
     return version;
 }
 
-bool Version::tryParse(const std::string& input, Version& result)
+bool Version::TryParse(const std::string& input, Version& result)
 {
     bool successed = false;
     do 
@@ -216,8 +216,8 @@ bool Version::tryParse(const std::string& input, Version& result)
         if (parsedLength < 2 || parsedLength > 4)
             break; //invalid_argument
 
-        result.Major = tonumber<int>(elems[0]);
-        result.Minor = tonumber<int>(elems[1]);
+        result.Major = Tonumber<int>(elems[0]);
+        result.Minor = Tonumber<int>(elems[1]);
         if (result.Major == -1 || result.Minor == -1)
             break;
 
@@ -225,13 +225,13 @@ bool Version::tryParse(const std::string& input, Version& result)
 
         if (parsedLength > 0)
         {
-            result.Build = tonumber<int>(elems[2]);
+            result.Build = Tonumber<int>(elems[2]);
             if (result.Build == -1)
                 break;
             parsedLength--;
             if (parsedLength > 0)
             {
-                result.Revision = tonumber<int>(elems[3]);
+                result.Revision = Tonumber<int>(elems[3]);
                 if (result.Revision == -1)
                     break;
             }
