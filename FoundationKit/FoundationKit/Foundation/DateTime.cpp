@@ -16,7 +16,7 @@ NS_FK_BEGIN
 
 #if TARGET_PLATFORM == PLATFORM_WINDOWS
 /** Returns the system time. */
-void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+void SystemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     SYSTEMTIME st;
     GetLocalTime(&st);
@@ -31,7 +31,7 @@ void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, 
 }
 
 /** Returns the UTC time. */
-void utcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+void UtcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     SYSTEMTIME st;
     GetSystemTime(&st);
@@ -47,7 +47,7 @@ void utcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int
 #elif (TARGET_PLATFORM == PLATFORM_ANDROID) ||(TARGET_PLATFORM == PLATFORM_IOS) ||((TARGET_PLATFORM == PLATFORM_MAC))
 #include <sys/time.h>
 /** Returns the system time. */
-void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+void SystemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     // query for calendar time
     struct timeval tmVal;
@@ -70,7 +70,7 @@ void systemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, 
 }
 
 /** Returns the UTC time. */
-void utcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+void UtcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     // query for calendar time
     struct timeval tmVal;
@@ -104,11 +104,11 @@ const int32 DateTime::DaysToMonth[] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 
 
 DateTime::DateTime( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond )
 {
-    ASSERTED(validate(year, month, day, hour, minute, second, millisecond), "Input date time is invalid.");
+    ASSERTED(Validate(year, month, day, hour, minute, second, millisecond), "Input date time is invalid.");
 
 	int32 totalDays = 0;
 
-    if ((month > 2) && isLeapYear(year))
+    if ((month > 2) && IsLeapYear(year))
 	{
         ++totalDays;
 	}
@@ -131,10 +131,10 @@ DateTime::DateTime( int32 year, int32 month, int32 day, int32 hour, int32 minute
 }
 
 
-void DateTime::getDate( int32& outYear, int32& outMonth, int32& outDay ) const
+void DateTime::GetDate( int32& outYear, int32& outMonth, int32& outDay ) const
 {
 	int32 i, j, k, l, n;
-    l = Math::floorToInt(static_cast<float>(getJulianDay() + 0.5)) + 68569;
+    l = Math::floorToInt(static_cast<float>(GetJulianDay() + 0.5)) + 68569;
 	n = 4 * l / 146097;
 	l = l - (146097 * n + 3) / 4;
 	i = 4000 * (l + 1) / 1461001;
@@ -151,36 +151,36 @@ void DateTime::getDate( int32& outYear, int32& outMonth, int32& outDay ) const
 }
 
 
-int32 DateTime::getDay() const
+int32 DateTime::GetDay() const
 {
 	int32 year, month, day;
-    getDate(year, month, day);
+    GetDate(year, month, day);
     return day;
 }
 
 
-EDayOfWeek DateTime::getDayOfWeek() const
+EDayOfWeek DateTime::GetDayOfWeek() const
 {
 	// January 1, 0001 was a Monday
 	return static_cast<EDayOfWeek>((_ticks / ETimespan::TicksPerDay) % 7);
 }
 
 
-int32 DateTime::getDayOfYear() const
+int32 DateTime::GetDayOfYear() const
 {
     int32 year, month, day;
-    getDate(year, month, day);
+    GetDate(year, month, day);
     for (int32 currentMonth = 1; currentMonth < month; ++currentMonth)
 	{
-        day += daysInMonth(year, currentMonth);
+        day += DaysInMonth(year, currentMonth);
 	}
     return day;
 }
 
 
-int32 DateTime::getHour12() const
+int32 DateTime::GetHour12() const
 {
-	int32 hour = getHour();
+	int32 hour = GetHour();
     if (hour < 1)
 	{
 		return 12;
@@ -193,35 +193,35 @@ int32 DateTime::getHour12() const
 }
 
 
-int32 DateTime::getMonth() const
+int32 DateTime::GetMonth() const
 {
     int32 year, month, day;
-    getDate(year, month, day);
+    GetDate(year, month, day);
     return month;
 }
 
 
-int32 DateTime::getYear() const
+int32 DateTime::GetYear() const
 {
     int32 year, month, day;
-    getDate(year, month, day);
+    GetDate(year, month, day);
     return year;
 }
 
 
-std::string DateTime::toIso8601() const
+std::string DateTime::ToIso8601() const
 {
-	return toString("%Y-%m-%dT%H:%M:%S.%sZ");
+	return ToString("%Y-%m-%dT%H:%M:%S.%sZ");
 }
 
 
-std::string DateTime::toString() const
+std::string DateTime::ToString() const
 {
-	return toString("%Y.%m.%d-%H.%M.%S");
+	return ToString("%Y.%m.%d-%H.%M.%S");
 }
 
 
-std::string DateTime::toString( const char* format ) const
+std::string DateTime::ToString( const char* format ) const
 {
     std::string result;
 
@@ -233,18 +233,18 @@ std::string DateTime::toString( const char* format ) const
 			{
                 switch (*format)
 				{
-                case 'a': result += isMorning() ? "am" : "pm"; break;
-                case 'A': result += isMorning() ? "AM" : "PM"; break;
-                case 'd': result += StringUtils::format("%02i", getDay()); break;
-                case 'D': result += StringUtils::format("%03i", getDayOfYear()); break;
-                case 'm': result += StringUtils::format("%02i", getMonth()); break;
-                case 'y': result += StringUtils::format("%02i", getYear() % 100); break;
-                case 'Y': result += StringUtils::format("%04i", getYear()); break;
-                case 'h': result += StringUtils::format("%02i", getHour12()); break;
-                case 'H': result += StringUtils::format("%02i", getHour()); break;
-                case 'M': result += StringUtils::format("%02i", getMinute()); break;
-                case 'S': result += StringUtils::format("%02i", getSecond()); break;
-                case 's': result += StringUtils::format("%03i", getMillisecond()); break;
+                case 'a': result += IsMorning() ? "am" : "pm"; break;
+                case 'A': result += IsMorning() ? "AM" : "PM"; break;
+                case 'd': result += StringUtils::format("%02i", GetDay()); break;
+                case 'D': result += StringUtils::format("%03i", GetDayOfYear()); break;
+                case 'm': result += StringUtils::format("%02i", GetMonth()); break;
+                case 'y': result += StringUtils::format("%02i", GetYear() % 100); break;
+                case 'Y': result += StringUtils::format("%04i", GetYear()); break;
+                case 'h': result += StringUtils::format("%02i", GetHour12()); break;
+                case 'H': result += StringUtils::format("%02i", GetHour()); break;
+                case 'M': result += StringUtils::format("%02i", GetMinute()); break;
+                case 'S': result += StringUtils::format("%02i", GetSecond()); break;
+                case 's': result += StringUtils::format("%03i", GetMillisecond()); break;
                 default:		 result += *format;
 				}
 			}
@@ -265,10 +265,10 @@ std::string DateTime::toString( const char* format ) const
 /* DateTime static interface
  *****************************************************************************/
 
-int32 DateTime::daysInMonth( int32 year, int32 month )
+int32 DateTime::DaysInMonth( int32 year, int32 month )
 {
     ASSERTED((month >= 1) && (month <= 12), "The month param is invaild.");
-    if ((month == 2) && isLeapYear(year))
+    if ((month == 2) && IsLeapYear(year))
 	{
 		return 29;
 	}
@@ -276,9 +276,9 @@ int32 DateTime::daysInMonth( int32 year, int32 month )
 }
 
 
-int32 DateTime::daysInYear( int32 year )
+int32 DateTime::DaysInYear( int32 year )
 {
-    if (isLeapYear(year))
+    if (IsLeapYear(year))
 	{
 		return 366;
 	}
@@ -286,7 +286,7 @@ int32 DateTime::daysInYear( int32 year )
 }
 
 
-bool DateTime::isLeapYear( int32 year )
+bool DateTime::IsLeapYear( int32 year )
 {
     if ((year % 4) == 0)
 	{
@@ -296,33 +296,33 @@ bool DateTime::isLeapYear( int32 year )
 }
 
 
-DateTime DateTime::now()
+DateTime DateTime::Now()
 {
 	int32 year, month, day, dayOfWeek;
 	int32 hour, minute, second, millisecond;
-    systemTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
+    SystemTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
     return DateTime(year, month, day, hour, minute, second, millisecond);
 }
 
-DateTime DateTime::utcNow()
+DateTime DateTime::UtcNow()
 {
     int32 year, month, day, dayOfWeek;
     int32 hour, minute, second, millisecond;
-    utcTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
+    UtcTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
     return DateTime(year, month, day, hour, minute, second, millisecond);
 }
 
-void DateTime::systemTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+void DateTime::SystemTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
-    systemTimeForDate(year, month, dayOfWeek, day, hour, min, sec, msec);
+    SystemTimeForDate(year, month, dayOfWeek, day, hour, min, sec, msec);
 }
 
-void DateTime::utcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+void DateTime::UtcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
-    utcTimeForDate(year, month, dayOfWeek, day, hour, min, sec, msec);
+    UtcTimeForDate(year, month, dayOfWeek, day, hour, min, sec, msec);
 }
 
-bool DateTime::parse( const std::string& dateTimeString, DateTime& outDateTime )
+bool DateTime::Parse( const std::string& dateTimeString, DateTime& outDateTime )
 {
 	// first replace -, : and . with space
     std::string fixedString = dateTimeString;
@@ -348,7 +348,7 @@ bool DateTime::parse( const std::string& dateTimeString, DateTime& outDateTime )
     const int32 second = std::atoi(tokens[5].c_str());
     const int32 millisecond = tokens.size() > 6 ? std::atoi(tokens[6].c_str()) : 0;
 
-    if (!validate(year, month, day, hour, minute, second, millisecond))
+    if (!Validate(year, month, day, hour, minute, second, millisecond))
 	{
 		return false;
 	}
@@ -360,7 +360,7 @@ bool DateTime::parse( const std::string& dateTimeString, DateTime& outDateTime )
 }
 
 
-bool DateTime::parseIso8601( const char* dateTimeString, DateTime& outDateTime )
+bool DateTime::ParseIso8601( const char* dateTimeString, DateTime& outDateTime )
 {
 	// DateOnly: YYYY-MM-DD
 	// DateTime: YYYY-mm-ddTHH:MM:SS(.ssss)(Z|+th:tm|-th:tm)
@@ -475,7 +475,7 @@ bool DateTime::parseIso8601( const char* dateTimeString, DateTime& outDateTime )
 		return false;
 	}
 
-	if (!validate(year, month, day, hour, minute, second, millisecond))
+	if (!Validate(year, month, day, hour, minute, second, millisecond))
 	{
 		return false;
 	}
@@ -490,18 +490,18 @@ bool DateTime::parseIso8601( const char* dateTimeString, DateTime& outDateTime )
 	return true;
 }
 
-bool DateTime::validate( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond )
+bool DateTime::Validate( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond )
 {
     return (year >= 1) && (year <= 9999) &&
         (month >= 1) && (month <= 12) &&
-        (day >= 1) && (day <= daysInMonth(year, month)) &&
+        (day >= 1) && (day <= DaysInMonth(year, month)) &&
         (hour >= 0) && (hour <= 23) &&
         (minute >= 0) && (minute <= 59) &&
         (second >= 0) && (second <= 59) &&
         (millisecond >= 0) && (millisecond <= 999);
 }
 
-std::string DateTime::getDateString()
+std::string DateTime::GetDateString()
 {
     int32 Year;
     int32 Month;
@@ -511,12 +511,12 @@ std::string DateTime::getDateString()
     int32 Min;
     int32 Sec;
     int32 MSec;
-    systemTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
+    SystemTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
     std::string dateStr = StringUtils::format("%04d-%02d-%02d", Year,Month, Day);
     return dateStr;
 }
 
-std::string DateTime::getTimeString()
+std::string DateTime::GetTimeString()
 {
     int32 Year;
     int32 Month;
@@ -526,16 +526,16 @@ std::string DateTime::getTimeString()
     int32 Min;
     int32 Sec;
     int32 MSec;
-    systemTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
+    SystemTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
     std::string timeStr = StringUtils::format("%02d:%02d:%02d", Hour, Min, Sec);
     return timeStr;
 }
 
-std::string DateTime::getTimestampString()
+std::string DateTime::GetTimestampString()
 {
-    std::string timestamp = getDateString();
+    std::string timestamp = GetDateString();
     timestamp += " ";
-    timestamp += getTimeString();
+    timestamp += GetTimeString();
     return timestamp;
 }
 

@@ -29,7 +29,7 @@
 NS_FK_BEGIN
 
 
-static mutable_buffer getData(const std::string& filename, bool forString)
+static mutable_buffer GetData(const std::string& filename, bool forString)
 {
     if (filename.empty())
     {
@@ -47,11 +47,11 @@ static mutable_buffer getData(const std::string& filename, bool forString)
     else
         mode = "rb";
 
-    auto fileutils = FileUtils::getInstance();
+    auto fileutils = FileUtils::GetInstance();
     do
     {
         // Read the file from hardware
-        std::string fullPath = fileutils->fullPathForFilename(filename);
+        std::string fullPath = fileutils->FullPathForFilename(filename);
         FILE *fp = fopen(fullPath.c_str(), mode);
         BREAK_IF(!fp);
         fseek(fp, 0, SEEK_END);
@@ -92,7 +92,7 @@ static mutable_buffer getData(const std::string& filename, bool forString)
 
 FileUtils::FileUtils()
 {
-    initRootPath();
+    InitRootPath();
 }
 
 FileUtils::~FileUtils()
@@ -100,7 +100,7 @@ FileUtils::~FileUtils()
 
 }
 
-std::string FileUtils::convertPathFormatToUnixStyle(const std::string& path)
+std::string FileUtils::ConvertPathFormatToUnixStyle(const std::string& path)
 {
     std::string ret = path;
     size_t len = ret.length();
@@ -114,7 +114,7 @@ std::string FileUtils::convertPathFormatToUnixStyle(const std::string& path)
     return ret;
 }
 
-void FileUtils::setDefaultResourceRootPath(const std::string& path)
+void FileUtils::SetDefaultResourceRootPath(const std::string& path)
 {
     ASSERTED(!path.empty(), "path must be not empty.");
     _resourceRootPath = path;
@@ -123,28 +123,28 @@ void FileUtils::setDefaultResourceRootPath(const std::string& path)
         _resourceRootPath.push_back('/');
     }
 
-    _resourceRootPath = convertPathFormatToUnixStyle(_resourceRootPath);
+    _resourceRootPath = ConvertPathFormatToUnixStyle(_resourceRootPath);
 }
 
-std::string FileUtils::getResourceRootPath()
+std::string FileUtils::GetResourceRootPath()
 {
     return _resourceRootPath;
 }
 
 
-std::string FileUtils::fullPathForFilename(const std::string &filename) const
+std::string FileUtils::FullPathForFilename(const std::string &filename) const
 {
     if (filename.empty())
     {
         return "";
     }
 
-    if (isAbsolutePath(filename))
+    if (IsAbsolutePath(filename))
     {
         return filename;
     }
     std::string fullPath = _resourceRootPath + filename;
-    if (isFileExist(fullPath))
+    if (IsFileExist(fullPath))
     {
         return fullPath;
     }
@@ -152,7 +152,7 @@ std::string FileUtils::fullPathForFilename(const std::string &filename) const
     for (const auto& searchIt : _searchPaths)
     {
         fullPath = _resourceRootPath + searchIt + filename;
-        if (isFileExist(fullPath))
+        if (IsFileExist(fullPath))
         {
             return fullPath;
         }
@@ -162,15 +162,15 @@ std::string FileUtils::fullPathForFilename(const std::string &filename) const
     return "";
 }
 
-void FileUtils::setSearchPaths(const std::vector<std::string>& searchPaths)
+void FileUtils::SetSearchPaths(const std::vector<std::string>& searchPaths)
 {
     _searchPaths = searchPaths;
 }
 
-void FileUtils::addSearchPath(const std::string & searchpath, const bool front /*= false*/)
+void FileUtils::AddSearchPath(const std::string & searchpath, const bool front /*= false*/)
 {
     std::string prefix;
-    if (!isAbsolutePath(searchpath))
+    if (!IsAbsolutePath(searchpath))
         prefix = _resourceRootPath;
 
     std::string path = prefix + searchpath;
@@ -178,7 +178,7 @@ void FileUtils::addSearchPath(const std::string & searchpath, const bool front /
     {
         path += "/";
     }
-    path = convertPathFormatToUnixStyle(path);
+    path = ConvertPathFormatToUnixStyle(path);
     if (front) {
         _searchPaths.insert(_searchPaths.begin(), path);
     }
@@ -187,12 +187,12 @@ void FileUtils::addSearchPath(const std::string & searchpath, const bool front /
     }
 }
 
-const std::vector<std::string>& FileUtils::getSearchPaths() const
+const std::vector<std::string>& FileUtils::GetSearchPaths() const
 {
     return _searchPaths;
 }
 
-void FileUtils::setWritablePath(const std::string& writablePath)
+void FileUtils::SetWritablePath(const std::string& writablePath)
 {
     ASSERTED(!writablePath.empty(), "writablePath is a invalid path.");
     _writablePath = writablePath;
@@ -201,10 +201,10 @@ void FileUtils::setWritablePath(const std::string& writablePath)
         _writablePath.push_back('/');
     }
 
-    _writablePath = convertPathFormatToUnixStyle(_writablePath);
+    _writablePath = ConvertPathFormatToUnixStyle(_writablePath);
 }
 
-bool FileUtils::isDirectoryExist(const std::string& dirPath) const
+bool FileUtils::IsDirectoryExist(const std::string& dirPath) const
 {
 #if (TARGET_PLATFORM==PLATFORM_WINDOWS)
     std::wstring utf16Str = StringUtils::string2UTF8wstring(dirPath);
@@ -224,13 +224,13 @@ bool FileUtils::isDirectoryExist(const std::string& dirPath) const
 #endif
 }
 
-bool FileUtils::isDirectory(const std::string& path)const
+bool FileUtils::IsDirectory(const std::string& path)const
 {
     ASSERTED(!path.empty(),"path must be not empty.");
     return path[path.size() - 1] == '/' || path[path.size() - 1] == '\\';
 }
 
-bool FileUtils::isAbsolutePath(const std::string& path) const
+bool FileUtils::IsAbsolutePath(const std::string& path) const
 {
 #if (TARGET_PLATFORM==PLATFORM_WINDOWS)
     if ((path.length() > 2 && 
@@ -250,9 +250,9 @@ bool FileUtils::isAbsolutePath(const std::string& path) const
 #endif
 
 
-std::string FileUtils::readStringFromFile(const std::string& filename)
+std::string FileUtils::ReadStringFromFile(const std::string& filename)
 {
-    mutable_buffer data = getData(filename, true);
+    mutable_buffer data = GetData(filename, true);
     if (data.empty())
         return "";
 
@@ -260,12 +260,12 @@ std::string FileUtils::readStringFromFile(const std::string& filename)
     return ret;
 }
 
-mutable_buffer FileUtils::readDataFromFile(const std::string& filename)
+mutable_buffer FileUtils::ReadDataFromFile(const std::string& filename)
 {
-    return getData(filename, false);
+    return GetData(filename, false);
 }
 
-mutable_buffer FileUtils::readDataFromZip(const std::string& zipFilePath, const std::string& filename, size_t *size)
+mutable_buffer FileUtils::ReadDataFromZip(const std::string& zipFilePath, const std::string& filename, size_t *size)
 {
     mutable_buffer retData;
     unzFile file = nullptr;
@@ -311,13 +311,13 @@ mutable_buffer FileUtils::readDataFromZip(const std::string& zipFilePath, const 
     return retData;
 }
 
-bool FileUtils::writeStringToFile(const std::string& dataStr, const std::string& fullPath, bool append/* = false*/)
+bool FileUtils::WriteStringToFile(const std::string& dataStr, const std::string& fullPath, bool append/* = false*/)
 {
     mutable_buffer retData((unsigned char*)dataStr.c_str(), dataStr.size());
-    return writeDataToFile(retData, fullPath, append);
+    return WriteDataToFile(retData, fullPath, append);
 }
 
-bool FileUtils::writeDataToFile(mutable_buffer retData, const std::string& fullPath, bool append/* = false*/)
+bool FileUtils::WriteDataToFile(mutable_buffer retData, const std::string& fullPath, bool append/* = false*/)
 {
     ASSERTED(retData.size() != 0, "Invalid parameters:retData.");
     ASSERTED(!fullPath.empty(), "fullPath must be not empty.");
@@ -338,7 +338,7 @@ bool FileUtils::writeDataToFile(mutable_buffer retData, const std::string& fullP
     return false;
 }
 
-std::vector<std::string> FileUtils::readAllLines(const std::string& fullPath)
+std::vector<std::string> FileUtils::ReadAllLines(const std::string& fullPath)
 {
     std::vector<std::string> lines;
     std::string line;
@@ -354,7 +354,7 @@ std::vector<std::string> FileUtils::readAllLines(const std::string& fullPath)
     return lines;
 }
 
-std::string FileUtils::getFileExtension(const std::string& filePath) const
+std::string FileUtils::GetFileExtension(const std::string& filePath) const
 {
     std::string fileExtension;
     size_t pos = filePath.find_last_of('.');
@@ -368,10 +368,10 @@ std::string FileUtils::getFileExtension(const std::string& filePath) const
     return fileExtension;
 }
 
-std::string FileUtils::getFileName(const std::string& filePath)const
+std::string FileUtils::GetFileName(const std::string& filePath)const
 {
     std::string fileName = "";
-    if (!isDirectory(filePath))
+    if (!IsDirectory(filePath))
     {
         size_t pos = filePath.find_last_of("/");
         if (pos != std::string::npos)
@@ -382,10 +382,10 @@ std::string FileUtils::getFileName(const std::string& filePath)const
     return fileName;
 }
 
-std::string FileUtils::getFileNameWithoutExtension(const std::string& filePath)const
+std::string FileUtils::GetFileNameWithoutExtension(const std::string& filePath)const
 {
     std::string fileName = "";
-    if (!isDirectory(filePath))
+    if (!IsDirectory(filePath))
     {
         size_t posStart = filePath.find_last_of("/");
         size_t posEnd = filePath.find_last_of(".");
@@ -399,10 +399,10 @@ std::string FileUtils::getFileNameWithoutExtension(const std::string& filePath)c
     return fileName;
 }
 
-std::string FileUtils::getFilePathWithoutFileName(const std::string& filePath)const
+std::string FileUtils::GetFilePathWithoutFileName(const std::string& filePath)const
 {
     std::string fileDir = "";
-    if (!isDirectory(filePath))
+    if (!IsDirectory(filePath))
     {
         size_t pos = filePath.find_last_of("/");
         if (pos != std::string::npos)
@@ -413,13 +413,13 @@ std::string FileUtils::getFilePathWithoutFileName(const std::string& filePath)co
     return fileDir;
 }
 
-long FileUtils::getFileSize(const std::string &filepath)const
+long FileUtils::GetFileSize(const std::string &filepath)const
 {
     ASSERTED(!filepath.empty(), "filepath must be not empty.");
     std::string fullpath = filepath;
-    if (!isAbsolutePath(filepath))
+    if (!IsAbsolutePath(filepath))
     {
-        fullpath = fullPathForFilename(filepath);
+        fullpath = FullPathForFilename(filepath);
         if (fullpath.empty())
             return -1;
     }
@@ -439,7 +439,7 @@ long FileUtils::getFileSize(const std::string &filepath)const
         return (long)(info.st_size);
     }
 }
-bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newfullpath)
+bool FileUtils::CopyFile(const std::string &oldfullpath, const std::string &newfullpath)
 {
     bool ret = false;
     do 
@@ -450,10 +450,10 @@ bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newf
             break;
         }
 
-        std::string dirPath = getFilePathWithoutFileName(newfullpath);
-        createDirectory(dirPath);
+        std::string dirPath = GetFilePathWithoutFileName(newfullpath);
+        CreateDirectory(dirPath);
 
-        const long srcFileSize = getFileSize(oldfullpath);
+        const long srcFileSize = GetFileSize(oldfullpath);
         BREAK_IF(srcFileSize == -1);
         FILE *fpSrc = fopen(oldfullpath.c_str(), "rb");
         BREAK_IF(!fpSrc);
@@ -485,27 +485,27 @@ bool FileUtils::copyFile(const std::string &oldfullpath, const std::string &newf
     return ret;
 }
 
-void FileUtils::getFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild)const
+void FileUtils::GetFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild)const
 {
     scope_locale sl("");//for dirent.h wcstombs_s and mbstowcs_s method.
-    internalGetFilesFromDir(dirPath, files, includeChild);
+    InternalGetFilesFromDir(dirPath, files, includeChild);
 }
 
-void FileUtils::getFilesFromDir(const std::string& dirPath, bool includeChild, const std::function<void(const std::string&)>& callback)const
+void FileUtils::GetFilesFromDir(const std::string& dirPath, bool includeChild, const std::function<void(const std::string&)>& callback)const
 {
     scope_locale sl("");//for dirent.h wcstombs_s and mbstowcs_s method.
-    internalGetFilesFromDir(dirPath, includeChild, callback);
+    InternalGetFilesFromDir(dirPath, includeChild, callback);
 }
 
-void FileUtils::getDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild)const
+void FileUtils::GetDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild)const
 {
     scope_locale sl("");//for dirent.h wcstombs_s and mbstowcs_s method.
-    internalGetDirs(dirPath, dirs, includeChild);
+    InternalGetDirs(dirPath, dirs, includeChild);
 }
 
-std::string FileUtils::getDirName(const std::string& dirPath)const
+std::string FileUtils::GetDirName(const std::string& dirPath)const
 {
-    std::string tempPath = convertPathFormatToUnixStyle(dirPath);
+    std::string tempPath = ConvertPathFormatToUnixStyle(dirPath);
     std::string dirName;
     size_t pos = tempPath.find_last_of('/');
     if (pos != std::string::npos)
@@ -516,12 +516,12 @@ std::string FileUtils::getDirName(const std::string& dirPath)const
 }
 
 
-std::string FoundationKit::FileUtils::getDirPath(const std::string& path)
+std::string FoundationKit::FileUtils::GetDirPath(const std::string& path)
 {
-    if (isDirectory(path))
+    if (IsDirectory(path))
         return path;
 
-    std::string tempPath = convertPathFormatToUnixStyle(path);
+    std::string tempPath = ConvertPathFormatToUnixStyle(path);
     std::string dirPath;
     size_t pos = tempPath.find_last_of('/');
     if (pos != std::string::npos)
@@ -534,29 +534,29 @@ std::string FoundationKit::FileUtils::getDirPath(const std::string& path)
 
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 // windows os implement should override in platform specific FileUtiles class
-//bool moveFile(const std::string &oldfullpath, const std::string &newfullpath)const;
-//bool createDirectory(const std::string& dirPath);
-//bool removeDirectory(const std::string& dirPath);
-//bool removeFile(const std::string &filepath);
-//bool renameFile(const std::string &path, const std::string &oldname, const std::string &name);
-//bool renameFile(const std::string &oldfullpath, const std::string &newfullpath);
+//bool MoveFile(const std::string &oldfullpath, const std::string &newfullpath)const;
+//bool CreateDirectory(const std::string& dirPath);
+//bool RemoveDirectory(const std::string& dirPath);
+//bool RemoveFile(const std::string &filepath);
+//bool RenameFile(const std::string &path, const std::string &oldname, const std::string &name);
+//bool RenameFile(const std::string &oldfullpath, const std::string &newfullpath);
 #else
 // default implements for unix like os
 #include <sys/types.h>
 #include <errno.h>
 #include <dirent.h>
 
-bool FileUtils::moveFile(const std::string &oldfullpath, const std::string &newfullpath)const
+bool FileUtils::MoveFile(const std::string &oldfullpath, const std::string &newfullpath)const
 {
     return rename(oldfullpath.c_str(), oldfullpath.c_str()) != -1;
 }
 
 
-bool FileUtils::createDirectory(const std::string& path)const
+bool FileUtils::CreateDirectory(const std::string& path)const
 {
     ASSERTED(!path.empty(), "Invalid path");
 
-    if (isDirectoryExist(path))
+    if (IsDirectoryExist(path))
         return true;
 
     // Split the path
@@ -617,7 +617,7 @@ bool FileUtils::createDirectory(const std::string& path)const
 // IOS MAC implement should override in platform specific FileUtiles class
 // bool FileUtils::removeDirectory(const std::string& path)
 #else
-bool FileUtils::removeDirectory(const std::string& path)
+bool FileUtils::RemoveDirectory(const std::string& path)
 {
     if (path.size() > 0 && path[path.size() - 1] != '/')
     {
@@ -635,7 +635,7 @@ bool FileUtils::removeDirectory(const std::string& path)
 }
 #endif //(TARGET_PLATFORM == PLATFORM_IOS) || (TARGET_PLATFORM == PLATFORM_MAC)
 
-bool FileUtils::removeFile(const std::string &path)
+bool FileUtils::RemoveFile(const std::string &path)
 {
     if (remove(path.c_str())) {
         return false;
@@ -645,7 +645,7 @@ bool FileUtils::removeFile(const std::string &path)
     }
 }
 
-bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &newfullpath)
+bool FileUtils::RenameFile(const std::string &oldfullpath, const std::string &newfullpath)
 {
     ASSERTED(!oldfullpath.empty(), "Invalid path");
     ASSERTED(!newfullpath.empty(), "Invalid path");
@@ -660,18 +660,18 @@ bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &ne
     return true;
 }
 
-bool FileUtils::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
+bool FileUtils::RenameFile(const std::string &path, const std::string &oldname, const std::string &name)
 {
     ASSERTED(!path.empty(), "Invalid path");
     std::string oldPath = path + oldname;
     std::string newPath = path + name;
 
-    return this->renameFile(oldPath, newPath);
+    return this->RenameFile(oldPath, newPath);
 }
 
 #endif //(TARGET_PLATFORM == PLATFORM_WINDOWS))
 
-void FileUtils::internalGetFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild /* = false */)const
+void FileUtils::InternalGetFilesFromDir(const std::string& dirPath, std::vector<std::string>& files, bool includeChild /* = false */)const
 {
     std::string finallyPath = dirPath;
     if (*(finallyPath.end() - 1) != '/' && *(finallyPath.end() - 1) != '\\')
@@ -696,7 +696,7 @@ void FileUtils::internalGetFilesFromDir(const std::string& dirPath, std::vector<
         if (entry->d_type == DT_DIR && includeChild)
         {
             std::string strChildDir = finallyPath + entry->d_name;
-            internalGetFilesFromDir(strChildDir, files, includeChild);
+            InternalGetFilesFromDir(strChildDir, files, includeChild);
         }
 
         entry = readdir(dir);
@@ -704,9 +704,9 @@ void FileUtils::internalGetFilesFromDir(const std::string& dirPath, std::vector<
     closedir(dir);
 }
 
-void FileUtils::internalGetFilesFromDir(const std::string& dirPath, bool includeChild, const std::function<void(const std::string&)>& callback)const
+void FileUtils::InternalGetFilesFromDir(const std::string& dirPath, bool includeChild, const std::function<void(const std::string&)>& callback)const
 {
-    std::string finallyPath = convertPathFormatToUnixStyle(dirPath);
+    std::string finallyPath = ConvertPathFormatToUnixStyle(dirPath);
     if (*(finallyPath.end() - 1) != '/')
     {
         finallyPath.append("/");
@@ -729,7 +729,7 @@ void FileUtils::internalGetFilesFromDir(const std::string& dirPath, bool include
         if (entry->d_type == DT_DIR && includeChild)
         {
             std::string strChildDir = finallyPath + entry->d_name;
-            internalGetFilesFromDir(strChildDir, includeChild, callback);
+            InternalGetFilesFromDir(strChildDir, includeChild, callback);
         }
 
         entry = readdir(dir);
@@ -737,9 +737,9 @@ void FileUtils::internalGetFilesFromDir(const std::string& dirPath, bool include
     closedir(dir);
 }
 
-void FileUtils::internalGetDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild)const
+void FileUtils::InternalGetDirs(const std::string& dirPath, std::vector<std::string>& dirs, bool includeChild)const
 {
-    std::string finallyPath = convertPathFormatToUnixStyle(dirPath);
+    std::string finallyPath = ConvertPathFormatToUnixStyle(dirPath);
     if (*(finallyPath.end() - 1) != '/')
     {
         finallyPath.append("/");
@@ -759,7 +759,7 @@ void FileUtils::internalGetDirs(const std::string& dirPath, std::vector<std::str
             dirs.push_back(finallyPath + entry->d_name);
             if (includeChild)
             {
-                internalGetDirs(finallyPath + entry->d_name, dirs, includeChild);
+                InternalGetDirs(finallyPath + entry->d_name, dirs, includeChild);
             }
         }
 

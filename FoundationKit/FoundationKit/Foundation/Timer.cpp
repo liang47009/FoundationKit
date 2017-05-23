@@ -221,7 +221,7 @@ void Timer::internalUpdate(int deltaTime)
     {
         TimedEventArgs timerArgs;
         timerArgs.deltaTime = static_cast<int>(_elapsedTime*_timeScale);
-        timerArgs.signalTime = DateTime::now();
+        timerArgs.signalTime = DateTime::Now();
         timerArgs.timerId = _myid;
         onTimedEvent(timerArgs);
         _elapsedTime = 0;

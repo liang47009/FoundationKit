@@ -53,37 +53,37 @@ private:
 template<typename... Args>
 static inline void LOG_TRACE(const char* fmt, const Args&... args)
 {
-    Logger::getInstance()->getLog()->trace(fmt, args...);
+    Logger::GetInstance()->getLog()->trace(fmt, args...);
 }
 
 template<typename... Args>
 static inline void LOG_INFO(const char* fmt, const Args&... args)
 {
-    Logger::getInstance()->getLog()->info(fmt, args...);
+    Logger::GetInstance()->getLog()->info(fmt, args...);
 }
 
 template<typename... Args>
 static inline void LOG_WARN(const char* fmt, const Args&... args)
 {
-    Logger::getInstance()->getLog()->warn(fmt, args...);
+    Logger::GetInstance()->getLog()->warn(fmt, args...);
 }
 
 template<typename... Args>
 static inline void LOG_ERROR(const char* fmt, const Args&... args)
 {
-    Logger::getInstance()->getLog()->error(fmt, args...);
+    Logger::GetInstance()->getLog()->error(fmt, args...);
 }
 
 template<typename... Args>
 static inline void LOG_CRITICAL(const char* fmt, const Args&... args)
 {
-    Logger::getInstance()->getLog()->critical(fmt, args...);
+    Logger::GetInstance()->getLog()->critical(fmt, args...);
 }
 
 template<typename... Args>
 static inline void LOG_DEBUG(const char* fmt, const Args&... args)
 {
-    Logger::getInstance()->getConsoleLog()->debug(fmt, args...);
+    Logger::GetInstance()->getConsoleLog()->debug(fmt, args...);
 }
 
 NS_FK_END

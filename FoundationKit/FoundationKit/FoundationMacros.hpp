@@ -32,8 +32,8 @@ enum { INDEX_NONE = -1 };
  */
 #define PROPERTY_DEFINE(varType, varName, funName)\
 protected: varType varName;\
-public: virtual varType get##funName(void) const;\
-public: virtual void set##funName(varType var);
+public: virtual varType Get##funName(void) const;\
+public: virtual void Set##funName(varType var);
 
 /** @def PROPERTY_DEFINE_REF
  * It is used to declare a protected variable.
@@ -49,8 +49,8 @@ public: virtual void set##funName(varType var);
  */
 #define PROPERTY_DEFINE_REF(varType, varName, funName)\
 protected: varType varName;\
-public: virtual const varType& get##funName(void) const;\
-public: virtual void set##funName(const varType& var);
+public: virtual const varType& Get##funName(void) const;\
+public: virtual void Set##funName(const varType& var);
 
 /** @def PROPERTY_DEFINE_READONLY
  * It is used to declare a protected variable.
@@ -65,7 +65,7 @@ public: virtual void set##funName(const varType& var);
  */
 #define PROPERTY_DEFINE_READONLY(varType, varName, funName)\
 protected: varType varName;\
-public: virtual varType get##funName(void) const;
+public: virtual varType Get##funName(void) const;
 
 /** @def PROPERTY_DEFINE_REF_READONLY
  * It is used to declare a protected variable.
@@ -80,7 +80,7 @@ public: virtual varType get##funName(void) const;
  */
 #define PROPERTY_DEFINE_REF_READONLY(varType, varName, funName)\
 protected: varType varName;\
-public: virtual const varType& get##funName(void) const;
+public: virtual const varType& Get##funName(void) const;
 
 
 /** @def PROPERTY_SYNTHESIZE
@@ -97,8 +97,8 @@ public: virtual const varType& get##funName(void) const;
  */
 #define PROPERTY_SYNTHESIZE(varType, varName, funName)\
 protected: varType varName;\
-public: virtual varType get##funName(void) const { return varName; }\
-public: virtual void set##funName(varType var){ varName = var; }
+public: virtual varType Get##funName(void) const { return varName; }\
+public: virtual void Set##funName(varType var){ varName = var; }
 
 /** @def PROPERTY_SYNTHESIZE_REF
  * It is used to declare a protected variable.
@@ -114,8 +114,8 @@ public: virtual void set##funName(varType var){ varName = var; }
  */
 #define PROPERTY_SYNTHESIZE_REF(varType, varName, funName)\
 protected: varType varName;\
-public: virtual const varType& get##funName(void) const { return varName; }\
-public: virtual void set##funName(const varType& var){ varName = var; }
+public: virtual const varType& Get##funName(void) const { return varName; }\
+public: virtual void Set##funName(const varType& var){ varName = var; }
 
 /** @def PROPERTY_SYNTHESIZE_READONLY
  * It is used to declare a protected variable.
@@ -130,7 +130,7 @@ public: virtual void set##funName(const varType& var){ varName = var; }
  */
 #define PROPERTY_SYNTHESIZE_READONLY(varType, varName, funName)\
 protected: varType varName;\
-public: virtual varType get##funName(void) const { return varName; }
+public: virtual varType Get##funName(void) const { return varName; }
 
 /** @def PROPERTY_SYNTHESIZE_REF_READONLY
  * It is used to declare a protected variable.
@@ -145,7 +145,7 @@ public: virtual varType get##funName(void) const { return varName; }
  */
 #define PROPERTY_SYNTHESIZE_REF_READONLY(varType, varName, funName)\
 protected: varType varName;\
-public: virtual const varType& get##funName(void) const { return varName; }
+public: virtual const varType& Get##funName(void) const { return varName; }
 
 
 /*

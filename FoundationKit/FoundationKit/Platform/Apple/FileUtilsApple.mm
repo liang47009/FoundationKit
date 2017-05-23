@@ -14,7 +14,7 @@
 #include "FileUtils.hpp"
 NS_FK_BEGIN
 
-void FileUtils::initRootPath()
+void FileUtils::InitRootPath()
 {
     if (0 == _resourceRootPath.length())
     {
@@ -27,7 +27,7 @@ void FileUtils::initRootPath()
     }
 }
 
-bool FileUtils::isFileExist(const std::string& filename) const
+bool FileUtils::IsFileExist(const std::string& filename) const
 {
     std::string filePath = filename;
     if (filePath.empty())
@@ -67,7 +67,7 @@ bool FileUtils::isFileExist(const std::string& filename) const
 }
 
 
-std::string FileUtils::getWritablePath() const
+std::string FileUtils::GetWritablePath() const
 {
     if (_writablePath.length())
     {
@@ -95,7 +95,7 @@ static int unlink_cb(const char *fpath, const struct stat *sb, int typeflag, str
     return ret;
 }
 
-bool FileUtils::removeDirectory(const std::string& path)
+bool FileUtils::RemoveDirectory(const std::string& path)
 {
     if (path.size() > 0 && path[path.size() - 1] != '/')
     {

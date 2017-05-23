@@ -13,6 +13,7 @@
 
 #include <functional>
 #include <string>
+#include <chrono>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/types.hpp"
 
@@ -74,7 +75,7 @@ public:
 	 */
     Timespan(int32 hours, int32 minutes, int32 seconds)
 	{
-        assign(0, hours, minutes, seconds, 0);
+        Assign(0, hours, minutes, seconds, 0);
 	}
 
 	/**
@@ -87,7 +88,7 @@ public:
 	 */
     Timespan(int32 days, int32 hours, int32 minutes, int32 seconds)
 	{
-        assign(days, hours, minutes, seconds, 0);
+        Assign(days, hours, minutes, seconds, 0);
 	}
 
 	/**
@@ -101,7 +102,7 @@ public:
 	 */
     Timespan(int32 days, int32 hours, int32 minutes, int32 seconds, int32 milliseconds)
 	{
-        assign(days, hours, minutes, seconds, milliseconds);
+        Assign(days, hours, minutes, seconds, milliseconds);
 	}
 
 public:
@@ -261,7 +262,7 @@ public:
 	 * @return Duration of this time span.
 	 * @see minValue
 	 */
-	Timespan getDuration()
+	Timespan GetDuration()
 	{
         return Timespan(_ticks >= 0 ? _ticks : -_ticks);
 	}
@@ -271,7 +272,7 @@ public:
     *
     * @return Days component.
     */
-    int32 getDays() const
+    int32 GetDays() const
     {
         return static_cast<int32>(_ticks / ETimespan::TicksPerDay);
     }
@@ -282,7 +283,7 @@ public:
 	 * @return Hours component.
 	 * @see getTotalHours
 	 */
-	int32 getHours() const
+	int32 GetHours() const
 	{
         return static_cast<int32>((_ticks / ETimespan::TicksPerHour) % 24);
 	}
@@ -293,7 +294,7 @@ public:
     * @return Minutes component.
     * @see getTotalMinutes
     */
-    int32 getMinutes() const
+    int32 GetMinutes() const
     {
         return static_cast<int32>((_ticks / ETimespan::TicksPerMinute) % 60);
     }
@@ -304,7 +305,7 @@ public:
     * @return Seconds component.
     * @see getTotalSeconds
     */
-    int32 getSeconds() const
+    int32 GetSeconds() const
     {
         return static_cast<int32>((_ticks / ETimespan::TicksPerSecond) % 60);
     }
@@ -315,7 +316,7 @@ public:
 	 * @return Milliseconds component.
 	 * @see getTotalMilliseconds
 	 */
-	int32 getMilliseconds() const
+	int32 GetMilliseconds() const
 	{
         return static_cast<int32>((_ticks / ETimespan::TicksPerMillisecond) % 1000);
 	}
@@ -325,7 +326,7 @@ public:
 	 *
 	 * @return Number of ticks.
 	 */
-	int64 getTicks() const
+	int64 GetTicks() const
 	{
 		return _ticks;
 	}
@@ -336,7 +337,7 @@ public:
 	 * @return Number of days.
 	 * @see getDays
 	 */
-	double getTotalDays() const
+	double GetTotalDays() const
 	{
         return static_cast<double>(_ticks / ETimespan::TicksPerDay);
 	}
@@ -347,7 +348,7 @@ public:
 	 * @return Number of hours.
 	 * @see getHours
 	 */
-	double getTotalHours() const
+	double GetTotalHours() const
 	{
         return static_cast<double>(_ticks / ETimespan::TicksPerHour);
 	}
@@ -358,7 +359,7 @@ public:
 	 * @return Number of milliseconds.
 	 * @see getMilliseconds
 	 */
-	double getTotalMilliseconds() const
+	double GetTotalMilliseconds() const
 	{
         return static_cast<double>(_ticks / ETimespan::TicksPerMillisecond);
 	}
@@ -369,7 +370,7 @@ public:
 	 * @return Number of minutes.
 	 * @see getMinutes
 	 */
-	double getTotalMinutes() const
+	double GetTotalMinutes() const
 	{
         return static_cast<double>(_ticks / ETimespan::TicksPerMinute);
 	}
@@ -380,7 +381,7 @@ public:
 	 * @return Number of seconds.
 	 * @see getSeconds
 	 */
-	double getTotalSeconds() const
+	double GetTotalSeconds() const
 	{
         return static_cast<double>(_ticks / ETimespan::TicksPerSecond);
 	}
@@ -394,7 +395,7 @@ public:
 	 * @return String representation.
 	 * @see parse
 	 */
-	std::string toString() const;
+	std::string ToString() const;
 
 	/**
 	 * Converts this time span to its string representation.
@@ -417,7 +418,7 @@ public:
 	 * @return String representation.
 	 * @see parse
 	 */
-	 std::string toString( const char* format ) const;
+	 std::string ToString( const char* format ) const;
 
 public:
 
@@ -428,7 +429,7 @@ public:
 	 * @return Time span.
 	 * @see fromHours, fromMilliseconds, fromMinutes, fromSeconds
 	 */
-	static Timespan fromDays( double days );
+	static Timespan FromDays( double days );
 
 	/**
 	 * Creates a time span that represents the specified number of hours.
@@ -437,7 +438,7 @@ public:
 	 * @return Time span.
 	 * @see fromDays, fromMilliseconds, fromMinutes, fromSeconds
 	 */
-	static Timespan fromHours( double hours );
+	static Timespan FromHours( double hours );
 
    /**
     * Creates a time span that represents the specified number of minutes.
@@ -446,7 +447,7 @@ public:
     * @return Time span.
     * @see fromDays, fromHours, fromMilliseconds, fromSeconds
     */
-    static Timespan fromMinutes(double minutes);
+    static Timespan FromMinutes(double minutes);
 
    /**
     * Creates a time span that represents the specified number of seconds.
@@ -455,7 +456,7 @@ public:
     * @return Time span.
     * @see fromDays, fromHours, fromMilliseconds, fromMinutes
     */
-    static Timespan fromSeconds(double seconds);
+    static Timespan FromSeconds(double seconds);
 
 	/**
 	 * Creates a time span that represents the specified number of milliseconds.
@@ -464,7 +465,7 @@ public:
 	 * @return Time span.
 	 * @see fromDays, fromHours, fromMinutes, fromSeconds
 	 */
-	static Timespan fromMilliseconds( double milliseconds );
+	static Timespan FromMilliseconds( double milliseconds );
 
 	/**
 	 * Returns the maximum time span value.
@@ -474,7 +475,7 @@ public:
 	 * @return Maximum time span.
 	 * @see minValue,Zero
 	 */
-	static Timespan maxValue()
+	static Timespan MaxValue()
 	{
 		return Timespan(9223372036854775807);
 	}
@@ -487,7 +488,7 @@ public:
 	 * @return Minimum time span.
 	 * @see maxValue, zeroValue
 	 */
-	static Timespan minValue()
+	static Timespan MinValue()
 	{
 		return Timespan(-9223372036854775807 - 1);
 	}
@@ -503,7 +504,7 @@ public:
 	 * @return true if the string was converted successfully, false otherwise.
 	 * @see ToString
 	 */
-	static bool parse( const std::string& timespanString, Timespan& outTimespan );
+	static bool Parse( const std::string& timespanString, Timespan& outTimespan );
 
 	/**
 	 * Returns the zero time span value.
@@ -513,7 +514,7 @@ public:
 	 * @return Zero time span.
 	 * @see MaxValue, MinValue
 	 */
-	static Timespan zero()
+	static Timespan Zero()
 	{
 		return Timespan(0);
 	}
@@ -524,7 +525,7 @@ public:
 	 * @param Timespan The timespan to get the hash for.
 	 * @return Hash value.
 	 */
-	size_t getHash()
+	size_t GetHash()
 	{
         return std::hash<int64>()(this->_ticks);
 	}
@@ -540,7 +541,7 @@ protected:
 	 * @param seconds      The seconds component.
 	 * @param milliseconds The milliseconds component.
 	 */
-	void assign( int32 days, int32 hours, int32 minutes, int32 seconds, int32 milliseconds );
+	void Assign( int32 days, int32 hours, int32 minutes, int32 seconds, int32 milliseconds );
 
 private:
 

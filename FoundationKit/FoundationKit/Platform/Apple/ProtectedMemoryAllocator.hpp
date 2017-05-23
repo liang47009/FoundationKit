@@ -24,32 +24,32 @@ public:
     // Fails by returning NULL is no more space is available.
     // Please note that the pointers returned from this method should not
     // be freed in any way (for example by calling free() on them ).
-    char *         allocate(vm_size_t size);
+    char *         Allocate(vm_size_t size);
     
     // Returns the base address of the allocation pool.
-    char *         getBaseAddress() { return (char*)_baseAddress; }
+    char *         GetBaseAddress() { return (char*)_baseAddress; }
     
     // Returns the size of the allocation pool, including allocated
     // plus free space.
-    vm_size_t      getTotalSize() { return _poolSize; }
+    vm_size_t      GetTotalSize() { return _poolSize; }
     
     // Returns the number of bytes already allocated in the pool.
-    vm_size_t      getAllocatedSize() { return _nextAllocOffset; }
+    vm_size_t      GetAllocatedSize() { return _nextAllocOffset; }
     
     // Returns the number of bytes available for allocation.
 //    vm_size_t      getFreeSize() { return _poolSize - _nextAllocOffset; }
     
     // Makes the entire allocation pool read-only including, of course,
     // all allocations made from the pool.
-    bool          protect();
+    bool          Protect();
     
     // Makes the entire allocation pool read/write.
-    bool          unProtect();
+    bool          UnProtect();
     
-    static bool   protect(vm_address_t address, vm_size_t size);
+    static bool   Protect(vm_address_t address, vm_size_t size);
     
     // Makes the entire allocation pool read/write.
-    static bool   unProtect(vm_address_t address, vm_size_t size);
+    static bool   UnProtect(vm_address_t address, vm_size_t size);
     
     
 private:
@@ -74,13 +74,13 @@ public:
         __attribute__((unused)) int rv = pthread_mutex_lock(_mutex);
         assert(rv == 0);
         // Unprotect the memory
-        _allocator->unProtect();
+        _allocator->UnProtect();
     }
     
     ~ProtectedMemoryLocker()
     {
         // First protect the memory
-        _allocator->protect();
+        _allocator->Protect();
         // Then unlock the mutex
         __attribute__((unused)) int rv = pthread_mutex_unlock(_mutex);
         assert(rv == 0);

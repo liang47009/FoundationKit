@@ -19,7 +19,7 @@ ProtectedMemoryAllocator::~ProtectedMemoryAllocator()
     munmap(reinterpret_cast<void*>(_baseAddress), _poolSize);
 }
 
-char* ProtectedMemoryAllocator::allocate(vm_size_t size)
+char* ProtectedMemoryAllocator::Allocate(vm_size_t size)
 {
     if (_valid && _nextAllocOffset + size <= _poolSize)
     {
@@ -30,22 +30,22 @@ char* ProtectedMemoryAllocator::allocate(vm_size_t size)
     return nullptr;
 }
 
-bool ProtectedMemoryAllocator::protect()
+bool ProtectedMemoryAllocator::Protect()
 {
     return mprotect(reinterpret_cast<void*>(_baseAddress), _poolSize, PROT_READ) == 0;
 }
 
-bool ProtectedMemoryAllocator::unProtect()
+bool ProtectedMemoryAllocator::UnProtect()
 {
     return mprotect(reinterpret_cast<void*>(_baseAddress), _poolSize, PROT_READ | PROT_WRITE) == 0;
 }
 
-bool ProtectedMemoryAllocator::protect(vm_address_t address, vm_size_t size)
+bool ProtectedMemoryAllocator::Protect(vm_address_t address, vm_size_t size)
 {
     return mprotect(reinterpret_cast<void*>(address), size, PROT_READ) == 0;
 }
 
-bool ProtectedMemoryAllocator::unProtect(vm_address_t address, vm_size_t size)
+bool ProtectedMemoryAllocator::UnProtect(vm_address_t address, vm_size_t size)
 {
     return mprotect(reinterpret_cast<void*>(address), size, PROT_READ | PROT_WRITE) == 0;
 }

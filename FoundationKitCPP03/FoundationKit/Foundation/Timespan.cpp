@@ -13,18 +13,18 @@
 
 NS_FK_BEGIN
 
-std::string Timespan::toString() const
+std::string Timespan::ToString() const
 {
-	if (getDays() == 0)
+	if (GetDays() == 0)
 	{
-		return toString("%n%h:%m:%s.%f");
+		return ToString("%n%h:%m:%s.%f");
 	}
 
-	return toString("%n%d.%h:%m:%s.%f");
+	return ToString("%n%d.%h:%m:%s.%f");
 }
 
 
-std::string Timespan::toString( const char* format ) const
+std::string Timespan::ToString( const char* format ) const
 {
 	std::string result;
 
@@ -36,16 +36,16 @@ std::string Timespan::toString( const char* format ) const
 			{
             case 'n': if (_ticks < 0) result += '-'; break;
             case 'N': result += (_ticks < 0) ? '-' : '+'; break;
-            case 'd': result += StringUtils::format("%i",   Math::abs(getDays())); break;
-            case 'h': result += StringUtils::format("%02i", Math::abs(getHours())); break;
-            case 'm': result += StringUtils::format("%02i", Math::abs(getMinutes())); break;
-            case 's': result += StringUtils::format("%02i", Math::abs(getSeconds())); break;
-            case 'f': result += StringUtils::format("%03i", Math::abs(getMilliseconds())); break;
-            case 'D': result += StringUtils::format("%f",   Math::abs(getTotalDays())); break;
-            case 'H': result += StringUtils::format("%f",   Math::abs(getTotalHours())); break;
-            case 'M': result += StringUtils::format("%f",   Math::abs(getTotalMinutes())); break;
-            case 'S': result += StringUtils::format("%f",   Math::abs(getTotalSeconds())); break;
-            case 'F': result += StringUtils::format("%f",   Math::abs(getTotalMilliseconds())); break;
+            case 'd': result += StringUtils::format("%i",   Math::abs(GetDays())); break;
+            case 'h': result += StringUtils::format("%02i", Math::abs(GetHours())); break;
+            case 'm': result += StringUtils::format("%02i", Math::abs(GetMinutes())); break;
+            case 's': result += StringUtils::format("%02i", Math::abs(GetSeconds())); break;
+            case 'f': result += StringUtils::format("%03i", Math::abs(GetMilliseconds())); break;
+            case 'D': result += StringUtils::format("%f",   Math::abs(GetTotalDays())); break;
+            case 'H': result += StringUtils::format("%f",   Math::abs(GetTotalHours())); break;
+            case 'M': result += StringUtils::format("%f",   Math::abs(GetTotalMinutes())); break;
+            case 'S': result += StringUtils::format("%f",   Math::abs(GetTotalSeconds())); break;
+            case 'F': result += StringUtils::format("%f",   Math::abs(GetTotalMilliseconds())); break;
 			default:
                 result += *format;
 			}
@@ -65,38 +65,38 @@ std::string Timespan::toString( const char* format ) const
 /* Timespan static interface
  *****************************************************************************/
 
-Timespan Timespan::fromDays( double days )
+Timespan Timespan::FromDays( double days )
 {
-    ASSERTED((days >= minValue().getTotalDays()) && (days <= maxValue().getTotalDays()), "The days param invalid.");
+    ASSERTED((days >= MinValue().GetTotalDays()) && (days <= MaxValue().GetTotalDays()), "The days param invalid.");
     return Timespan(static_cast<int64>(days * ETimespan::TicksPerDay));
 }
 
-Timespan Timespan::fromHours( double hours )
+Timespan Timespan::FromHours( double hours )
 {
-    ASSERTED((hours >= minValue().getTotalHours()) && (hours <= maxValue().getTotalHours()), "The hours param invalid.");
+    ASSERTED((hours >= MinValue().GetTotalHours()) && (hours <= MaxValue().GetTotalHours()), "The hours param invalid.");
     return Timespan(static_cast<int64>(hours * ETimespan::TicksPerHour));
 }
 
-Timespan Timespan::fromMinutes(double minutes)
+Timespan Timespan::FromMinutes(double minutes)
 {
-    ASSERTED((minutes >= minValue().getTotalMinutes()) && (minutes <= maxValue().getTotalMinutes()), "The minutes param invalid.");
+    ASSERTED((minutes >= MinValue().GetTotalMinutes()) && (minutes <= MaxValue().GetTotalMinutes()), "The minutes param invalid.");
     return Timespan(static_cast<int64>(minutes * ETimespan::TicksPerMinute));
 }
 
-Timespan Timespan::fromSeconds(double seconds)
+Timespan Timespan::FromSeconds(double seconds)
 {
-    ASSERTED((seconds >= minValue().getTotalSeconds()) && (seconds <= maxValue().getTotalSeconds()), "The seconds param invalid.");
+    ASSERTED((seconds >= MinValue().GetTotalSeconds()) && (seconds <= MaxValue().GetTotalSeconds()), "The seconds param invalid.");
     return Timespan(static_cast<int64>(seconds * ETimespan::TicksPerSecond));
 }
 
-Timespan Timespan::fromMilliseconds( double milliseconds )
+Timespan Timespan::FromMilliseconds( double milliseconds )
 {
-    ASSERTED((milliseconds >= minValue().getTotalMilliseconds()) && (milliseconds <= maxValue().getTotalMilliseconds()), "The milliseconds param invalid.");
+    ASSERTED((milliseconds >= MinValue().GetTotalMilliseconds()) && (milliseconds <= MaxValue().GetTotalMilliseconds()), "The milliseconds param invalid.");
     return Timespan(static_cast<int64>(milliseconds * ETimespan::TicksPerMillisecond));
 }
 
 
-bool Timespan::parse( const std::string& timespanString, Timespan& outTimespan )
+bool Timespan::Parse( const std::string& timespanString, Timespan& outTimespan )
 {
 	// @todo gmp: implement stricter Timespan parsing; this implementation is too forgiving.
     std::string tokenString = timespanString;
@@ -115,7 +115,7 @@ bool Timespan::parse( const std::string& timespanString, Timespan& outTimespan )
 
     if (tokens.size() == 5)
 	{
-        outTimespan.assign(std::atoi(tokens[0].c_str()), std::atoi(tokens[1].c_str()), std::atoi(tokens[2].c_str()), std::atoi(tokens[3].c_str()), std::atoi(tokens[4].c_str()));
+        outTimespan.Assign(std::atoi(tokens[0].c_str()), std::atoi(tokens[1].c_str()), std::atoi(tokens[2].c_str()), std::atoi(tokens[3].c_str()), std::atoi(tokens[4].c_str()));
 		if (Negative)
 		{
             outTimespan._ticks *= -1;
@@ -126,10 +126,10 @@ bool Timespan::parse( const std::string& timespanString, Timespan& outTimespan )
 }
 
 
-void Timespan::assign( int32 days, int32 hours, int32 minutes, int32 seconds, int32 milliseconds )
+void Timespan::Assign( int32 days, int32 hours, int32 minutes, int32 seconds, int32 milliseconds )
 {
     int64 totalms = 1000 * (60 * 60 * 24 * (int64)days + 60 * 60 * (int64)hours + 60 * (int64)minutes + (int64)seconds) + (int64)milliseconds;
-    ASSERTED((totalms >= minValue().getTotalMilliseconds()) && (totalms <= maxValue().getTotalMilliseconds()), "Total millisecond is invalid.");
+    ASSERTED((totalms >= MinValue().GetTotalMilliseconds()) && (totalms <= MaxValue().GetTotalMilliseconds()), "Total millisecond is invalid.");
 	_ticks = totalms * ETimespan::TicksPerMillisecond;
 }
 

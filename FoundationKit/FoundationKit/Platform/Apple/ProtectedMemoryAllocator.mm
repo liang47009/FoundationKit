@@ -23,7 +23,7 @@ ProtectedMemoryAllocator::~ProtectedMemoryAllocator()
     vm_deallocate(mach_task_self(), _baseAddress, _poolSize);
 }
 
-char *ProtectedMemoryAllocator::allocate(vm_size_t size)
+char *ProtectedMemoryAllocator::Allocate(vm_size_t size)
 {
     if (_valid && _nextAllocOffset + size <= _poolSize)
     {
@@ -35,27 +35,27 @@ char *ProtectedMemoryAllocator::allocate(vm_size_t size)
     return NULL;  // ran out of memory in our allocation block
 }
 
-bool  ProtectedMemoryAllocator::protect()
+bool  ProtectedMemoryAllocator::Protect()
 {
     kern_return_t result = vm_protect(mach_task_self(), _baseAddress, _poolSize, FALSE, VM_PROT_READ);
     return (result == KERN_SUCCESS);
 }
 
-bool  ProtectedMemoryAllocator::unProtect()
+bool  ProtectedMemoryAllocator::UnProtect()
 {
     kern_return_t result = vm_protect(mach_task_self(), _baseAddress, _poolSize, FALSE, VM_PROT_READ | VM_PROT_WRITE);
     return (result == KERN_SUCCESS);
 }
 
 
-bool  ProtectedMemoryAllocator::protect(vm_address_t address, vm_size_t size)
+bool  ProtectedMemoryAllocator::Protect(vm_address_t address, vm_size_t size)
 {
     kern_return_t result =  vm_protect(mach_task_self(), address, size, FALSE, VM_PROT_READ | VM_PROT_EXECUTE | VM_PROT_COPY);
     return (result == KERN_SUCCESS);
 }
 
 // Makes the entire allocation pool read/write.
-bool  ProtectedMemoryAllocator::unProtect(vm_address_t address, vm_size_t size)
+bool  ProtectedMemoryAllocator::UnProtect(vm_address_t address, vm_size_t size)
 {
     kern_return_t result =  vm_protect(mach_task_self(), address, size, FALSE, VM_PROT_READ | VM_PROT_WRITE | VM_PROT_COPY);
     return (result == KERN_SUCCESS);

@@ -21,7 +21,7 @@ NS_FK_BEGIN
 /**
  * Enumerates the days of the week in 7-day calendars.
  */
-enum EDayOfWeek
+enum class EDayOfWeek
 {
 	Monday = 0,
 	Tuesday,
@@ -35,7 +35,7 @@ enum EDayOfWeek
 /**
  * Enumerates the months of the year in 12-month calendars.
  */
-enum EMonthOfYear
+enum class EMonthOfYear
 {
 	January = 1,
 	February,
@@ -112,7 +112,7 @@ public:
 	 */
 	DateTime operator+( const Timespan& other ) const
 	{
-        return DateTime(_ticks + other.getTicks());
+        return DateTime(_ticks + other.GetTicks());
 	}
 
 	/**
@@ -123,7 +123,7 @@ public:
 	 */
     DateTime& operator+=(const Timespan& other)
 	{
-        _ticks += other.getTicks();
+        _ticks += other.GetTicks();
 		return *this;
 	}
 
@@ -135,7 +135,7 @@ public:
 	 */
     Timespan operator-(const DateTime& other) const
 	{
-        return Timespan(_ticks - other.getTicks());
+        return Timespan(_ticks - other.GetTicks());
 	}
 
 	/**
@@ -146,7 +146,7 @@ public:
 	 */
     DateTime operator-(const Timespan& other) const
 	{
-		return DateTime(_ticks - other.getTicks());
+		return DateTime(_ticks - other.GetTicks());
 	}
 
 	/**
@@ -157,7 +157,7 @@ public:
 	 */
     DateTime& operator-=(const Timespan& other)
 	{
-		_ticks -= other.getTicks();
+		_ticks -= other.GetTicks();
 		return *this;
 	}
 
@@ -236,7 +236,7 @@ public:
 	 *
 	 * @return A DateTime object containing the date.
 	 */
-	DateTime getDate() const
+	DateTime GetDate() const
 	{
 		return DateTime(_ticks - (_ticks % ETimespan::TicksPerDay));
 	}
@@ -248,7 +248,7 @@ public:
 	 * @param outMonth Will contain the number of the month (1-12).
 	 * @param outDay   Will contain the number of the day (1-31).
 	 */
-	void getDate( int32& outYear, int32& outMonth, int32& outDay ) const;
+	void GetDate( int32& outYear, int32& outMonth, int32& outDay ) const;
 
 	/**
 	 * Gets this date's day part (1 to 31).
@@ -256,7 +256,7 @@ public:
 	 * @return Day of the month.
 	 * @see getHour, getHour12, getMillisecond, getMinute, getMonth, getSecond, getYear
 	 */
-	int32 getDay() const;
+	int32 GetDay() const;
 
 	/**
 	 * Calculates this date's day of the week (Sunday - Saturday).
@@ -264,7 +264,7 @@ public:
 	 * @return The week day.
 	 * @see getDayOfYear, getMonthOfYear, getTimeOfDay
 	 */
-	EDayOfWeek getDayOfWeek() const;
+	EDayOfWeek GetDayOfWeek() const;
 
 	/**
 	 * Gets this date's day of the year.
@@ -272,7 +272,7 @@ public:
 	 * @return The day of year.
 	 * @see getDayOfWeek, getMonthOfYear, getTimeOfDay
 	 */
-	int32 getDayOfYear() const;
+	int32 GetDayOfYear() const;
 
 	/**
 	 * Gets this date's hour part in 24-hour clock format (0 to 23).
@@ -280,7 +280,7 @@ public:
 	 * @return The hour.
 	 * @see getDay, getDayOfWeek, getDayOfYear, getHour12, getMillisecond, getMinute, getMonth, getSecond, getYear
 	 */
-	int32 getHour() const
+	int32 GetHour() const
 	{
 		return (int32)((_ticks / ETimespan::TicksPerHour) % 24);
 	}
@@ -291,7 +291,7 @@ public:
 	 * @return The hour in AM/PM format.
 	 * @see getDay, getHour, getMillisecond, getMinute, getMonth, getSecond, getYear
 	 */
-	int32 getHour12() const;
+	int32 GetHour12() const;
 
 	/**
 	 * Returns the Julian Day for this date.
@@ -303,7 +303,7 @@ public:
 	 * @return Julian Day.
 	 * @see fromJulianDay, getModifiedJulianDay
 	 */
-	double getJulianDay() const
+	double GetJulianDay() const
 	{
 		return (double)(1721425.5 + _ticks / ETimespan::TicksPerDay);
 	}
@@ -317,9 +317,9 @@ public:
 	 * @return Modified Julian Day
 	 * @see getJulianDay
 	 */
-	double getModifiedJulianDay() const
+	double GetModifiedJulianDay() const
 	{
-		return (getJulianDay() - 2400000.5);
+		return (GetJulianDay() - 2400000.5);
 	}
 
 	/**
@@ -328,7 +328,7 @@ public:
 	 * @return The millisecond.
 	 * @see getDay, getHour, getHour12, getMinute, getMonth, getSecond, getYear
 	 */
-	int32 getMillisecond() const
+	int32 GetMillisecond() const
 	{
 		return (int32)((_ticks / ETimespan::TicksPerMillisecond) % 1000);
 	}
@@ -339,7 +339,7 @@ public:
 	 * @return The minute.
 	 * @see getDay, getHour, getHour12, getMillisecond, getMonth, getSecond, getYear
 	 */
-	int32 getMinute() const
+	int32 GetMinute() const
 	{
 		return (int32)((_ticks / ETimespan::TicksPerMinute) % 60);
 	}
@@ -350,7 +350,7 @@ public:
 	 * @return The month.
 	 * @see getDay, getHour, getHour12, getMillisecond, getMinute, getSecond, getYear
 	 */
-	int32 getMonth() const;
+	int32 GetMonth() const;
 
 	/**
 	 * Gets the date's month of the year (January to December).
@@ -358,9 +358,9 @@ public:
 	 * @return Month of year.
 	 * @see getDayOfWeek, getDayOfYear, getTimeOfDay
 	 */
-	EMonthOfYear getMonthOfYear() const
+	EMonthOfYear GetMonthOfYear() const
 	{
-		return static_cast<EMonthOfYear>(getMonth());
+		return static_cast<EMonthOfYear>(GetMonth());
 	}
 
 	/**
@@ -369,7 +369,7 @@ public:
 	 * @return The second.
 	 * @see getDay, getHour, getHour12, getMillisecond, getMinute, getMonth, getYear
 	 */
-	int32 getSecond() const
+	int32 GetSecond() const
 	{
 		return (int32)((_ticks / ETimespan::TicksPerSecond) % 60);
 	}
@@ -379,7 +379,7 @@ public:
 	 *
 	 * @return Number of ticks since midnight, January 1, 0001.
 	 */
-	int64 getTicks() const
+	int64 GetTicks() const
 	{
 		return _ticks;
 	}
@@ -390,7 +390,7 @@ public:
 	 * @param Time of day since midnight.
 	 * @see getDayOfWeek, getDayOfYear, getMonthOfYear
 	 */
-	Timespan getTimeOfDay() const
+	Timespan GetTimeOfDay() const
 	{
 		return Timespan(_ticks % ETimespan::TicksPerDay);
 	}
@@ -401,7 +401,7 @@ public:
 	 * @return The year.
 	 * @see GetDay, GetHour, GetHour12, GetMillisecond, GetMinute, GetMonth, GetSecond
 	 */
-	int32 getYear() const;
+	int32 GetYear() const;
 
 	/**
 	 * Gets whether this date's time is in the afternoon.
@@ -409,9 +409,9 @@ public:
 	 * @param true if it is in the afternoon, false otherwise.
 	 * @see isMorning
 	 */
-	bool isAfternoon() const
+	bool IsAfternoon() const
 	{
-		return (getHour() >= 12);
+		return (GetHour() >= 12);
 	}
 
 	/**
@@ -420,9 +420,9 @@ public:
 	 * @param true if it is in the morning, false otherwise.
 	 * @see isAfternoon
 	 */
-	bool isMorning() const
+	bool IsMorning() const
 	{
-		return (getHour() < 12);
+		return (GetHour() < 12);
 	}
 
 	/**
@@ -433,7 +433,7 @@ public:
 	 * @return String representation.
 	 * @see parseIso8601, toString
 	 */
-    std::string toIso8601() const;
+    std::string ToIso8601() const;
 
 	/**
 	 * Returns the string representation of this date using a default format.
@@ -444,7 +444,7 @@ public:
 	 * @return String representation.
 	 * @see parse, toIso8601
 	 */
-    std::string toString() const;
+    std::string ToString() const;
 
 	/**
 	 * Returns the string representation of this date.
@@ -453,7 +453,7 @@ public:
 	 * @return String representation.
 	 * @see parse, toIso8601
 	 */
-	std::string toString( const char* format ) const;
+	std::string ToString( const char* format ) const;
 
 	/**
 	 * Returns this date as the number of seconds since the Unix Epoch (January 1st of 1970).
@@ -461,7 +461,7 @@ public:
 	 * @return Time of day.
 	 * @see fromUnixTimestamp
 	 */
-	int64 toUnixTimestamp() const
+	int64 ToUnixTimestamp() const
 	{
 		return (_ticks - DateTime(1970, 1, 1)._ticks) / ETimespan::TicksPerSecond;
 	}
@@ -476,7 +476,7 @@ public:
 	 * @return The number of days
 	 * @see daysInYear
 	 */
-	static int32 daysInMonth( int32 year, int32 month );
+	static int32 DaysInMonth( int32 year, int32 month );
 
 	/**
 	 * Gets the number of days in the given year.
@@ -485,7 +485,7 @@ public:
 	 * @return The number of days.
 	 * @see daysInMonth
 	 */
-	static int32 daysInYear( int32 year );
+	static int32 DaysInYear( int32 year );
 
 	/**
 	 * Returns the proleptic Gregorian date for the given Julian Day.
@@ -494,7 +494,7 @@ public:
 	 * @return Gregorian date and time.
 	 * @see getJulianDay
 	 */
-	static DateTime fromJulianDay( double julianDay )
+	static DateTime FromJulianDay( double julianDay )
 	{
         return DateTime((int64)((julianDay - 1721425.5) * ETimespan::TicksPerDay));
 	}
@@ -506,7 +506,7 @@ public:
 	 * @return Gregorian date and time.
 	 * @see toUnixTimestamp
 	 */
-	static DateTime fromUnixTimestamp( int64 unixTime )
+	static DateTime FromUnixTimestamp( int64 unixTime )
 	{
         return DateTime(1970, 1, 1) + Timespan(unixTime * ETimespan::TicksPerSecond);
 	}
@@ -521,7 +521,7 @@ public:
 	 * @param year The year to check.
 	 * @return true if the year is a leap year, false otherwise.
 	 */
-	static bool isLeapYear( int32 year );
+	static bool IsLeapYear( int32 year );
 
 	/**
 	 * Returns the maximum date value.
@@ -530,7 +530,7 @@ public:
 	 *
 	 * @see minValue
 	 */
-	static DateTime maxValue()
+	static DateTime MaxValue()
 	{
 		return DateTime(3652059 * ETimespan::TicksPerDay - 1);
 	}
@@ -542,7 +542,7 @@ public:
 	 *
 	 * @see maxValue
 	 */
-	static DateTime minValue()
+	static DateTime MinValue()
 	{
 		return DateTime(0);
 	}
@@ -557,7 +557,7 @@ public:
 	 * @return Current date and time.
 	 * @see Today, utcNow
 	 */
-	static DateTime now();
+	static DateTime Now();
 
     /**
      * Gets the UTC date and time on this computer.
@@ -570,17 +570,17 @@ public:
      * @return Current date and time.
      * @see Now
      */
-    static DateTime utcNow();
+    static DateTime UtcNow();
 
     /**
      * Get the local date and time on this computer
      */
-    static void systemTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
+    static void SystemTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
 
     /**
      * Get the UTC date and time on this computer
      */
-    static void utcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
+    static void UtcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
 
 	/**
 	 * Converts a string to a date and time.
@@ -592,7 +592,7 @@ public:
 	 * @param outDateTime Will contain the parsed date and time.
 	 * @return true if the string was converted successfully, false otherwise.
 	 */
-	static bool parse( const std::string& dateTimeString, DateTime& outDateTime );
+	static bool Parse( const std::string& dateTimeString, DateTime& outDateTime );
 
 	/**
 	 * Parses a date string in ISO-8601 format.
@@ -602,7 +602,7 @@ public:
 	 * @return true if the string was converted successfully, false otherwise.
 	 * @see Parse, ToIso8601
 	 */
-	static bool parseIso8601( const char* dateTimeString, DateTime& outDateTime );
+	static bool ParseIso8601( const char* dateTimeString, DateTime& outDateTime );
 
 	/**
 	 * Gets the local date on this computer.
@@ -612,9 +612,9 @@ public:
 	 * @return Current date.
 	 * @see Now, UtcNow
 	 */
-	static DateTime today()
+	static DateTime Today()
 	{
-		return now().getDate();
+		return Now().GetDate();
 	}
 
 	/**
@@ -631,7 +631,7 @@ public:
 	 *
 	 * @return true if the components are valid, false otherwise.
 	 */
-	static bool validate( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond );
+	static bool Validate( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond );
 
 
     /**
@@ -639,13 +639,13 @@ public:
      *
      * @return Date string
      */
-    static std::string getDateString();
+    static std::string GetDateString();
     /**
      * Get the system time
      *
      * @return Time string
      */
-    static std::string getTimeString();
+    static std::string GetTimeString();
 
     /**
      * Returns a timestamp string built from the current date and time.
@@ -653,7 +653,7 @@ public:
      *
      * @return timestamp string
      */
-    static std::string getTimestampString();
+    static std::string GetTimestampString();
 
 public:
 
@@ -663,7 +663,7 @@ public:
 	 * @param dateTime The date and time to get the hash for.
 	 * @return Hash value.
 	 */
-    size_t getHash()
+    size_t GetHash()
 	{
         return std::hash<int64>()(this->_ticks);
 	}

@@ -24,21 +24,21 @@ public:
 	explicit ProtectedMemoryAllocator(size_t pool_size);
 	~ProtectedMemoryAllocator();
 
-	char*       allocate(vm_size_t size);
+	char*       Allocate(vm_size_t size);
 
-	char*       getBaseAddress(){ return reinterpret_cast<char*>(_baseAddress); }
+	char*       GetBaseAddress(){ return reinterpret_cast<char*>(_baseAddress); }
 
-	vm_size_t   getTotalSize(){ return _poolSize; }
+	vm_size_t   GetTotalSize(){ return _poolSize; }
 
-	vm_size_t   getAllocatedSize(){ return _nextAllocOffset; }
+	vm_size_t   GetAllocatedSize(){ return _nextAllocOffset; }
 
-	bool        protect();
+	bool        Protect();
 
-	bool        unProtect();
+	bool        UnProtect();
 
-	static bool protect(vm_address_t address, vm_size_t size);
+	static bool Protect(vm_address_t address, vm_size_t size);
 
-	static bool unProtect(vm_address_t address, vm_size_t size);
+	static bool UnProtect(vm_address_t address, vm_size_t size);
 
 private:
 	vm_size_t         _poolSize;
@@ -58,12 +58,12 @@ public:
 	explicit ProtectedMemoryLocker(ProtectedMemoryAllocator* allocator) :_allocator(allocator)
 	{
 		_mutex.lock();
-		_allocator->unProtect();
+		_allocator->UnProtect();
 	}
 
 	~ProtectedMemoryLocker()
 	{
-		_allocator->protect();
+		_allocator->Protect();
 		_mutex.unlock();
 	}
 

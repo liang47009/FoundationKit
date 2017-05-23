@@ -10,7 +10,7 @@
 #include <sys/stat.h>
 
 NS_FK_BEGIN
-void FileUtils::initRootPath()
+void FileUtils::InitRootPath()
 {
     if (0 == _resourceRootPath.length())
     {
@@ -18,13 +18,13 @@ void FileUtils::initRootPath()
     }
 }
 
-bool FileUtils::isFileExist(const std::string& filename) const
+bool FileUtils::IsFileExist(const std::string& filename) const
 {
     if (filename.empty())
         return false;
 
     std::string fullPath = filename;
-    if (!isAbsolutePath(fullPath))
+    if (!IsAbsolutePath(fullPath))
     {
         fullPath.insert(0, _resourceRootPath);
     }
@@ -33,7 +33,7 @@ bool FileUtils::isFileExist(const std::string& filename) const
 }
 
 
-std::string FileUtils::getWritablePath() const
+std::string FileUtils::GetWritablePath() const
 {
     struct stat st;
     stat(_writablePath.c_str(), &st);
