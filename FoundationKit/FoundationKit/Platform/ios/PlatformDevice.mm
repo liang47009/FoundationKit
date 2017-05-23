@@ -461,7 +461,7 @@ Rect PlatformDevice::GetScreenNativeResolution()
     {
         auto scale =  [[UIScreen mainScreen] nativeScale];
         CGRect physicalRect =[UIScreen mainScreen].bounds;
-        bounds.size.setSize(physicalRect.size.width*scale , physicalRect.size.height*scale);
+        bounds.size.SetSize(physicalRect.size.width*scale , physicalRect.size.height*scale);
         bounds.origin.set(physicalRect.origin.x, physicalRect.origin.y);
     }
     else

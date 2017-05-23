@@ -46,7 +46,7 @@ void Environment::SetEnvironmentVariable(const std::string& variable, const std:
 
 Environment::stringvec Environment::GetCommandLineArgs()
 {
-    stringvec commandArgs = StringUtils::split(GSavedCommandLine, ' ');
+    stringvec commandArgs = StringUtils::Split(GSavedCommandLine, ' ');
     return commandArgs;
 }
 

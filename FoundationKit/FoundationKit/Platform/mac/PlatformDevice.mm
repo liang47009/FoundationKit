@@ -245,7 +245,7 @@ std::string PlatformDevice::GetCPUArch()
             else if(cpuSubType == CPU_SUBTYPE_ARM_V7S) cpuTypeString.append("v7s");
             else if(cpuSubType == CPU_SUBTYPE_ARM_V7K) cpuTypeString.append("v7k");
             else if(cpuSubType == CPU_SUBTYPE_ARM_V8) cpuTypeString.append("v8");
-            else cpuTypeString.append(StringUtils::to_string(cpuSubType));
+            else cpuTypeString.append(StringUtils::Tostring(cpuSubType));
             break;
         case CPU_TYPE_ARM64:
             cpuTypeString.append("arm64");
@@ -261,7 +261,7 @@ std::string PlatformDevice::GetCPUArch()
             cpuTypeString.append("x86_64");
             break;
         default:
-            cpuTypeString.append(StringUtils::to_string(cpuType) + StringUtils::to_string(cpuSubType));
+            cpuTypeString.append(StringUtils::Tostring(cpuType) + StringUtils::Tostring(cpuSubType));
             break;
     }
     return cpuTypeString;
