@@ -30,46 +30,46 @@ NS_FK_BEGIN
 inline const Vector3 Vector3::operator+(const Vector3& v) const
 {
     Vector3 result(*this);
-    result.add(v);
+    result.Add(v);
     return result;
 }
 
 inline Vector3& Vector3::operator+=(const Vector3& v)
 {
-    add(v);
+    Add(v);
     return *this;
 }
 
 inline const Vector3 Vector3::operator-(const Vector3& v) const
 {
     Vector3 result(*this);
-    result.subtract(v);
+    result.Subtract(v);
     return result;
 }
 
 inline Vector3& Vector3::operator-=(const Vector3& v)
 {
-    subtract(v);
+    Subtract(v);
     return *this;
 }
 
 inline const Vector3 Vector3::operator-() const
 {
     Vector3 result(*this);
-    result.negate();
+    result.Negate();
     return result;
 }
 
 inline const Vector3 Vector3::operator*(float x) const
 {
     Vector3 result(*this);
-    result.scale(x);
+    result.Scale(x);
     return result;
 }
 
 inline Vector3& Vector3::operator*=(float x)
 {
-    scale(x);
+    Scale(x);
     return *this;
 }
 
@@ -104,7 +104,7 @@ inline bool Vector3::operator!=(const Vector3& v) const
 inline const Vector3 operator*(float x, const Vector3& v)
 {
     Vector3 result(v);
-    result.scale(x);
+    result.Scale(x);
     return result;
 }
 

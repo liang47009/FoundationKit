@@ -36,7 +36,6 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include <stdint.h>
 #include <vector>
 #include <string>
 #include "FoundationKit/FoundationMacros.hpp"
@@ -118,19 +117,19 @@ public:
     ///** > operator overloading */
     //bool operator > (const Value & other) const;
 
-    inline bool isNull()  const { return _type == Type::NONE; }
-    inline Type getType() const { return _type; };
-    void        copy(Value&  other);
-    void        swap(Value&  other);
-    void        clear();
+    inline bool IsNull()  const { return _type == Type::NONE; }
+    inline Type GetType() const { return _type; };
+    void        Copy(Value&  other);
+    void        Swap(Value&  other);
+    void        Clear();
 
 //================= Define Template Method =================
     template< typename T >
-    inline T as();
+    inline T As();
 
 private:
 
-    void reset(Type valType);
+    void Reset(Type valType);
 
     Value(Type valType);
     union

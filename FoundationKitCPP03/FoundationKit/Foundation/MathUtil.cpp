@@ -21,7 +21,7 @@
 
 NS_FK_BEGIN
 
-void MathUtil::smooth(float* x, float target, float elapsedTime, float responseTime)
+void MathUtil::Smooth(float* x, float target, float elapsedTime, float responseTime)
 {
     assert(x);
 
@@ -31,7 +31,7 @@ void MathUtil::smooth(float* x, float target, float elapsedTime, float responseT
     }
 }
 
-void MathUtil::smooth(float* x, float target, float elapsedTime, float riseTime, float fallTime)
+void MathUtil::Smooth(float* x, float target, float elapsedTime, float riseTime, float fallTime)
 {
     assert(x);
     

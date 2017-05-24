@@ -25,127 +25,121 @@ NS_FK_BEGIN
 /// https://github.com/mosra/magnum/tree/master/src/Magnum/Math
 namespace Math
 {
-#ifdef max
-#undef max
-#endif
-#ifdef min
-#undef min
-#endif
     /// returns the maximum of two values
     template< typename T >
-    FORCEINLINE T max(T v1, T v2)
+    FORCEINLINE T Max(T v1, T v2)
     {
         return v1 > v2 ? v1 : v2;
     }
 
     /// returns the minimum of two values
     template <typename T>
-    FORCEINLINE T min(T v1, T v2)
+    FORCEINLINE T Min(T v1, T v2)
     {
         return v1 < v2 ? v1 : v2;
     }
 
 	/// Returns the absolute value of val.
     template< typename T>
-    FORCEINLINE T abs(T val)
+    FORCEINLINE T Abs(T val)
 	{
         return std::abs(val);
     }
 
 	/// Returns the arc-cosine of val - the angle in radians whose cosine is val.
 	template< typename T >
-    FORCEINLINE T acos(T val)
+    FORCEINLINE T Acos(T val)
 	{
         return std::acos(val);
     }
 
 	/// Returns the arc-sine of val - the angle in radians whose sine is val.
 	template< typename T >
-    FORCEINLINE T asin(const T val)
+    FORCEINLINE T Asin(const T val)
 	{ 
         return std::asin(val);
     }
 
 	/// Returns the arc-tangent of val - the angle in radians whose tangent is val.
 	template< typename T >
-    FORCEINLINE T atan(const T val)
+    FORCEINLINE T Atan(const T val)
 	{ 
         return std::atan(val); 
     }
 
 	/// Returns the angle in radians whose Tan is y/x.
 	template< typename T >
-    FORCEINLINE T atan2(const T y, const T x)
+    FORCEINLINE T Atan2(const T y, const T x)
 	{ 
         return std::atan2(y, x); 
     }
 
 	/// Returns the smallest integer greater to or equal to val.
 	template< typename T >
-    FORCEINLINE T ceil(const T val)
+    FORCEINLINE T Ceil(const T val)
 	{ 
         return std::ceil(val); 
     }
 
 	/// Returns the smallest integer greater to or equal to val.
 	template< typename T >
-    FORCEINLINE int ceilToInt(const T val)
+    FORCEINLINE int CeilToInt(const T val)
 	{
         return static_cast<int>(std::ceil(val)); 
     }
 
 	/// Returns the largest integer smaller to or equal to val.
 	template< typename T >
-    FORCEINLINE T floor(T val)
+    FORCEINLINE T Floor(T val)
 	{
 		return std::floor(val);
 	}
 
 	/// Returns the largest integer smaller to or equal to val.
 	template< typename T >
-    FORCEINLINE int floorToInt(T val)
+    FORCEINLINE int FloorToInt(T val)
 	{
 		return static_cast<int>(std::floor(val));
 	}
 
 	/// Clamps val value between a minimum and maximum value.
 	template< typename T>
-    FORCEINLINE T clamp(T val, T minVal, T maxVal)
+    FORCEINLINE T Clamp(T val, T minVal, T maxVal)
 	{
         return std::min(std::max(val, minVal), maxVal);
 	}
 
 	/// Clamps value between 0 and 1 and returns value.
 	template< typename T>
-    FORCEINLINE T clamp01(T val)
+    FORCEINLINE T Clamp01(T val)
 	{ 
         return std::min(std::max(val, 0), 1);
     }
 
 	/// Returns the cosine of angle f in radians.
 	template< typename T >
-    FORCEINLINE T cos(T val)
+    FORCEINLINE T Cos(T val)
 	{ 
         return std::cos(val);
     }
 
 	/// Returns e raised to the specified power.
 	template< typename T >
-    FORCEINLINE T exp(T power)
+    FORCEINLINE T Exp(T power)
 	{ 
         return std::exp(power);
     }
 
     /// Returns the natural (base e) logarithm of val specified value.
     template< typename T >
-    FORCEINLINE T log(T val)
+    FORCEINLINE T Log(T val)
     {
         return std::log(val);
     }
 
     /// Returns the base 10 logarithm of val specified value.
     template< typename T >
-    FORCEINLINE T log10(T val0)
+    FORCEINLINE T Log10(T val0)
     {
         return std::log10(val0);
     }
@@ -153,35 +147,35 @@ namespace Math
 
     /// Returns the sign of val.
     template <typename T>
-    FORCEINLINE T sign(T val)
+    FORCEINLINE T Sign(T val)
     {
         return (val >(T)0) ? (T)1 : ((val < (T)0) ? (T)-1 : (T)0);
     }
 
     /// Returns the sine of angle val in radians.
     template <typename T>
-    FORCEINLINE T sin(T val)
+    FORCEINLINE T Sin(T val)
     {
         return std::sin(val);
     }
 
     /// Returns square root of val.
     template <typename T>
-    FORCEINLINE T sqrt(T val)
+    FORCEINLINE T Sqrt(T val)
     {
         return std::sqrt(val);
     }
 
     /// Returns the tangent of angle val in radians.
     template <typename T>
-    FORCEINLINE T tan(T val)
+    FORCEINLINE T Tan(T val)
     {
         return std::tan(val);
     }
 
     /// Returns f raised to power p.
     template< typename T, typename U >
-    FORCEINLINE T pow(T f, U p)
+    FORCEINLINE T Pow(T f, U p)
     {
         return std::pow(f, p);
     }
@@ -193,7 +187,7 @@ namespace Math
     * operator. eg. 1.0 == 10.0 / 10.0 might not return true.
     */
     template< typename T1, typename T2 >
-    FORCEINLINE bool approximately(const T1 a, const T2 b)
+    FORCEINLINE bool Approximately(const T1 a, const T2 b)
     {
         return roughlyEqual(a, b, 0.1f);
     }
@@ -213,14 +207,14 @@ namespace Math
     * @return True if the values are similar, otherwise false.
     */
 	template< typename T, typename U, typename V>
-    FORCEINLINE bool roughlyEqual(const T v1, const U v2, const V threshold = 0.01f)
+    FORCEINLINE bool RoughlyEqual(const T v1, const U v2, const V threshold = 0.01f)
 	{ 
         return std::abs(v1 - v2) <= threshold;  
     }
 
 	/// Returns f rounded to the nearest integer.
     template <typename T>
-    FORCEINLINE T round(T val)
+    FORCEINLINE T Round(T val)
     {
 #if TARGET_PLATFORM == PLATFORM_ANDROID
         return (val > T(0)) ? std::floor(val + T(0.5)) : std::ceil(val - T(0.5));
@@ -229,42 +223,42 @@ namespace Math
 #endif
     }
 
-    FORCEINLINE bool equal(const float& v1, const float& v2)
+    FORCEINLINE bool Equal(const float& v1, const float& v2)
     {
         return (std::fabs(v1 - v2) < 1E-12);
     }
 
-    FORCEINLINE bool equal(const double& v1, const double& v2)
+    FORCEINLINE bool Equal(const double& v1, const double& v2)
     {
         return (std::fabs(v1 - v2) < 1E-12);
     }
 
     template< typename T >
-    FORCEINLINE bool fuzzyEqual(T v1, T v2, T var)
+    FORCEINLINE bool FuzzyEqual(T v1, T v2, T var)
     {
         return(v1 - var <= v2 && v2 <= v1 + var);
     }
 
     /// Return true if the parameter is equal to zero
-    FORCEINLINE bool isZero(double val)
+    FORCEINLINE bool IsZero(double val)
     {
         return ((-MinDouble < val) && (val < MinDouble));
     }
 
     /// Returns if the value is powered by two.
-    FORCEINLINE bool isPowerOfTwo(int val)
+    FORCEINLINE bool IsPowerOfTwo(int val)
     {
         return (val > 0) && ((val & (val - 1)) == 0);
     }
 
-    FORCEINLINE double sigmoid(double input, double response = 1.0)
+    FORCEINLINE double Sigmoid(double input, double response = 1.0)
     {
         return (1.0 / (1.0 + exp(-input / response)));
     }
 
     // return true is the third parameter is in the range described by the first two
     template< typename T, typename U, typename V>
-    FORCEINLINE bool inRange(T start, U end, V val)
+    FORCEINLINE bool InRange(T start, U end, V val)
     {
         if (start < end)
         {
@@ -284,7 +278,7 @@ namespace Math
     *  @param[in] radians The angle in radians.
     *  @return    The angle in degrees.
     */
-    FORCEINLINE float radiansToDegrees(float radians)
+    FORCEINLINE float RadiansToDegrees(float radians)
     {
         return static_cast<float>(radians * 57.295779513082320876798154814105);
     }
@@ -296,13 +290,13 @@ namespace Math
     *  @param[in]  degrees  The angle in degrees.
     *  @return     The angle in radians.
     */
-    FORCEINLINE float degreesToRadians(float degrees)
+    FORCEINLINE float DegreesToRadians(float degrees)
     {
         return static_cast<float>(degrees * 0.017453292519943295769236907684886);
     }
 
 	template<typename T>
-	double average(const std::vector<T>& vec)
+	double Average(const std::vector<T>& vec)
 	{
 		double dAverage = 0.0;
         std::vector<T>::const_iterator iter = vec.begin();
@@ -314,12 +308,12 @@ namespace Math
 	}
 
 	/// Get the next power of two after val value.
-	int nextPowerOfTwo(int val);
+	int NextPowerOfTwo(int val);
 
 	/// Returns the closest power of two to val value.
-	int closestPowerOfTwo(int val);
+	int ClosestPowerOfTwo(int val);
 
-	double standardDeviation(const std::vector<double>& vec);
+	double StandardDeviation(const std::vector<double>& vec);
 
 } // namespace Math
 

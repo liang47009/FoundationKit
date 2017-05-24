@@ -33,12 +33,12 @@ NS_FK_BEGIN
 class Vector4
 {
 public:
-    static Vector4 Zero;   //Vector4();
-    static Vector4 Unit;   //Vector4(1f, 1f, 1f, 1f);
-    static Vector4 UnitX;  //Vector4(1f, 0f, 0f, 0f);
-    static Vector4 UnitY;  //Vector4(0f, 1f, 0f, 0f);
-    static Vector4 UnitZ;  //Vector4(0f, 0f, 1f, 0f);
-    static Vector4 UnitW;  //Vector4(0f, 0f, 0f, 1f);
+    static Vector4 ZERO;   //Vector4();
+    static Vector4 UNIT;   //Vector4(1f, 1f, 1f, 1f);
+    static Vector4 UNITX;  //Vector4(1f, 0f, 0f, 0f);
+    static Vector4 UNITY;  //Vector4(0f, 1f, 0f, 0f);
+    static Vector4 UNITZ;  //Vector4(0f, 0f, 1f, 0f);
+    static Vector4 UNITW;  //Vector4(0f, 0f, 0f, 1f);
     /**
      * The x-coordinate.
      */
@@ -106,7 +106,7 @@ public:
      *
      * @return A vector corresponding to the interpreted RGBA color.
      */
-    static Vector4 fromColor(unsigned int color);
+    static Vector4 FromColor(unsigned int color);
 
     /**
      * Destructor.
@@ -118,56 +118,56 @@ public:
      *
      * @return The 4-element vector of 0s.
      */
-    static const Vector4& zero();
+    static const Vector4& Zero();
 
     /**
      * Returns the one vector.
      *
      * @return The 4-element vector of 1s.
      */
-    static const Vector4& one();
+    static const Vector4& One();
 
     /**
      * Returns the unit x vector.
      *
      * @return The 4-element unit vector along the x axis.
      */
-    static const Vector4& unitX();
+    static const Vector4& UnitX();
 
     /**
      * Returns the unit y vector.
      *
      * @return The 4-element unit vector along the y axis.
      */
-    static const Vector4& unitY();
+    static const Vector4& UnitY();
 
     /**
      * Returns the unit z vector.
      *
      * @return The 4-element unit vector along the z axis.
      */
-    static const Vector4& unitZ();
+    static const Vector4& UnitZ();
 
     /**
      * Returns the unit w vector.
      *
      * @return The 4-element unit vector along the w axis.
      */
-    static const Vector4& unitW();
+    static const Vector4& UnitW();
 
     /**
      * Indicates whether this vector contains all zeros.
      *
      * @return true if this vector contains all zeros, false otherwise.
      */
-    bool isZero() const;
+    bool IsZero() const;
 
     /**
      * Indicates whether this vector contains all ones.
      *
      * @return true if this vector contains all ones, false otherwise.
      */
-    bool isOne() const;
+    bool IsOne() const;
 
     /**
      * Returns the angle (in radians) between the specified vectors.
@@ -177,14 +177,14 @@ public:
      * 
      * @return The angle between the two vectors (in radians).
      */
-    static float angle(const Vector4& v1, const Vector4& v2);
+    static float Angle(const Vector4& v1, const Vector4& v2);
 
     /**
      * Adds the elements of the specified vector to this one.
      *
      * @param v The vector to add.
      */
-    void add(const Vector4& v);
+    void Add(const Vector4& v);
 
     /**
      * Adds the specified vectors and stores the result in dst.
@@ -193,7 +193,7 @@ public:
      * @param v2 The second vector.
      * @param dst A vector to store the result in.
      */
-    static void add(const Vector4& v1, const Vector4& v2, Vector4* dst);
+    static void Add(const Vector4& v1, const Vector4& v2, Vector4* dst);
 
     /**
      * Clamps this vector within the specified range.
@@ -201,7 +201,7 @@ public:
      * @param min The minimum value.
      * @param max The maximum value.
      */
-    void clamp(const Vector4& min, const Vector4& max);
+    void Clamp(const Vector4& min, const Vector4& max);
 
     /**
      * Clamps the specified vector within the specified range and returns it in dst.
@@ -211,7 +211,7 @@ public:
      * @param max The maximum value.
      * @param dst A vector to store the result in.
      */
-    static void clamp(const Vector4& v, const Vector4& min, const Vector4& max, Vector4* dst);
+    static void Clamp(const Vector4& v, const Vector4& min, const Vector4& max, Vector4* dst);
 
     /**
      * Returns the distance between this vector and v.
@@ -222,7 +222,7 @@ public:
      * 
      * @see distanceSquared
      */
-    float distance(const Vector4& v) const;
+    float Distance(const Vector4& v) const;
 
     /**
      * Returns the squared distance between this vector and v.
@@ -238,7 +238,7 @@ public:
      * 
      * @see distance
      */
-    float distanceSquared(const Vector4& v) const;
+    float DistanceSquared(const Vector4& v) const;
 
     /**
      * Returns the dot product of this vector and the specified vector.
@@ -247,7 +247,7 @@ public:
      * 
      * @return The dot product.
      */
-    float dot(const Vector4& v) const;
+    float Dot(const Vector4& v) const;
 
     /**
      * Returns the dot product between the specified vectors.
@@ -257,7 +257,7 @@ public:
      * 
      * @return The dot product between the vectors.
      */
-    static float dot(const Vector4& v1, const Vector4& v2);
+    static float Dot(const Vector4& v1, const Vector4& v2);
 
     /**
      * Computes the length of this vector.
@@ -266,7 +266,7 @@ public:
      * 
      * @see lengthSquared
      */
-    float length() const;
+    float Length() const;
 
     /**
      * Returns the squared length of this vector.
@@ -280,12 +280,12 @@ public:
      * 
      * @see length
      */
-    float lengthSquared() const;
+    float LengthSquared() const;
 
     /**
      * Negates this vector.
      */
-    void negate();
+    void Negate();
 
     /**
      * Normalizes this vector.
@@ -298,7 +298,7 @@ public:
      * 
      * @return This vector, after the normalization occurs.
      */
-    Vector4& normalize();
+    Vector4& Normalize();
 
     /**
      * Normalizes this vector and stores the result in dst.
@@ -309,14 +309,14 @@ public:
      *
      * @param dst The destination vector.
      */
-    void normalize(Vector4* dst) const;
+    void Normalize(Vector4* dst) const;
 
     /**
      * Scales all elements of this vector by the specified value.
      *
      * @param scalar The scalar value.
      */
-    void scale(float scalar);
+    void Scale(float scalar);
 
     /**
      * Sets the elements of this vector to the specified values.
@@ -326,21 +326,21 @@ public:
      * @param z The new z coordinate.
      * @param w The new w coordinate.
      */
-    void set(float x, float y, float z, float w);
+    void Set(float x, float y, float z, float w);
 
     /**
      * Sets the elements of this vector from the values in the specified array.
      *
      * @param array An array containing the elements of the vector in the order x, y, z, w.
      */
-    void set(const float* array);
+    void Set(const float* array);
 
     /**
      * Sets the elements of this vector to those in the specified vector.
      *
      * @param v The vector to copy.
      */
-    void set(const Vector4& v);
+    void Set(const Vector4& v);
 
     /**
      * Sets this vector to the directional vector between the specified points.
@@ -348,7 +348,7 @@ public:
      * @param p1 The first point.
      * @param p2 The second point.
      */
-    void set(const Vector4& p1, const Vector4& p2);
+    void Set(const Vector4& p1, const Vector4& p2);
 
     /**
      * Subtracts this vector and the specified vector as (this - v)
@@ -356,7 +356,7 @@ public:
      *
      * @param v The vector to subtract.
      */
-    void subtract(const Vector4& v);
+    void Subtract(const Vector4& v);
 
     /**
      * Subtracts the specified vectors and stores the result in dst.
@@ -366,7 +366,7 @@ public:
      * @param v2 The second vector.
      * @param dst The destination vector.
      */
-    static void subtract(const Vector4& v1, const Vector4& v2, Vector4* dst);
+    static void Subtract(const Vector4& v1, const Vector4& v2, Vector4* dst);
 
     /**
      * Calculates the sum of this vector with the given vector.

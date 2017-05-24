@@ -6,6 +6,7 @@ losemymind.libo@gmail.com
 ****************************************************************************/
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+
 #include <Shlobj.h>
 #include <cstdlib>
 #include <Windows.h>
@@ -13,8 +14,9 @@ losemymind.libo@gmail.com
 #include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Platform/FileUtils.hpp"
 
+NS_FK_BEGIN
 
-std::string convertPathFormatToWindowsStyle(const std::string& path)
+std::string ConvertPathFormatToWindowsStyle(const std::string& path)
 {
     std::string ret = path;
     size_t len = ret.length();
@@ -28,9 +30,8 @@ std::string convertPathFormatToWindowsStyle(const std::string& path)
     return ret;
 }
 
-NS_FK_BEGIN
 #define IS_WMAIN 1
-void FileUtils::initRootPath()
+void FileUtils::InitRootPath()
 {
     if (0 == _resourceRootPath.length())
     {
@@ -44,7 +45,7 @@ void FileUtils::initRootPath()
         WCHAR *pUtf16DirEnd = wcsrchr(pUtf16ExePath, L'\\');
         char utf8ExeDir[MAX_PATH] = { 0 };
         WideCharToMultiByte(CP_ACP, 0, pUtf16ExePath, pUtf16DirEnd - pUtf16ExePath + 1, utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
-        _resourceRootPath = convertPathFormatToUnixStyle(utf8ExeDir);
+        _resourceRootPath = ConvertPathFormatToUnixStyle(utf8ExeDir);
 
 #else
         char *pUtf16ExePath = nullptr;
@@ -56,18 +57,18 @@ void FileUtils::initRootPath()
         char *pUtf16DirEnd = strrchr(pUtf16ExePath, '\\');
         char utf8ExeDir[MAX_PATH] = { 0 };
         memcpy(utf8ExeDir, pUtf16ExePath, pUtf16DirEnd - pUtf16ExePath + 1);
-        _resourceRootPath = convertPathFormatToUnixStyle(utf8ExeDir);
+        _resourceRootPath = ConvertPathFormatToUnixStyle(utf8ExeDir);
 #endif
     }
 }
 
-bool FileUtils::isFileExist(const std::string& filename) const
+bool FileUtils::IsFileExist(const std::string& filename) const
 {
     if (filename.empty())
         return false;
 
     std::string fullPath = filename;
-    if (!isAbsolutePath(fullPath))
+    if (!IsAbsolutePath(fullPath))
     {
         fullPath.insert(0, _resourceRootPath);
     }
@@ -78,14 +79,14 @@ bool FileUtils::isFileExist(const std::string& filename) const
     return true;
 }
 
-bool FileUtils::moveFile(const std::string &oldfullpath, const std::string &newfullpath)const
+bool FileUtils::MoveFile(const std::string &oldfullpath, const std::string &newfullpath)const
 {
     return MoveFileA(oldfullpath.c_str(), newfullpath.c_str()) != 0;
 }
 
-bool FileUtils::createDirectory(const std::string& dirPath)const
+bool FileUtils::CreateDirectory(const std::string& dirPath)const
 {
-    if (isDirectoryExist(dirPath))
+    if (IsDirectoryExist(dirPath))
         return true;
 
     std::wstring path = StringUtils::string2UTF8wstring(dirPath);
@@ -124,9 +125,9 @@ bool FileUtils::createDirectory(const std::string& dirPath)const
             subpath += dirs[i];
 
             std::string utf8Path = StringUtils::wstring2UTF8string(subpath);
-            if (!isDirectoryExist(utf8Path))
+            if (!IsDirectoryExist(utf8Path))
             {
-                BOOL ret = CreateDirectory(subpath.c_str(), NULL);
+                BOOL ret = ::CreateDirectory(subpath.c_str(), NULL);
                 if (!ret && ERROR_ALREADY_EXISTS != GetLastError())
                 {
                     LOG_ERROR("Fail create directory %s !Error code is 0x%x", utf8Path.c_str(), GetLastError());
@@ -138,7 +139,7 @@ bool FileUtils::createDirectory(const std::string& dirPath)const
     return true;
 }
 
-bool FileUtils::removeDirectory(const std::string& dirPath)
+bool FileUtils::RemoveDirectory(const std::string& dirPath)
 {
     std::wstring wpath = StringUtils::string2UTF8wstring(dirPath);
     std::wstring files = wpath + L"*.*";
@@ -157,7 +158,7 @@ bool FileUtils::removeDirectory(const std::string& dirPath)
                 if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
                 {
                     temp += '/';
-                    ret = ret && this->removeDirectory(StringUtils::wstring2UTF8string(temp));
+                    ret = ret && this->RemoveDirectory(StringUtils::wstring2UTF8string(temp));
                 }
                 else
                 {
@@ -169,16 +170,16 @@ bool FileUtils::removeDirectory(const std::string& dirPath)
         }
         FindClose(search);
     }
-    if (ret && RemoveDirectory(wpath.c_str()))
+    if (ret && ::RemoveDirectory(wpath.c_str()))
     {
         return true;
     }
     return false;
 }
 
-bool FileUtils::removeFile(const std::string &filepath)
+bool FileUtils::RemoveFile(const std::string &filepath)
 {
-    std::string win32path = convertPathFormatToWindowsStyle(filepath);
+    std::string win32path = ConvertPathFormatToWindowsStyle(filepath);
     if (DeleteFile(StringUtils::string2UTF8wstring(win32path).c_str()))
     {
         return true;
@@ -190,19 +191,19 @@ bool FileUtils::removeFile(const std::string &filepath)
     }
 }
 
-bool FileUtils::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
+bool FileUtils::RenameFile(const std::string &path, const std::string &oldname, const std::string &name)
 {
     std::string oldPath = path + oldname;
     std::string newPath = path + name;
 
-    std::string _old = convertPathFormatToWindowsStyle(oldPath);
-    std::string _new = convertPathFormatToWindowsStyle(newPath);
-    return renameFile(_old, _new);
+    std::string _old = ConvertPathFormatToWindowsStyle(oldPath);
+    std::string _new = ConvertPathFormatToWindowsStyle(newPath);
+    return RenameFile(_old, _new);
 }
 
-bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &newfullpath)
+bool FileUtils::RenameFile(const std::string &oldfullpath, const std::string &newfullpath)
 {
-    if (FileUtils::getInstance()->isFileExist(newfullpath))
+    if (IsFileExist(newfullpath))
     {
         if (!DeleteFileA(newfullpath.c_str()))
         {
@@ -222,7 +223,7 @@ bool FileUtils::renameFile(const std::string &oldfullpath, const std::string &ne
 }
 
 
-std::string FileUtils::getWritablePath() const
+std::string FileUtils::GetWritablePath() const
 {
     if (!_writablePath.empty())
     {
@@ -271,7 +272,7 @@ std::string FileUtils::getWritablePath() const
         retPath = retPath.substr(0, retPath.rfind(L"\\") + 1);
     }
 
-    return convertPathFormatToUnixStyle(StringUtils::wstring2UTF8string(retPath));
+    return ConvertPathFormatToUnixStyle(StringUtils::wstring2UTF8string(retPath));
 }
 
 

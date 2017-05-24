@@ -11,7 +11,7 @@ NS_FK_BEGIN
 namespace Math
 {
 
-int nextPowerOfTwo( int val )
+int NextPowerOfTwo( int val )
 {
     val = val - 1;
     if (val < 0)
@@ -24,17 +24,17 @@ int nextPowerOfTwo( int val )
     return val + 1;
 }
 
-int closestPowerOfTwo( int val )
+int ClosestPowerOfTwo( int val )
 {
-    int b = nextPowerOfTwo(val);
+    int b = NextPowerOfTwo(val);
     int c = b / 2;
     return val - c < b - val ? c : b;
 }
 
-double standardDeviation( const std::vector<double>& vec )
+double StandardDeviation( const std::vector<double>& vec )
 {
     double sd = 0.0;
-    double dAverage = average<double>(vec);
+    double dAverage = Average<double>(vec);
     for (unsigned int i=0; i < vec.size(); ++i)
     {
         sd +=(vec[i]- dAverage)*(vec[i] - dAverage);

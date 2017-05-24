@@ -15,76 +15,75 @@ NS_FK_BEGIN
 
 Rect::Rect(void)
 {
-    setRect(0.0f, 0.0f, 0.0f, 0.0f);
+    SetRect(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 Rect::Rect(float x, float y, float width, float height)
 {
-    setRect(x, y, width, height);
+    SetRect(x, y, width, height);
 }
 
 Rect::Rect(const Rect& other)
 {
-    setRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
+    SetRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
 }
 
 Rect& Rect::operator= (const Rect& other)
 {
-    setRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
+    SetRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
     return *this;
 }
 
-void Rect::setRect(float x, float y, float width, float height)
+void Rect::SetRect(float x, float y, float width, float height)
 {
     origin.x = x;
     origin.y = y;
-
     size.width = width;
     size.height = height;
 }
 
-bool Rect::equals(const Rect& rect) const
+bool Rect::Equals(const Rect& rect) const
 {
     return ((origin == rect.origin) && 
-            size.equals(rect.size));
+            size.Equals(rect.size));
 }
 
-float Rect::getMaxX() const
+float Rect::GetMaxX() const
 {
     return origin.x + size.width;
 }
 
-float Rect::getMidX() const
+float Rect::GetMidX() const
 {
     return origin.x + size.width / 2.0f;
 }
 
-float Rect::getMinX() const
+float Rect::GetMinX() const
 {
     return origin.x;
 }
 
-float Rect::getMaxY() const
+float Rect::GetMaxY() const
 {
     return origin.y + size.height;
 }
 
-float Rect::getMidY() const
+float Rect::GetMidY() const
 {
     return origin.y + size.height / 2.0f;
 }
 
-float Rect::getMinY() const
+float Rect::GetMinY() const
 {
     return origin.y;
 }
 
-bool Rect::containsPoint(const Vector2& point) const
+bool Rect::ContainsPoint(const Vector2& point) const
 {
     bool bRet = false;
 
-    if (point.x >= getMinX() && point.x <= getMaxX()
-        && point.y >= getMinY() && point.y <= getMaxY())
+    if (point.x >= GetMinX() && point.x <= GetMaxX()
+        && point.y >= GetMinY() && point.y <= GetMaxY())
     {
         bRet = true;
     }
@@ -92,19 +91,19 @@ bool Rect::containsPoint(const Vector2& point) const
     return bRet;
 }
 
-bool Rect::intersectsRect(const Rect& rect) const
+bool Rect::IntersectsRect(const Rect& rect) const
 {
-    return !(     getMaxX() < rect.getMinX() ||
-             rect.getMaxX() <      getMinX() ||
-                  getMaxY() < rect.getMinY() ||
-             rect.getMaxY() <      getMinY());
+    return !(     GetMaxX() < rect.GetMinX() ||
+             rect.GetMaxX() <      GetMinX() ||
+                  GetMaxY() < rect.GetMinY() ||
+             rect.GetMaxY() <      GetMinY());
 }
 
-Rect Rect::unionWithRect(const Rect & rect) const
+Rect Rect::UnionWithRect(const Rect & rect) const
 {
-    float thisLeftX = origin.x;
-    float thisRightX = origin.x + size.width;
-    float thisTopY = origin.y + size.height;
+    float thisLeftX   = origin.x;
+    float thisRightX  = origin.x + size.width;
+    float thisTopY    = origin.y + size.height;
     float thisBottomY = origin.y;
     
     if (thisRightX < thisLeftX)
@@ -117,9 +116,9 @@ Rect Rect::unionWithRect(const Rect & rect) const
         std::swap(thisTopY, thisBottomY);   // This rect has negative height
     }
     
-    float otherLeftX = rect.origin.x;
-    float otherRightX = rect.origin.x + rect.size.width;
-    float otherTopY = rect.origin.y + rect.size.height;
+    float otherLeftX   = rect.origin.x;
+    float otherRightX  = rect.origin.x + rect.size.width;
+    float otherTopY    = rect.origin.y + rect.size.height;
     float otherBottomY = rect.origin.y;
     
     if (otherRightX < otherLeftX)
@@ -132,9 +131,9 @@ Rect Rect::unionWithRect(const Rect & rect) const
         std::swap(otherTopY, otherBottomY);   // Other rect has negative height
     }
     
-    float combinedLeftX = std::min(thisLeftX, otherLeftX);
-    float combinedRightX = std::max(thisRightX, otherRightX);
-    float combinedTopY = std::max(thisTopY, otherTopY);
+    float combinedLeftX   = std::min(thisLeftX, otherLeftX);
+    float combinedRightX  = std::max(thisRightX, otherRightX);
+    float combinedTopY    = std::max(thisTopY, otherTopY);
     float combinedBottomY = std::min(thisBottomY, otherBottomY);
     
     return Rect(combinedLeftX, combinedBottomY, combinedRightX - combinedLeftX, combinedTopY - combinedBottomY);

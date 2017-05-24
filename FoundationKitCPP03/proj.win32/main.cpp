@@ -113,7 +113,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    std::string resourceRoot =FileUtils::getInstance()->getResourceRootPath();
+    std::string resourceRoot =FileUtils::GetInstance()->GetResourceRootPath();
 
     bool bWindowed = true;
     std::string appIconPath = resourceRoot+"..\\res\\app.ico";

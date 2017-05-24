@@ -86,59 +86,55 @@ public:
     Timer(const TimerOption& other);
     ~Timer();
 
-    static Timer::pointer create();
-    static Timer::pointer create(int interval);
-    static Timer::pointer create(const TimerOption& option);
+    static Timer::pointer Create();
+    static Timer::pointer Create(int interval);
+    static Timer::pointer Create(const TimerOption& option);
 
-    void setOption(const TimerOption& option);
+    void SetOption(const TimerOption& option);
 
     // Sets a value indicating whether the Timer should raise the timed event.
-    Timer& setEnabled(bool value);
+    Timer& SetEnabled(bool value);
 
     // Sets the interval, expressed in milliseconds, at which to raise the timed event.
-    Timer& setInterval(int value);
+    Timer& SetInterval(int value);
 
     // The scale at which the time is passing. This can be used for slow motion effects.
-    Timer&  setTimeScale(float value);
+    Timer&  SetTimeScale(float value);
 
     // The maximum time a frame can take, expressed in milliseconds.
-    Timer&  setMaximumDeltaTime(int value);
+    Timer&  SetMaximumDeltaTime(int value);
 
     // Sets a value indicating the Timer invoke timed event to count, default Timer::repeat_forever
-    Timer&  setRepeatCount(int value);
+    Timer&  SetRepeatCount(int value);
 
 
     // Gets a value indicating whether the Timer should raise the timed event.
-    bool getEnabled()const;
+    bool GetEnabled()const;
 
     // Gets the interval, expressed in milliseconds, at which to raise the timed event.
-    int  getInterval()const;
+    int  GetInterval()const;
 
     // The scale at which the time is passing. This can be used for slow motion effects.
-    float getTimeScale()const;
+    float GetTimeScale()const;
 
     // The maximum time a frame can take, expressed in milliseconds.
-    int   getMaximumDeltaTime()const;
+    int   GetMaximumDeltaTime()const;
 
     // The time in milliseconds it took to complete the last frame (Read Only).
-    int   getDeltaTime()const;
+    int   GetDeltaTime()const;
 
     // The total number of frames that have passed (Read Only).
-    int   getFrameCount()const;
+    int   GetFrameCount()const;
 
-    int   get_id()const;
+    int   GetId()const;
 
     //expressed in seconds
-    void update(float deltaTime);
-    void start();
-    void stop();
-    void startInThread();
+    void Update(float deltaTime);
+    void Start();
+    void Stop();
 private:
-    void init(const TimerOption& option);
-    void reset();
-    void internalUpdate(int deltaTime);
-    void threadLoop();
-    static void threadFun(void* pThis);
+    void Init(const TimerOption& option);
+    void Reset();
 private:
     std::atomic<bool>  _enable;
     std::atomic<int>   _interval;         // expressed in milliseconds
@@ -150,13 +146,11 @@ private:
     std::atomic<int>   _elapsedTime;      // expressed in milliseconds
     int                _myid;
     static int         _nextValidId;
-    std::thread*       _loopThread;
-    bool               _useThread;
 };
 
 inline bool operator <(const Timer& _Left, const Timer& _Right)
 {
-    return _Left.getInterval() < _Right.getInterval();
+    return _Left.GetInterval() < _Right.GetInterval();
 }
 
 NS_FK_END

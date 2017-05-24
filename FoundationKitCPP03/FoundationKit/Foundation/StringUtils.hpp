@@ -19,20 +19,20 @@ NS_FK_BEGIN
 class StringUtils
 {
 public:
-static std::string tolower(const std::string& str);
+static std::string Tolower(const std::string& str);
 
-static std::string toupper(const std::string& str);
+static std::string Toupper(const std::string& str);
 
-static std::string format(const char* format, ...);
+static std::string Format(const char* format, ...);
 
 // trim from start
-static std::string &ltrim(std::string &s);
+static std::string &LTrim(std::string &s);
 
 // trim from end
-static std::string &rtrim(std::string &s);
+static std::string &RTrim(std::string &s);
 
 // trim from both ends
-static std::string &trim(std::string &s);
+static std::string &Trim(std::string &s);
 
 /*
  * std::string str = "|aaaa|bbbb|cccc|dddd|";
@@ -43,13 +43,13 @@ static std::string &trim(std::string &s);
  * splitVec[3]="cccc";
  * splitVec[4]="dddd";
  */
-static std::vector<std::string> split(const std::string &s, char delim, std::vector<std::string> &elems);
+static std::vector<std::string> Split(const std::string &s, char delim, std::vector<std::string> &elems);
 
-static std::vector<std::string> split(const std::string &s, char delim);
+static std::vector<std::string> Split(const std::string &s, char delim);
 
-static std::vector<std::string> split(const std::string &s, std::string delim);
+static std::vector<std::string> Split(const std::string &s, std::string delim);
     
-static std::string join(std::string delim, std::vector<std::string> values);
+static std::string Join(std::string delim, std::vector<std::string>& values);
 
 /**
  * @brief Converts basic numeric types to strings.
@@ -58,23 +58,31 @@ static std::string join(std::string delim, std::vector<std::string> values);
  * @usage tostring(val);
  */
 template<class _Val>
-static std::string to_string(_Val val,int precision = 2)
+static std::wstring Towstring(_Val val,int precision = 2)
 {
-	std::ostringstream oss;
+	std::wostringstream oss;
 	oss << std::fixed << std::setprecision(precision) << val;
 	return oss.str();
+}
+
+template<class _Val>
+static std::string Tostring(_Val val, int precision = 2)
+{
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(precision) << val;
+    return oss.str();
 }
 
 /**
  * @brief Converts boolean types to strings.
  * @usage tostring(val);
  */
-static std::string to_string(bool val)
+static std::string Tostring(bool val)
 {
 	return val ? "true" : "false";
 }
 
-static bool isNumber(const std::string& val);
+static bool IsNumber(const std::string& val);
 
 /** 
  * Convert std::wstring to std::string, the string code page is UTF-8.
@@ -101,12 +109,12 @@ static std::string wstring2string(std::wstring ws)
 	return s;
 }
 
-static unsigned char* to_unsigned(char* p)
+static unsigned char* ToUnsigned(char* p)
 {
 	return reinterpret_cast<unsigned char*>(p);
 }
 
-static unsigned char* to_unsigned(std::string& str)
+static unsigned char* ToUnsigned(std::string& str)
 {
 	return reinterpret_cast<unsigned char*>(&*str.begin());
 }

@@ -13,7 +13,7 @@ TimerQueue::~TimerQueue()
 
 }
 
-void TimerQueue::tick(float deltaTime)
+void TimerQueue::Tick(float deltaTime)
 {
     if (!_timersCache.empty())
     {
@@ -28,47 +28,47 @@ void TimerQueue::tick(float deltaTime)
     {
         for (std::vector<int32>::iterator timerid = _willErase.begin(); timerid!= _willErase.end();++timerid)
         {
-            internalErase(*timerid);
+            InternalErase(*timerid);
         }
         _willErase.clear();
     }
 
     for (std::vector<Timer::pointer>::iterator iter =_timerlist.begin(); iter!= _timerlist.end();++iter)
     {
-        (*iter)->update(deltaTime);
+        (*iter)->Update(deltaTime);
     }
 }
 
-int32 TimerQueue::enqueue(const TimerOption& timerOption)
+int32 TimerQueue::Enqueue(const TimerOption& timerOption)
 {
-    Timer::pointer pTimer = Timer::create(timerOption);
-    return insert(pTimer);
+    Timer::pointer pTimer = Timer::Create(timerOption);
+    return Insert(pTimer);
 }
 
-int32 TimerQueue::insert(const Timer::pointer timer)
+int32 TimerQueue::Insert(const Timer::pointer timer)
 {
-    int32 timerid = timer->get_id();
+    int32 timerid = timer->GetId();
     _timersCache.push_back(timer);
     return timerid;
 }
 
-void TimerQueue::erase(const Timer::pointer timer)
+void TimerQueue::Erase(const Timer::pointer timer)
 {
-    erase(timer->get_id());
+    Erase(timer->GetId());
 }
 
-void  TimerQueue::erase(int32 timerid)
+void  TimerQueue::Erase(int32 timerid)
 {
     _willErase.push_back(timerid);
 }
 
-bool TimerQueue::exist(int32 timerid)
+bool TimerQueue::Exist(int32 timerid)
 {
     bool bExist = false;
     for (std::vector<Timer::pointer>::iterator iter =_timerlist.begin(); iter!= _timerlist.end();++iter)
     {
         Timer::pointer timer = *iter;
-        if (timer->get_id() == timerid)
+        if (timer->GetId() == timerid)
         {
             bExist = true;
             break;
@@ -77,40 +77,40 @@ bool TimerQueue::exist(int32 timerid)
     return bExist;
 }
 
-void TimerQueue::enable(int32 timerid, bool value)
+void TimerQueue::Enable(int32 timerid, bool value)
 {
-    Timer::pointer pTimer = getTimer(timerid);
+    Timer::pointer pTimer = GetTimer(timerid);
     if (pTimer)
     {
-        pTimer->setEnabled(value);
+        pTimer->SetEnabled(value);
     }
 }
 
-void TimerQueue::start(int32 timerid)
+void TimerQueue::Start(int32 timerid)
 {
-    Timer::pointer pTimer = getTimer(timerid);
+    Timer::pointer pTimer = GetTimer(timerid);
     if (pTimer)
     {
-        pTimer->start();
+        pTimer->Start();
     }
 }
 
-void TimerQueue::stop(int timerid)
+void TimerQueue::Stop(int timerid)
 {
-    Timer::pointer pTimer = getTimer(timerid);
+    Timer::pointer pTimer = GetTimer(timerid);
     if (pTimer)
     {
-        pTimer->stop();
+        pTimer->Stop();
     }
 }
 
-Timer::pointer TimerQueue::getTimer(int32 timerid)
+Timer::pointer TimerQueue::GetTimer(int32 timerid)
 {
     Timer::pointer pTimer = nullptr;
     for (std::vector<Timer::pointer>::iterator iter =_timerlist.begin(); iter!= _timerlist.end();++iter)
     {
         Timer::pointer timer = *iter;
-        if (timer->get_id() == timerid)
+        if (timer->GetId() == timerid)
         {
             pTimer = timer;
             break;
@@ -119,11 +119,11 @@ Timer::pointer TimerQueue::getTimer(int32 timerid)
     return pTimer;
 }
 
-void TimerQueue::internalErase(int32 timerid)
+void TimerQueue::InternalErase(int32 timerid)
 {
     for (std::vector<Timer::pointer>::iterator timerIter = _timerlist.begin(); timerIter != _timerlist.end(); ++timerIter)
     {
-        if ((*timerIter)->get_id() == timerid)
+        if ((*timerIter)->GetId() == timerid)
         {
             _timerlist.erase(timerIter);
             break;

@@ -134,7 +134,7 @@ DateTime::DateTime( int32 year, int32 month, int32 day, int32 hour, int32 minute
 void DateTime::GetDate( int32& outYear, int32& outMonth, int32& outDay ) const
 {
 	int32 i, j, k, l, n;
-    l = Math::floorToInt(static_cast<float>(GetJulianDay() + 0.5)) + 68569;
+    l = Math::FloorToInt(static_cast<float>(GetJulianDay() + 0.5)) + 68569;
 	n = 4 * l / 146097;
 	l = l - (146097 * n + 3) / 4;
 	i = 4000 * (l + 1) / 1461001;
@@ -235,16 +235,16 @@ std::string DateTime::ToString( const char* format ) const
 				{
                 case 'a': result += IsMorning() ? "am" : "pm"; break;
                 case 'A': result += IsMorning() ? "AM" : "PM"; break;
-                case 'd': result += StringUtils::format("%02i", GetDay()); break;
-                case 'D': result += StringUtils::format("%03i", GetDayOfYear()); break;
-                case 'm': result += StringUtils::format("%02i", GetMonth()); break;
-                case 'y': result += StringUtils::format("%02i", GetYear() % 100); break;
-                case 'Y': result += StringUtils::format("%04i", GetYear()); break;
-                case 'h': result += StringUtils::format("%02i", GetHour12()); break;
-                case 'H': result += StringUtils::format("%02i", GetHour()); break;
-                case 'M': result += StringUtils::format("%02i", GetMinute()); break;
-                case 'S': result += StringUtils::format("%02i", GetSecond()); break;
-                case 's': result += StringUtils::format("%03i", GetMillisecond()); break;
+                case 'd': result += StringUtils::Format("%02i", GetDay()); break;
+                case 'D': result += StringUtils::Format("%03i", GetDayOfYear()); break;
+                case 'm': result += StringUtils::Format("%02i", GetMonth()); break;
+                case 'y': result += StringUtils::Format("%02i", GetYear() % 100); break;
+                case 'Y': result += StringUtils::Format("%04i", GetYear()); break;
+                case 'h': result += StringUtils::Format("%02i", GetHour12()); break;
+                case 'H': result += StringUtils::Format("%02i", GetHour()); break;
+                case 'M': result += StringUtils::Format("%02i", GetMinute()); break;
+                case 'S': result += StringUtils::Format("%02i", GetSecond()); break;
+                case 's': result += StringUtils::Format("%03i", GetMillisecond()); break;
                 default:		 result += *format;
 				}
 			}
@@ -333,7 +333,7 @@ bool DateTime::Parse( const std::string& dateTimeString, DateTime& outDateTime )
 	std::vector<std::string> tokens;
 
 	// split up on a single delimiter
-    StringUtils::split(fixedString, ' ', tokens);
+    StringUtils::Split(fixedString, ' ', tokens);
 	// make sure it parsed it properly (within reason)
     if ((tokens.size() < 6) || (tokens.size() > 7))
 	{
@@ -512,7 +512,7 @@ std::string DateTime::GetDateString()
     int32 Sec;
     int32 MSec;
     SystemTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
-    std::string dateStr = StringUtils::format("%04d-%02d-%02d", Year,Month, Day);
+    std::string dateStr = StringUtils::Format("%04d-%02d-%02d", Year,Month, Day);
     return dateStr;
 }
 
@@ -527,7 +527,7 @@ std::string DateTime::GetTimeString()
     int32 Sec;
     int32 MSec;
     SystemTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
-    std::string timeStr = StringUtils::format("%02d:%02d:%02d", Hour, Min, Sec);
+    std::string timeStr = StringUtils::Format("%02d:%02d:%02d", Hour, Min, Sec);
     return timeStr;
 }
 

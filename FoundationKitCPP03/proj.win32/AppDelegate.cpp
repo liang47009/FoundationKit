@@ -5,7 +5,6 @@
 
 #include "AppDelegate.h"
 #include "FoundationKit/Foundation/Logger.hpp"
-#include "FoundationKit/Foundation/DataStream.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Version.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -66,21 +65,21 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     ElapsedTimer et;
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    double aaab = et.secondsf();
+    double aaab = et.Secondsf();
 
     std::error_code ec;
     std::string strErr = ec.message();
 
     std::vector<std::string>  files;
-    FileUtils::getInstance()->getFilesFromDir("E:\\GitHub\\FoundationKit\\FoundationKit\\FoundationKit", files, true);
+    FileUtils::GetInstance()->GetFilesFromDir("E:\\GitHub\\FoundationKit\\FoundationKit\\FoundationKit", files, true);
     std::string strMakefile;
-    FileUtils* fileutils = FileUtils::getInstance();
+    FileUtils* fileutils = FileUtils::GetInstance();
     for (std::vector<std::string>::iterator iter = files.begin(); iter != files.end();++iter)
     {
         std::string filepath = *iter;
-        if (fileutils->getFileExtension(filepath) == ".cpp" 
-            || fileutils->getFileExtension(filepath) == ".c"
-            || fileutils->getFileExtension(filepath) == ".cc")
+        if (fileutils->GetFileExtension(filepath) == ".cpp" 
+            || fileutils->GetFileExtension(filepath) == ".c"
+            || fileutils->GetFileExtension(filepath) == ".cc")
         {
             strMakefile += filepath;
             strMakefile += "\n";

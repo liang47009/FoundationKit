@@ -13,7 +13,6 @@
 
 #include <functional>
 #include <string>
-#include <chrono>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/types.hpp"
 

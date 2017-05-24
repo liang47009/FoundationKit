@@ -21,7 +21,7 @@ NS_FK_BEGIN
 /**
  * Enumerates the days of the week in 7-day calendars.
  */
-enum class EDayOfWeek
+enum EDayOfWeek
 {
 	Monday = 0,
 	Tuesday,
@@ -35,7 +35,7 @@ enum class EDayOfWeek
 /**
  * Enumerates the months of the year in 12-month calendars.
  */
-enum class EMonthOfYear
+enum EMonthOfYear
 {
 	January = 1,
 	February,

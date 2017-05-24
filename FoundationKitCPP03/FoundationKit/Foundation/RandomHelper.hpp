@@ -31,11 +31,11 @@ public:
 	 * @return A floating-point type, by default type is double.
 	 */
 	template< class _Ty >
-	static inline _Ty random(_Ty a, _Ty b,
+	static inline _Ty Random(_Ty a, _Ty b,
 		typename std::enable_if< std::is_floating_point<_Ty>::value >::type* = 0)
 	{
 		std::uniform_real_distribution<_Ty> randomResult(a, b);
-		return randomResult(getRandomEngine());
+		return randomResult(GetRandomEngine());
 	}
 
 	/** 
@@ -43,12 +43,13 @@ public:
 	 * @return An integer type, by default the type is int.
 	 */
 	template< class _Ty >
-	static inline _Ty random(_Ty a, _Ty b,
+	static inline _Ty Random(_Ty a, _Ty b,
 		typename std::enable_if< std::is_integral<_Ty>::value >::type* = 0)
 	{
 		std::uniform_int_distribution<> randomResult(a, b);
-		return randomResult(getRandomEngine());
+		return randomResult(GetRandomEngine());
 	}
+
 	/**
 	 * @return A random floating-point number in the range [0, 1.0).
 	 *         if want to get a floating-point number in the range[0.0, 1.0],
@@ -57,27 +58,27 @@ public:
 	 *         double ret = random<double>(0.0, std::nextafter(1, DBL_MAX));
 	 */
 	template< class _Ty >
-	static inline _Ty random(typename std::enable_if< std::is_floating_point<_Ty>::value >::type* = 0)
+	static inline _Ty Random(typename std::enable_if< std::is_floating_point<_Ty>::value >::type* = 0)
 	{
-		return RandomHelper::random<_Ty>((_Ty)0, std::nextafter(1, DBL_MAX));
+		return RandomHelper::Random<_Ty>((_Ty)0, std::nextafter(1, DBL_MAX));
 	}
 
 	// return a random boolean.
-	static inline bool   randBoolean()
+	static inline bool   RandBoolean()
 	{
-		return random<double>() > 0.5;
+		return Random<double>() > 0.5;
 	}
 
 
 	//returns a random double in the range -1 < n < 1
-	static inline double randClamped()
+	static inline double RandClamped()
 	{
-		return random<double>() - random<double>();
+		return Random<double>() - Random<double>();
 	}
 
 
 public:
-	static std::default_random_engine getRandomEngine()
+	static std::default_random_engine GetRandomEngine()
 	{
 		static std::random_device          _randomDevice;
 		static std::default_random_engine  _randomEngine(_randomDevice());

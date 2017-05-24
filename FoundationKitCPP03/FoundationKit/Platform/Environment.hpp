@@ -9,6 +9,7 @@
 
 #pragma once
 #include <string>
+#include <vector>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
 NS_FK_BEGIN
@@ -16,9 +17,12 @@ NS_FK_BEGIN
 class Environment
 {
 public:
+    typedef std::vector<std::string> stringvec;
+    static stringvec   GetEnvironmentVariables();
     static std::string GetEnvironmentVariable(const std::string& variable);
     static bool        HasEnvironmentVariable(const std::string& variable);
     static void        SetEnvironmentVariable(const std::string& variable, const std::string& value);
+    static stringvec   GetCommandLineArgs();
 };
 
 

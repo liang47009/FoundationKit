@@ -72,12 +72,12 @@ private:
 NS_FK_END
 
 #if DEBUG_MODE
-#define LOG_DEBUG(format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_DEBUG, format, ##__VA_ARGS__)
+#define LOG_DEBUG(format, ...) NS_NAME::Logger::GetInstance()->log(NS_NAME::Logger::Level::LV_DEBUG, format, ##__VA_ARGS__)
 #else
 #define LOG_DEBUG(format, ...)
 #endif
-#define LOG_INFO( format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_INFO, format, ##__VA_ARGS__)
-#define LOG_WARN( format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_WARN, format, ##__VA_ARGS__)
-#define LOG_ERROR(format, ...) NS_NAME::Logger::getInstance()->log(NS_NAME::Logger::Level::LV_ERROR, format, ##__VA_ARGS__)
+#define LOG_INFO( format, ...) NS_NAME::Logger::GetInstance()->log(NS_NAME::Logger::Level::LV_INFO, format, ##__VA_ARGS__)
+#define LOG_WARN( format, ...) NS_NAME::Logger::GetInstance()->log(NS_NAME::Logger::Level::LV_WARN, format, ##__VA_ARGS__)
+#define LOG_ERROR(format, ...) NS_NAME::Logger::GetInstance()->log(NS_NAME::Logger::Level::LV_ERROR, format, ##__VA_ARGS__)
 
 #endif // FOUNDATIONKIT_LOGGER_HPP

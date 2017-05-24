@@ -30,46 +30,46 @@ NS_FK_BEGIN
 inline const Vector2 Vector2::operator+(const Vector2& v) const
 {
     Vector2 result(*this);
-    result.add(v);
+    result.Add(v);
     return result;
 }
 
 inline Vector2& Vector2::operator+=(const Vector2& v)
 {
-    add(v);
+    Add(v);
     return *this;
 }
 
 inline const Vector2 Vector2::operator-(const Vector2& v) const
 {
     Vector2 result(*this);
-    result.subtract(v);
+    result.Subtract(v);
     return result;
 }
 
 inline Vector2& Vector2::operator-=(const Vector2& v)
 {
-    subtract(v);
+    Subtract(v);
     return *this;
 }
 
 inline const Vector2 Vector2::operator-() const
 {
     Vector2 result(*this);
-    result.negate();
+    result.Negate();
     return result;
 }
 
 inline const Vector2 Vector2::operator*(float x) const
 {
     Vector2 result(*this);
-    result.scale(x);
+    result.Scale(x);
     return result;
 }
 
 inline Vector2& Vector2::operator*=(float x)
 {
-    scale(x);
+    Scale(x);
     return *this;
 }
 
@@ -100,7 +100,7 @@ inline bool Vector2::operator!=(const Vector2& v) const
 inline const Vector2 operator*(float x, const Vector2& v)
 {
     Vector2 result(v);
-    result.scale(x);
+    result.Scale(x);
     return result;
 }
 

@@ -21,35 +21,35 @@ class Singleton : noncopyable
     typedef instance_type*            instance_pointer;
     typedef volatile instance_pointer volatile_instance_pointer;
     static volatile_instance_pointer m_instance;
-    static void destroy();
+    static void Destroy();
 protected:
     Singleton(){};
 public:
-    inline static instance_pointer getInstance()
+    inline static instance_pointer GetInstance()
     {
         if(!m_instance)
         {
             m_instance = new instance_type();
             if (destroy_on_exit)
             {
-                ::atexit(destroy);
+                ::atexit(Destroy);
             }
         }
         return m_instance;
     }
 
-    inline static void destroyInstance()
+    inline static void DestroyInstance()
     {
         if (!destroy_on_exit)
         {
-            destroy();
+            Destroy();
         }
     }
 };
 
 
 template< typename T, bool destroy_on_exit >
-void Singleton< T, destroy_on_exit>::destroy()
+void Singleton< T, destroy_on_exit>::Destroy()
 {
     typedef char T_must_be_complete_type[sizeof(T) == 0 ? -1 : 1];
     T_must_be_complete_type dummy; (void)dummy;

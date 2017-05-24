@@ -317,14 +317,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Foundation\DataStream.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\FoundationKit\Foundation\DataStream.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\FoundationKit\Foundation\DateTime.cpp"
 				>
 			</File>
@@ -354,10 +346,6 @@
 			</File>
 			<File
 				RelativePath="..\FoundationKit\Foundation\Exception.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\FoundationKit\Foundation\ITickable.hpp"
 				>
 			</File>
 			<File
@@ -580,7 +568,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\FoundationKit\Platform\windows\FileUtils_win32.cpp"
+					RelativePath="..\FoundationKit\Platform\windows\FileUtilsWindows.cpp"
 					>
 				</File>
 				<File

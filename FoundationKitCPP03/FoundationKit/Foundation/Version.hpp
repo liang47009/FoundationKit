@@ -33,21 +33,21 @@ public:
 
     Version(int major, int minor, int build, int revision);
 
-    Version clone();
+    Version Clone();
 
-    int compareTo(Version other);
+    int CompareTo(Version other);
 
-    bool equals(Version other);
+    bool Equals(Version other);
 
-    int getHashCode();
+    int GetHashCode();
    
-    std::string toString();
+    std::string ToString();
 
-    std::string toString(int fieldCount);
+    std::string ToString(int fieldCount);
 
-    static Version parse(const std::string& input);
+    static Version Parse(const std::string& input);
 
-    static bool tryParse(const std::string& input, Version& result);
+    static bool TryParse(const std::string& input, Version& result);
 
     inline bool operator !=(Version& other)
     {
@@ -56,17 +56,17 @@ public:
 
     inline bool operator <(Version& other)
     {
-        return this->compareTo(other) < 0;
+        return this->CompareTo(other) < 0;
     }
 
     inline bool operator <=(Version& other)
     {
-        return this->compareTo(other) <= 0;
+        return this->CompareTo(other) <= 0;
     }
 
     inline bool operator ==(Version& other)
     {
-        return this->equals(other);
+        return this->Equals(other);
     }
 
     inline bool operator >(Version& other)
@@ -79,14 +79,14 @@ public:
         return other <= *this;
     }
 private:
-    bool init(int major, int minor, int build, int revision);
+    bool Init(int major, int minor, int build, int revision);
 
     /**
      * @brief Converts strings to basic numeric types.
      * @usage tonumber<type>( string );
      */
     template< class _Type, class _Val >
-    static _Type tonumber(_Val& val)
+    static _Type ToNumber(_Val& val)
     {
         std::istringstream iss(val);
         _Type result;

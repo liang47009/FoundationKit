@@ -12,7 +12,7 @@
 #if TARGET_PLATFORM == PLATFORM_ANDROID
 #include "FoundationKit/Platform/Android/AndroidPlatformTLS.hpp"
 #elif TARGET_PLATFORM == PLATFORM_IOS
-#include "FoundationKit/Platform/ios/ApplePlatformTLS.hpp"
+#include "FoundationKit/Platform/Apple/ApplePlatformTLS.hpp"
 #elif TARGET_PLATFORM == PLATFORM_WINDOWS
 #include "FoundationKit/Platform/windows/WindowsPlatformTLS.hpp"
 #endif

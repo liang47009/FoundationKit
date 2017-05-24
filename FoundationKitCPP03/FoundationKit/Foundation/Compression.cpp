@@ -75,7 +75,7 @@ long long Compression::uncompressorTime = 0;
 
 uint32_t Compression::defaultBufferLength = uint32_t(4) << 20; // 4MiB
 
-bool Compression::compressMemory(CompressionFlags Flags, mutable_buffer& CompressedBuffer, const mutable_buffer& UncompressedBuffer)
+bool Compression::CompressMemory(CompressionFlags Flags, mutable_buffer& CompressedBuffer, const mutable_buffer& UncompressedBuffer)
 {
     static std::mutex zlibScopeMutex;
     std::lock_guard<std::mutex> scopeLock(zlibScopeMutex);
@@ -133,11 +133,11 @@ bool Compression::compressMemory(CompressionFlags Flags, mutable_buffer& Compres
         }
     } while (false);
     // Keep track of compression time and stats.
-    compressorTime += CompressorStartTime.milliseconds();
+    compressorTime += CompressorStartTime.Milliseconds();
     return bOperationSucceeded;
 }
 
-bool Compression::uncompressMemory(CompressionFlags Flags, mutable_buffer& UncompressedBuffer, const mutable_buffer& CompressedBuffer)
+bool Compression::UncompressMemory(CompressionFlags Flags, mutable_buffer& UncompressedBuffer, const mutable_buffer& CompressedBuffer)
 {
     static std::mutex zlibScopeMutex;
     std::lock_guard<std::mutex> scopeLock(zlibScopeMutex);
@@ -191,12 +191,12 @@ bool Compression::uncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
         }
     } while (false);
 
-    uncompressorTime += UncompressorStartTime.milliseconds();
+    uncompressorTime += UncompressorStartTime.Milliseconds();
     return bOperationSucceeded;
 }
 
 
-bool Compression::compressFile(const std::string& srcFilePath, const std::string& desFilePath)
+bool Compression::CompressFile(const std::string& srcFilePath, const std::string& desFilePath)
 {
     bool succeed = false;
     do
@@ -224,7 +224,7 @@ bool Compression::compressFile(const std::string& srcFilePath, const std::string
     return succeed;
 }
 
-bool Compression::uncompressFile(const std::string& srcFilePath, const std::string& desFilePath)
+bool Compression::UncompressFile(const std::string& srcFilePath, const std::string& desFilePath)
 {
     bool succeed = false;
     do

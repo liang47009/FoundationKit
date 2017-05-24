@@ -24,12 +24,12 @@ void TestProtectedMemoryAllocator()
 {
     ProtectedMemoryAllocator  mem_pool(2048);
 
-    MemObj* pMemObj = new (mem_pool.allocate(sizeof(MemObj)))MemObj(100);
+    MemObj* pMemObj = new (mem_pool.Allocate(sizeof(MemObj)))MemObj(100);
     int v0 = pMemObj->get(); // 100
     pMemObj->set(200);
     v0 = pMemObj->get(); // 200
 
-    mem_pool.protect();
+    mem_pool.Protect();
     //pMemObj->set(300); //crash! because pMemObj memory is readonly.
     {
         ProtectedMemoryLocker lock(&mem_pool);
