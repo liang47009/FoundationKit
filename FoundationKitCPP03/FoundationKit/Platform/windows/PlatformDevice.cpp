@@ -55,7 +55,7 @@ namespace detail
         std::vector<uint8> macVec = GetMacAddressRaw();
         std::string result;
         // Copy the data and say we did
-        result = StringUtils::format("%02X%02X%02X%02X%02X%02X"
+        result = StringUtils::Format("%02X%02X%02X%02X%02X%02X"
             , macVec[0]
             , macVec[1]
             , macVec[2]
@@ -122,13 +122,33 @@ std::string PlatformDevice::GetProduct()
 
 std::string PlatformDevice::GetHardware()
 {
-    return "";
+    return "Windows";
 }
 
 
 std::string PlatformDevice::GetDevice()
 {
-    return GetProduct();
+    wchar_t wzComputerName[256] = { 0 };
+    DWORD dwNameLenght = sizeof(wzComputerName) / sizeof(wzComputerName[0]);
+
+    if (0 == GetComputerNameW(wzComputerName, &dwNameLenght))
+    {
+        LOG_ERROR("ERROR: GetComputerName failed with %d!\n", GetLastError());
+    }
+    std::string strComputerName = StringUtils::wstring2UTF8string(wzComputerName);
+    // dwNameLenght is the length of wzComputerName without NULL 
+    if (dwNameLenght < 0 || dwNameLenght >(sizeof(wzComputerName) / sizeof(wzComputerName[0]) - 1))
+    {
+        LOG_ERROR("ERROR: GetComputerName returned %s with dwNameLenght = %u whereas the passed in buffer size is %d!\n", strComputerName.c_str(), dwNameLenght, sizeof(wzComputerName) / sizeof(wzComputerName[0]));
+        return "";
+    }
+    // dwNameLenght is the length of wzComputerName without NULL
+    if (dwNameLenght != wcslen(wzComputerName))
+    {
+        LOG_ERROR("ERROR: GetComputerName returned %s of length %d which is not equal to dwSize = %u!\n", strComputerName.c_str(), wcslen(wzComputerName), dwNameLenght);
+        return "";
+    }
+    return StringUtils::wstring2UTF8string(wzComputerName);
 }
 
 std::string PlatformDevice::GetBrandName()
@@ -202,7 +222,10 @@ std::string PlatformDevice::GetCPUArch()
 
 int PlatformDevice::GetCPUCoreCount()
 {
-    return 0;
+    SYSTEM_INFO SystemInfo;
+    memset(&SystemInfo, 0, sizeof(SystemInfo));
+    ::GetSystemInfo(&SystemInfo);
+    return SystemInfo.dwNumberOfProcessors;
 }
 
 int PlatformDevice::GetCPUMaxFreq(int cpuIndex/* = -1*/)
@@ -229,14 +252,14 @@ std::string PlatformDevice::GetIpAddressV4()
 {
     std::string ipaddressv4;
 
-    return StringUtils::trim(ipaddressv4);
+    return StringUtils::Trim(ipaddressv4);
 }
 
 std::string PlatformDevice::GetIpAddressV6()
 {
     std::string ipaddressv6;
 
-    return StringUtils::trim(ipaddressv6);
+    return StringUtils::Trim(ipaddressv6);
 }
 
 PlatformDevice::string_list PlatformDevice::GetDNS()
@@ -276,24 +299,30 @@ std::string PlatformDevice::GetGPUVendor()
     return szVendor ? szVendor : "";
 }
 
-Size PlatformDevice::GetScreenResolution()
+Rect PlatformDevice::GetScreenResolution()
 {
-    int with = GetSystemMetrics(SM_CXFULLSCREEN);
-    int heigh = GetSystemMetrics(SM_CYFULLSCREEN);
-    return Size(static_cast<float>(with), static_cast<float>(heigh));
+    int width = GetSystemMetrics(SM_CXFULLSCREEN);
+    int height = GetSystemMetrics(SM_CYFULLSCREEN);
+    return Rect(static_cast<float>(0)
+        , static_cast<float>(0)
+        , static_cast<float>(width)
+        , static_cast<float>(height));
 }
 
-Size PlatformDevice::GetScreenNativeResolution()
+Rect PlatformDevice::GetScreenNativeResolution()
 {
     int dwWidth = GetSystemMetrics(SM_CXSCREEN);
     int dwHeight = GetSystemMetrics(SM_CYSCREEN);
-    return Size(static_cast<float>(dwWidth), static_cast<float>(dwHeight));
+    return Rect(static_cast<float>(0)
+        , static_cast<float>(0)
+        , static_cast<float>(dwWidth)
+        , static_cast<float>(dwHeight));
 }
 
-int PlatformDevice::GetScreenDPI()
+float PlatformDevice::GetScreenDPI()
 {
-    static int dpi = -1;
-    if (dpi == -1)
+    static float dpi = 0.0f;
+    if (dpi < 1.0f)
     {
         HDC hScreenDC = GetDC(nullptr);
         int PixelsX = GetDeviceCaps(hScreenDC, HORZRES);
@@ -328,6 +357,36 @@ float PlatformDevice::GetScreenYDPI()
 float PlatformDevice::GetNativeScale()
 {
     return 1.0f;
+}
+
+PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
+{
+    static PlatformMemoryConstants MemoryConstants;
+
+    // Gather platform memory stats.
+    MEMORYSTATUSEX MemoryStatusEx;
+    memset(&MemoryStatusEx, 0,sizeof(MemoryStatusEx));
+    MemoryStatusEx.dwLength = sizeof(MemoryStatusEx);
+    ::GlobalMemoryStatusEx(&MemoryStatusEx);
+
+    PROCESS_MEMORY_COUNTERS ProcessMemoryCounters;
+    memset(&ProcessMemoryCounters, 0, sizeof(ProcessMemoryCounters));
+    ::GetProcessMemoryInfo(::GetCurrentProcess(), &ProcessMemoryCounters, sizeof(ProcessMemoryCounters));
+
+    SYSTEM_INFO SystemInfo;
+    memset(&SystemInfo, 0, sizeof(SystemInfo));
+    ::GetSystemInfo(&SystemInfo);
+
+    MemoryConstants.TotalPhysical     = MemoryStatusEx.ullTotalPhys;
+    MemoryConstants.TotalVirtual      = MemoryStatusEx.ullTotalVirtual;
+    MemoryConstants.PageSize          = SystemInfo.dwAllocationGranularity;	// Use this so we get larger 64KiB pages, instead of 4KiB
+    MemoryConstants.AvailablePhysical = MemoryStatusEx.ullAvailPhys;
+    MemoryConstants.AvailableVirtual  = MemoryStatusEx.ullAvailVirtual;
+    MemoryConstants.UsedPhysical      = ProcessMemoryCounters.WorkingSetSize;
+    MemoryConstants.UsedVirtual       = ProcessMemoryCounters.PagefileUsage;
+    MemoryConstants.PeakUsedPhysical  = ProcessMemoryCounters.PeakWorkingSetSize;
+    MemoryConstants.PeakUsedVirtual   = ProcessMemoryCounters.PeakPagefileUsage;
+    return MemoryConstants;
 }
 
 #define USER_POPEN 0

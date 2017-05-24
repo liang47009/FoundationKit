@@ -18,12 +18,12 @@
 
 NS_FK_BEGIN
 
-std::string StringUtils::tolower( const std::string& str )
+std::string StringUtils::Tolower( const std::string& str )
 {
 	std::string ret;
     std::string::const_iterator chIter = str.begin();
-	for (chIter; chIter != str.end();++chIter)
-	{
+    for (chIter; chIter != str.end();++chIter)
+    {
         char ch = *chIter;
 		if (ch >= 'A' && ch <= 'Z')
 			ret += ch | 32;
@@ -33,7 +33,7 @@ std::string StringUtils::tolower( const std::string& str )
 	return ret;
 }
 
-std::string StringUtils::toupper( const std::string& str )
+std::string StringUtils::Toupper( const std::string& str )
 {
 	std::string ret;
     std::string::const_iterator chIter = str.begin();
@@ -48,9 +48,9 @@ std::string StringUtils::toupper( const std::string& str )
 	return ret;
 }
 
-std::string StringUtils::format( const char* format, ... )
+std::string StringUtils::Format( const char* format, ... )
 {
-	const static unsigned int MAX_STRING_LENGTH = 1024;
+	const static unsigned int MAX_STRING_LENGTH = 64;
 	va_list arglist;
 	int size = MAX_STRING_LENGTH;
 	std::vector<char> dynamicBuffer(MAX_STRING_LENGTH);
@@ -81,24 +81,24 @@ std::string StringUtils::format( const char* format, ... )
 	return str;
 }
 
-std::string & StringUtils::ltrim( std::string &s )
+std::string & StringUtils::LTrim( std::string &s )
 {
 	s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
 	return s;
 }
 
-std::string & StringUtils::rtrim( std::string &s )
+std::string & StringUtils::RTrim( std::string &s )
 {
 	s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
 	return s;
 }
 
-std::string & StringUtils::trim( std::string &s )
+std::string & StringUtils::Trim( std::string &s )
 {
-	return ltrim(rtrim(s));
+	return LTrim(RTrim(s));
 }
 
-std::vector<std::string> StringUtils::split( const std::string &s, char delim, std::vector<std::string> &elems )
+std::vector<std::string> StringUtils::Split( const std::string &s, char delim, std::vector<std::string> &elems )
 {
 	std::stringstream ss(s);
 	std::string item;
@@ -109,14 +109,14 @@ std::vector<std::string> StringUtils::split( const std::string &s, char delim, s
 	return elems;
 }
 
-std::vector<std::string> StringUtils::split( const std::string &s, char delim )
+std::vector<std::string> StringUtils::Split( const std::string &s, char delim )
 {
 	std::vector<std::string> elems;
-	split(s, delim, elems);
+	Split(s, delim, elems);
 	return elems;
 }
 
-std::vector<std::string> StringUtils::split(const std::string &s, std::string delim)
+std::vector<std::string> StringUtils::Split(const std::string &s, std::string delim)
 {
     std::vector<std::string> elems;
     size_t delimLen = delim.size();
@@ -149,13 +149,13 @@ std::vector<std::string> StringUtils::split(const std::string &s, std::string de
     return elems;
 }
 
-std::string StringUtils::join(std::string delim, std::vector<std::string> values)
+std::string StringUtils::Join(std::string delim, std::vector<std::string>& values)
 {
 	std::string ret;
 	size_t index = 0;
 	size_t valuesSize = values.size();
     std::vector<std::string>::iterator iter = values.begin();
-	for (iter; iter!= values.end();++iter)
+    for (iter; iter!= values.end();++iter)
 	{
 		++index;
 		ret.append(*iter);
@@ -167,7 +167,7 @@ std::string StringUtils::join(std::string delim, std::vector<std::string> values
 	return ret;
 }
 
-bool StringUtils::isNumber( const std::string& val )
+bool StringUtils::IsNumber( const std::string& val )
 {
 	std::stringstream str(val);
 	float tst;
