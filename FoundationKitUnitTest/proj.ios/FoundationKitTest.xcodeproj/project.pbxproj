@@ -8,14 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0907E8421CE0940900A65A3C /* AdSupport.framework */; };
-		093490EC1E7F7D740034ECF2 /* libFoundationKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 093490EB1E7F7D740034ECF2 /* libFoundationKit.a */; };
-		093492E01E8106FF0034ECF2 /* libHTTPClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 093492DF1E8106FF0034ECF2 /* libHTTPClient.a */; };
 		09C19B011BABB760007A8C99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B001BABB760007A8C99 /* main.m */; };
 		09C19B041BABB760007A8C99 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B031BABB760007A8C99 /* AppDelegate.mm */; };
 		09C19B071BABB760007A8C99 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B061BABB760007A8C99 /* ViewController.m */; };
 		09C19B0A1BABB760007A8C99 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09C19B081BABB760007A8C99 /* Main.storyboard */; };
 		09C19B0C1BABB761007A8C99 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09C19B0B1BABB761007A8C99 /* Images.xcassets */; };
 		09C19B0F1BABB761007A8C99 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09C19B0D1BABB761007A8C99 /* LaunchScreen.xib */; };
+		09DAF1181ED4470A00AD585D /* libHTTPClient_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DAF1171ED4470A00AD585D /* libHTTPClient_iOS.a */; };
+		09DAF11A1ED4470F00AD585D /* libFoundationKit_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DAF1191ED4470F00AD585D /* libFoundationKit_iOS.a */; };
+		09DAF11C1ED449AF00AD585D /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DAF11B1ED449AF00AD585D /* libz.1.2.5.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,9 @@
 		09C19B091BABB760007A8C99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		09C19B0B1BABB761007A8C99 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		09C19B0E1BABB761007A8C99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		09DAF1171ED4470A00AD585D /* libHTTPClient_iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHTTPClient_iOS.a; path = "../../../../../Library/Developer/Xcode/DerivedData/FoundationKitFramework-gqtmmrnbxavaofbusneqnsvkmpwv/Build/Products/Debug-iphoneos/libHTTPClient_iOS.a"; sourceTree = "<group>"; };
+		09DAF1191ED4470F00AD585D /* libFoundationKit_iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFoundationKit_iOS.a; path = "../../../../../Library/Developer/Xcode/DerivedData/FoundationKitFramework-gqtmmrnbxavaofbusneqnsvkmpwv/Build/Products/Debug-iphoneos/libFoundationKit_iOS.a"; sourceTree = "<group>"; };
+		09DAF11B1ED449AF00AD585D /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,8 +43,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				093492E01E8106FF0034ECF2 /* libHTTPClient.a in Frameworks */,
-				093490EC1E7F7D740034ECF2 /* libFoundationKit.a in Frameworks */,
+				09DAF11C1ED449AF00AD585D /* libz.1.2.5.tbd in Frameworks */,
+				09DAF11A1ED4470F00AD585D /* libFoundationKit_iOS.a in Frameworks */,
+				09DAF1181ED4470A00AD585D /* libHTTPClient_iOS.a in Frameworks */,
 				0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,6 +56,9 @@
 		093490EA1E7F7D740034ECF2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				09DAF11B1ED449AF00AD585D /* libz.1.2.5.tbd */,
+				09DAF1191ED4470F00AD585D /* libFoundationKit_iOS.a */,
+				09DAF1171ED4470A00AD585D /* libHTTPClient_iOS.a */,
 				093492DF1E8106FF0034ECF2 /* libHTTPClient.a */,
 				093490EB1E7F7D740034ECF2 /* libFoundationKit.a */,
 			);
@@ -298,6 +306,7 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					FK_TARGET_OS_IPHONE,
@@ -329,6 +338,7 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					FK_TARGET_OS_IPHONE,

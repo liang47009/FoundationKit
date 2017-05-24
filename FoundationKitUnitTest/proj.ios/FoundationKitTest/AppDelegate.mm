@@ -13,8 +13,13 @@
 #include "FoundationKit/Foundation/Rect.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 #include "FoundationKit/Platform/Platform.hpp"
+#include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/std/function_traits.hpp"
 #include "FoundationKit/Base/type_cast.hpp"
+#include "FoundationKit/Base/types.hpp"
+#import <Foundation/Foundation.h>
+
+USING_NS_FK;
 
 using namespace FoundationKit;
 
@@ -27,7 +32,9 @@ using namespace FoundationKit;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-
+    std::string strLogPaht = FileUtils::GetInstance()->GetWritablePath();
+    strLogPaht+= "FoundationKit.log";
+    Logger::GetInstance()->init(strLogPaht);
     LOG_INFO("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());
     return YES;
 }
@@ -40,8 +47,8 @@ using namespace FoundationKit;
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    DateTime dateTime = DateTime::now();
-    std::string fileName = dateTime.toString();
+    DateTime dateTime = DateTime::Now();
+    std::string fileName = dateTime.ToString();
     fileName += ".jpg";
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     FoundationKit::Rect rc(0,0, screenRect.size.width, screenRect.size.height);

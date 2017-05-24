@@ -87,7 +87,7 @@ public:
     TValue & at(const TKey & key)
     {
         auto it = _MultiMap.find(key);
-        LOG_ASSERT(it != _MultiMap.end(), "Dictionary::at: Couldn't find key:%s", StringUtils::to_string(key).c_str());
+        LOG_ASSERT(it != _MultiMap.end(), "Dictionary::at: Couldn't find key:%s", StringUtils::Tostring(key).c_str());
         return ((*it).second);
     }
 

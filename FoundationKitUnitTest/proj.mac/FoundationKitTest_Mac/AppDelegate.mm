@@ -27,6 +27,7 @@
 #include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
+#include "FoundationKit/Platform/FileUtils.hpp"
 #import <IOKit/IOKitLib.h>
 #import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
@@ -42,26 +43,7 @@ USING_NS_FK;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
     static PlatformMemoryConstants MemoryConstants = PlatformDevice::GetMemoryConstants();
-    
-    struct ifaddrs* interfaces = nullptr;
-    struct ifaddrs* tempaddr = nullptr;
-    
-    NSInteger success = getifaddrs(&interfaces);
-    if(success == 0)
-    {
-        tempaddr = interfaces;
-        while (tempaddr != nullptr)
-        {
-            if (tempaddr->ifa_addr->sa_family == AF_INET)
-            {
-                const char* name = tempaddr->ifa_name;
-                const char* addr = inet_ntoa(((struct sockaddr_in*)tempaddr->ifa_addr)->sin_addr);
-                NSLog(@"===== name:%s, addr:%s", name, addr);
-            }
-            tempaddr = tempaddr->ifa_next;
-        }
-    }
-    freeifaddrs(interfaces);
+
     
 }
 

@@ -15,7 +15,6 @@
 		093490B91E7F7BA30034ECF2 /* ioapi_mem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09348FDF1E7F7BA20034ECF2 /* ioapi_mem.cpp */; };
 		093490BA1E7F7BA30034ECF2 /* unzip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09348FE11E7F7BA20034ECF2 /* unzip.cpp */; };
 		093490C21E7F7BA30034ECF2 /* Compression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934900C1E7F7BA20034ECF2 /* Compression.cpp */; };
-		093490C31E7F7BA30034ECF2 /* DataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934900E1E7F7BA20034ECF2 /* DataStream.cpp */; };
 		093490C41E7F7BA30034ECF2 /* DateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490101E7F7BA20034ECF2 /* DateTime.cpp */; };
 		093490C51E7F7BA30034ECF2 /* DelegateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490121E7F7BA20034ECF2 /* DelegateManager.cpp */; };
 		093490C61E7F7BA30034ECF2 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490161E7F7BA20034ECF2 /* Exception.cpp */; };
@@ -50,7 +49,6 @@
 		094C50B71EC3FF1B00AB3021 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490161E7F7BA20034ECF2 /* Exception.cpp */; };
 		094C50B81EC3FF1B00AB3021 /* DelegateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490121E7F7BA20034ECF2 /* DelegateManager.cpp */; };
 		094C50B91EC3FF1B00AB3021 /* aes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09348ED81E7F7BA20034ECF2 /* aes.cpp */; };
-		094C50BA1EC3FF1B00AB3021 /* DataStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934900E1E7F7BA20034ECF2 /* DataStream.cpp */; };
 		094C50BB1EC3FF1B00AB3021 /* Compression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934900C1E7F7BA20034ECF2 /* Compression.cpp */; };
 		094C50BC1EC3FF1B00AB3021 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490401E7F7BA20034ECF2 /* Vector4.cpp */; };
 		094C50BD1EC3FF1B00AB3021 /* Rect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490281E7F7BA20034ECF2 /* Rect.cpp */; };
@@ -142,8 +140,6 @@
 		0934900B1E7F7BA20034ECF2 /* ApplyTuple.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ApplyTuple.hpp; sourceTree = "<group>"; };
 		0934900C1E7F7BA20034ECF2 /* Compression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compression.cpp; sourceTree = "<group>"; };
 		0934900D1E7F7BA20034ECF2 /* Compression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Compression.hpp; sourceTree = "<group>"; };
-		0934900E1E7F7BA20034ECF2 /* DataStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataStream.cpp; sourceTree = "<group>"; };
-		0934900F1E7F7BA20034ECF2 /* DataStream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataStream.hpp; sourceTree = "<group>"; };
 		093490101E7F7BA20034ECF2 /* DateTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DateTime.cpp; sourceTree = "<group>"; };
 		093490111E7F7BA20034ECF2 /* DateTime.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DateTime.hpp; sourceTree = "<group>"; };
 		093490121E7F7BA20034ECF2 /* DelegateManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DelegateManager.cpp; sourceTree = "<group>"; };
@@ -366,8 +362,6 @@
 				0934900B1E7F7BA20034ECF2 /* ApplyTuple.hpp */,
 				0934900C1E7F7BA20034ECF2 /* Compression.cpp */,
 				0934900D1E7F7BA20034ECF2 /* Compression.hpp */,
-				0934900E1E7F7BA20034ECF2 /* DataStream.cpp */,
-				0934900F1E7F7BA20034ECF2 /* DataStream.hpp */,
 				093490101E7F7BA20034ECF2 /* DateTime.cpp */,
 				093490111E7F7BA20034ECF2 /* DateTime.hpp */,
 				093490121E7F7BA20034ECF2 /* DelegateManager.cpp */,
@@ -610,7 +604,6 @@
 				094C50B81EC3FF1B00AB3021 /* DelegateManager.cpp in Sources */,
 				094C51871EC54DBF00AB3021 /* ProtectedMemoryAllocator.mm in Sources */,
 				094C50B91EC3FF1B00AB3021 /* aes.cpp in Sources */,
-				094C50BA1EC3FF1B00AB3021 /* DataStream.cpp in Sources */,
 				094C50BB1EC3FF1B00AB3021 /* Compression.cpp in Sources */,
 				094C50BC1EC3FF1B00AB3021 /* Vector4.cpp in Sources */,
 				094C50BD1EC3FF1B00AB3021 /* Rect.cpp in Sources */,
@@ -651,7 +644,6 @@
 				093490C61E7F7BA30034ECF2 /* Exception.cpp in Sources */,
 				093490C51E7F7BA30034ECF2 /* DelegateManager.cpp in Sources */,
 				093490901E7F7BA20034ECF2 /* aes.cpp in Sources */,
-				093490C31E7F7BA30034ECF2 /* DataStream.cpp in Sources */,
 				093490C21E7F7BA30034ECF2 /* Compression.cpp in Sources */,
 				093490D51E7F7BA30034ECF2 /* Vector4.cpp in Sources */,
 				093490CC1E7F7BA30034ECF2 /* Rect.cpp in Sources */,
