@@ -16,7 +16,6 @@ $(SRCROOT)/FoundationKit/external/unzip/ioapi.cpp \
 $(SRCROOT)/FoundationKit/external/unzip/ioapi_mem.cpp \
 $(SRCROOT)/FoundationKit/external/unzip/unzip.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Compression.cpp \
-$(SRCROOT)/FoundationKit/Foundation/DataStream.cpp \
 $(SRCROOT)/FoundationKit/Foundation/DateTime.cpp \
 $(SRCROOT)/FoundationKit/Foundation/DelegateManager.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Exception.cpp \

@@ -56,10 +56,6 @@ IF EXIST "FoundationKit\proj.android_studio\app\.externalNativeBuild" (
     rmdir "FoundationKit\proj.android_studio\app\.externalNativeBuild" /s /q
 )
 
-IF EXIST "FoundationKit\proj.android_studio\app\app.iml" (
-    del "%~dp0FoundationKit\proj.android_studio\app\app.iml" /s /q
-)
-
 IF EXIST "FoundationKitUnitTest\proj.android\obj" (
     rmdir "FoundationKitUnitTest\proj.android\obj" /s /q
 )

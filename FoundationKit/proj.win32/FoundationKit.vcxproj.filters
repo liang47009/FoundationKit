@@ -129,9 +129,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\Compression.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\DataStream.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\DateTime.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -308,9 +305,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Compression.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\DataStream.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\DateTime.cpp">

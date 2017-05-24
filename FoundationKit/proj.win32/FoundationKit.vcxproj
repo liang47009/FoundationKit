@@ -210,7 +210,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\FoundationMacros.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Compression.hpp" />
-    <ClInclude Include="..\FoundationKit\Foundation\DataStream.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\DateTime.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Dictionary.hpp" />
@@ -269,7 +268,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\external\unzip\ioapi_mem.cpp" />
     <ClCompile Include="..\FoundationKit\external\unzip\unzip.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Compression.cpp" />
-    <ClCompile Include="..\FoundationKit\Foundation\DataStream.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\DateTime.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\DelegateManager.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Exception.cpp" />
