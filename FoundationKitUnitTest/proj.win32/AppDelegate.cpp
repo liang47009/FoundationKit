@@ -8,7 +8,6 @@
 
 #include "AppDelegate.h"
 #include "FoundationKit/Foundation/Logger.hpp"
-#include "FoundationKit/Foundation/DataStream.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Version.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -158,7 +157,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     std::error_code ec;
     std::string strErr = ec.message();
-    Logger::GetInstance()->init("E:\\linux\\FoundationKit.log");
+    Logger::GetInstance()->Initialize("E:\\linux\\FoundationKit.log");
 
 
  

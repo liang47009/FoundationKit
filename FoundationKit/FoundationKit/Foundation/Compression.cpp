@@ -135,7 +135,7 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutable_buffer& Compres
         memcpy(CompressedBuffer.data(), tempData.data(), stream.total_out);
     } while (false);
     // Keep track of compression time and stats.
-    compressorTime += CompressorStartTime.milliseconds();
+    compressorTime += CompressorStartTime.Milliseconds();
     return bOperationSucceeded;
 }
 
@@ -195,7 +195,7 @@ bool Compression::UncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
         memcpy(UncompressedBuffer.data(), &UncompressedData[0], stream.total_out);
     } while (false);
 
-    uncompressorTime += UncompressorStartTime.milliseconds();
+    uncompressorTime += UncompressorStartTime.Milliseconds();
     return bOperationSucceeded;
 }
 

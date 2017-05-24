@@ -134,7 +134,7 @@ DateTime::DateTime( int32 year, int32 month, int32 day, int32 hour, int32 minute
 void DateTime::GetDate( int32& outYear, int32& outMonth, int32& outDay ) const
 {
 	int32 i, j, k, l, n;
-    l = Math::floorToInt(static_cast<float>(GetJulianDay() + 0.5)) + 68569;
+    l = Math::FloorToInt(static_cast<float>(GetJulianDay() + 0.5)) + 68569;
 	n = 4 * l / 146097;
 	l = l - (146097 * n + 3) / 4;
 	i = 4000 * (l + 1) / 1461001;

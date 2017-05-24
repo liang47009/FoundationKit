@@ -36,16 +36,16 @@ std::string Timespan::ToString( const char* format ) const
 			{
             case 'n': if (_ticks < 0) result += '-'; break;
             case 'N': result += (_ticks < 0) ? '-' : '+'; break;
-            case 'd': result += StringUtils::Format("%i",   Math::abs(GetDays())); break;
-            case 'h': result += StringUtils::Format("%02i", Math::abs(GetHours())); break;
-            case 'm': result += StringUtils::Format("%02i", Math::abs(GetMinutes())); break;
-            case 's': result += StringUtils::Format("%02i", Math::abs(GetSeconds())); break;
-            case 'f': result += StringUtils::Format("%03i", Math::abs(GetMilliseconds())); break;
-            case 'D': result += StringUtils::Format("%f",   Math::abs(GetTotalDays())); break;
-            case 'H': result += StringUtils::Format("%f",   Math::abs(GetTotalHours())); break;
-            case 'M': result += StringUtils::Format("%f",   Math::abs(GetTotalMinutes())); break;
-            case 'S': result += StringUtils::Format("%f",   Math::abs(GetTotalSeconds())); break;
-            case 'F': result += StringUtils::Format("%f",   Math::abs(GetTotalMilliseconds())); break;
+            case 'd': result += StringUtils::Format("%i",   Math::Abs(GetDays())); break;
+            case 'h': result += StringUtils::Format("%02i", Math::Abs(GetHours())); break;
+            case 'm': result += StringUtils::Format("%02i", Math::Abs(GetMinutes())); break;
+            case 's': result += StringUtils::Format("%02i", Math::Abs(GetSeconds())); break;
+            case 'f': result += StringUtils::Format("%03i", Math::Abs(GetMilliseconds())); break;
+            case 'D': result += StringUtils::Format("%f",   Math::Abs(GetTotalDays())); break;
+            case 'H': result += StringUtils::Format("%f",   Math::Abs(GetTotalHours())); break;
+            case 'M': result += StringUtils::Format("%f",   Math::Abs(GetTotalMinutes())); break;
+            case 'S': result += StringUtils::Format("%f",   Math::Abs(GetTotalSeconds())); break;
+            case 'F': result += StringUtils::Format("%f",   Math::Abs(GetTotalMilliseconds())); break;
 			default:
                 result += *format;
 			}

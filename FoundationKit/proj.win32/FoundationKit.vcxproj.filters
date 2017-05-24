@@ -141,9 +141,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Dictionary.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\ElapsedTimer.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -264,6 +261,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Crypto\urlencode.hpp">
       <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Dictionary.hpp">
+      <Filter>Foundation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

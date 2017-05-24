@@ -22,10 +22,10 @@
 
 NS_FK_BEGIN
 
-Vector2 Vector2::Zero  = Vector2(0.f, 0.f);
-Vector2 Vector2::Unit  = Vector2(1.f, 1.f);
-Vector2 Vector2::UnitX = Vector2(1.f, 0.f);
-Vector2 Vector2::UnitY = Vector2(0.f, 1.f);
+Vector2 Vector2::ZERO  = Vector2(0.f, 0.f);
+Vector2 Vector2::UNIT  = Vector2(1.f, 1.f);
+Vector2 Vector2::UNITX = Vector2(1.f, 0.f);
+Vector2 Vector2::UNITY = Vector2(0.f, 1.f);
 
 Vector2::Vector2()
     : x(0.0f), y(0.0f)
@@ -39,70 +39,70 @@ Vector2::Vector2(float x, float y)
 
 Vector2::Vector2(const float* array)
 {
-    set(array);
+    Set(array);
 }
 
 Vector2::Vector2(const Vector2& p1, const Vector2& p2)
 {
-    set(p1, p2);
+    Set(p1, p2);
 }
 
 Vector2::Vector2(const Vector2& copy)
 {
-    set(copy);
+    Set(copy);
 }
 
 Vector2::~Vector2()
 {
 }
 
-const Vector2& Vector2::zero()
+const Vector2& Vector2::Zero()
 {
     static Vector2 value(0.0f, 0.0f);
     return value;
 }
 
-const Vector2& Vector2::one()
+const Vector2& Vector2::One()
 {
     static Vector2 value(1.0f, 1.0f);
     return value;
 }
 
-const Vector2& Vector2::unitX()
+const Vector2& Vector2::UnitX()
 {
     static Vector2 value(1.0f, 0.0f);
     return value;
 }
 
-const Vector2& Vector2::unitY()
+const Vector2& Vector2::UnitY()
 {
     static Vector2 value(0.0f, 1.0f);
     return value;
 }
 
-bool Vector2::isZero() const
+bool Vector2::IsZero() const
 {
     return x == 0.0f && y == 0.0f;
 }
 
-bool Vector2::isOne() const
+bool Vector2::IsOne() const
 {
     return x == 1.0f && y == 1.0f;
 }
 
-float Vector2::angle(const Vector2& v1, const Vector2& v2)
+float Vector2::Angle(const Vector2& v1, const Vector2& v2)
 {
     float dz = v1.x * v2.y - v1.y * v2.x;
-    return atan2f(fabsf(dz) + Math::SmailFloat, dot(v1, v2));
+    return atan2f(fabsf(dz) + Math::SmailFloat, Dot(v1, v2));
 }
 
-void Vector2::add(const Vector2& v)
+void Vector2::Add(const Vector2& v)
 {
     x += v.x;
     y += v.y;
 }
 
-void Vector2::add(const Vector2& v1, const Vector2& v2, Vector2* dst)
+void Vector2::Add(const Vector2& v1, const Vector2& v2, Vector2* dst)
 {
     assert(dst);
 
@@ -110,7 +110,7 @@ void Vector2::add(const Vector2& v1, const Vector2& v2, Vector2* dst)
     dst->y = v1.y + v2.y;
 }
 
-void Vector2::clamp(const Vector2& min, const Vector2& max)
+void Vector2::Clamp(const Vector2& min, const Vector2& max)
 {
     assert(!(min.x > max.x || min.y > max.y ));
 
@@ -127,7 +127,7 @@ void Vector2::clamp(const Vector2& min, const Vector2& max)
         y = max.y;
 }
 
-void Vector2::clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2* dst)
+void Vector2::Clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2* dst)
 {
     assert(dst);
     assert(!(min.x > max.x || min.y > max.y ));
@@ -147,7 +147,7 @@ void Vector2::clamp(const Vector2& v, const Vector2& min, const Vector2& max, Ve
         dst->y = max.y;
 }
 
-float Vector2::distance(const Vector2& v) const
+float Vector2::Distance(const Vector2& v) const
 {
     float dx = v.x - x;
     float dy = v.y - y;
@@ -155,46 +155,46 @@ float Vector2::distance(const Vector2& v) const
     return sqrt(dx * dx + dy * dy);
 }
 
-float Vector2::distanceSquared(const Vector2& v) const
+float Vector2::DistanceSquared(const Vector2& v) const
 {
     float dx = v.x - x;
     float dy = v.y - y;
     return (dx * dx + dy * dy);
 }
 
-float Vector2::dot(const Vector2& v) const
+float Vector2::Dot(const Vector2& v) const
 {
     return (x * v.x + y * v.y);
 }
 
-float Vector2::dot(const Vector2& v1, const Vector2& v2)
+float Vector2::Dot(const Vector2& v1, const Vector2& v2)
 {
     return (v1.x * v2.x + v1.y * v2.y);
 }
 
-float Vector2::length() const
+float Vector2::Length() const
 {
     return sqrt(x * x + y * y);
 }
 
-float Vector2::lengthSquared() const
+float Vector2::LengthSquared() const
 {
     return (x * x + y * y);
 }
 
-void Vector2::negate()
+void Vector2::Negate()
 {
     x = -x;
     y = -y;
 }
 
-Vector2& Vector2::normalize()
+Vector2& Vector2::Normalize()
 {
-    normalize(this);
+    Normalize(this);
     return *this;
 }
 
-void Vector2::normalize(Vector2* dst) const
+void Vector2::Normalize(Vector2* dst) const
 {
     assert(dst);
 
@@ -219,24 +219,24 @@ void Vector2::normalize(Vector2* dst) const
     dst->y *= n;
 }
 
-void Vector2::scale(float scalar)
+void Vector2::Scale(float scalar)
 {
     x *= scalar;
     y *= scalar;
 }
 
-void Vector2::scale(const Vector2& scale)
+void Vector2::Scale(const Vector2& scale)
 {
     x *= scale.x;
     y *= scale.y;
 }
 
-void Vector2::rotate(const Vector2& point, float angle)
+void Vector2::Rotate(const Vector2& point, float angle)
 {
     float sinAngle = sin(angle);
     float cosAngle = cos(angle);
 
-    if (point.isZero())
+    if (point.IsZero())
     {
         float tempX = x * cosAngle - y * sinAngle;
         y = y * cosAngle + x * sinAngle;
@@ -252,13 +252,13 @@ void Vector2::rotate(const Vector2& point, float angle)
     }
 }
 
-void Vector2::set(float x, float y)
+void Vector2::Set(float x, float y)
 {
     this->x = x;
     this->y = y;
 }
 
-void Vector2::set(const float* array)
+void Vector2::Set(const float* array)
 {
     assert(array);
 
@@ -266,25 +266,25 @@ void Vector2::set(const float* array)
     y = array[1];
 }
 
-void Vector2::set(const Vector2& v)
+void Vector2::Set(const Vector2& v)
 {
     this->x = v.x;
     this->y = v.y;
 }
 
-void Vector2::set(const Vector2& p1, const Vector2& p2)
+void Vector2::Set(const Vector2& p1, const Vector2& p2)
 {
      x = p2.x - p1.x;
      y = p2.y - p1.y;
 }
 
-void Vector2::subtract(const Vector2& v)
+void Vector2::Subtract(const Vector2& v)
 {
     x -= v.x;
     y -= v.y;
 }
 
-void Vector2::subtract(const Vector2& v1, const Vector2& v2, Vector2* dst)
+void Vector2::Subtract(const Vector2& v1, const Vector2& v2, Vector2* dst)
 {
     assert(dst);
 
@@ -292,7 +292,7 @@ void Vector2::subtract(const Vector2& v1, const Vector2& v2, Vector2* dst)
     dst->y = v1.y - v2.y;
 }
 
-void Vector2::smooth(const Vector2& target, float elapsedTime, float responseTime)
+void Vector2::Smooth(const Vector2& target, float elapsedTime, float responseTime)
 {
     if (elapsedTime > 0)
     {
@@ -300,10 +300,10 @@ void Vector2::smooth(const Vector2& target, float elapsedTime, float responseTim
     }
 }
 
-Vector2 Vector2::moveTowards(Vector2 current, Vector2 target, float maxDistanceDelta)
+Vector2 Vector2::MoveTowards(Vector2 current, Vector2 target, float maxDistanceDelta)
 {
     Vector2 a = target - current;
-    float magnitude = a.length();
+    float magnitude = a.Length();
     if (magnitude <= maxDistanceDelta || magnitude == 0.f)
     {
         return target;

@@ -145,9 +145,9 @@ namespace detail
                 if (result != 0)
                 {
                     if (bFloor)
-                        result = Math::min(result, freqValue);
+                        result = Math::Min(result, freqValue);
                     else
-                        result = Math::max(result, freqValue);
+                        result = Math::Max(result, freqValue);
                 }
                 else
                 {
@@ -618,7 +618,7 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
         // if we didn't have MemAvailable (kernels < 3.14 or CentOS 6.x), use free + cached as a (bad) approximation
         if (MemoryConstants.AvailablePhysical == 0)
         {
-            MemoryConstants.AvailablePhysical = Math::min((uint64)(MemFree + Cached + Buffers), MemoryConstants.TotalPhysical);
+            MemoryConstants.AvailablePhysical = Math::Min((uint64)(MemFree + Cached + Buffers), MemoryConstants.TotalPhysical);
         }
 
         fclose(FileGlobalMemStats);
@@ -663,8 +663,8 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
     }
 
     // sanitize stats as sometimes peak < used for some reason
-    MemoryConstants.PeakUsedVirtual = Math::max(MemoryConstants.PeakUsedVirtual, MemoryConstants.UsedVirtual);
-    MemoryConstants.PeakUsedPhysical = Math::max(MemoryConstants.PeakUsedPhysical, MemoryConstants.UsedPhysical);
+    MemoryConstants.PeakUsedVirtual = Math::Max(MemoryConstants.PeakUsedVirtual, MemoryConstants.UsedVirtual);
+    MemoryConstants.PeakUsedPhysical = Math::Max(MemoryConstants.PeakUsedPhysical, MemoryConstants.UsedPhysical);
     return MemoryConstants;
 }
 

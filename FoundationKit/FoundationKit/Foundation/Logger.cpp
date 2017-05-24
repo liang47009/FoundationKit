@@ -36,7 +36,7 @@ Logger::Logger()
 
 }
 
-bool Logger::init(const std::string& fileName)
+bool Logger::Initialize(const std::string& fileName)
 {
     try
     {
@@ -57,7 +57,7 @@ bool Logger::init(const std::string& fileName)
 }
 
 
-void Logger::setLogLevel(LOG_LEVEL_ENUM logLevel)
+void Logger::SetLogLevel(LOG_LEVEL_ENUM logLevel)
 {
     if (_log)
     {
@@ -65,7 +65,7 @@ void Logger::setLogLevel(LOG_LEVEL_ENUM logLevel)
     }
 }
 
-void Logger::setConsoleLogLevel(LOG_LEVEL_ENUM logLevel)
+void Logger::SetConsoleLogLevel(LOG_LEVEL_ENUM logLevel)
 {
     if (_console_log)
     {
@@ -73,12 +73,12 @@ void Logger::setConsoleLogLevel(LOG_LEVEL_ENUM logLevel)
     }
 }
 
-Logger::pointer Logger::getLog()
+Logger::pointer Logger::GetLog()
 {
     return _log;
 }
 
-Logger::pointer Logger::getConsoleLog()
+Logger::pointer Logger::GetConsoleLog()
 {
     return _console_log;
 }

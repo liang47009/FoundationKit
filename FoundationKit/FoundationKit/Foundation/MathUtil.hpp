@@ -50,7 +50,7 @@ public:
      * @param elapsedTime elapsed time between calls.
      * @param responseTime response time (in the same units as elapsedTime).
      */
-    static void smooth(float* x, float target, float elapsedTime, float responseTime);
+    static void Smooth(float* x, float target, float elapsedTime, float responseTime);
 
     /**
      * Updates the given scalar towards the given target using a smoothing function.
@@ -65,29 +65,29 @@ public:
      * @param riseTime response time for rising slope (in the same units as elapsedTime).
      * @param fallTime response time for falling slope (in the same units as elapsedTime).
      */
-    static void smooth(float* x, float target, float elapsedTime, float riseTime, float fallTime);
+    static void Smooth(float* x, float target, float elapsedTime, float riseTime, float fallTime);
 
 private:
 
-    inline static void addMatrix(const float* m, float scalar, float* dst);
+    inline static void AddMatrix(const float* m, float scalar, float* dst);
 
-    inline static void addMatrix(const float* m1, const float* m2, float* dst);
+    inline static void AddMatrix(const float* m1, const float* m2, float* dst);
 
-    inline static void subtractMatrix(const float* m1, const float* m2, float* dst);
+    inline static void SubtractMatrix(const float* m1, const float* m2, float* dst);
 
-    inline static void multiplyMatrix(const float* m, float scalar, float* dst);
+    inline static void MultiplyMatrix(const float* m, float scalar, float* dst);
 
-    inline static void multiplyMatrix(const float* m1, const float* m2, float* dst);
+    inline static void MultiplyMatrix(const float* m1, const float* m2, float* dst);
 
-    inline static void negateMatrix(const float* m, float* dst);
+    inline static void NegateMatrix(const float* m, float* dst);
 
-    inline static void transposeMatrix(const float* m, float* dst);
+    inline static void TransposeMatrix(const float* m, float* dst);
 
-    inline static void transformVector4(const float* m, float x, float y, float z, float w, float* dst);
+    inline static void TransformVector4(const float* m, float x, float y, float z, float w, float* dst);
 
-    inline static void transformVector4(const float* m, const float* v, float* dst);
+    inline static void TransformVector4(const float* m, const float* v, float* dst);
 
-    inline static void crossVector3(const float* v1, const float* v2, float* dst);
+    inline static void CrossVector3(const float* v1, const float* v2, float* dst);
 
     MathUtil();
 };

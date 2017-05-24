@@ -12,7 +12,7 @@ NS_FK_BEGIN
 /*                          DelegateObserver                            */
 /************************************************************************/
 
-DelegateObserver::Pointer DelegateObserver::create(const std::string& name, DelegateCallbackType& selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+DelegateObserver::Pointer DelegateObserver::Create(const std::string& name, DelegateCallbackType& selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 {
     DelegateObserver *observer = new  DelegateObserver(name, selector, target, callOnce);
     return DelegateObserver::Pointer(observer);
@@ -32,7 +32,7 @@ DelegateObserver::~DelegateObserver()
 
 }
 
-void DelegateObserver::invoke(const void* args)
+void DelegateObserver::Invoke(const void* args)
 {
     if (_selector)
     {
@@ -41,22 +41,22 @@ void DelegateObserver::invoke(const void* args)
 }
 
 
-void* DelegateObserver::getTarget() const
+void* DelegateObserver::GetTarget() const
 {
     return _target;
 }
 
-const DelegateCallbackType& DelegateObserver::getSelector() const
+const DelegateCallbackType& DelegateObserver::GetSelector() const
 {
     return _selector; 
 }
 
-const std::string& DelegateObserver::getName() const
+const std::string& DelegateObserver::GetName() const
 {
     return _name;
 }
 
-bool DelegateObserver::isCallOnce()
+bool DelegateObserver::IsCallOnce()
 {
     return _callOnce;
 }
@@ -86,20 +86,20 @@ DelegateManager::~DelegateManager()
 
 }
 
-void DelegateManager::addObserver(const std::string& name, DelegateCallbackType& selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+void DelegateManager::AddObserver(const std::string& name, DelegateCallbackType& selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     DelegateObserver::Pointer observer;
     do 
     {
-        BREAK_IF(this->observerExisted(name,target));
-        observer = DelegateObserver::create(name, selector, target, callOnce);
+        BREAK_IF(this->ObserverExisted(name,target));
+        observer = DelegateObserver::Create(name, selector, target, callOnce);
         BREAK_IF(!observer);
         _observers.push_back(observer);
     } while (false);
 }
 
-void DelegateManager::removeObserver(const std::string& name)
+void DelegateManager::RemoveObserver(const std::string& name)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     ObserverList::iterator iter = _observers.begin();
@@ -108,7 +108,7 @@ void DelegateManager::removeObserver(const std::string& name)
         DelegateObserver::Pointer observer = *iter;
         if (!observer)
             continue;
-        if (observer->getName() == name)
+        if (observer->GetName() == name)
         {
             iter = _observers.erase(iter);
         }
@@ -119,14 +119,14 @@ void DelegateManager::removeObserver(const std::string& name)
     }
 }
 
-void DelegateManager::removeObserver(const char* name)
+void DelegateManager::RemoveObserver(const char* name)
 {
     std::string strName = name;
-    removeObserver(strName);
+    RemoveObserver(strName);
 }
 
 
-void DelegateManager::removeObserver(void* target)
+void DelegateManager::RemoveObserver(void* target)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     ObserverList::iterator iter = _observers.begin();
@@ -135,7 +135,7 @@ void DelegateManager::removeObserver(void* target)
         DelegateObserver::Pointer observer = *iter;
         if (!observer)
             continue;
-        if (observer->getTarget() == target)
+        if (observer->GetTarget() == target)
         {
             iter = _observers.erase(iter);
         }
@@ -146,7 +146,7 @@ void DelegateManager::removeObserver(void* target)
     }
 }
 
-void DelegateManager::removeObserver(const std::string& name, void* target)
+void DelegateManager::RemoveObserver(const std::string& name, void* target)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     ObserverList::iterator iter = _observers.begin();
@@ -155,7 +155,7 @@ void DelegateManager::removeObserver(const std::string& name, void* target)
         DelegateObserver::Pointer observer = *iter;
         if (!observer)
             continue;
-        if (observer->getName() == name && observer->getTarget() == target)
+        if (observer->GetName() == name && observer->GetTarget() == target)
         {
             iter = _observers.erase(iter);
         }
@@ -166,7 +166,7 @@ void DelegateManager::removeObserver(const std::string& name, void* target)
     }
 }
 
-void DelegateManager::invokeDelegate(const std::string& name, const void* args)
+void DelegateManager::InvokeDelegate(const std::string& name, const void* args)
 {
     std::unique_lock<std::mutex> lock(_mutex);
     ObserverList observersToCopy(_observers);
@@ -178,10 +178,10 @@ void DelegateManager::invokeDelegate(const std::string& name, const void* args)
         DelegateObserver::Pointer observer = *iter;
         if (!observer)
             continue;
-        if (observer->getName() == name)
+        if (observer->GetName() == name)
         {
-            observer->invoke(args);
-            if (observer->isCallOnce())
+            observer->Invoke(args);
+            if (observer->IsCallOnce())
             {
                 iter = observersToCopy.erase(iter);
                 continue;
@@ -191,7 +191,7 @@ void DelegateManager::invokeDelegate(const std::string& name, const void* args)
     }
 }
 
-bool DelegateManager::observerExisted(const std::string& name, void* target /*= nullptr*/)
+bool DelegateManager::ObserverExisted(const std::string& name, void* target /*= nullptr*/)
 {
     ObserverList::const_iterator iter = _observers.begin();
     for (; iter != _observers.end(); ++iter)
@@ -199,7 +199,7 @@ bool DelegateManager::observerExisted(const std::string& name, void* target /*= 
         DelegateObserver::Pointer observer = *iter;
         if (!observer)
             continue;
-        if (observer->getTarget() == target && observer->getName() == name)
+        if (observer->GetTarget() == target && observer->GetName() == name)
         {
             return true;
         }

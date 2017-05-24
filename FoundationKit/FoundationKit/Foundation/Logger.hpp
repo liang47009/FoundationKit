@@ -40,11 +40,11 @@ public:
     using pointer = std::shared_ptr<spdlog::logger>;
 public:
     virtual~Logger();
-    bool init(const std::string& fileName);
-    void setLogLevel(LOG_LEVEL_ENUM logLevel);
-    void setConsoleLogLevel(LOG_LEVEL_ENUM logLevel);
-    pointer getLog();
-    pointer getConsoleLog();
+    bool Initialize(const std::string& fileName);
+    void SetLogLevel(LOG_LEVEL_ENUM logLevel);
+    void SetConsoleLogLevel(LOG_LEVEL_ENUM logLevel);
+    pointer GetLog();
+    pointer GetConsoleLog();
 private:
     pointer _log;
     pointer _console_log;
@@ -53,37 +53,37 @@ private:
 template<typename... Args>
 static inline void LOG_TRACE(const char* fmt, const Args&... args)
 {
-    Logger::GetInstance()->getLog()->trace(fmt, args...);
+    Logger::GetInstance()->GetLog()->trace(fmt, args...);
 }
 
 template<typename... Args>
 static inline void LOG_INFO(const char* fmt, const Args&... args)
 {
-    Logger::GetInstance()->getLog()->info(fmt, args...);
+    Logger::GetInstance()->GetLog()->info(fmt, args...);
 }
 
 template<typename... Args>
 static inline void LOG_WARN(const char* fmt, const Args&... args)
 {
-    Logger::GetInstance()->getLog()->warn(fmt, args...);
+    Logger::GetInstance()->GetLog()->warn(fmt, args...);
 }
 
 template<typename... Args>
 static inline void LOG_ERROR(const char* fmt, const Args&... args)
 {
-    Logger::GetInstance()->getLog()->error(fmt, args...);
+    Logger::GetInstance()->GetLog()->error(fmt, args...);
 }
 
 template<typename... Args>
 static inline void LOG_CRITICAL(const char* fmt, const Args&... args)
 {
-    Logger::GetInstance()->getLog()->critical(fmt, args...);
+    Logger::GetInstance()->GetLog()->critical(fmt, args...);
 }
 
 template<typename... Args>
 static inline void LOG_DEBUG(const char* fmt, const Args&... args)
 {
-    Logger::GetInstance()->getConsoleLog()->debug(fmt, args...);
+    Logger::GetInstance()->GetConsoleLog()->debug(fmt, args...);
 }
 
 NS_FK_END

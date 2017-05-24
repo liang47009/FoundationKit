@@ -28,72 +28,72 @@ NS_FK_BEGIN
 inline const Matrix Matrix::operator+(const Matrix& m) const
 {
     Matrix result(*this);
-    result.add(m);
+    result.Add(m);
     return result;
 }
 
 inline Matrix& Matrix::operator+=(const Matrix& m)
 {
-    add(m);
+    Add(m);
     return *this;
 }
 
 inline const Matrix Matrix::operator-(const Matrix& m) const
 {
     Matrix result(*this);
-    result.subtract(m);
+    result.Subtract(m);
     return result;
 }
 
 inline Matrix& Matrix::operator-=(const Matrix& m)
 {
-    subtract(m);
+    Subtract(m);
     return *this;
 }
 
 inline const Matrix Matrix::operator-() const
 {
     Matrix m(*this);
-    m.negate();
+    m.Negate();
     return m;
 }
 
 inline const Matrix Matrix::operator*(const Matrix& m) const
 {
     Matrix result(*this);
-    result.multiply(m);
+    result.Multiply(m);
     return result;
 }
 
 inline Matrix& Matrix::operator*=(const Matrix& m)
 {
-    multiply(m);
+    Multiply(m);
     return *this;
 }
 
 inline Vector3& operator*=(Vector3& v, const Matrix& m)
 {
-    m.transformVector(&v);
+    m.TransformVector(&v);
     return v;
 }
 
 inline const Vector3 operator*(const Matrix& m, const Vector3& v)
 {
     Vector3 x;
-    m.transformVector(v, &x);
+    m.TransformVector(v, &x);
     return x;
 }
 
 inline Vector4& operator*=(Vector4& v, const Matrix& m)
 {
-    m.transformVector(&v);
+    m.TransformVector(&v);
     return v;
 }
 
 inline const Vector4 operator*(const Matrix& m, const Vector4& v)
 {
     Vector4 x;
-    m.transformVector(v, &x);
+    m.TransformVector(v, &x);
     return x;
 }
 

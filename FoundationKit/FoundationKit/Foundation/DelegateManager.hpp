@@ -22,13 +22,13 @@ class DelegateObserver
 {
 public:
     typedef std::shared_ptr<DelegateObserver> Pointer;
-    static Pointer create(const std::string& name, DelegateCallbackType& selector, void* target = nullptr, bool callOnce = false);
+    static Pointer Create(const std::string& name, DelegateCallbackType& selector, void* target = nullptr, bool callOnce = false);
     ~DelegateObserver();
-    void                          invoke(const void* args);
-    void*                         getTarget()const;
-    const DelegateCallbackType&   getSelector()const;
-    const std::string&            getName()const;
-    bool                          isCallOnce();
+    void                          Invoke(const void* args);
+    void*                         GetTarget()const;
+    const DelegateCallbackType&   GetSelector()const;
+    const std::string&            GetName()const;
+    bool                          IsCallOnce();
     bool operator ==(const DelegateObserver& other);
     bool operator != (const DelegateObserver& other);
 protected:
@@ -42,7 +42,7 @@ private:
 
 inline bool operator==(const DelegateObserver& l, const DelegateObserver& r)
 {
-    return (l.getTarget() == r.getTarget() && l.getName() == r.getName());
+    return (l.GetTarget() == r.GetTarget() && l.GetName() == r.GetName());
 }
 
 inline bool operator!=(const DelegateObserver& l, const DelegateObserver& r)
@@ -58,16 +58,16 @@ class DelegateManager : public Singleton<DelegateManager>
 
 public:
     ~DelegateManager();
-    void addObserver(const std::string& name, DelegateCallbackType& selector, void* target = nullptr, bool callOnce = false);
-    void removeObserver( const std::string& name);
-    void removeObserver( const char* name);
-    void removeObserver( void* target);
-    void removeObserver(const std::string& name, void* target);
-    void invokeDelegate(const std::string& name, const void* args);
+    void AddObserver(const std::string& name, DelegateCallbackType& selector, void* target = nullptr, bool callOnce = false);
+    void RemoveObserver( const std::string& name);
+    void RemoveObserver( const char* name);
+    void RemoveObserver( void* target);
+    void RemoveObserver(const std::string& name, void* target);
+    void InvokeDelegate(const std::string& name, const void* args);
 
 protected:
     // Check whether the observer exists by the specified target and name.
-    bool observerExisted(const std::string& name,void* target = nullptr);
+    bool ObserverExisted(const std::string& name,void* target = nullptr);
 
 private:
     DelegateManager();

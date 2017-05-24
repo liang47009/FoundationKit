@@ -42,7 +42,7 @@ extern "C"
         {
             arguments.emplace_back(env->GetObjectArrayElement(args, i));
         }
-        FoundationKit::DelegateManager::GetInstance()->invokeDelegate(strFunName, &arguments);
+        FoundationKit::DelegateManager::GetInstance()->InvokeDelegate(strFunName, &arguments);
 
         /*
         size_t argIndex = 0;

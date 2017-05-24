@@ -34,10 +34,10 @@ class Vector2
 {
 public:
 
-    static Vector2 Zero;  // Vector2(0.f, 0.f)
-    static Vector2 Unit;  // Vector2(1.f, 1.f)
-    static Vector2 UnitX; // Vector2(1.f, 0.f)
-    static Vector2 UnitY; // Vector2(0.f, 1.f)
+    static Vector2 ZERO;  // Vector2(0.f, 0.f)
+    static Vector2 UNIT;  // Vector2(1.f, 1.f)
+    static Vector2 UNITX; // Vector2(1.f, 0.f)
+    static Vector2 UNITY; // Vector2(0.f, 1.f)
     /**
      * The x coordinate.
      */
@@ -93,30 +93,30 @@ public:
      *
      * @return The 2-element vector of 0s.
      */
-    static const Vector2& zero();
+    static const Vector2& Zero();
 
     /**
      * Returns the one vector.
      *
      * @return The 2-element vector of 1s.
      */
-    static const Vector2& one();
+    static const Vector2& One();
 
     /**
      * Returns the unit x vector.
      *
      * @return The 2-element unit vector along the x axis.
      */
-    static const Vector2& unitX();
+    static const Vector2& UnitX();
 
     /**
      * Returns the unit y vector.
      *
      * @return The 2-element unit vector along the y axis.
      */
-    static const Vector2& unitY();
+    static const Vector2& UnitY();
 
-    static Vector2 moveTowards(Vector2 current, Vector2 target, float maxDistanceDelta);
+    static Vector2 MoveTowards(Vector2 current, Vector2 target, float maxDistanceDelta);
 
    /**
     * Returns the angle (in radians) between the specified vectors.
@@ -126,7 +126,7 @@ public:
     *
     * @return The angle between the two vectors (in radians).
     */
-    static float angle(const Vector2& v1, const Vector2& v2);
+    static float Angle(const Vector2& v1, const Vector2& v2);
 
    /**
     * Adds the specified vectors and stores the result in dst.
@@ -135,7 +135,7 @@ public:
     * @param v2 The second vector.
     * @param dst A vector to store the result in.
     */
-    static void add(const Vector2& v1, const Vector2& v2, Vector2* dst);
+    static void Add(const Vector2& v1, const Vector2& v2, Vector2* dst);
 
    /**
     * Clamps the specified vector within the specified range and returns it in dst.
@@ -145,7 +145,7 @@ public:
     * @param max The maximum value.
     * @param dst A vector to store the result in.
     */
-    static void clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2* dst);
+    static void Clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2* dst);
 
    /**
     * Returns the dot product between the specified vectors.
@@ -155,7 +155,7 @@ public:
     *
     * @return The dot product between the vectors.
     */
-    static float dot(const Vector2& v1, const Vector2& v2);
+    static float Dot(const Vector2& v1, const Vector2& v2);
 
    /**
     * Subtracts the specified vectors and stores the result in dst.
@@ -165,28 +165,28 @@ public:
     * @param v2 The second vector.
     * @param dst The destination vector.
     */
-    static void subtract(const Vector2& v1, const Vector2& v2, Vector2* dst);
+    static void Subtract(const Vector2& v1, const Vector2& v2, Vector2* dst);
 
     /**
      * Indicates whether this vector contains all zeros.
      *
      * @return true if this vector contains all zeros, false otherwise.
      */
-    bool isZero() const;
+    bool IsZero() const;
 
     /**
      * Indicates whether this vector contains all ones.
      *
      * @return true if this vector contains all ones, false otherwise.
      */
-    bool isOne() const;
+    bool IsOne() const;
 
     /**
      * Adds the elements of the specified vector to this one.
      *
      * @param v The vector to add.
      */
-    void add(const Vector2& v);
+    void Add(const Vector2& v);
 
     /**
      * Clamps this vector within the specified range.
@@ -194,7 +194,7 @@ public:
      * @param min The minimum value.
      * @param max The maximum value.
      */
-    void clamp(const Vector2& min, const Vector2& max);
+    void Clamp(const Vector2& min, const Vector2& max);
 
     /**
      * Returns the distance between this vector and v.
@@ -205,7 +205,7 @@ public:
      * 
      * @see distanceSquared
      */
-    float distance(const Vector2& v) const;
+    float Distance(const Vector2& v) const;
 
     /**
      * Returns the squared distance between this vector and v.
@@ -221,7 +221,7 @@ public:
      * 
      * @see distance
      */
-    float distanceSquared(const Vector2& v) const;
+    float DistanceSquared(const Vector2& v) const;
 
     /**
      * Returns the dot product of this vector and the specified vector.
@@ -230,7 +230,7 @@ public:
      * 
      * @return The dot product.
      */
-    float dot(const Vector2& v) const;
+    float Dot(const Vector2& v) const;
 
     /**
      * Computes the length of this vector.
@@ -239,7 +239,7 @@ public:
      * 
      * @see lengthSquared
      */
-    float length() const;
+    float Length() const;
 
     /**
      * Returns the squared length of this vector.
@@ -253,12 +253,12 @@ public:
      * 
      * @see length
      */
-    float lengthSquared() const;
+    float LengthSquared() const;
 
     /**
      * Negates this vector.
      */
-    void negate();
+    void Negate();
 
     /**
      * Normalizes this vector.
@@ -271,7 +271,7 @@ public:
      * 
      * @return This vector, after the normalization occurs.
      */
-    Vector2& normalize();
+    Vector2& Normalize();
 
     /**
      * Normalizes this vector and stores the result in dst.
@@ -282,21 +282,21 @@ public:
      *
      * @param dst The destination vector.
      */
-    void normalize(Vector2* dst) const;
+    void Normalize(Vector2* dst) const;
 
     /**
      * Scales all elements of this vector by the specified value.
      *
      * @param scalar The scalar value.
      */
-    void scale(float scalar);
+    void Scale(float scalar);
 
     /**
      * Scales each element of this vector by the matching component of scale.
      *
      * @param scale The vector to scale by.
      */
-    void scale(const Vector2& scale);
+    void Scale(const Vector2& scale);
 
     /**
      * Rotates this vector by angle (specified in radians) around the given point.
@@ -304,7 +304,7 @@ public:
      * @param point The point to rotate around.
      * @param angle The angle to rotate by (in radians).
      */
-    void rotate(const Vector2& point, float angle);
+    void Rotate(const Vector2& point, float angle);
 
     /**
      * Sets the elements of this vector to the specified values.
@@ -312,21 +312,21 @@ public:
      * @param x The new x coordinate.
      * @param y The new y coordinate.
      */
-    void set(float x, float y);
+    void Set(float x, float y);
 
     /**
      * Sets the elements of this vector from the values in the specified array.
      *
      * @param array An array containing the elements of the vector in the order x, y.
      */
-    void set(const float* array);
+    void Set(const float* array);
 
     /**
      * Sets the elements of this vector to those in the specified vector.
      *
      * @param v The vector to copy.
      */
-    void set(const Vector2& v);
+    void Set(const Vector2& v);
 
     /**
      * Sets this vector to the directional vector between the specified points.
@@ -334,7 +334,7 @@ public:
      * @param p1 The first point.
      * @param p2 The second point.
      */
-    void set(const Vector2& p1, const Vector2& p2);
+    void Set(const Vector2& p1, const Vector2& p2);
 
     /**
      * Subtracts this vector and the specified vector as (this - v)
@@ -342,7 +342,7 @@ public:
      *
      * @param v The vector to subtract.
      */
-    void subtract(const Vector2& v);
+    void Subtract(const Vector2& v);
 
     /**
      * Updates this vector towards the given target using a smoothing function.
@@ -355,9 +355,9 @@ public:
      * @param elapsedTime elapsed time between calls.
      * @param responseTime response time (in the same units as elapsedTime).
      */
-    void smooth(const Vector2& target, float elapsedTime, float responseTime);
+    void Smooth(const Vector2& target, float elapsedTime, float responseTime);
 
-    float magnitude();
+    float Magnitude();
 
     /**
      * Calculates the sum of this vector with the given vector.
