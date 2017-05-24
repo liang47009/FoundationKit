@@ -1,3 +1,5 @@
+cd /d %~dp0
+
 IF EXIST "Win32" (
     rmdir "Win32" /s /q
 )
@@ -32,6 +34,30 @@ IF EXIST "FoundationKit\proj.android\bin" (
 
 IF EXIST "FoundationKit\proj.android\gen" (
     rmdir "FoundationKit\proj.android\gen" /s /q
+)
+
+IF EXIST "FoundationKit\proj.android_studio\.gradle" (
+    rmdir "FoundationKit\proj.android_studio\.gradle" /s /q
+)
+
+IF EXIST "FoundationKit\proj.android_studio\.idea" (
+    rmdir "FoundationKit\proj.android_studio\.idea" /s /q
+)
+
+IF EXIST "FoundationKit\proj.android_studio\build" (
+    rmdir "FoundationKit\proj.android_studio\build" /s /q
+)
+
+IF EXIST "FoundationKit\proj.android_studio\app\build" (
+    rmdir "FoundationKit\proj.android_studio\app\build" /s /q
+)
+
+IF EXIST "FoundationKit\proj.android_studio\app\.externalNativeBuild" (
+    rmdir "FoundationKit\proj.android_studio\app\.externalNativeBuild" /s /q
+)
+
+IF EXIST "FoundationKit\proj.android_studio\app\app.iml" (
+    del "%~dp0FoundationKit\proj.android_studio\app\app.iml" /s /q
 )
 
 IF EXIST "FoundationKitUnitTest\proj.android\obj" (
