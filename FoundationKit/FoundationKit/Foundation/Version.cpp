@@ -216,8 +216,8 @@ bool Version::TryParse(const std::string& input, Version& result)
         if (parsedLength < 2 || parsedLength > 4)
             break; //invalid_argument
 
-        result.Major = Tonumber<int>(elems[0]);
-        result.Minor = Tonumber<int>(elems[1]);
+        result.Major = ToNumber<int>(elems[0]);
+        result.Minor = ToNumber<int>(elems[1]);
         if (result.Major == -1 || result.Minor == -1)
             break;
 
@@ -225,13 +225,13 @@ bool Version::TryParse(const std::string& input, Version& result)
 
         if (parsedLength > 0)
         {
-            result.Build = Tonumber<int>(elems[2]);
+            result.Build = ToNumber<int>(elems[2]);
             if (result.Build == -1)
                 break;
             parsedLength--;
             if (parsedLength > 0)
             {
-                result.Revision = Tonumber<int>(elems[3]);
+                result.Revision = ToNumber<int>(elems[3]);
                 if (result.Revision == -1)
                     break;
             }

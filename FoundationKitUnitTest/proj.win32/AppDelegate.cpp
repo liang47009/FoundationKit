@@ -119,6 +119,41 @@ void TestShared(const std::shared_ptr<int>& pInt)
 
 }
 
+class MemoryAlignment0
+{
+public:
+    char a;
+    int b;
+    short c;
+};
+
+
+class MemoryAlignment1
+{
+public:
+    int b;
+    char a;
+    short c;
+};
+
+class MemoryAlignment2
+{
+public:
+    int b;
+    char a;
+    int64 c;
+
+};
+
+class MemoryAlignment3
+{
+public:
+    int64 c;
+    char a;
+    int b;
+
+};
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
@@ -126,6 +161,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     Logger::GetInstance()->init("E:\\linux\\FoundationKit.log");
 
 
+ 
+    int im_a_breakpoint = 0;
 
     //unsigned char cipherbuf[256];
     //unsigned char plainbuf[256];

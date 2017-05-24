@@ -86,7 +86,7 @@ private:
      * @usage tonumber<type>( string );
      */
     template< class _Type, class _Val >
-    static _Type Tonumber(_Val& val)
+    static _Type ToNumber(_Val& val)
     {
         std::istringstream iss(val);
         _Type result;
