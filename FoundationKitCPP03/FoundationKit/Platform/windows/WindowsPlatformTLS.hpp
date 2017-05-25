@@ -45,7 +45,7 @@ public:
 	 */
 	static FORCEINLINE uint32 AllocTlsSlot(void)
 	{
-		assert(static_cast<uint32>(-1) == TLS_OUT_OF_INDEXES, "TLS_OUT_OF_INDEXES is different from INDEX_NONE, change FWindowsPlatformTLS::AllocTlsSlot() implementation.");
+		ASSERTED(static_cast<uint32>(-1) == TLS_OUT_OF_INDEXES, "TLS_OUT_OF_INDEXES is different from INDEX_NONE, change FWindowsPlatformTLS::AllocTlsSlot() implementation.");
 		return ::TlsAlloc();
 	}
 
