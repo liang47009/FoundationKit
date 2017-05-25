@@ -38,6 +38,11 @@ Logger::~Logger()
 
 
 
+bool Logger::Initialize(const std::string& fileName)
+{
+    return true;
+}
+
 void Logger::log( Level level, const char* message, ... )
 {
     Logger::State& state = _states[level];

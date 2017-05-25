@@ -38,6 +38,7 @@ private:
 
 public:
     virtual~Logger();
+    bool Initialize(const std::string& fileName);
     /**
      * Logs a message at the specified log level.
      *
