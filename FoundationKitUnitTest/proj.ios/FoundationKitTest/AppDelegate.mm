@@ -34,7 +34,7 @@ using namespace FoundationKit;
     // Override point for customization after application launch.
     std::string strLogPaht = FileUtils::GetInstance()->GetWritablePath();
     strLogPaht+= "FoundationKit.log";
-    Logger::GetInstance()->init(strLogPaht);
+    Logger::GetInstance()->Initialize(strLogPaht);
     LOG_INFO("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());
     return YES;
 }

@@ -450,7 +450,7 @@ Rect PlatformDevice::GetScreenResolution()
     Size resolution = Size(renderedSize.width*scale , renderedSize.height*scale);
     Rect bounds;
     bounds.size = resolution;
-    bounds.origin.set(0.0f, 0.0f);
+    bounds.origin.Set(0.0f, 0.0f);
     return bounds;
 }
 
@@ -462,7 +462,7 @@ Rect PlatformDevice::GetScreenNativeResolution()
         auto scale =  [[UIScreen mainScreen] nativeScale];
         CGRect physicalRect =[UIScreen mainScreen].bounds;
         bounds.size.SetSize(physicalRect.size.width*scale , physicalRect.size.height*scale);
-        bounds.origin.set(physicalRect.origin.x, physicalRect.origin.y);
+        bounds.origin.Set(physicalRect.origin.x, physicalRect.origin.y);
     }
     else
     {
