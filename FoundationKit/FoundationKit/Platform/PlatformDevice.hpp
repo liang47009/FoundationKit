@@ -142,8 +142,6 @@ public:
     static float GetScreenYDPI();
     static float GetNativeScale();
     static PlatformMemoryConstants& GetMemoryConstants();
-
-    static std::string ExecuteSystemCommand(const std::string& command);
 };
 NS_FK_END
 

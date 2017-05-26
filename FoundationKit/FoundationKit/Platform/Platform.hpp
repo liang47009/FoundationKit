@@ -24,6 +24,7 @@ public:
 	~Platform();
     static bool IsDebuggerPresent();
     static size_t MallocUsableSize(void* ptr);
+    static std::string ExecuteSystemCommand(const std::string& command);
 };
 
 NS_FK_END

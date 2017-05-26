@@ -1,6 +1,8 @@
 #ifdef ANDROID
 #include <malloc.h>
+#include <errno.h>
 #include "FoundationKit/Platform/Platform.hpp"
+#include "FoundationKit/Foundation/Logger.hpp"
 
 NS_FK_BEGIN
 bool Platform::IsDebuggerPresent()
@@ -26,6 +28,34 @@ size_t Platform::MallocUsableSize(void* ptr)
     return malloc_usable_size(ptr);
 #endif
 }
+
+
+
+std::string Platform::ExecuteSystemCommand(const std::string& command)
+{
+    std::string result = "";
+    FILE* pipe = popen(command.c_str(), "r");
+    if (!pipe)
+    {
+        LOG_ERROR("****** popen() failed!");
+    }
+    try {
+        char buffer[256] = { 0 };
+        while (!feof(pipe))
+        {
+            if (fgets(buffer, 1024, pipe) != NULL)
+                result += buffer;
+        }
+    }
+    catch (...)
+    {
+        pclose(pipe);
+        LOG_ERROR("****** Cannot execute command:%s with errno:%d", command.c_str(), errno);
+    }
+    pclose(pipe);
+    return result;
+}
+
 
 NS_FK_END
 

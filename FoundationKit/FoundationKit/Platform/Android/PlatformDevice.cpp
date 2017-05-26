@@ -5,13 +5,14 @@
 #include <sys/sysinfo.h>
 
 #include "FoundationKit/Platform/PlatformDevice.hpp"
+#include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Platform/OpenGL.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
-#include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
+#include "FoundationKit/Foundation/Logger.hpp"
+#include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Foundation/Math.hpp"
 
 
 NS_FK_BEGIN
@@ -393,7 +394,7 @@ int PlatformDevice::GetNetworkType()
 std::string PlatformDevice::GetIpAddressV4()
 {
     std::string ipaddressv4;
-    std::string result = ExecuteSystemCommand("ip addr show wlan0 |grep \"inet \"");
+    std::string result = Platform::ExecuteSystemCommand("ip addr show wlan0 |grep \"inet \"");
     size_t inetPos = result.find("inet");
     if (inetPos != std::string::npos)
     {
@@ -409,7 +410,7 @@ std::string PlatformDevice::GetIpAddressV4()
 std::string PlatformDevice::GetIpAddressV6()
 {
     std::string ipaddressv6;
-    std::string result = ExecuteSystemCommand("ip addr show wlan0 |grep \"inet6 \"");
+    std::string result = Platform::ExecuteSystemCommand("ip addr show wlan0 |grep \"inet6 \"");
     size_t inet6Pos = result.find("inet6");
     if (inet6Pos != std::string::npos)
     {
@@ -666,31 +667,6 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
     MemoryConstants.PeakUsedVirtual = Math::Max(MemoryConstants.PeakUsedVirtual, MemoryConstants.UsedVirtual);
     MemoryConstants.PeakUsedPhysical = Math::Max(MemoryConstants.PeakUsedPhysical, MemoryConstants.UsedPhysical);
     return MemoryConstants;
-}
-
-std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
-{
-    std::string result = "";
-    FILE* pipe = popen(command.c_str(), "r");
-    if (!pipe)
-    {
-        LOG_ERROR("****** popen() failed!");
-    }
-    try {
-        char buffer[1024] = { 0 };
-        while (!feof(pipe))
-        {
-            if (fgets(buffer, 1024, pipe) != NULL)
-                result += buffer;
-        }
-    }
-    catch (...)
-    {
-        pclose(pipe);
-        LOG_ERROR("****** Cannot execute command:%s with errno:%d", command.c_str(), errno);
-    }
-    pclose(pipe);
-    return result;
 }
 
 NS_FK_END
