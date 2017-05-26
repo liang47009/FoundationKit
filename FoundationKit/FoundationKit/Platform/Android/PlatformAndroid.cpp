@@ -40,10 +40,10 @@ std::string Platform::ExecuteSystemCommand(const std::string& command)
         LOG_ERROR("****** popen() failed!");
     }
     try {
-        char buffer[256] = { 0 };
+        char buffer[256+1] = { 0 };
         while (!feof(pipe))
         {
-            if (fgets(buffer, 1024, pipe) != NULL)
+            if (fgets(buffer, 256, pipe) != NULL)
                 result += buffer;
         }
     }

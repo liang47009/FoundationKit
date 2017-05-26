@@ -78,7 +78,7 @@ std::string Platform::ExecuteSystemCommand(const std::string& command)
         return "CreateProcessA Falied.";
     }
 
-    const size_t buffer_size = 128;
+    const size_t buffer_size = 256;
     char buffer[buffer_size] = { 0 };
     std::string result = "";
     DWORD byteRead = 0;
