@@ -27,6 +27,28 @@ size_t Platform::MallocUsableSize(void* ptr)
     return malloc_size(ptr);
 }
 
+std::string Platform::ExecuteSystemCommand(const std::string& command)
+{
+    char buffer[256+1]={0};
+    std::string result = "";
+    FILE* pipe = popen(command.c_str(), "r");
+    if (!pipe) throw std::runtime_error("popen() failed!");
+    try {
+        while (!feof(pipe))
+        {
+            if (fgets(buffer, 256, pipe) != NULL)
+                result += buffer;
+        }
+    }
+    catch (...)
+    {
+        pclose(pipe);
+        throw;
+    }
+    pclose(pipe);
+    return result;
+}
+
 NS_FK_END
 
 #endif //TARGET_PLATFORM == PLATFORM_IOS
