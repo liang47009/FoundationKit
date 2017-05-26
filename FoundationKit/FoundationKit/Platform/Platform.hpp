@@ -24,8 +24,6 @@ public:
 	~Platform();
     static bool IsDebuggerPresent();
     static size_t MallocUsableSize(void* ptr);
-    static void ClipboardCopy(std::string& Str);
-    static void ClipboardPaste(const std::string& Dest);
     static std::string ExecuteSystemCommand(const std::string& command);
 };
 
