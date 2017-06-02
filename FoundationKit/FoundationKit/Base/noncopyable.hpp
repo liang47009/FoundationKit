@@ -27,8 +27,8 @@ namespace noncopyable_  // protection from unintended ADL
         noncopyable& operator=(const noncopyable&) = delete;
 	protected:
 		constexpr noncopyable() noexcept = default;
-		constexpr noncopyable(noncopyable&&) noexcept = default;
-		constexpr noncopyable& operator=(noncopyable&&) noexcept = default;
+		//constexpr noncopyable(noncopyable&&) noexcept = default;
+		//constexpr noncopyable& operator=(noncopyable&&) noexcept = default;
     };
 }
 

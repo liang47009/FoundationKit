@@ -167,8 +167,8 @@
 #define BREAK_IF(cond)           if(cond) break
 
 // Make a string to Wide string
-#define TEXT_HELPER(a,b) a ## b
-#define MAKE_TEXT(s) TEXT_HELPER(L, s)
+#define TEXT_CAT(a,b) a ## b
+#define MAKE_TEXT(s) TEXT_CAT(L, s)
 
 // Helper macro STRINGIZE:
 // Converts the parameter X to a string after macro replacement

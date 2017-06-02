@@ -7,6 +7,8 @@
 #ifndef FOUNDATIONKIT_SCOPE_LOCALE_HPP
 #define FOUNDATIONKIT_SCOPE_LOCALE_HPP
 #include <locale>
+#include "FoundationKit/GenericPlatformMacros.hpp"
+NS_FK_BEGIN
 class scope_locale 
 {
 public:
@@ -23,4 +25,5 @@ public:
 private:
     std::locale old_loc;
 };
+NS_FK_END
 #endif // FOUNDATIONKIT_SCOPE_LOCALE_HPP
