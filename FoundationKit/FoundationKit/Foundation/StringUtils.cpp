@@ -178,11 +178,10 @@ std::string StringUtils::wstring2UTF8string(const std::wstring &input)
     std::string result;
     // First, determine the length of the destination buffer.
     size_t mbs_length = wcstombs(NULL, input.c_str(), 0);
-    if (mbs_length == ((size_t)-1))
+	if (mbs_length == ((size_t)-1) || mbs_length == 0)
     {
         return result;
     }
-    assert(mbs_length > 0);
     std::vector<char> mbs_v(mbs_length+1);
     // Now, convert.
     if (wcstombs(&mbs_v[0], input.c_str(), mbs_length) == ((size_t)-1))
@@ -199,12 +198,10 @@ std::wstring StringUtils::string2UTF8wstring(const std::string &input)
     std::wstring result;
     // First, determine the length of the destination buffer.
     size_t wcs_length = mbstowcs(NULL, input.c_str(), 0);
-    if (wcs_length == ((size_t)-1))
+	if (wcs_length == ((size_t)-1) || wcs_length == 0)
     {
         return result;
     }
-
-    assert(wcs_length > 0);
     std::vector<wchar_t> wcs_v(wcs_length+1);
     // Now, convert.
     if (mbstowcs(&wcs_v[0], input.c_str(), wcs_length) == ((size_t)-1))
@@ -224,15 +221,12 @@ bool StringUtils::UTF8ToUTF16(const std::string& utf8, std::u16string& outUtf16)
         return true;
     }
 
-    bool ret = false;
-
     const size_t utf16Bytes = (utf8.length() + 1) * sizeof(char16_t);
     char16_t* utf16 = (char16_t*)malloc(utf16Bytes);
     memset(utf16, 0, utf16Bytes);
-
     char* utf16ptr = reinterpret_cast<char*>(utf16);
     const UTF8* error = nullptr;
-
+	bool ret = false;
     if (llvm::ConvertUTF8toWide(2, utf8, utf16ptr, error))
     {
         outUtf16 = utf16;
