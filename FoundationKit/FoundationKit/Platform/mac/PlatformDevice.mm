@@ -369,8 +369,10 @@ float PlatformDevice::GetScreenDPI()
 {
     NSScreen* mainScreen = [NSScreen mainScreen];
     NSDictionary* description = [mainScreen deviceDescription];
-    NSSize resolution = [[description objectForKey:NSDeviceResolution] sizeValue];
-    return (resolution.width+resolution.height) / 2;
+    NSSize displayPixelSize = [[description objectForKey:NSDeviceResolution] sizeValue];
+    return (displayPixelSize.width+displayPixelSize.height) / 2;
+    //CGSize displayPhysicalSize = CGDisplayScreenSize([[description objectForKey:@"NSScreenNumber"] unsignedIntValue]);
+    //return ((displayPixelSize.width / displayPhysicalSize.width) * 25.4f);
 }
 
 float PlatformDevice::GetScreenFPS()
