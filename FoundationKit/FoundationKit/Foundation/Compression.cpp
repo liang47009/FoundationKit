@@ -6,6 +6,7 @@
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 #include "FoundationKit/Foundation/Compression.hpp"
 #include "FoundationKit/Foundation/Logger.hpp"
+#include "FoundationKit/Base/scope_guard.hpp"
 
 NS_FK_BEGIN
 
@@ -48,25 +49,6 @@ static int doInflate(z_stream* stream, std::vector<uint8>& head, size_t blockSiz
     return status;
 }
 
-struct scope_exit
-{
-    typedef std::function<void()> _Fun;
-    scope_exit(const _Fun& fun)
-        :_fun(fun)
-    {
-
-    }
-
-    ~scope_exit()
-    {
-        if (_fun)
-        {
-            _fun();
-        }
-    }
-    _Fun   _fun;
-};
-
 
 /** Time spent compressing data in seconds. */
 long long Compression::compressorTime = 0;
@@ -105,7 +87,7 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutable_buffer& Compres
             LOG_ERROR("compressMemory deflateInit2 error:%d, msg:%s", status, stream.msg);
             break;
         }
-        scope_exit se([&]()
+        SCOPE_EXIT
         {
             status = deflateEnd(&stream);
             if (status != Z_OK)
@@ -116,7 +98,7 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutable_buffer& Compres
             {
                 bOperationSucceeded = true;
             }
-        });
+        };
 
         uLong uncompressedLength = static_cast<uLong>(UncompressedBuffer.size());
         stream.next_in  = static_cast<uint8*>(UncompressedBuffer.data());
@@ -165,7 +147,7 @@ bool Compression::UncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
             break;
         }
 
-        scope_exit se([&]()
+        SCOPE_EXIT
         {
             status = inflateEnd(&stream);
             if (status != Z_OK)
@@ -176,7 +158,7 @@ bool Compression::UncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
             {
                 bOperationSucceeded = true;
             }
-        });
+        };
 
         stream.next_in = static_cast<uint8*>(CompressedBuffer.data());
         stream.avail_in = static_cast<uInt>(CompressedBuffer.size());
