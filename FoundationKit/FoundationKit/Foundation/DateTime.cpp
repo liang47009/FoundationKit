@@ -19,6 +19,7 @@ NS_FK_BEGIN
 void SystemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     SYSTEMTIME st;
+    // localtime_s
     GetLocalTime(&st);
     year      = st.wYear;
     month     = st.wMonth;
@@ -34,6 +35,7 @@ void SystemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, 
 void UtcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     SYSTEMTIME st;
+    //gmtime_s
     GetSystemTime(&st);
     year      = st.wYear;
     month     = st.wMonth;
