@@ -194,6 +194,13 @@ public:
         gbump(static_cast<int>(n));
     }
 
+    void reset()
+    {
+        _buffer.assign(_buffer.size(), '\0');
+        setg(&_buffer[0], &_buffer[0], &_buffer[0]);
+        setp(&_buffer[0], &_buffer[0] + _buffer.size());
+    }
+
 protected:
     enum { _bufferdelta = 128 };
 

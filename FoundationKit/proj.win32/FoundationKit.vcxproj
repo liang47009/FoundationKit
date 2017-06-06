@@ -203,6 +203,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Crypto\urlencode.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\ArgumentUnpacker.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\FunctionProtocol.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\string_builder.hpp" />
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />

@@ -268,6 +268,9 @@
     <ClInclude Include="..\FoundationKit\Base\scope_guard.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\string_builder.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
