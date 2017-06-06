@@ -14,6 +14,7 @@
 #include <vector>
 #include "FoundationKit/Base/error_code.hpp"
 #include "FoundationKit/Base/multiple_buffer.hpp"
+#include "FoundationKit/Base/noncopyable.hpp"
 
 NS_FK_BEGIN
 
@@ -84,10 +85,16 @@ NS_FK_BEGIN
  * is >> s;
  * @endcode
  */
+
+ // https://msdn.microsoft.com/zh-cn/library/9h24a8cd.aspx
+ // http://en.cppreference.com/w/cpp/io/basic_streambuf
 template <typename Allocator = std::allocator<char> >
-class basic_streambuf : public std::streambuf
+class basic_streambuf : public std::streambuf, private noncopyable
 {
 public:
+    typedef mutable_buffer mutable_buffers_type;
+
+    typedef const_buffer   const_buffers_type;
     /**
      * Construct a basic_streambuf object.
      * Constructs a streambuf with the specified maximum size. The initial size
@@ -123,6 +130,16 @@ public:
     }
 
     /**
+     * Get the current capacity of the basic_streambuf.
+     * @returns The current total capacity of the streambuf, i.e. for both the
+     * input sequence and output sequence.
+     */
+    std::size_t capacity() const
+    {
+        return _buffer.capacity();
+    }
+
+    /**
      * Get a list of buffers that represents the input sequence.
      * @returns An object of type @c const_buffers_type that satisfies
      * ConstBufferSequence requirements, representing all character arrays in the
@@ -131,9 +148,9 @@ public:
      * @note The returned object is invalidated by any @c basic_streambuf member
      * function that modifies the input sequence or output sequence.
      */
-    const_buffer data() const
+    const_buffers_type data() const
     {
-        return const_buffer(gptr(), (pptr() - gptr()) * sizeof(char_type));
+        return const_buffers_type(gptr(), (pptr() - gptr()) * sizeof(char_type));
     }
 
     /**
@@ -152,10 +169,10 @@ public:
      * @note The returned object is invalidated by any @c basic_streambuf member
      * function that modifies the input sequence or output sequence.
      */
-    mutable_buffer prepare(std::size_t n)
+    mutable_buffers_type prepare(std::size_t n)
     {
         reserve(n);
-        return mutable_buffer(pptr(), n * sizeof(char_type));
+        return mutable_buffers_type(pptr(), n * sizeof(char_type));
     }
 
     /**
@@ -196,9 +213,11 @@ public:
 
     void reset()
     {
+        std::size_t pend = (std::min<std::size_t>)(_max_size, _bufferdelta);
+        _buffer.resize((std::max<std::size_t>)(pend, 1));
         _buffer.assign(_buffer.size(), '\0');
         setg(&_buffer[0], &_buffer[0], &_buffer[0]);
-        setp(&_buffer[0], &_buffer[0] + _buffer.size());
+        setp(&_buffer[0], &_buffer[0] + pend);
     }
 
 protected:
