@@ -95,6 +95,7 @@
 #	undef TARGET_LANGUAGE_FEATURES
 #	define TARGET_LANGUAGE_FEATURES LANGUAGE_FEATURES_CPP1998
 #endif
+#endif
 
 #if __cplusplus < 201103L
 #	define noexcept

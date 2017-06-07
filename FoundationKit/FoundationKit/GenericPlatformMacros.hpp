@@ -74,7 +74,11 @@
     #define DLL_EXPORT
     #define DLL_IMPORT
     // Alignment.
+    // eg. uint32 Height ATTRIBUTE_PACK(1);
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
+
+    // eg. MS_ALIGN(16) struct Vector4{}ATTRIBUTE_ALIGN(16);
+    // eg. MS_ALIGN(16) Vector4 Min[3]  ATTRIBUTE_ALIGN(16);
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
     #define ATTRIBUTE_UNUSED __attribute__((unused))//__attribute__((__unused__)) ?
     #define ATTRIBUTE_USED __attribute__((used))
@@ -82,7 +86,6 @@
     #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
     #define THREAD_LOCAL __thread
     #define FILEPATH_MAX MAX_PATH
-
 
 #elif defined(__ANDROID__) || defined(ANDROID)
     #undef TARGET_PLATFORM
@@ -101,7 +104,6 @@
     #define THREAD_LOCAL __thread
     #define FILEPATH_MAX PATH_MAX
 
-
 #elif defined(_WIN32) || defined(__WIN32__) || defined(WIN32) || defined(WIN64) || defined(_WIN64)
     #undef TARGET_PLATFORM
     #define TARGET_PLATFORM PLATFORM_WINDOWS
@@ -111,7 +113,8 @@
     #define DLL_IMPORT __declspec(dllimport)
     // Alignment.
     #define ATTRIBUTE_PACK(n)
-    #define ATTRIBUTE_ALIGN(n) __declspec(align(n))
+    #define ATTRIBUTE_ALIGN(n) 
+    #define MS_ALIGN(n) __declspec(align(n))
     #define ATTRIBUTE_UNUSED
     #define ATTRIBUTE_USED 
     #define FORCEINLINE __forceinline				  /* Force code to be inline */
@@ -156,6 +159,10 @@
 #else
     #error Unknown platform
 #endif
+
+#ifndef MS_ALIGN
+#define MS_ALIGN(n)
+#endif // !MS_ALIGN
 
 #define UNUSED_ARG(arg)          do {(void)(arg);}while(0)
 #define SAFE_DELETE(p)           do { if(p) { delete   (p); (p) = nullptr; } } while(0)
