@@ -16,6 +16,7 @@ class string_builder
 {
     typedef std::basic_string<_Elem> string_t;
  	typedef std::list<string_t> container_t; // Reasons not to use vector below. 
+    //typedef std::deque<string_t> container_t; // Reasons not to use vector below. 
 	typedef typename string_t::size_type size_type; // Reuse the size type in the string.
 	container_t m_Data;
 	size_type   m_totalSize;
