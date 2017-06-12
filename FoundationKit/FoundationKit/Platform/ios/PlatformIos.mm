@@ -49,6 +49,62 @@ std::string Platform::ExecuteSystemCommand(const std::string& command)
     return result;
 }
 
+
+std::string Platform::ScreenShot()
+{
+NSArray *windows = [UIEventHelper windowsWithKeyWindow];
+            if (windows.count == 0)
+            {
+    
+                NSLog(@"***** Could not take screenshot.  No windows were available.");
+                return false;
+            }
+            
+            UIGraphicsBeginImageContextWithOptions([[windows objectAtIndex:0] bounds].size, YES, 0);
+            for (UIWindow *window in windows)
+            {
+                if (window.hidden) {
+                    continue;
+                }
+                
+                if ([window respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+                    [window drawViewHierarchyInRect:window.bounds afterScreenUpdates:YES];
+                } else {
+                    [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+                }
+            }
+            UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            
+            
+            auto commandData = StringUtils::split(params, ',');
+            std::string filename = commandData[0];
+            std::string strBehaviorID = commandData[1];
+            NSString* nsBehaviorID = [NSString stringWithUTF8String:strBehaviorID.c_str()];
+            if(filename.empty())
+            {
+                DateTime  dateNow = DateTime::now();
+                filename =  dateNow.toString("%Y%m%d%H%M%S");
+                filename += ".jpg";
+            }
+            
+            NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/GameAutomation/scripts/"];
+            FileUtils::getInstance()->createDirectory([path UTF8String]);
+            NSString *imageName = [NSString stringWithUTF8String:filename.c_str()];
+            path = [path stringByAppendingPathComponent:imageName];
+            //[UIImageJPEGRepresentation(image,1.0) writeToFile:path atomically:YES];
+            NSData * imageData = UIImageJPEGRepresentation(image,1.0);
+            [imageData writeToFile:path atomically:YES];
+            NSLog(@"***** ScreenShot completed, path:%@", path);
+            
+            NSString* nsRid = [[GameAutomation sharedGameAutomation] getCommandRid];
+            [msendImage PostSendImage:path picName:imageName BehaviorID:nsBehaviorID rid:nsRid];
+            
+            this->setState(ScriptCommandState::COMPLETED);
+            return true;
+}
+
+
 NS_FK_END
 
 #endif //TARGET_PLATFORM == PLATFORM_IOS
