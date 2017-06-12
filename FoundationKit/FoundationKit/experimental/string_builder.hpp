@@ -8,6 +8,7 @@
 #define FOUNDATIONKIT_STRING_BUILDER_HPP
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include <string>
+#include <list>
 NS_FK_BEGIN
 
 // Subset of http://msdn.microsoft.com/en-us/library/system.text.stringbuilder.aspx
