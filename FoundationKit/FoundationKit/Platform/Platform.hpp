@@ -25,7 +25,7 @@ public:
     static bool IsDebuggerPresent();
     static size_t MallocUsableSize(void* ptr);
     static std::string ExecuteSystemCommand(const std::string& command);
-    static std::string ScreenShot();
+    static bool ScreenShot(std::string& outSavePath);
 };
 
 NS_FK_END
