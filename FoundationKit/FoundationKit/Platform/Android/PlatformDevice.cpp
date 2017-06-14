@@ -20,6 +20,7 @@ NS_FK_BEGIN
 
 namespace detail
 {
+    const int MEMKEY_BUF_SIZE = 32;
    /**
     * @brief Returns value in bytes from a status line
     * @param Line in format "Blah:  10000 kB" - needs to be writable as it will modify it
@@ -28,36 +29,12 @@ namespace detail
     static uint64 GetBytesFromStatusLine(char * Line)
     {
         if (!Line) return 0;
-        int Len = strlen(Line);
-
-        // Len should be long enough to hold at least " kB\n"
-        const int kSuffixLength = 4;	// " kB\n"
-        if (Len <= kSuffixLength)
+        char key_buf[MEMKEY_BUF_SIZE] = { 0 };
+        uint64  value = 0;
+        if (sscanf(Line, "%[^:]%*s %llu kB", key_buf, &value) == 2)
         {
-            return 0;
+            return value;
         }
-
-        // let's check that this is indeed "kB"
-        char * Suffix = &Line[Len - kSuffixLength];
-        if (strcmp(Suffix, " kB\n") != 0)
-        {
-            // Linux the kernel changed the format, huh?
-            return 0;
-        }
-
-        // kill the kB
-        *Suffix = 0;
-
-        // find the beginning of the number
-        for (const char * NumberBegin = Suffix; NumberBegin >= Line; --NumberBegin)
-        {
-            if (*NumberBegin == ' ')
-            {
-                return static_cast< uint64 >(atol(NumberBegin + 1)) * 1024ULL;
-            }
-        }
-
-        // we were unable to find whitespace in front of the number
         return 0;
     }
 
@@ -71,7 +48,6 @@ namespace detail
     static const int LINE_BUF_SIZE = 256;
     static long long getMemoryForKey(const char* key)
     {
-        const int MEMKEY_BUF_SIZE = 32;
         FILE *fp = nullptr;
         if ((fp = fopen("/proc/meminfo", "r")) == NULL)
         {

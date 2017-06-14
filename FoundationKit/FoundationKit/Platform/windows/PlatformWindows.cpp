@@ -66,31 +66,24 @@ std::string Platform::ExecuteSystemCommand(const std::string& command)
     finalCommand += command;
 
     BOOL ret = ::CreateProcessA(NULL, const_cast<char*>(finalCommand.c_str()), NULL, NULL, TRUE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi);
+    CloseHandle(hWrite);
     if (ret)
     {
-        CloseHandle(hWrite);
         CloseHandle(pi.hThread);
         CloseHandle(pi.hProcess);
-
     }
     else
     {
         return "CreateProcessA Falied.";
     }
-
     const size_t buffer_size = 256;
     char buffer[buffer_size] = { 0 };
     std::string result = "";
     DWORD byteRead = 0;
-    while (true)
+    while (ReadFile(hRead, buffer, buffer_size, &byteRead, NULL))
     {
-        if (ReadFile(hRead, buffer, buffer_size, &byteRead, NULL) == NULL)
-        {
-            break;
-        }
         result.append(buffer, byteRead);
     }
-
     CloseHandle(hRead);
     return result;
 #endif
