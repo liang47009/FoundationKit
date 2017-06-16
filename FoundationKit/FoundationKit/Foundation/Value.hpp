@@ -46,6 +46,8 @@ NS_FK_BEGIN
 class  Value
 {
 public:
+    static const Value Null;
+public:
     enum class Type
     {
         NONE = 0,
@@ -63,9 +65,6 @@ public:
         PCHAR,
         STRING
     };
-
-
-    static const Value Null;
 
     Value();
     ~Value();

@@ -1,3 +1,6 @@
+#include <stack>
+#include "BehaviourTree.hpp"
+
 struct Door {
 	int doorNumber;
 };

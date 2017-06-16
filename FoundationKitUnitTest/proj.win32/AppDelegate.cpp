@@ -32,7 +32,8 @@
 #include "FoundationKit/Foundation/TimerQueue.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Base/type_cast.hpp"
-#include "FoundationKit/experimental/FunctionProtocol.hpp"
+#include "FoundationKit/Base/scope_guard.hpp"
+#include "FoundationKit/experimental/FuncationListener.hpp"
 #include "FoundationKit/Crypto/des.hpp"
 #include "FoundationKit/Crypto/aes.hpp"
 #include "FoundationKit/Crypto/urlencode.hpp"
@@ -118,40 +119,11 @@ void TestShared(const std::shared_ptr<int>& pInt)
 
 }
 
-class MemoryAlignment0
+
+void AppDelegate::TestTupleCall(bool val1, char* val2, std::string& val3)
 {
-public:
-    char a;
-    int b;
-    short c;
-};
 
-
-class MemoryAlignment1
-{
-public:
-    int b;
-    char a;
-    short c;
-};
-
-class MemoryAlignment2
-{
-public:
-    int b;
-    char a;
-    int64 c;
-
-};
-
-class MemoryAlignment3
-{
-public:
-    int64 c;
-    char a;
-    int b;
-
-};
+}
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
@@ -159,8 +131,15 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::string strErr = ec.message();
     Logger::GetInstance()->Initialize("E:\\linux\\FoundationKit.log");
 
+    FuncationListenerBase* fpb1 = new FuncationListener<decltype(&AppDelegate::TestTupleCall)>(std::bind(&AppDelegate::TestTupleCall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    ArgumentList  args;
+    std::string str111 = "Call TestTupleCall";
+    args.push_back(Value(true));
+    args.push_back(Value("TestTupleCall"));
+    args.push_back(Value(str111));
+    fpb1->Invoke(args);
+    delete fpb1;
 
- 
     int im_a_breakpoint = 0;
 
     //unsigned char cipherbuf[256];
@@ -169,24 +148,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     //unsigned char secret[] = "A SECRET PASSWORD"; // 16 bytes long
     //int written = AES::aesEncrypt(cipherbuf, 256, plaintext, 26, secret);
     //written = AES::aesDecrypt(plainbuf, 256, cipherbuf, written, secret);
-
-
-    //TestFunctionTraits();
-    //int* i = new int(100);
-    //char ibuffer[sizeof(i)];
-    //memcpy(ibuffer, i, 4);
-    //int* ib = (int*)ibuffer;
-    //FunctionProtocolBase* fpb = new FunctionProtocol<decltype(TestTuple)>(&TestTuple);
-    //ArgumentPacker  ap;
-    //ap.pack_arg(i, 4);
-    //ap.pack_arg("aaaa", 4);
-    //ap.pack_arg<int>(10);
-    //ap.pack_arg("aaa", 3);
-    //fpb->invoke(ap);
-    //delete i;
-    //delete fpb;
-
-
 
     //std::vector<std::string>  files;
     //FileUtils::getInstance()->getFilesFromDir("E:\\GitHub\\FoundationKit\\FoundationKit\\FoundationKit", files, true);
