@@ -63,11 +63,15 @@ public:
         FLOAT,
         DOUBLE,
         PCHAR,
-        STRING
+        STRING,
+        POINTER
     };
 
     Value();
     ~Value();
+
+    template<typename _Ty>
+    Value(_Ty* data);
     Value(const Value& other);
     Value(Value&& other);
     explicit Value(uint8 data);
@@ -84,7 +88,11 @@ public:
     explicit Value(const char* data);
     explicit Value(const std::string& data);
 
+
     // assignment operator
+    template<typename _Ty>
+    Value& operator= (_Ty* data);
+
     Value& operator= (const Value& other);
     Value& operator= (Value&& other);
     Value& operator= (uint8 data);
@@ -149,6 +157,7 @@ private:
         double             _doubleVal;
         char*              _pcharVal;
         char*              _stringVal; //std::string
+        void*              _pointer;
     }_field;
 
     Type _type;

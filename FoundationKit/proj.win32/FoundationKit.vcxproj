@@ -204,7 +204,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\experimental\ArgumentPacker.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\BehaviourTree.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\BehaviourTreeTest.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\FuncationListener.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\FunctionProtocol.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\string_builder.hpp" />
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h" />
@@ -220,6 +219,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\Dictionary.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\ElapsedTimer.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Exception.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\FuncationSelector.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Logger.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\MathContent.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Math.hpp" />

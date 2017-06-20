@@ -30,10 +30,10 @@
 #include "FoundationKit/Foundation/Compression.hpp"
 #include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Foundation/TimerQueue.hpp"
+#include "FoundationKit/Foundation/DelegateManager.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Base/type_cast.hpp"
 #include "FoundationKit/Base/scope_guard.hpp"
-#include "FoundationKit/experimental/FuncationListener.hpp"
 #include "FoundationKit/Crypto/des.hpp"
 #include "FoundationKit/Crypto/aes.hpp"
 #include "FoundationKit/Crypto/urlencode.hpp"
@@ -108,22 +108,13 @@ void TestFunctionTraits()
 
 }
 
-int TestTuple(int* pi,char* p, int i, const std::string& str)
+int TestTuple(int i, const std::string& str, int* pi)
 {
     int aa = 10;
+    aa += *pi;
     return ++aa;
 }
 
-void TestShared(const std::shared_ptr<int>& pInt)
-{
-
-}
-
-
-void AppDelegate::TestTupleCall(bool val1, char* val2, std::string& val3)
-{
-
-}
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
@@ -131,14 +122,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::string strErr = ec.message();
     Logger::GetInstance()->Initialize("E:\\linux\\FoundationKit.log");
 
-    FuncationListenerBase* fpb1 = new FuncationListener<decltype(&AppDelegate::TestTupleCall)>(std::bind(&AppDelegate::TestTupleCall, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    ArgumentList  args;
-    std::string str111 = "Call TestTupleCall";
-    args.push_back(Value(true));
-    args.push_back(Value("TestTupleCall"));
-    args.push_back(Value(str111));
-    fpb1->Invoke(args);
-    delete fpb1;
+
+
 
     int im_a_breakpoint = 0;
 

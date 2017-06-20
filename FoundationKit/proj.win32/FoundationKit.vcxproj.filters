@@ -277,8 +277,8 @@
     <ClInclude Include="..\FoundationKit\experimental\BehaviourTreeTest.hpp">
       <Filter>experimental</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\FuncationListener.hpp">
-      <Filter>experimental</Filter>
+    <ClInclude Include="..\FoundationKit\Foundation\FuncationSelector.hpp">
+      <Filter>Foundation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

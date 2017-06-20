@@ -141,8 +141,6 @@ typename function_traits<Function>::pointer to_function_pointer(const Function& 
     return static_cast<typename function_traits<Function>::pointer>(lambda);
 }
 
-
-
 } // namespace std
 
 #endif // FOUNDATIONKIT_FUNCTION_TRAITS_HPP

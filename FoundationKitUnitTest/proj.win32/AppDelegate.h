@@ -40,8 +40,6 @@ public:
 	void mainLoop();
 
 
-    void TestTupleCall(bool val1, char* val2, std::string& val3);
-
 };
 
 
