@@ -37,7 +37,7 @@ public:
 
     explicit AndroidJavaObject(jobject jobj)
     {
-        JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
+        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
         _object = std::shared_ptr<_jobject>(jniEnv->NewGlobalRef(jobj), jobjectDeleter);
     }
 
@@ -49,9 +49,9 @@ public:
     template<typename... Args>
     AndroidJavaObject(std::string className, Args... args)
     {
-        JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
-        std::string methodSignature = getJNISignature<void, Args...>(args...);
-        JavaClassMethod method = AndroidJNI::getClassMethod(className.c_str(), "<init>", methodSignature.c_str());
+        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+        std::string methodSignature = GetJNISignature<void, Args...>(args...);
+        JavaClassMethod method = AndroidJNI::GetClassMethod(className.c_str(), "<init>", methodSignature.c_str());
         jobject object = jniEnv->NewObject(method.clazz, method.method, CPPToJNI<Args>::convert(args)...);
         ANDROID_CHECKF(object, "*** Create %s failed.", className.c_str());
         // Promote local references to global
@@ -61,84 +61,84 @@ public:
 
     AndroidJavaObject& operator=(AndroidJavaObject&& right)
     {
-        AndroidJavaObject(std::move(right)).swap(*this);
+        AndroidJavaObject(std::move(right)).Swap(*this);
         return (*this);
     }
     AndroidJavaObject& operator=(const AndroidJavaObject& right)
     {
-        AndroidJavaObject(right).swap(*this);
+        AndroidJavaObject(right).Swap(*this);
         return (*this);
     }
 
     explicit operator bool() const// _NOEXCEPT
     {
-        return (getRawObject() != nullptr);
+        return (GetRawObject() != nullptr);
     }
 
-    void swap(AndroidJavaObject& right)
+    void Swap(AndroidJavaObject& right)
     {
         _object.swap(right._object);
     }
 
     template<typename T = void, typename... Args>
-    T callWithSig(const std::string& methodName, const std::string& sig, Args... args)
+    T CallWithSig(const std::string& methodName, const std::string& sig, Args... args)
     {
       std::string rightSig(sig);
       std::replace(rightSig.begin(), rightSig.end(), '.', '/');
-      return AndroidNode::callWithSig<T>(getRawObject(), methodName, rightSig, std::forward<Args>(args)...);
+      return AndroidNode::CallWithSig<T>(GetRawObject(), methodName, rightSig, std::forward<Args>(args)...);
     }
 
     template<typename T = void, typename... Args>
-    T call(std::string methodName, Args... args)
+    T Call(std::string methodName, Args... args)
     {
-        return AndroidNode::call<T>(getRawObject(), methodName, std::forward<Args>(args)...);
+        return AndroidNode::Call<T>(GetRawObject(), methodName, std::forward<Args>(args)...);
     }
 
     template<typename T>
-    void set(std::string fieldName, T fieldValue, std::string sig = "")
+    void Set(std::string fieldName, T fieldValue, std::string sig = "")
     {
-        AndroidNode::setField<T>(getRawObject(), fieldName, fieldValue, sig);
+        AndroidNode::SetField<T>(GetRawObject(), fieldName, fieldValue, sig);
     }
 
     template<typename T>
-    T get(std::string fieldName, std::string sig = "")
+    T Get(std::string fieldName, std::string sig = "")
     {
-        return AndroidNode::getField<T>(getRawObject(), fieldName, sig);
+        return AndroidNode::GetField<T>(GetRawObject(), fieldName, sig);
     }
 
     template<typename T = void, typename... Args>
-    T callStaticWithSig(const std::string& methodName, const std::string& sig, Args... args)
+    T CallStaticWithSig(const std::string& methodName, const std::string& sig, Args... args)
     {
         std::string rightSig(sig);
         std::replace(rightSig.begin(), rightSig.end(), '.', '/');
-        return AndroidNode::callStaticWithSig<T>(getRawClass(), methodName, rightSig, std::forward<Args>(args)...);
+        return AndroidNode::CallStaticWithSig<T>(GetRawClass(), methodName, rightSig, std::forward<Args>(args)...);
     }
 
     template<typename T = void, typename... Args>
-    T callStatic(std::string methodName, Args... args)
+    T CallStatic(std::string methodName, Args... args)
     {
-        return AndroidNode::callStatic<T>(getRawClass(), methodName, std::forward<Args>(args)...);
+        return AndroidNode::CallStatic<T>(GetRawClass(), methodName, std::forward<Args>(args)...);
     }
 
     template<typename T>
-    void setStatic(std::string fieldName, T fieldValue, std::string sig = "")
+    void SetStatic(std::string fieldName, T fieldValue, std::string sig = "")
     {
-        AndroidNode::setFieldStatic<T>(getRawClass(), fieldName, fieldValue, sig);
+        AndroidNode::SetFieldStatic<T>(GetRawClass(), fieldName, fieldValue, sig);
     }
 
     template<typename T>
-    T getStatic(std::string fieldName, std::string sig = "")
+    T GetStatic(std::string fieldName, std::string sig = "")
     {
-        return AndroidNode::getFieldStatic<T>(getRawClass(), fieldName, sig);
+        return AndroidNode::GetFieldStatic<T>(GetRawClass(), fieldName, sig);
     }
 
-    jclass getRawClass()const
+    jclass GetRawClass()const
     {
-        JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
-        return jniEnv->GetObjectClass(getRawObject());
+        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+        return jniEnv->GetObjectClass(GetRawObject());
     }
 
-    jobject getRawObject()const
+    jobject GetRawObject()const
     {
         return _object.get();
     }
@@ -152,7 +152,7 @@ public:
     static void jobjectDeleter(jobject jobj)
     {
         ANDROID_LOGD("*** jobjectDeleter:%p", jobj);
-        JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
+        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
         jniEnv->DeleteGlobalRef(jobj);
     }
 
@@ -160,7 +160,7 @@ private:
     void _Assign_rv(AndroidJavaObject&& right)
     {	// assign by moving _Right
         if (this != &right)
-            swap(right);
+            Swap(right);
     }
 protected:
     std::shared_ptr<_jobject> _object;

@@ -1,5 +1,7 @@
 #include <jni.h>
 #include "FoundationKit/Foundation/DelegateManager.hpp"
+#include "FoundationKit/Foundation/FuncationSelector.hpp"
+#include "AndroidJNI/AndroidJNI.hpp"
 #include "AndroidJavaBridge.hpp"
 
 using namespace FoundationKit;
@@ -42,41 +44,40 @@ extern "C"
         {
             arguments.emplace_back(env->GetObjectArrayElement(args, i));
         }
-        FoundationKit::DelegateManager::GetInstance()->InvokeDelegate(strFunName, &arguments);
-
-        /*
+        //FoundationKit::DelegateManager::GetInstance()->InvokeDelegate(strFunName, &arguments);
+        ArgumentList arglist;
         size_t argIndex = 0;
         while (argIndex < count)
         {
             char argType = strArgSig[argIndex];
             switch (argType)
             {
-            case 'z':
-                bool val = arguments[argIndex].call<bool>("booleanValue");  
+            case 'z': 
+                arglist.emplace_back(arguments[argIndex].Call<bool>("booleanValue"));
                 break;    
             case 'b': 
-                unsigned char val = arguments[argIndex].call<unsigned char>("byteValue");  
+                arglist.emplace_back(arguments[argIndex].Call<char>("byteValue"));
                 break;
             case 'c': 
-                char val = arguments[argIndex].call<char>("charValue");  
+                arglist.emplace_back(arguments[argIndex].Call<char>("charValue"));
                 break;
             case 's':
-                short val = arguments[argIndex].call<short>("shortValue");
+                arglist.emplace_back(arguments[argIndex].Call<short>("shortValue"));
                 break;
             case 'i':
-                int val = arguments[argIndex].call<int>("intValue");
+                arglist.emplace_back(arguments[argIndex].Call<int>("intValue"));
                 break;
             case 'j':
-                long val = arguments[argIndex].call<long>("longValue");
+                arglist.emplace_back((int64)arguments[argIndex].Call<long>("longValue"));
                 break;
             case 'f':
-                float val = arguments[argIndex].call<float>("floatValue");
+                arglist.emplace_back(arguments[argIndex].Call<float>("floatValue"));
                 break;
             case 'd':
-                double val = arguments[argIndex].call<double>("doubleValue");
+                arglist.emplace_back(arguments[argIndex].Call<double>("doubleValue"));
                 break;
             case 'l':
-                jobject val = arguments[argIndex].getRawObject();
+                arglist.emplace_back(arguments[argIndex].GetRawObject());
                 break;
             case 'Z':
                 break;
@@ -97,6 +98,11 @@ extern "C"
             case 'L':
                 break;
             case 'T':
+            {
+                jstring jstr = static_cast<jstring>(arguments[argIndex].GetRawObject());
+                std::string str = AndroidNode::AndroidJNI::jstring2string(jstr);
+                arglist.emplace_back(str);
+            }
                 break;
             default:
                 ANDROID_LOGE("argument signature [%c] is error", argType);
@@ -104,6 +110,6 @@ extern "C"
             }
             ++argIndex;
         }
-        */
+        FoundationKit::DelegateManager::GetInstance()->InvokeDelegate(strFunName, arglist);
     }
 }//extern "C"

@@ -13,6 +13,7 @@
 #include "FoundationKit/std/function_traits.hpp"
 #include <type_traits>
 #include <memory>
+#include <functional>
 NS_FK_BEGIN
 typedef ValueList ArgumentList;
 
@@ -109,12 +110,60 @@ namespace SelectorDetail
     // directly from IndexList
     template<std::size_t... indices>
     struct PlaceHolderIndexList<0, indices...> : public IndexList<indices...>{};
-
-    template<size_t _Index> 
-    inline std::_Ph<_Index+1> GetPlaceHolder()
-    {	
-        return std::_Ph<_Index+1>();
+#if TARGET_PLATFORM == PLATFORM_WINDOWS
+    template<size_t _Index>
+    inline std::_Ph<_Index + 1> GetPlaceHolder()
+    {
+        return std::_Ph<_Index + 1>();
     }
+#elif TARGET_PLATFORM == PLATFORM_ANDROID
+    template<size_t _Index>
+    inline std::_Placeholder<_Index + 1> GetPlaceHolder()
+    {
+        return std::_Placeholder<_Index + 1>();
+    }
+#endif
+    /*
+    template<size_t _Index>
+    inline decltype(std::placeholders::_1) GetPlaceHolder(){ return std::placeholders::_1; }
+    inline decltype(std::placeholders::_2) GetPlaceHolder<0>(){ return std::placeholders::_2; }
+    template<3>
+    inline decltype(std::placeholders::_3) GetPlaceHolder(){ return std::placeholders::_3; }
+    template<4>
+    inline decltype(std::placeholders::_4) GetPlaceHolder(){ return std::placeholders::_4; }
+    template<5>
+    inline decltype(std::placeholders::_5) GetPlaceHolder(){ return std::placeholders::_5; }
+    template<6>
+    inline decltype(std::placeholders::_6) GetPlaceHolder(){ return std::placeholders::_6; }
+    template<7>
+    inline decltype(std::placeholders::_7) GetPlaceHolder(){ return std::placeholders::_7; }
+    template<8>
+    inline decltype(std::placeholders::_8) GetPlaceHolder(){ return std::placeholders::_8; }
+    template<9>
+    inline decltype(std::placeholders::_9) GetPlaceHolder(){ return std::placeholders::_9; }
+    template<10>
+    inline decltype(std::placeholders::_10) GetPlaceHolder(){ return std::placeholders::_10; }
+    template<11>
+    inline decltype(std::placeholders::_11) GetPlaceHolder(){ return std::placeholders::_11; }
+    template<12>
+    inline decltype(std::placeholders::_12) GetPlaceHolder(){ return std::placeholders::_12; }
+    template<13>
+    inline decltype(std::placeholders::_13) GetPlaceHolder(){ return std::placeholders::_13; }
+    template<14>
+    inline decltype(std::placeholders::_14) GetPlaceHolder(){ return std::placeholders::_14; }
+    template<15>
+    inline decltype(std::placeholders::_15) GetPlaceHolder(){ return std::placeholders::_15; }
+    template<16>
+    inline decltype(std::placeholders::_16) GetPlaceHolder(){ return std::placeholders::_16; }
+    template<17>
+    inline decltype(std::placeholders::_17) GetPlaceHolder(){ return std::placeholders::_17; }
+    template<18>
+    inline decltype(std::placeholders::_18) GetPlaceHolder(){ return std::placeholders::_18; }
+    template<19>
+    inline decltype(std::placeholders::_19) GetPlaceHolder(){ return std::placeholders::_19; }
+    template<20>
+    inline decltype(std::placeholders::_20) GetPlaceHolder(){ return std::placeholders::_20; }
+    */
 }
 
 template<typename _Ft, typename _Ty, std::size_t... indices >
@@ -148,7 +197,7 @@ SelectorN<_Ft> MakeSelectorN(_Ft fun)
 template<typename _Ft, typename _Ty>
 Selector0<_Ft> MakeSelector0(_Ft fun, _Ty object)
 {
-    return Selector0<_Ft>(std::bind(fun£¬object));
+    return Selector0<_Ft>(std::bind(fun,object));
 }
 
 template<typename _Ft>
@@ -193,7 +242,7 @@ SelectorPointer CreateSelectorN(_Ft fun)
 template<typename _Ft, typename _Ty>
 SelectorPointer CreateSelector0(_Ft fun, _Ty object)
 {
-    std::shared_ptr<SelectorN<_Ft> > pSelector(new Selector0<_Ft>(std::bind(fun£¬object)));
+    std::shared_ptr<SelectorN<_Ft> > pSelector(new Selector0<_Ft>(std::bind(fun,object)));
     return pSelector;
 }
 

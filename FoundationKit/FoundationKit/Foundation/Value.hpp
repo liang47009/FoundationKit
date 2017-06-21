@@ -88,7 +88,6 @@ public:
     explicit Value(const char* data);
     explicit Value(const std::string& data);
 
-
     // assignment operator
     template<typename _Ty>
     Value& operator= (_Ty* data);
@@ -117,14 +116,6 @@ public:
     bool operator== (const Value& other);
     /** == operator overloading */
     bool operator== (const Value& other) const;
-    ///** >= operator overloading */
-    //bool operator>= (const Value & other) const;
-    ///** <= operator overloading */
-    //bool operator<= (const Value & other) const;
-    ///** < operator overloading */
-    //bool operator < (const Value & other) const;
-    ///** > operator overloading */
-    //bool operator > (const Value & other) const;
 
     inline bool IsNull()  const { return _type == Type::NONE; }
     inline Type GetType() const { return _type; };

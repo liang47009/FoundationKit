@@ -192,7 +192,7 @@ struct CPPToJNI < std::vector<jobject> >
     using FunSig = CompileTimeString < '[', 'L', 'j', 'a', 'v', 'a', '/', 'l', 'a', 'n', 'g', '/', 'O', 'b', 'j', 'e', 'c', 't', ';' >;
     static jobjectArray convert(const std::vector<jobject> & obj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jclass classId = env->FindClass("java/lang/Object");
         jint size = obj.size();
         jobjectArray joa = env->NewObjectArray(size, classId, 0);
@@ -202,7 +202,7 @@ struct CPPToJNI < std::vector<jobject> >
             env->SetObjectArrayElement(joa, i, obj[i]);
         }
         env->DeleteLocalRef(classId);
-        AndroidJNI::checkJavaException();
+        AndroidJNI::CheckJavaException();
         return joa;
     }
 };
@@ -220,7 +220,7 @@ struct CPPToJNI < std::vector<bool> >
         {
             boolArray.push_back(b);
         }
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jbooleanArray jniArray = env->NewBooleanArray(boolArray.size());
         env->SetBooleanArrayRegion(jniArray, 0, boolArray.size(), (const jboolean*)&boolArray[0]);
         return jniArray;
@@ -234,7 +234,7 @@ struct CPPToJNI < std::vector<char> >
     using FunSig = CompileTimeString < '[', 'B' >;
     static jbyteArray convert(const std::vector<char>& obj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jbyteArray jniArray = env->NewByteArray(obj.size());
         env->SetByteArrayRegion(jniArray, 0, obj.size(), (const jbyte*)&obj[0]);
         return jniArray;
@@ -248,7 +248,7 @@ struct CPPToJNI < std::vector<wchar_t> >
     using FunSig = CompileTimeString < '[', 'C' >;
     static jcharArray convert(const std::vector<wchar_t>& obj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jcharArray jniArray = env->NewCharArray(obj.size());
         env->SetCharArrayRegion(jniArray, 0, obj.size(), (const jchar*)&obj[0]);
         return jniArray;
@@ -262,7 +262,7 @@ struct CPPToJNI < std::vector<short> >
     using FunSig = CompileTimeString < '[', 'S' >;
     static jshortArray convert(const std::vector<short>& obj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jshortArray jniArray = env->NewShortArray(obj.size());
         env->SetShortArrayRegion(jniArray, 0, obj.size(), (const jshort*)&obj[0]);
         return jniArray;
@@ -276,7 +276,7 @@ struct CPPToJNI < std::vector<int> >
     using FunSig = CompileTimeString < '[', 'I' >;
     static jintArray convert(const std::vector<int>& obj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jintArray jniArray = env->NewIntArray(obj.size());
         env->SetIntArrayRegion(jniArray, 0, obj.size(), (const jint*)&obj[0]);
         return jniArray;
@@ -290,7 +290,7 @@ struct CPPToJNI < std::vector<long> >
     using FunSig = CompileTimeString < '[', 'J' >;
     static jlongArray convert(const std::vector<long>& obj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jlongArray jniArray = env->NewLongArray(obj.size());
         env->SetLongArrayRegion(jniArray, 0, obj.size(), (const jlong*)&obj[0]);
         return jniArray;
@@ -304,7 +304,7 @@ struct CPPToJNI < std::vector<float> >
     using FunSig = CompileTimeString < '[', 'F' >;
     static jfloatArray convert(const std::vector<float>& obj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jfloatArray jniArray = env->NewFloatArray(obj.size());
         env->SetFloatArrayRegion(jniArray, 0, obj.size(), (const jfloat*)&obj[0]);
         return jniArray;
@@ -318,7 +318,7 @@ struct CPPToJNI < std::vector<double> >
     using FunSig = CompileTimeString < '[', 'D' >;
     static jdoubleArray convert(const std::vector<double>& obj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jdoubleArray jniArray = env->NewDoubleArray(obj.size());
         env->SetDoubleArrayRegion(jniArray, 0, obj.size(), (const jdouble*)&obj[0]);
         return jniArray;
@@ -332,7 +332,7 @@ struct CPPToJNI < std::vector<std::string> >
     using FunSig = CompileTimeString < '[', 'L', 'j', 'a', 'v', 'a', '/', 'l', 'a', 'n', 'g', '/', 'S', 't', 'r', 'i', 'n', 'g', ';' >;
     static jobjectArray convert(const std::vector<std::string> & obj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jclass classId = env->FindClass("java/lang/String");
         jint size = obj.size();
         jobjectArray joa = env->NewObjectArray(size, classId, 0);
@@ -342,7 +342,7 @@ struct CPPToJNI < std::vector<std::string> >
             env->SetObjectArrayElement(joa, i, jstr);
         }
         env->DeleteLocalRef(classId);
-        AndroidJNI::checkJavaException();
+        AndroidJNI::CheckJavaException();
         return joa;
     }
 };
@@ -367,7 +367,7 @@ struct JNIToCPP<jboolean>
     inline static bool convert(jboolean obj){ return static_cast<bool>(obj); }
     static bool convert(jobject jobj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jclass instanceClass = env->FindClass("java/lang/Boolean");
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
@@ -385,7 +385,7 @@ struct JNIToCPP < jbyte >
     inline static char convert(jbyte obj){ return static_cast<char>(obj); }
     static char convert(jobject jobj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jclass instanceClass = env->FindClass("java/lang/Byte");
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
@@ -403,7 +403,7 @@ struct JNIToCPP < jchar >
     inline static wchar_t convert(jchar obj){ return static_cast<wchar_t>(obj); }
     static wchar_t convert(jobject jobj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jclass instanceClass = env->FindClass("java/lang/Character");
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
@@ -421,7 +421,7 @@ struct JNIToCPP < jshort >
     inline static short convert(jshort obj){ return static_cast<short>(obj); }
     static short convert(jobject jobj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jclass instanceClass = env->FindClass("java/lang/Short");
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
@@ -439,7 +439,7 @@ struct JNIToCPP < jint >
     inline static int convert(jint obj){ return static_cast<int>(obj); }
     static int convert(jobject jobj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jclass instanceClass = env->FindClass("java/lang/Integer");
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
@@ -457,7 +457,7 @@ struct JNIToCPP < jlong >
     inline static long convert(jlong obj){ return static_cast<long>(obj); }
     static long convert(jobject jobj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jclass instanceClass = env->FindClass("java/lang/Long");
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
@@ -475,7 +475,7 @@ struct JNIToCPP < jfloat >
     inline static float convert(jfloat obj){ return static_cast<float>(obj); }
     static float convert(jobject jobj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jclass instanceClass = env->FindClass("java/lang/Float");
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
@@ -493,7 +493,7 @@ struct JNIToCPP < jdouble >
     inline static double convert(jdouble obj){ return static_cast<double>(obj); }
     static double convert(jobject jobj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jclass instanceClass = env->FindClass("java/lang/Double");
         assert(env->IsInstanceOf(jobj, instanceClass));
         jclass clazz = env->GetObjectClass(jobj);
@@ -511,7 +511,7 @@ struct JNIToCPP < jstring >
     inline static std::string convert(jstring obj){ return AndroidJNI::jstring2string(obj); }
     static std::string convert(jobject jobj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         jclass instanceClass = env->FindClass("java/lang/String");
         assert(env->IsInstanceOf(jobj, instanceClass));
         env->DeleteLocalRef(instanceClass);
@@ -529,7 +529,7 @@ struct JNIToCPP <jobjectArray >
     using CPPType = std::vector < jobject > ;
     static std::vector<jobject> convert(jobjectArray jniArray)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         std::vector<jobject> result;
         if (jniArray)
         {
@@ -553,7 +553,7 @@ struct JNIToCPP < jbooleanArray >
     using CPPType = std::vector < bool > ;
     static std::vector<bool> convert(jbooleanArray jniArray)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         std::vector<bool> result;
         if (jniArray)
         {
@@ -576,7 +576,7 @@ struct JNIToCPP <jbyteArray>
     using CPPType = std::vector < char >;
     static std::vector<char> convert(jbyteArray jniArray)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         std::vector<char> result;
         if (jniArray)
         {
@@ -599,7 +599,7 @@ struct JNIToCPP < jcharArray >
     using CPPType = std::vector < wchar_t >;
     static std::vector<wchar_t> convert(jcharArray jniArray)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         std::vector<wchar_t> result;
         if (jniArray)
         {
@@ -622,7 +622,7 @@ struct JNIToCPP < jshortArray >
     using CPPType = std::vector < short >;
     static std::vector<short> convert(jshortArray jniArray)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         std::vector<short> result;
         if (jniArray)
         {
@@ -645,7 +645,7 @@ struct JNIToCPP < jintArray >
     using CPPType = std::vector < int >;
     static std::vector<int> convert(jintArray jniArray)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         std::vector<int> result;
         if (jniArray)
         {
@@ -668,7 +668,7 @@ struct JNIToCPP < jlongArray >
     using CPPType = std::vector < long >;
     static std::vector<long> convert(jlongArray jniArray)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         std::vector<long> result;
         if (jniArray)
         {
@@ -691,7 +691,7 @@ struct JNIToCPP < jfloatArray >
     using CPPType = std::vector < float >;
     static std::vector<float> convert(jfloatArray jniArray)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         std::vector<float> result;
         if (jniArray)
         {
@@ -714,7 +714,7 @@ struct JNIToCPP < jdoubleArray >
     using CPPType = std::vector < double >;
     static std::vector<double> convert(jdoubleArray jniArray)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         std::vector<double> result;
         if (jniArray)
         {
@@ -742,7 +742,7 @@ struct JNIToCPP < jstringArray >
     using CPPType = std::vector < std::string >;
     static std::vector<std::string> convert(jobject jobj)
     {
-        JNIEnv *env = AndroidJNI::getJavaEnv();
+        JNIEnv *env = AndroidJNI::GetJavaEnv();
         std::vector<std::string> result;
         jobjectArray jniArray = (jobjectArray)jobj;
         if (jniArray)
@@ -1335,7 +1335,7 @@ struct JNICaller<const char*, Args...> : public JNICaller<std::string, Args...>{
 
 //deduces the signature of a JNI method according to the variadic params and the return type
 template <typename T, typename... Args>
-const char * getJNISignature(Args...)
+const char * GetJNISignature(Args...)
 {
     return Concatenate < 
         CompileTimeString<'('>,  //left parenthesis
@@ -1347,11 +1347,11 @@ const char * getJNISignature(Args...)
 }
 
 template<typename T = void, typename... Args>
-T callWithSig(jobject instance, const std::string & methodName, const std::string&  methodSignature, Args... args)
+T CallWithSig(jobject instance, const std::string & methodName, const std::string&  methodSignature, Args... args)
 {
-    JNIEnv* env = AndroidJNI::getJavaEnv();
+    JNIEnv* env = AndroidJNI::GetJavaEnv();
     jclass  clazz = env->GetObjectClass(instance);
-    JavaClassMethod javaMethod = AndroidJNI::getClassMethod(clazz, methodName.c_str(), methodSignature.c_str());
+    JavaClassMethod javaMethod = AndroidJNI::GetClassMethod(clazz, methodName.c_str(), methodSignature.c_str());
     env->DeleteLocalRef(clazz);
     return JNICaller<T, decltype(CPPToJNI<typename std::decay<Args>::type>::convert(args))...>::call(env, instance, javaMethod.method, CPPToJNI<typename std::decay<Args>::type>::convert(args)...);
 }
@@ -1364,18 +1364,18 @@ T callWithSig(jobject instance, const std::string & methodName, const std::strin
  *  @return   T type object.
  */
 template<typename T = void, typename... Args>
-T call(jobject instance, const std::string & methodName, Args... args)
+T Call(jobject instance, const std::string & methodName, Args... args)
 {
-    std::string methodSignature = getJNISignature<T, Args...>(args...);
-    return callWithSig<T>(instance, methodName, methodSignature, std::forward<Args>(args)...);
+    std::string methodSignature = GetJNISignature<T, Args...>(args...);
+    return CallWithSig<T>(instance, methodName, methodSignature, std::forward<Args>(args)...);
 }
 
 
 template<typename T = void, typename... Args>
-T callStaticWithSig(const std::string & className, const std::string & methodName, const std::string&  methodSignature, Args... args)
+T CallStaticWithSig(const std::string & className, const std::string & methodName, const std::string&  methodSignature, Args... args)
 {
-    JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
-    JavaClassMethod javaMethod = AndroidJNI::getClassMethod(className.c_str(), methodName.c_str(), methodSignature.c_str(), true);
+    JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+    JavaClassMethod javaMethod = AndroidJNI::GetClassMethod(className.c_str(), methodName.c_str(), methodSignature.c_str(), true);
     return JNICaller<T, decltype(CPPToJNI<typename std::decay<Args>::type>::convert(args))...>::callStatic(jniEnv, javaMethod.clazz, javaMethod.method, CPPToJNI<typename std::decay<Args>::type>::convert(args)...);
 }
 /** generic call to static method
@@ -1387,17 +1387,17 @@ T callStaticWithSig(const std::string & className, const std::string & methodNam
  *  @return   T type object.
  */
 template<typename T = void, typename... Args>
-T callStatic(const std::string & className, const std::string & methodName, Args... args)
+T CallStatic(const std::string & className, const std::string & methodName, Args... args)
 {
-    std::string methodSignature = getJNISignature<T, Args...>(args...);
-    return callStaticWithSig<T>(className, methodName, methodSignature, std::forward<Args>(args)...);
+    std::string methodSignature = GetJNISignature<T, Args...>(args...);
+    return CallStaticWithSig<T>(className, methodName, methodSignature, std::forward<Args>(args)...);
 }
 
 template<typename T = void, typename... Args>
-T callStaticWithSig(jclass clazz, const std::string & methodName, const std::string&  methodSignature,Args... args)
+T CallStaticWithSig(jclass clazz, const std::string & methodName, const std::string&  methodSignature,Args... args)
 {
-    JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
-    JavaClassMethod javaMethod = AndroidJNI::getClassMethod(clazz, methodName.c_str(),methodSignature.c_str(), true);
+    JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+    JavaClassMethod javaMethod = AndroidJNI::GetClassMethod(clazz, methodName.c_str(),methodSignature.c_str(), true);
     return JNICaller<T, decltype(CPPToJNI<typename std::decay<Args>::type>::convert(args))...>::callStatic(jniEnv, javaMethod.clazz, javaMethod.method, CPPToJNI<typename std::decay<Args>::type>::convert(args)...);
 }
 /** generic call to static method
@@ -1408,10 +1408,10 @@ T callStaticWithSig(jclass clazz, const std::string & methodName, const std::str
  *  @return   T type object.
  */
 template<typename T = void, typename... Args>
-T callStatic(jclass clazz, const std::string & methodName, Args... args)
+T CallStatic(jclass clazz, const std::string & methodName, Args... args)
 {
-    std::string methodSignature = getJNISignature<T, Args...>(args...);
-    return callStaticWithSig<T>(clazz, methodName, methodSignature, std::forward<Args>(args)...);
+    std::string methodSignature = GetJNISignature<T, Args...>(args...);
+    return CallStaticWithSig<T>(clazz, methodName, methodSignature, std::forward<Args>(args)...);
 }
 
 /** Get the value of a field in an object (non-static).
@@ -1424,14 +1424,14 @@ T callStatic(jclass clazz, const std::string & methodName, Args... args)
  *  @return    The field value.
  */
 template<typename T>
-T getField(jobject instance, const std::string & fieldName, std::string sig = "")
+T GetField(jobject instance, const std::string & fieldName, std::string sig = "")
 {
     if (std::is_same<T, jobject>::value && sig.empty())
     {
         ANDROID_LOGD("Failed to get field value, return type is jobject, You must be set the field signature.");
         assert(false);
     }
-    JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
+    JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
     jclass clazz = jniEnv->GetObjectClass(instance);
     std::string signature = sig;
     if (signature.empty())
@@ -1453,14 +1453,14 @@ T getField(jobject instance, const std::string & fieldName, std::string sig = ""
  *  @return   T type object.
  */
 template<typename T>
-T getFieldStatic(jclass clazz, const std::string & fieldName, std::string sig = "")
+T GetFieldStatic(jclass clazz, const std::string & fieldName, std::string sig = "")
 {
     if (std::is_same<T, jobject>::value && sig.empty())
     {
         ANDROID_LOGD("Failed to get field value, return type is jobject, must be set the field signature.");
         assert(false);
     }
-    JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
+    JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
     std::string signature = sig;
     if (signature.empty())
         signature = Concatenate<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
@@ -1481,10 +1481,10 @@ T getFieldStatic(jclass clazz, const std::string & fieldName, std::string sig = 
  *  @return   T type object.
  */
 template<typename T>
-T getFieldStatic(const std::string & className, const std::string & fieldName, std::string sig = "")
+T GetFieldStatic(const std::string & className, const std::string & fieldName, std::string sig = "")
 {
-    jclass clazz = AndroidJNI::findJavaClass(className.c_str());
-    return getFieldStatic<T>(clazz, fieldName, sig);
+    jclass clazz = AndroidJNI::FindJavaClass(className.c_str());
+    return GetFieldStatic<T>(clazz, fieldName, sig);
 }
 
 /** Set the value of a field in an object (non-static).
@@ -1497,14 +1497,14 @@ T getFieldStatic(const std::string & className, const std::string & fieldName, s
  *                 the field sig is: Ljava/lang/String;
  */
 template<typename T>
-void setField(jobject instance, const std::string& fieldName, T fieldValue, std::string sig = "")
+void SetField(jobject instance, const std::string& fieldName, T fieldValue, std::string sig = "")
 {
     if (std::is_same<T, jobject>::value && sig.empty())
     {
         ANDROID_LOGD("Failed to get field value, return type is jobject, must be set the field signature.");
         assert(false);
     }
-    JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
+    JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
     jclass clazz = jniEnv->GetObjectClass(instance);
     std::string signature = sig;
     if (signature.empty())
@@ -1526,14 +1526,14 @@ void setField(jobject instance, const std::string& fieldName, T fieldValue, std:
  *                 the field sig is: Ljava/lang/String;
  */
 template<typename T>
-void setFieldStatic(jclass clazz, const std::string& fieldName, T fieldValue, std::string sig = "")
+void SetFieldStatic(jclass clazz, const std::string& fieldName, T fieldValue, std::string sig = "")
 {
     if (std::is_same<T, jobject>::value && sig.empty())
     {
         ANDROID_LOGD("Failed to get field value, return type is jobject, must be set the field signature.");
         assert(false);
     }
-    JNIEnv* jniEnv = AndroidJNI::getJavaEnv();
+    JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
     std::string signature = sig;
     if (signature.empty())
     {
@@ -1554,10 +1554,10 @@ void setFieldStatic(jclass clazz, const std::string& fieldName, T fieldValue, st
  *                 the field sig is: Ljava/lang/String;
  */
 template<typename T>
-void setFieldStatic(const std::string & className, const std::string& fieldName, T fieldValue, std::string sig = "")
+void SetFieldStatic(const std::string & className, const std::string& fieldName, T fieldValue, std::string sig = "")
 {
-    jclass clazz = AndroidJNI::findJavaClass(className.c_str());
-    setFieldStatic<T>(clazz, fieldName, fieldValue, sig);
+    jclass clazz = AndroidJNI::FindJavaClass(className.c_str());
+    SetFieldStatic<T>(clazz, fieldName, fieldValue, sig);
 }
 
 } // namespace AndroidNode

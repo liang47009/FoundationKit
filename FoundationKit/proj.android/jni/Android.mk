@@ -36,7 +36,6 @@ $(SRCROOT)/FoundationKit/Foundation/Vector4.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Version.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Value.cpp \
 $(SRCROOT)/FoundationKit/GenericPlatformMacros.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidBridge.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidJavaBridge.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/EnvironmentAndroid.cpp \
