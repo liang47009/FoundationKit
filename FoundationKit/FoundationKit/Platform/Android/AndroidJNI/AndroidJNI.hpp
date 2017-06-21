@@ -35,18 +35,18 @@ struct JavaClassMethod
 class AndroidJNI
 {
 public:
-    static void            initializeJavaEnv(JavaVM* vm, jint version, jobject activityInstance = nullptr);
-    static jobject         getMainActivity();
+    static void            InitializeJavaEnv(JavaVM* vm, jint version, jobject activityInstance = nullptr);
+    static jobject         GetMainActivity();
     // Returns the java environment
-    static JNIEnv*         getJavaEnv();
-    static jclass          findJavaClass(const char* name);
-    static JavaClassMethod getClassMethod(jclass clazz, const char* methodName, const char* funcSig, bool isStatic = false);
-    static JavaClassMethod getClassMethod(const char* className, const char* methodName, const char* funcSig, bool isStatic = false);
-    static bool            checkJavaException();
+    static JNIEnv*         GetJavaEnv();
+    static jclass          FindJavaClass(const char* name);
+    static JavaClassMethod GetClassMethod(jclass clazz, const char* methodName, const char* funcSig, bool isStatic = false);
+    static JavaClassMethod GetClassMethod(const char* className, const char* methodName, const char* funcSig, bool isStatic = false);
+    static bool            CheckJavaException();
     static std::string     jstring2string(jstring jstr);
     static jstring         string2jstring(const std::string& str);
-    static AAssetManager*  getAAssetManager();
-    static void            detachJavaEnv();
+    static AAssetManager*  GetAAssetManager();
+    static void            DetachJavaEnv();
 
     /*
      * Register JNI native methods
@@ -66,7 +66,7 @@ public:
      * bool ret = AndroidJNI::registerNativeMethods("com/example/MainActivity", gMethods);
      * @endcode
      */
-    static bool            registerNativeMethods(const char* className, JNINativeMethod* nativeMethods);
+    static bool            RegisterNativeMethods(const char* className, JNINativeMethod* nativeMethods);
     ~AndroidJNI();
 private:
     AndroidJNI();
