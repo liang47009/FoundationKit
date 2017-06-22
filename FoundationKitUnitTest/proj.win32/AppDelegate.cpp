@@ -108,19 +108,6 @@ void TestFunctionTraits()
 
 }
 
-int TestTuple(int i, const std::string& str, int* pi)
-{
-    int aa = 10;
-    aa += *pi;
-    return ++aa;
-}
-
-int TestTuple1(int i, const std::string& str, bool b)
-{
-    int aa = 10;
-    return ++aa;
-}
-
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
@@ -129,24 +116,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     Logger::GetInstance()->Initialize("E:\\linux\\FoundationKit.log");
 
 
-    DelegateManager::GetInstance()->AddObserver("TestTuple", CreateSelectorN(&TestTuple));
-
-    DelegateManager::GetInstance()->AddObserver("TestTuple1", CreateSelectorN(&TestTuple1));
-
-    ArgumentList args;
-    args.emplace_back(10);
-    args.emplace_back("sfsdfdsf");
-    int* ip = new int(10);
-    args.emplace_back(ip);
-
-    DelegateManager::GetInstance()->InvokeDelegate("TestTuple", args);
-
-    args.clear();
-    args.emplace_back(10);
-    args.emplace_back("sfsdfdsf");
-    args.emplace_back(true);
-
-    DelegateManager::GetInstance()->InvokeDelegate("TestTuple1", args);
 
 
 
