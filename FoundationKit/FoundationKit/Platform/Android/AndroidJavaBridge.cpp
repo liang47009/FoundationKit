@@ -1,6 +1,6 @@
 #include <jni.h>
 #include "FoundationKit/Foundation/DelegateManager.hpp"
-#include "FoundationKit/Foundation/FuncationSelector.hpp"
+#include "FoundationKit/Foundation/FunctionHandler.hpp"
 #include "AndroidJNI/AndroidJNI.hpp"
 #include "AndroidJavaBridge.hpp"
 
@@ -110,6 +110,6 @@ extern "C"
             }
             ++argIndex;
         }
-        FoundationKit::DelegateManager::GetInstance()->InvokeDelegate(strFunName, arglist);
+        FoundationKit::DelegateManager::GetInstance()->Invoke(strFunName, arglist);
     }
 }//extern "C"

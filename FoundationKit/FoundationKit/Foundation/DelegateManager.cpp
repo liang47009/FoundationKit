@@ -12,13 +12,13 @@ NS_FK_BEGIN
 /*                          DelegateObserver                            */
 /************************************************************************/
 
-DelegateObserver::Pointer DelegateObserver::Create(const std::string& name, SelectorPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+DelegateObserver::Pointer DelegateObserver::Create(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 {
     DelegateObserver *observer = new  DelegateObserver(name, selector, target, callOnce);
     return DelegateObserver::Pointer(observer);
 }
 
-DelegateObserver::DelegateObserver(const std::string& name, SelectorPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+DelegateObserver::DelegateObserver(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 : _name(name)
 , _pSelector(selector)
 , _target(target)
@@ -46,7 +46,7 @@ void* DelegateObserver::GetTarget() const
     return _target;
 }
 
-const SelectorPointer DelegateObserver::GetSelector() const
+const FunctionHandlerPointer DelegateObserver::GetSelector() const
 {
     return _pSelector;
 }
@@ -86,7 +86,7 @@ DelegateManager::~DelegateManager()
 
 }
 
-void DelegateManager::AddObserver(const std::string& name, SelectorPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+void DelegateManager::AddObserver(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     DelegateObserver::Pointer observer;
@@ -166,7 +166,7 @@ void DelegateManager::RemoveObserver(const std::string& name, void* target)
     }
 }
 
-void DelegateManager::InvokeDelegate(const std::string& name, const ArgumentList& args)
+void DelegateManager::Invoke(const std::string& name, const ArgumentList& args)
 {
     std::unique_lock<std::mutex> lock(_mutex);
     ObserverList observersToCopy(_observers);

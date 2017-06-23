@@ -109,14 +109,31 @@ void TestFunctionTraits()
 }
 
 
+void TupleTest()
+{
+
+}
+
+void TupleTestArgs(int a, const std::string& str, char* str1)
+{
+
+}
+
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
     Logger::GetInstance()->Initialize("E:\\linux\\FoundationKit.log");
 
-
-
+    DelegateManager::GetInstance()->AddObserver("TupleTest", BindFunctionHandler(&TupleTest));
+    DelegateManager::GetInstance()->Invoke("TupleTest", ArgumentList());
+    ArgumentList args;
+    args.emplace_back(10);
+    args.emplace_back("Fuck you");
+    args.emplace_back("Fuck you again");
+    DelegateManager::GetInstance()->AddObserver("TupleTestArgs", BindFunctionHandler(&TupleTestArgs));
+    DelegateManager::GetInstance()->Invoke("TupleTestArgs", args);
 
 
     int im_a_breakpoint = 0;
@@ -128,20 +145,20 @@ bool AppDelegate::applicationDidFinishLaunching()
     //int written = AES::aesEncrypt(cipherbuf, 256, plaintext, 26, secret);
     //written = AES::aesDecrypt(plainbuf, 256, cipherbuf, written, secret);
 
-    std::vector<std::string>  files;
-    FileUtils::GetInstance()->GetFilesFromDir("E:\\WorkSpace\\GameToolsGroup\\PAL\\Source\\Runtime", files, true);
-    std::string strMakefile;
-    auto fileutils = FileUtils::GetInstance();
-    for (auto filepath:files)
-    {
-        if (fileutils->GetFileExtension(filepath) == ".cpp" 
-            || fileutils->GetFileExtension(filepath) == ".c"
-            || fileutils->GetFileExtension(filepath) == ".cc")
-        {
-            strMakefile += filepath;
-            strMakefile += "\n";
-        }
-    }
+    //std::vector<std::string>  files;
+    //FileUtils::GetInstance()->GetFilesFromDir("E:\\WorkSpace\\GameToolsGroup\\PAL\\Source\\Runtime", files, true);
+    //std::string strMakefile;
+    //auto fileutils = FileUtils::GetInstance();
+    //for (auto filepath:files)
+    //{
+    //    if (fileutils->GetFileExtension(filepath) == ".cpp" 
+    //        || fileutils->GetFileExtension(filepath) == ".c"
+    //        || fileutils->GetFileExtension(filepath) == ".cc")
+    //    {
+    //        strMakefile += filepath;
+    //        strMakefile += "\n";
+    //    }
+    //}
 
 
     //clientThread = std::thread([]()
