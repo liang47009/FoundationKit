@@ -45,6 +45,7 @@ public:
     void SetConsoleLogLevel(LOG_LEVEL_ENUM logLevel);
     pointer GetLog();
     pointer GetConsoleLog();
+    static void LogToConsole(const char* fmt, ...);
 private:
     pointer _log;
     pointer _console_log;
@@ -85,6 +86,8 @@ static inline void LOG_DEBUG(const char* fmt, const Args&... args)
 {
     Logger::GetInstance()->GetConsoleLog()->debug(fmt, args...);
 }
+
+#define LOG_CONSOLE(fmt, ...) FoundationKit::Logger::LogToConsole(fmt, ##__VA_ARGS__)
 
 NS_FK_END
 
