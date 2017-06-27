@@ -32,6 +32,8 @@ NDK_TOOLCHAIN_VERSION := 4.8
 
 APP_PLATFORM=android-15
 
+APP_SHORT_COMMANDS := true
+
 APP_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11
 APP_LDFLAGS := -latomic -landroid -llog -lz
 

@@ -59,6 +59,8 @@ $(PROJECT_DIR)/FoundationKit/external/unzip \
 $(PROJECT_DIR)/../ThirdParty/spdlog/include \
 cpufeatures/
 
+LOCAL_SHORT_COMMANDS := true
+
 LOCAL_CFLAGS :=  -DUSE_FILE32API -DANDROID
 LOCAL_EXPORT_CFLAGS := -DUSE_FILE32API -DANDROID
 
