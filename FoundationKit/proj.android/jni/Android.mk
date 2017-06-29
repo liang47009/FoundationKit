@@ -61,11 +61,15 @@ cpufeatures/
 
 LOCAL_SHORT_COMMANDS := true
 
-LOCAL_CFLAGS :=  -DUSE_FILE32API -DANDROID
-LOCAL_EXPORT_CFLAGS := -DUSE_FILE32API -DANDROID
+LOCAL_CFLAGS :=  -fexceptions 
+LOCAL_CPPFLAGS := -frtti -fexceptions -fsigned-char -Wno-deprecated-declarations -std=c++11
+LOCAL_CFLAGS += -DUSE_FILE32API -DANDROID
+LOCAL_CPPFLAGS +=-DUSE_FILE32API -DANDROID
 
-LOCAL_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11 -DUSE_FILE32API -DANDROID
-LOCAL_EXPORT_CPPFLAGS   := -frtti -fexceptions -fsigned-char -std=c++11 -DUSE_FILE32API -DANDROID
+LOCAL_EXPORT_CFLAGS := -fexceptions 
+LOCAL_EXPORT_CPPFLAGS := -frtti -fexceptions -fsigned-char -Wno-deprecated-declarations -std=c++11
+LOCAL_EXPORT_CFLAGS += -DUSE_FILE32API -DANDROID
+LOCAL_EXPORT_CPPFLAGS +=  -DUSE_FILE32API -DANDROID
 
 ifeq ($(NDK_DEBUG),1)
   LOCAL_CPPFLAGS += -DDEBUG

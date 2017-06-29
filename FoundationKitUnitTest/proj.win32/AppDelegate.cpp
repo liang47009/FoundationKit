@@ -125,7 +125,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::error_code ec;
     std::string strErr = ec.message();
     Logger::GetInstance()->Initialize("E:\\linux\\FoundationKit.log");
-
+    std::unique_ptr<AppDelegate>  AppDelegatePtr;
     DelegateManager::GetInstance()->AddObserver("TupleTest", BindFunctionHandler(&TupleTest));
     DelegateManager::GetInstance()->Invoke("TupleTest", ArgumentList());
     ArgumentList args;

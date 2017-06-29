@@ -48,6 +48,7 @@ static void JavaEnvDestructor(void*)
 
 void AndroidJNI::InitializeJavaEnv(JavaVM* vm, jint version, jobject activityInstance/* = nullptr*/)
 {
+    ANDROID_LOGI("InitializeJavaEnv GCurrentJavaVM:%p, vm:%p, version:%d, activityInstance:%p", GCurrentJavaVM, vm, version, activityInstance);
     if (GCurrentJavaVM == nullptr)
     {
         GCurrentJavaVM = vm;
@@ -116,24 +117,32 @@ jobject AndroidJNI::GetMainActivity()
 JNIEnv* AndroidJNI::GetJavaEnv()
 {
     // register a destructor to detach this thread
-    JNIEnv* Env = (JNIEnv *)pthread_getspecific(GTlsSlot);
+    JNIEnv* Env = (JNIEnv*)pthread_getspecific(GTlsSlot);
     if (Env == nullptr)
     {
-        jint GetEnvResult = GCurrentJavaVM->GetEnv((void **)&Env, GCurrentJavaVersion);
-        if (GetEnvResult == JNI_EDETACHED)
+        jint GetEnvResult = GCurrentJavaVM->GetEnv((void**)&Env, GCurrentJavaVersion);
+        switch (GetEnvResult)
         {
-            // attach to this thread
-            jint AttachResult = GCurrentJavaVM->AttachCurrentThread(&Env, NULL);
-            if (AttachResult == JNI_ERR)
-            {
-                ANDROID_CHECKF(false, "*** UNIT TEST -- Failed to attach thread to get the JNI environment!");
-                return nullptr;
-            }
+        case JNI_OK:
             pthread_setspecific(GTlsSlot, (void*)Env);
-        }
-        else if (GetEnvResult != JNI_OK)
-        {
-            ANDROID_CHECKF(false, "*** UNIT TEST -- Failed to get the JNI environment! Result = %d", GetEnvResult);
+            break;
+        case JNI_EDETACHED:
+            {
+                // attach to this thread
+                jint AttachResult = GCurrentJavaVM->AttachCurrentThread(&Env, NULL);
+                if (AttachResult == JNI_ERR)
+                {
+                    ANDROID_CHECKF(false, "*** Failed to attach thread to get the JNI environment!");
+                    return nullptr;
+                }
+                pthread_setspecific(GTlsSlot, (void*)Env);
+            }
+            break;
+        case JNI_EVERSION:
+            // Cannot recover from this error
+            ANDROID_CHECKF(false, "*** JNI interface version %d not supported", GCurrentJavaVersion);
+        default:
+            ANDROID_CHECKF(false, "*** Failed to get the JNI environment! Result = %d", GetEnvResult);
             return nullptr;
         }
     }

@@ -40,7 +40,7 @@ bool Logger::Initialize(const std::string& fileName)
 {
     try
     {
-        _log = spdlog::rotating_logger_mt("file_logger", fileName, 1024 * 1024 * 10, 2);
+        _log = spdlog::rotating_logger_mt("file_logger", fileName, 1024 * 1024 * 5, 2);
         _console_log = spdlog::stdout_logger_mt("console_logger");
         _console_log->set_level(spdlog::level::trace);
     }
