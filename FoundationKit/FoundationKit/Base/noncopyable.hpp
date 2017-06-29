@@ -23,10 +23,10 @@ namespace noncopyable_  // protection from unintended ADL
 {
     class noncopyable
     {
-        constexpr noncopyable(const noncopyable&) = delete;
-        constexpr noncopyable& operator=(const noncopyable&) const = delete;
+        noncopyable(const noncopyable&) = delete;
+        noncopyable& operator=(const noncopyable&) = delete;
 	protected:
-		constexpr noncopyable() noexcept = default;
+		noncopyable() noexcept = default;
     };
 }
 

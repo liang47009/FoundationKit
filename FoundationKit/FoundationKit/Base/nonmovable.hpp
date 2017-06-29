@@ -22,10 +22,10 @@ namespace nonmovable_  // protection from unintended ADL
 {
     class nonmovable
     {
-        constexpr nonmovable(nonmovable&&) = delete;
-        constexpr nonmovable& operator=(nonmovable&&) const = delete;
+        nonmovable(nonmovable&&) = delete;
+        nonmovable& operator=(nonmovable&&) = delete;
     protected:
-        constexpr nonmovable() noexcept = default;
+        nonmovable() noexcept = default;
 
     };
 }
