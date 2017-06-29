@@ -238,6 +238,8 @@
 		0992FFD01E8643A70099635E /* Reachability_libo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability_libo.m; sourceTree = "<group>"; };
 		0992FFD11E8643A70099635E /* UIDeviceHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDeviceHardware.h; sourceTree = "<group>"; };
 		0992FFD21E8643A70099635E /* UIDeviceHardware.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIDeviceHardware.mm; sourceTree = "<group>"; };
+		09A0B2451F04EC2A00572DEB /* FunctionHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FunctionHandler.hpp; sourceTree = "<group>"; };
+		09A0B2461F04EC3300572DEB /* scope_guard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = scope_guard.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,6 +284,7 @@
 		09348EC81E7F7BA20034ECF2 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				09A0B2461F04EC3300572DEB /* scope_guard.hpp */,
 				0944ED821EADD135006CC42F /* scope_locale.hpp */,
 				0944ED831EADD135006CC42F /* type_cast.hpp */,
 				09348EC91E7F7BA20034ECF2 /* basic_streambuf.hpp */,
@@ -359,6 +362,7 @@
 		0934900A1E7F7BA20034ECF2 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				09A0B2451F04EC2A00572DEB /* FunctionHandler.hpp */,
 				0934900B1E7F7BA20034ECF2 /* ApplyTuple.hpp */,
 				0934900C1E7F7BA20034ECF2 /* Compression.cpp */,
 				0934900D1E7F7BA20034ECF2 /* Compression.hpp */,

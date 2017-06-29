@@ -133,27 +133,6 @@ namespace PlaceHolderDetail
     struct PlaceHolderMaker<8>{ static decltype(std::placeholders::_9) Get(){ return std::placeholders::_9; } };
     template<>
     struct PlaceHolderMaker<9>{ static decltype(std::placeholders::_10) Get(){ return std::placeholders::_10; } };
-    template<>
-    struct PlaceHolderMaker<10>{ static decltype(std::placeholders::_11) Get(){ return std::placeholders::_11; } };
-    template<>
-    struct PlaceHolderMaker<11>{ static decltype(std::placeholders::_12) Get(){ return std::placeholders::_12; } };
-    template<>
-    struct PlaceHolderMaker<12>{ static decltype(std::placeholders::_13) Get(){ return std::placeholders::_13; } };
-    template<>
-    struct PlaceHolderMaker<13>{ static decltype(std::placeholders::_14) Get(){ return std::placeholders::_14; } };
-    template<>
-    struct PlaceHolderMaker<14>{ static decltype(std::placeholders::_15) Get(){ return std::placeholders::_15; } };
-    template<>
-    struct PlaceHolderMaker<15>{ static decltype(std::placeholders::_16) Get(){ return std::placeholders::_16; } };
-    template<>
-    struct PlaceHolderMaker<16>{ static decltype(std::placeholders::_17) Get(){ return std::placeholders::_17; } };
-    template<>
-    struct PlaceHolderMaker<17>{ static decltype(std::placeholders::_18) Get(){ return std::placeholders::_18; } };
-    template<>
-    struct PlaceHolderMaker<18>{ static decltype(std::placeholders::_19) Get(){ return std::placeholders::_19; } };
-    template<>
-    struct PlaceHolderMaker<19>{ static decltype(std::placeholders::_20) Get(){ return std::placeholders::_20; } };
-
 }
 
 typedef std::shared_ptr<FunctionHandlerBase>   FunctionHandlerPointer;

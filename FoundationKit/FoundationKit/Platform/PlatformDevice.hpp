@@ -96,7 +96,7 @@ public:
     /** 
      * If cpuIndex is equal to - 1, then the function will return 
      * the largest of the maximum frequency of all CPUs.
-     * @param cpuIndex
+     * @param cpuIndex The CPU core index
      * @return Unit: KHz
      */
     static int         GetCPUMaxFreq(int cpuIndex = -1);
@@ -104,7 +104,7 @@ public:
     /**
      * If cpuIndex is equal to -1, then the function will return
      * the maximum frequency of all the CPU's current frequency.
-     * @param cpuIndex
+     * @param cpuIndex  The CPU core index
      * @return Unit: KHz
      */
     static int         GetCPUCurFreq(int cpuIndex = -1);
@@ -112,7 +112,7 @@ public:
     /**
      * If cpuIndex is equal to -1, then the function will return
      * the smallest of the minimum frequency of all CPUs.
-     * @param cpuIndex
+     * @param cpuIndex  The CPU core index
      * @return Unit: KHz
      */
     static int         GetCPUMinFreq(int cpuIndex = -1);
