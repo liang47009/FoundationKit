@@ -15,7 +15,6 @@
 #include <unordered_map>
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/OpenGL.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #import <IOKit/IOKitLib.h>
 #import <AppKit/AppKit.h>
@@ -328,7 +327,7 @@ long long PlatformDevice::GetAvailableMemory()
     
     if (host_statistics64(host_port, HOST_VM_INFO64, (host_info64_t)&vm_stat, &host_size) != KERN_SUCCESS)
     {
-        LOG_ERROR("***** Failed to fetch vm statistics");
+        FKLog("***** Failed to fetch vm statistics");
         return 0;
     }
     //natural_t mem_used = (vm_stat.active_count+vm_stat.inactive_count+vm_stat.wire_count)*pagesize;

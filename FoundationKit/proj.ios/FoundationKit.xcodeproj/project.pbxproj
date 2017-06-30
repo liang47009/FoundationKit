@@ -18,7 +18,6 @@
 		093490C41E7F7BA30034ECF2 /* DateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490101E7F7BA20034ECF2 /* DateTime.cpp */; };
 		093490C51E7F7BA30034ECF2 /* DelegateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490121E7F7BA20034ECF2 /* DelegateManager.cpp */; };
 		093490C61E7F7BA30034ECF2 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490161E7F7BA20034ECF2 /* Exception.cpp */; };
-		093490C71E7F7BA30034ECF2 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490191E7F7BA20034ECF2 /* Logger.cpp */; };
 		093490C81E7F7BA30034ECF2 /* Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934901B1E7F7BA20034ECF2 /* Math.cpp */; };
 		093490C91E7F7BA30034ECF2 /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934901E1E7F7BA20034ECF2 /* MathUtil.cpp */; };
 		093490CA1E7F7BA30034ECF2 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490221E7F7BA20034ECF2 /* Matrix.cpp */; };
@@ -56,7 +55,6 @@
 		094C50C11EC3FF1B00AB3021 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934903A1E7F7BA20034ECF2 /* Vector2.cpp */; };
 		094C50C21EC3FF1B00AB3021 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490301E7F7BA20034ECF2 /* Timer.cpp */; };
 		094C50C31EC3FF1B00AB3021 /* Size.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934902C1E7F7BA20034ECF2 /* Size.cpp */; };
-		094C50C41EC3FF1B00AB3021 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490191E7F7BA20034ECF2 /* Logger.cpp */; };
 		094C50C51EC3FF1B00AB3021 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934903D1E7F7BA20034ECF2 /* Vector3.cpp */; };
 		094C50C71EC3FF1B00AB3021 /* Version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490431E7F7BA20034ECF2 /* Version.cpp */; };
 		094C50C81EC3FF1B00AB3021 /* unzip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09348FE11E7F7BA20034ECF2 /* unzip.cpp */; };
@@ -148,8 +146,6 @@
 		093490151E7F7BA20034ECF2 /* ElapsedTimer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ElapsedTimer.hpp; sourceTree = "<group>"; };
 		093490161E7F7BA20034ECF2 /* Exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
 		093490171E7F7BA20034ECF2 /* Exception.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Exception.hpp; sourceTree = "<group>"; };
-		093490191E7F7BA20034ECF2 /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
-		0934901A1E7F7BA20034ECF2 /* Logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logger.hpp; sourceTree = "<group>"; };
 		0934901B1E7F7BA20034ECF2 /* Math.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Math.cpp; sourceTree = "<group>"; };
 		0934901C1E7F7BA20034ECF2 /* Math.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Math.hpp; sourceTree = "<group>"; };
 		0934901D1E7F7BA20034ECF2 /* MathContent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MathContent.hpp; sourceTree = "<group>"; };
@@ -374,8 +370,6 @@
 				093490151E7F7BA20034ECF2 /* ElapsedTimer.hpp */,
 				093490161E7F7BA20034ECF2 /* Exception.cpp */,
 				093490171E7F7BA20034ECF2 /* Exception.hpp */,
-				093490191E7F7BA20034ECF2 /* Logger.cpp */,
-				0934901A1E7F7BA20034ECF2 /* Logger.hpp */,
 				0934901B1E7F7BA20034ECF2 /* Math.cpp */,
 				0934901C1E7F7BA20034ECF2 /* Math.hpp */,
 				0934901D1E7F7BA20034ECF2 /* MathContent.hpp */,
@@ -616,7 +610,6 @@
 				094C50C11EC3FF1B00AB3021 /* Vector2.cpp in Sources */,
 				094C50C21EC3FF1B00AB3021 /* Timer.cpp in Sources */,
 				094C50C31EC3FF1B00AB3021 /* Size.cpp in Sources */,
-				094C50C41EC3FF1B00AB3021 /* Logger.cpp in Sources */,
 				094C50C51EC3FF1B00AB3021 /* Vector3.cpp in Sources */,
 				094C50C71EC3FF1B00AB3021 /* Version.cpp in Sources */,
 				094C50C81EC3FF1B00AB3021 /* unzip.cpp in Sources */,
@@ -656,7 +649,6 @@
 				093490D31E7F7BA30034ECF2 /* Vector2.cpp in Sources */,
 				093490CF1E7F7BA30034ECF2 /* Timer.cpp in Sources */,
 				093490CD1E7F7BA30034ECF2 /* Size.cpp in Sources */,
-				093490C71E7F7BA30034ECF2 /* Logger.cpp in Sources */,
 				093490D41E7F7BA30034ECF2 /* Vector3.cpp in Sources */,
 				0992FFCE1E863F7E0099635E /* UICKeyChainStore.m in Sources */,
 				093490D61E7F7BA30034ECF2 /* Version.cpp in Sources */,

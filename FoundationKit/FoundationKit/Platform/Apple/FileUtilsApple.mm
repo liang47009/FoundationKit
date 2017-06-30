@@ -10,7 +10,6 @@
 
 #import <Foundation/Foundation.h>
 #include <ftw.h>
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FileUtils.hpp"
 NS_FK_BEGIN
 
@@ -89,7 +88,7 @@ static int unlink_cb(const char *fpath, const struct stat *sb, int typeflag, str
     auto ret = remove(fpath);
     if (ret)
     {
-        LOG_ERROR("Fail to remove: %s ", fpath);
+        FKLog("Fail to remove: %s ", fpath);
     }
 
     return ret;
@@ -99,7 +98,7 @@ bool FileUtils::RemoveDirectory(const std::string& path)
 {
     if (path.size() > 0 && path[path.size() - 1] != '/')
     {
-        LOG_ERROR("Fail to remove directory, path must termniate with '/': %s", path.c_str());
+        FKLog("Fail to remove directory, path must termniate with '/': %s", path.c_str());
         return false;
     }
 

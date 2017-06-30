@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/Dictionary.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
 #include "FoundationKit/Foundation/Rect.hpp"
@@ -32,10 +31,7 @@ using namespace FoundationKit;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    std::string strLogPaht = FileUtils::GetInstance()->GetWritablePath();
-    strLogPaht+= "FoundationKit.log";
-    Logger::GetInstance()->Initialize(strLogPaht);
-    LOG_INFO("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());
+    FKLog("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());
 
     return YES;
 }
