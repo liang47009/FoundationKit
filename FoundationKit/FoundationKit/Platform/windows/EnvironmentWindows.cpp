@@ -7,7 +7,16 @@ NS_FK_BEGIN
 
 Environment::stringvec Environment::GetEnvironmentVariables()
 {
-    return stringvec();
+    LPWCH lpvEnv = GetEnvironmentStringsW();
+    LPWSTR lpszVariable = (LPWSTR)lpvEnv;
+    stringvec  Variables;
+    while (*lpszVariable)
+    {
+        Variables.push_back(StringUtils::wstring2UTF8string(lpszVariable));
+        lpszVariable += lstrlen(lpszVariable) + 1;
+    }
+    FreeEnvironmentStringsW(lpvEnv);
+    return Variables;
 }
 
 

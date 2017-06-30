@@ -123,7 +123,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     std::error_code ec;
     std::string strErr = ec.message();
-    std::unique_ptr<AppDelegate>  AppDelegatePtr;
+
+    auto vars = Environment::GetEnvironmentVariables();
+
     DelegateManager::GetInstance()->AddObserver("TupleTest", BindFunctionHandler(&TupleTest));
     DelegateManager::GetInstance()->Invoke("TupleTest", ArgumentList());
     ArgumentList args;
