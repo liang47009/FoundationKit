@@ -15,7 +15,6 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/Types.hpp"
 #include "FoundationKit/std/max_integer_of.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 
 USING_NS_FK;
 

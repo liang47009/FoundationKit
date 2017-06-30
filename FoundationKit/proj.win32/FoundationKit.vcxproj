@@ -220,7 +220,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\ElapsedTimer.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Exception.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\FunctionHandler.hpp" />
-    <ClInclude Include="..\FoundationKit\Foundation\Logger.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\MathContent.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Math.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\MathUtil.hpp" />
@@ -276,7 +275,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Foundation\DateTime.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\DelegateManager.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Exception.cpp" />
-    <ClCompile Include="..\FoundationKit\Foundation\Logger.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Math.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\MathUtil.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Matrix.cpp" />

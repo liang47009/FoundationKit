@@ -6,7 +6,6 @@
 #include "HTTPClient.hpp"
 #include "HTTPResponse.hpp"
 #include "MimeTypes.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 
 
@@ -336,9 +335,9 @@ void HTTPRequest::dumpInfo()
     requestInfo += "\n";
     requestInfo += "Request Status:";
     requestInfo += StringUtils::Tostring(static_cast<int>(_requestStatus));
-    LOG_INFO("---------------------Dump Request-----------------------\n");
-    LOG_INFO(requestInfo.c_str());
-    LOG_INFO("---------------------Dump Request End-----------------------\n");
+    FKLog("---------------------Dump Request-----------------------\n");
+    FKLog(requestInfo.c_str());
+    FKLog("---------------------Dump Request End-----------------------\n");
 }
 
 void HTTPRequest::tick(float deltaTime)
@@ -386,13 +385,13 @@ bool HTTPRequest::build()
     // Prevent overlapped requests using the same instance
     if (_requestStatus == HttpStatusCode::Processing)
     {
-        LOG_WARN("ProcessRequest failed. Still processing last request.");
+        FKLog("ProcessRequest failed. Still processing last request.");
         return false;
     }
     // Nothing to do without a valid URL
     else if (_url.empty())
     {
-        LOG_ERROR("Cannot process HTTP request: URL is empty");
+        FKLog("Cannot process HTTP request: URL is empty");
         return false;
     }
 
@@ -444,7 +443,7 @@ bool HTTPRequest::build()
     }
     else
     {
-        LOG_ERROR("Unsupported method '%d', can be perhaps added with CURLOPT_CUSTOMREQUEST", static_cast<int>(_requestType));
+        FKLog("Unsupported method '%d', can be perhaps added with CURLOPT_CUSTOMREQUEST", static_cast<int>(_requestType));
     }
 
     buildFormPayload();
@@ -625,7 +624,7 @@ void HTTPRequest::finishedRequest()
         // log info about error responses to identify failed downloads
         if (bDebugServerResponse)
         {
-            LOG_WARN("%p: request has been successfully processed. URL: %s, HTTP code: %d, content length: %d, actual payload size: %d",
+            FKLog("%p: request has been successfully processed. URL: %s, HTTP code: %d, content length: %d, actual payload size: %d",
                 (void*)this, getURL().c_str(), _response->getResponseCode(), _response->getContentSize(), _response->getContentData().size());
         }
         // Mark last request attempt as completed successfully
@@ -720,7 +719,7 @@ size_t HTTPRequest::receiveResponseHeaderCallback(void* buffer, size_t sizeInBlo
             std::replace(headers.begin(), headers.end(), '\r', ' ');
             if (_enableDebug)
             {
-                LOG_INFO("%p: Received response header '%s'.", (void*)this, headers.c_str());
+                FKLog("%p: Received response header '%s'.", (void*)this, headers.c_str());
             }
             auto headerKeyValue = StringUtils::Split(headers, ':');
 
@@ -750,12 +749,12 @@ size_t HTTPRequest::receiveResponseHeaderCallback(void* buffer, size_t sizeInBlo
         }
         else
         {
-            LOG_WARN("%p: Could not process response header for request - header size (%d) is invalid.", (void*)this, headerSize);
+            FKLog("%p: Could not process response header for request - header size (%d) is invalid.", (void*)this, headerSize);
         }
     }
     else
     {
-        LOG_WARN("%p: Could not download response header for request - response not valid.", (void*)this);
+        FKLog("%p: Could not download response header for request - response not valid.", (void*)this);
     }
     return 0;
 }
@@ -769,7 +768,7 @@ size_t HTTPRequest::receiveResponseBodyCallback(void* buffer, size_t sizeInBlock
         size_t sizeToDownload = sizeInBlocks * blockSizeInBytes;
         if (_enableDebug)
         {
-            LOG_INFO("%p: ReceiveResponseBodyCallback: %d bytes out of %d received. (SizeInBlocks=%d, BlockSizeInBytes=%d, Response->TotalBytesRead=%d, Response->GetContentLength()=%d, SizeToDownload=%d (<-this will get returned from the callback))",
+            FKLog("%p: ReceiveResponseBodyCallback: %d bytes out of %d received. (SizeInBlocks=%d, BlockSizeInBytes=%d, Response->TotalBytesRead=%d, Response->GetContentLength()=%d, SizeToDownload=%d (<-this will get returned from the callback))",
                 (void*)this,
                 static_cast<int32>(_response->getContentData().size() + sizeToDownload), _response->getContentSize(),
                 static_cast<int32>(sizeInBlocks), static_cast<int32>(blockSizeInBytes), _response->getContentData().size(), _response->getContentSize(), static_cast<int32>(sizeToDownload)
@@ -786,7 +785,7 @@ size_t HTTPRequest::receiveResponseBodyCallback(void* buffer, size_t sizeInBlock
     }
     else
     {
-        LOG_WARN("%p: Could not download response data for request - response not valid.", (void*)this);
+        FKLog("%p: Could not download response data for request - response not valid.", (void*)this);
     }
 
     return 0;	// request will fail with write error if we had non-zero bytes to download
@@ -809,33 +808,33 @@ size_t HTTPRequest::debugCallback(CURL * handle, curl_infotype debugInfoType, ch
     switch (debugInfoType)
     {
     case CURLINFO_DATA_IN:
-        LOG_INFO("DATA_IN %p: Received data [%s] (%d bytes)", (void*)this, debugInfo, debugInfoSize);
+        FKLog("DATA_IN %p: Received data [%s] (%d bytes)", (void*)this, debugInfo, debugInfoSize);
         break;
     case CURLINFO_DATA_OUT:
-        LOG_INFO("DATA_OUT %p: Sent data [%s] (%d bytes)", (void*)this, debugInfo, debugInfoSize);
+        FKLog("DATA_OUT %p: Sent data [%s] (%d bytes)", (void*)this, debugInfo, debugInfoSize);
         break;
     case CURLINFO_HEADER_IN:
-        LOG_INFO("HEADER_IN %p: Received header [%s] (%d bytes)", (void*)this, debugInfo, debugInfoSize);
+        FKLog("HEADER_IN %p: Received header [%s] (%d bytes)", (void*)this, debugInfo, debugInfoSize);
         break;
     case CURLINFO_HEADER_OUT:
-        LOG_INFO("HEADER_OUT %p: Sent header [%s] (%d bytes)", (void*)this, debugInfo, debugInfoSize);
+        FKLog("HEADER_OUT %p: Sent header [%s] (%d bytes)", (void*)this, debugInfo, debugInfoSize);
         break;
     case CURLINFO_SSL_DATA_IN:
-        LOG_INFO("SSL_DATA_IN %p: Received data [%s] (%d bytes)", (void*)this, debugInfo, debugInfoSize);
+        FKLog("SSL_DATA_IN %p: Received data [%s] (%d bytes)", (void*)this, debugInfo, debugInfoSize);
         break;
     case CURLINFO_SSL_DATA_OUT:
-        LOG_INFO("SSL_DATA_OUT %p: Sent data [%s] (%d bytes)", (void*)this, debugInfo, debugInfoSize);
+        FKLog("SSL_DATA_OUT %p: Sent data [%s] (%d bytes)", (void*)this, debugInfo, debugInfoSize);
         break;
     case CURLINFO_TEXT:
     {
         std::string debugText = debugInfo;
         std::replace(debugText.begin(), debugText.end(), '\n', ' ');
         std::replace(debugText.begin(), debugText.end(), '\r', ' ');
-        LOG_INFO("TEXT %p:%s", (void*)this, debugText.c_str());
+        FKLog("TEXT %p:%s", (void*)this, debugText.c_str());
     }
     break;
     default:
-        LOG_INFO("%p: DebugCallback: Unknown DebugInfoType=%d debugInfo [%s](DebugInfoSize: %d bytes)", (void*)this, (int32)debugInfoType, debugInfo, debugInfoSize);
+        FKLog("%p: DebugCallback: Unknown DebugInfoType=%d debugInfo [%s](DebugInfoSize: %d bytes)", (void*)this, (int32)debugInfoType, debugInfo, debugInfoSize);
         break;
     }
     return 0;

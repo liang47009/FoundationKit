@@ -7,7 +7,6 @@
 #include <atomic>
 
 #include "AppDelegate.h"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Version.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -94,7 +93,7 @@ struct AA
 
 void TestFunctionTraits()
 {
-    LOG_INFO("======= TestFunctionTraits =======");
+    FKLog("======= TestFunctionTraits =======");
     std::function<int(int)> fn = [](int a){ return a; };
     printType<function_traits<std::function<int(int)>>::function_type>();
     printType<function_traits<std::function<int(int)>>::args<0>::type>();
@@ -124,7 +123,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     std::error_code ec;
     std::string strErr = ec.message();
-    Logger::GetInstance()->Initialize("E:\\linux\\FoundationKit.log");
     std::unique_ptr<AppDelegate>  AppDelegatePtr;
     DelegateManager::GetInstance()->AddObserver("TupleTest", BindFunctionHandler(&TupleTest));
     DelegateManager::GetInstance()->Invoke("TupleTest", ArgumentList());

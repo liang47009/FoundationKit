@@ -41,7 +41,7 @@ namespace std{
  *
  *   void TestFunctionTraits()
  *   {
- *       LOG_INFO("======= TestFunctionTraits =======");
+ *       FKLog("======= TestFunctionTraits =======");
  *       std::function<int(int)> fn = [](int a){ return a; };
  *       printType<function_traits<std::function<int(int)>>::function_type>();
  *       printType<function_traits<std::function<int(int)>>::args<0>::type>();

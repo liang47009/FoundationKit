@@ -12,7 +12,6 @@ losemymind.libo@gmail.com
 #include <Windows.h>
 #include <regex>
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Platform/FileUtils.hpp"
 
 NS_FK_BEGIN
@@ -116,7 +115,7 @@ bool FileUtils::CreateDirectory(const std::string& dirPath)const
                 BOOL ret = ::CreateDirectory(subpath.c_str(), NULL);
                 if (!ret && ERROR_ALREADY_EXISTS != GetLastError())
                 {
-                    LOG_ERROR("Fail create directory %s !Error code is 0x%x", utf8Path.c_str(), GetLastError());
+                    FKLog("Fail create directory %s !Error code is 0x%x", utf8Path.c_str(), GetLastError());
                     return false;
                 }
             }
@@ -173,7 +172,7 @@ bool FileUtils::RemoveFile(const std::string &filepath)
     }
     else
     {
-        LOG_ERROR("Fail remove file %s !Error code is 0x%x", filepath.c_str(), GetLastError());
+        FKLog("Fail remove file %s !Error code is 0x%x", filepath.c_str(), GetLastError());
         return false;
     }
 }
@@ -195,7 +194,7 @@ bool FileUtils::RenameFile(const std::string &oldfullpath, const std::string &ne
     {
         if (!DeleteFileA(newfullpath.c_str()))
         {
-            LOG_ERROR("Fail to delete file %s !Error code is 0x%x", newfullpath.c_str(), GetLastError());
+            FKLog("Fail to delete file %s !Error code is 0x%x", newfullpath.c_str(), GetLastError());
         }
     }
 
@@ -205,7 +204,7 @@ bool FileUtils::RenameFile(const std::string &oldfullpath, const std::string &ne
     }
     else
     {
-        LOG_ERROR("Fail to rename file %s to %s !Error code is 0x%x", oldfullpath.c_str(), newfullpath.c_str(), GetLastError());
+        FKLog("Fail to rename file %s to %s !Error code is 0x%x", oldfullpath.c_str(), newfullpath.c_str(), GetLastError());
         return false;
     }
 }

@@ -11,7 +11,6 @@
 #include <locale>
 #include <dirent.h> // for DIR
 #include "FoundationKit/Platform/FileUtils.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Base/scope_locale.hpp"
 #include "unzip.h"
@@ -80,7 +79,7 @@ static mutable_buffer GetData(const std::string& filename, bool forString)
     if (nullptr == buffer || 0 == readsize)
     {
         SAFE_DELETE_ARRAY(buffer);
-        LOG_ERROR("Get data from file %s failed", filename.c_str());
+        FKLog("Get data from file %s failed", filename.c_str());
     }
     else
     {
@@ -621,7 +620,7 @@ bool FileUtils::RemoveDirectory(const std::string& path)
 {
     if (path.size() > 0 && path[path.size() - 1] != '/')
     {
-        LOG_ERROR("Fail to remove directory, path must termniate with '/': %s", path.c_str());
+        FKLog("Fail to remove directory, path must termniate with '/': %s", path.c_str());
         return false;
     }
 
@@ -654,7 +653,7 @@ bool FileUtils::RenameFile(const std::string &oldfullpath, const std::string &ne
 
     if (0 != errorCode)
     {
-        LOG_ERROR("Fail to rename file %s to %s !Error code is %d", oldfullpath.c_str(), newfullpath.c_str(), errorCode);
+        FKLog("Fail to rename file %s to %s !Error code is %d", oldfullpath.c_str(), newfullpath.c_str(), errorCode);
         return false;
     }
     return true;

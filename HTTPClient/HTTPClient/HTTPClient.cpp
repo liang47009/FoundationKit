@@ -1,5 +1,4 @@
 #include "HTTPClient.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Platform/FileUtils.hpp"
 #include "libcurl_init.hpp"
 
@@ -18,28 +17,28 @@ CURLSH* HTTPClient::_G_shareHandle = nullptr;
 
 void HTTPClient::RequestOptions::dumpOptions()
 {
-    LOG_INFO(" CurlRequestOptions (configurable via config and command line):");
-    LOG_INFO(" - bVerifyPeer = %s  - Libcurl will %sverify peer certificate",
+    FKLog(" CurlRequestOptions (configurable via config and command line):");
+    FKLog(" - bVerifyPeer = %s  - Libcurl will %sverify peer certificate",
         EnableVerifyPeer ? ("true") : ("false"),
         EnableVerifyPeer ? ("") : ("NOT ")
         );
 
-    LOG_INFO(" - CertBundlePath = %s  - Libcurl will %s",
+    FKLog(" - CertBundlePath = %s  - Libcurl will %s",
         CertBundlePath.empty() ? "nullptr": CertBundlePath.c_str() ,
         CertBundlePath.empty() ? "use whatever was configured at build time.":"set CURLOPT_CAINFO to it"
         );
 
-    LOG_INFO(" - IsUseHttpProxy = %s  - Libcurl will %suse HTTP proxy",
+    FKLog(" - IsUseHttpProxy = %s  - Libcurl will %suse HTTP proxy",
         IsUseHttpProxy ? ("true") : ("false"),
         IsUseHttpProxy ? ("") : ("NOT ")
         );
     if (IsUseHttpProxy)
     {
-        LOG_INFO(" - HttpProxyAddress = '%s'", HttpProxyAddress.c_str());
-        LOG_INFO(" - HttpProxyAcount = '%s'", HttpProxyAcount.c_str());
+        FKLog(" - HttpProxyAddress = '%s'", HttpProxyAddress.c_str());
+        FKLog(" - HttpProxyAcount = '%s'", HttpProxyAcount.c_str());
     }
 
-    LOG_INFO(" - IsDontReuseConnections = %s  - Libcurl will %sreuse connections",
+    FKLog(" - IsDontReuseConnections = %s  - Libcurl will %sreuse connections",
         IsDontReuseConnections ? ("true") : ("false"),
         IsDontReuseConnections ? ("NOT ") : ("")
         );
@@ -51,7 +50,7 @@ void HTTPClient::initialize()
 {
     if (_G_multiHandle != NULL)
     {
-        LOG_WARN("Already initialized multi handle");
+        FKLog("Already initialized multi handle");
         return;
     }
 
@@ -60,30 +59,30 @@ void HTTPClient::initialize()
         curl_version_info_data * versionInfo = curl_version_info(CURLVERSION_NOW);
         if (versionInfo)
         {
-            LOG_INFO("Using libcurl %s", versionInfo->version);
-            LOG_INFO(" - built for %s", versionInfo->host);
+            FKLog("Using libcurl %s", versionInfo->version);
+            FKLog(" - built for %s", versionInfo->host);
 
             if (versionInfo->features & CURL_VERSION_SSL)
             {
-                LOG_INFO(" - supports SSL with %s", versionInfo->ssl_version);
+                FKLog(" - supports SSL with %s", versionInfo->ssl_version);
             }
             else
             {
                 // No SSL
-                LOG_INFO(" - NO SSL SUPPORT!");
+                FKLog(" - NO SSL SUPPORT!");
             }
 
             if (versionInfo->features & CURL_VERSION_LIBZ)
             {
-                LOG_INFO(" - supports HTTP deflate (compression) using libz %s", versionInfo->libz_version);
+                FKLog(" - supports HTTP deflate (compression) using libz %s", versionInfo->libz_version);
             }
 
-            LOG_INFO(" - other features:");
+            FKLog(" - other features:");
 
 #define printCurlFeature(Feature)	             \
 			if (versionInfo->features & Feature) \
             {                                    \
-			    LOG_INFO("     %s", #Feature);	 \
+			    FKLog("     %s", #Feature);	 \
             }
 
             printCurlFeature(CURL_VERSION_SSL);
@@ -102,7 +101,7 @@ void HTTPClient::initialize()
         _G_multiHandle = curl_multi_init();
         if (NULL == _G_multiHandle)
         {
-            LOG_INFO("Could not initialize create libcurl multi handle! HTTP transfers will not function properly.");
+            FKLog("Could not initialize create libcurl multi handle! HTTP transfers will not function properly.");
         }
 
         _G_shareHandle = curl_share_init();
@@ -114,12 +113,12 @@ void HTTPClient::initialize()
         }
         else
         {
-            LOG_INFO("Could not initialize libcurl share handle!");
+            FKLog("Could not initialize libcurl share handle!");
         }
     }
     else
     {
-        LOG_INFO("Could not initialize libcurl (result=%d), HTTP transfers will not function properly.", (int32)libcurl_init::code());
+        FKLog("Could not initialize libcurl (result=%d), HTTP transfers will not function properly.", (int32)libcurl_init::code());
     }
 
     // discover cert location
@@ -136,7 +135,7 @@ void HTTPClient::initialize()
         for (const char ** currentBundle = knownBundlePaths; *currentBundle; ++currentBundle)
         {
             std::string fileName(*currentBundle);
-            LOG_INFO(" Libcurl: checking if '%s' exists", fileName.c_str());
+            FKLog(" Libcurl: checking if '%s' exists", fileName.c_str());
 
             if (FileUtils::getInstance()->isFileExist(fileName))
             {
@@ -146,7 +145,7 @@ void HTTPClient::initialize()
         }
         if (HTTPRequestOptions.CertBundlePath.empty())
         {
-            LOG_INFO(" Libcurl: did not find a cert bundle in any of known locations, TLS may not work");
+            FKLog(" Libcurl: did not find a cert bundle in any of known locations, TLS may not work");
         }
     }
 #elif TARGET_PLATFORM == PLATFORM_ANDROID
@@ -192,17 +191,17 @@ void HTTPClient::initialize()
             }
 
             HTTPRequestOptions.CertBundlePath = PEMFilename;
-            LOG_INFO(" Libcurl: using generated PEM file: '%s'", PEMFilename.c_str());
+            FKLog(" Libcurl: using generated PEM file: '%s'", PEMFilename.c_str());
         }
         else
         {
             HTTPRequestOptions.CertBundlePath = PEMFilename;
-            LOG_INFO(" Libcurl: using existing PEM file: '%s'", PEMFilename.c_str());
+            FKLog(" Libcurl: using existing PEM file: '%s'", PEMFilename.c_str());
         }
 
         if (HTTPRequestOptions.CertBundlePath.empty())
         {
-            LOG_INFO(" Libcurl: failed to generate a PEM cert bundle, TLS may not work");
+            FKLog(" Libcurl: failed to generate a PEM cert bundle, TLS may not work");
         }
         }
 #endif
@@ -302,7 +301,7 @@ void HTTPClient::sendRequestAsync(HTTPRequest::Pointer request)
     }
     else
     {
-        LOG_ERROR("Failed to add easy handle %p to muti handle with code %d", requestHandle, (int)addResult);
+        FKLog("Failed to add easy handle %p to muti handle with code %d", requestHandle, (int)addResult);
     }
 }
 

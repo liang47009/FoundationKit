@@ -1,7 +1,6 @@
 
 #include "HTTPRequest.hpp"
 #include "HTTPResponse.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 NS_FK_BEGIN
 namespace network{
@@ -54,7 +53,7 @@ std::string HTTPResponse::getHeader(const std::string& headerName)
     std::string result;
     if (!_bIsReady)
     {
-        LOG_WARN("Can't get cached header [%s]. Response still processing. %p", headerName.c_str(), (void*)&_request);
+        FKLog("Can't get cached header [%s]. Response still processing. %p", headerName.c_str(), (void*)&_request);
     }
     else
     {
@@ -72,7 +71,7 @@ std::vector<std::string> HTTPResponse::getAllHeaders()
     std::vector<std::string> result;
     if (!_bIsReady)
     {
-        LOG_WARN("Can't get cached headers. Response still processing. %p", (void*)&_request);
+        FKLog("Can't get cached headers. Response still processing. %p", (void*)&_request);
     }
     else
     {
@@ -156,9 +155,9 @@ void HTTPResponse::dumpInfo()
         responseInfo += (char*)(&_contentData[0]);
     }
 
-    LOG_INFO("---------------------Dump Response-----------------------\n");
-    LOG_INFO(responseInfo.c_str());
-    LOG_INFO("---------------------Dump Response End-----------------------\n");
+    FKLog("---------------------Dump Response-----------------------\n");
+    FKLog(responseInfo.c_str());
+    FKLog("---------------------Dump Response End-----------------------\n");
 }
 
 HTTPResponse& HTTPResponse::setHeader(const std::string& headerName, const std::string& headerValue)

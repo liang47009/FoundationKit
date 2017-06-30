@@ -1,7 +1,6 @@
 #include "FoundationKit/Foundation/Timer.hpp"
 #include "FoundationKit/Foundation/Timespan.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 NS_FK_BEGIN
 
 int Timer::_nextValidId = 1000;

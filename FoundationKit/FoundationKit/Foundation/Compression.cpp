@@ -5,7 +5,6 @@
 #include "zlib.h"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 #include "FoundationKit/Foundation/Compression.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Base/scope_guard.hpp"
 
 NS_FK_BEGIN
@@ -42,9 +41,9 @@ static int doInflate(z_stream* stream, std::vector<uint8>& head, size_t blockSiz
     case Z_NEED_DICT:
     case Z_DATA_ERROR:
     case Z_MEM_ERROR:
-        LOG_ERROR("doInflate inflate error:%d, msg:%s", status, stream->msg);
+        FKLog("doInflate inflate error:%d, msg:%s", status, stream->msg);
     default:
-        LOG_ERROR("uncompressMemory inflate error:%d, msg:%s", status, stream->msg);
+        FKLog("uncompressMemory inflate error:%d, msg:%s", status, stream->msg);
     }
     return status;
 }
@@ -84,7 +83,7 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutable_buffer& Compres
         int status = deflateInit2(&stream,Z_DEFAULT_COMPRESSION,Z_DEFLATED,windowBits, MAX_MEM_LEVEL,Z_DEFAULT_STRATEGY);
         if (status != Z_OK)
         {
-            LOG_ERROR("compressMemory deflateInit2 error:%d, msg:%s", status, stream.msg);
+            FKLog("compressMemory deflateInit2 error:%d, msg:%s", status, stream.msg);
             break;
         }
         SCOPE_EXIT
@@ -92,7 +91,7 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutable_buffer& Compres
             status = deflateEnd(&stream);
             if (status != Z_OK)
             {
-                LOG_ERROR("compressMemory deflateEnd error:%d, msg:%s", status, stream.msg);
+                FKLog("compressMemory deflateEnd error:%d, msg:%s", status, stream.msg);
             }
             else
             {
@@ -110,7 +109,7 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutable_buffer& Compres
         while ((status = deflate(&stream, Z_FINISH)) == Z_OK);
         if (status != Z_STREAM_END)
         {
-            LOG_ERROR("compressMemory deflate error:%d, msg:%s", status, stream.msg);
+            FKLog("compressMemory deflate error:%d, msg:%s", status, stream.msg);
             break;
         }
         CompressedBuffer.reallocate(stream.total_out);
@@ -143,7 +142,7 @@ bool Compression::UncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
         int status = inflateInit2(&stream, windowBits);
         if (status != Z_OK)
         {
-            LOG_ERROR("Compression inflateInit2 error:%d, msg:%s", status, stream.msg);
+            FKLog("Compression inflateInit2 error:%d, msg:%s", status, stream.msg);
             break;
         }
 
@@ -152,7 +151,7 @@ bool Compression::UncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
             status = inflateEnd(&stream);
             if (status != Z_OK)
             {
-                LOG_ERROR("uncompressMemory inflateEnd error:%d, msg:%s", status, stream.msg);
+                FKLog("uncompressMemory inflateEnd error:%d, msg:%s", status, stream.msg);
             }
             else
             {
@@ -170,7 +169,7 @@ bool Compression::UncompressMemory(CompressionFlags Flags, mutable_buffer& Uncom
         while ((status = doInflate(&stream, UncompressedData, defaultBufferLength)) == Z_OK);
         if (status != Z_STREAM_END)
         {
-            LOG_ERROR("uncompressMemory doInflate error:%d, msg:%s", status, stream.msg);
+            FKLog("uncompressMemory doInflate error:%d, msg:%s", status, stream.msg);
             break;
         }
         UncompressedBuffer.reallocate(stream.total_out);
