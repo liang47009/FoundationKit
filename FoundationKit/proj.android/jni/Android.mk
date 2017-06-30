@@ -19,7 +19,6 @@ $(SRCROOT)/FoundationKit/Foundation/Compression.cpp \
 $(SRCROOT)/FoundationKit/Foundation/DateTime.cpp \
 $(SRCROOT)/FoundationKit/Foundation/DelegateManager.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Exception.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Logger.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Math.cpp \
 $(SRCROOT)/FoundationKit/Foundation/MathUtil.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Matrix.cpp \

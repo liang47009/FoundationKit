@@ -2,7 +2,6 @@
 #include <malloc.h>
 #include <errno.h>
 #include "FoundationKit/Platform/Platform.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 
 NS_FK_BEGIN
 bool Platform::IsDebuggerPresent()
@@ -37,7 +36,7 @@ std::string Platform::ExecuteSystemCommand(const std::string& command)
     FILE* pipe = popen(command.c_str(), "r");
     if (!pipe)
     {
-        LOG_ERROR("****** popen() failed!");
+        FKLog("****** popen() failed!");
     }
     try {
         char buffer[256+1] = { 0 };
@@ -50,7 +49,7 @@ std::string Platform::ExecuteSystemCommand(const std::string& command)
     catch (...)
     {
         pclose(pipe);
-        LOG_ERROR("****** Cannot execute command:%s with errno:%d", command.c_str(), errno);
+        FKLog("****** Cannot execute command:%s with errno:%d", command.c_str(), errno);
     }
     pclose(pipe);
     return result;

@@ -3,6 +3,7 @@
 #include <jni.h>
 #include <cpu-features.h> //fou cpu count
 #include <sys/sysinfo.h>
+#include <unistd.h>
 
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/Platform.hpp"
@@ -10,7 +11,6 @@
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
 
@@ -51,7 +51,7 @@ namespace detail
         FILE *fp = nullptr;
         if ((fp = fopen("/proc/meminfo", "r")) == NULL)
         {
-            LOG_ERROR("Cannot open /proc/meminfo file!");
+            FKLog("Cannot open /proc/meminfo file!");
             return 0;
         }
 
@@ -99,7 +99,7 @@ namespace detail
         }
         else
         {
-            LOG_ERROR("Cannot open %s file!%s [%s:%d]", filePath, strerror(errno), __FILE__, __LINE__);
+            FKLog("Cannot open %s file!%s [%s:%d]", filePath, strerror(errno), __FILE__, __LINE__);
         }
         return value;
     }

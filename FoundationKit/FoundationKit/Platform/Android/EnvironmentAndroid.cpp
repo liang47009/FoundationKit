@@ -7,6 +7,11 @@
 
 NS_FK_BEGIN
 
+Environment::stringvec Environment::GetEnvironmentVariables()
+{
+    return stringvec();
+}
+
 std::string Environment::GetEnvironmentVariable(const std::string& variable)
 {
     const char* val = getenv(variable.c_str());
@@ -32,6 +37,11 @@ void Environment::SetEnvironmentVariable(const std::string& variable, const std:
         msg.append(variable);
         throw SystemException(msg);
     }
+}
+
+Environment::stringvec Environment::GetCommandLineArgs()
+{
+    return stringvec();
 }
 
 NS_FK_END
