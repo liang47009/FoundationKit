@@ -5,7 +5,6 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 extern char ** environ; // in <unistd.h>
 NS_FK_BEGIN
-static std::string GSavedCommandLine = "";
 Environment::stringvec Environment::GetEnvironmentVariables()
 {
     stringvec  Variables;
@@ -63,7 +62,18 @@ bool Environment::SetEnvironmentVariable(const std::string& variable, const std:
 
 Environment::stringvec Environment::GetCommandLineArgs()
 {
-    stringvec commandArgs = StringUtils::Split(GSavedCommandLine, ' ');
+    stringvec commandArgs;// = StringUtils::Split(GSavedCommandLine, ' ');
+    FILE *fp = nullptr;
+    if ((fp = fopen("/proc/self/cmdline", "r")) == NULL)
+    {
+        FKLog("Cannot open /proc/self/cmdline file!");
+        return commandArgs;
+    }
+    char line_buf[256] = { 0 };
+    while (fgets(line_buf, sizeof(line_buf), fp) != NULL)
+    {
+        commandArgs.push_back(line_buf);
+    }
     return commandArgs;
 }
 
