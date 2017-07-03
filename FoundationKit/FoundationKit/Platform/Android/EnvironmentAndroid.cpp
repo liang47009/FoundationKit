@@ -1,15 +1,21 @@
-
-
 #include <sstream>
 #include <stdlib.h>
+#include <unistd.h> // for environ
 #include "FoundationKit/Platform/Environment.hpp"
-#include "FoundationKit/Foundation/Exception.hpp"
-
+#include "FoundationKit/Foundation/StringUtils.hpp"
+extern char ** environ; // in <unistd.h>
 NS_FK_BEGIN
-
+static std::string GSavedCommandLine = "";
 Environment::stringvec Environment::GetEnvironmentVariables()
 {
-    return stringvec();
+    stringvec  Variables;
+    char** env = environ;
+    while (*env)
+    {
+        Variables.push_back(*env);
+        ++env;
+    }
+    return Variables;
 }
 
 std::string Environment::GetEnvironmentVariable(const std::string& variable)
@@ -57,7 +63,8 @@ bool Environment::SetEnvironmentVariable(const std::string& variable, const std:
 
 Environment::stringvec Environment::GetCommandLineArgs()
 {
-    return stringvec();
+    stringvec commandArgs = StringUtils::Split(GSavedCommandLine, ' ');
+    return commandArgs;
 }
 
 NS_FK_END
