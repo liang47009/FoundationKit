@@ -27,6 +27,7 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/FileUtils.hpp"
+#include "FoundationKit/Platform/Environment.hpp"
 #import <IOKit/IOKitLib.h>
 #import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
@@ -42,7 +43,10 @@ USING_NS_FK;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
     static PlatformMemoryConstants MemoryConstants = PlatformDevice::GetMemoryConstants();
-
+    auto lines = Environment::GetCommandLineArgs();
+    auto envs = Environment::GetEnvironmentVariables();
+    auto path = Environment::GetEnvironmentVariable("PATH");
+    NSDictionary<NSString *, NSString *>* envs1 = [[NSProcessInfo processInfo]environment];
     
 }
 

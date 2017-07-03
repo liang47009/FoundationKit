@@ -10,11 +10,14 @@
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/Foundation/Exception.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
+#import <Foundation/Foundation.h>
 extern char** environ;
 NS_FK_BEGIN
 static std::string GSavedCommandLine = "";
 Environment::stringvec Environment::GetEnvironmentVariables()
 {
+    // We can use:
+    //[[NSProcessInfo processInfo]environment]
     stringvec Variables;
     char** env = environ;
     while (*env)
@@ -70,7 +73,12 @@ bool Environment::SetEnvironmentVariable(const std::string& variable, const std:
 
 Environment::stringvec Environment::GetCommandLineArgs()
 {
-    stringvec commandArgs = StringUtils::Split(GSavedCommandLine, ' ');
+    stringvec commandArgs;
+    NSArray* arguments = [[NSProcessInfo processInfo] arguments];
+    for (NSString *item in arguments)
+    {
+        commandArgs.push_back([item UTF8String]);
+    }
     return commandArgs;
 }
 

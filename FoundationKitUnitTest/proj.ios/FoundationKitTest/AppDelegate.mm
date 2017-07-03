@@ -13,6 +13,7 @@
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 #include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Platform/FileUtils.hpp"
+#include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/std/function_traits.hpp"
 #include "FoundationKit/Base/type_cast.hpp"
 #include "FoundationKit/Base/types.hpp"
@@ -32,7 +33,10 @@ using namespace FoundationKit;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     FKLog("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());
-
+    auto lines = Environment::GetCommandLineArgs();
+    auto envs = Environment::GetEnvironmentVariables();
+    auto path = Environment::GetEnvironmentVariable("PATH");
+    auto envs1 = [[NSProcessInfo processInfo]environment];
     return YES;
 }
 
