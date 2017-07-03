@@ -23,20 +23,36 @@ std::string Environment::GetEnvironmentVariable(const std::string& variable)
 
 bool Environment::HasEnvironmentVariable(const std::string& variable)
 {
-    return getenv(variable.c_str()) != 0;
+    return getenv(variable.c_str()) != nullptr;
 }
 
-void Environment::SetEnvironmentVariable(const std::string& variable, const std::string& value)
+bool Environment::SetEnvironmentVariable(const std::string& variable, const std::string& value)
 {
-    std::string var = variable;
-    var.append("=");
-    var.append(value);
-    if (putenv((char*)var.c_str()))
+    bool result = true;
+    if (value.empty())
     {
-        std::string msg = "cannot set environment variable: ";
-        msg.append(variable);
-        throw SystemException(msg);
+        if (unsetenv(variable.c_str()) != 0)
+        {
+            result = false;
+            std::string msg = "cannot set environment variable: ";
+            msg.append(variable);
+            ASSERTED(false, msg.c_str());
+        }
     }
+    else
+    {
+        std::string var = variable;
+        var.append("=");
+        var.append(value);
+        if (putenv((char*)var.c_str()) != 0)
+        {
+            result = false;
+            std::string msg = "cannot set environment variable: ";
+            msg.append(variable);
+            ASSERTED(false, msg.c_str());
+        }
+    }
+    return result;
 }
 
 Environment::stringvec Environment::GetCommandLineArgs()

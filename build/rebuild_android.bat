@@ -18,6 +18,7 @@ rem ***************************************************************************
 %~d0
 cd %~dp0
 cd ../FoundationKit/proj.android
+call ndk-build clean
 call ndk-build -j8
 
 set PUBLISH_DIR="..\..\publish\Android\"

@@ -24,7 +24,8 @@ std::string Environment::GetEnvironmentVariable(const std::string& variable)
 {
     DWORD len = GetEnvironmentVariableA(variable.c_str(), 0, 0);
     if (len == 0) return ""; //throw NotFoundException(variable);
-    char* buffer = new char[len];
+    char* buffer = new char[len + 1];
+    memset(buffer, 0, len + 1);
     GetEnvironmentVariableA(variable.c_str(), buffer, len);
     std::string result(buffer);
     delete[] buffer;
@@ -37,14 +38,21 @@ bool Environment::HasEnvironmentVariable(const std::string& variable)
     return len > 0;
 }
 
-void Environment::SetEnvironmentVariable(const std::string& variable, const std::string& value)
+bool Environment::SetEnvironmentVariable(const std::string& variable, const std::string& value)
 {
-    if (SetEnvironmentVariableA(variable.c_str(), value.c_str()) == 0)
+    const char* szValue = nullptr;
+    if (!value.empty())
+    {
+        szValue = value.c_str();
+    }
+    if (SetEnvironmentVariableA(variable.c_str(), szValue) == 0)
     {
         std::string msg = "cannot set environment variable: ";
         msg.append(variable);
         ASSERTED(false, msg.c_str());
+        return false;
     }
+    return true;
 }
 
 LPWSTR *SegmentCommandLine(LPCWSTR lpCmdLine, DWORD *pNumArgs);
