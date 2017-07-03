@@ -13,7 +13,6 @@
 #import <Foundation/Foundation.h>
 extern char** environ;
 NS_FK_BEGIN
-static std::string GSavedCommandLine = "";
 Environment::stringvec Environment::GetEnvironmentVariables()
 {
     // We can use:
