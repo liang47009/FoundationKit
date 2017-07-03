@@ -6,15 +6,23 @@
 #include <sys/types.h>
 #include <sys/sysctl.h>
 #include <sys/utsname.h>
+#include <unistd.h>
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/Foundation/Exception.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
-
+extern char** environ;
 NS_FK_BEGIN
 static std::string GSavedCommandLine = "";
 Environment::stringvec Environment::GetEnvironmentVariables()
 {
-    return stringvec();
+    stringvec Variables;
+    char** env = environ;
+    while (*env)
+    {
+        Variables.push_back(*env);
+        ++env;
+    }
+    return Variables;
 }
 
 std::string Environment::GetEnvironmentVariable(const std::string& variable)
