@@ -140,7 +140,7 @@ template<typename _Ft, typename _Ty, std::size_t... indices >
 FunctionHandlerPointer BindFunctionHandlerImpl(_Ft fun, _Ty object, PlaceHolderDetail::IndexList<indices...>)
 {
     const size_t arityvalue = std::function_traits < _Ft >::arity::value;
-    std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue >> (std::bind(fun, object, PlaceHolderDetail::PlaceHolderMaker<indices>::Get()...)));
+    std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue > (std::bind(fun, object, PlaceHolderDetail::PlaceHolderMaker<indices>::Get()...)));
     return pSelector;
 }
 

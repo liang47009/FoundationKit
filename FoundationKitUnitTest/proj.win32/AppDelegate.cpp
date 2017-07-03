@@ -118,13 +118,15 @@ void TupleTestArgs(int a, const std::string& str, char* str1)
 
 }
 
+void AppDelegate::TestTupleArgs(int a, const std::string& str, char* str1)
+{
+
+}
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
-
-    auto vars = Environment::GetEnvironmentVariables();
 
     DelegateManager::GetInstance()->AddObserver("TupleTest", BindFunctionHandler(&TupleTest));
     DelegateManager::GetInstance()->Invoke("TupleTest", ArgumentList());
@@ -133,7 +135,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     args.emplace_back("Fuck you");
     args.emplace_back("Fuck you again");
     DelegateManager::GetInstance()->AddObserver("TupleTestArgs", BindFunctionHandler(&TupleTestArgs));
+    DelegateManager::GetInstance()->AddObserver("TestTupleArgs", BindFunctionHandler(&AppDelegate::TestTupleArgs, this));
     DelegateManager::GetInstance()->Invoke("TupleTestArgs", args);
+    DelegateManager::GetInstance()->Invoke("TestTupleArgs", args);
 
 
     int im_a_breakpoint = 0;
