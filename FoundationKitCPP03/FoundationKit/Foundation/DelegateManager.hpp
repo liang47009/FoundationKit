@@ -14,28 +14,28 @@
 #include <memory>
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"
+#include "FoundationKit/Foundation/Value.hpp"
+#include "FoundationKit/Foundation/FunctionHandler.hpp"
 
 NS_FK_BEGIN
-
-typedef std::function<void(const void*)>   DelegateCallbackType;
 class DelegateObserver
 {
 public:
     typedef std::shared_ptr<DelegateObserver> Pointer;
-    static Pointer Create(const std::string& name, DelegateCallbackType& selector, void* target = nullptr, bool callOnce = false);
+    static Pointer Create(const std::string& name, FunctionHandlerPointer selector, void* target = nullptr, bool callOnce = false);
     ~DelegateObserver();
-    void                          Invoke(const void* args);
+    void                          Invoke(const ArgumentList& args);
     void*                         GetTarget()const;
-    const DelegateCallbackType&   GetSelector()const;
+    const FunctionHandlerPointer  GetSelector()const;
     const std::string&            GetName()const;
     bool                          IsCallOnce();
     bool operator ==(const DelegateObserver& other);
     bool operator != (const DelegateObserver& other);
 protected:
-    DelegateObserver(const std::string& name, DelegateCallbackType& selector, void* target = nullptr, bool callOnce = false);
+    DelegateObserver(const std::string& name, FunctionHandlerPointer selector, void* target = nullptr, bool callOnce = false);
 private:
     std::string             _name;
-    DelegateCallbackType    _selector;
+    FunctionHandlerPointer  _pSelector;
     void*                   _target;
     bool                    _callOnce;
 };
@@ -55,15 +55,14 @@ class DelegateManager : public Singleton<DelegateManager>
     friend Singleton<DelegateManager>;
     typedef std::vector<DelegateObserver::Pointer>   ObserverList;
 
-
 public:
     ~DelegateManager();
-    void AddObserver(const std::string& name, DelegateCallbackType& selector, void* target = nullptr, bool callOnce = false);
+    void AddObserver(const std::string& name, FunctionHandlerPointer selector, void* target = nullptr, bool callOnce = false);
     void RemoveObserver( const std::string& name);
     void RemoveObserver( const char* name);
     void RemoveObserver( void* target);
     void RemoveObserver(const std::string& name, void* target);
-    void InvokeDelegate(const std::string& name, const void* args);
+    void Invoke(const std::string& name, const ArgumentList& args);
 
 protected:
     // Check whether the observer exists by the specified target and name.

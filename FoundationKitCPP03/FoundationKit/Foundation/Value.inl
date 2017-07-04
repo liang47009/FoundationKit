@@ -14,11 +14,20 @@
 #include <cassert>
 
 NS_FK_BEGIN
+template<typename _Ty>
+Value::Value(_Ty* data)
+: _type(Type::POINTER)
+{
+    _field._pointer = data;
+}
 
 template< typename T >
 T Value::As()
 {
+    if (_type == Type::POINTER)
+        return static_cast<T>(_field._pointer);
     assert(false);
+    return T();
 }
 
 template<>

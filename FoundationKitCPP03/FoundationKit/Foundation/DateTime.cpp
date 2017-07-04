@@ -8,7 +8,6 @@ losemymind.libo@gmail.com
 #include <cstdlib>
 #include <cassert>
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
 

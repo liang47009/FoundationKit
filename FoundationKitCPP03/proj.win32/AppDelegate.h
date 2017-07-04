@@ -1,7 +1,8 @@
 #pragma once
 #include "Application.h"
 #include "FoundationKit/GenericPlatformMacros.hpp"
-
+#include "FoundationKit/Foundation/FunctionHandler.hpp"
+USING_NS_FK;
 
 class  AppDelegate : private Application
 {
@@ -38,6 +39,8 @@ public:
 	virtual void applicationWillTerminate();
 
 	void mainLoop();
+
+    void TestTupleArgs(const ArgumentList& args);
 
 };
 

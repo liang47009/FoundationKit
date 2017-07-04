@@ -349,11 +349,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Foundation\Logger.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\FoundationKit\Foundation\Logger.hpp"
+				RelativePath="..\FoundationKit\Foundation\FunctionHandler.hpp"
 				>
 			</File>
 			<File

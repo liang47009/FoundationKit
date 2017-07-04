@@ -1,7 +1,6 @@
 
 #include <sstream>
 #include "FoundationKit/Platform/Environment.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 
 NS_FK_BEGIN

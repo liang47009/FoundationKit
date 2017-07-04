@@ -12,15 +12,15 @@ NS_FK_BEGIN
 /*                          DelegateObserver                            */
 /************************************************************************/
 
-DelegateObserver::Pointer DelegateObserver::Create(const std::string& name, DelegateCallbackType& selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+DelegateObserver::Pointer DelegateObserver::Create(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 {
     DelegateObserver *observer = new  DelegateObserver(name, selector, target, callOnce);
     return DelegateObserver::Pointer(observer);
 }
 
-DelegateObserver::DelegateObserver(const std::string& name, DelegateCallbackType& selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+DelegateObserver::DelegateObserver(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 : _name(name)
-, _selector(selector)
+, _pSelector(selector)
 , _target(target)
 , _callOnce(callOnce)
 {
@@ -32,11 +32,11 @@ DelegateObserver::~DelegateObserver()
 
 }
 
-void DelegateObserver::Invoke(const void* args)
+void DelegateObserver::Invoke(const ArgumentList& args)
 {
-    if (_selector)
+    if (_pSelector)
     {
-        _selector(args);
+        _pSelector(args);
     }
 }
 
@@ -46,9 +46,9 @@ void* DelegateObserver::GetTarget() const
     return _target;
 }
 
-const DelegateCallbackType& DelegateObserver::GetSelector() const
+const FunctionHandlerPointer DelegateObserver::GetSelector() const
 {
-    return _selector; 
+    return _pSelector;
 }
 
 const std::string& DelegateObserver::GetName() const
@@ -86,7 +86,7 @@ DelegateManager::~DelegateManager()
 
 }
 
-void DelegateManager::AddObserver(const std::string& name, DelegateCallbackType& selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+void DelegateManager::AddObserver(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     DelegateObserver::Pointer observer;
@@ -166,7 +166,7 @@ void DelegateManager::RemoveObserver(const std::string& name, void* target)
     }
 }
 
-void DelegateManager::InvokeDelegate(const std::string& name, const void* args)
+void DelegateManager::Invoke(const std::string& name, const ArgumentList& args)
 {
     std::unique_lock<std::mutex> lock(_mutex);
     ObserverList observersToCopy(_observers);
@@ -183,8 +183,7 @@ void DelegateManager::InvokeDelegate(const std::string& name, const void* args)
             observer->Invoke(args);
             if (observer->IsCallOnce())
             {
-                iter = observersToCopy.erase(iter);
-                continue;
+                RemoveObserver(observer->GetName(), observer->GetTarget());
             }
         }
         ++iter;

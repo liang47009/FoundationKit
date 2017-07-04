@@ -2,7 +2,6 @@
 #include "AppDelegate.h"
 #include <iostream>
 #include "FoundationKit/Foundation/Timer.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Foundation/Size.hpp"
@@ -69,7 +68,7 @@ LRESULT CALLBACK onMsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
         break;
         case WM_LBUTTONUP:
         {
-            LOG_ERROR("============ WM_LBUTTONUP");
+            FKLog("============ WM_LBUTTONUP");
         }
         break;
         case WM_SIZE:
@@ -82,18 +81,18 @@ LRESULT CALLBACK onMsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
                 //iHeight += GetSystemMetrics(SM_CYDLGFRAME)*2;
                 //iHeight +=GetSystemMetrics(SM_CYCAPTION);
 
-                //LOG_ERROR("========== iWidth:%d, iHeight:%d ",iWidth, iHeight);
+                //FKLog("========== iWidth:%d, iHeight:%d ",iWidth, iHeight);
 
                 switch(wParam)
                 {
                 case SIZE_MAXIMIZED:
-                    LOG_ERROR("======= SIZE_MAXIMIZED width:%d, height%d", rc.right -rc.left, rc.bottom-rc.top);
+                    FKLog("======= SIZE_MAXIMIZED width:%d, height%d", rc.right -rc.left, rc.bottom-rc.top);
                     break;
                 case SIZE_MINIMIZED:
-                    LOG_ERROR("======= SIZE_MINIMIZED width:%d, height%d", rc.right -rc.left, rc.bottom-rc.top);
+                    FKLog("======= SIZE_MINIMIZED width:%d, height%d", rc.right -rc.left, rc.bottom-rc.top);
                     break;
                 case SIZE_RESTORED:
-                    LOG_ERROR("======= SIZE_RESTORED width:%d, height%d", rc.right -rc.left, rc.bottom-rc.top);
+                    FKLog("======= SIZE_RESTORED width:%d, height%d", rc.right -rc.left, rc.bottom-rc.top);
                     break;
                 default:
                     break;
@@ -185,7 +184,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
         if (_mainWindow == NULL)
         {
             DWORD dwError = 	GetLastError();
-            LOG_ERROR("****** Create window failed:%d, %s", dwError, strerror(dwError));
+            FKLog("****** Create window failed:%d, %s", dwError, strerror(dwError));
             break;
         }
         ShowWindow(_mainWindow, nCmdWindow);
@@ -194,6 +193,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
     } while (false);
 
     MSG msg;
+    AppDelegate app;
+    Application::getInstance()->applicationDidLaunching();
+    Application::getInstance()->applicationDidFinishLaunching();
     while (true)
     {
         if(PeekMessage(&msg,_mainWindow,0,0, PM_REMOVE))

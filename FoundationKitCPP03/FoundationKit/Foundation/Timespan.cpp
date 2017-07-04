@@ -7,7 +7,6 @@
 #include <vector>
 #include <cassert>
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Foundation/Timespan.hpp"
 

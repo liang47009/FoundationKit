@@ -7,7 +7,6 @@
 
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/OpenGL.hpp"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Base/types.hpp"
@@ -133,19 +132,19 @@ std::string PlatformDevice::GetDevice()
 
     if (0 == GetComputerNameW(wzComputerName, &dwNameLenght))
     {
-        LOG_ERROR("ERROR: GetComputerName failed with %d!\n", GetLastError());
+        FKLog("ERROR: GetComputerName failed with %d!\n", GetLastError());
     }
     std::string strComputerName = StringUtils::wstring2UTF8string(wzComputerName);
     // dwNameLenght is the length of wzComputerName without NULL 
     if (dwNameLenght < 0 || dwNameLenght >(sizeof(wzComputerName) / sizeof(wzComputerName[0]) - 1))
     {
-        LOG_ERROR("ERROR: GetComputerName returned %s with dwNameLenght = %u whereas the passed in buffer size is %d!\n", strComputerName.c_str(), dwNameLenght, sizeof(wzComputerName) / sizeof(wzComputerName[0]));
+        FKLog("ERROR: GetComputerName returned %s with dwNameLenght = %u whereas the passed in buffer size is %d!\n", strComputerName.c_str(), dwNameLenght, sizeof(wzComputerName) / sizeof(wzComputerName[0]));
         return "";
     }
     // dwNameLenght is the length of wzComputerName without NULL
     if (dwNameLenght != wcslen(wzComputerName))
     {
-        LOG_ERROR("ERROR: GetComputerName returned %s of length %d which is not equal to dwSize = %u!\n", strComputerName.c_str(), wcslen(wzComputerName), dwNameLenght);
+        FKLog("ERROR: GetComputerName returned %s of length %d which is not equal to dwSize = %u!\n", strComputerName.c_str(), wcslen(wzComputerName), dwNameLenght);
         return "";
     }
     return StringUtils::wstring2UTF8string(wzComputerName);
@@ -183,7 +182,7 @@ std::string PlatformDevice::GetSystemVersion()
     else
     {
         //throw SystemException("Cannot get OS version information");
-        LOG_ERROR("***** Cannot get OS version information.");
+        FKLog("***** Cannot get OS version information.");
     }
     return "";
 }

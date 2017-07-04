@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include "AppDelegate.h"
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Version.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -24,6 +23,7 @@
 #include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Foundation/TimerQueue.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
+#include "FoundationKit/Foundation/DelegateManager.hpp"
 #include "FoundationKit/Base/type_cast.hpp"
 
 #include <sqltypes.h>
@@ -59,44 +59,34 @@ void AppDelegate::applicationDidLaunching()
 {
 
 }
+void TupleTest(const ArgumentList& args)
+{
+
+}
+
+void TupleTestArgs(const ArgumentList& args)
+{
+
+}
+
+void AppDelegate::TestTupleArgs(const ArgumentList& args)
+{
+
+}
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 
-    ElapsedTimer et;
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    double aaab = et.Secondsf();
-
-    std::error_code ec;
-    std::string strErr = ec.message();
-
-    std::vector<std::string>  files;
-    FileUtils::GetInstance()->GetFilesFromDir("E:\\GitHub\\FoundationKit\\FoundationKit\\FoundationKit", files, true);
-    std::string strMakefile;
-    FileUtils* fileutils = FileUtils::GetInstance();
-    for (std::vector<std::string>::iterator iter = files.begin(); iter != files.end();++iter)
-    {
-        std::string filepath = *iter;
-        if (fileutils->GetFileExtension(filepath) == ".cpp" 
-            || fileutils->GetFileExtension(filepath) == ".c"
-            || fileutils->GetFileExtension(filepath) == ".cc")
-        {
-            strMakefile += filepath;
-            strMakefile += "\n";
-        }
-    }
-
-
-    //clientThread = std::thread([]()
-    //{
-    //    runClient();
-    //});
-
-    //serverThread = std::thread([]()
-    //{
-    //    runServer();
-    //});
-    
+    DelegateManager::GetInstance()->AddObserver("TupleTest", BindFunctionHandler(&TupleTest));
+    DelegateManager::GetInstance()->Invoke("TupleTest", ArgumentList());
+    ArgumentList args;
+    args.push_back(Value(10));
+    args.push_back(Value("Fuck you"));
+    args.push_back(Value("Fuck you again"));
+    DelegateManager::GetInstance()->AddObserver("TupleTestArgs", BindFunctionHandler(&TupleTestArgs));
+    DelegateManager::GetInstance()->AddObserver("TestTupleArgs", BindFunctionHandler(&AppDelegate::TestTupleArgs, this));
+    DelegateManager::GetInstance()->Invoke("TupleTestArgs", args);
+    DelegateManager::GetInstance()->Invoke("TestTupleArgs", args);
 	return true;
 }
 

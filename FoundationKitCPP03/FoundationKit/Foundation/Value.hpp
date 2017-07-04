@@ -61,12 +61,14 @@ public:
         FLOAT,
         DOUBLE,
         PCHAR,
-        STRING
+        STRING,
+        POINTER
     };
 
 
     static const Value Null;
-
+    template<typename _Ty>
+    Value(_Ty* data);
     Value();
     ~Value();
     Value(const Value& other);
@@ -147,6 +149,7 @@ private:
         double             _doubleVal;
         char*              _pcharVal;
         char*              _stringVal; //std::string
+        void*              _pointer;
     }_field;
 
     Type _type;

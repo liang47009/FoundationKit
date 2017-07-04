@@ -34,6 +34,7 @@ Value::~Value()
 
 Value::Value(const Value& other)
 {
+    memset(&_field, 0x00, sizeof(_field));
     Copy(const_cast<Value&>(other));
 }
 
@@ -264,6 +265,7 @@ bool Value::operator== (const Value& other) const
     case Value::Type::DOUBLE: return _field._doubleVal == other._field._doubleVal;
     case Value::Type::PCHAR: return strcmp(_field._pcharVal, other._field._pcharVal) == 0;
     case Value::Type::STRING: return strcmp(_field._stringVal, other._field._stringVal) == 0;
+    case Value::Type::POINTER: return (_field._pointer == other._field._pointer);
     default:
         break;
     }
@@ -329,6 +331,9 @@ void Value::Copy(Value& other)
             memcpy(_field._stringVal, val.c_str(), val.size());
             _field._stringVal[val.size()] = '\0';
         }
+        break;
+    case  Value::Type::POINTER:
+        _field._pointer = other._field._pointer;
         break;
     default:
         break;
