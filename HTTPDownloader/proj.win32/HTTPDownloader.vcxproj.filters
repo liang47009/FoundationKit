@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="HTTPDownloader">
+      <UniqueIdentifier>{0a8904de-0048-464f-9550-15ee2c9fc4ce}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\HTTPDownloader\HTTPDownloader.cpp">
+      <Filter>HTTPDownloader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\HTTPDownloader\HTTPDownloadNode.cpp">
+      <Filter>HTTPDownloader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\HTTPDownloader\libcurl_init.cpp">
+      <Filter>HTTPDownloader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\HTTPDownloader\HTTPDownloader.hpp">
+      <Filter>HTTPDownloader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\HTTPDownloader\HTTPDownloadNode.hpp">
+      <Filter>HTTPDownloader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\HTTPDownloader\libcurl_init.hpp">
+      <Filter>HTTPDownloader</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

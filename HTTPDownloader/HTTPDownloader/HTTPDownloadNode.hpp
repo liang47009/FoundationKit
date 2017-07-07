@@ -8,8 +8,8 @@
 #include <vector>
 #include <mutex>
 #include "curl.h"
-#include "FoundationKit/FoundationMacros.h"
-#include "FoundationKit/Base/Types.h"
+#include "FoundationKit/FoundationMacros.hpp"
+#include "FoundationKit/Base/Types.hpp"
 
 NS_FK_BEGIN
 namespace network

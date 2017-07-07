@@ -38,7 +38,7 @@
 #include "FoundationKit/Crypto/urlencode.hpp"
 #include "HTTPClient/HTTPClient.hpp"
 #include "HTTPClient/HTTPCode.hpp"
-
+#include "HTTPDownloader/HTTPDownloader.hpp"
 
 
 using namespace std;
@@ -123,10 +123,32 @@ void AppDelegate::TestTupleArgs(int a, const std::string& str, char* str1)
 
 }
 
+using namespace network;
+
+static HTTPDownloader  HTTPDownloaderInstance;
+static DownloadListener DownloadListenerInstance;
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
+
+    HTTPDownloaderInstance.initialize(false);
+    DownloadListenerInstance.onErrorCallback = [](const std::string& url, const std::string& message)
+    {
+    };
+
+    DownloadListenerInstance.onProgressCallback = [](const std::string&url , int64 nowdownload, int64 totaldownload)
+    {
+        FKLog("Progress:%s, %lld/%lld", url.c_str(), nowdownload, totaldownload);
+    };
+
+    DownloadListenerInstance.onSucceedCallback = [](const std::string& url, const std::string& path)
+    {
+    };
+
+    HTTPDownloaderInstance.downloadToFile("https://download.sublimetext.com/Sublime%20Text%20Build%203126%20x64%20Setup.exe", "C:\\Users\\a\\Downloads\\", DownloadListenerInstance);
+
 
     DelegateManager::GetInstance()->AddObserver("TupleTest", BindFunctionHandler(&TupleTest));
     DelegateManager::GetInstance()->Invoke("TupleTest", ArgumentList());

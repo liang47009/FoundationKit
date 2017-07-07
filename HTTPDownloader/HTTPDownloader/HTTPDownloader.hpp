@@ -8,7 +8,7 @@
 #include <thread>
 #include <atomic>
 #include "curl.h"
-#include "FoundationKit/FoundationMacros.h"
+#include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/Base/multiple_buffer.hpp"
 #include "FoundationKit/Base/error_code.hpp"
 #include "HTTPDownloadNode.hpp"

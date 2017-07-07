@@ -1,8 +1,8 @@
+
 #include <algorithm>
 #include "HTTPDownloader.hpp"
-#include "FoundationKit/Foundation/Logger.h"
-#include "FoundationKit/Foundation/StringUtils.h"
-#include "FoundationKit/Networking/libcurl_init.hpp"
+#include "FoundationKit/Foundation/StringUtils.hpp"
+#include "libcurl_init.hpp"
 
 static const int MAX_WAIT_MSECS = 30 * 1000; /* Wait max. 30 seconds */
 
@@ -63,7 +63,7 @@ bool HTTPDownloader::initialize(bool bDebug)
 {
     if (m_multiHandle != NULL)
     {
-        LOG_WARN("Already initialized multi handle");
+        FKLog("Already initialized multi handle");
         return false;
     }
     m_bDebug = bDebug;
@@ -72,30 +72,30 @@ bool HTTPDownloader::initialize(bool bDebug)
         curl_version_info_data * versionInfo = curl_version_info(CURLVERSION_NOW);
         if (versionInfo)
         {
-            LOG_INFO("Using libcurl %s", versionInfo->version);
-            LOG_INFO(" - built for %s", versionInfo->host);
+            FKLog("Using libcurl %s", versionInfo->version);
+            FKLog(" - built for %s", versionInfo->host);
 
             if (versionInfo->features & CURL_VERSION_SSL)
             {
-                LOG_INFO(" - supports SSL with %s", versionInfo->ssl_version);
+                FKLog(" - supports SSL with %s", versionInfo->ssl_version);
             }
             else
             {
                 // No SSL
-                LOG_INFO(" - NO SSL SUPPORT!");
+                FKLog(" - NO SSL SUPPORT!");
             }
 
             if (versionInfo->features & CURL_VERSION_LIBZ)
             {
-                LOG_INFO(" - supports HTTP deflate (compression) using libz %s", versionInfo->libz_version);
+                FKLog(" - supports HTTP deflate (compression) using libz %s", versionInfo->libz_version);
             }
 
-            LOG_INFO(" - other features:");
+            FKLog(" - other features:");
 
 #define printCurlFeature(Feature)	             \
 			if (versionInfo->features & Feature) \
             {                                    \
-			    LOG_INFO("     %s", #Feature);	 \
+			    FKLog("     %s", #Feature);	 \
             }
             printCurlFeature(CURL_VERSION_SSL);
             printCurlFeature(CURL_VERSION_LIBZ);
@@ -114,10 +114,10 @@ bool HTTPDownloader::initialize(bool bDebug)
         if (m_multiHandle == nullptr || m_shareHandle == nullptr)
         {
             if (!m_multiHandle)
-                LOG_ERROR("Could not initialize create libcurl multi handle! HTTP transfers will not function properly.");
+                FKLog("Could not initialize create libcurl multi handle! HTTP transfers will not function properly.");
 
             if (!m_shareHandle)
-                LOG_ERROR("Could not initialize libcurl share handle!");
+                FKLog("Could not initialize libcurl share handle!");
             return false;
         }
         curl_multi_setopt(m_multiHandle, CURLMOPT_MAX_TOTAL_CONNECTIONS, 100);
@@ -134,7 +134,7 @@ bool HTTPDownloader::initialize(bool bDebug)
     }
     else
     {
-        LOG_ERROR("Could not initialize libcurl (result=%d), HTTP transfers will not function properly.", (int32)libcurl_init::code());
+        FKLog("Could not initialize libcurl (result=%d), HTTP transfers will not function properly.", (int32)libcurl_init::code());
         return false;
     }
     m_quit = false;
@@ -300,7 +300,7 @@ bool HTTPDownloader::buildRequestGeneric(RequestBase* request)
     std::vector<std::string> allHeaders;
     allHeaders.push_back("Pragma:no-cache");
     allHeaders.push_back("Expect:");
-    allHeaders.push_back(StringUtils::format("User-Agent:author=%s,client=%s,version=%s", "libo", "HTTPDownloader", HTTPDownloaderVersionString));
+    allHeaders.push_back(StringUtils::Format("User-Agent:author=%s,client=%s,version=%s", "libo", "HTTPDownloader", HTTPDownloaderVersionString));
 
     /** List of custom headers to be passed to CURL */
     curl_slist*	    headerList=nullptr;
@@ -325,7 +325,6 @@ void HTTPDownloader::performRequest()
         {
             break;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
         if (getRequestSize()> 0)
         {
             int runningRequests = 0;
@@ -403,6 +402,7 @@ void HTTPDownloader::performRequest()
                 }
             }
         }
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     } //while (!m_quit)
 }
 
@@ -481,7 +481,7 @@ bool HTTPDownloader::addContentRequest(HTTPDownloadNode::ContentRequestPointer c
     buildRequestForData(contentRequest);
     char range[64] = { 0 };
     sprintf(range, "%ld-%ld", contentRequest->rangeFrom, contentRequest->rangeTo);
-    LOG_INFO("========= curl:%p, range[%s]", contentRequest->curlHandle, range);
+    FKLog("========= curl:%p, range[%s]", contentRequest->curlHandle, range);
     curl_easy_setopt(contentRequest->curlHandle, CURLOPT_RANGE, range);
     contentRequest->addToMultiResult = curl_multi_add_handle(m_multiHandle, contentRequest->curlHandle);
     if (contentRequest->addToMultiResult == CURLM_OK)
@@ -509,33 +509,33 @@ size_t HTTPDownloader::staticDebugCallback(CURL * handle, curl_infotype debugInf
     switch (debugInfoType)
     {
     case CURLINFO_DATA_IN:
-        LOG_INFO("DATA_IN %p: Received data [%s] (%d bytes)", handle, debugInfo, debugInfoSize);
+        FKLog("DATA_IN %p: Received data [%s] (%d bytes)", handle, debugInfo, debugInfoSize);
         break;
     case CURLINFO_DATA_OUT:
-        LOG_INFO("DATA_OUT %p: Sent data [%s] (%d bytes)", handle, debugInfo, debugInfoSize);
+        FKLog("DATA_OUT %p: Sent data [%s] (%d bytes)", handle, debugInfo, debugInfoSize);
         break;
     case CURLINFO_HEADER_IN:
-        LOG_INFO("HEADER_IN %p: Received header [%s] (%d bytes)", handle, debugInfo, debugInfoSize);
+        FKLog("HEADER_IN %p: Received header [%s] (%d bytes)", handle, debugInfo, debugInfoSize);
         break;
     case CURLINFO_HEADER_OUT:
-        LOG_INFO("HEADER_OUT %p: Sent header [%s] (%d bytes)", handle, debugInfo, debugInfoSize);
+        FKLog("HEADER_OUT %p: Sent header [%s] (%d bytes)", handle, debugInfo, debugInfoSize);
         break;
     case CURLINFO_SSL_DATA_IN:
-        LOG_INFO("SSL_DATA_IN %p: Received data [%s] (%d bytes)", handle, debugInfo, debugInfoSize);
+        FKLog("SSL_DATA_IN %p: Received data [%s] (%d bytes)", handle, debugInfo, debugInfoSize);
         break;
     case CURLINFO_SSL_DATA_OUT:
-        LOG_INFO("SSL_DATA_OUT %p: Sent data [%s] (%d bytes)", handle, debugInfo, debugInfoSize);
+        FKLog("SSL_DATA_OUT %p: Sent data [%s] (%d bytes)", handle, debugInfo, debugInfoSize);
         break;
     case CURLINFO_TEXT:
     {
         std::string debugText = debugInfo;
         std::replace(debugText.begin(), debugText.end(), '\n', ' ');
         std::replace(debugText.begin(), debugText.end(), '\r', ' ');
-        LOG_INFO("TEXT %p:%s", handle, debugText.c_str());
+        FKLog("TEXT %p:%s", handle, debugText.c_str());
     }
     break;
     default:
-        LOG_INFO("%p: DebugCallback: Unknown DebugInfoType=%d debugInfo [%s](DebugInfoSize: %d bytes)", handle, (int32)debugInfoType, debugInfo, debugInfoSize);
+        FKLog("%p: DebugCallback: Unknown DebugInfoType=%d debugInfo [%s](DebugInfoSize: %d bytes)", handle, (int32)debugInfoType, debugInfo, debugInfoSize);
         break;
     }
     return 0;

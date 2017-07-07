@@ -1,5 +1,4 @@
 #include "HTTPDownloadNode.hpp"
-#include "FoundationKit/Foundation/Logger.h"
 #include "HTTPDownloader.hpp"
 NS_FK_BEGIN
 namespace network
@@ -231,7 +230,7 @@ bool HTTPDownloadNode::contentRequestCompleted(ContentRequestPointer contentRequ
         }
         else
         {
-            LOG_INFO("****** Download:%s to:%s Succeed.", _requestUrl.c_str(), _fileFullPath.c_str());
+            FKLog("****** Download:%s to:%s Succeed.", _requestUrl.c_str(), _fileFullPath.c_str());
         }
     }
 
@@ -255,7 +254,7 @@ size_t HTTPDownloadNode::writeData(ContentRequest* contentRequest, void* buffer,
     }
     else
     {
-        LOG_INFO("===== PROCESS:%0.2f", _nowDownlaod*1.0f / _contentSize*100.0f);
+        FKLog("===== PROCESS:%0.2f", _nowDownlaod*1.0f / _contentSize*100.0f);
     }
     return writeSize;
 }
@@ -277,7 +276,7 @@ void HTTPDownloadNode::addContentRequest(ContentRequestPointer contentRequest)
         }
         else
         {
-            LOG_ERROR("****** Request url header error:%s,Error:%s", contentRequest->requestUrl.c_str(), curlPerformMessage.c_str());
+            FKLog("****** Request url header error:%s,Error:%s", contentRequest->requestUrl.c_str(), curlPerformMessage.c_str());
         }
     }
 }
@@ -295,7 +294,7 @@ void HTTPDownloadNode::reportError(RequestBase* request)
     }
     else
     {
-        LOG_ERROR("****** Request url header error:%s,Error:%s", request->requestUrl.c_str(), curlPerformMessage.c_str());
+        FKLog("****** Request url header error:%s,Error:%s", request->requestUrl.c_str(), curlPerformMessage.c_str());
     }
 }
 

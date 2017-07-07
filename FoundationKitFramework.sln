@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKitUnitTest", "Fo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTTPClient", "HTTPClient\proj.win32\HTTPClient.vcxproj", "{B51A8C8E-B23F-425B-A76C-E87A0EE5A1D2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTTPDownloader", "HTTPDownloader\proj.win32\HTTPDownloader.vcxproj", "{0A3BFA8D-E299-4817-B877-15197255CA03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -39,6 +41,12 @@ Global
 		{B51A8C8E-B23F-425B-A76C-E87A0EE5A1D2}.Release|Win32.ActiveCfg = Release|Win32
 		{B51A8C8E-B23F-425B-A76C-E87A0EE5A1D2}.Release|Win32.Build.0 = Release|Win32
 		{B51A8C8E-B23F-425B-A76C-E87A0EE5A1D2}.Release|x64.ActiveCfg = Release|Win32
+		{0A3BFA8D-E299-4817-B877-15197255CA03}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0A3BFA8D-E299-4817-B877-15197255CA03}.Debug|Win32.Build.0 = Debug|Win32
+		{0A3BFA8D-E299-4817-B877-15197255CA03}.Debug|x64.ActiveCfg = Debug|Win32
+		{0A3BFA8D-E299-4817-B877-15197255CA03}.Release|Win32.ActiveCfg = Release|Win32
+		{0A3BFA8D-E299-4817-B877-15197255CA03}.Release|Win32.Build.0 = Release|Win32
+		{0A3BFA8D-E299-4817-B877-15197255CA03}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
