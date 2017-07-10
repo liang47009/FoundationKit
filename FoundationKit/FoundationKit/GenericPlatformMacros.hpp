@@ -209,6 +209,7 @@ extern void __log__(const char* fmt, ...);
 //===============================================================================================
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 __pragma (warning(disable:4127))
+#pragma warning(disable:4127)
 #define _XKEYCHECK_H // disable windows xkeycheck.h
 
 #ifndef WIN32_LEAN_AND_MEAN
