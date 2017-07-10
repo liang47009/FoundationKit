@@ -123,11 +123,16 @@ void AppDelegate::TestTupleArgs(int a, const std::string& str, char* str1)
 
 }
 
-using namespace network;
 
+class Request{};
+class MultiPartRequest : public Request{};
+class DownloadRequest : public Request{};
+class UploadRequest : public Request{};
+
+
+using namespace network;
 static HTTPDownloader  HTTPDownloaderInstance;
 static DownloadListener DownloadListenerInstance;
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;

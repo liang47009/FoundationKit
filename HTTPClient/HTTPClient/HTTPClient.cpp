@@ -1,6 +1,7 @@
 #include "HTTPClient.hpp"
 #include "FoundationKit/Platform/FileUtils.hpp"
 #include "libcurl_init.hpp"
+#include <mutex>
 
 #if TARGET_PLATFORM == PLATFORM_ANDROID
 // in AndroidJNI::initializeJavaEnv
@@ -46,6 +47,17 @@ void HTTPClient::RequestOptions::dumpOptions()
 
 }
 
+std::mutex  CURLShareMutex;
+std::unique_lock<std::mutex> CURLShareLock(CURLShareMutex, std::defer_lock);
+void lock(CURL*, curl_lock_data, curl_lock_access, void*) 
+{
+    CURLShareLock.lock();
+}
+
+void unlock(CURL*, curl_lock_data, void*)
+{
+    CURLShareLock.unlock();
+}
 void HTTPClient::initialize()
 {
     if (_G_multiHandle != NULL)
@@ -107,9 +119,15 @@ void HTTPClient::initialize()
         _G_shareHandle = curl_share_init();
         if (NULL != _G_shareHandle)
         {
+            
+            curl_share_setopt(_G_shareHandle, CURLSHOPT_USERDATA, nullptr);
+            curl_share_setopt(_G_shareHandle, CURLSHOPT_LOCKFUNC, lock);
+            curl_share_setopt(_G_shareHandle, CURLSHOPT_UNLOCKFUNC, unlock);
             curl_share_setopt(_G_shareHandle, CURLSHOPT_SHARE, CURL_LOCK_DATA_COOKIE);
             curl_share_setopt(_G_shareHandle, CURLSHOPT_SHARE, CURL_LOCK_DATA_DNS);
             curl_share_setopt(_G_shareHandle, CURLSHOPT_SHARE, CURL_LOCK_DATA_SSL_SESSION);
+            curl_share_setopt(_G_shareHandle, CURLSHOPT_SHARE, CURL_LOCK_DATA_CONNECT);
+
         }
         else
         {
@@ -137,7 +155,7 @@ void HTTPClient::initialize()
             std::string fileName(*currentBundle);
             FKLog(" Libcurl: checking if '%s' exists", fileName.c_str());
 
-            if (FileUtils::getInstance()->isFileExist(fileName))
+            if (FileUtils::GetInstance()->IsFileExist(fileName))
             {
                 HTTPRequestOptions.CertBundlePath = *currentBundle;
                 break;
@@ -156,37 +174,37 @@ void HTTPClient::initialize()
 
         // if file does not already exist, create local PEM file with system trusted certificates
         std::string PEMFilename = GExternalFilePath+"/ca-bundle.pem";
-        if (!FileUtils::getInstance()->isFileExist(PEMFilename))
+        if (!FileUtils::GetInstance()->IsFileExist(PEMFilename))
         {
             
             // check for override ca-bundle.pem embedded in game content
-            std::string OverridePEMFilename =FileUtils::getInstance()->getWritablePath() + "CurlCertificates/ca-bundle.pem";
-            std::string Contents = FileUtils::getInstance()->readStringFromFile(OverridePEMFilename);
+            std::string OverridePEMFilename =FileUtils::getInstance()->GetWritablePath() + "CurlCertificates/ca-bundle.pem";
+            std::string Contents = FileUtils::getInstance()->ReadStringFromFile(OverridePEMFilename);
             if (!Contents.empty())
             {
-                FileUtils::getInstance()->writeStringToFile(Contents, PEMFilename, true);
+                FileUtils::GetInstance()->WriteStringToFile(Contents, PEMFilename, true);
             }
             else
             {
                 // gather all the files in system certificates directory
                 std::vector<std::string>  files;
-                FileUtils::getInstance()->getFilesFromDir("/system/etc/security/cacerts", files);
+                FileUtils::GetInstance()->GetFilesFromDir("/system/etc/security/cacerts", files);
 
                 for (auto& CertFilename : files)
                 {
-                    Contents = FileUtils::getInstance()->readStringFromFile(CertFilename);
+                    Contents = FileUtils::GetInstance()->ReadStringFromFile(CertFilename);
                     if (!Contents.empty())
                     {
-                        FileUtils::getInstance()->writeStringToFile(Contents, PEMFilename, true);
+                        FileUtils::GetInstance()->WriteStringToFile(Contents, PEMFilename, true);
                     }
                 }
 
                 // add optional additional certificates
-                std::string OptionalPEMFilename = FileUtils::getInstance()->getWritablePath()+("CurlCertificates/ca-additions.pem");
-                Contents = FileUtils::getInstance()->readStringFromFile(OptionalPEMFilename);
+                std::string OptionalPEMFilename = FileUtils::GetInstance()->GetWritablePath()+("CurlCertificates/ca-additions.pem");
+                Contents = FileUtils::GetInstance()->ReadStringFromFile(OptionalPEMFilename);
                 if (!Contents.empty())
                 {
-                    FileUtils::getInstance()->writeStringToFile(Contents, PEMFilename, true);
+                    FileUtils::GetInstance()->WriteStringToFile(Contents, PEMFilename, true);
                 }
             }
 
