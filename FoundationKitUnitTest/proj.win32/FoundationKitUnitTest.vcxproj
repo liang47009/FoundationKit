@@ -192,9 +192,6 @@ xcopy /Y /Q "$(SolutionDir)HTTPClient\HTTPClient\external\win32\i386\libs\$(Conf
     <ProjectReference Include="..\..\FoundationKit\proj.win32\FoundationKit.vcxproj">
       <Project>{8f5a5344-1249-4c82-ba4d-8b4733161585}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\HTTPClient\proj.win32\HTTPClient.vcxproj">
-      <Project>{b51a8c8e-b23f-425b-a76c-e87a0ee5a1d2}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\HTTPDownloader\proj.win32\HTTPDownloader.vcxproj">
       <Project>{0a3bfa8d-e299-4817-b877-15197255ca03}</Project>
     </ProjectReference>

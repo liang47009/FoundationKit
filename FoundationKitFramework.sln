@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKit", "FoundationKit\proj.win32\FoundationKit.vcxproj", "{8F5A5344-1249-4C82-BA4D-8B4733161585}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKitUnitTest", "FoundationKitUnitTest\proj.win32\FoundationKitUnitTest.vcxproj", "{36B65CA0-399A-41A5-A554-D5E8FF0B5558}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTTPClient", "HTTPClient\proj.win32\HTTPClient.vcxproj", "{B51A8C8E-B23F-425B-A76C-E87A0EE5A1D2}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTTPDownloader", "HTTPDownloader\proj.win32\HTTPDownloader.vcxproj", "{0A3BFA8D-E299-4817-B877-15197255CA03}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTTPClient", "Libraries\HTTPClient\proj.win32\HTTPClient.vcxproj", "{B8B94732-07A8-4484-93B3-0F8690377CC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,18 +35,18 @@ Global
 		{36B65CA0-399A-41A5-A554-D5E8FF0B5558}.Release|Win32.Build.0 = Release|Win32
 		{36B65CA0-399A-41A5-A554-D5E8FF0B5558}.Release|x64.ActiveCfg = Release|x64
 		{36B65CA0-399A-41A5-A554-D5E8FF0B5558}.Release|x64.Build.0 = Release|x64
-		{B51A8C8E-B23F-425B-A76C-E87A0EE5A1D2}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B51A8C8E-B23F-425B-A76C-E87A0EE5A1D2}.Debug|Win32.Build.0 = Debug|Win32
-		{B51A8C8E-B23F-425B-A76C-E87A0EE5A1D2}.Debug|x64.ActiveCfg = Debug|Win32
-		{B51A8C8E-B23F-425B-A76C-E87A0EE5A1D2}.Release|Win32.ActiveCfg = Release|Win32
-		{B51A8C8E-B23F-425B-A76C-E87A0EE5A1D2}.Release|Win32.Build.0 = Release|Win32
-		{B51A8C8E-B23F-425B-A76C-E87A0EE5A1D2}.Release|x64.ActiveCfg = Release|Win32
 		{0A3BFA8D-E299-4817-B877-15197255CA03}.Debug|Win32.ActiveCfg = Debug|Win32
 		{0A3BFA8D-E299-4817-B877-15197255CA03}.Debug|Win32.Build.0 = Debug|Win32
 		{0A3BFA8D-E299-4817-B877-15197255CA03}.Debug|x64.ActiveCfg = Debug|Win32
 		{0A3BFA8D-E299-4817-B877-15197255CA03}.Release|Win32.ActiveCfg = Release|Win32
 		{0A3BFA8D-E299-4817-B877-15197255CA03}.Release|Win32.Build.0 = Release|Win32
 		{0A3BFA8D-E299-4817-B877-15197255CA03}.Release|x64.ActiveCfg = Release|Win32
+		{B8B94732-07A8-4484-93B3-0F8690377CC9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B8B94732-07A8-4484-93B3-0F8690377CC9}.Debug|Win32.Build.0 = Debug|Win32
+		{B8B94732-07A8-4484-93B3-0F8690377CC9}.Debug|x64.ActiveCfg = Debug|Win32
+		{B8B94732-07A8-4484-93B3-0F8690377CC9}.Release|Win32.ActiveCfg = Release|Win32
+		{B8B94732-07A8-4484-93B3-0F8690377CC9}.Release|Win32.Build.0 = Release|Win32
+		{B8B94732-07A8-4484-93B3-0F8690377CC9}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
