@@ -18,19 +18,16 @@
     <ClCompile Include="..\HTTPClient\HTTPCode.cpp">
       <Filter>HTTPClient</Filter>
     </ClCompile>
-    <ClCompile Include="..\HTTPClient\HTTPDownloadRequest.cpp">
-      <Filter>HTTPClient</Filter>
-    </ClCompile>
-    <ClCompile Include="..\HTTPClient\HTTPMultiPartRequest.cpp">
-      <Filter>HTTPClient</Filter>
-    </ClCompile>
     <ClCompile Include="..\HTTPClient\HTTPRequest.cpp">
       <Filter>HTTPClient</Filter>
     </ClCompile>
-    <ClCompile Include="..\HTTPClient\HTTPUploadRequest.cpp">
+    <ClCompile Include="..\HTTPClient\HTTPResponse.cpp">
       <Filter>HTTPClient</Filter>
     </ClCompile>
-    <ClCompile Include="..\HTTPClient\HTTPResponse.cpp">
+    <ClCompile Include="..\HTTPClient\HTTPUploader.cpp">
+      <Filter>HTTPClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\HTTPClient\HTTPDownloader.cpp">
       <Filter>HTTPClient</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,19 +44,16 @@
     <ClInclude Include="..\HTTPClient\MimeTypes.hpp">
       <Filter>HTTPClient</Filter>
     </ClInclude>
-    <ClInclude Include="..\HTTPClient\HTTPDownloadRequest.hpp">
-      <Filter>HTTPClient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\HTTPClient\HTTPMultiPartRequest.hpp">
-      <Filter>HTTPClient</Filter>
-    </ClInclude>
     <ClInclude Include="..\HTTPClient\HTTPRequest.hpp">
       <Filter>HTTPClient</Filter>
     </ClInclude>
-    <ClInclude Include="..\HTTPClient\HTTPUploadRequest.hpp">
+    <ClInclude Include="..\HTTPClient\HTTPResponse.hpp">
       <Filter>HTTPClient</Filter>
     </ClInclude>
-    <ClInclude Include="..\HTTPClient\HTTPResponse.hpp">
+    <ClInclude Include="..\HTTPClient\HTTPUploader.hpp">
+      <Filter>HTTPClient</Filter>
+    </ClInclude>
+    <ClInclude Include="..\HTTPClient\HTTPDownloader.hpp">
       <Filter>HTTPClient</Filter>
     </ClInclude>
   </ItemGroup>

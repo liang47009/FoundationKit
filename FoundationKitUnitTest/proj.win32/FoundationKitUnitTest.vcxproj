@@ -100,7 +100,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../HTTPClient/;../../HTTPDownloader/;../../HTTPClient/HTTPClient/external/win32/i386/include/curl;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
@@ -144,7 +144,7 @@ xcopy /Y /Q "$(SolutionDir)HTTPClient\HTTPClient\external\win32\i386\libs\$(Conf
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../HTTPClient/;../../HTTPDownloader/;../../HTTPClient/HTTPClient/external/win32/i386/include/curl;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
@@ -194,6 +194,9 @@ xcopy /Y /Q "$(SolutionDir)HTTPClient\HTTPClient\external\win32\i386\libs\$(Conf
     </ProjectReference>
     <ProjectReference Include="..\..\HTTPDownloader\proj.win32\HTTPDownloader.vcxproj">
       <Project>{0a3bfa8d-e299-4817-b877-15197255ca03}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\HTTPClient\proj.win32\HTTPClient.vcxproj">
+      <Project>{b8b94732-07a8-4484-93b3-0f8690377cc9}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

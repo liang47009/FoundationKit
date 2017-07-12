@@ -4,17 +4,17 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 NS_FK_BEGIN
 
-HTTPResponse::HTTPResponse(RequestPtr pRequest)
-    : _request(pRequest)
-    , _contentData()
-    , _contentSize(0)
-    , _responseCode(0)
-    , _headers()
-    , _responseMessage()
-    , _bIsReady(false)
-    , _bSucceeded(false)
-    , _cookies()
-    , _errorMsg()
+HTTPResponse::HTTPResponse(RequestWeakPtr pRequest)
+    : RequestInstance(pRequest)
+    , ContentData()
+    , ContentSize(0)
+    , ResponseCode(0)
+    , Headers()
+    , ResponseMessage()
+    , bIsReady(false)
+    , bIsSucceeded(false)
+    , Cookies()
+    , ErrorMsg()
 {
 
 }
@@ -24,135 +24,126 @@ HTTPResponse::~HTTPResponse()
 
 }
 
-HTTPResponse::Pointer HTTPResponse::create(RequestPtr pRequest)
+HTTPResponse::Pointer HTTPResponse::Create(RequestWeakPtr pRequest)
 {
     HTTPResponse::Pointer shared_response(new (std::nothrow) HTTPResponse(pRequest));
     return shared_response;
 }
 
-std::string HTTPResponse::getURL()
+std::string HTTPResponse::GetURL()
 {
-    if (auto request = _request.lock())
+    if (auto request = RequestInstance.lock())
     {
-        return request->getURL();
+        return request->GetURL();
     }
     return "";
 }
 
-std::string HTTPResponse::getURLParameter(const std::string& parameterName)
+std::string HTTPResponse::GetEffectiveURL()
 {
-    if (auto request = _request.lock())
+    return EffectiveUrl;
+}
+
+std::string HTTPResponse::GetURLParameter(const std::string& parameterName)
+{
+    if (auto request = RequestInstance.lock())
     {
-        return request->getURLParameter(parameterName);
+        return request->GetURLParameter(parameterName);
     }
     return "";
 }
 
-std::string HTTPResponse::getHeader(const std::string& headerName)
+std::string HTTPResponse::GetHeader(const std::string& headerName)
 {
     std::string result;
-    if (!_bIsReady)
+    auto headerIter = Headers.find(headerName);
+    if (headerIter != Headers.end())
     {
-        FKLog("Can't get cached header [%s]. Response still processing. %p", headerName.c_str(), (void*)&_request);
-    }
-    else
-    {
-        auto headerIter = _headers.find(headerName);
-        if (headerIter != _headers.end())
-        {
-            result = headerIter->second;
-        }
+        result = headerIter->second;
     }
     return result;
 }
 
-std::vector<std::string> HTTPResponse::getAllHeaders()
+std::vector<std::string> HTTPResponse::GetAllHeaders()
 {
     std::vector<std::string> result;
-    if (!_bIsReady)
+    for (auto headerIter : Headers)
     {
-        FKLog("Can't get cached headers. Response still processing. %p", (void*)&_request);
-    }
-    else
-    {
-        for (auto headerIter : _headers)
-        {
-            result.push_back(headerIter.first + ":" + headerIter.second);
-        }
+        result.push_back(headerIter.first + ":" + headerIter.second);
     }
     return result;
 }
 
-std::string HTTPResponse::getContentType()
+std::string HTTPResponse::GetContentType()
 {
-    return getHeader("Content-Type");
+    return GetHeader("Content-Type");
 }
 
-size_t HTTPResponse::getContentSize()
+size_t HTTPResponse::GetContentSize()
 {
-    return _contentSize;
+    return ContentSize;
 }
 
-std::vector<uint8>& HTTPResponse::getContentData()
+std::vector<uint8>& HTTPResponse::GetContentData()
 {
-    return _contentData;
+    return ContentData;
 }
 
-long HTTPResponse::getResponseCode()
+HTTPCode HTTPResponse::GetResponseCode()
 {
-    return _responseCode;
+    return ResponseCode;
 }
 
 
-std::string HTTPResponse::getCookies()
+std::string HTTPResponse::GetCookies()
 {
-    return _cookies;
+    return Cookies;
 }
 
-std::string HTTPResponse::getResponseMsg()
+std::string HTTPResponse::GetResponseMsg()
 {
-    return _responseMessage;
+    return ResponseMessage;
 }
 
-std::string HTTPResponse::getErrorMsg()
+std::string HTTPResponse::GetErrorMsg()
 {
-    return _errorMsg;
+    return ErrorMsg;
 }
 
-bool HTTPResponse::isReady()
+bool HTTPResponse::IsReady()
 {
-    return _bIsReady;
+    return bIsReady;
 }
 
-bool HTTPResponse::isSucceeded()
+bool HTTPResponse::IsSucceeded()
 {
-    return _bSucceeded;
+    return bIsSucceeded;
 }
 
-void HTTPResponse::dumpInfo()
+void HTTPResponse::DumpInfo()
 {
     std::string responseInfo;
-    responseInfo += "URL:";  responseInfo += getURL();
+    responseInfo += "URL:";  responseInfo += GetURL();
     responseInfo += "\n";
     responseInfo += "Headers:\n";
-    responseInfo += StringUtils::Join("\n", getAllHeaders());
+    responseInfo += StringUtils::Join("\n", GetAllHeaders());
     responseInfo += "\n";
-    responseInfo += "ResponseCode:";  responseInfo += StringUtils::Tostring(getResponseCode());
+    responseInfo += "ResponseCode:";  responseInfo += GetResponseCode().ToString();
     responseInfo += "\n";
-    responseInfo += "Cookies:";  responseInfo += getCookies();
+    responseInfo += "Cookies:";  responseInfo += GetCookies();
     responseInfo += "\n";
-    responseInfo += "ResponseMeg:";  responseInfo += getResponseMsg();
+    responseInfo += "ResponseMeg:";  responseInfo += GetResponseMsg();
     responseInfo += "\n";
-    responseInfo += "ErrorMsg:";  responseInfo += getErrorMsg();
+    responseInfo += "ErrorMsg:";  responseInfo += GetErrorMsg();
     responseInfo += "\n";
-    responseInfo += "ContentType:";  responseInfo += getContentType();
+    responseInfo += "ContentType:";  responseInfo += GetContentType();
     responseInfo += "\n";
-    responseInfo += "ContentSize:";  responseInfo += StringUtils::Tostring(getContentSize());
+    responseInfo += "ContentSize:";  responseInfo += StringUtils::Tostring(GetContentSize());
     responseInfo += "\n";
     responseInfo += "ContentData:"; 
-    if (!_contentData.empty())
+    if (!ContentData.empty())
     {
-        responseInfo += (char*)(&_contentData[0]);
+        responseInfo += (char*)(&ContentData[0]);
     }
 
     FKLog("---------------------Dump Response-----------------------\n");
@@ -160,53 +151,65 @@ void HTTPResponse::dumpInfo()
     FKLog("---------------------Dump Response End-----------------------\n");
 }
 
-HTTPResponse& HTTPResponse::setHeader(const std::string& headerName, const std::string& headerValue)
+HTTPResponse& HTTPResponse::SetHeader(const std::string& headerName, const std::string& headerValue)
 {
-    _headers.insert(std::make_pair(headerName, headerValue));
+    Headers.insert(std::make_pair(headerName, headerValue));
     return (*this);
 }
 
-HTTPResponse& HTTPResponse::setContentSize(int contentSize)
+HTTPResponse& HTTPResponse::SetContentSize(int contentSize)
 {
-    _contentSize = contentSize;
+    ContentSize = contentSize;
     return (*this);
 }
 
-HTTPResponse& HTTPResponse::setCookies(const std::string& cookies)
+HTTPResponse& HTTPResponse::SetCookies(const std::string& cookies)
 {
-    _cookies = cookies;
+    Cookies = cookies;
     return (*this);
 }
 
-HTTPResponse& HTTPResponse::setReady(bool bReady)
+HTTPResponse& HTTPResponse::SetReady(bool bReady)
 {
-    _bIsReady = bReady;
+    bIsReady = bReady;
     return (*this);
 }
 
-HTTPResponse& HTTPResponse::setSucceeded(bool bSucceeded)
+HTTPResponse& HTTPResponse::SetSucceeded(bool bSucceeded)
 {
-    _bSucceeded = bSucceeded;
+    bIsSucceeded = bSucceeded;
     return (*this);
 }
 
-HTTPResponse& HTTPResponse::setResponseCode(long responseCode)
+HTTPResponse& HTTPResponse::SetResponseCode(long responseCode)
 {
-    _responseCode = responseCode;
+    ResponseCode = responseCode;
     return (*this);
 }
 
-HTTPResponse& HTTPResponse::setResponseMsg(const std::string& responseMsg)
+HTTPResponse& HTTPResponse::SetResponseCode(const HTTPCode& responseCode)
 {
-    _responseMessage = responseMsg;
+    ResponseCode = responseCode;
     return (*this);
 }
 
-HTTPResponse& HTTPResponse::setErrorMsg(const std::string& errorMsg)
+HTTPResponse& HTTPResponse::SetResponseMsg(const std::string& responseMsg)
 {
-    _errorMsg = errorMsg;
+    ResponseMessage = responseMsg;
+    return (*this);
+}
+
+HTTPResponse& HTTPResponse::SetErrorMsg(const std::string& errorMsg)
+{
+    ErrorMsg = errorMsg;
     return (*this);
 
+}
+
+HTTPResponse& HTTPResponse::SetEffectiveURL(const std::string& effectiveUrl)
+{
+    EffectiveUrl = effectiveUrl;
+    return (*this);
 }
 
 NS_FK_END

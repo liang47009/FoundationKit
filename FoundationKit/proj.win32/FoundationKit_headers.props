@@ -11,7 +11,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(ProjectDir)/../FoundationKit/Platform/windows/system;$(ProjectDir)/../FoundationKit/external/unzip</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty\zlib\include\win32;$(ProjectDir)/../FoundationKit/Platform/windows/system;$(ProjectDir)/../FoundationKit/external/unzip</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

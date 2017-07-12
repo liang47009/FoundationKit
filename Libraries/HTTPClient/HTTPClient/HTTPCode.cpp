@@ -51,27 +51,40 @@ HTTPCode::HTTPCode()
 
 }
 
-HTTPCode::HTTPCode(unsigned httpcode)
+HTTPCode::HTTPCode(long httpcode)
 	: code(httpcode)
 {
-	size_t index = 0;
-	const HTTPCode* pHTTPCode = HTTPCodeList[index];
-	while (pHTTPCode)
-	{
-		if (pHTTPCode->code == httpcode)
-		{
-			message = pHTTPCode->message;
-			break;
-		}
-		pHTTPCode = HTTPCodeList[++index];
-	}
+    Assign(httpcode);
 }
 
-HTTPCode::HTTPCode(unsigned httpcode, const char * msg)
+HTTPCode::HTTPCode(long httpcode, const char * msg)
 	: code(httpcode)
 	, message(msg)
 {
 
+}
+void HTTPCode::Assign(long httpcode)
+{
+    code = httpcode;
+    size_t index = 0;
+    const HTTPCode* pHTTPCode = HTTPCodeList[index];
+    while (pHTTPCode)
+    {
+        if (pHTTPCode->code == httpcode)
+        {
+            message = pHTTPCode->message;
+            break;
+        }
+        pHTTPCode = HTTPCodeList[++index];
+    }
+}
+
+std::string HTTPCode::ToString()
+{
+    std::string result = std::to_string(code);
+    result += ":";
+    result += message ? message : "Unknown";
+    return result;
 }
 
 const HTTPCode* HTTPCodeList[] =

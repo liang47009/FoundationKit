@@ -101,7 +101,7 @@
     </Link>
     <PreLinkEvent>
       <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
-xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\windows\libs\$(Configuration)\*.*" "$(OutDir)"</Command>
+xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Command>
       <Message>拷贝依赖库到输出目录</Message>
     </PreLinkEvent>
   </ItemDefinitionGroup>

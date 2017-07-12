@@ -13,7 +13,7 @@
 NS_FK_BEGIN
 namespace MimeTypes
 {
-    std::string getMimeType(std::string fileName);
+    std::string GetMimeType(std::string fileName);
 };
 NS_FK_END
 #endif // FOUNDATIONKIT_MIMETYPES_HPP

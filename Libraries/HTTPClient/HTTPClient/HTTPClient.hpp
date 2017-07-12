@@ -10,18 +10,24 @@
 #include "curl.h"
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"
+#include "HTTPRequest.hpp"
 NS_FK_BEGIN
 
+#define HTTPClientVersionString "1.0.0"
 
 class HTTPClient : public Singleton<HTTPClient>
 {
 	friend Singleton < HTTPClient >;
 	HTTPClient();
 public:
-	~HTTPClient();
-	static void  initialize();
+    /** Global multi handle */
+    static CURLM*  G_multiHandle;
+    static CURLSH* G_shareHandle;
 
-public:
+	~HTTPClient();
+	void        Initialize();
+    void        Tick(float deltaTime);
+    void        PostRequest(HTTPRequest::Pointer request);
 
 	static struct RequestOptions
 	{
@@ -35,7 +41,7 @@ public:
 		{}
 
 		/** Prints out the options to the log */
-		void dumpOptions();
+		void DumpOptions();
 
 		/** Whether or not should verify peer certificate (disable to allow self-signed certs) */
 		bool EnableVerifyPeer;
@@ -57,19 +63,26 @@ public:
 		bool IsDontReuseConnections;
 	}
 	HTTPRequestOptions;
-
-public:
-	/** Global multi handle */
-	static CURLM*  _G_multiHandle;
-	static CURLSH* _G_shareHandle;
 private:
+    static void StaticLockCallback(CURL *handle, curl_lock_data data, curl_lock_access access, void*userData);
+    static void StaticUnlockCallback(CURL *handle, curl_lock_data data, void *userData);
+    void        LockCallback(CURL *handle, curl_lock_data data, curl_lock_access access);
+    void        UnlockCallback(CURL *handle, curl_lock_data data);
+
 	typedef std::vector<HTTPRequest::Pointer>               RequestVector;
 	typedef std::unordered_map<CURL*, HTTPRequest::Pointer> RequestMap;
 	/** multi handle that groups all the requests - not owned by this class */
-	CURLM*                       _multiHandle;
-	std::mutex                   _mutex;
-	RequestMap                   _requests;
+	CURLM*                       MultiHandle;
+    RequestMap                   RequestPool;
+	std::mutex                   RequestMutex;
+    std::mutex                   CURLDataShareMutex;
+    std::mutex                   CURLDataCookieMutex;
+    std::mutex                   CURLDataDNSMutex;
+    std::mutex                   CURLDataSSLSessionMutex;
+    std::mutex                   CURLDataConnectMutex;
 };
 
 NS_FK_END
 #endif // END OF FOUNDATIONKIT_HTTPCLIENT_HPP
+
+

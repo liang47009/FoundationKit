@@ -17,10 +17,10 @@ class libcurl_init_base
 protected:
     struct Result
     {
-        CURLcode _initCode;
+        CURLcode Code;
     };
-    static void startup(Result& result);
-    static void cleanup();
+    static void Startup(Result& result);
+    static void Cleanup();
 
 };
 
@@ -29,24 +29,23 @@ class libcurl_init : private libcurl_init_base
 public:
     libcurl_init()
     {
-        startup(_result);
+        Startup(InitResult);
     }
     ~libcurl_init()
     {
-        cleanup();
+        Cleanup();
     }
-    static bool succeeded()
+    static bool Succeeded()
     {
-        return (_result._initCode == CURLE_OK);
+        return (InitResult.Code == CURLE_OK);
     }
-    static CURLcode code()
+    static CURLcode Code()
     {
-        return _result._initCode;
+        return InitResult.Code;
     }
 private:
-    static Result _result;
+    static Result InitResult;
 };
-
 
 static const libcurl_init& libcurl_init_instance = libcurl_init();
 NS_FK_END

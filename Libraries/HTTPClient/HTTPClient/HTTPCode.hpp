@@ -6,28 +6,56 @@
 ****************************************************************************/
 #ifndef FOUNDATIONKIT_HTTPCODE_HPP
 #define FOUNDATIONKIT_HTTPCODE_HPP
+#include <string>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 NS_FK_BEGIN
 
 class HTTPCode
 {
 public:
-	unsigned code;
+    long        code;
 	const char *message;
 
 	HTTPCode();
-	HTTPCode(unsigned code);
-	HTTPCode(unsigned code, const char * msg);
+    HTTPCode(long httpcode);
+    HTTPCode(long httpcode, const char * msg);
+    void Assign(long httpcode);
+    std::string ToString();
+    HTTPCode& operator= (long httpcode)
+    {
+        Assign(httpcode);
+        return (*this);
+    }
 
-	bool operator==(unsigned httpCode)
+    bool operator ==(long httpcode)
 	{
-		return (code == httpCode);
+        return (code == httpcode);
 	}
 
-	bool operator!=(unsigned httpCode)
+    bool operator !=(long httpcode)
 	{
-		return (code != httpCode);
+        return (code != httpcode);
 	}
+
+    bool operator <=(long httpcode)
+    {
+        return (code <= httpcode);
+    }
+
+    bool operator >=(long httpcode)
+    {
+        return (code >= httpcode);
+    }
+
+    bool operator <(long httpcode)
+    {
+        return (code < httpcode);
+    }
+
+    bool operator >(long httpcode)
+    {
+        return (code > httpcode);
+    }
 
 	// 1XX informational
 	static const HTTPCode SHUTDOWN;
@@ -79,12 +107,12 @@ public:
 };
 
 
-bool operator==(const HTTPCode& hcp, unsigned httpCode)
+inline bool operator==(const HTTPCode& hcp, long httpCode)
 {
     return (hcp.code == httpCode);
 }
 
-bool operator!=(const HTTPCode& hcp, unsigned httpCode)
+inline bool operator!=(const HTTPCode& hcp, long httpCode)
 {
     return (hcp.code != httpCode);
 }

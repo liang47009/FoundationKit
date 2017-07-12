@@ -574,7 +574,7 @@ namespace MimeTypes
         { nullptr, nullptr},
     };
 
-    std::string getMimeType(std::string fileName)
+    std::string GetMimeType(std::string fileName)
     {
         size_t dot = fileName.find_last_of('.');
         const char* result = "application/octet-stream";

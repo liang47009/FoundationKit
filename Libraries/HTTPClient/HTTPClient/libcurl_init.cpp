@@ -51,8 +51,8 @@ namespace
         char * pCopy = NULL;
         if (zeroTerminatedString)
         {
-            size_t strLen = strlen(zeroTerminatedString);
-            pCopy = reinterpret_cast<char*>(::malloc(strLen + 1));
+            size_t strLen = strlen(zeroTerminatedString)+1;
+            pCopy = reinterpret_cast<char*>(::malloc(strLen));
             if (pCopy)
             {
 				::strcpy_s(pCopy, strLen, zeroTerminatedString);
@@ -87,13 +87,13 @@ namespace
 }
 
 NS_FK_BEGIN
-libcurl_init_base::Result libcurl_init::_result;
-void libcurl_init_base::startup(Result& result)
+libcurl_init_base::Result libcurl_init::InitResult;
+void libcurl_init_base::Startup(Result& result)
 {
-    result._initCode = curl_global_init_mem(CURL_GLOBAL_ALL, custom_curl_malloc, custom_curl_free, custom_curl_realloc, custom_curl_strdup, custom_curl_calloc);
+    result.Code = curl_global_init_mem(CURL_GLOBAL_ALL, custom_curl_malloc, custom_curl_free, custom_curl_realloc, custom_curl_strdup, custom_curl_calloc);
 }
 
-void libcurl_init_base::cleanup()
+void libcurl_init_base::Cleanup()
 {
     curl_global_cleanup();
 }

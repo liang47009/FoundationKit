@@ -13,22 +13,20 @@
   <ItemGroup>
     <ClCompile Include="..\HTTPClient\HTTPClient.cpp" />
     <ClCompile Include="..\HTTPClient\HTTPCode.cpp" />
-    <ClCompile Include="..\HTTPClient\HTTPDownloadRequest.cpp" />
-    <ClCompile Include="..\HTTPClient\HTTPMultiPartRequest.cpp" />
+    <ClCompile Include="..\HTTPClient\HTTPDownloader.cpp" />
     <ClCompile Include="..\HTTPClient\HTTPRequest.cpp" />
     <ClCompile Include="..\HTTPClient\HTTPResponse.cpp" />
-    <ClCompile Include="..\HTTPClient\HTTPUploadRequest.cpp" />
+    <ClCompile Include="..\HTTPClient\HTTPUploader.cpp" />
     <ClCompile Include="..\HTTPClient\libcurl_init.cpp" />
     <ClCompile Include="..\HTTPClient\MimeTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\HTTPClient\HTTPClient.hpp" />
     <ClInclude Include="..\HTTPClient\HTTPCode.hpp" />
-    <ClInclude Include="..\HTTPClient\HTTPDownloadRequest.hpp" />
-    <ClInclude Include="..\HTTPClient\HTTPMultiPartRequest.hpp" />
+    <ClInclude Include="..\HTTPClient\HTTPDownloader.hpp" />
     <ClInclude Include="..\HTTPClient\HTTPRequest.hpp" />
     <ClInclude Include="..\HTTPClient\HTTPResponse.hpp" />
-    <ClInclude Include="..\HTTPClient\HTTPUploadRequest.hpp" />
+    <ClInclude Include="..\HTTPClient\HTTPUploader.hpp" />
     <ClInclude Include="..\HTTPClient\libcurl_init.hpp" />
     <ClInclude Include="..\HTTPClient\MimeTypes.hpp" />
   </ItemGroup>

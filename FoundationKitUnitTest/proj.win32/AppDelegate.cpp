@@ -37,22 +37,18 @@
 #include "FoundationKit/Crypto/aes.hpp"
 #include "FoundationKit/Crypto/urlencode.hpp"
 #include "HTTPClient/HTTPClient.hpp"
-#include "HTTPClient/HTTPCode.hpp"
-#include "HTTPDownloader/HTTPDownloader.hpp"
-
+#include "HTTPClient/HTTPRequest.hpp"
+#include "HTTPClient/HTTPResponse.hpp"
+#include "HTTPClient/HTTPUploader.hpp"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/document.h"
 
 using namespace std;
 USING_NS_FK;
 
-static TimerQueue  G_TimerQueue;
+
 static bool bExitApp = false;
-
-static std::thread clientThread;
-static  std::thread serverThread;
-void runServer();
-void runClient();
-
-void ParseAppleDeviceData();
 
 AppDelegate::AppDelegate() 
 {
@@ -70,138 +66,125 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-template<typename T>
-void printType()
-{
-    std::cout << typeid(T).name() << std::endl;
+std::unordered_map<std::string, std::string> g_uploadParameters;
 
+static std::string compressFile(const std::string& source)
+{
+    size_t findPos = source.find_last_of(".");
+    if (findPos == std::string::npos)
+    {
+        return source;
+    }
+
+    std::string destFile = source.substr(0, findPos + 1);
+    destFile += "gz";
+    if (Compression::CompressFile(source, destFile))
+    {
+        return destFile;
+    }
+    return source;
 }
 
-float(*castfunc)(std::string, int);
-float free_function(const std::string&a, int b)
+void OnHttpCallback(HTTPRequest::Pointer request, HTTPResponse::Pointer response , bool ret)
 {
-    return (float)a.size() / b;
-
+    HTTPCode errorCode = response->GetResponseCode();
+    if (response->IsSucceeded() && errorCode == 200)
+    {
+        auto headers = response->GetAllHeaders();
+        std::string strHeader;
+        for (auto str : headers)
+        {
+            strHeader += str;
+            strHeader += "\n";
+        }
+        FKLog("=== Request succeed CODE:%s, HEADER:\n %s", errorCode.ToString().c_str(), strHeader.c_str());
+    }
+    else
+    {
+        std::string strError = response->GetErrorMsg();
+        auto headers = response->GetAllHeaders();
+        std::string strHeader;
+        for (auto str : headers)
+        {
+            strHeader += str;
+            strHeader += "\n";
+        }
+        FKLog("=== Request failed CODE:%s, HEADER:\n %s", errorCode.ToString().c_str(), strHeader.c_str());
+        FKLog("=== Request failed errorBuf:%s", strError.c_str());
+        FKLog("=== Request failed responsemsg:%s", response->GetResponseMsg().c_str());
+    }
 }
 
-struct AA
-{
-    int f(int a, int b) volatile{ return a + b; }
-    int operator()(int)const { return 0; }
-
-};
-
-void TestFunctionTraits()
-{
-    FKLog("======= TestFunctionTraits =======");
-    std::function<int(int)> fn = [](int a){ return a; };
-    printType<function_traits<std::function<int(int)>>::function_type>();
-    printType<function_traits<std::function<int(int)>>::args<0>::type>();
-    printType<function_traits<decltype(fn)>::function_type>();
-    printType<function_traits<decltype(free_function)>::function_type>();
-    printType<function_traits<decltype(castfunc)>::function_type>();
-    printType<function_traits<AA>::function_type>();
-    using T = decltype(&AA::f);
-    printType<T>();
-    printType<function_traits<decltype(&AA::f)>::function_type>();
-
-}
-
-
-void TupleTest()
-{
-
-}
-
-void TupleTestArgs(int a, const std::string& str, char* str1)
-{
-
-}
-
-void AppDelegate::TestTupleArgs(int a, const std::string& str, char* str1)
-{
-
-}
-
-
-class Request{};
-class MultiPartRequest : public Request{};
-class DownloadRequest : public Request{};
-class UploadRequest : public Request{};
-
-
-using namespace network;
-static HTTPDownloader  HTTPDownloaderInstance;
-static DownloadListener DownloadListenerInstance;
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
+    HTTPClient::GetInstance()->Initialize();
+    g_uploadParameters["channelId"] = "10000";
+    g_uploadParameters["lifespan"] = "NONE";
+    g_uploadParameters["sceneid"] = "2";
+    g_uploadParameters["userAccount"] = "LOSEMYMIND";
+    g_uploadParameters["version"] = "NONE";
+    g_uploadParameters["gameId"] = "66";
+    g_uploadParameters["roleName"] = "NONE";
+    g_uploadParameters["guid"] = "NONE";
+    g_uploadParameters["device"] = "NONE";
+    g_uploadParameters["ptime"] = "NONE";
+    g_uploadParameters["osver"] = "NONE";
+    g_uploadParameters["fmemory"] = "NONE";
+    g_uploadParameters["arch"] = "NONE";
+    g_uploadParameters["type"] = "NONE";
+    g_uploadParameters["sdkVersion"] = "NONE";
+    g_uploadParameters["totalMemory"] = "NONE";
+    g_uploadParameters["isRoot"] = "0";
+    g_uploadParameters["crashPackage"] = "NONE";
 
-    HTTPDownloaderInstance.initialize(false);
-    DownloadListenerInstance.onErrorCallback = [](const std::string& url, const std::string& message)
+
+    rapidjson::StringBuffer sb;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(sb);
+    writer.StartObject();
+
+    for (auto& iter : g_uploadParameters)
     {
-    };
+        std::string key = iter.first;
+        if (key == "isRoot")
+        {
+            writer.Key(key.c_str()); writer.Int(atoi(iter.second.c_str()));
+        }
+        else
+        {
+            writer.Key(key.c_str()); writer.String(iter.second.c_str());
+        }
+    }
+    writer.EndObject();
+    std::string jsonString = sb.GetString();
 
-    DownloadListenerInstance.onProgressCallback = [](const std::string&url , int64 nowdownload, int64 totaldownload)
+    int reqsize = sizeof(HTTPRequest);
+
+    HTTPRequest::Pointer pRequest = HTTPRequest::Create(false);
+    pRequest->SetContentField("params", jsonString);
+    pRequest->SetFileField("file", compressFile("E:\\GitHub\\FoundationKit\\Win32\\dump.dmp"));
+    pRequest->SetFileField("traceFile", compressFile("E:\\GitHub\\FoundationKit\\Win32\\tracelog.log"));
+    pRequest->SetURL("https://crashlogs.woniu.com/crashlogs/api/comm/cpp");
+    pRequest->SetMethod(RequestMethodType::POST);
+    pRequest->OnRequestCompleted = OnHttpCallback;
+    //HTTPClient::GetInstance()->PostRequest(pRequest);
+
+    HTTPUploadRequest::Pointer UploadRequest = HTTPUploadRequest::Create(true);
+    UploadRequest->SetURL("http://172.19.10.239:8080/uploadfiles/dump.dmp");
+    UploadRequest->SetMethod(RequestMethodType::PUT);
+    UploadRequest->SetFilePath("E:\\GitHub\\FoundationKit\\Win32\\dump.dmp");
+    UploadRequest->OnRequestCompleted = OnHttpCallback;
+    UploadRequest->OnRequestProgress = [](HTTPUploadRequest::Pointer request, int64 nowUpload, int64 totalUpload)
     {
-        FKLog("Progress:%s, %lld/%lld", url.c_str(), nowdownload, totaldownload);
+    
     };
-
-    DownloadListenerInstance.onSucceedCallback = [](const std::string& url, const std::string& path)
-    {
-    };
-
-    HTTPDownloaderInstance.downloadToFile("https://download.sublimetext.com/Sublime%20Text%20Build%203126%20x64%20Setup.exe", "C:\\Users\\a\\Downloads\\", DownloadListenerInstance);
-
-
-    DelegateManager::GetInstance()->AddObserver("TupleTest", BindFunctionHandler(&TupleTest));
-    DelegateManager::GetInstance()->Invoke("TupleTest", ArgumentList());
-    ArgumentList args;
-    args.emplace_back(10);
-    args.emplace_back("Fuck you");
-    args.emplace_back("Fuck you again");
-    DelegateManager::GetInstance()->AddObserver("TupleTestArgs", BindFunctionHandler(&TupleTestArgs));
-    DelegateManager::GetInstance()->AddObserver("TestTupleArgs", BindFunctionHandler(&AppDelegate::TestTupleArgs, this));
-    DelegateManager::GetInstance()->Invoke("TupleTestArgs", args);
-    DelegateManager::GetInstance()->Invoke("TestTupleArgs", args);
+    HTTPClient::GetInstance()->PostRequest(UploadRequest);
 
 
     int im_a_breakpoint = 0;
 
-    //unsigned char cipherbuf[256];
-    //unsigned char plainbuf[256];
-    //unsigned char plaintext[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // our plaintext to encrypt
-    //unsigned char secret[] = "A SECRET PASSWORD"; // 16 bytes long
-    //int written = AES::aesEncrypt(cipherbuf, 256, plaintext, 26, secret);
-    //written = AES::aesDecrypt(plainbuf, 256, cipherbuf, written, secret);
-
-    //std::vector<std::string>  files;
-    //FileUtils::GetInstance()->GetFilesFromDir("E:\\WorkSpace\\GameToolsGroup\\PAL\\Source\\Runtime", files, true);
-    //std::string strMakefile;
-    //auto fileutils = FileUtils::GetInstance();
-    //for (auto filepath:files)
-    //{
-    //    if (fileutils->GetFileExtension(filepath) == ".cpp" 
-    //        || fileutils->GetFileExtension(filepath) == ".c"
-    //        || fileutils->GetFileExtension(filepath) == ".cc")
-    //    {
-    //        strMakefile += filepath;
-    //        strMakefile += "\n";
-    //    }
-    //}
-
-
-    //clientThread = std::thread([]()
-    //{
-    //    runClient();
-    //});
-
-    //serverThread = std::thread([]()
-    //{
-    //    runServer();
-    //});
-    
+  
 	return true;
 }
 
@@ -220,125 +203,9 @@ void AppDelegate::applicationWillEnterForeground()
 void AppDelegate::applicationWillTerminate()
 {
     bExitApp = true;
-
-    if (clientThread.joinable())
-    {
-        clientThread.join();
-    }
-
-    if (serverThread.joinable())
-    {
-        serverThread.join();
-    }
 }
 
 void AppDelegate::mainLoop()
 {
-
+    HTTPClient::GetInstance()->Tick(1 / 60.0f);
 }
-//
-//void ParseAppleDeviceData()
-//{
-//    YExcel::BasicExcel           _basicExcel;
-//    YExcel::BasicExcelWorksheet* _workSheet;
-//    _basicExcel.Load("E:\\temp\\DeviceInfo.xls");
-//    _workSheet = _basicExcel.GetWorksheet(0);
-//
-//    int rowIndex = 2;
-//    std::string serialization;
-//    auto GetExcelString = [&](int row, int col)
-//    {
-//        std::string result;
-//        const char* value = _workSheet->Cell(row, col)->GetString();
-//        if (value)
-//        {
-//            result = value;
-//        }
-//        else
-//        {
-//            const wchar_t* wvalue = _workSheet->Cell(row, col)->GetWString();
-//            if (wvalue)
-//            {
-//                result = StringUtils::wstring2string(wvalue);
-//            }
-//        }
-//        return result;
-//    };
-//    while (true)
-//    {
-//        std::string deviceModel = GetExcelString(rowIndex, 1);
-//        if (deviceModel.empty())
-//        {
-//            break;
-//        }
-//
-//        auto deviceModelList = StringUtils::split(deviceModel, " \" ");
-//        size_t modelIndex = 0;
-//        for (auto& strDeviceModel : deviceModelList)
-//        {
-//            std::string realModelName = strDeviceModel;
-//            if (modelIndex > 0)
-//            {
-//                std::string tmpModel = deviceModelList[0];
-//                realModelName = tmpModel.substr(0, tmpModel.size() - 3);
-//                realModelName = StringUtils::trim(realModelName);
-//                realModelName += strDeviceModel;
-//            }
-//            ++modelIndex;
-//            serialization += "{\"";
-//            serialization += realModelName;
-//            serialization += "\",{";
-//
-//            serialization += "\"";
-//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 4)->GetInteger()); //RAM
-//            serialization += "\",";
-//
-//            serialization += "\"";
-//            serialization += GetExcelString(rowIndex, 7); //CPU NAME
-//            serialization += "\",";
-//
-//            serialization += "\"";
-//            serialization += GetExcelString(rowIndex, 8); //CPU arch
-//            serialization += "\",";
-//
-//            serialization += "\"";
-//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 10)->GetInteger()); //CPU cores
-//            serialization += "\",";
-//
-//            serialization += "\"";
-//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 11)->GetInteger()); //CPU clocks
-//            serialization += "\",";
-//
-//            serialization += "\"";
-//            serialization += GetExcelString(rowIndex, 16); //GPU NAME
-//            serialization += "\",";
-//
-//            serialization += "\"";
-//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 17)->GetInteger()); //GPU cores
-//            serialization += "\",";
-//
-//            serialization += "\"";
-//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 18)->GetInteger()); //GPU clocks
-//            serialization += "\",";
-//
-//            serialization += "\"";
-//            serialization += GetExcelString(rowIndex, 19); //  Screen Res 
-//            serialization += "\",";
-//
-//            serialization += "\"";
-//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 20)->GetInteger()); //  PPI 
-//            serialization += "\",";
-//
-//            serialization += "\"";
-//            serialization += StringUtils::to_string(_workSheet->Cell(rowIndex, 21)->GetDouble()); //  Screen Size (inches)
-//            serialization += "\"";
-//
-//            serialization += "}},\n";
-//        }
-//        ++rowIndex;
-//    }
-//}
-//
-//
-//
-

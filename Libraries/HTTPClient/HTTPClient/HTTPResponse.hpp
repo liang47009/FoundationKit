@@ -4,6 +4,7 @@
 #include <memory>
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/Base/types.hpp"
+#include "HTTPCode.hpp"
 
 NS_FK_BEGIN
 class HTTPRequest;
@@ -14,55 +15,59 @@ class HTTPResponse
 public:
     typedef std::unordered_map<std::string, std::string> KeyValueMap;
     typedef std::shared_ptr<HTTPResponse>                Pointer;
-    typedef std::shared_ptr<HTTPRequest>                 RequestPtr;
     typedef std::weak_ptr<HTTPRequest>                   RequestWeakPtr;
 
 public:
     ~HTTPResponse();
-    static Pointer           create(RequestPtr pRequest);
-    std::string              getURL();
-    std::string              getURLParameter(const std::string& parameterName);
-    std::string              getHeader(const std::string& headerName);
-    std::vector<std::string> getAllHeaders();
-    std::string              getContentType();
-    size_t                   getContentSize();
-    std::vector<uint8>&      getContentData();
-    long                     getResponseCode();
-    std::string              getCookies();
-    std::string              getResponseMsg();
-    std::string              getErrorMsg();
-    bool                     isReady();
-    bool                     isSucceeded();
-    void                     dumpInfo();
+    static Pointer           Create(RequestWeakPtr pRequest);
+    std::string              GetURL();
+    std::string              GetEffectiveURL();
+    std::string              GetURLParameter(const std::string& parameterName);
+    std::string              GetHeader(const std::string& headerName);
+    std::vector<std::string> GetAllHeaders();
+    std::string              GetContentType();
+    size_t                   GetContentSize();
+    std::vector<uint8>&      GetContentData();
+    HTTPCode                 GetResponseCode();
+    std::string              GetCookies();
+    std::string              GetResponseMsg();
+    std::string              GetErrorMsg();
+    bool                     IsReady();
+    bool                     IsSucceeded();
+    void                     DumpInfo();
 protected:
-    HTTPResponse(RequestPtr pRequest);
-    HTTPResponse&            setHeader(const std::string& headerName, const std::string& headerValue);
-    HTTPResponse&            setContentSize(int contentSize);
-    HTTPResponse&            setCookies(const std::string& cookies);
-    HTTPResponse&            setReady(bool bReady);
-    HTTPResponse&            setSucceeded(bool bSucceeded);
-    HTTPResponse&            setResponseCode(long responseCode);
-    HTTPResponse&            setResponseMsg(const std::string& responseMsg);
-    HTTPResponse&            setErrorMsg(const std::string& errorMsg);
+    HTTPResponse(RequestWeakPtr pRequest);
+    HTTPResponse&            SetHeader(const std::string& headerName, const std::string& headerValue);
+    HTTPResponse&            SetContentSize(int contentSize);
+    HTTPResponse&            SetCookies(const std::string& cookies);
+    HTTPResponse&            SetReady(bool bReady);
+    HTTPResponse&            SetSucceeded(bool bSucceeded);
+    HTTPResponse&            SetResponseCode(long responseCode);
+    HTTPResponse&            SetResponseCode(const HTTPCode& responseCode);
+    HTTPResponse&            SetResponseMsg(const std::string& responseMsg);
+    HTTPResponse&            SetErrorMsg(const std::string& errorMsg);
+    HTTPResponse&            SetEffectiveURL(const std::string& effectiveUrl);
 
 private:
-    RequestWeakPtr     _request;
+    RequestWeakPtr     RequestInstance;
     /** BYTE array to fill in as the response is read via didReceiveData */
-    std::vector<uint8> _contentData;
+    std::vector<uint8> ContentData;
     /** Cached content length from completed response */
-    int32              _contentSize;
+    int32              ContentSize;
     /** Cached code from completed response */
-    long               _responseCode;
+    HTTPCode           ResponseCode;
     /** Cached key/value header pairs. Parsed once request completes */
-    KeyValueMap        _headers;
+    KeyValueMap        Headers;
     /** message for http code */
-    std::string        _responseMessage;
+    std::string        ResponseMessage;
     /** True when the response has finished async processing */
-    bool volatile      _bIsReady;
+    bool volatile      bIsReady;
     /** True if the response was successfully received/processed */
-    bool volatile      _bSucceeded;
-    std::string        _cookies;
-    std::string        _errorMsg;
+    bool volatile      bIsSucceeded;
+    std::string        Cookies;
+    std::string        ErrorMsg;
+    /** url to verify the connection worked */
+    std::string        EffectiveUrl;
 };
 
 NS_FK_END
