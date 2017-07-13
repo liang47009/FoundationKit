@@ -247,9 +247,6 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\forward.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\FunctionProtocol.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Crypto\des.hpp">
       <Filter>Crypto</Filter>
     </ClInclude>
@@ -263,9 +260,6 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\string_builder.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\ArgumentPacker.hpp">
       <Filter>experimental</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\BehaviourTree.hpp">
