@@ -107,12 +107,13 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libzlib.lib;OpenGL32.Lib;libcurl_imp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libzlib.lib;OpenGL32.Lib;libcurl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>libcmtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreLinkEvent>
       <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
-xcopy /Y /Q "$(SolutionDir)HTTPClient\HTTPClient\external\win32\i386\libs\$(Configuration)\*.*" "$(OutDir)"</Command>
+xcopy /Y /Q "$(SolutionDir)ThirdParty\curl\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(SolutionDir)ThirdParty\openssl\prebuilt\win32\*.*" "$(OutDir)"</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -153,12 +154,13 @@ xcopy /Y /Q "$(SolutionDir)HTTPClient\HTTPClient\external\win32\i386\libs\$(Conf
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libzlib.lib;OpenGL32.Lib;libcurl_imp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libzlib.lib;OpenGL32.Lib;libcurl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PreLinkEvent>
       <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
-xcopy /Y /Q "$(SolutionDir)HTTPClient\HTTPClient\external\win32\i386\libs\$(Configuration)\*.*" "$(OutDir)"</Command>
+xcopy /Y /Q "$(SolutionDir)ThirdParty\curl\prebuilt\win32\*.*" "$(OutDir)"
+xcopy /Y /Q "$(SolutionDir)ThirdParty\openssl\prebuilt\win32\*.*" "$(OutDir)"</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -191,9 +193,6 @@ xcopy /Y /Q "$(SolutionDir)HTTPClient\HTTPClient\external\win32\i386\libs\$(Conf
   <ItemGroup>
     <ProjectReference Include="..\..\FoundationKit\proj.win32\FoundationKit.vcxproj">
       <Project>{8f5a5344-1249-4c82-ba4d-8b4733161585}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\HTTPDownloader\proj.win32\HTTPDownloader.vcxproj">
-      <Project>{0a3bfa8d-e299-4817-b877-15197255ca03}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Libraries\HTTPClient\proj.win32\HTTPClient.vcxproj">
       <Project>{b8b94732-07a8-4484-93b3-0f8690377cc9}</Project>

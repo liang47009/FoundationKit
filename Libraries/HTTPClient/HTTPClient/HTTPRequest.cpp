@@ -8,10 +8,11 @@
 NS_FK_BEGIN
 
 static const long LOW_SPEED_LIMIT = 1;
-static const long LOW_SPEED_TIME = 5;
+static const long LOW_SPEED_TIME = 10;
 
 HTTPRequest::HTTPRequest(bool enableDebug/* = false*/)
     : OnRequestCompleted(nullptr)
+    , OnRequestProgress(nullptr)
     , EasyHandle(nullptr)
     , HeaderList(nullptr)
     , MethodType(RequestMethodType::GET)
@@ -338,12 +339,12 @@ bool HTTPRequest::Build()
     AddToMultiResult = CURLM_OK;
     curl_easy_setopt(EasyHandle, CURLOPT_URL, Url.c_str());
     curl_easy_setopt(EasyHandle, CURLOPT_LOW_SPEED_LIMIT, LOW_SPEED_LIMIT);
-    curl_easy_setopt(EasyHandle, CURLOPT_LOW_SPEED_TIME, TimeOutValue);
+    curl_easy_setopt(EasyHandle, CURLOPT_LOW_SPEED_TIME, LOW_SPEED_TIME);
     curl_easy_setopt(EasyHandle, CURLOPT_CONNECTTIMEOUT, TimeOutValue);
-    curl_easy_setopt(EasyHandle, CURLOPT_TIMEOUT, TimeOutValue);
     // set up method
     if (MethodType == RequestMethodType::POST)
     {
+        curl_easy_setopt(EasyHandle, CURLOPT_CONNECTTIMEOUT, TimeOutValue);
         curl_easy_setopt(EasyHandle, CURLOPT_POST, 1L);
         std::string requestPayload = GetPostFieldsAsString();
         if (!requestPayload.empty())
@@ -355,6 +356,7 @@ bool HTTPRequest::Build()
     }
     else if (MethodType == RequestMethodType::PUT)
     {
+        curl_easy_setopt(EasyHandle, CURLOPT_CONNECTTIMEOUT, TimeOutValue);
         curl_easy_setopt(EasyHandle, CURLOPT_UPLOAD, 1L);
         // this pointer will be passed to read function
         curl_easy_setopt(EasyHandle, CURLOPT_READDATA, this);
@@ -553,6 +555,7 @@ size_t HTTPRequest::StaticUploadCallback(void* buffer, size_t sizeInBlocks, size
     ASSERTED(userData, "HTTPRequest::staticUploadCallback param [userData] is null.");
     // dispatch
     HTTPRequest* request = reinterpret_cast<HTTPRequest*>(userData);
+    request->ElapsedTime = 0.0f;
     return request->UploadCallback(buffer, sizeInBlocks, blockSizeInBytes);
 }
 
@@ -562,6 +565,7 @@ size_t HTTPRequest::StaticReceiveResponseHeaderCallback(void* buffer, size_t siz
     ASSERTED(userData, "HTTPRequest::staticReceiveResponseHeaderCallback param [userData] is null.");
     // dispatch
     HTTPRequest* request = reinterpret_cast<HTTPRequest*>(userData);
+    request->ElapsedTime = 0.0f;
     return request->ReceiveResponseHeaderCallback(buffer, sizeInBlocks, blockSizeInBytes);
 }
 
@@ -571,6 +575,7 @@ size_t HTTPRequest::StaticReceiveResponseBodyCallback(void* buffer, size_t sizeI
     ASSERTED(userData, "HTTPRequest::staticReceiveResponseBodyCallback param [userData] is null.");
     // dispatch
     HTTPRequest* request = reinterpret_cast<HTTPRequest*>(userData);
+    request->ElapsedTime = 0.0f;
     return request->ReceiveResponseBodyCallback(buffer, sizeInBlocks, blockSizeInBytes);
 }
 
@@ -578,6 +583,7 @@ int HTTPRequest::StaticProgressCallback(void *userData, curl_off_t totalDownload
 {
     ASSERTED(userData, "HTTPRequest::staticProgressCallback param [userData] is null.");
     HTTPRequest* request = reinterpret_cast<HTTPRequest*>(userData);
+    request->ElapsedTime = 0.0f;
     return request->ProgressCallback(totalDownload, nowDownload, totalUpload, nowUpload);
 }
 
@@ -592,7 +598,6 @@ size_t HTTPRequest::StaticDebugCallback(CURL* handle, curl_infotype debugInfoTyp
 
 size_t HTTPRequest::UploadCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes)
 {
-    ElapsedTime = 0.0f;
     return 0;
 }
 
@@ -600,7 +605,6 @@ size_t HTTPRequest::UploadCallback(void* buffer, size_t sizeInBlocks, size_t blo
 size_t HTTPRequest::ReceiveResponseHeaderCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes)
 {
     ASSERTED(ResponseInstance, "");
-    ElapsedTime = 0.0f;
     if (ResponseInstance)
     {
         size_t headerSize = sizeInBlocks * blockSizeInBytes;
@@ -655,7 +659,6 @@ size_t HTTPRequest::ReceiveResponseHeaderCallback(void* buffer, size_t sizeInBlo
 size_t HTTPRequest::ReceiveResponseBodyCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes)
 {
     ASSERTED(ResponseInstance, "");
-    ElapsedTime = 0.0f;
     if (ResponseInstance)
     {
         size_t sizeToDownload = sizeInBlocks * blockSizeInBytes;
@@ -690,10 +693,13 @@ size_t HTTPRequest::ReceiveResponseBodyCallback(void* buffer, size_t sizeInBlock
 
 int HTTPRequest::ProgressCallback(curl_off_t totalDownload, curl_off_t nowDownload, curl_off_t totalUpload, curl_off_t nowUpload)
 {
-    ElapsedTime = 0.0f;
     if ((MethodType == RequestMethodType::POST || MethodType == RequestMethodType::PUT) && OnRequestProgress)
     {
         OnRequestProgress(shared_from_this(), nowUpload, totalUpload);
+    }
+    if (MethodType == RequestMethodType::GET && OnRequestProgress)
+    {
+        OnRequestProgress(shared_from_this(), nowDownload, totalDownload);
     }
     return CURLE_OK;
 }

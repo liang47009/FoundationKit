@@ -45,12 +45,6 @@ protected:
     FILE*       FileHandle;
 };
 
-
-class HTTPUploader
-{
-
-};
-
 NS_FK_END
 
 #endif // FOUNDATIONKIT_HTTPUPLOADER_HPP

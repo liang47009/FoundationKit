@@ -12,8 +12,8 @@
 #include "FoundationKit/Base/types.hpp"
 #include "FoundationKit/Crypto/md5.hpp"
 
+#include <d3d9.h>
 #pragma   comment(lib,"Psapi.lib")
-
 // for getMacAddressUseGetAdaptersInfo
 #include <Iphlpapi.h>
 #pragma comment(lib, "iphlpapi.lib")
@@ -22,6 +22,39 @@ NS_FK_BEGIN
 
 namespace detail
 {
+    DWORD deax;
+    DWORD debx;
+    DWORD decx;
+    DWORD dedx;
+    void ExeCPUID(DWORD veax)
+    {
+        __asm
+        {
+            mov eax, veax
+                cpuid
+                mov deax, eax
+                mov debx, ebx
+                mov decx, ecx
+                mov dedx, edx
+        }
+
+    }
+
+    std::string GetCPUType()
+    {
+        char CPUType[64] = { 0 };
+        const DWORD id = 0x80000002;
+        for (DWORD t = 0; t < 3; t++)
+        {
+            ExeCPUID(id + t);
+            memcpy(CPUType + 16 * t + 0, &deax, 4);
+            memcpy(CPUType + 16 * t + 4, &debx, 4);
+            memcpy(CPUType + 16 * t + 8, &decx, 4);
+            memcpy(CPUType + 16 * t + 12,&dedx, 4);
+        }
+        return std::string(CPUType);
+    }
+
     std::vector<uint8> GetMacAddressRaw()
     {
         std::vector<uint8> result;
@@ -288,14 +321,49 @@ long long PlatformDevice::GetAvailableMemory()
 
 std::string PlatformDevice::GetGPURenderer()
 {
-    char* szRenderer = (char*)glGetString(GL_RENDERER);
-    return szRenderer ? szRenderer : "";
+    std::string gpuname = "N/A";
+    IDirect3D9* pHandle = Direct3DCreate9(D3D_SDK_VERSION);
+    if (NULL == pHandle)
+    {
+        return gpuname;
+    }
+    gpuname = "";
+    size_t GPUCount = pHandle->GetAdapterCount();
+    for (unsigned int i = 0; i < GPUCount; ++i)
+    {
+        D3DADAPTER_IDENTIFIER9 ident;
+        if (SUCCEEDED(pHandle->GetAdapterIdentifier(i, 0, &ident)))
+        {
+            if (!gpuname.empty())
+            {
+                gpuname += "|";
+            }
+            gpuname += ident.Description;
+        }
+    }
+    pHandle->Release();
+    return gpuname;
+}
+
+static std::string vendor_from_name(const std::string& v)
+{
+    if (v.find("NVidia") != std::string::npos || v.find("NVIDIA") != std::string::npos)
+        return "NVIDIA";
+    else if (v.find("AMD") != std::string::npos || v.find("ATi") != std::string::npos || v.find("Advanced Micro Devices") != std::string::npos)
+        return "AMD";
+    else if (v.find("Intel") != std::string::npos)
+        return "Intel";
+    else if (v.find("Microsoft") != std::string::npos)
+        return "Microsoft";
+    else if (v.find("Qualcomm") != std::string::npos)
+        return "Qualcomm";
+    else
+        return "unknown";
 }
 
 std::string PlatformDevice::GetGPUVendor()
 {
-    char* szVendor = (char*)glGetString(GL_VENDOR);
-    return szVendor ? szVendor : "";
+    return vendor_from_name(GetGPURenderer());
 }
 
 Rect PlatformDevice::GetScreenResolution()

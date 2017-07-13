@@ -221,6 +221,15 @@ HTTPClient::~HTTPClient()
 
 void HTTPClient::Tick(float deltaTime)
 {
+    {
+        std::lock_guard<std::mutex> lock(RequestTempMutex);
+        for (auto request : RequestTempPool)
+        {
+            InternalPostRequest(request);
+        }
+        RequestTempPool.clear();
+    }
+
     std::unique_lock<std::mutex> lock(RequestMutex);
     if (RequestPool.size() > 0)
     {
@@ -277,6 +286,12 @@ void HTTPClient::Tick(float deltaTime)
 
 
 void HTTPClient::PostRequest(HTTPRequest::Pointer request)
+{
+    std::lock_guard<std::mutex> lock(RequestTempMutex);
+    RequestTempPool.push_back(request);
+}
+
+void HTTPClient::InternalPostRequest(HTTPRequest::Pointer request)
 {
     std::lock_guard<std::mutex> lock(RequestMutex);
     request->Build();

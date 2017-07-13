@@ -40,6 +40,7 @@
 #include "HTTPClient/HTTPRequest.hpp"
 #include "HTTPClient/HTTPResponse.hpp"
 #include "HTTPClient/HTTPUploader.hpp"
+#include "HTTPClient/HTTPDownloader.hpp"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/document.h"
@@ -85,7 +86,7 @@ static std::string compressFile(const std::string& source)
     return source;
 }
 
-void OnHttpCallback(HTTPRequest::Pointer request, HTTPResponse::Pointer response , bool ret)
+void OnHttpCallback(HTTPRequest::Pointer request, HTTPResponse::Pointer response)
 {
     HTTPCode errorCode = response->GetResponseCode();
     if (response->IsSucceeded() && errorCode == 200)
@@ -120,68 +121,24 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::error_code ec;
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
-    g_uploadParameters["channelId"] = "10000";
-    g_uploadParameters["lifespan"] = "NONE";
-    g_uploadParameters["sceneid"] = "2";
-    g_uploadParameters["userAccount"] = "LOSEMYMIND";
-    g_uploadParameters["version"] = "NONE";
-    g_uploadParameters["gameId"] = "66";
-    g_uploadParameters["roleName"] = "NONE";
-    g_uploadParameters["guid"] = "NONE";
-    g_uploadParameters["device"] = "NONE";
-    g_uploadParameters["ptime"] = "NONE";
-    g_uploadParameters["osver"] = "NONE";
-    g_uploadParameters["fmemory"] = "NONE";
-    g_uploadParameters["arch"] = "NONE";
-    g_uploadParameters["type"] = "NONE";
-    g_uploadParameters["sdkVersion"] = "NONE";
-    g_uploadParameters["totalMemory"] = "NONE";
-    g_uploadParameters["isRoot"] = "0";
-    g_uploadParameters["crashPackage"] = "NONE";
 
-
-    rapidjson::StringBuffer sb;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(sb);
-    writer.StartObject();
-
-    for (auto& iter : g_uploadParameters)
+    HTTPDownloadRequest::Pointer downloadRequest = HTTPDownloadRequest::Create();
+    downloadRequest->SetURL("https://download.sublimetext.com/Sublime%20Text%20Build%203126%20x64%20Setup.exe");
+    FILE* fp = fopen("E:\\tmp\\SublimeSetup.exe", "wb");
+    downloadRequest->SetFileHandle(fp);
+    downloadRequest->OnRequestCompleted = [](HTTPRequest::Pointer request, HTTPResponse::Pointer response)
     {
-        std::string key = iter.first;
-        if (key == "isRoot")
+        if (response->IsSucceeded())
         {
-            writer.Key(key.c_str()); writer.Int(atoi(iter.second.c_str()));
         }
-        else
-        {
-            writer.Key(key.c_str()); writer.String(iter.second.c_str());
-        }
-    }
-    writer.EndObject();
-    std::string jsonString = sb.GetString();
-
-    int reqsize = sizeof(HTTPRequest);
-
-    HTTPRequest::Pointer pRequest = HTTPRequest::Create(false);
-    pRequest->SetContentField("params", jsonString);
-    pRequest->SetFileField("file", compressFile("E:\\GitHub\\FoundationKit\\Win32\\dump.dmp"));
-    pRequest->SetFileField("traceFile", compressFile("E:\\GitHub\\FoundationKit\\Win32\\tracelog.log"));
-    pRequest->SetURL("https://crashlogs.woniu.com/crashlogs/api/comm/cpp");
-    pRequest->SetMethod(RequestMethodType::POST);
-    pRequest->OnRequestCompleted = OnHttpCallback;
-    //HTTPClient::GetInstance()->PostRequest(pRequest);
-
-    HTTPUploadRequest::Pointer UploadRequest = HTTPUploadRequest::Create(true);
-    UploadRequest->SetURL("http://172.19.10.239:8080/uploadfiles/dump.dmp");
-    UploadRequest->SetMethod(RequestMethodType::PUT);
-    UploadRequest->SetFilePath("E:\\GitHub\\FoundationKit\\Win32\\dump.dmp");
-    UploadRequest->OnRequestCompleted = OnHttpCallback;
-    UploadRequest->OnRequestProgress = [](HTTPUploadRequest::Pointer request, int64 nowUpload, int64 totalUpload)
-    {
-    
+        HTTPDownloadRequest::Pointer requestdownload = std::dynamic_pointer_cast<HTTPDownloadRequest>(request);
+        fclose(requestdownload->GetFileHandle());
     };
-    HTTPClient::GetInstance()->PostRequest(UploadRequest);
-
-
+    downloadRequest->OnRequestProgress = [](HTTPRequest::Pointer request, int64 nowSize, int64 totalSize)
+    {
+        FKLog("=========== %lld/%lld, %0.2f%%", nowSize, totalSize, nowSize*1.0f / totalSize*100);
+    };
+    HTTPClient::GetInstance()->PostRequest(downloadRequest);
     int im_a_breakpoint = 0;
 
   
@@ -208,4 +165,5 @@ void AppDelegate::applicationWillTerminate()
 void AppDelegate::mainLoop()
 {
     HTTPClient::GetInstance()->Tick(1 / 60.0f);
+    HTTPDownloader::GetInstance()->Tick(1 / 60.0f);
 }

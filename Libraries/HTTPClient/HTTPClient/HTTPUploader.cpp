@@ -4,8 +4,8 @@ NS_FK_BEGIN
 
 
 HTTPUploadRequest::HTTPUploadRequest(bool enableDebug /*= false*/)
-: OnRequestProgress(nullptr)
-, FileHandle(nullptr)
+    : HTTPRequest(enableDebug)
+    , FileHandle(nullptr)
 {
 
 }

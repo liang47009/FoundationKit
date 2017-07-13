@@ -64,6 +64,7 @@ public:
 	}
 	HTTPRequestOptions;
 private:
+    void        InternalPostRequest(HTTPRequest::Pointer request);
     static void StaticLockCallback(CURL *handle, curl_lock_data data, curl_lock_access access, void*userData);
     static void StaticUnlockCallback(CURL *handle, curl_lock_data data, void *userData);
     void        LockCallback(CURL *handle, curl_lock_data data, curl_lock_access access);
@@ -73,6 +74,8 @@ private:
 	typedef std::unordered_map<CURL*, HTTPRequest::Pointer> RequestMap;
 	/** multi handle that groups all the requests - not owned by this class */
 	CURLM*                       MultiHandle;
+    RequestVector                RequestTempPool;
+    std::mutex                   RequestTempMutex;
     RequestMap                   RequestPool;
 	std::mutex                   RequestMutex;
     std::mutex                   CURLDataShareMutex;
