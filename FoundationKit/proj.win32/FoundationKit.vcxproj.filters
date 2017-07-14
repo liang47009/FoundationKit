@@ -271,6 +271,12 @@
     <ClInclude Include="..\FoundationKit\Foundation\FunctionHandler.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Path.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\File.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
@@ -375,6 +381,12 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\FileUtilsWindows.cpp">
       <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Path.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\File.cpp">
+      <Filter>Foundation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

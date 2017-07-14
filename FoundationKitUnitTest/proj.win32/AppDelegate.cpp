@@ -122,23 +122,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
 
-    HTTPDownloadRequest::Pointer downloadRequest = HTTPDownloadRequest::Create();
-    downloadRequest->SetURL("https://download.sublimetext.com/Sublime%20Text%20Build%203126%20x64%20Setup.exe");
-    FILE* fp = fopen("E:\\tmp\\SublimeSetup.exe", "wb");
-    downloadRequest->SetFileHandle(fp);
-    downloadRequest->OnRequestCompleted = [](HTTPRequest::Pointer request, HTTPResponse::Pointer response)
-    {
-        if (response->IsSucceeded())
-        {
-        }
-        HTTPDownloadRequest::Pointer requestdownload = std::dynamic_pointer_cast<HTTPDownloadRequest>(request);
-        fclose(requestdownload->GetFileHandle());
-    };
-    downloadRequest->OnRequestProgress = [](HTTPRequest::Pointer request, int64 nowSize, int64 totalSize)
-    {
-        FKLog("=========== %lld/%lld, %0.2f%%", nowSize, totalSize, nowSize*1.0f / totalSize*100);
-    };
-    HTTPClient::GetInstance()->PostRequest(downloadRequest);
+    
     int im_a_breakpoint = 0;
 
   
