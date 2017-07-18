@@ -35,7 +35,7 @@ const char Path::PathSeparator = ';';
 
 const char Path::VolumeSeparatorChar = ':';
 
-std::string Path::WritablePath = "";
+std::string Path::DocumentsPath = "";
 
 std::string Path::ConvertPathFormatToUnixStyle(const std::string& path)
 {
