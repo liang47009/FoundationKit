@@ -45,6 +45,9 @@
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/document.h"
 
+#include "FoundationKit/Foundation/Path.hpp"
+#include "FoundationKit/Base/string_builder.hpp"
+
 using namespace std;
 USING_NS_FK;
 
@@ -121,8 +124,16 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::error_code ec;
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
+    std::vector<std::string> paths = { "E:\\WorkSpace\\GameToolsGroup\\", "MonitorStudio\\", "publish\\MonitorStudioBin", "\\MonitorStudioBridge.cpp" };
+    std::string path = Path::Combine(paths);
 
-    
+    std::string strResult = Path::GetDirectoryName(path);
+    strResult = Path::GetExtension(path);
+    strResult = Path::GetFileName(path);
+    strResult = Path::GetFileNameWithoutExtension(path);
+    strResult = Path::GetTempPath();
+    strResult = Path::GetTempFileName();
+
     int im_a_breakpoint = 0;
 
   

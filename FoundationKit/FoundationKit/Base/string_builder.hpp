@@ -21,7 +21,7 @@ class string_builder
 	typedef typename string_t::size_type size_type; // Reuse the size type in the string.
 	container_t m_Data;
 	size_type   m_totalSize;
-	void append(const string_t &src) 
+	void _append(const string_t &src) 
     {
 		m_Data.push_back(src);
 		m_totalSize += src.size();
@@ -41,28 +41,34 @@ public:
     {
 		m_totalSize = 0;
 	}
-	// TODO: Constructor that takes an array of strings.
 
-
-    string_builder & Append(const string_t &src)
+    void clear()
     {
-		append(src);
+        m_Data.clear();
+        m_totalSize = 0;
+    }
+
+    string_builder & append(const string_t &src)
+    {
+        _append(src);
 		return *this; // allow chaining.
 	}
-        // This one lets you add any STL container to the string builder. 
-	template<class inputIterator>
-    string_builder & Add(const inputIterator &first, const inputIterator &afterLast)
+
+    // This one lets you add any STL container to the string builder. 
+    template<class _Iter>
+    string_builder & append(const _Iter &first, const _Iter &afterLast)
     {
-		// std::for_each and a lambda look like overkill here.
-        // <b>Not</b> using std::copy, since we want to update m_totalSize too.
-		for (inputIterator f = first; f != afterLast; ++f) 
+        for (_Iter f = first; f != afterLast; ++f)
         {
-			append(*f);
+            _append(*f);
 		}
 		return *this; // allow chaining.
 	}
 
-    string_builder & AppendLine(const string_t &src)
+   /** 
+    * Append a string and '\n' to string_builder.
+    */
+    string_builder & append_line(const string_t &src)
     {
         static _Elem lineFeed[] { 10, 0 }; // C++ 11. Feel the love!
 		m_Data.push_back(src + lineFeed);
@@ -70,7 +76,10 @@ public:
 		return *this; // allow chaining.
 	}
 
-    string_builder & AppendLine()
+   /**
+    * Append a '\n' to string_builder.
+    */
+    string_builder & append_line()
     {
         static _Elem lineFeed[] { 10, 0 };
 		m_Data.push_back(lineFeed);
@@ -78,19 +87,10 @@ public:
 		return *this; // allow chaining.
 	}
 
-	// TODO: AppendFormat implementation. Not relevant for the article. 
-
-    // Like C# StringBuilder.ToString()
-    // Note the use of reserve() to avoid reallocations. 
-	string_t ToString() const 
+	string_t to_string() const 
     {
 		string_t result;
-		// The whole point of the exercise!
-		// If the container has a lot of strings, reallocation (each time the result grows) will take a serious toll,
-		// both in performance and chances of failure.
-		// I measured (in code I cannot publish) fractions of a second using 'reserve', and almost two minutes using +=.
 		result.reserve(m_totalSize + 1);
-	    // result = std::accumulate(m_Data.begin(), m_Data.end(), result); // This would lose the advantage of 'reserve'
 		for (auto iter = m_Data.begin(); iter != m_Data.end(); ++iter) 
         { 
 			result += *iter;
@@ -98,12 +98,12 @@ public:
 		return result;
 	}
 
-	// like javascript Array.join()
-	string_t Join(const string_t &delim) const
+
+	string_t join(const string_t &delim) const
     {
 		if (delim.empty())
         {
-			return ToString();
+            return to_string();
 		}
 		string_t result;
 		if (m_Data.empty())
@@ -141,3 +141,5 @@ public:
 NS_FK_END
 
 #endif // FOUNDATIONKIT_STRING_BUILDER_HPP
+
+
