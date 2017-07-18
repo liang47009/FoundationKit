@@ -75,7 +75,6 @@ static int unlink_cb(const char *fpath, const struct stat *sb, int typeflag, str
     {
         FKLog("Fail to remove: %s ", fpath);
     }
-    
     return ret;
 }
 
@@ -95,7 +94,13 @@ bool Directory::RemoveDirectory(const std::string& path)
 
 bool Directory::Move(const std::string& sourceDirName, const std::string& destDirName)
 {
-    return rename(sourceDirName.c_str(), destDirName.c_str()) != -1;
+    if (IsExist(destDirName))
+        return false;
+
+    if (!IsExist(sourceDirName))
+        return false;
+
+    return (rename(sourceDirName.c_str(), destDirName.c_str()) == 0);
 }
 
 bool Directory::IsExist(const std::string& path)

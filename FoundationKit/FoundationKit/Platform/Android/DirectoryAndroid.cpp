@@ -79,12 +79,13 @@ bool Directory::RemoveDirectory(const std::string& path)
         FKLog("Fail to remove directory, path must termniate with '/': %s", path.c_str());
         return false;
     }
-    std::string command = "rm -r ";
-    // Path may include space.
-    command += "\"" + path + "\"";
-    if (system(command.c_str()) >= 0)
-        return true;
-    return false;
+
+    return (remove(path.c_str()) == 0);
+    //std::string command = "rm -r ";
+    //command += "\"" + path + "\"";
+    //if (system(command.c_str()) >= 0)
+    //    return true;
+    //return false;
 }
 
 bool Directory::Move(const std::string& sourceDirName, const std::string& destDirName)
@@ -95,14 +96,7 @@ bool Directory::Move(const std::string& sourceDirName, const std::string& destDi
     if (!IsExist(sourceDirName))
         return false;
 
-    std::string command = "mv -f ";
-    // Path may include space.
-    command += "\"" + sourceDirName + "\" ";
-    command += "\"" + destDirName + "\"";
-    if (system(command.c_str()) >= 0)
-        return true;
-    return false;
-    return true;
+    return (rename(sourceDirName.c_str(), destDirName.c_str()) == 0);
 }
 
 bool Directory::IsExist(const std::string& path)
