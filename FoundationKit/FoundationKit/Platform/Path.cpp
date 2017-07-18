@@ -69,7 +69,7 @@ std::string Path::ChangeExtension(const std::string& path, const std::string& ex
     std::string resultPath = path;
     if (!resultPath.empty())
     {
-        for (int i = path.size(); --i >= 0;)
+        for (int i = static_cast<int>(path.size()); --i >= 0;)
         {
             char ch = path[i];
             if (ch == '.') 
@@ -165,7 +165,7 @@ std::string Path::GetFileName(const std::string& path)
 {
     if (!path.empty())
     {
-        int length = path.size();
+        int length = static_cast<int>(path.size());
         for (int i = length; --i >= 0;) 
         {
             char ch = path[i];
@@ -210,7 +210,7 @@ std::string Path::GetTempFileName()
 bool Path::HasExtension(const std::string& path)
 {
     if (!path.empty()) {
-        for (size_t i = path.size(); --i >= 0;) 
+        for (int i = static_cast<int>(path.size()); --i >= 0;)
         {
             char ch = path[i];
             if (ch == '.') 
@@ -230,7 +230,7 @@ bool Path::IsPathRooted(std::string path)
 {
     if (!path.empty())
     {
-        int length = path.size();
+        size_t length = path.size();
         if ((length >= 1 && (path[0] == DirectorySeparatorChar || path[0] == AltDirectorySeparatorChar)) || (length >= 2 && path[1] == VolumeSeparatorChar))
             return true;
     }
