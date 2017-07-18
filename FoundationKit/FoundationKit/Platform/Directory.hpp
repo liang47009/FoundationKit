@@ -23,6 +23,7 @@ public:
     };
 
    /**
+    *  Implement on platform.
     *  Creates a directory.
     *
     *  @param dirPath The path of the directory, it must be an absolute path.
@@ -31,6 +32,7 @@ public:
     static bool CreateDirectory(const std::string& path);
 
    /**
+    *  Implement on platform.
     *  Removes a directory.
     *
     *  @param dirPath  The full path of the directory, it must be an absolute path.
@@ -38,9 +40,14 @@ public:
     */
     static bool RemoveDirectory(const std::string& path);
 
-    static void Move(const std::string& sourceDirName, const std::string& destDirName);
+   /**
+    *  Implement on platform.
+    *  @return True if the directory moved, false if not.
+    */
+    static bool Move(const std::string& sourceDirName, const std::string& destDirName);
 
    /**
+    *  Implement on platform.
     *  Checks whether the path is a directory.
     *
     *  @param dirPath The path of the directory, it could be a relative or an absolute path.
@@ -49,20 +56,12 @@ public:
     static bool IsExist(const std::string& path);
 
    /**
-    *  Checks whether the 'path' is a directory.
-    *
-    *  @param path The path of the directory, it could be a relative or an absolute path.
-    *  @return True if the 'path' is a directory, false if not.
-    */
-    static bool IsDirectory(const std::string& path);
-
-   /**
     *  get all files from a directory
     *
     *  @param dirPath The path of the directory.
     */
     static void GetFiles(const std::string& path, std::vector<std::string>& files, SearchOption searchOption = SearchOption::TopDirectoryOnly);
-    static void GetFiles(const std::string& path, bool includeChild, const EnumFileCallback& callback);
+    static void GetFiles(const std::string& path, const EnumFileCallback& callback, SearchOption searchOption = SearchOption::TopDirectoryOnly);
 
    /**
     *  get all dirs from a directory
@@ -70,6 +69,7 @@ public:
     *  @param dirPath The path of the directory.
     */
     static void GetDirectories(const std::string& path, std::vector<std::string>& dirs, SearchOption searchOption = SearchOption::TopDirectoryOnly);
+
 };
 NS_FK_END
 #endif // FOUNDATIONKIT_DIRECTORY_HPP

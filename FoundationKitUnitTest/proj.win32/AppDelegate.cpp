@@ -45,7 +45,7 @@
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/document.h"
 
-#include "FoundationKit/Foundation/Path.hpp"
+#include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Base/string_builder.hpp"
 
 using namespace std;
@@ -71,23 +71,6 @@ void AppDelegate::applicationDidLaunching()
 }
 
 std::unordered_map<std::string, std::string> g_uploadParameters;
-
-static std::string compressFile(const std::string& source)
-{
-    size_t findPos = source.find_last_of(".");
-    if (findPos == std::string::npos)
-    {
-        return source;
-    }
-
-    std::string destFile = source.substr(0, findPos + 1);
-    destFile += "gz";
-    if (Compression::CompressFile(source, destFile))
-    {
-        return destFile;
-    }
-    return source;
-}
 
 void OnHttpCallback(HTTPRequest::Pointer request, HTTPResponse::Pointer response)
 {
@@ -127,12 +110,18 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::vector<std::string> paths = { "E:\\WorkSpace\\GameToolsGroup\\", "MonitorStudio\\", "publish\\MonitorStudioBin", "\\MonitorStudioBridge.cpp" };
     std::string path = Path::Combine(paths);
 
+    std::string command = "mv -f ";
+    // Path may include space.
+    command += "\"" + path + "\" ";
+    command += "\"" + path + "\"";
+
     std::string strResult = Path::GetDirectoryName(path);
     strResult = Path::GetExtension(path);
     strResult = Path::GetFileName(path);
     strResult = Path::GetFileNameWithoutExtension(path);
     strResult = Path::GetTempPath();
     strResult = Path::GetTempFileName();
+    strResult = Path::GetDocumentsPath();
 
     int im_a_breakpoint = 0;
 

@@ -1,11 +1,8 @@
 #include <algorithm>
 #include <chrono> // for GetTempFileName create tmp file name.
-#include "FoundationKit/Foundation/Path.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
-#include <Windows.h>
-#include <Shlobj.h>
-#endif
+#include "FoundationKit/Platform/Path.hpp"
+
 
 NS_FK_BEGIN
 const char Path::AltDirectorySeparatorChar = '/';
@@ -36,6 +33,7 @@ const char Path::PathSeparator = ';';
 const char Path::VolumeSeparatorChar = ':';
 
 std::string Path::DocumentsPath = "";
+std::string Path::TemporaryPath = "";
 
 std::string Path::ConvertPathFormatToUnixStyle(const std::string& path)
 {
@@ -204,24 +202,10 @@ std::string Path::GetTempFileName()
 {
     std::string result = GetTempPath();
     auto timepoint = std::chrono::high_resolution_clock::now();
-    result += std::to_string(timepoint.time_since_epoch().count());
+    result += StringUtils::Tostring(timepoint.time_since_epoch().count());
     result += ".tmp";
     return result;
 }
-
-std::string Path::GetTempPath()
-{
-    std::string result;
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
-    WCHAR app_data_path[MAX_PATH + 1];
-    ::GetTempPathW(MAX_PATH + 1, app_data_path);
-    result = StringUtils::wstring2UTF8string(app_data_path);
-#else
-#error This function is not impl
-#endif
-    return result;
-}
-
 
 bool Path::HasExtension(const std::string& path)
 {
@@ -253,86 +237,7 @@ bool Path::IsPathRooted(std::string path)
     return false;
 }
 
-bool Path::IsAbsolutePath(const std::string& path)
-{
-#if (TARGET_PLATFORM==PLATFORM_WINDOWS)
-    if ((path.length() > 2 &&
-        ((path[0] >= 'a' && path[0] <= 'z') || (path[0] >= 'A' && path[0] <= 'Z')) &&
-        path[1] == ':') || (path[0] == '/' && path[1] == '/'))
-    {
-        return true;
-    }
-    return false;
-#else
-    return (path[0] == '/');
-#endif
-}
 
-std::string Path::GetDocumentsPath()
-{
-    if (DocumentsPath.size() > 0)
-    {
-        return DocumentsPath;
-    }
-
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
-    // Get full path of executable, e.g. c:\Program Files (x86)\My Game Folder\MyGame.exe
-    WCHAR full_path[MAX_PATH + 1] = { 0 };
-    ::GetModuleFileNameW(nullptr, full_path, MAX_PATH + 1);
-    // Debug app uses executable directory; Non-debug app uses local app data directory
-    //#ifndef _DEBUG
-    // Get filename of executable only, e.g. MyGame.exe
-    WCHAR *base_name = wcsrchr(full_path, '\\');
-    std::wstring retPath;
-    if (base_name)
-    {
-        WCHAR app_data_path[MAX_PATH + 1];
-        // Get local app data directory, e.g. C:\Documents and Settings\username\Local Settings\Application Data
-        if (SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_LOCAL_APPDATA, nullptr, SHGFP_TYPE_CURRENT, app_data_path)))
-        {
-            std::wstring ret(app_data_path);
-            // Adding executable filename, e.g. C:\Documents and Settings\username\Local Settings\Application Data\MyGame.exe
-            ret += base_name;
-            // Remove ".exe" extension, e.g. C:\Documents and Settings\username\Local Settings\Application Data\MyGame
-            ret = ret.substr(0, ret.rfind(L"."));
-            ret += L"\\";
-            // Create directory
-            if (SUCCEEDED(SHCreateDirectoryEx(nullptr, ret.c_str(), nullptr)))
-            {
-                retPath = ret;
-            }
-        }
-    }
-    if (retPath.empty())
-    {
-        // If fetching of local app data directory fails, use the executable one
-        retPath = full_path;
-        // remove xxx.exe
-        retPath = retPath.substr(0, retPath.rfind(L"\\") + 1);
-    }
-    DocumentsPath = StringUtils::wstring2UTF8string(retPath);
-    
-#elif (TARGET_PLATFORM == PLATFORM_IOS) ||(TARGET_PLATFORM == PLATFORM_MAC)
-    // save to document folder
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex : 0];
-    // or
-    //NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    DocumentsPath = [documentsDirectory UTF8String];
-    DocumentsPath.append("/");
-#elif TARGET_PLATFORM == PLATFORM_ANDROID
-    struct stat st;
-    stat(DocumentsPath.c_str(), &st);
-    if (!S_ISDIR(st.st_mode)) {
-        mkdir(DocumentsPath.c_str(), 0744);
-    }
-#endif
-    return DocumentsPath;
-}
-void Path::SetDocumentsPath(const std::string& path)
-{
-    DocumentsPath = path;
-}
 
 
 NS_FK_END

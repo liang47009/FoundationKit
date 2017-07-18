@@ -268,14 +268,17 @@
     <ClInclude Include="..\FoundationKit\Foundation\FunctionHandler.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Path.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\File.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\string_builder.hpp">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Directory.hpp">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\File.hpp">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Path.hpp">
+      <Filter>Platform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -382,11 +385,20 @@
     <ClCompile Include="..\FoundationKit\Platform\windows\FileUtilsWindows.cpp">
       <Filter>Platform\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Path.cpp">
-      <Filter>Foundation</Filter>
+    <ClCompile Include="..\FoundationKit\Platform\Directory.cpp">
+      <Filter>Platform</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\File.cpp">
-      <Filter>Foundation</Filter>
+    <ClCompile Include="..\FoundationKit\Platform\File.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Path.cpp">
+      <Filter>Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\PathWindows.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\DirectoryWindows.cpp">
+      <Filter>Platform\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

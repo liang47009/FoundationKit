@@ -1,4 +1,11 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
+****************************************************************************/
+#ifndef FOUNDATIONKIT_PATH_HPP
+#define FOUNDATIONKIT_PATH_HPP
 
 #include <string>
 #include <vector>
@@ -193,6 +200,7 @@ public:
     static std::string GetTempFileName();
 
    /** 
+    * Implement on platform.
     * Returns the path of the current user's temporary folder.
     * @return The path to the temporary folder, ending with a backslash.
     */
@@ -216,25 +224,22 @@ public:
     */
     static bool IsPathRooted(std::string path);
 
-   /**
-    *  Checks whether the path is an absolute path.
-    *
-    *  @param path:
-    *          The path that needs to be checked.
-    *  @return true if it's an absolute path, false if not.
-    */
-    static bool IsAbsolutePath(const std::string& path);
-
+    // Implement on platform.
     static std::string GetDocumentsPath();
 
+#if TARGET_PLATFORM == PLATFORM_ANDROID
     // On android platform, first must be call this function
     // to set writable path.
     // like:/sdcard/Android/data/com.xxx.xxx/files
     static void SetDocumentsPath(const std::string& path);
-
+    static void SetTempPath(const std::string& path);
+#endif
 protected:
     static std::string DocumentsPath;
+    static std::string TemporaryPath;
 
 };
 NS_FK_END
 
+
+#endif // FOUNDATIONKIT_PATH_HPP
