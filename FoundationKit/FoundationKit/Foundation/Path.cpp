@@ -268,11 +268,11 @@ bool Path::IsAbsolutePath(const std::string& path)
 #endif
 }
 
-std::string Path::GetWritablePath()
+std::string Path::GetDocumentsPath()
 {
-    if (WritablePath.size() > 0)
+    if (DocumentsPath.size() > 0)
     {
-        return WritablePath;
+        return DocumentsPath;
     }
 
 #if TARGET_PLATFORM == PLATFORM_WINDOWS
@@ -310,7 +310,7 @@ std::string Path::GetWritablePath()
         // remove xxx.exe
         retPath = retPath.substr(0, retPath.rfind(L"\\") + 1);
     }
-    WritablePath = StringUtils::wstring2UTF8string(retPath);
+    DocumentsPath = StringUtils::wstring2UTF8string(retPath);
     
 #elif (TARGET_PLATFORM == PLATFORM_IOS) ||(TARGET_PLATFORM == PLATFORM_MAC)
     // save to document folder
@@ -318,20 +318,20 @@ std::string Path::GetWritablePath()
     NSString *documentsDirectory = [paths objectAtIndex : 0];
     // or
     //NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    WritablePath = [documentsDirectory UTF8String];
-    WritablePath.append("/");
+    DocumentsPath = [documentsDirectory UTF8String];
+    DocumentsPath.append("/");
 #elif TARGET_PLATFORM == PLATFORM_ANDROID
     struct stat st;
-    stat(WritablePath.c_str(), &st);
+    stat(DocumentsPath.c_str(), &st);
     if (!S_ISDIR(st.st_mode)) {
-        mkdir(WritablePath.c_str(), 0744);
+        mkdir(DocumentsPath.c_str(), 0744);
     }
 #endif
-    return WritablePath;
+    return DocumentsPath;
 }
-void Path::SetWritablePath(const std::string& writablePath)
+void Path::SetDocumentsPath(const std::string& path)
 {
-    WritablePath = writablePath;
+    DocumentsPath = path;
 }
 
 

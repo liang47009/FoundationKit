@@ -225,15 +225,15 @@ public:
     */
     static bool IsAbsolutePath(const std::string& path);
 
-    static std::string GetWritablePath();
+    static std::string GetDocumentsPath();
 
     // On android platform, first must be call this function
     // to set writable path.
     // like:/sdcard/Android/data/com.xxx.xxx/files
-    static void SetWritablePath(const std::string& writablePath);
+    static void SetDocumentsPath(const std::string& path);
 
 protected:
-    static std::string WritablePath;
+    static std::string DocumentsPath;
 
 };
 NS_FK_END
