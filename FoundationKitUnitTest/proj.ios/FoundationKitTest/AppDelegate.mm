@@ -12,13 +12,11 @@
 #include "FoundationKit/Foundation/Rect.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 #include "FoundationKit/Platform/Platform.hpp"
-#include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/std/function_traits.hpp"
 #include "FoundationKit/Base/type_cast.hpp"
 #include "FoundationKit/Base/types.hpp"
 #import <Foundation/Foundation.h>
-
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/Directory.hpp"
 
@@ -40,7 +38,6 @@ using namespace FoundationKit;
     auto envs = Environment::GetEnvironmentVariables();
     auto path = Environment::GetEnvironmentVariable("PATH");
     auto envs1 = [[NSProcessInfo processInfo]environment];
-    auto AppPath = FileUtils::GetInstance()->GetResourceRootPath();
     
     return YES;
 }
@@ -68,6 +65,8 @@ using namespace FoundationKit;
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    std::string path;
+    Platform::ScreenShot(path);
 }
 
 @end

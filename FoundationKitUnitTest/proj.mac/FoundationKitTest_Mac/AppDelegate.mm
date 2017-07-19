@@ -26,7 +26,6 @@
 #include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-#include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #import <IOKit/IOKitLib.h>
@@ -48,8 +47,6 @@ USING_NS_FK;
     auto lines = Environment::GetCommandLineArgs();
     auto envs = Environment::GetEnvironmentVariables();
     auto path = Environment::GetEnvironmentVariable("PATH");
-    NSDictionary<NSString *, NSString *>* envs1 = [[NSProcessInfo processInfo]environment];
-    auto AppPath = FileUtils::GetInstance()->GetResourceRootPath();
     auto temp = Path::GetDocumentsPath();
 
 }
