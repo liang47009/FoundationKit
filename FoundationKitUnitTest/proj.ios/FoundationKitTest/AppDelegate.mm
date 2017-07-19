@@ -40,21 +40,7 @@ using namespace FoundationKit;
     auto envs = Environment::GetEnvironmentVariables();
     auto path = Environment::GetEnvironmentVariable("PATH");
     auto envs1 = [[NSProcessInfo processInfo]environment];
-    
-    
-    std::string strResult = Path::GetDirectoryName(path);
-    strResult = Path::GetExtension(path);
-    strResult = Path::GetFileName(path);
-    strResult = Path::GetFileNameWithoutExtension(path);
-    strResult = Path::GetTempPath();
-    strResult = Path::GetTempFileName();
-    strResult = Path::GetDocumentsPath();
-    
-    std::string documentspath = Path::GetDocumentsPath();
-
-    std::string path2 = documentspath + "path2/path2";
-
-    bool ret2 = Directory::Move(path2, Path::GetTempPath()+"/path1");
+    auto AppPath = FileUtils::GetInstance()->GetResourceRootPath();
     
     return YES;
 }

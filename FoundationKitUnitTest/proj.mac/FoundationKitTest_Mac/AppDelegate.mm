@@ -28,9 +28,11 @@
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
+#include "FoundationKit/Platform/Path.hpp"
 #import <IOKit/IOKitLib.h>
 #import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
+#include <stdlib.h>
 
 USING_NS_FK;
 
@@ -47,7 +49,9 @@ USING_NS_FK;
     auto envs = Environment::GetEnvironmentVariables();
     auto path = Environment::GetEnvironmentVariable("PATH");
     NSDictionary<NSString *, NSString *>* envs1 = [[NSProcessInfo processInfo]environment];
-    
+    auto AppPath = FileUtils::GetInstance()->GetResourceRootPath();
+    auto temp = Path::GetDocumentsPath();
+
 }
 
 
@@ -57,3 +61,11 @@ USING_NS_FK;
 
 
 @end
+
+
+
+
+
+
+
+
