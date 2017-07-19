@@ -36,7 +36,7 @@ mutable_buffer ReadDataFromFile(const std::string& path, bool isText = false)
 
         fclose(FileHandle);
     } while (false);
-    return std::move(FileAllBytes);
+    return FileAllBytes;
 }
 
 bool WriteLinesToFile(const std::string& path, const File::FileLineType& contents, bool bAppend = false)
