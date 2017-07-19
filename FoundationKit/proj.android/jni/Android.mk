@@ -39,12 +39,14 @@ $(SRCROOT)/FoundationKit/Platform/Android/AndroidJavaBridge.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/DirectoryAndroid.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/EnvironmentAndroid.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/FileAndroid.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/FileUtilsAndroid.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/PathAndroid.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/PlatformAndroid.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/PlatformDevice.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/ProtectedMemoryAllocator.cpp \
 $(SRCROOT)/FoundationKit/Platform/Directory.cpp \
+$(SRCROOT)/FoundationKit/Platform/File.cpp \
 $(SRCROOT)/FoundationKit/Platform/FileUtils.cpp \
 $(SRCROOT)/FoundationKit/Platform/Path.cpp \
 $(SRCROOT)/FoundationKit/Platform/Platform.cpp \

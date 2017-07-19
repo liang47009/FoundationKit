@@ -46,7 +46,9 @@
 #include "rapidjson/document.h"
 
 #include "FoundationKit/Platform/Path.hpp"
+#include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Base/string_builder.hpp"
+#include "FoundationKit/Base/scope_locale.hpp"
 
 using namespace std;
 USING_NS_FK;
@@ -102,26 +104,34 @@ void OnHttpCallback(HTTPRequest::Pointer request, HTTPResponse::Pointer response
     }
 }
 
+
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
-    std::vector<std::string> paths = { "E:\\WorkSpace\\GameToolsGroup\\", "MonitorStudio\\", "publish\\MonitorStudioBin", "\\MonitorStudioBridge.cpp" };
-    std::string path = Path::Combine(paths);
 
-    std::string command = "mv -f ";
-    // Path may include space.
-    command += "\"" + path + "\" ";
-    command += "\"" + path + "\"";
 
-    std::string strResult = Path::GetDirectoryName(path);
-    strResult = Path::GetExtension(path);
-    strResult = Path::GetFileName(path);
-    strResult = Path::GetFileNameWithoutExtension(path);
-    strResult = Path::GetTempPath();
-    strResult = Path::GetTempFileName();
-    strResult = Path::GetDocumentsPath();
+
+    std::string strFilePath1 = "E:/WorkSpace/GameToolsGroup/DeviceMonitor/publish/android/README1.md";
+    File::Delete(strFilePath1);
+
+    std::string strFilePath = "E:\\WorkSpace\\GameToolsGroup\\DeviceMonitor\\publish\\android\\readme.txt";
+    mutable_buffer filedata = File::ReadAllBytes(strFilePath);
+    std::string str = File::ReadAllText(strFilePath);
+
+    std::wstring wstr = StringUtils::string2UTF8wstring(str);
+
+    FILE* FileHandle = FileHandle = fopen(strFilePath.c_str(), "rt");
+    fseek(FileHandle, 0, SEEK_END);
+    size_t FileSize = ftell(FileHandle);
+    fseek(FileHandle, 0, SEEK_SET);
+    char* fd = new char[FileSize + 1];
+    memset(fd, 0, FileSize + 1);
+    fread(fd, 1, FileSize, FileHandle);
+    fclose(FileHandle);
+
 
     int im_a_breakpoint = 0;
 

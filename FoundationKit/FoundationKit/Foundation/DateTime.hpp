@@ -69,7 +69,6 @@ enum class EMonthOfYear
  * The companion struct Timespan is provided for enabling date and time based arithmetic, such as
  * calculating the difference between two dates or adding a certain amount of time to a given date.
  *
- * Ranges of dates and times can be represented by the FDateRange class.
  *
  * @see Timespan
  */

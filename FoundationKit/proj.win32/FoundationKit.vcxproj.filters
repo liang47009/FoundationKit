@@ -400,6 +400,9 @@
     <ClCompile Include="..\FoundationKit\Platform\windows\DirectoryWindows.cpp">
       <Filter>Platform\windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\FileWindows.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\Foundation\MathUtil.inl">

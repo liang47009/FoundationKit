@@ -64,7 +64,6 @@ HTTPRequest::HTTPRequest(bool enableDebug/* = false*/)
     {
         curl_easy_setopt(EasyHandle, CURLOPT_SSL_VERIFYPEER, 1L);
         curl_easy_setopt(EasyHandle, CURLOPT_SSL_VERIFYHOST, 1L);
-
     }
     else
     {

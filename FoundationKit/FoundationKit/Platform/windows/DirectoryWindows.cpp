@@ -5,7 +5,7 @@
 NS_FK_BEGIN
 bool Directory::CreateDirectory(const std::string& path)
 {
-    if (IsExist(path))
+    if (IsExists(path))
         return true;
     std::wstring wpath = StringUtils::string2UTF8wstring(path);
     // Split the path
@@ -41,7 +41,7 @@ bool Directory::CreateDirectory(const std::string& path)
             subpath += dirs[i];
 
             std::string utf8Path = StringUtils::wstring2UTF8string(subpath);
-            if (!IsExist(utf8Path))
+            if (!IsExists(utf8Path))
             {
                 BOOL ret = ::CreateDirectory(subpath.c_str(), NULL);
                 if (!ret && ERROR_ALREADY_EXISTS != GetLastError())
@@ -95,10 +95,10 @@ bool Directory::RemoveDirectory(const std::string& path)
 
 bool Directory::Move(const std::string& sourceDirName, const std::string& destDirName)
 {
-    if (IsExist(destDirName))
+    if (IsExists(destDirName))
         return false;
 
-    if (!IsExist(sourceDirName))
+    if (!IsExists(sourceDirName))
         return false;
 
     if (::MoveFileA(sourceDirName.c_str(), destDirName.c_str()) == FALSE)
@@ -109,7 +109,7 @@ bool Directory::Move(const std::string& sourceDirName, const std::string& destDi
     return true;
 }
 
-bool Directory::IsExist(const std::string& path)
+bool Directory::IsExists(const std::string& path)
 {
     std::wstring utf16Str = StringUtils::string2UTF8wstring(path);
     unsigned long fAttrib = GetFileAttributesW(reinterpret_cast<LPCWSTR>(utf16Str.c_str()));
