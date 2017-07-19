@@ -27,7 +27,6 @@
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 #include "FoundationKit/Foundation/Timer.hpp"
 #include "FoundationKit/Foundation/Compression.hpp"
-#include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Foundation/TimerQueue.hpp"
 #include "FoundationKit/Foundation/DelegateManager.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
@@ -72,50 +71,14 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-std::unordered_map<std::string, std::string> g_uploadParameters;
-
-void OnHttpCallback(HTTPRequest::Pointer request, HTTPResponse::Pointer response)
-{
-    HTTPCode errorCode = response->GetResponseCode();
-    if (response->IsSucceeded() && errorCode == 200)
-    {
-        auto headers = response->GetAllHeaders();
-        std::string strHeader;
-        for (auto str : headers)
-        {
-            strHeader += str;
-            strHeader += "\n";
-        }
-        FKLog("=== Request succeed CODE:%s, HEADER:\n %s", errorCode.ToString().c_str(), strHeader.c_str());
-    }
-    else
-    {
-        std::string strError = response->GetErrorMsg();
-        auto headers = response->GetAllHeaders();
-        std::string strHeader;
-        for (auto str : headers)
-        {
-            strHeader += str;
-            strHeader += "\n";
-        }
-        FKLog("=== Request failed CODE:%s, HEADER:\n %s", errorCode.ToString().c_str(), strHeader.c_str());
-        FKLog("=== Request failed errorBuf:%s", strError.c_str());
-        FKLog("=== Request failed responsemsg:%s", response->GetResponseMsg().c_str());
-    }
-}
-
-
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
 
+    auto respath = Path::GetApplicationPath();
 
-
-    std::string strFilePath1 = "E:/WorkSpace/GameToolsGroup/DeviceMonitor/publish/android/README1.md";
-    File::Delete(strFilePath1);
 
     std::string strFilePath = "E:\\WorkSpace\\GameToolsGroup\\DeviceMonitor\\publish\\android\\readme.txt";
     mutable_buffer filedata = File::ReadAllBytes(strFilePath);

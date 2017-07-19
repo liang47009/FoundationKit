@@ -30,6 +30,11 @@ std::string Path::GetDocumentsPath()
     return DocumentsPath;
 }
 
+std::string Path::GetApplicationPath()
+{
+    NSString * bundlPath = [[NSBundle mainBundle] bundlePath];
+    return [bundlPath UTF8String];
+}
 
 NS_FK_END
 

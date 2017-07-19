@@ -23,7 +23,10 @@ void Path::SetTempPath(const std::string& path)
 {
     TemporaryPath = path;
 }
-
+std::string Path::GetApplicationPath()
+{
+    return "assets/";
+}
 NS_FK_END
 
 #endif // #if (TARGET_PLATFORM == PLATFORM_ANDROID || TARGET_PLATFORM == PLATFORM_LINUX)

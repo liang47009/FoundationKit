@@ -63,7 +63,6 @@ std::string Path::ConvertPathFormatToPlatformStyle(const std::string& path)
     return ret;
 }
 
-
 std::string Path::ChangeExtension(const std::string& path, const std::string& extension)
 {
     std::string resultPath = path;
@@ -140,7 +139,6 @@ std::string Path::Combine(const std::string& path1, const std::string& path2, co
     result = Combine(result, path4);
     return result;
 }
-
 
 std::string Path::GetDirectoryName(const std::string& path)
 {

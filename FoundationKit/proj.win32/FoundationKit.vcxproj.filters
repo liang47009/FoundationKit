@@ -204,9 +204,6 @@
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp">
       <Filter>Platform\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\FileUtils.hpp">
-      <Filter>Platform</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\OpenGL.hpp">
       <Filter>Platform</Filter>
     </ClInclude>
@@ -286,9 +283,6 @@
       <Filter>Crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Platform.cpp">
-      <Filter>Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\FileUtils.cpp">
       <Filter>Platform</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\PlatformWindows.cpp">
@@ -381,9 +375,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Crypto\des.cpp">
       <Filter>Crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\windows\FileUtilsWindows.cpp">
-      <Filter>Platform\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Directory.cpp">
       <Filter>Platform</Filter>

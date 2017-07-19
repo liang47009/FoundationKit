@@ -6,6 +6,7 @@
 #if (TARGET_PLATFORM==PLATFORM_WINDOWS)
 #include <Windows.h>
 #endif
+#include "unzip.h"
 
 NS_FK_BEGIN
 #if TARGET_PLATFORM == PLATFORM_WINDOWS
@@ -163,6 +164,51 @@ bool File::AppendAllText(const std::string& path, const std::string& contents)
 mutable_buffer FoundationKit::File::ReadAllBytes(const std::string& path)
 {
     return ReadDataFromFile(path);
+}
+
+#if (TARGET_PLATFORM==PLATFORM_IOS)
+#define MINIZIP_FROM_SYSTEM
+#endif
+mutable_buffer File::ReadAllBytesFromZip(const std::string& path, const std::string& fileName)
+{
+    mutable_buffer retData;
+    unzFile file = nullptr;
+    do
+    {
+        BREAK_IF(path.empty());
+
+        file = unzOpen(path.c_str());
+        BREAK_IF(!file);
+
+        // FIXME: Other platforms should use upstream minizip like mingw-w64
+#ifdef MINIZIP_FROM_SYSTEM
+        int ret = unzLocateFile(file, fileName.c_str(), NULL);
+#else
+        int ret = unzLocateFile(file, fileName.c_str(), 1);
+#endif
+        BREAK_IF(UNZ_OK != ret);
+
+        char filePathA[260];
+        unz_file_info fileInfo;
+        ret = unzGetCurrentFileInfo(file, &fileInfo, filePathA, sizeof(filePathA), nullptr, 0, nullptr, 0);
+        BREAK_IF(UNZ_OK != ret);
+
+        ret = unzOpenCurrentFile(file);
+        BREAK_IF(UNZ_OK != ret);
+        unsigned char * buffer = new unsigned char[fileInfo.uncompressed_size];
+        int readedSize = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
+        ASSERTED(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
+        UNUSED_ARG(readedSize);
+        unzCloseCurrentFile(file);
+        retData.assign(buffer, fileInfo.uncompressed_size, true);
+
+    } while (0);
+
+    if (file)
+    {
+        unzClose(file);
+    }
+    return retData;
 }
 
 std::string File::ReadAllText(const std::string& path)

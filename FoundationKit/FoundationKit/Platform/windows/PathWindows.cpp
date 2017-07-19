@@ -1,4 +1,6 @@
 
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 #include <Windows.h>
 #include <Shlobj.h>
 #include "FoundationKit/Platform/Path.hpp"
@@ -74,6 +76,33 @@ std::string Path::GetDocumentsPath()
     return DocumentsPath;
 }
 
+std::string Path::GetApplicationPath()
+{
+    char utf8ExeDir[MAX_PATH+1] = { 0 };
+    if (_wpgmptr != NULL)
+    {
+        WCHAR *pUtf16ExePath = nullptr;
+        _get_wpgmptr(&pUtf16ExePath);
+        // We need only directory part without exe
+        //WCHAR *pUtf16DirEnd = wcsrchr(pUtf16ExePath, L'\\');
+        //WideCharToMultiByte(CP_UTF8, 0, pUtf16ExePath, pUtf16DirEnd - pUtf16ExePath + 1, utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
+        WideCharToMultiByte(CP_UTF8, 0, pUtf16ExePath, wcslen(pUtf16ExePath), utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
+    }
+    else
+    {
+        char *pUtf16ExePath = nullptr;
+        _get_pgmptr(&pUtf16ExePath);
+        //char *pUtf16DirEnd = strrchr(pUtf16ExePath, '\\');
+        //memcpy(utf8ExeDir, pUtf16ExePath, pUtf16DirEnd - pUtf16ExePath + 1);
+        memcpy(utf8ExeDir, pUtf16ExePath, strlen(pUtf16ExePath));
+    }
+    return utf8ExeDir;
+}
+
+
 NS_FK_END
+
+#endif // #if (TARGET_PLATFORM == PLATFORM_WINDOWS
+
 
 

@@ -206,6 +206,11 @@ public:
     */
     static std::string GetTempPath();
 
+    // Implement on platform.
+    static std::string GetDocumentsPath();
+
+    static std::string GetApplicationPath();
+
    /** 
     * Determines whether a path includes a file name extension.
     * @param path:
@@ -223,9 +228,6 @@ public:
     * @return true if path contains a root; otherwise, false.
     */
     static bool IsPathRooted(std::string path);
-
-    // Implement on platform.
-    static std::string GetDocumentsPath();
 
 #if TARGET_PLATFORM == PLATFORM_ANDROID
     // On android platform, first must be call this function

@@ -243,7 +243,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Platform\Directory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Environment.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\File.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\FileUtils.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\OpenGL.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Path.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Platform.hpp" />
@@ -294,12 +293,10 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Directory.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\File.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\FileUtils.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Path.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Platform.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\DirectoryWindows.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\windows\FileUtilsWindows.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\FileWindows.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\PathWindows.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\PlatformDevice.cpp" />
