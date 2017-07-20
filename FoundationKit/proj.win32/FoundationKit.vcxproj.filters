@@ -277,6 +277,9 @@
     <ClInclude Include="..\FoundationKit\Platform\Path.hpp">
       <Filter>Platform</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\unique_id.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

@@ -48,6 +48,7 @@
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Base/string_builder.hpp"
 #include "FoundationKit/Base/scope_locale.hpp"
+#include "FoundationKit/Base/unique_id.hpp"
 
 using namespace std;
 USING_NS_FK;
@@ -71,30 +72,76 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
 
-    auto respath = Path::GetApplicationPath();
+	std::vector<uint64> ids0;
+	std::vector<uint64> ids1;
+	std::vector<uint64> ids2;
+	std::vector<uint64> ids3;
 
+	unique_id  uid;
+	std::thread thread0([&]()
+	{
+		for (int i = 0; i < 500000; ++i)
+		{
+			uint64 tmpid = uid.generate();
+			auto iter = std::find(ids0.begin(), ids0.end(), tmpid);
+			if (iter == ids0.end())
+			{
+				ids0.push_back(uid.generate());
+			}
+		}
+	});
 
-    std::string strFilePath = "E:\\WorkSpace\\GameToolsGroup\\DeviceMonitor\\publish\\android\\readme.txt";
-    mutable_buffer filedata = File::ReadAllBytes(strFilePath);
-    std::string str = File::ReadAllText(strFilePath);
+	/*
+	std::thread thread1([&]()
+	{
+		for (int i = 0; i < 500000; ++i)
+		{
+			uint64 tmpid = uid.generate();
+			auto iter = std::find(ids1.begin(), ids1.end(), tmpid);
+			if (iter == ids1.end())
+			{
+				ids1.push_back(uid.generate());
+			}
+		}
+	});
 
-    std::wstring wstr = StringUtils::string2UTF8wstring(str);
+	std::thread thread2([&]()
+	{
+		for (int i = 0; i < 500000; ++i)
+		{
+			uint64 tmpid = uid.generate();
+			auto iter = std::find(ids2.begin(), ids2.end(), tmpid);
+			if (iter == ids2.end())
+			{
+				ids2.push_back(uid.generate());
+			}
+		}
+	});
 
-    FILE* FileHandle = FileHandle = fopen(strFilePath.c_str(), "rt");
-    fseek(FileHandle, 0, SEEK_END);
-    size_t FileSize = ftell(FileHandle);
-    fseek(FileHandle, 0, SEEK_SET);
-    char* fd = new char[FileSize + 1];
-    memset(fd, 0, FileSize + 1);
-    fread(fd, 1, FileSize, FileHandle);
-    fclose(FileHandle);
-
+	std::thread thread3([&]()
+	{
+		for (int i = 0; i < 500000; ++i)
+		{
+			uint64 tmpid = uid.generate();
+			auto iter = std::find(ids3.begin(), ids3.end(), tmpid);
+			if (iter == ids3.end())
+			{
+				ids3.push_back(uid.generate());
+			}
+		}
+	});
+	*/
+	thread0.join();
+	//thread1.join();
+	//thread2.join();
+	//thread3.join();
 
     int im_a_breakpoint = 0;
 
