@@ -65,6 +65,7 @@ bool Platform::ScreenShot(std::string& outSavePath)
     {
         
         NSLog(@"***** Could not take screenshot.  No windows were available.");
+        [windows release];
         return false;
     }
     
@@ -87,7 +88,7 @@ bool Platform::ScreenShot(std::string& outSavePath)
     }
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+    [windows release];
     std::string filename = "ScreenShot_";
     DateTime  dateNow = DateTime::Now();
     filename +=  dateNow.ToString("%Y%m%d%H%M%S");

@@ -12,13 +12,11 @@
 #include "FoundationKit/Foundation/Rect.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 #include "FoundationKit/Platform/Platform.hpp"
-#include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/std/function_traits.hpp"
 #include "FoundationKit/Base/type_cast.hpp"
 #include "FoundationKit/Base/types.hpp"
 #import <Foundation/Foundation.h>
-
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/Directory.hpp"
 
@@ -40,21 +38,6 @@ using namespace FoundationKit;
     auto envs = Environment::GetEnvironmentVariables();
     auto path = Environment::GetEnvironmentVariable("PATH");
     auto envs1 = [[NSProcessInfo processInfo]environment];
-    
-    
-    std::string strResult = Path::GetDirectoryName(path);
-    strResult = Path::GetExtension(path);
-    strResult = Path::GetFileName(path);
-    strResult = Path::GetFileNameWithoutExtension(path);
-    strResult = Path::GetTempPath();
-    strResult = Path::GetTempFileName();
-    strResult = Path::GetDocumentsPath();
-    
-    std::string documentspath = Path::GetDocumentsPath();
-
-    std::string path2 = documentspath + "path2/path2";
-
-    bool ret2 = Directory::Move(path2, Path::GetTempPath()+"/path1");
     
     return YES;
 }
@@ -82,6 +65,8 @@ using namespace FoundationKit;
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    std::string path;
+    Platform::ScreenShot(path);
 }
 
 @end

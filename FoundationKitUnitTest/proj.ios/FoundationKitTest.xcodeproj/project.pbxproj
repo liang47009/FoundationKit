@@ -14,7 +14,6 @@
 		09C19B0A1BABB760007A8C99 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09C19B081BABB760007A8C99 /* Main.storyboard */; };
 		09C19B0C1BABB761007A8C99 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09C19B0B1BABB761007A8C99 /* Images.xcassets */; };
 		09C19B0F1BABB761007A8C99 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09C19B0D1BABB761007A8C99 /* LaunchScreen.xib */; };
-		09DAF1181ED4470A00AD585D /* libHTTPClient_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DAF1171ED4470A00AD585D /* libHTTPClient_iOS.a */; };
 		09DAF11A1ED4470F00AD585D /* libFoundationKit_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DAF1191ED4470F00AD585D /* libFoundationKit_iOS.a */; };
 		09DAF11C1ED449AF00AD585D /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DAF11B1ED449AF00AD585D /* libz.1.2.5.tbd */; };
 /* End PBXBuildFile section */
@@ -45,7 +44,6 @@
 			files = (
 				09DAF11C1ED449AF00AD585D /* libz.1.2.5.tbd in Frameworks */,
 				09DAF11A1ED4470F00AD585D /* libFoundationKit_iOS.a in Frameworks */,
-				09DAF1181ED4470A00AD585D /* libHTTPClient_iOS.a in Frameworks */,
 				0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
