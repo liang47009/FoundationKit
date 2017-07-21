@@ -20,7 +20,6 @@
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 #include "FoundationKit/Foundation/Timer.hpp"
 #include "FoundationKit/Foundation/Compression.hpp"
-#include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Foundation/TimerQueue.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Foundation/DelegateManager.hpp"

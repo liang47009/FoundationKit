@@ -71,29 +71,16 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
-
-    auto respath = Path::GetApplicationPath();
-
-
     std::string strFilePath = "E:\\WorkSpace\\GameToolsGroup\\DeviceMonitor\\publish\\android\\readme.txt";
     mutable_buffer filedata = File::ReadAllBytes(strFilePath);
     std::string str = File::ReadAllText(strFilePath);
 
-    std::wstring wstr = StringUtils::string2UTF8wstring(str);
-
-    FILE* FileHandle = FileHandle = fopen(strFilePath.c_str(), "rt");
-    fseek(FileHandle, 0, SEEK_END);
-    size_t FileSize = ftell(FileHandle);
-    fseek(FileHandle, 0, SEEK_SET);
-    char* fd = new char[FileSize + 1];
-    memset(fd, 0, FileSize + 1);
-    fread(fd, 1, FileSize, FileHandle);
-    fclose(FileHandle);
 
 
     int im_a_breakpoint = 0;

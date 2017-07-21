@@ -3,7 +3,6 @@
 #include <iostream>
 #include "FoundationKit/Foundation/Timer.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Foundation/Size.hpp"
 
 USING_NS_FK;
@@ -112,7 +111,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    std::string resourceRoot =FileUtils::GetInstance()->GetResourceRootPath();
+    std::string resourceRoot ="";
 
     bool bWindowed = true;
     std::string appIconPath = resourceRoot+"..\\res\\app.ico";

@@ -525,19 +525,35 @@
 			Name="Platform"
 			>
 			<File
+				RelativePath="..\FoundationKit\Platform\Directory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Platform\Directory.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\FoundationKit\Platform\Environment.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Platform\FileUtils.cpp"
+				RelativePath="..\FoundationKit\Platform\File.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Platform\FileUtils.hpp"
+				RelativePath="..\FoundationKit\Platform\File.hpp"
 				>
 			</File>
 			<File
 				RelativePath="..\FoundationKit\Platform\OpenGL.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Platform\Path.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Platform\Path.hpp"
 				>
 			</File>
 			<File
@@ -560,11 +576,19 @@
 				Name="windows"
 				>
 				<File
+					RelativePath="..\FoundationKit\Platform\windows\DirectoryWindows.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\FoundationKit\Platform\windows\FileUtilsWindows.cpp"
+					RelativePath="..\FoundationKit\Platform\windows\FileWindows.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\FoundationKit\Platform\windows\PathWindows.cpp"
 					>
 				</File>
 				<File
