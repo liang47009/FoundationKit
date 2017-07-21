@@ -48,6 +48,7 @@
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Base/string_builder.hpp"
 #include "FoundationKit/Base/scope_locale.hpp"
+#include "FoundationKit/Base/unique_id.hpp"
 
 using namespace std;
 USING_NS_FK;
@@ -71,21 +72,15 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+FILE* GHandle = nullptr;
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
-    std::string strFilePath = "E:\\WorkSpace\\GameToolsGroup\\DeviceMonitor\\publish\\android\\readme.txt";
-    mutable_buffer filedata = File::ReadAllBytes(strFilePath);
-    std::string str = File::ReadAllText(strFilePath);
-
-
 
     int im_a_breakpoint = 0;
-
-  
 	return true;
 }
 

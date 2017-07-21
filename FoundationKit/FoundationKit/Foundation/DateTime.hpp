@@ -654,6 +654,8 @@ public:
      */
     static std::string GetTimestampString();
 
+    static uint64 GetTimeStamp();
+
 public:
 
 	/**

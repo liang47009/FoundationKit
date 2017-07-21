@@ -69,17 +69,22 @@ void HTTPClient::Initialize()
 
             FKLog(" - other features:");
 
-#define printCurlFeature(Feature) if (versionInfo->features & Feature) FKLog("     %s", #Feature);
-            printCurlFeature(CURL_VERSION_SSL);
-            printCurlFeature(CURL_VERSION_LIBZ);
-            printCurlFeature(CURL_VERSION_DEBUG);
-            printCurlFeature(CURL_VERSION_IPV6);
-            printCurlFeature(CURL_VERSION_ASYNCHDNS);
-            printCurlFeature(CURL_VERSION_LARGEFILE);
-            printCurlFeature(CURL_VERSION_IDN);
-            printCurlFeature(CURL_VERSION_CONV);
-            printCurlFeature(CURL_VERSION_TLSAUTH_SRP);
-#undef printCurlFeature
+#define PrintCurlFeature(Feature)	                                \
+			if (versionInfo->features & Feature)                    \
+            {                                                       \
+			    FKLog("     %s", #Feature);                        	\
+            }
+
+            PrintCurlFeature(CURL_VERSION_SSL);
+            PrintCurlFeature(CURL_VERSION_LIBZ);
+            PrintCurlFeature(CURL_VERSION_DEBUG);
+            PrintCurlFeature(CURL_VERSION_IPV6);
+            PrintCurlFeature(CURL_VERSION_ASYNCHDNS);
+            PrintCurlFeature(CURL_VERSION_LARGEFILE);
+            PrintCurlFeature(CURL_VERSION_IDN);
+            PrintCurlFeature(CURL_VERSION_CONV);
+            PrintCurlFeature(CURL_VERSION_TLSAUTH_SRP);
+#undef PrintCurlFeature
         }
 
         G_multiHandle = curl_multi_init();

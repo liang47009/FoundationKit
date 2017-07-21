@@ -14,67 +14,88 @@
 #include <sys/time.h>
 #endif
 
+#include <mutex>
+
 NS_FK_BEGIN
 // https://github.com/beyondfengyu/SnowFlake/blob/master/SnowFlake.java
 class unique_id
 {
 public:
-	unique_id() 
+    unique_id()
+        : WorkerId(0)
+        , CustomId(0)
+        , StartTimeStamp(GetTimeStamp())
+    {
+        SequenceId = 0;
+        LastTimeStamp = -1;
+    }
+    static const int64 WORKERID_BITS = 5;
+    static const int64 CUSTOMID_BITS = 5;
+    static const int64 SEQUENCE_BITS = 12;
+
+    static const int64 MAX_CUSTOMID = -1L ^ (-1L << CUSTOMID_BITS);
+    static const int64 MAX_WORKERID = -1L ^ (-1L << WORKERID_BITS);
+
+    static const int64 WORKERID_SHIFT = SEQUENCE_BITS;
+    static const int64 CUSTOMID_SHIFT = SEQUENCE_BITS + WORKERID_BITS;
+    static const int64 TIMESTMP_SHIFT = SEQUENCE_BITS + WORKERID_BITS + CUSTOMID_BITS;
+
+    static const uint64 SEQUENCE_MASK = -1L ^ (-1L << SEQUENCE_BITS);
+
+    bool SetLogo(int64 workerid, int64 customid)
+    {
+        if (workerid > MAX_WORKERID || workerid < 0 || customid > MAX_CUSTOMID || customid < 0)
+            return false;
+
+        WorkerId = workerid;
+        CustomId = customid;
+    }
+
+    bool SetStartTimeStamp(int64 timestamp)
+    {
+        if (StartTimeStamp < 0)
+            return false;
+
+        StartTimeStamp = timestamp;
+    }
+
+    int64 Generate()
 	{
-		sequence = 0;
-		lasttimestamp = 0;
+        std::lock_guard<std::mutex> lock(IdMutex);
+        int64 nowtimestamp = GetTimeStamp();
+        if (nowtimestamp < LastTimeStamp)
+            throw std::runtime_error("Clock moved backwards, refusing to generate id.");
+        if (nowtimestamp == LastTimeStamp)
+        {
+            SequenceId = (SequenceId + 1) & SEQUENCE_MASK;
+            if (SequenceId == 0L)
+                nowtimestamp = WaitNextTimeStamp(LastTimeStamp);
+        }
+        else
+        {
+            SequenceId = 0L;
+        }
+
+        LastTimeStamp = nowtimestamp;
+        return (nowtimestamp - StartTimeStamp) << TIMESTMP_SHIFT
+            | CustomId << CUSTOMID_SHIFT
+            | WorkerId << WORKERID_SHIFT
+            | SequenceId;
 	}
-	static uint64 START_TIMESTAMP;
-	static const uint64 WORKERID_BIT = 5;
-	static const uint64 CUSTOMID_BIT = 5;
-	static const uint64 SEQUENCE_BIT = 12;
-
-	static const uint64 MAX_SEQUENCE = -1L ^ (-1L << SEQUENCE_BIT);
-	static const uint64 MAX_CUSTOMID = -1L ^ (-1L << CUSTOMID_BIT);
-	static const uint64 MAX_WORKERID = -1L ^ (-1L << WORKERID_BIT);
-
-	static const uint64 CUSTOMID_LEFT = SEQUENCE_BIT;
-	static const uint64 WORKERID_LEFT = SEQUENCE_BIT + CUSTOMID_BIT;
-	static const uint64 TIMESTMP_LEFT = SEQUENCE_BIT + CUSTOMID_BIT + WORKERID_BIT;
-
-	uint64 generate(uint64 workerId, uint64 customId)
-	{
-		uint64 nowtimestamp = gettimestamp();
-		if (nowtimestamp < lasttimestamp)
-			throw std::runtime_error("Clock moved backwards, refusing to generate id.");
-		if (nowtimestamp == lasttimestamp)
-		{
-			sequence = (++sequence) & MAX_SEQUENCE;
-			if (sequence == 0L)
-				nowtimestamp = waitnexttimestamp();
-		}
-		else
-		{
-			sequence = 0L;
-		}
-
-		lasttimestamp = nowtimestamp;
-		return (nowtimestamp - START_TIMESTAMP) << TIMESTMP_LEFT
-			| workerId << WORKERID_LEFT
-			| customId << CUSTOMID_LEFT
-			| sequence;
-	}
-
-	uint64 generate()
-	{
-		return generate(rand(), rand());
-	}
-
 
 protected:
-	std::atomic_uint64_t sequence;
-	std::atomic_uint64_t lasttimestamp;
+    int64 SequenceId;
+    int64 LastTimeStamp;
+    int64 WorkerId;
+    int64 CustomId;
+    int64 StartTimeStamp;
+    std::mutex IdMutex;
 
-	uint64 gettimestamp()
+    int64 GetTimeStamp()
 	{
 #if TARGET_PLATFORM == PLATFORM_WINDOWS
 		FILETIME filetime;
-		uint64 time = 0;
+        int64 time = 0;
 		GetSystemTimeAsFileTime(&filetime);
 		time |= filetime.dwHighDateTime;
 		time <<= 32;
@@ -86,26 +107,23 @@ protected:
 #else
 		struct timeval tv;
 		gettimeofday(&tv, NULL);
-		uint64 time = tv.tv_usec;
+        int64 time = tv.tv_usec;
 		time /= 1000;
 		time += (tv.tv_sec * 1000);
 		return time;
 #endif
 	}
 
-	uint64 waitnexttimestamp()
+    int64 WaitNextTimeStamp(int64 laststamp)
 	{
-		uint64 nowtimestamp = gettimestamp();
-		while (nowtimestamp <= lasttimestamp)
+        int64 nowtimestamp = GetTimeStamp();
+        while (nowtimestamp <= laststamp)
 		{
-			nowtimestamp = gettimestamp();
+            nowtimestamp = GetTimeStamp();
 		}
 		return nowtimestamp;
 	}
 };
-
-
-uint64 unique_id::START_TIMESTAMP = 0;
 
 NS_FK_END
 #endif // END OF FOUNDATIONKIT_UNIQUE_ID_HPP

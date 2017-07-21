@@ -540,6 +540,28 @@ std::string DateTime::GetTimestampString()
     return timestamp;
 }
 
+uint64 DateTime::GetTimeStamp()
+{
+#if TARGET_PLATFORM == PLATFORM_WINDOWS
+    FILETIME filetime;
+    uint64 time = 0;
+    GetSystemTimeAsFileTime(&filetime);
+    time |= filetime.dwHighDateTime;
+    time <<= 32;
+    time |= filetime.dwLowDateTime;
+    time /= 10;
+    time -= 11644473600000000Ui64;
+    time /= 1000;
+    return time;
+#else
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    uint64 time = tv.tv_usec;
+    time /= 1000;
+    time += (tv.tv_sec * 1000);
+    return time;
+#endif
+}
 
 NS_FK_END
 
