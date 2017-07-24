@@ -185,16 +185,17 @@
 
 extern void __fail__(const char* expr, const char* file, int line);
 extern void __log__(const char* fmt, ...);
+#define FKLog(fmt, ...) __log__(fmt, ##__VA_ARGS__)
 #if defined(_DEBUG) || defined(DEBUG)
     #define ASSERTED(CHECK, MSG)do{if(!(CHECK)){__fail__(#MSG,__FILE__, __LINE__);}}while(false)
     #define ASSERTED_EXPRESSION(COND, EXPR) ((COND) ? (EXPR) : (__fail__(#COND, __FILE__, __LINE__), (EXPR)))
     #define DEBUG_MODE 1
-    #define FKLog(fmt, ...) __log__(fmt, ##__VA_ARGS__)
+    #define FKDebug(fmt, ...) __log__(fmt, ##__VA_ARGS__)
 #else
     #define ASSERTED(CHECK, MSG)
     #define ASSERTED_EXPRESSION(COND, EXPR) (EXPR)
     #define DEBUG_MODE 0
-    #define FKLog(fmt, ...)
+    #define FKDebug(fmt, ...)
 #endif
 
 
