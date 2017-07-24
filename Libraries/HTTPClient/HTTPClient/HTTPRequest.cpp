@@ -180,6 +180,28 @@ HTTPRequest& HTTPRequest::SetFileField(const std::string& name, const std::strin
     return (*this);
 }
 
+
+HTTPRequest& HTTPRequest::SetRecvSpeed(int64 bytesPerSecond)
+{
+    CURLcode resultCode = curl_easy_setopt(EasyHandle, CURLOPT_MAX_RECV_SPEED_LARGE, bytesPerSecond);
+    if (resultCode != CURLE_OK)
+    {
+        FKLog("HTTPRequest::SetRecvSpeed Failed %d", resultCode);
+    }
+    return (*this);
+}
+
+HTTPRequest& HTTPRequest::SetSendSpeed(int64 bytesPerSecond)
+{
+    CURLcode resultCode = curl_easy_setopt(EasyHandle, CURLOPT_MAX_SEND_SPEED_LARGE, bytesPerSecond);
+    if (resultCode != CURLE_OK)
+    {
+        FKLog("HTTPRequest::SetSendSpeed Failed %d", resultCode);
+    }
+    return (*this);
+}
+
+
 std::string HTTPRequest::GetURL() const
 {
     return Url;
@@ -285,20 +307,6 @@ bool HTTPRequest::IsFinished()
     return bFinished;
 }
 
-void HTTPRequest::Tick(float deltaTime)
-{
-    ElapsedTime += deltaTime;
-    if (ElapsedTime >= TimeOutValue)
-    {
-        bTimeout = true;
-    }
-
-    if (bCompleted || bCanceled || bTimeout)
-    {
-        FinishedRequest();
-    }
-}
-
 void HTTPRequest::SetCompleted(CURLcode completionResult)
 {
     bCompleted = true;
@@ -339,11 +347,11 @@ bool HTTPRequest::Build()
     curl_easy_setopt(EasyHandle, CURLOPT_URL, Url.c_str());
     curl_easy_setopt(EasyHandle, CURLOPT_LOW_SPEED_LIMIT, LOW_SPEED_LIMIT);
     curl_easy_setopt(EasyHandle, CURLOPT_LOW_SPEED_TIME, LOW_SPEED_TIME);
-    curl_easy_setopt(EasyHandle, CURLOPT_CONNECTTIMEOUT, TimeOutValue);
+    //curl_easy_setopt(EasyHandle, CURLOPT_CONNECTTIMEOUT, TimeOutValue);
+    //curl_easy_setopt(EasyHandle, CURLOPT_TIMEOUT, TimeOutValue);
     // set up method
     if (MethodType == RequestMethodType::POST)
     {
-        curl_easy_setopt(EasyHandle, CURLOPT_CONNECTTIMEOUT, TimeOutValue);
         curl_easy_setopt(EasyHandle, CURLOPT_POST, 1L);
         std::string requestPayload = GetPostFieldsAsString();
         if (!requestPayload.empty())
@@ -355,7 +363,6 @@ bool HTTPRequest::Build()
     }
     else if (MethodType == RequestMethodType::PUT)
     {
-        curl_easy_setopt(EasyHandle, CURLOPT_CONNECTTIMEOUT, TimeOutValue);
         curl_easy_setopt(EasyHandle, CURLOPT_UPLOAD, 1L);
         // this pointer will be passed to read function
         curl_easy_setopt(EasyHandle, CURLOPT_READDATA, this);
@@ -445,6 +452,26 @@ bool HTTPRequest::Build()
     return true;
 }
 
+void HTTPRequest::OnTick(float deltaTime)
+{
+    ElapsedTime += deltaTime;
+    if (ElapsedTime >= TimeOutValue)
+    {
+        bTimeout = true;
+    }
+
+    if (bCompleted || bCanceled || bTimeout)
+    {
+        FinishedRequest();
+    }
+}
+
+bool HTTPRequest::OnFinished()
+{
+    // Derived can change some data of the HTTPResponse.
+    return false;
+}
+
 void HTTPRequest::FinishedRequest()
 {
     std::string operatingCurlMsg;
@@ -523,7 +550,7 @@ void HTTPRequest::FinishedRequest()
     bFinished = true;
 
     // Call delegate with valid request/response objects
-    if (!OnFinishedRequest() && OnRequestCompleted)
+    if (!OnFinished() && OnRequestCompleted)
     {
         OnRequestCompleted(shared_from_this(), ResponseInstance);
     }
@@ -540,13 +567,6 @@ void HTTPRequest::FinishedRequest()
             ResponseInstance->GetContentData().size());
     }
 }
-
-bool HTTPRequest::OnFinishedRequest()
-{
-    // Derived can change some data of the HTTPResponse.
-    return false;
-}
-
 
 size_t HTTPRequest::StaticUploadCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes, void* userData)
 {

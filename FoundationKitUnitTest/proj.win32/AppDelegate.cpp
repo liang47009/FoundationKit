@@ -72,13 +72,73 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-FILE* GHandle = nullptr;
+enum class Operatoion
+{
+    Add,
+    Delete,
+    Modify
+};
 
+struct IndexBlock
+{
+    Operatoion operat;
+    int64 offset;
+    int64 size;
+};
+
+static ElapsedTimer downloadTimer;
+static ElapsedTimer requestTime;
+static int   requestCount = 100;
+static int   completedCount = 0;
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
+
+    for (int i = 0; i < requestCount; ++i)
+    {
+        HTTPRequest::Pointer  request = HTTPRequest::Create();
+        request->SetURL("http://www.baidu.com");
+        request->OnRequestCompleted = [&](HTTPRequest::Pointer request, HTTPResponse::Pointer response)
+        {
+            ++completedCount;
+            if (completedCount == requestCount)
+            {
+                FKLog(" Run time :%0.2f", requestTime.Secondsf());
+            }
+        };
+        HTTPClient::GetInstance()->PostRequest(request); 
+    }
+
+    return true;
+
+
+    FILE* ndk_zip = nullptr;
+    HTTPDownloadRequest::Pointer  downloadRequest = HTTPDownloadRequest::Create();
+    downloadRequest->SetURL("http://172.19.10.239:8080/Softwares/sdks/breakpad/breakpad_v2.1.1.zip");
+    fopen_s(&ndk_zip, "E:\\tmp\\breakpad_v2.1.1.zip", "wb");
+    //downloadRequest->SetURL("https://dl.google.com/android/repository/android-ndk-r14b-windows-x86.zip");
+    //fopen_s(&ndk_zip, "E:\\tmp\\android-ndk-r14b-windows-x86.zip", "wb");
+    downloadRequest->SetFileHandle(ndk_zip);
+    downloadRequest->OnRequestCompleted = [=](HTTPRequest::Pointer request, HTTPResponse::Pointer response)
+    {
+        fclose(ndk_zip);
+    };
+
+    downloadRequest->OnRequestProgress = [](HTTPRequest::Pointer request, int64 nowSize, int64 totalSize)
+    {
+        if (totalSize == 0) return;
+        static int64 predownload = 0;
+        if (downloadTimer.Secondsf() >= 1.0 || nowSize == totalSize)
+        {
+            FKLog("===== %lld/%lld, speed:%0.2fKB, %0.2f", nowSize, totalSize, (nowSize*1.0f-predownload)/1024, nowSize*1.0f / totalSize * 100);
+            downloadTimer.Reset();
+            predownload = nowSize;
+        }
+    };
+
+    HTTPClient::GetInstance()->PostRequest(downloadRequest);
 
     int im_a_breakpoint = 0;
 	return true;

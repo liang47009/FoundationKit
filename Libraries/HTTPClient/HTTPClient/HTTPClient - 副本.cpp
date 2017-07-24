@@ -5,7 +5,6 @@
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 NS_FK_BEGIN
-#define MAX_WAIT_MSECS 30*1000 /* Wait max. 30 seconds */
 
 HTTPClient::RequestOptions HTTPClient::HTTPRequestOptions;
 CURLM*  HTTPClient::G_multiHandle = nullptr;
@@ -209,30 +208,12 @@ void HTTPClient::Initialize()
 
 HTTPClient::HTTPClient()
     : MultiHandle(nullptr)
-    , IsRunning(false)
 {
 
 }
 
 HTTPClient::~HTTPClient()
 {
-    IsRunning = false;
-    HandleRequestCond.notify_all();
-    if (ThreadOfPerform.joinable())
-    {
-        ThreadOfPerform.join();
-    }
-
-    std::lock_guard<std::mutex> lockRequest(HandlesToRequestsMutex);
-    for (RequestMap::iterator iter = HandlesToRequests.begin(); iter != HandlesToRequests.end();)
-    {
-        curl_multi_remove_handle(MultiHandle, iter->second->GetEasyHandle());
-        iter = HandlesToRequests.erase(iter);
-    }
-    HandlesToRequests.clear();
-    FinishedRequests.clear();
-    RequestTempPool.clear();
-
     if (NULL != G_multiHandle)
     {
         curl_multi_cleanup(G_multiHandle);
@@ -244,12 +225,15 @@ HTTPClient::~HTTPClient()
         curl_share_cleanup(G_shareHandle);
         G_shareHandle = NULL;
     }
+    RequestTempPool.clear();
+    RequestPool.clear();
 }
 
 void HTTPClient::Tick(float deltaTime)
 {
     {
         std::lock_guard<std::mutex> lock(RequestTempMutex);
+        std::lock_guard<std::mutex> lockRequest(RequestMutex);
         for (auto& requestPair : RequestTempPool)
         {
             if (requestPair.second == true)
@@ -262,30 +246,56 @@ void HTTPClient::Tick(float deltaTime)
             }
         }
         RequestTempPool.clear();
-        std::lock_guard<std::mutex> lockRequest(HandlesToRequestsMutex);
-        // Update handles to requests status.
-        for (auto& requestPair : HandlesToRequests)
+    }
+
+    if (GetRequestPoolSize() > 0)
+    {
+        int runningRequests = -1;
+        curl_multi_perform(MultiHandle, &runningRequests);
+        // read more info if number of requests changed or if there's zero running
+        // (note that some requests might have never be "running" from libcurl's point of view)
+        if (runningRequests == 0 || runningRequests != static_cast<int>(GetRequestPoolSize()))
         {
-            requestPair.second->OnTick(deltaTime);
-            if (requestPair.second->IsFinished())
+            for (;;)
             {
-                RemoveRequest(requestPair.second);
+                int msgsStillInQueue = 0;	// may use that to impose some upper limit we may spend in that loop
+                CURLMsg * curlMsg = curl_multi_info_read(MultiHandle, &msgsStillInQueue);
+                BREAK_IF(curlMsg == nullptr);
+
+                // find out which requests have completed
+                if (curlMsg->msg == CURLMSG_DONE)
+                {
+                    std::lock_guard<std::mutex> lock(RequestMutex);
+                    CURL* completedHandle = curlMsg->easy_handle;
+                    RequestMap::iterator completedIter = RequestPool.find(completedHandle);
+                    if (completedIter != RequestPool.end())
+                    {
+                        completedIter->second->SetCompleted(curlMsg->data.result);
+                    }
+                    completedIter->second->OnTick(deltaTime);
+                    RequestPool.erase(completedIter);
+                    curl_multi_remove_handle(MultiHandle, completedHandle);
+                }
             }
         }
     }
 
-    std::lock_guard<std::mutex> lock(FinishedRequestsMutex);
-    for (auto request : FinishedRequests)
+    std::lock_guard<std::mutex> lock(RequestMutex);
+    for (RequestMap::iterator requestIter = RequestPool.begin(); requestIter != RequestPool.end(); ++requestIter)
     {
-        request->OnTick(deltaTime);
+        // Update other HTTPRequest status.
+        requestIter->second->OnTick(deltaTime);
+        if (requestIter->second->IsFinished())
+        {
+            // Remove finished HTTPRequest.
+            RemoveRequest(requestIter->second);
+        }
     }
-    FinishedRequests.clear();
 }
 
 
 void HTTPClient::PostRequest(HTTPRequest::Pointer request)
 {
-    LazyCreatePerformThread();
     std::lock_guard<std::mutex> lock(RequestTempMutex);
     RequestTempPool[request] = true;
 }
@@ -307,18 +317,16 @@ HTTPResponse::Pointer HTTPClient::SendRequest(HTTPRequest::Pointer request)
 
 void HTTPClient::InternalPostRequest(HTTPRequest::Pointer request)
 {
-    std::lock_guard<std::mutex> lockRequest(HandlesToRequestsMutex);
     request->Build();
     CURL* requestHandle = request->GetEasyHandle();
-    RequestMap::iterator requestIter = HandlesToRequests.find(requestHandle);
-    if (requestIter == HandlesToRequests.end())
+    RequestMap::iterator requestIter = RequestPool.find(requestHandle);
+    if (requestIter == RequestPool.end())
     {
         CURLMcode addResult = curl_multi_add_handle(MultiHandle, requestHandle);
         request->SetAddToMultiResult(addResult);
         if (addResult == CURLM_OK)
         {
-            HandlesToRequests.insert(std::make_pair(requestHandle, request));
-            HandleRequestCond.notify_one();
+            RequestPool.insert(std::make_pair(requestHandle, request));
         }
         else
         {
@@ -329,14 +337,19 @@ void HTTPClient::InternalPostRequest(HTTPRequest::Pointer request)
 
 void FoundationKit::HTTPClient::InternalRemoveRequest(HTTPRequest::Pointer request)
 {
-    std::lock_guard<std::mutex> lockRequest(HandlesToRequestsMutex);
     CURL* requestHandle = request->GetEasyHandle();
-    RequestMap::iterator requestIter = HandlesToRequests.find(requestHandle);
-    if (requestIter != HandlesToRequests.end())
+    RequestMap::iterator requestIter = RequestPool.find(requestHandle);
+    if (requestIter != RequestPool.end())
     {
+        RequestPool.erase(requestIter);
         curl_multi_remove_handle(MultiHandle, requestHandle);
-        HandlesToRequests.erase(requestIter);
     }
+}
+
+size_t FoundationKit::HTTPClient::GetRequestPoolSize()
+{
+    std::lock_guard<std::mutex> lock(RequestMutex);
+    return RequestPool.size();
 }
 
 void HTTPClient::LazyCreatePerformThread()
@@ -344,22 +357,13 @@ void HTTPClient::LazyCreatePerformThread()
     static bool bIsCreatePerformThread = false;
     if (!bIsCreatePerformThread)
     {
-        IsRunning = true;
         ThreadOfPerform = std::thread([&]()
         {
             ElapsedTimer runningTime;
-            while (IsRunning)
+            while (true)
             {
-                std::unique_lock<std::mutex> lockRequests(HandlesToRequestsMutex);
-                HandleRequestCond.wait(lockRequests, [&](){return (!HandlesToRequests.empty() || !IsRunning); });
-                BREAK_IF(!IsRunning);
-                int numfds = 0;
-                int res = curl_multi_wait(MultiHandle, NULL, 0, MAX_WAIT_MSECS, &numfds);
-                if (res != CURLM_OK) 
-                {
-                    FKLog("error: curl_multi_wait() returned %d\n", res);
-                    continue;
-                }
+                std::unique_lock<std::mutex> lockRequests(HandleRequestMutex);
+                HandleRequestCond.wait(lockRequests, [&](){return !HandlesToRequests.empty(); });
                 int runningRequests = 0;
                 curl_multi_perform(MultiHandle, &runningRequests);
                 // read more info if number of requests changed or if there's zero running
@@ -375,12 +379,14 @@ void HTTPClient::LazyCreatePerformThread()
                         // find out which requests have completed
                         if (curlMsg->msg == CURLMSG_DONE)
                         {
+                            std::lock_guard<std::mutex> lock(RequestMutex);
                             CURL* completedHandle = curlMsg->easy_handle;
                             RequestMap::iterator completedIter = HandlesToRequests.find(completedHandle);
                             if (completedIter != HandlesToRequests.end())
                             {
                                 completedIter->second->SetCompleted(curlMsg->data.result);
                             }
+                            completedIter->second->OnTick(runningTime.Secondsf());
                             AddRequestToFinished(completedIter->second);
                             HandlesToRequests.erase(completedIter);
                             curl_multi_remove_handle(MultiHandle, completedHandle);
@@ -388,6 +394,7 @@ void HTTPClient::LazyCreatePerformThread()
                     }
                 }
             }
+        
         });
         bIsCreatePerformThread = true;
     }

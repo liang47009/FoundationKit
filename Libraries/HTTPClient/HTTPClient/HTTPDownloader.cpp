@@ -55,15 +55,15 @@ bool HTTPDownloadRequest::Build()
     bool result = HTTPRequest::Build();
     if (EnableRange && Size != 0)
     {
+        WriteOffset = Offset;
         char range[64] = { 0 };
         int errcode = sprintf_s(range, 64, "%lld-%lld", Offset, Offset + Size);
         curl_easy_setopt(EasyHandle, CURLOPT_RANGE, range);
-        WriteOffset = Offset;
     }
     return result;
 }
 
-bool HTTPDownloadRequest::OnFinishedRequest()
+bool HTTPDownloadRequest::OnFinished()
 {
     return false;
 }
@@ -73,7 +73,7 @@ size_t HTTPDownloadRequest::ReceiveResponseBodyCallback(void* buffer, size_t siz
     size_t writeSize = 0;
     if (FileHandle)
     {
-        if (fseek(FileHandle, WriteOffset, SEEK_SET) == 0)
+        if (fseek(FileHandle, static_cast<long>(WriteOffset), SEEK_SET) == 0)
         {
             writeSize = fwrite(buffer, size, nmemb, FileHandle);
         }

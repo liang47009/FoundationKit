@@ -213,7 +213,7 @@ bool Path::HasExtension(const std::string& path)
             char ch = path[i];
             if (ch == '.') 
             {
-                if (i != path.size() - 1)
+                if (i != static_cast<int>(path.size()) - 1)
                     return true;
                 else
                     return false;

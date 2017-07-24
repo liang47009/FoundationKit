@@ -89,6 +89,8 @@ public:
     HTTPRequest&             SetTimeOut(int seconds);
     HTTPRequest&             SetContentField(const std::string& name, const std::string& value);
     HTTPRequest&             SetFileField(const std::string& name, const std::string& fullPath);
+    HTTPRequest&             SetRecvSpeed(int64 bytesPerSecond);
+    HTTPRequest&             SetSendSpeed(int64 bytesPerSecond);
 
     std::string              GetURL()const;
     std::string              GetURLParameter(const std::string& parameterName);
@@ -103,10 +105,10 @@ public:
     int                      GetTimeOut();
     bool                     IsFinished();
     void                     Cancel();
-    virtual void             Tick(float deltaTime);
 protected:
     virtual bool             Build();
-    virtual bool             OnFinishedRequest();
+    virtual void             OnTick(float deltaTime);
+    virtual bool             OnFinished();
 
    /**
     * Method called when libcurl wants us to supply more data (see CURLOPT_READFUNCTION)

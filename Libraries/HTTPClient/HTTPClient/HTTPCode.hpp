@@ -6,6 +6,7 @@
 ****************************************************************************/
 #ifndef FOUNDATIONKIT_HTTPCODE_HPP
 #define FOUNDATIONKIT_HTTPCODE_HPP
+
 #include <string>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 NS_FK_BEGIN
@@ -119,6 +120,4 @@ inline bool operator!=(const HTTPCode& hcp, long httpCode)
 
 NS_FK_END
 
-#endif // FOUNDATIONKIT_HTTPCODE_HPP
-
-
+#endif // END OF FOUNDATIONKIT_HTTPCODE_HPP

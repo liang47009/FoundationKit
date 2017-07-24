@@ -75,6 +75,7 @@ public:
 private:
     void        InternalPostRequest(HTTPRequest::Pointer request);
     void        InternalRemoveRequest(HTTPRequest::Pointer request);
+    size_t      GetRequestPoolSize();
     void        LazyCreatePerformThread();
     void        AddRequestToFinished(HTTPRequest::Pointer request);
     static void StaticLockCallback(CURL *handle, curl_lock_data data, curl_lock_access access, void*userData);
@@ -92,15 +93,18 @@ private:
     std::mutex                   CURLDataDNSMutex;
     std::mutex                   CURLDataSSLSessionMutex;
     std::mutex                   CURLDataConnectMutex;
+
     RequestTempMap               RequestTempPool;
     std::mutex                   RequestTempMutex;
+    RequestMap                   RequestPool;
+	std::mutex                   RequestMutex;
+
     std::thread                  ThreadOfPerform;
     RequestMap                   HandlesToRequests;
-    std::mutex                   HandlesToRequestsMutex;
+    std::mutex                   HandleRequestMutex;
     std::condition_variable      HandleRequestCond;
     RequestVector                FinishedRequests;
     std::mutex                   FinishedRequestsMutex;
-    bool                         IsRunning;
 
 };
 

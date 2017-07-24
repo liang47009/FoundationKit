@@ -20,7 +20,7 @@ public:
    
 protected:
     virtual bool   Build()override;
-    virtual bool   OnFinishedRequest()override;
+    virtual bool   OnFinished()override;
 
    /**
     * Method called when libcurl wants us to receive response body (see CURLOPT_WRITEFUNCTION)
@@ -45,6 +45,35 @@ protected:
     /** Has Accept-Ranges*/
     bool            EnableRange;
 };
+
+class Downloader
+{
+public:
+    typedef std::shared_ptr<Downloader> Pointer;
+
+    static Pointer Create(const std::string& url, const std::string& path);
+
+
+
+public:
+    std::string URL;
+    std::string FilePath;
+    FILE*       FileHandle;
+    int64       ContentSize;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ==================================================================================
 // ============================= For experimental ===================================
