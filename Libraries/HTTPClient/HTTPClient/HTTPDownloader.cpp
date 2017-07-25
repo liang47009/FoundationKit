@@ -1,8 +1,9 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
+#include "FoundationKit/Foundation/ElapsedTimer.hpp"
 #include "HTTPDownloader.hpp"
 #include "HTTPResponse.hpp"
 #include "HTTPClient.hpp"
-#include "FoundationKit/Foundation/ElapsedTimer.hpp"
+#include <thread>
 NS_FK_BEGIN
 
 HTTPDownloadRequest::HTTPDownloadRequest(bool enableDebug /*= false*/)
@@ -90,165 +91,208 @@ size_t HTTPDownloadRequest::ReceiveResponseBodyCallback(void* buffer, size_t siz
     return writeSize;
 }
 
-// ==================================================================================
-// ============================= For experimental ===================================
-// ==================================================================================
 
-//=========================== HTTPDownloader ======================
+
 HTTPDownloader::HTTPDownloader()
+    : FileHandle(nullptr)
+    , ContentSize(0)
+    , OnErrorHandler(nullptr)
+    , OnProgressHandler(nullptr)
+    , OnCompletedHandler(nullptr)
+    , RetryCount(-1)
+    , bCompleted(true)
 {
 
 }
 
 HTTPDownloader::~HTTPDownloader()
 {
-
+    Clear();
 }
 
-static ElapsedTimer  ElapsedTimerTick;
-static int64 PreDeownloadSize = 0;
+HTTPDownloader::Pointer HTTPDownloader::Create(const std::string& url, const std::string& path)
+{
+    HTTPDownloader::Pointer shared_downloader = std::make_shared<HTTPDownloader>();
+    shared_downloader->URL = url;
+    shared_downloader->FilePath = path;
+    if (shared_downloader->Init())
+    {
+        return shared_downloader;
+    }
+    return nullptr;
+}
+
 void HTTPDownloader::Tick(float deltaTime)
 {
-    for (auto& DownloaderEntryPair : DownloaderEntryPool)
+    if (bCompleted) return;
+
+    if (OnProgressHandler)
     {
-        int64 tempDownloadSize = 0;
-        size_t FinishedCount = 0;
-        for (auto downloadRequest : DownloaderEntryPair.second->DownloadRequests)
+        for (auto& request : Requests)
         {
-            tempDownloadSize += downloadRequest->GetDownladedSize();
-            if (downloadRequest->IsFinished())
-                ++FinishedCount;
+            DownloadedSize += request->GetDownladedSize();
         }
-        if (DownloaderEntryPair.second->CallbackListener.OnProgressCallback)
-        {
-            DownloaderEntryPair.second->CallbackListener.OnProgressCallback(DownloaderEntryPair.second->URL, tempDownloadSize, DownloaderEntryPair.second->ContentSize);
-        }
-        if (FinishedCount!=0&&FinishedCount == DownloaderEntryPair.second->DownloadRequests.size())
-        {
-            fclose(DownloaderEntryPair.second->FileHandle);
-        }
+        OnProgressHandler(shared_from_this(), DownloadedSize, ContentSize);
+        DownloadedSize = 0;
+    }
 
-        if (ElapsedTimerTick.Seconds() >= 1)
+    bool successed = true;
+    for (auto& request : Requests)
+    {
+        successed = (successed && (request->GetRequestStatus() == RequestStatus::Succeeded));
+    }
+    if (!Requests.empty() && successed)
+    {
+        fclose(FileHandle);
+        FileHandle = nullptr;
+        if (OnCompletedHandler)
         {
-
-            FKLog("======== %s, download: %lld/%lld, Speed:%lld KB, Proc:%0.2f %%", 
-                DownloaderEntryPair.second->URL.c_str(), 
-                tempDownloadSize, 
-                DownloaderEntryPair.second->ContentSize,
-                (tempDownloadSize - PreDeownloadSize)/1024,
-                tempDownloadSize*1.0f / DownloaderEntryPair.second->ContentSize *100);
-            ElapsedTimerTick.Reset();
-            PreDeownloadSize = tempDownloadSize;
+            OnCompletedHandler(shared_from_this());
         }
+        Requests.clear();
+        bCompleted = true;
     }
 }
 
-const size_t CHUNK_LENGTH_LIMIT = 1024 * 1024 * 5; //5M
-const size_t CHUNK_NUMBER_LIMIT = 20;
-void HTTPDownloader::DownloadToFile(const std::string& url, const std::string& storagePath, const DownloadListener& listener)
+static int64  MIN_BLOCK_SIZE = 1024 * 1024 * 10;
+
+bool HTTPDownloader::Init()
 {
-    std::string checkedStoragePath = storagePath;
+    std::string checkedStoragePath = FilePath;
     if (checkedStoragePath.back() != '/' && checkedStoragePath.back() != '\\')
     {
         checkedStoragePath.push_back('/');
     }
 
-    size_t pos = url.find_last_of("/");
+    size_t pos = URL.find_last_of("/");
     if (pos != std::string::npos)
     {
-        checkedStoragePath += url.substr(pos + 1);
+        checkedStoragePath += URL.substr(pos + 1);
     }
+
+    int errcode = fopen_s(&FileHandle, checkedStoragePath.c_str(), "wb");
+    if (errcode != 0 || FileHandle==nullptr) return false;
+    uint32 concurrency = std::thread::hardware_concurrency();
 
     HTTPRequest::Pointer  HeadRequest = HTTPRequest::Create();
     HeadRequest->SetMethod(RequestMethodType::HEAD);
-    HeadRequest->SetURL(url);
-    FILE* fp = nullptr;
-    int errcode = fopen_s(&fp, checkedStoragePath.c_str(), "wb");
-    DownloaderEntryPointer  downlaoderEntry = std::make_shared<DownloaderEntry>();
-    downlaoderEntry->CallbackListener = listener;
-    downlaoderEntry->URL = url;
-    downlaoderEntry->FilePath = checkedStoragePath;
-    downlaoderEntry->FileHandle = fp;
-    DownloaderEntryPool.insert(std::make_pair(url, downlaoderEntry));
+    HeadRequest->SetURL(URL);
     HeadRequest->OnRequestCompleted = [=](HTTPRequest::Pointer request, HTTPResponse::Pointer response)
     {
         if (response->IsSucceeded())
         {
-            size_t ContentSize = response->GetContentSize();
-            downlaoderEntry->ContentSize = ContentSize;
+            ContentSize = response->GetContentSize();
             std::string strEffectiveUrl = response->GetEffectiveURL();
             if (strEffectiveUrl.empty())
             {
-                strEffectiveUrl = url;
+                strEffectiveUrl = URL;
             }
 
             std::string AcceptRanges = response->GetHeader("Accept-Ranges");
-            if (AcceptRanges.empty() || AcceptRanges == "none")
+            int32       RangeNum = 1;
+            bool bAcceptRanges = (!AcceptRanges.empty() && AcceptRanges != "none");
+            if (bAcceptRanges)
+            {
+                RangeNum = ContentSize / MIN_BLOCK_SIZE;
+                if (RangeNum > concurrency)
+                    RangeNum = concurrency;
+                if (RangeNum < 1)
+                    RangeNum = 1;
+            }
+            int64 chunkSize = ContentSize / RangeNum;
+            for (int32 i = 0; i <= RangeNum; ++i)
             {
                 HTTPDownloadRequest::Pointer ContentRequest = HTTPDownloadRequest::Create();
                 ContentRequest->SetURL(strEffectiveUrl);
-                ContentRequest->SetFileHandle(fp);
-                ContentRequest->SetEnableRange(false);
-                downlaoderEntry->DownloadRequests.push_back(ContentRequest);
-                HTTPClient::GetInstance()->PostRequest(ContentRequest);
-            }
-            else
-            {
-                size_t rangeNum = 0;
-                size_t chunkSize = CHUNK_LENGTH_LIMIT;
-                if (ContentSize <= (CHUNK_LENGTH_LIMIT*CHUNK_NUMBER_LIMIT))
+                ContentRequest->SetFileHandle(FileHandle);
+                ContentRequest->SetEnableRange(bAcceptRanges);
+                ContentRequest->OnRequestCompleted = FUN_BIND_2(HTTPDownloader::OnCompleted, this);
+                if (i < RangeNum)
                 {
-                    rangeNum = ContentSize / CHUNK_LENGTH_LIMIT;
+                    ContentRequest->Offset = i * chunkSize;
+                    ContentRequest->Size = chunkSize;
+                    HTTPClient::GetInstance()->PostRequest(ContentRequest);
+                    Requests.push_back(ContentRequest);
                 }
                 else
                 {
-                    rangeNum = CHUNK_NUMBER_LIMIT;
-                    chunkSize = ContentSize / CHUNK_NUMBER_LIMIT;
-                }
-
-                for (size_t i = 0; i <= rangeNum; i++)
-                {
-                    HTTPDownloadRequest::Pointer ContentRequest = HTTPDownloadRequest::Create();
-                    ContentRequest->SetEnableRange(true);
-                    ContentRequest->SetURL(strEffectiveUrl);
-                    if (i < rangeNum)
+                    if ((ContentSize % chunkSize) != 0)
                     {
                         ContentRequest->Offset = i * chunkSize;
-                        ContentRequest->Size = chunkSize - 1;
+                        ContentRequest->Size = ContentSize - ContentRequest->Offset;
+                        HTTPClient::GetInstance()->PostRequest(ContentRequest);
+                        Requests.push_back(ContentRequest);
                     }
-                    else
-                    {
-                        if ((ContentSize % chunkSize) != 0)
-                        {
-                            ContentRequest->Offset = i * chunkSize;
-                            ContentRequest->Size = ContentSize - ContentRequest->Offset - 1;
-                        }
-                    }
-                    ContentRequest->SetFileHandle(fp);
-                    downlaoderEntry->DownloadRequests.push_back(ContentRequest);
-                    HTTPClient::GetInstance()->PostRequest(ContentRequest);
                 }
             }
+            bCompleted = false;
         }
         else
         {
-            if (listener.OnErrorCallback)
+            if (OnErrorHandler)
             {
-                std::string strError = response->GetErrorMsg();
-                strError += "(";
-                strError += response->GetResponseCode().ToString();
-                strError += ")";
-                listener.OnErrorCallback(url, strError);
+                std::string errMsg = response->GetResponseMsg();
+                errMsg += "(";
+                errMsg += response->GetErrorMsg();
+                errMsg += ")";
+                OnErrorHandler(shared_from_this(), errMsg);
             }
+            Clear();
         }
     };
     HTTPClient::GetInstance()->PostRequest(HeadRequest);
+    return true;
 }
 
-
-void HTTPDownloader::DownloadToMemory(const std::string& url, mutable_buffer memoryBuffer, const DownloadListener& listener)
+void HTTPDownloader::OnCompleted(HTTPRequest::Pointer request, HTTPResponse::Pointer response)
 {
+    if (!response->IsSucceeded())
+    {
+        if (RetryCount > 0)
+        {
+            HTTPDownloadRequest::Pointer downloadRequest = std::dynamic_pointer_cast<HTTPDownloadRequest>(request);
+            downloadRequest->Size = downloadRequest->Size - (downloadRequest->WriteOffset - downloadRequest->Offset);
+            downloadRequest->Offset = downloadRequest->WriteOffset;
+            HTTPClient::GetInstance()->PostRequest(downloadRequest);
+            RetryCount -= 1;
+        }
+        else
+        {
+            if (OnErrorHandler)
+            {
+                std::string errMsg = response->GetResponseMsg();
+                errMsg += "(";
+                errMsg += response->GetErrorMsg();
+                errMsg += ")";
+                OnErrorHandler(shared_from_this(), errMsg);
+            }
+            Clear();
+            return;
+        }
 
+    }
+}
+
+std::string HTTPDownloader::GetURL() const
+{
+    return URL;
+}
+
+std::string HTTPDownloader::GetFilePath() const
+{
+    return FilePath;
+}
+
+void HTTPDownloader::Clear()
+{
+    for (auto& request : Requests)
+    {
+        HTTPClient::GetInstance()->RemoveRequest(request);
+        request->OnRequestCompleted = nullptr;
+        request->OnRequestProgress = nullptr;
+    }
+    Requests.clear();
+    bCompleted = true;
 }
 
 NS_FK_END

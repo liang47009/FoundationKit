@@ -1,6 +1,9 @@
 #include <vector>
+#include <atomic>
 #include <unordered_map>
+#include <functional>
 #include "HTTPRequest.hpp"
+#include "HTTPResponse.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"
 #include "FoundationKit/Base/multiple_buffer.hpp"
 NS_FK_BEGIN
@@ -46,97 +49,39 @@ protected:
     bool            EnableRange;
 };
 
-class Downloader
+class HTTPDownloader :public std::enable_shared_from_this<HTTPDownloader>
 {
-public:
-    typedef std::shared_ptr<Downloader> Pointer;
-
-    static Pointer Create(const std::string& url, const std::string& path);
-
-
 
 public:
-    std::string URL;
-    std::string FilePath;
-    FILE*       FileHandle;
-    int64       ContentSize;
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ==================================================================================
-// ============================= For experimental ===================================
-// ==================================================================================
-
-struct DownloadListener
-{
-    // param[0]  url
-    // param[1]  error message
-    typedef std::function<void(const std::string&, const std::string&)> ErrorCallback;
-
-    // param[0]  url
-    // param[1]  now download
-    // param[2]  total download
-    typedef std::function<void(const std::string&, int64, int64)> ProgressCallback;
-
-    // param[0]  url
-    // param[1]  file full path
-    typedef std::function<void(const std::string&, const std::string&)> SucceedCallback;
-
-    DownloadListener()
-        : OnErrorCallback(nullptr)
-        , OnProgressCallback(nullptr)
-        , OnSucceedCallback(nullptr)
-    {}
-    virtual~DownloadListener(){};
-    ErrorCallback     OnErrorCallback;
-    ProgressCallback  OnProgressCallback;
-    SucceedCallback   OnSucceedCallback;
-};
-
-typedef std::vector<HTTPDownloadRequest::Pointer>  DownloadRequestVec;
-struct DownloaderEntry
-{
-    std::string URL;
-    std::string FilePath;
-    FILE*       FileHandle;
-    int64       ContentSize;
-    DownloadListener   CallbackListener;
-    DownloadRequestVec DownloadRequests;
-    DownloaderEntry()
-        : FileHandle(nullptr)
-        , ContentSize(0)
-    {}
-};
-
-
-
-class HTTPDownloader : public Singleton<HTTPDownloader>
-{
-    friend Singleton<HTTPDownloader>;
+    typedef std::shared_ptr<HTTPDownloader> Pointer;
+    typedef std::vector<HTTPDownloadRequest::Pointer>   HTTPDownloadRequestList;
+    typedef std::function<void(HTTPDownloader::Pointer, const std::string&)> HTTPDownloaderErrorMethod;
+    typedef std::function<void(HTTPDownloader::Pointer, int64, int64)>       HTTPDownloaderProgressMethod;
+    typedef std::function<void(HTTPDownloader::Pointer)> HTTPDownloaderCompletedMethod;
     HTTPDownloader();
-public:
-    typedef std::shared_ptr<DownloaderEntry>  DownloaderEntryPointer;
-    typedef std::unordered_map<std::string, DownloaderEntryPointer>  DownloaderEntryMap;
     ~HTTPDownloader();
-    void  Tick(float deltaTime);
-    void  DownloadToFile(const std::string& url, const std::string& storagePath, const DownloadListener& listener);
-    void  DownloadToMemory(const std::string& url, mutable_buffer memoryBuffer, const DownloadListener& listener);
+    static Pointer Create(const std::string& url, const std::string& path);
+    void           Tick(float deltaTime);
+    std::string    GetURL()const;
+    std::string    GetFilePath()const;
+    HTTPDownloaderErrorMethod         OnErrorHandler;
+    HTTPDownloaderProgressMethod      OnProgressHandler;
+    HTTPDownloaderCompletedMethod     OnCompletedHandler;
 
+public:
+    void OnCompleted(HTTPRequest::Pointer request, HTTPResponse::Pointer response);
 protected:
-    DownloaderEntryMap         DownloaderEntryPool;
-
+    bool Init();
+    void Clear();
+private:
+    std::string              URL;
+    std::string              FilePath;
+    FILE*                    FileHandle;
+    int64                    ContentSize;
+    int64                    DownloadedSize;
+    HTTPDownloadRequestList  Requests;
+    size_t                   RetryCount;
+    bool                     bCompleted;
 };
 
 

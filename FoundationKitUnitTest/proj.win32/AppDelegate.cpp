@@ -90,56 +90,34 @@ static ElapsedTimer downloadTimer;
 static ElapsedTimer requestTime;
 static int   requestCount = 100;
 static int   completedCount = 0;
+static HTTPDownloader::Pointer pDownloader = nullptr;
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
 
-    for (int i = 0; i < requestCount; ++i)
+    std::string strurl1 = "http://172.19.10.239:8080/Softwares/sdks/breakpad/breakpad_v2.1.1.zip";
+    std::string strurl2 = "https://dl.google.com/android/repository/android-ndk-r14b-windows-x86.zip";
+    std::string strurl3 = "https://dl.google.com/android/repository/android-ndk-r14b-darwin-x86_64.zip";
+    pDownloader = HTTPDownloader::Create(strurl3, "E:\\tmp\\");
+    pDownloader->OnCompletedHandler = [](HTTPDownloader::Pointer request)
     {
-        HTTPRequest::Pointer  request = HTTPRequest::Create();
-        request->SetURL("http://www.baidu.com");
-        request->OnRequestCompleted = [&](HTTPRequest::Pointer request, HTTPResponse::Pointer response)
-        {
-            ++completedCount;
-            if (completedCount == requestCount)
-            {
-                FKLog(" Run time :%0.2f", requestTime.Secondsf());
-            }
-        };
-        HTTPClient::GetInstance()->PostRequest(request); 
-    }
-
-    return true;
-
-
-    FILE* ndk_zip = nullptr;
-    HTTPDownloadRequest::Pointer  downloadRequest = HTTPDownloadRequest::Create();
-    downloadRequest->SetURL("http://172.19.10.239:8080/Softwares/sdks/breakpad/breakpad_v2.1.1.zip");
-    fopen_s(&ndk_zip, "E:\\tmp\\breakpad_v2.1.1.zip", "wb");
-    //downloadRequest->SetURL("https://dl.google.com/android/repository/android-ndk-r14b-windows-x86.zip");
-    //fopen_s(&ndk_zip, "E:\\tmp\\android-ndk-r14b-windows-x86.zip", "wb");
-    downloadRequest->SetFileHandle(ndk_zip);
-    downloadRequest->OnRequestCompleted = [=](HTTPRequest::Pointer request, HTTPResponse::Pointer response)
+        FKLog("Completed:%s  %s", request->GetURL().c_str(), request->GetFilePath().c_str());
+    };
+    pDownloader->OnErrorHandler = [](HTTPDownloader::Pointer request, const std::string& errmessage)
     {
-        fclose(ndk_zip);
+        FKLog(" Error:%s", errmessage.c_str());
+    };
+    pDownloader->OnProgressHandler = [](HTTPDownloader::Pointer request, int64 nowSize, int64 TotalSize)
+    {
+        static int64 PerDownloadSize = 0;
+        FKLog(" %lld/%lld, speed:%0.2f KB Rate:%0.2f", nowSize, TotalSize, (nowSize*1.0F - PerDownloadSize)/1024, nowSize*1.0f / TotalSize*100);
+        PerDownloadSize = nowSize;
     };
 
-    downloadRequest->OnRequestProgress = [](HTTPRequest::Pointer request, int64 nowSize, int64 totalSize)
-    {
-        if (totalSize == 0) return;
-        static int64 predownload = 0;
-        if (downloadTimer.Secondsf() >= 1.0 || nowSize == totalSize)
-        {
-            FKLog("===== %lld/%lld, speed:%0.2fKB, %0.2f", nowSize, totalSize, (nowSize*1.0f-predownload)/1024, nowSize*1.0f / totalSize * 100);
-            downloadTimer.Reset();
-            predownload = nowSize;
-        }
-    };
 
-    HTTPClient::GetInstance()->PostRequest(downloadRequest);
-
+   
     int im_a_breakpoint = 0;
 	return true;
 }
@@ -159,10 +137,14 @@ void AppDelegate::applicationWillEnterForeground()
 void AppDelegate::applicationWillTerminate()
 {
     bExitApp = true;
+    pDownloader = nullptr;
 }
 
 void AppDelegate::mainLoop()
 {
     HTTPClient::GetInstance()->Tick(1 / 60.0f);
-    HTTPDownloader::GetInstance()->Tick(1 / 60.0f);
+    if (pDownloader)
+    {
+        pDownloader->Tick(1 / 60.0f);
+    }
 }
