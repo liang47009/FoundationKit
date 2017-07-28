@@ -40,6 +40,8 @@ public:
 	void mainLoop();
 
     void TestTupleArgs(int a, const std::string& str, char* str1);
+
+    static void ThreadMethod(void* userData);
 };
 
 
