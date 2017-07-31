@@ -483,7 +483,7 @@ float PlatformDevice::GetScreenDPI()
     return ppi;
 }
 
-float PlatformDevice::GetScreenFPS()
+float PlatformDevice::GetRefreshRate()
 {
     return 60.0f;
 }

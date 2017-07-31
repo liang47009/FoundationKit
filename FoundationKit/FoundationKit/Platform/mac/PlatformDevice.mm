@@ -374,7 +374,7 @@ float PlatformDevice::GetScreenDPI()
     //return ((displayPixelSize.width / displayPhysicalSize.width) * 25.4f);
 }
 
-float PlatformDevice::GetScreenFPS()
+float PlatformDevice::GetRefreshRate()
 {
     return 60.0f;
 }

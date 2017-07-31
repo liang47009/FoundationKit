@@ -137,7 +137,7 @@ public:
     //dp = px/(dpi/160)
     //dpi = px/dp*160
     static float GetScreenDPI();
-    static float GetScreenFPS();
+    static float GetRefreshRate();
     static float GetScreenXDPI();
     static float GetScreenYDPI();
     static float GetNativeScale();
