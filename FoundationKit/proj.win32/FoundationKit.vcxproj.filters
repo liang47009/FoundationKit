@@ -280,6 +280,18 @@
     <ClInclude Include="..\FoundationKit\Base\unique_id.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Directory.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\File.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\ITickable.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Path.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

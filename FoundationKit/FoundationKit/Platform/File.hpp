@@ -1,9 +1,18 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_PLATFORM_FILE_HPP
+#define FOUNDATIONKIT_PLATFORM_FILE_HPP
 
 #include <string>
 #include <vector>
 #include <sys/stat.h>
 #include "FoundationKit/Foundation/DateTime.hpp"
 #include "FoundationKit/Base/multiple_buffer.hpp"
+
 NS_FK_BEGIN
 
 // Specifies how the operating system should open a file.
@@ -125,3 +134,5 @@ NS_FK_END
 
 
 
+
+#endif // END OF FOUNDATIONKIT_PLATFORM_FILE_HPP

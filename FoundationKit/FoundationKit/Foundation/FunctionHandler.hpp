@@ -51,6 +51,7 @@ public:
     virtual~FunctionHandlerBase(){}
     virtual void Invoke(const ArgumentList& args) = 0;
 };
+typedef std::shared_ptr<FunctionHandlerBase>   FunctionHandlerPointer;
 
 template<typename _Ft, size_t ArgsNum>
 class FunctionHandler : public FunctionHandlerBase
@@ -94,7 +95,6 @@ public:
     }
 };
 
-
 namespace PlaceHolderDetail
 {
     template<std::size_t... indices>
@@ -135,21 +135,23 @@ namespace PlaceHolderDetail
     struct PlaceHolderMaker<9>{ static decltype(std::placeholders::_10) Get(){ return std::placeholders::_10; } };
 }
 
-typedef std::shared_ptr<FunctionHandlerBase>   FunctionHandlerPointer;
-template<typename _Ft, typename _Ty, std::size_t... indices >
-FunctionHandlerPointer BindFunctionHandlerImpl(_Ft fun, _Ty object, PlaceHolderDetail::IndexList<indices...>)
+namespace detail
 {
-    const size_t arityvalue = std::function_traits < _Ft >::arity::value;
-    std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue > (std::bind(fun, object, PlaceHolderDetail::PlaceHolderMaker<indices>::Get()...)));
-    return pSelector;
-}
+    template<typename _Ft, typename _Ty, std::size_t... indices >
+    FunctionHandlerPointer BindFunctionHandlerImpl(_Ft fun, _Ty object, PlaceHolderDetail::IndexList<indices...>)
+    {
+        const size_t arityvalue = std::function_traits < _Ft >::arity::value;
+        std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue >(std::bind(fun, object, PlaceHolderDetail::PlaceHolderMaker<indices>::Get()...)));
+        return pSelector;
+    }
 
-template<typename _Ft, std::size_t... indices >
-FunctionHandlerPointer BindFunctionHandlerImpl(_Ft fun, PlaceHolderDetail::IndexList<indices...>)
-{
-    const size_t arityvalue = std::function_traits < _Ft >::arity::value;
-    std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue>(std::bind(fun, PlaceHolderDetail::PlaceHolderMaker<indices>::Get()...)));
-    return pSelector;
+    template<typename _Ft, std::size_t... indices >
+    FunctionHandlerPointer BindFunctionHandlerImpl(_Ft fun, PlaceHolderDetail::IndexList<indices...>)
+    {
+        const size_t arityvalue = std::function_traits < _Ft >::arity::value;
+        std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue>(std::bind(fun, PlaceHolderDetail::PlaceHolderMaker<indices>::Get()...)));
+        return pSelector;
+    }
 }
 
 template<typename _Ft, typename _Ty>
@@ -157,7 +159,7 @@ FunctionHandlerPointer BindFunctionHandler(_Ft fun, _Ty object)
 {
     const size_t arityvalue = std::function_traits < _Ft >::arity::value;
     typedef typename PlaceHolderDetail::PlaceHolderIndexList<arityvalue>::Type List;
-    return BindFunctionHandlerImpl(fun, object, List());
+    return detail::BindFunctionHandlerImpl(fun, object, List());
 }
 
 template<typename _Ft>
@@ -165,7 +167,7 @@ FunctionHandlerPointer BindFunctionHandler(_Ft fun)
 {
     const size_t arityvalue = std::function_traits < _Ft >::arity::value;
     typedef typename PlaceHolderDetail::PlaceHolderIndexList<arityvalue>::Type List;
-    return BindFunctionHandlerImpl(fun, List());
+    return detail::BindFunctionHandlerImpl(fun, List());
 }
 
 NS_FK_END

@@ -4,8 +4,8 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FOUNDATIONKIT_DIRECTORY_HPP
-#define FOUNDATIONKIT_DIRECTORY_HPP
+#ifndef FOUNDATIONKIT_PLATFORM_DIRECTORY_HPP
+#define FOUNDATIONKIT_PLATFORM_DIRECTORY_HPP
 #include <string>
 #include <vector>
 #include <functional>
@@ -72,4 +72,4 @@ public:
 
 };
 NS_FK_END
-#endif // FOUNDATIONKIT_DIRECTORY_HPP
+#endif // FOUNDATIONKIT_PLATFORM_DIRECTORY_HPP

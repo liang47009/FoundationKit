@@ -216,13 +216,17 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\DateTime.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Dictionary.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Directory.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\ElapsedTimer.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Exception.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\File.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\FunctionHandler.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\ITickable.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\MathContent.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Math.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\MathUtil.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Matrix.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Path.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Quaternion.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\RandomHelper.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Rect.hpp" />

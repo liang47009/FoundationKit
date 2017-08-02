@@ -4,8 +4,8 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FOUNDATIONKIT_PATH_HPP
-#define FOUNDATIONKIT_PATH_HPP
+#ifndef FOUNDATIONKIT_PLATFORM_PATH_HPP
+#define FOUNDATIONKIT_PLATFORM_PATH_HPP
 
 #include <string>
 #include <vector>
@@ -244,4 +244,4 @@ protected:
 NS_FK_END
 
 
-#endif // FOUNDATIONKIT_PATH_HPP
+#endif // FOUNDATIONKIT_PLATFORM_PATH_HPP
