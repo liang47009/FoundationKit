@@ -1,7 +1,34 @@
-#include <stdlib.h>
+#include <android/asset_manager.h>
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
 NS_FK_BEGIN
+
+static int AndroidReadAsset(void* cookie, char* buf, int size) {
+    return AAsset_read((AAsset*)cookie, buf, size);
+}
+
+static int AndroidWriteAsset(void* cookie, const char* buf, int size) {
+    return EACCES; // can't provide write access to the apk
+}
+
+static fpos_t AndroidSeekAsset(void* cookie, fpos_t offset, int whence) {
+    return AAsset_seek((AAsset*)cookie, offset, whence);
+}
+
+static int AndroidCloseAsset(void* cookie) {
+    AAsset_close((AAsset*)cookie);
+    return 0;
+}
+
+FILE* AndroidOpenAsset(const char * path, const char * mode)
+{
+    if (mode[0] == 'w') return nullptr;
+    AAssetManager* AndroidAssetManager = AndroidNode::AndroidJNI::GetAAssetManager();
+    AAsset* asset = AAssetManager_open(AndroidAssetManager, path, 0);
+    if (!asset) return nullptr;
+    return funopen(asset, AndroidReadAsset, AndroidWriteAsset, AndroidSeekAsset, AndroidCloseAsset);
+}
 
 bool File::Move(const std::string& sourceFileName, const std::string& destFileName)
 {

@@ -4,7 +4,7 @@
 #include <cpu-features.h> //fou cpu count
 #include <sys/sysinfo.h>
 #include <unistd.h>
-
+#include <errno.h>
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Platform/OpenGL.hpp"

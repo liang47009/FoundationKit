@@ -9,71 +9,21 @@
 
 #include <string>
 #include <vector>
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
 #include <sys/stat.h>
 #include "FoundationKit/Foundation/DateTime.hpp"
 #include "FoundationKit/Base/multiple_buffer.hpp"
 
 NS_FK_BEGIN
 
-// Specifies how the operating system should open a file.
-enum class FileMode
-{
-    // Specifies that the operating system should create a new file. 
-    // If the file already exists,will fail.
-    CreateNew = 1,
-
-    // Specifies that the operating system should create a new file. If the file already
-    // exists, it will be overwritten. FileMode::Create is equivalent to requesting that 
-    // if the file does not exist, use FileMode::CreateNew; otherwise, use FileMode::Truncate.
-    Create = 2,
-
-    // Specifies that the operating system should open an existing file. The ability
-    // to open the file is dependent on the value specified by the System.IO.FileAccess
-    // enumeration. A System.IO.FileNotFoundException exception is thrown if the file
-    // does not exist.
-    Open = 3,
-
-    // Specifies that the operating system should open a file if it exists; otherwise,
-    // a new file should be created. If the file is opened with FileAccess.Read, System.Security.Permissions.FileIOPermissionAccess.Read
-    // permission is required. If the file access is FileAccess.Write, System.Security.Permissions.FileIOPermissionAccess.Write
-    // permission is required. If the file is opened with FileAccess.ReadWrite, both
-    // System.Security.Permissions.FileIOPermissionAccess.Read and System.Security.Permissions.FileIOPermissionAccess.Write
-    // permissions are required.
-    OpenOrCreate = 4,
-
-    // Specifies that the operating system should open an existing file. When the file
-    // is opened, it should be truncated so that its size is zero bytes. This requires
-    // System.Security.Permissions.FileIOPermissionAccess.Write permission. Attempts
-    // to read from a file opened with FileMode.Truncate cause an System.ArgumentException
-    // exception.
-    Truncate = 5,
-
-    // Opens the file if it exists and seeks to the end of the file, or creates a new
-    // file. 
-    Append = 6
-};
-
-// Defines constants for read, write, or read/write access to a file.
-enum class FileAccess
-{
-    // Read access to the file. Data can be read from the file. Combine with Write for
-    // read/write access.
-    Read = 1,
-
-    // Write access to the file. Data can be written to the file. Combine with Read
-    // for read/write access.
-    Write = 2,
-
-    // Read and write access to the file. Data can be written to and read from the file.
-    ReadWrite = 3
-};
-
 class File
 {
 public:
     typedef std::vector<std::string> FileLineType;
 
-    static bool Copy(const std::string& sourceFileName, const std::string& destFileName, bool overwrite = false);
+    FILE*  Open(const std::string& path, const char* mode, bool isAsset=false);
 
    /**
     *  Implement on platform.
@@ -101,7 +51,21 @@ public:
     */
     static bool Rename(const std::string& sourceFileName, const std::string& destFileName);
 
-    // Implement on platform.
+
+    /**
+     * Copy file form sourceFileName to destFileName location.
+     * @param sourceFileName
+     *         The file source full path.
+     * @param destFileName
+     *         destination full path.
+     * @param overwrite
+     *         Whether overwrite if file exist.
+     * @return true if the file have been copy successfully, false if not.
+     *
+     */
+    static bool Copy(const std::string& sourceFileName, const std::string& destFileName, bool overwrite = false);
+
+    /** Return the size of the file, or -1 if it doesn't exist. **/
     static int64 GetSize(const std::string& path);
 
     static bool AppendAllLines(const std::string& path, const FileLineType& contents);
