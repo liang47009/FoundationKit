@@ -5,9 +5,6 @@
       location = "group:FoundationKitUnitTest/proj.mac/FoundationKitTest_Mac.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:HTTPClient/proj.ios/HTTPClient.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:FoundationKitUnitTest/proj.ios/FoundationKitTest.xcodeproj">
    </FileRef>
    <FileRef

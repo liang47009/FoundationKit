@@ -26,7 +26,6 @@
 #include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-#include "FoundationKit/Platform/FileUtils.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
 #import <IOKit/IOKitLib.h>
 #import <AppKit/AppKit.h>

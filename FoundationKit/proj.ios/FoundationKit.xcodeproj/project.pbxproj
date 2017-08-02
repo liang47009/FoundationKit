@@ -115,6 +115,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		09320FBA1F31B3CF00063C11 /* Directory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Directory.hpp; sourceTree = "<group>"; };
+		09320FBB1F31B3CF00063C11 /* File.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = File.hpp; sourceTree = "<group>"; };
+		09320FBC1F31B3CF00063C11 /* Path.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Path.hpp; sourceTree = "<group>"; };
 		09348EC91E7F7BA20034ECF2 /* basic_streambuf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = basic_streambuf.hpp; sourceTree = "<group>"; };
 		09348ECA1E7F7BA20034ECF2 /* byte_swap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = byte_swap.hpp; sourceTree = "<group>"; };
 		09348ECB1E7F7BA20034ECF2 /* error_code.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = error_code.hpp; sourceTree = "<group>"; };
@@ -372,6 +375,9 @@
 		0934900A1E7F7BA20034ECF2 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				09320FBA1F31B3CF00063C11 /* Directory.hpp */,
+				09320FBB1F31B3CF00063C11 /* File.hpp */,
+				09320FBC1F31B3CF00063C11 /* Path.hpp */,
 				09A0B2451F04EC2A00572DEB /* FunctionHandler.hpp */,
 				0934900B1E7F7BA20034ECF2 /* ApplyTuple.hpp */,
 				0934900C1E7F7BA20034ECF2 /* Compression.cpp */,
