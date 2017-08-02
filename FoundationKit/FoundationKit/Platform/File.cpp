@@ -93,7 +93,6 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
 
         std::string dirPath = Path::GetDirectoryName(destFileName);
         Directory::CreateDirectory(dirPath);
-
         int64 srcFileSize = GetSize(sourceFileName);
         BREAK_IF(srcFileSize == -1);
         FILE *fpSrc = fopen(sourceFileName.c_str(), "rb");
@@ -161,11 +160,6 @@ bool File::AppendAllText(const std::string& path, const std::string& contents)
     return result;
 }
 
-mutable_buffer FoundationKit::File::ReadAllBytes(const std::string& path)
-{
-    return ReadDataFromFile(path);
-}
-
 #if (TARGET_PLATFORM==PLATFORM_IOS)
 #define MINIZIP_FROM_SYSTEM
 #endif
@@ -211,10 +205,9 @@ mutable_buffer File::ReadAllBytesFromZip(const std::string& path, const std::str
     return retData;
 }
 
-std::string File::ReadAllText(const std::string& path)
+mutable_buffer FoundationKit::File::ReadAllBytes(const std::string& path)
 {
-    mutable_buffer FileTexts = ReadDataFromFile(path, true);
-    return std::string(FileTexts.c_str(), FileTexts.size());
+    return ReadDataFromFile(path);
 }
 
 File::FileLineType File::ReadAllLines(const std::string& path)
@@ -231,6 +224,12 @@ File::FileLineType File::ReadAllLines(const std::string& path)
     }
     infile.close();
     return lines;
+}
+
+std::string File::ReadAllText(const std::string& path)
+{
+    mutable_buffer FileTexts = ReadDataFromFile(path, true);
+    return std::string(FileTexts.c_str(), FileTexts.size());
 }
 
 bool File::WriteAllBytes(const std::string& path, const char* bytes, size_t length)
