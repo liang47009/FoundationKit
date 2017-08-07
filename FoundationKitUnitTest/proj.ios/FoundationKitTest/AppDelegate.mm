@@ -14,7 +14,6 @@
 #include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/std/function_traits.hpp"
-#include "FoundationKit/Base/type_cast.hpp"
 #include "FoundationKit/Base/types.hpp"
 #import <Foundation/Foundation.h>
 #include "FoundationKit/Platform/Path.hpp"
