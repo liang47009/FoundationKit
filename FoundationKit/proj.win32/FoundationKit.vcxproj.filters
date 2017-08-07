@@ -349,12 +349,6 @@
     <ClCompile Include="..\FoundationKit\Foundation\Quaternion.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Rect.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Size.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
@@ -408,6 +402,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\FileWindows.cpp">
       <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Rect.cpp">
+      <Filter>Foundation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

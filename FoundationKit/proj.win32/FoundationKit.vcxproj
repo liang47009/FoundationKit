@@ -285,7 +285,6 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Foundation\Matrix.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Quaternion.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Rect.cpp" />
-    <ClCompile Include="..\FoundationKit\Foundation\Size.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Timer.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\TimerQueue.cpp" />

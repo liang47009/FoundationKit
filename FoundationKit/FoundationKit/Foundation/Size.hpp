@@ -70,12 +70,22 @@ public:
         return Size(this->width / a, this->height / a);
     }
 
-    void SetSize(float width, float height);
+    void SetSize(float width, float height)
+    {
+        this->width = width;
+        this->height = height;
+    }
 
-    bool Equals(const Size& target) const;
+    bool Equals(const Size& target) const
+    {
+        return (fabs(this->width - target.width) < FLT_EPSILON)
+            && (fabs(this->height - target.height) < FLT_EPSILON);
+    }
 
     static const Size ZERO;
 };
+
+const Size Size::ZERO = Size(0, 0);
 
 NS_FK_END
 

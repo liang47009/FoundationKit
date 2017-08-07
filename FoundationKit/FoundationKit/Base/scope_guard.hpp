@@ -23,6 +23,11 @@ protected:
 	F _func;
 };
 
+template< typename F > 
+scope_guard< F >make_scope_guard(const F& f)
+{
+    return scope_guard< F >(f);
+}
 
 template< typename Lambda > 
 scope_guard< Lambda >make_scope_exit(Lambda l)
@@ -43,3 +48,6 @@ scope_guard< Lambda > operator +(scope_exit_placeholder, Lambda&& l)
 
 NS_FK_END
 #endif // FOUNDATIONKIT_SCOPE_GUARD_HPP
+
+
+

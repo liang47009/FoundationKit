@@ -70,6 +70,91 @@ constexpr inline bool is_alignment(std::size_t value) noexcept
     return (address(ptr) & (alignment - 1)) == 0;
 }
 
+inline void *allocate_aligned(size_t n) 
+{
+    // We need to allocate extra bytes to guarantee alignment,
+    // and to store the pointer to the original buffer.
+    uint8_t *buf = reinterpret_cast<uint8_t *>(malloc(n + alignment_of_max_align));
+    if (!buf) return NULL;
+    // Align to next higher multiple of MATHFU_ALIGNMENT.
+    uint8_t *aligned_buf = reinterpret_cast<uint8_t *>(
+        (reinterpret_cast<size_t>(buf)+alignment_of_max_align) &
+        ~(alignment_of_max_align - 1));
+    // Write out original buffer pointer before aligned buffer.
+    // The assert will fail if the allocator granularity is less than the pointer
+    // size, or if alignment_of_max_align doesn't fit two pointers.
+    assert(static_cast<size_t>(aligned_buf - buf) > sizeof(void *));
+    *(reinterpret_cast<uint8_t **>(aligned_buf)-1) = buf;
+    return aligned_buf;
+}
+
+/// Deallocate a block of memory allocated with allocate_aligned().
+/// @param p Pointer to memory to deallocate.
+inline void free_aligned(void *p) 
+{
+    if (p == NULL) return;
+    free(*(reinterpret_cast<uint8_t **>(p)-1));
+}
+
+
+/** 
+ * Aligned memory allocator, for use with STL types like std::vector.
+ * For example:
+ *     std::vector<CusTomClass, aligned_allocator<CusTomClass>> myvector;
+ *
+ * @param T type allocated by this object.
+ */
+template <typename T>
+class aligned_allocator : public std::allocator<T> {
+public:
+    /// Size type.
+    typedef size_t size_type;
+    /// Pointer of type T.
+    typedef T *pointer;
+    /// Const pointer of type T.
+    typedef const T *const_pointer;
+
+    /// Constructs a simd_allocator.
+    aligned_allocator() throw() : std::allocator<T>() {}
+    /// @brief Constructs and copies a simd_allocator.
+    ///
+    /// @param a Allocator to copy.
+    aligned_allocator(const aligned_allocator &a) throw() : std::allocator<T>(a) {}
+    /// @brief Constructs and copies a simd_allocator.
+    ///
+    /// @param a Allocator to copy.
+    /// @param U type of the object allocated by the allocator to copy.
+    template <class U>
+    aligned_allocator(const aligned_allocator<U> &a) throw() : std::allocator<T>(a) {}
+    /// @brief Destructs a simd_allocator.
+    ~aligned_allocator() throw() {}
+
+    /// @brief Obtains an allocator of a different type.
+    ///
+    /// @param  _Tp1 type of the new allocator.
+    template <typename _Tp1>
+    struct rebind 
+    {
+        /// @brief Allocator of type _Tp1.
+        typedef aligned_allocator<_Tp1> other;
+    };
+
+    /// @brief Allocate memory for object T.
+    ///
+    /// @param n Number of types to allocate.
+    /// @return Pointer to the newly allocated memory.
+    pointer allocate(size_type n) 
+    {
+        return reinterpret_cast<pointer>(allocate_aligned(n * sizeof(T)));
+    }
+
+    /// Deallocate memory referenced by pointer p.
+    ///
+    /// @param p Pointer to memory to deallocate.
+    void deallocate(pointer p, size_type) { free_aligned(p); }
+};
+
+
 template< typename _Ty >
 class aligned_ptr final 
 {
@@ -157,3 +242,6 @@ public:
 
 } // namespace std
 #endif // FOUNDATIONKIT_MEMORY_ALIGNED_HPP
+
+
+

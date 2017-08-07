@@ -50,110 +50,98 @@ namespace Math
 
 	/// Returns the arc-cosine of val - the angle in radians whose cosine is val.
 	template< typename T >
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-	Acos(T val)
+    FORCEINLINE T Acos(T val)
 	{
         return std::acos(val);
     }
 
 	/// Returns the arc-sine of val - the angle in radians whose sine is val.
 	template< typename T >
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-	Asin(const T val)
+    FORCEINLINE T Asin(const T val)
 	{ 
         return std::asin(val);
     }
 
 	/// Returns the arc-tangent of val - the angle in radians whose tangent is val.
 	template< typename T >
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-	Atan(const T val)
+    FORCEINLINE T Atan(const T val)
 	{ 
         return std::atan(val); 
     }
 
 	/// Returns the angle in radians whose Tan is y/x.
 	template< typename T >
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-	Atan2(const T y, const T x)
+    FORCEINLINE T Atan2(const T y, const T x)
 	{ 
         return std::atan2(y, x); 
     }
 
 	/// Returns the smallest integer greater to or equal to val.
 	template< typename T >
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-	Ceil(const T val)
+    FORCEINLINE T Ceil(const T val)
 	{ 
         return std::ceil(val); 
     }
 
 	/// Returns the smallest integer greater to or equal to val.
 	template< typename T >
-    FORCEINLINE int CeilToInt(const T val, typename std::enable_if< std::is_arithmetic<T>::value >::type* = nullptr)
+    FORCEINLINE int CeilToInt(const T val)
 	{
         return static_cast<int>(std::ceil(val)); 
     }
 
 	/// Returns the largest integer smaller to or equal to val.
 	template< typename T >
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-	Floor(T val)
+    FORCEINLINE T Floor(T val)
 	{
 		return std::floor(val);
 	}
 
 	/// Returns the largest integer smaller to or equal to val.
 	template< typename T >
-    FORCEINLINE int FloorToInt(T val, typename std::enable_if< std::is_arithmetic<T>::value >::type* = nullptr)
+    FORCEINLINE int FloorToInt(T val)
 	{
 		return static_cast<int>(std::floor(val));
 	}
 
 	/// Clamps val value between a minimum and maximum value.
 	template< typename T>
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-	Clamp(T val, T minVal, T maxVal)
+    FORCEINLINE T Clamp(T val, T minVal, T maxVal)
 	{
         return std::min(std::max(val, minVal), maxVal);
 	}
 
 	/// Clamps value between 0 and 1 and returns value.
 	template< typename T>
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-	Clamp01(T val)
+    FORCEINLINE T Clamp01(T val)
 	{ 
         return std::min(std::max(val, 0), 1);
     }
 
 	/// Returns the cosine of angle f in radians.
 	template< typename T >
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-	Cos(T val)
+    FORCEINLINE T Cos(T val)
 	{ 
         return std::cos(val);
     }
 
 	/// Returns e raised to the specified power.
 	template< typename T >
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-	Exp(T power)
+    FORCEINLINE T Exp(T power)
 	{ 
         return std::exp(power);
     }
 
     /// Returns the natural (base e) logarithm of val specified value.
     template< typename T >
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-    Log(T val)
+    FORCEINLINE T Log(T val)
     {
         return std::log(val);
     }
 
     /// Returns the base 10 logarithm of val specified value.
     template< typename T >
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-    Log10(T val0)
+    FORCEINLINE T Log10(T val0)
     {
         return std::log10(val0);
     }
@@ -161,41 +149,35 @@ namespace Math
 
     /// Returns the sign of val.
     template <typename T>
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-    Sign(T val)
+    FORCEINLINE T Sign(T val)
     {
         return (val >(T)0) ? (T)1 : ((val < (T)0) ? (T)-1 : (T)0);
     }
 
     /// Returns the sine of angle val in radians.
     template <typename T>
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-    Sin(T val)
+    FORCEINLINE T Sin(T val)
     {
         return std::sin(val);
     }
 
     /// Returns square root of val.
     template <typename T>
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-    Sqrt(T val)
+    FORCEINLINE T Sqrt(T val)
     {
         return std::sqrt(val);
     }
 
     /// Returns the tangent of angle val in radians.
     template <typename T>
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-    Tan(T val)
+    FORCEINLINE T Tan(T val)
     {
         return std::tan(val);
     }
 
     /// Returns f raised to power p.
     template< typename T, typename U >
-    FORCEINLINE T Pow(T f, U p,
-        typename std::enable_if< std::is_arithmetic<T>::value >::type* = nullptr,
-        typename std::enable_if< std::is_arithmetic<U>::value >::type* = nullptr)
+    FORCEINLINE T Pow(T f, U p)
     {
         return std::pow(f, p);
     }
@@ -207,22 +189,25 @@ namespace Math
     * operator. eg. 1.0 == 10.0 / 10.0 might not return true.
     */
     template< typename T1, typename T2 >
-    FORCEINLINE bool Approximately(const T1 a, const T2 b,
-        typename std::enable_if< std::is_arithmetic<T1>::value >::type* = nullptr,
-        typename std::enable_if< std::is_arithmetic<T2>::value >::type* = nullptr)
+    FORCEINLINE bool Approximately(const T1 a, const T2 b)
     {
         return roughlyEqual(a, b, 0.1f);
     }
 
-	/// Interpolates between from and to by t. t is clamped between 0 and 1.
-	template< typename T, typename U, typename V>
-    FORCEINLINE float Lerp(T from, U to, V t,
-        typename std::enable_if< std::is_arithmetic<T>::value >::type* = nullptr,
-        typename std::enable_if< std::is_arithmetic<U>::value >::type* = nullptr,
-        typename std::enable_if< std::is_arithmetic<V>::value >::type* = nullptr)
-	{ 
-		return t >= 1 ? to : t < 0 ? from : from + (to - from) * t; 
-	}
+    // Linearly interpolate between range_start and range_end, based on percent.
+    template <class T, class T2>
+    FORCEINLINE T Lerp(const T &range_start, const T &range_end, const T2 &percent) 
+    {
+        const T2 one_minus_percent = static_cast<T2>(1.0) - percent;
+        return range_start * one_minus_percent + range_end * percent;
+    }
+
+    // Linearly interpolate between range_start and range_end, based on percent.
+    template <class T>
+    FORCEINLINE T Lerp(const T &range_start, const T &range_end, const T &percent) 
+    {
+        return Lerp<T, T>(range_start, range_end, percent);
+    }
 
    /**
     * Compares two floating point values if they are similar.
@@ -284,15 +269,15 @@ namespace Math
 
     // return true is the third parameter is in the range described by the first two
     template< typename T, typename U, typename V>
-    FORCEINLINE bool InRange(T start, U end, V val)
+    FORCEINLINE bool InRange(T range_start, U range_end, V val)
     {
-        if (start < end)
+        if (range_start < range_end)
         {
-            return ((val > start) && (val < end));
+            return ((val > range_start) && (val < range_end));
         }
         else
         {
-            return ((val < start) && (val > end));
+            return ((val < range_start) && (val > range_end));
         }
     }
 

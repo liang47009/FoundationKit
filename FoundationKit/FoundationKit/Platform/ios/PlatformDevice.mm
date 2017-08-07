@@ -91,12 +91,15 @@ namespace detail
         { "iPhone8,4", { "2048", "Twister (Apple)", "ARMv8", "2", "1850", "PowerVR GT7600", "6", "0", "1136 x 640", "326", "4.00" } },
         { "iPad6,3", { "4096", "Twister (Apple)", "ARMv8-A", "2", "2160", "PowerVR Series7", "12", "0", "2048 x 1536", "264", "9.70" } },
         { "iPad6,4", { "4096", "Twister (Apple)", "ARMv8-A", "2", "2160", "PowerVR Series7", "12", "0", "2048 x 1536", "264", "9.70" } },
-        { "iPhone9,1", { "2048", "Twister (Apple)", "ARMv8", "0", "2340", "PowerVR GT7600 Plus", "6", "0", "1334 x 750", "326", "4.70" } },
-        { "iPhone9,2", { "2048", "Twister (Apple)", "ARMv8", "0", "2340", "PowerVR GT7600 Plus", "6", "0", "1334 x 750", "326", "4.70" } },
-        { "iPhone9,3", { "2048", "Twister (Apple)", "ARMv8", "0", "2340", "PowerVR GT7600 Plus", "6", "0", "1334 x 750", "326", "4.70" } },
-        { "iPhone9,4", { "3072", "Twister (Apple)", "ARMv8", "0", "2340", "PowerVR GT7600 Plus", "6", "0", "1920 x 1080", "401", "5.50" } },
-        { "iPhone9,5", { "3072", "Twister (Apple)", "ARMv8", "0", "2340", "PowerVR GT7600 Plus", "6", "0", "1920 x 1080", "401", "5.50" } },
-        { "iPhone9,6", { "3072", "Twister (Apple)", "ARMv8", "0", "2340", "PowerVR GT7600 Plus", "6", "0", "1920 x 1080", "401", "5.50" } },
+        { "iPhone9,1", { "2048", "Twister (Apple)", "ARMv8", "4", "2340", "PowerVR GT7600 Plus", "6", "0", "1334 x 750", "326", "4.70" } },
+        { "iPhone9,2", { "2048", "Twister (Apple)", "ARMv8", "4", "2340", "PowerVR GT7600 Plus", "6", "0", "1334 x 750", "326", "4.70" } },
+        { "iPhone9,3", { "2048", "Twister (Apple)", "ARMv8", "4", "2340", "PowerVR GT7600 Plus", "6", "0", "1334 x 750", "326", "4.70" } },
+        { "iPhone9,4", { "3072", "Twister (Apple)", "ARMv8", "4", "2340", "PowerVR GT7600 Plus", "6", "0", "1920 x 1080", "401", "5.50" } },
+        { "iPhone9,5", { "3072", "Twister (Apple)", "ARMv8", "4", "2340", "PowerVR GT7600 Plus", "6", "0", "1920 x 1080", "401", "5.50" } },
+        { "iPhone9,6", { "3072", "Twister (Apple)", "ARMv8", "4", "2340", "PowerVR GT7600 Plus", "6", "0", "1920 x 1080", "401", "5.50" } },
+        { "iPad6,11", { "2048", "Twister (Apple)", "ARMv8", "2", "1850", "PowerVR GT7600", "8", "0", "2048 x 1536", "264", "9.70" } },
+        { "iPad6,12", { "2048", "Twister (Apple)", "ARMv8", "2", "1850", "PowerVR GT7600", "8", "0", "2048 x 1536", "264", "9.70" } },
+        { "iPad7,4",  { "4096", "|Hurricane + Zephyr","ARMv8-A","6","2360", "N/A",         "12","0", "2224 x 1668", "264", "10.5" } },
     };
     
 #define IOS_CELLULAR    @"pdp_ip0"
