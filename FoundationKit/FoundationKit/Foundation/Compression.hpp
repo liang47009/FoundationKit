@@ -10,7 +10,7 @@
 #pragma once
 #include <string>
 #include "FoundationKit/FoundationMacros.hpp"
-#include "FoundationKit/Base/multiple_buffer.hpp"
+#include "FoundationKit/Base/mutablebuf.hpp"
 #include "FoundationKit/Base/types.hpp"
 
 NS_FK_BEGIN
@@ -52,7 +52,7 @@ struct Compression
      * @param	UncompressedBuffer			Buffer containing uncompressed data
      * @return true if compression succeeds, false if it fails because CompressedBuffer was too small or other reasons
      */
-    static bool CompressMemory(CompressionFlags Flags, mutable_buffer& CompressedBuffer, const mutable_buffer& UncompressedBuffer);
+    static bool CompressMemory(CompressionFlags Flags, mutablebuf& CompressedBuffer, const mutablebuf& UncompressedBuffer);
 
     /**
      * Thread-safe abstract decompression routine. Uncompresses memory from compressed buffer and writes it to uncompressed
@@ -63,7 +63,7 @@ struct Compression
      * @param	CompressedBuffer			Buffer compressed data is going to be read from
      * @return true if compression succeeds, false if it fails because CompressedBuffer was too small or other reasons
      */
-    static bool UncompressMemory(CompressionFlags Flags, mutable_buffer& UncompressedBuffer, const mutable_buffer& CompressedBuffer);
+    static bool UncompressMemory(CompressionFlags Flags, mutablebuf& UncompressedBuffer, const mutablebuf& CompressedBuffer);
 
     // compress file to a .gz file
     static bool CompressFile(const std::string& srcFilePath, const std::string& desFilePath);

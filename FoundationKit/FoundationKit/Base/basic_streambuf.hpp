@@ -13,7 +13,7 @@
 #include <streambuf>
 #include <vector>
 #include "FoundationKit/Base/error_code.hpp"
-#include "FoundationKit/Base/multiple_buffer.hpp"
+#include "FoundationKit/Base/mutablebuf.hpp"
 #include "FoundationKit/Base/noncopyable.hpp"
 
 NS_FK_BEGIN
@@ -92,9 +92,9 @@ template <typename Allocator = std::allocator<char> >
 class basic_streambuf : public std::streambuf, private noncopyable
 {
 public:
-    typedef mutable_buffer mutable_buffers_type;
+    typedef mutablebuf mutablebuf_type;
 
-    typedef const_buffer   const_buffers_type;
+    typedef constbuf   constbuf_type;
     /**
      * Construct a basic_streambuf object.
      * Constructs a streambuf with the specified maximum size. The initial size
@@ -148,9 +148,9 @@ public:
      * @note The returned object is invalidated by any @c basic_streambuf member
      * function that modifies the input sequence or output sequence.
      */
-    const_buffers_type data() const
+    constbuf_type data() const
     {
-        return const_buffers_type(gptr(), (pptr() - gptr()) * sizeof(char_type));
+        return constbuf_type(gptr(), (pptr() - gptr()) * sizeof(char_type));
     }
 
     /**
@@ -169,10 +169,10 @@ public:
      * @note The returned object is invalidated by any @c basic_streambuf member
      * function that modifies the input sequence or output sequence.
      */
-    mutable_buffers_type prepare(std::size_t n)
+    mutablebuf_type prepare(std::size_t n)
     {
         reserve(n);
-        return mutable_buffers_type(pptr(), n * sizeof(char_type));
+        return mutablebuf_type(pptr(), n * sizeof(char_type));
     }
 
     /**

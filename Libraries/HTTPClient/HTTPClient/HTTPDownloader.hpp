@@ -5,7 +5,7 @@
 #include "HTTPRequest.hpp"
 #include "HTTPResponse.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"
-#include "FoundationKit/Base/multiple_buffer.hpp"
+#include "FoundationKit/Base/mutablebuf.hpp"
 NS_FK_BEGIN
 
 

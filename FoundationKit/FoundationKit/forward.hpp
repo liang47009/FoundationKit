@@ -33,11 +33,11 @@
 #include <FoundationKit/Base/basic_streambuf.hpp>
 #include <FoundationKit/Base/byte_swap.hpp>
 #include <FoundationKit/Base/error_code.hpp>
-#include <FoundationKit/Base/multiple_buffer.hpp>
+#include <FoundationKit/Base/mutablebuf.hpp>
 #include <FoundationKit/Base/noncopyable.hpp>
 #include <FoundationKit/Base/nonmovable.hpp>
-#include <FoundationKit/Base/scope_locale.hpp>
-#include <FoundationKit/Base/type_cast.hpp>
+#include <FoundationKit/Base/locale.hpp>
+#include <FoundationKit/Base/lexical_cast.hpp>
 #include <FoundationKit/Base/types.hpp>
 
 #endif // FOUNDATIONKIT_FORWARD_HPP

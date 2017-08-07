@@ -114,9 +114,6 @@
     <ClInclude Include="..\FoundationKit\Base\error_code.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\multiple_buffer.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\noncopyable.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -290,6 +287,9 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\lexical_cast.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\mutablebuf.hpp">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>

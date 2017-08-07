@@ -19,9 +19,9 @@ const char PlatformNewLine[] ={ '\r'};
 
 namespace detail
 {
-    mutable_buffer ReadDataFromFile(const std::string& path, bool isText = false)
+    mutablebuf ReadDataFromFile(const std::string& path, bool isText = false)
     {
-        mutable_buffer  FileAllBytes;
+        mutablebuf  FileAllBytes;
         do
         {
             FILE* FileHandle = nullptr;
@@ -186,9 +186,9 @@ bool File::AppendAllText(const std::string& path, const std::string& contents)
 #if (TARGET_PLATFORM==PLATFORM_IOS)
 #define MINIZIP_FROM_SYSTEM
 #endif
-mutable_buffer File::ReadAllBytesFromZip(const std::string& path, const std::string& fileName)
+mutablebuf File::ReadAllBytesFromZip(const std::string& path, const std::string& fileName)
 {
-    mutable_buffer retData;
+    mutablebuf retData;
     unzFile file = nullptr;
     do
     {
@@ -228,7 +228,7 @@ mutable_buffer File::ReadAllBytesFromZip(const std::string& path, const std::str
     return retData;
 }
 
-mutable_buffer FoundationKit::File::ReadAllBytes(const std::string& path)
+mutablebuf FoundationKit::File::ReadAllBytes(const std::string& path)
 {
     return detail::ReadDataFromFile(path);
 }
@@ -251,7 +251,7 @@ File::FileLineType File::ReadAllLines(const std::string& path)
 
 std::string File::ReadAllText(const std::string& path)
 {
-    mutable_buffer FileTexts = detail::ReadDataFromFile(path, true);
+    mutablebuf FileTexts = detail::ReadDataFromFile(path, true);
     return std::string(FileTexts.c_str(), FileTexts.size());
 }
 
