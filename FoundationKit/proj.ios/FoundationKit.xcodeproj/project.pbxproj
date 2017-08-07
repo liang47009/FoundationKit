@@ -116,6 +116,11 @@
 		09320FBA1F31B3CF00063C11 /* Directory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Directory.hpp; sourceTree = "<group>"; };
 		09320FBB1F31B3CF00063C11 /* File.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = File.hpp; sourceTree = "<group>"; };
 		09320FBC1F31B3CF00063C11 /* Path.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Path.hpp; sourceTree = "<group>"; };
+		09320FBD1F38520600063C11 /* lexical_cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lexical_cast.hpp; sourceTree = "<group>"; };
+		09320FBE1F38520600063C11 /* locale.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = locale.hpp; sourceTree = "<group>"; };
+		09320FBF1F38520600063C11 /* string_builder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = string_builder.hpp; sourceTree = "<group>"; };
+		09320FC01F38520600063C11 /* unique_id.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = unique_id.hpp; sourceTree = "<group>"; };
+		09320FC11F38524700063C11 /* ITickable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ITickable.hpp; sourceTree = "<group>"; };
 		09348EC91E7F7BA20034ECF2 /* basic_streambuf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = basic_streambuf.hpp; sourceTree = "<group>"; };
 		09348ECA1E7F7BA20034ECF2 /* byte_swap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = byte_swap.hpp; sourceTree = "<group>"; };
 		09348ECB1E7F7BA20034ECF2 /* error_code.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = error_code.hpp; sourceTree = "<group>"; };
@@ -218,8 +223,6 @@
 		093DF53F1ECAAA4800BA1C7C /* des.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = des.cpp; sourceTree = "<group>"; };
 		093DF5401ECAAA4800BA1C7C /* des.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = des.hpp; sourceTree = "<group>"; };
 		093DF5411ECAAA4800BA1C7C /* urlencode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = urlencode.hpp; sourceTree = "<group>"; };
-		0944ED821EADD135006CC42F /* scope_locale.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = scope_locale.hpp; sourceTree = "<group>"; };
-		0944ED831EADD135006CC42F /* type_cast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = type_cast.hpp; sourceTree = "<group>"; };
 		094C50DE1EC3FF1B00AB3021 /* libFoundationKit_Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundationKit_Mac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		094C51771EC4787500AB3021 /* ApplePlatformTLS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ApplePlatformTLS.hpp; sourceTree = "<group>"; };
 		094C51781EC4787500AB3021 /* EnvironmentApple.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EnvironmentApple.mm; sourceTree = "<group>"; };
@@ -294,9 +297,11 @@
 		09348EC81E7F7BA20034ECF2 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				09320FBD1F38520600063C11 /* lexical_cast.hpp */,
+				09320FBE1F38520600063C11 /* locale.hpp */,
+				09320FBF1F38520600063C11 /* string_builder.hpp */,
+				09320FC01F38520600063C11 /* unique_id.hpp */,
 				09A0B2461F04EC3300572DEB /* scope_guard.hpp */,
-				0944ED821EADD135006CC42F /* scope_locale.hpp */,
-				0944ED831EADD135006CC42F /* type_cast.hpp */,
 				09348EC91E7F7BA20034ECF2 /* basic_streambuf.hpp */,
 				09348ECA1E7F7BA20034ECF2 /* byte_swap.hpp */,
 				09348ECB1E7F7BA20034ECF2 /* error_code.hpp */,
@@ -372,6 +377,7 @@
 		0934900A1E7F7BA20034ECF2 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				09320FC11F38524700063C11 /* ITickable.hpp */,
 				09320FBA1F31B3CF00063C11 /* Directory.hpp */,
 				09320FBB1F31B3CF00063C11 /* File.hpp */,
 				09320FBC1F31B3CF00063C11 /* Path.hpp */,
