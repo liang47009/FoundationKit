@@ -7,7 +7,7 @@
 #ifndef FOUNDATIONKIT_ITICKABLE_HPP
 #define FOUNDATIONKIT_ITICKABLE_HPP
 
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 
 NS_FK_BEGIN
 
