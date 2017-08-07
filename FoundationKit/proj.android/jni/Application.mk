@@ -1,4 +1,4 @@
-#FoundationKit是支持原子库的，单是如果编译器选择的是clang，
+#FoundationKit是支持原子库的，但是如果编译器选择的是clang，
 #那么编译的ABI只能是 armeabi-v7a以上，clang下的armeabi架构
 #不支持原子库
 

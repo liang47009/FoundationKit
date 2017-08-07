@@ -24,7 +24,6 @@ $(SRCROOT)/FoundationKit/Foundation/MathUtil.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Matrix.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Quaternion.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Rect.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Size.cpp \
 $(SRCROOT)/FoundationKit/Foundation/StringUtils.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Timer.cpp \
 $(SRCROOT)/FoundationKit/Foundation/TimerQueue.cpp \

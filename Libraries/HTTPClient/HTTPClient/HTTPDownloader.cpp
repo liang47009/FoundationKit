@@ -193,7 +193,7 @@ bool HTTPDownloader::Init()
             bool bAcceptRanges = (!AcceptRanges.empty() && AcceptRanges != "none");
             if (bAcceptRanges)
             {
-                RangeNum = ContentSize / MIN_BLOCK_SIZE;
+                RangeNum = static_cast<int32>(ContentSize / MIN_BLOCK_SIZE);
                 if (RangeNum > concurrency)
                     RangeNum = concurrency;
                 if (RangeNum < 1)

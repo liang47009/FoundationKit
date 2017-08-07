@@ -1,7 +1,7 @@
 
 #include <dirent.h> // for DIR
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Base/scope_locale.hpp"
+#include "FoundationKit/Base/locale.hpp"
 #include "FoundationKit/Platform/Directory.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 NS_FK_BEGIN

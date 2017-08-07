@@ -12,7 +12,7 @@
 #include <sstream>
 #include <cassert>
 //#include <codecvt>
-#include "FoundationKit/Base/scope_locale.hpp"
+#include "FoundationKit/Base/locale.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/external/ConvertUTF/ConvertUTF.h"
 

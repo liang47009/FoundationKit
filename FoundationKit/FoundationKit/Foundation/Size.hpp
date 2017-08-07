@@ -82,10 +82,11 @@ public:
             && (fabs(this->height - target.height) < FLT_EPSILON);
     }
 
-    static const Size ZERO;
+    bool IsZero()
+    {
+        return (width == 0 && height == 0);
+    }
 };
-
-const Size Size::ZERO = Size(0, 0);
 
 NS_FK_END
 

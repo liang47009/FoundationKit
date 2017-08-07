@@ -182,14 +182,14 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp" />
     <ClInclude Include="..\FoundationKit\Base\byte_swap.hpp" />
     <ClInclude Include="..\FoundationKit\Base\error_code.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\locale.hpp" />
     <ClInclude Include="..\FoundationKit\Base\multiple_buffer.hpp" />
     <ClInclude Include="..\FoundationKit\Base\noncopyable.hpp" />
     <ClInclude Include="..\FoundationKit\Base\nonmovable.hpp" />
     <ClInclude Include="..\FoundationKit\Base\scope_guard.hpp" />
-    <ClInclude Include="..\FoundationKit\Base\scope_locale.hpp" />
     <ClInclude Include="..\FoundationKit\Base\string_builder.hpp" />
     <ClInclude Include="..\FoundationKit\Base\types.hpp" />
-    <ClInclude Include="..\FoundationKit\Base\type_cast.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\lexical_cast.hpp" />
     <ClInclude Include="..\FoundationKit\Base\unique_id.hpp" />
     <ClInclude Include="..\FoundationKit\Cache\AbstractCache.h" />
     <ClInclude Include="..\FoundationKit\Cache\AbstractStrategy.h" />

@@ -30,7 +30,6 @@
 #include "FoundationKit/Foundation/TimerQueue.hpp"
 #include "FoundationKit/Foundation/DelegateManager.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-#include "FoundationKit/Base/type_cast.hpp"
 #include "FoundationKit/Base/scope_guard.hpp"
 #include "FoundationKit/Crypto/des.hpp"
 #include "FoundationKit/Crypto/aes.hpp"
@@ -47,7 +46,7 @@
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Base/string_builder.hpp"
-#include "FoundationKit/Base/scope_locale.hpp"
+#include "FoundationKit/Base/locale.hpp"
 #include "FoundationKit/Base/unique_id.hpp"
 
 using namespace std;

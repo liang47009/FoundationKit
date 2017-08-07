@@ -237,12 +237,6 @@
     <ClInclude Include="..\FoundationKit\Platform\PlatformDevice.hpp">
       <Filter>Platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\scope_locale.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\type_cast.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\forward.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\des.hpp">
       <Filter>Crypto</Filter>
@@ -291,6 +285,12 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Path.hpp">
       <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\locale.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\lexical_cast.hpp">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -370,9 +370,6 @@
     <ClCompile Include="..\FoundationKit\Foundation\Vector4.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Version.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Math.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
@@ -404,6 +401,9 @@
       <Filter>Platform\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Rect.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Version.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
   </ItemGroup>

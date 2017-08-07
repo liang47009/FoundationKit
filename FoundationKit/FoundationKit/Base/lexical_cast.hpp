@@ -11,8 +11,7 @@
 #include <type_traits>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
-#if defined(__GNUC__)
-// NDK GCC not support std::stoX
+#if defined(__GNUC__NOT_USED)
 #include <sstream>
 #include <iomanip>
 #include <stdlib.h>
