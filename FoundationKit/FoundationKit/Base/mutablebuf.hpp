@@ -241,11 +241,6 @@ inline mutablebuf make_mutablebuf(std::basic_string<unsigned char>& buffers)
  * be modified. It does not own the underlying data, and so is cheap to copy or
  * assign.
  *
- * @par Accessing Buffer Contents
- *
- * The contents of a buffer may be accessed using the @ref buffer_size
- * and @ref buffer_cast functions:
- *
  * @code constbuf b1 = ...;
  * std::size_t s1 = b1.size();
  * const unsigned char* p1 = static_cast<const unsigned char*>(b1.data());
