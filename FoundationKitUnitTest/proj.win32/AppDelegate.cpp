@@ -71,29 +71,11 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-enum class Operatoion
-{
-    Add,
-    Delete,
-    Modify
-};
-
-struct IndexBlock
-{
-    Operatoion operat;
-    int64 offset;
-    int64 size;
-};
-
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
     std::error_code ec;
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
-
-
-
 
 
     int im_a_breakpoint = 0;

@@ -292,6 +292,9 @@
     <ClInclude Include="..\FoundationKit\Base\mutablebuf.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\algorithm.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

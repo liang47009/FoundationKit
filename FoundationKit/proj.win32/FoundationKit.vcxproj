@@ -179,6 +179,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\FoundationKit\Base\algorithm.hpp" />
     <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp" />
     <ClInclude Include="..\FoundationKit\Base\byte_swap.hpp" />
     <ClInclude Include="..\FoundationKit\Base\error_code.hpp" />

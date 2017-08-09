@@ -5,8 +5,10 @@
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 NS_FK_BEGIN
+
 #define MAX_WAIT_MSECS 30*1000 /* Wait max. 30 seconds */
 
+extern std::string GExternalFilePath;
 HTTPClient::RequestOptions HTTPClient::HTTPRequestOptions;
 CURLM*  HTTPClient::G_multiHandle = nullptr;
 CURLSH* HTTPClient::G_shareHandle = nullptr;
