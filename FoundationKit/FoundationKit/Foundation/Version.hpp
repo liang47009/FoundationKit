@@ -11,6 +11,7 @@
 #include <string>
 #include <sstream>
 #include "FoundationKit/GenericPlatformMacros.hpp"
+#include "FoundationKit/Base/lexical_cast.hpp"
 NS_FK_BEGIN
 
 class Version
@@ -88,9 +89,7 @@ private:
     template< class _Type, class _Val >
     static _Type ToNumber(_Val& val)
     {
-        std::istringstream iss(val);
-        _Type result;
-        return (iss >> result) ? result : -1;
+        return lexical_cast<_Type>(val);
     }
 };
 
