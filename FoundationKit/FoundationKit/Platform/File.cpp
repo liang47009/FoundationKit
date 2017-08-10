@@ -67,11 +67,12 @@ namespace detail
     {
         FILE* FileHandle = nullptr;
         if (isText)
-            fopen(path.c_str(), "wt");
+            FileHandle = fopen(path.c_str(), "wt");
         else
-            fopen(path.c_str(), "wb");
+            FileHandle = fopen(path.c_str(), "wb");
         if (!FileHandle) return false;
         size_t WriteSize = fwrite(bytes, 1, length, FileHandle);
+        fclose(FileHandle);
         return (WriteSize == length);
     }
 } //namespace detail

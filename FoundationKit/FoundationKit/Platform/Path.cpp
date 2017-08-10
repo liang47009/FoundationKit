@@ -109,7 +109,6 @@ std::string Path::Combine(const std::vector<std::string>& paths)
 
 std::string Path::Combine(const std::string& path1, const std::string& path2)
 {
-    std::string result;
     if (path1.empty())
         return path2;
 
