@@ -57,7 +57,10 @@ public:
 
     Rect UnionWithRect(const Rect & rect) const;
     
-    static const Rect ZERO;
+    bool IsZero()
+    {
+        return (origin == Vector2::ZERO && size.IsZero());
+    }
 };
 NS_FK_END
 

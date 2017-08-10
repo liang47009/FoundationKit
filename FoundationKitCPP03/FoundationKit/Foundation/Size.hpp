@@ -74,7 +74,10 @@ public:
 
     bool Equals(const Size& target) const;
 
-    static const Size ZERO;
+    bool IsZero()
+    {
+        return (width == 0 && height == 0);
+    }
 };
 
 NS_FK_END

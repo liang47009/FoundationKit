@@ -139,8 +139,6 @@ Rect Rect::UnionWithRect(const Rect & rect) const
     return Rect(combinedLeftX, combinedBottomY, combinedRightX - combinedLeftX, combinedTopY - combinedBottomY);
 }
 
-const Rect Rect::ZERO = Rect(0, 0, 0, 0);
-
 NS_FK_END
 
 

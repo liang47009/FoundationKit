@@ -15,7 +15,6 @@ bool Size::Equals(const Size& target) const
         && (fabs(this->height - target.height) < FLT_EPSILON);
 }
 
-const Size Size::ZERO = Size(0, 0);
 
 
 NS_FK_END
