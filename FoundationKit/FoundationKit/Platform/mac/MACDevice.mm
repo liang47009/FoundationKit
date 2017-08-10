@@ -1,3 +1,6 @@
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#if (TARGET_PLATFORM == PLATFORM_MAC)
+
 #include <mach/machine.h>
 #include <mach/mach.h>
 #include <mach/mach_host.h>
@@ -449,6 +452,8 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
 
 
 NS_FK_END
+
+#endif // OF #if (TARGET_PLATFORM == PLATFORM_MAC)
 
 
 

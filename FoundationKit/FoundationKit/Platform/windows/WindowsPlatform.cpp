@@ -4,12 +4,12 @@ Copyright (c) 2015 libo.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
-#include "FoundationKit/Platform/Platform.hpp"
+
+#include "FoundationKit/GenericPlatformMacros.hpp"
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#include "FoundationKit/Platform/Platform.hpp"
 
 NS_FK_BEGIN
-
-
 
 bool Platform::IsDebuggerPresent()
 {
@@ -91,7 +91,9 @@ std::string Platform::ExecuteSystemCommand(const std::string& command)
 
 NS_FK_END
 
-#endif
+#endif // OF #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+
+
 
 
 

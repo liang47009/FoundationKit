@@ -1,10 +1,10 @@
-
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 #include <windows.h>
 #include <WindowsX.h>
 #include <psapi.h>
 #include <vector>
 #include <memory>
-
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -457,3 +457,5 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
 }
 
 NS_FK_END
+
+#endif // OF #if (TARGET_PLATFORM == PLATFORM_WINDOWS)

@@ -1,6 +1,7 @@
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+
 #import <Foundation/Foundation.h>
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -38,4 +39,4 @@ std::string Path::GetApplicationPath()
 
 NS_FK_END
 
-#endif // #if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+#endif //OF #if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)

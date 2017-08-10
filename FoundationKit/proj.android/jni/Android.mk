@@ -36,18 +36,17 @@ $(SRCROOT)/FoundationKit/Foundation/Value.cpp \
 $(SRCROOT)/FoundationKit/GenericPlatformMacros.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidJavaBridge.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/DirectoryAndroid.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/EnvironmentAndroid.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/FileAndroid.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/PathAndroid.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/PlatformAndroid.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/PlatformDevice.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/ProtectedMemoryAllocator.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidDirectory.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidEnvironment.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidFile.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidPath.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidPlatform.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidDevice.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidProtectedMemoryAllocator.cpp \
 $(SRCROOT)/FoundationKit/Platform/Directory.cpp \
 $(SRCROOT)/FoundationKit/Platform/File.cpp \
 $(SRCROOT)/FoundationKit/Platform/Path.cpp \
 $(SRCROOT)/FoundationKit/Platform/Platform.cpp \
-
 
 LOCAL_C_INCLUDES := \
 $(PROJECT_DIR)/ \
@@ -63,12 +62,12 @@ cpufeatures/
 
 LOCAL_SHORT_COMMANDS := true
 
-LOCAL_CFLAGS :=  -fexceptions 
+LOCAL_CFLAGS :=  -fexceptions
 LOCAL_CPPFLAGS := -frtti -fexceptions -fsigned-char -Wno-deprecated-declarations -std=c++11
 LOCAL_CFLAGS += -DUSE_FILE32API -DANDROID
 LOCAL_CPPFLAGS +=-DUSE_FILE32API -DANDROID
 
-LOCAL_EXPORT_CFLAGS := -fexceptions 
+LOCAL_EXPORT_CFLAGS := -fexceptions
 LOCAL_EXPORT_CPPFLAGS := -frtti -fexceptions -fsigned-char -Wno-deprecated-declarations -std=c++11
 LOCAL_EXPORT_CFLAGS += -DUSE_FILE32API -DANDROID
 LOCAL_EXPORT_CPPFLAGS +=  -DUSE_FILE32API -DANDROID
@@ -88,15 +87,13 @@ endif
 LOCAL_LDLIBS     := -landroid -llog -lz -lEGL -lGLESv1_CM -lGLESv2 -lc
 LOCAL_EXPORT_LDLIBS     := -landroid -llog -lz -lEGL -lGLESv1_CM -lGLESv2
 
-LOCAL_STATIC_LIBRARIES += cpufeatures androidjni
-#LOCAL_WHOLE_STATIC_LIBRARIES += androidjni
+LOCAL_STATIC_LIBRARIES += cpufeatures
+#LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
 
 #include $(BUILD_STATIC_LIBRARY)
 include $(BUILD_SHARED_LIBRARY)
 $(call import-add-path,$(PROJECT_DIR)/FoundationKit)
 $(call import-module,android/cpufeatures)
-$(call import-module,Platform/Android/AndroidJNI)
-
 
 #==============================================================
 $(info ----------------- Compile libfoundationkit infomation -------------------)

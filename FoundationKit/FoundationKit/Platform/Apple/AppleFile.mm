@@ -1,3 +1,6 @@
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+
 #include <stdlib.h>
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -32,7 +35,7 @@ bool File::Rename(const std::string& sourceFileName, const std::string& destFile
     return (rename(sourceFileName.c_str(), destFileName.c_str()) == 0);
 }
 
-
-
 NS_FK_END
+
+#endif //OF #if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
 

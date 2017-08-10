@@ -11,11 +11,12 @@
 #include <type_traits>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
-#if defined(__GNUC__NOT_USED)
+#if defined(__GNUC__)
 #include <sstream>
 #include <iomanip>
 #include <stdlib.h>
 #include <wchar.h>
+#include <errno.h>
 #define _STRTO_LL	strtoll
 #define _STRTO_ULL	strtoull 
 #define _STRTO_F	strtod
@@ -33,7 +34,7 @@ namespace std
         const char *_Ptr = _Str.c_str();
         char *_Eptr;
         errno = 0;
-        long _Ans = std::strtol(_Ptr, &_Eptr, _Base);
+        long _Ans = ::strtol(_Ptr, &_Eptr, _Base);
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stoi argument");
@@ -50,7 +51,7 @@ namespace std
         const char *_Ptr = _Str.c_str();
         char *_Eptr;
         errno = 0;
-        long _Ans = std::strtol(_Ptr, &_Eptr, _Base);
+        long _Ans = ::strtol(_Ptr, &_Eptr, _Base);
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stol argument");
@@ -67,7 +68,7 @@ namespace std
         const char *_Ptr = _Str.c_str();
         char *_Eptr;
         errno = 0;
-        unsigned long _Ans = std::strtoul(_Ptr, &_Eptr, _Base);
+        unsigned long _Ans = ::strtoul(_Ptr, &_Eptr, _Base);
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stoul argument");
@@ -117,7 +118,7 @@ namespace std
         const char *_Ptr = _Str.c_str();
         errno = 0;
         char *_Eptr;
-        float _Ans = (float)std::_STRTO_F(_Ptr, &_Eptr);
+        float _Ans = (float)::_STRTO_F(_Ptr, &_Eptr);
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stof argument");
@@ -133,7 +134,7 @@ namespace std
         const char *_Ptr = _Str.c_str();
         errno = 0;
         char *_Eptr;
-        double _Ans = std::strtod(_Ptr, &_Eptr);
+        double _Ans = ::strtod(_Ptr, &_Eptr);
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stod argument");
@@ -149,7 +150,7 @@ namespace std
         const char *_Ptr = _Str.c_str();
         errno = 0;
         char *_Eptr;
-        long double _Ans = std::_STRTO_LD(_Ptr, &_Eptr);
+        long double _Ans = ::_STRTO_LD(_Ptr, &_Eptr);
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stold argument");
@@ -167,7 +168,7 @@ namespace std
         const wchar_t *_Ptr = _Str.c_str();
         wchar_t *_Eptr;
         errno = 0;
-        long _Ans = std::wcstol(_Ptr, &_Eptr, _Base);
+        long _Ans = ::wcstol(_Ptr, &_Eptr, _Base);
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stoi argument");
@@ -184,7 +185,7 @@ namespace std
         const wchar_t *_Ptr = _Str.c_str();
         wchar_t *_Eptr;
         errno = 0;
-        long _Ans = std::wcstol(_Ptr, &_Eptr, _Base);
+        long _Ans = ::wcstol(_Ptr, &_Eptr, _Base);
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stol argument");
@@ -201,7 +202,7 @@ namespace std
         const wchar_t *_Ptr = _Str.c_str();
         wchar_t *_Eptr;
         errno = 0;
-        unsigned long _Ans = std::wcstoul(_Ptr, &_Eptr, _Base);
+        unsigned long _Ans = ::wcstoul(_Ptr, &_Eptr, _Base);
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stoul argument");
@@ -251,7 +252,7 @@ namespace std
         const wchar_t *_Ptr = _Str.c_str();
         errno = 0;
         wchar_t *_Eptr;
-        float _Ans = (float)std::_WCSTO_F(_Ptr, &_Eptr);
+        float _Ans = (float)::_WCSTO_F(_Ptr, &_Eptr);
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stof argument");
@@ -267,7 +268,7 @@ namespace std
         const wchar_t *_Ptr = _Str.c_str();
         errno = 0;
         wchar_t *_Eptr;
-        double _Ans = std::wcstod(_Ptr, &_Eptr);
+        double _Ans = ::wcstod(_Ptr, &_Eptr);
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stod argument");
@@ -283,7 +284,7 @@ namespace std
         const wchar_t *_Ptr = _Str.c_str();
         errno = 0;
         wchar_t *_Eptr;
-        long double _Ans = std::_WCSTO_LD(_Ptr, &_Eptr);
+        long double _Ans = ::_WCSTO_LD(_Ptr, &_Eptr);
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stold argument");
@@ -295,18 +296,18 @@ namespace std
     }
 
     template<class _Val>
-    inline std::wstring to_wstring(_Val val, int precision = 2)
+    inline std::wstring to_wstring(_Val val/*, int precision = 2*/)
     {
         std::wostringstream oss;
-        oss << std::fixed << std::setprecision(precision) << val;
+        oss << /*std::fixed << std::setprecision(precision) <<*/ val;
         return oss.str();
     }
 
     template<class _Val>
-    inline std::string to_string(_Val val, int precision = 2)
+    inline std::string to_string(_Val val/*, int precision = 2*/)
     {
         std::ostringstream oss;
-        oss << std::fixed << std::setprecision(precision) << val;
+        oss << /*std::fixed << std::setprecision(precision) <<*/ val;
         return oss.str();
     }
 }

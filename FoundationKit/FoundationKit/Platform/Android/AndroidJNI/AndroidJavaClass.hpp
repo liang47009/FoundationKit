@@ -7,6 +7,9 @@
 #ifndef FOUNDATIONKIT_ANDROIDJAVACLASS_HPP
 #define FOUNDATIONKIT_ANDROIDJAVACLASS_HPP
 
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#if TARGET_PLATFORM == PLATFORM_ANDROID
+
 #include "AndroidJNI.hpp"
 #include "AndroidFoundation.hpp"
 
@@ -106,5 +109,7 @@ protected:
 };
 
 } // namespace AndroidNode
+
+#endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
 
 #endif // FOUNDATIONKIT_ANDROIDJAVACLASS_HPP

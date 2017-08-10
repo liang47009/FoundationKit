@@ -7,6 +7,9 @@
 #ifndef FOUNDATIONKIT_ANDROIDJNI_HPP
 #define FOUNDATIONKIT_ANDROIDJNI_HPP
 
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#if TARGET_PLATFORM == PLATFORM_ANDROID
+
 #include <jni.h>
 #include <android/log.h>
 #include <android/asset_manager.h>
@@ -73,5 +76,7 @@ private:
 };
 
 } // namespace AndroidNode
+
+#endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
 
 #endif // FOUNDATIONKIT_ANDROIDJNI_HPP

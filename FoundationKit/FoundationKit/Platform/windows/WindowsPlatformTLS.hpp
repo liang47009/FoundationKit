@@ -8,6 +8,8 @@
 #define FOUNDATIONKIT_WINDOWSPLATFORMTLS_HPP
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+
 #include "FoundationKit/Base/types.hpp"
 
 NS_FK_BEGIN
@@ -86,5 +88,7 @@ public:
 typedef WindowsPlatformTLS PlatformTLS;
 
 NS_FK_END
+
+#endif // OF #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 
 #endif // FOUNDATIONKIT_WINDOWSPLATFORMTLS_HPP

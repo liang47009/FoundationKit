@@ -7,6 +7,9 @@
 #ifndef FOUNDATIONKIT_ANDROIDFOUNDATION_HPP
 #define FOUNDATIONKIT_ANDROIDFOUNDATION_HPP
 
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#if TARGET_PLATFORM == PLATFORM_ANDROID
+
 #include <jni.h>
 #include <string>
 #include <vector>
@@ -1561,5 +1564,7 @@ void SetFieldStatic(const std::string & className, const std::string& fieldName,
 }
 
 } // namespace AndroidNode
+
+#endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
 
 #endif // FOUNDATIONKIT_ANDROIDFOUNDATION_HPP

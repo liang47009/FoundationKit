@@ -246,6 +246,13 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Foundation\Version.hpp" />
     <ClInclude Include="..\FoundationKit\GenericPlatformMacros.hpp" />
     <ClInclude Include="..\FoundationKit\LanguageFeatures.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJavaBridge.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidFoundation.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaClass.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaObject.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformTLS.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Directory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Environment.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\File.hpp" />
@@ -254,8 +261,7 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClInclude Include="..\FoundationKit\Platform\Platform.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformDevice.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h" />
+    <ClInclude Include="..\FoundationKit\Platform\ProtectedMemoryAllocator.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\system\dirent.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\std\contains_of_type.hpp" />
@@ -296,17 +302,26 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <ClCompile Include="..\FoundationKit\Foundation\Vector4.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Version.cpp" />
     <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDevice.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDirectory.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidEnvironment.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidFile.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJavaBridge.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPath.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPlatform.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidProtectedMemoryAllocator.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Directory.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\File.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Path.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Platform.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\windows\DirectoryWindows.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\windows\FileWindows.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\windows\PathWindows.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\windows\PlatformDevice.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\windows\PlatformWindows.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsDevice.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsDirectory.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsEnvironment.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsFile.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPath.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPlatform.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsProtectedMemoryAllocator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\Foundation\MathUtil.inl" />
@@ -316,6 +331,16 @@ xcopy /Y /Q "$(ProjectDir)..\FoundationKit\external\win32\i386\libs\Release\*.*"
     <None Include="..\FoundationKit\Foundation\Vector2.inl" />
     <None Include="..\FoundationKit\Foundation\Vector3.inl" />
     <None Include="..\FoundationKit\Foundation\Vector4.inl" />
+    <None Include="..\FoundationKit\Platform\Android\AndroidJNI\Android.mk" />
+    <None Include="..\FoundationKit\Platform\Apple\AppleDirectory.mm" />
+    <None Include="..\FoundationKit\Platform\Apple\AppleEnvironment.mm" />
+    <None Include="..\FoundationKit\Platform\Apple\AppleFile.mm" />
+    <None Include="..\FoundationKit\Platform\Apple\ApplePath.mm" />
+    <None Include="..\FoundationKit\Platform\Apple\AppleProtectedMemoryAllocator.mm" />
+    <None Include="..\FoundationKit\Platform\ios\IOSDevice.mm" />
+    <None Include="..\FoundationKit\Platform\ios\IOSPlatform.mm" />
+    <None Include="..\FoundationKit\Platform\mac\MACDevice.mm" />
+    <None Include="..\FoundationKit\Platform\mac\MACPlatform.mm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

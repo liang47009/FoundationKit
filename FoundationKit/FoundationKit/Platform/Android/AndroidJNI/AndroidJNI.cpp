@@ -4,6 +4,10 @@ Copyright (c) 2016 libo All rights reserved.
 losemymind.libo@gmail.com
 
 ****************************************************************************/
+
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#if TARGET_PLATFORM == PLATFORM_ANDROID
+
 #include <pthread.h>
 #include <algorithm>
 #include <android/asset_manager_jni.h>
@@ -276,6 +280,8 @@ bool AndroidJNI::RegisterNativeMethods(const char* className, JNINativeMethod* n
 }
 
 } // namespace AndroidNode
+
+#endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
 
 
 

@@ -1,3 +1,7 @@
+
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#if TARGET_PLATFORM == PLATFORM_ANDROID
+
 #include <jni.h>
 #include "FoundationKit/Foundation/DelegateManager.hpp"
 #include "FoundationKit/Foundation/FunctionHandler.hpp"
@@ -113,3 +117,6 @@ extern "C"
         FoundationKit::DelegateManager::GetInstance()->Invoke(strFunName, arglist);
     }
 }//extern "C"
+
+#endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
+

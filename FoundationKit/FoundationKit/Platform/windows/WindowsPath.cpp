@@ -1,4 +1,3 @@
-
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 #include <Windows.h>
@@ -102,7 +101,7 @@ std::string Path::GetApplicationPath()
 
 NS_FK_END
 
-#endif // #if (TARGET_PLATFORM == PLATFORM_WINDOWS
+#endif // OF #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 
 
 

@@ -1,3 +1,7 @@
+
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#if (TARGET_PLATFORM == PLATFORM_IOS)
+
 #include <mach/machine.h>
 #include <sys/sysctl.h>
 #include <ifaddrs.h>
@@ -549,5 +553,6 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
 
 NS_FK_END
 
+#endif // OF #if (TARGET_PLATFORM == PLATFORM_IOS)
 
 

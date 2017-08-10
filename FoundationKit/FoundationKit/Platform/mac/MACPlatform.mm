@@ -5,7 +5,7 @@
  
  ****************************************************************************/
  #include "FoundationKit/GenericPlatformMacros.hpp"
- #if TARGET_PLATFORM == PLATFORM_MAC
+ #if (TARGET_PLATFORM == PLATFORM_MAC)
 #include <unistd.h>
 #include <malloc/malloc.h>
 #include <sys/sysctl.h>
@@ -51,7 +51,8 @@ std::string Platform::ExecuteSystemCommand(const std::string& command)
 
 NS_FK_END
 
-#endif //TARGET_PLATFORM == PLATFORM_MAC
+#endif // OF #if (TARGET_PLATFORM == PLATFORM_MAC)
+
 
 
 

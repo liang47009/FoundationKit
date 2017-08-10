@@ -1,13 +1,25 @@
+
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+
 #include <sstream>
 #include <stdlib.h>
-#include <unistd.h> // for environ
+#include <mach/machine.h>
+#include <sys/types.h>
+#include <sys/sysctl.h>
+#include <sys/utsname.h>
+#include <unistd.h>
 #include "FoundationKit/Platform/Environment.hpp"
+#include "FoundationKit/Foundation/Exception.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
-extern char ** environ; // in <unistd.h>
+#import <Foundation/Foundation.h>
+extern char** environ;
 NS_FK_BEGIN
 Environment::stringvec Environment::GetEnvironmentVariables()
 {
-    stringvec  Variables;
+    // We can use:
+    //[[NSProcessInfo processInfo]environment]
+    stringvec Variables;
     char** env = environ;
     while (*env)
     {
@@ -28,7 +40,7 @@ std::string Environment::GetEnvironmentVariable(const std::string& variable)
 
 bool Environment::HasEnvironmentVariable(const std::string& variable)
 {
-    return getenv(variable.c_str()) != nullptr;
+    return getenv(variable.c_str()) != 0;
 }
 
 bool Environment::SetEnvironmentVariable(const std::string& variable, const std::string& value)
@@ -62,22 +74,18 @@ bool Environment::SetEnvironmentVariable(const std::string& variable, const std:
 
 Environment::stringvec Environment::GetCommandLineArgs()
 {
-    stringvec commandArgs;// = StringUtils::Split(GSavedCommandLine, ' ');
-    FILE *fp = nullptr;
-    if ((fp = fopen("/proc/self/cmdline", "r")) == NULL)
+    stringvec commandArgs;
+    NSArray* arguments = [[NSProcessInfo processInfo] arguments];
+    for (NSString *item in arguments)
     {
-        FKLog("Cannot open /proc/self/cmdline file!");
-        return commandArgs;
-    }
-    char line_buf[256] = { 0 };
-    while (fgets(line_buf, sizeof(line_buf), fp) != NULL)
-    {
-        commandArgs.push_back(line_buf);
+        commandArgs.push_back([item UTF8String]);
     }
     return commandArgs;
 }
 
 NS_FK_END
+
+#endif //OF #if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
 
 
 

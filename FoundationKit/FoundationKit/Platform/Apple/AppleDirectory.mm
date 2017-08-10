@@ -113,7 +113,7 @@ bool Directory::IsExists(const std::string& path)
 
 NS_FK_END
 
-#endif // #if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+#endif // OF #if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
 
 
 

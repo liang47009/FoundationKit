@@ -6,13 +6,18 @@
 ****************************************************************************/
 #ifndef FOUNDATIONKIT_PROTECTEDMEMORYALLOCATOR_HPP
 #define FOUNDATIONKIT_PROTECTEDMEMORYALLOCATOR_HPP
-
 #pragma once
+#include "FoundationKit/GenericPlatformMacros.hpp"
 #include <mutex>
 
+#if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+#include <mach/mach.h>
+#else
 typedef uintptr_t     vm_offset_t;
 typedef uintptr_t     vm_size_t;
 typedef vm_offset_t   vm_address_t;
+#endif
+
 
 class ProtectedMemoryAllocator
 {

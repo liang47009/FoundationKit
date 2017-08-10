@@ -37,6 +37,21 @@
     <Filter Include="experimental">
       <UniqueIdentifier>{77ba71ed-6746-4d2a-8085-4d7e997e5f01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform\Android">
+      <UniqueIdentifier>{6c301a9e-186b-43b5-87da-ef782acd1e95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Android\AndroidJNI">
+      <UniqueIdentifier>{9f18385f-544e-4e46-a73b-1c8a4951a8fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Apple">
+      <UniqueIdentifier>{3ee1b1c5-1dc3-48fa-8bf9-b70ed5b062b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\ios">
+      <UniqueIdentifier>{95494ff4-e093-4572-9139-e142d0ec87a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\mac">
+      <UniqueIdentifier>{2065263b-45a1-44a2-a138-ef45432fbf0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp">
@@ -62,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Cache\LRUStrategy.h">
       <Filter>Cache</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h">
-      <Filter>Platform\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h">
       <Filter>external\unzip</Filter>
@@ -195,12 +207,6 @@
     <ClInclude Include="..\FoundationKit\Platform\Environment.hpp">
       <Filter>Platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.hpp">
-      <Filter>Platform\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp">
-      <Filter>Platform\windows</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\OpenGL.hpp">
       <Filter>Platform</Filter>
     </ClInclude>
@@ -295,6 +301,33 @@
     <ClInclude Include="..\FoundationKit\Base\algorithm.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidFoundation.hpp">
+      <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaClass.hpp">
+      <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaObject.hpp">
+      <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.hpp">
+      <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp">
+      <Filter>Platform\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\ProtectedMemoryAllocator.hpp">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJavaBridge.hpp">
+      <Filter>Platform\Android</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformTLS.hpp">
+      <Filter>Platform\Android</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformTLS.hpp">
+      <Filter>Platform\Apple</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
@@ -302,12 +335,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Platform.cpp">
       <Filter>Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\windows\PlatformWindows.cpp">
-      <Filter>Platform\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp">
-      <Filter>Platform\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\external\unzip\ioapi.cpp">
       <Filter>external\unzip</Filter>
@@ -326,9 +353,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp">
       <Filter>Crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp">
-      <Filter>Platform\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Compression.cpp">
@@ -379,9 +403,6 @@
     <ClCompile Include="..\FoundationKit\Foundation\Value.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\windows\PlatformDevice.cpp">
-      <Filter>Platform\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Crypto\des.cpp">
       <Filter>Crypto</Filter>
     </ClCompile>
@@ -394,20 +415,59 @@
     <ClCompile Include="..\FoundationKit\Platform\Path.cpp">
       <Filter>Platform</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\windows\PathWindows.cpp">
-      <Filter>Platform\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\windows\DirectoryWindows.cpp">
-      <Filter>Platform\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\windows\FileWindows.cpp">
-      <Filter>Platform\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Rect.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Version.cpp">
       <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.cpp">
+      <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsDevice.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsDirectory.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsEnvironment.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsFile.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPath.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPlatform.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsProtectedMemoryAllocator.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDevice.cpp">
+      <Filter>Platform\Android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDirectory.cpp">
+      <Filter>Platform\Android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidEnvironment.cpp">
+      <Filter>Platform\Android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidFile.cpp">
+      <Filter>Platform\Android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJavaBridge.cpp">
+      <Filter>Platform\Android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPath.cpp">
+      <Filter>Platform\Android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPlatform.cpp">
+      <Filter>Platform\Android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidProtectedMemoryAllocator.cpp">
+      <Filter>Platform\Android</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -431,6 +491,36 @@
     </None>
     <None Include="..\FoundationKit\Foundation\Value.inl">
       <Filter>Foundation</Filter>
+    </None>
+    <None Include="..\FoundationKit\Platform\Android\AndroidJNI\Android.mk">
+      <Filter>Platform\Android\AndroidJNI</Filter>
+    </None>
+    <None Include="..\FoundationKit\Platform\Apple\AppleDirectory.mm">
+      <Filter>Platform\Apple</Filter>
+    </None>
+    <None Include="..\FoundationKit\Platform\Apple\AppleEnvironment.mm">
+      <Filter>Platform\Apple</Filter>
+    </None>
+    <None Include="..\FoundationKit\Platform\Apple\AppleFile.mm">
+      <Filter>Platform\Apple</Filter>
+    </None>
+    <None Include="..\FoundationKit\Platform\Apple\ApplePath.mm">
+      <Filter>Platform\Apple</Filter>
+    </None>
+    <None Include="..\FoundationKit\Platform\Apple\AppleProtectedMemoryAllocator.mm">
+      <Filter>Platform\Apple</Filter>
+    </None>
+    <None Include="..\FoundationKit\Platform\ios\IOSDevice.mm">
+      <Filter>Platform\ios</Filter>
+    </None>
+    <None Include="..\FoundationKit\Platform\ios\IOSPlatform.mm">
+      <Filter>Platform\ios</Filter>
+    </None>
+    <None Include="..\FoundationKit\Platform\mac\MACDevice.mm">
+      <Filter>Platform\mac</Filter>
+    </None>
+    <None Include="..\FoundationKit\Platform\mac\MACPlatform.mm">
+      <Filter>Platform\mac</Filter>
     </None>
   </ItemGroup>
 </Project>

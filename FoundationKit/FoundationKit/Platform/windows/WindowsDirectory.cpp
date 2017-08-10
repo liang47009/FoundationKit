@@ -1,3 +1,5 @@
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 #include <Windows.h>
 #include "FoundationKit/Platform/Directory.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -122,4 +124,5 @@ bool Directory::IsExists(const std::string& path)
 
 NS_FK_END
 
+#endif // OF #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 

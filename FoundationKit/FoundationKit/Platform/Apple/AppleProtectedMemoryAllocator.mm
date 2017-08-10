@@ -4,7 +4,11 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
-#include "ProtectedMemoryAllocator.hpp"
+
+ #include "FoundationKit/GenericPlatformMacros.hpp"
+#if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+
+#include "FoundationKit/Platform/ProtectedMemoryAllocator.hpp"
 #include <assert.h>
 
 ProtectedMemoryAllocator::ProtectedMemoryAllocator(vm_size_t pool_size)
@@ -60,6 +64,9 @@ bool  ProtectedMemoryAllocator::UnProtect(vm_address_t address, vm_size_t size)
     kern_return_t result =  vm_protect(mach_task_self(), address, size, FALSE, VM_PROT_READ | VM_PROT_WRITE | VM_PROT_COPY);
     return (result == KERN_SUCCESS);
 }
+
+#endif //OF #if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+
 
 
 

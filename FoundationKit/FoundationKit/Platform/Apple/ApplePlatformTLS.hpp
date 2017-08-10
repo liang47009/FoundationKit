@@ -2,10 +2,12 @@
 /*=============================================================================================
 	ApplePlatformTLS.h: Apple platform TLS (Thread local storage and thread ID) functions
 ==============================================================================================*/
-#ifndef LOSEMYMIND_APPLEPLATFORMTLS_H
-#define LOSEMYMIND_APPLEPLATFORMTLS_H
+#ifndef FOUNDATIONKIT_APPLEPLATFORMTLS_HPP
+#define FOUNDATIONKIT_APPLEPLATFORMTLS_HPP
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
+#if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+
 #include "FoundationKit/Base/types.hpp"
 #include <pthread.h>
 NS_FK_BEGIN
@@ -83,5 +85,7 @@ typedef ApplePlatformTLS PlatformTLS;
 
 NS_FK_END
 
-#endif // LOSEMYMIND_APPLEPLATFORMTLS_H
+#endif //OF #if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+
+#endif // FOUNDATIONKIT_APPLEPLATFORMTLS_HPP
 
