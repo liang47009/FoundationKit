@@ -11,7 +11,7 @@
 #include <assert.h>
 #include "FoundationKit/Platform/ProtectedMemoryAllocator.hpp"
 
-ProtectedMemoryAllocator::ProtectedMemoryAllocator(size_t pool_size)
+ProtectedMemoryAllocator::ProtectedMemoryAllocator(vm_size_t pool_size)
     : _poolSize(pool_size)
     , _nextAllocOffset(0)
     , _valid(false)

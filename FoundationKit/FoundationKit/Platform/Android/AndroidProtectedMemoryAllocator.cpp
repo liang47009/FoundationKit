@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <sys/mman.h>
 #include <unistd.h>
-ProtectedMemoryAllocator::ProtectedMemoryAllocator(size_t pool_size)
+ProtectedMemoryAllocator::ProtectedMemoryAllocator(vm_size_t pool_size)
     : _poolSize(pool_size)
     , _nextAllocOffset(0)
     , _valid(false)
