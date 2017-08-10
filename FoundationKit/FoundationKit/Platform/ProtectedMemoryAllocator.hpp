@@ -26,7 +26,7 @@ public:
 	ProtectedMemoryAllocator(const ProtectedMemoryAllocator&) = delete;
 	ProtectedMemoryAllocator& operator = (const ProtectedMemoryAllocator&) = delete;
 
-	explicit ProtectedMemoryAllocator(size_t pool_size);
+	explicit ProtectedMemoryAllocator(vm_size_t pool_size);
 	~ProtectedMemoryAllocator();
 
 	char*       Allocate(vm_size_t size);

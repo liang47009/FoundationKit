@@ -11,7 +11,7 @@
 #include <type_traits>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
-#if defined(__GNUC__)
+#if(TARGET_PLATFORM == PLATFORM_ANDROID)
 #include <sstream>
 #include <iomanip>
 #include <stdlib.h>
@@ -311,7 +311,7 @@ namespace std
         return oss.str();
     }
 }
-#endif
+#endif // #if(TARGET_PLATFORM == PLATFORM_ANDROID)
 
 NS_FK_BEGIN
 
