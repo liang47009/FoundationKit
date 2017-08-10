@@ -149,6 +149,10 @@
 			Name="Base"
 			>
 			<File
+				RelativePath="..\FoundationKit\Base\algorithm.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\FoundationKit\Base\basic_streambuf.hpp"
 				>
 			</File>
@@ -161,7 +165,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Base\multiple_buffer.hpp"
+				RelativePath="..\FoundationKit\Base\lexical_cast.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Base\locale.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Base\mutablebuf.hpp"
 				>
 			</File>
 			<File
@@ -173,15 +185,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Base\scope_locale.hpp"
+				RelativePath="..\FoundationKit\Base\scope_guard.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Base\type_cast.hpp"
+				RelativePath="..\FoundationKit\Base\string_builder.hpp"
 				>
 			</File>
 			<File
 				RelativePath="..\FoundationKit\Base\types.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Base\unique_id.hpp"
 				>
 			</File>
 		</Filter>
@@ -572,6 +588,10 @@
 				RelativePath="..\FoundationKit\Platform\PlatformTLS.hpp"
 				>
 			</File>
+			<File
+				RelativePath="..\FoundationKit\Platform\ProtectedMemoryAllocator.hpp"
+				>
+			</File>
 			<Filter
 				Name="windows"
 				>
@@ -601,10 +621,6 @@
 				</File>
 				<File
 					RelativePath="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.hpp"
 					>
 				</File>
 				<File

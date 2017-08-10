@@ -3,7 +3,7 @@
 #include <vector>
 #include <sys/stat.h>
 #include "FoundationKit/Foundation/DateTime.hpp"
-#include "FoundationKit/Base/multiple_buffer.hpp"
+#include "FoundationKit/Base/mutablebuf.hpp"
 NS_FK_BEGIN
 
 // Specifies how the operating system should open a file.
@@ -97,8 +97,8 @@ public:
 
     static bool AppendAllLines(const std::string& path, const FileLineType& contents);
     static bool AppendAllText(const std::string& path, const std::string& contents);
-    static mutable_buffer ReadAllBytes(const std::string& path);
-    static mutable_buffer ReadAllBytesFromZip(const std::string& path, const std::string& fileName);
+    static mutablebuf ReadAllBytes(const std::string& path);
+    static mutablebuf ReadAllBytesFromZip(const std::string& path, const std::string& fileName);
     static std::string ReadAllText(const std::string& path);
     static FileLineType ReadAllLines(const std::string& path);
     static bool WriteAllBytes(const std::string& path, const char* bytes, size_t length);

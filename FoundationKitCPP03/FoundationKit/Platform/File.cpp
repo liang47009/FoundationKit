@@ -17,9 +17,9 @@ const char PlatformNewLine[] ={'\n'};
 const char PlatformNewLine[] ={ '\r'};
 #endif
 
-mutable_buffer ReadDataFromFile(const std::string& path, bool isText = false)
+mutablebuf ReadDataFromFile(const std::string& path, bool isText = false)
 {
-    mutable_buffer  FileAllBytes;
+    mutablebuf  FileAllBytes;
     do
     {
         FILE* FileHandle = nullptr;
@@ -36,7 +36,7 @@ mutable_buffer ReadDataFromFile(const std::string& path, bool isText = false)
 
         fclose(FileHandle);
     } while (false);
-    return std::move(FileAllBytes);
+    return FileAllBytes;
 }
 
 bool WriteLinesToFile(const std::string& path, const File::FileLineType& contents, bool bAppend = false)
@@ -162,7 +162,7 @@ bool File::AppendAllText(const std::string& path, const std::string& contents)
     return result;
 }
 
-mutable_buffer FoundationKit::File::ReadAllBytes(const std::string& path)
+mutablebuf FoundationKit::File::ReadAllBytes(const std::string& path)
 {
     return ReadDataFromFile(path);
 }
@@ -170,9 +170,9 @@ mutable_buffer FoundationKit::File::ReadAllBytes(const std::string& path)
 #if (TARGET_PLATFORM==PLATFORM_IOS)
 #define MINIZIP_FROM_SYSTEM
 #endif
-mutable_buffer File::ReadAllBytesFromZip(const std::string& path, const std::string& fileName)
+mutablebuf File::ReadAllBytesFromZip(const std::string& path, const std::string& fileName)
 {
-    mutable_buffer retData;
+    mutablebuf retData;
     unzFile file = nullptr;
     do
     {
@@ -214,7 +214,7 @@ mutable_buffer File::ReadAllBytesFromZip(const std::string& path, const std::str
 
 std::string File::ReadAllText(const std::string& path)
 {
-    mutable_buffer FileTexts = ReadDataFromFile(path, true);
+    mutablebuf FileTexts = ReadDataFromFile(path, true);
     return std::string(FileTexts.c_str(), FileTexts.size());
 }
 

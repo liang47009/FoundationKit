@@ -14,7 +14,7 @@
 #include <vector>
 #include <limits>
 #include "FoundationKit/Base/error_code.hpp"
-#include "FoundationKit/Base/multiple_buffer.hpp"
+#include "FoundationKit/Base/mutablebuf.hpp"
 
 
 NS_FK_BEGIN
@@ -133,9 +133,9 @@ public:
      * @note The returned object is invalidated by any @c basic_streambuf member
      * function that modifies the input sequence or output sequence.
      */
-    const_buffer data() const
+    constbuf data() const
     {
-        return const_buffer(gptr(), (pptr() - gptr()) * sizeof(char_type));
+        return constbuf(gptr(), (pptr() - gptr()) * sizeof(char_type));
     }
 
     /**
@@ -154,10 +154,10 @@ public:
      * @note The returned object is invalidated by any @c basic_streambuf member
      * function that modifies the input sequence or output sequence.
      */
-    mutable_buffer prepare(std::size_t n)
+    mutablebuf prepare(std::size_t n)
     {
         reserve(n);
-        return mutable_buffer(pptr(), n * sizeof(char_type));
+        return mutablebuf(pptr(), n * sizeof(char_type));
     }
 
     /**

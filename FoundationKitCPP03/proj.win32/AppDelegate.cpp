@@ -23,7 +23,6 @@
 #include "FoundationKit/Foundation/TimerQueue.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Foundation/DelegateManager.hpp"
-#include "FoundationKit/Base/type_cast.hpp"
 
 #include <sqltypes.h>
 #include <sql.h>

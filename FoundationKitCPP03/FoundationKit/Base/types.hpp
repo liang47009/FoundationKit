@@ -77,8 +77,6 @@ struct allocator_traits
 {
     typedef std::allocator<_Ty> type;
 };
-template<class _Ty>
-class allocator_traits_t : public allocator_traits<_Ty>::type{};
 
 class GenericArgument
 {
@@ -92,7 +90,6 @@ private:
     const void *_data;
     const char *_name;
 };
-
 
 NS_FK_END
 

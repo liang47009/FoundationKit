@@ -17,7 +17,7 @@ typedef vm_offset_t   vm_address_t;
 class ProtectedMemoryAllocator
 {
 public:
-	explicit ProtectedMemoryAllocator(size_t pool_size);
+	explicit ProtectedMemoryAllocator(vm_size_t pool_size);
 	~ProtectedMemoryAllocator();
 
 	char*       Allocate(vm_size_t size);

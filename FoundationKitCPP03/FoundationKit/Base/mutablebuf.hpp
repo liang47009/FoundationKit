@@ -38,26 +38,31 @@ NS_FK_BEGIN
 * The @c data() member function permits violations of type safety, so uses of
 * it in application code should be carefully considered.
 */
-class mutable_buffer
+
+template <typename Allocator = std::allocator<uint8> >
+class basic_mutablebuf
 {
 public:
-
-    typedef uint8* pointer;
+    typedef basic_mutablebuf<Allocator> _Myt;
 
     /// Construct an empty buffer.
-    mutable_buffer()
+    basic_mutablebuf()
         : _data(nullptr)
         , _size(0)
+        , _owner(false)
     {
     }
 
-    mutable_buffer(const mutable_buffer& other)
+    basic_mutablebuf(const _Myt& other)
+        : _data(nullptr)
+        , _size(0)
+        , _owner(false)
     {
         copy(other);
     }
 
     /// Construct a buffer to represent a given memory range.
-    mutable_buffer(uint8* data, std::size_t size, bool need_del = false)
+    basic_mutablebuf(uint8* data, std::size_t size, bool need_del = false)
         : _data(data)
         , _size(size)
         , _owner(need_del)
@@ -65,7 +70,7 @@ public:
     }
 
     /// Construct a buffer to represent a given memory range.
-    mutable_buffer(char* data, std::size_t size, bool need_del = false)
+    basic_mutablebuf(char* data, std::size_t size, bool need_del = false)
         : _data(reinterpret_cast<uint8*>(data))
         , _size(size)
         , _owner(need_del)
@@ -73,7 +78,7 @@ public:
     }
 
     /// Construct a buffer to represent a given memory range.
-    mutable_buffer(void* data, std::size_t size, bool need_del = false)
+    basic_mutablebuf(void* data, std::size_t size, bool need_del = false)
         : _data(reinterpret_cast<uint8*>(data))
         , _size(size)
         , _owner(need_del)
@@ -81,7 +86,7 @@ public:
     }
 
     /// Assignment operator
-    mutable_buffer& operator= (const mutable_buffer& other)
+    basic_mutablebuf& operator= (const _Myt& other)
     {
         if (this != &other)
         {
@@ -94,6 +99,12 @@ public:
     void* data() const
     {
         return reinterpret_cast<void*>(_data);;
+    }
+
+    /// Get the size of the memory range.
+    std::size_t size() const
+    {
+        return _size;
     }
 
     const char* c_str()const
@@ -123,12 +134,6 @@ public:
         _owner = need_del;
     }
 
-    /// Get the size of the memory range.
-    std::size_t size() const
-    {
-        return _size;
-    }
-
     void clear()
     {
         if (_owner && _data != nullptr)
@@ -145,13 +150,13 @@ public:
         return (_data == nullptr || _size == 0);
     }
 
-    ~mutable_buffer()
+    ~basic_mutablebuf()
     {
         clear();
     }
 
 private:
-    void copy(const mutable_buffer& other)
+    void copy(const _Myt& other)
     {
         this->_size = other._size;
         if (!other._owner)
@@ -176,41 +181,39 @@ private:
     uint8*      _data;
     std::size_t _size;
     bool        _owner;
+    //Allocator   _allocator;
 };
 
-inline mutable_buffer make_mutable_buffer(std::vector<char>& buffers)
+typedef basic_mutablebuf<> mutablebuf;
+
+inline mutablebuf make_mutablebuf(std::vector<char>& buffers)
 {
-    return mutable_buffer(&(buffers[0]), buffers.size());
+    return mutablebuf(&(buffers[0]), buffers.size());
 }
 
-inline mutable_buffer make_mutable_buffer(std::vector<unsigned char>& buffers)
+inline mutablebuf make_mutablebuf(std::vector<unsigned char>& buffers)
 {
-    return mutable_buffer(&(buffers[0]), buffers.size());
+    return mutablebuf(&(buffers[0]), buffers.size());
 }
 
-inline mutable_buffer make_mutable_buffer(std::basic_string<char>& buffers)
+inline mutablebuf make_mutablebuf(std::basic_string<char>& buffers)
 {
-    return mutable_buffer(&(buffers[0]), buffers.size());
+    return mutablebuf(&(buffers[0]), buffers.size());
 }
 
-inline mutable_buffer make_mutable_buffer(std::basic_string<unsigned char>& buffers)
+inline mutablebuf make_mutablebuf(std::basic_string<unsigned char>& buffers)
 {
-    return mutable_buffer(&(buffers[0]), buffers.size());
+    return mutablebuf(&(buffers[0]), buffers.size());
 }
 
 
 /**
  * Holds a buffer that cannot be modified.
- * The const_buffer class provides a safe representation of a buffer that cannot
+ * The constbuf class provides a safe representation of a buffer that cannot
  * be modified. It does not own the underlying data, and so is cheap to copy or
  * assign.
  *
- * @par Accessing Buffer Contents
- *
- * The contents of a buffer may be accessed using the @ref buffer_size
- * and @ref buffer_cast functions:
- *
- * @code const_buffer b1 = ...;
+ * @code constbuf b1 = ...;
  * std::size_t s1 = b1.size();
  * const unsigned char* p1 = static_cast<const unsigned char*>(b1.data());
  * @endcode
@@ -218,54 +221,53 @@ inline mutable_buffer make_mutable_buffer(std::basic_string<unsigned char>& buff
  * The data() function permits violations of type safety, so
  * uses of it in application code should be carefully considered.
  */
-class const_buffer
+class constbuf
 {
 public:
 
-    typedef void* pointer;
-
     /// Construct an empty buffer.
-    const_buffer()
+    constbuf()
         : _data(nullptr)
         , _size(0)
     {
     }
 
 
-    const_buffer(const const_buffer& other)
+    constbuf(const constbuf& other)
     {
         copy(other);
     }
 
-    const_buffer(const mutable_buffer& mutableBuf)
+
+    constbuf(const mutablebuf& mutableBuf)
     {
         this->_size = mutableBuf.size();
         this->_data = mutableBuf.data();
     }
 
     /// Construct a buffer to represent a given memory range.
-    const_buffer(const uint8* data, std::size_t size)
+    constbuf(const uint8* data, std::size_t size)
         : _data(data)
         , _size(size)
     {
     }
 
     /// Construct a buffer to represent a given memory range.
-    const_buffer(const char* data, std::size_t size)
+    constbuf(const char* data, std::size_t size)
         : _data(data)
         , _size(size)
     {
     }
 
     /// Construct a buffer to represent a given memory range.
-    const_buffer(const void* data, std::size_t size)
+    constbuf(const void* data, std::size_t size)
         : _data(data)
         , _size(size)
     {
     }
 
     // Assignment operator
-    const_buffer& operator= (const const_buffer& other)
+    constbuf& operator= (const constbuf& other)
     {
         if (this != &other)
         {
@@ -278,6 +280,12 @@ public:
     const void* data() const
     {
         return _data;
+    }
+
+    /// Get the size of the memory range.
+    std::size_t size() const
+    {
+        return _size;
     }
 
     const char* c_str()const
@@ -297,12 +305,6 @@ public:
         _size = size;
     }
 
-    /// Get the size of the memory range.
-    std::size_t size() const
-    {
-        return _size;
-    }
-
     void clear()
     {
         _data = nullptr;
@@ -314,41 +316,42 @@ public:
         return (_data == nullptr || _size == 0);
     }
 
-    ~const_buffer()
+    ~constbuf()
     {
         clear();
     }
 
 private:
-    void copy(const const_buffer& other)
+    void copy(const constbuf& other)
     {
         this->_size = other._size;
         this->_data = other._data;
     }
+
 
 private:
     const void* _data;
     std::size_t _size;
 };
 
-inline const_buffer make_const_buffer(std::vector<char>& buffers)
+inline constbuf make_constbuf(std::vector<char>& buffers)
 {
-    return const_buffer(&(buffers[0]), buffers.size());
+    return constbuf(&(buffers[0]), buffers.size());
 }
 
-inline const_buffer make_const_buffer(std::vector<unsigned char>& buffers)
+inline constbuf make_constbuf(std::vector<unsigned char>& buffers)
 {
-    return const_buffer(&(buffers[0]), buffers.size());
+    return constbuf(&(buffers[0]), buffers.size());
 }
 
-inline const_buffer make_const_buffer(std::basic_string<char>& buffers)
+inline constbuf make_constbuf(std::basic_string<char>& buffers)
 {
-    return const_buffer(&(buffers[0]), buffers.size());
+    return constbuf(&(buffers[0]), buffers.size());
 }
 
-inline const_buffer make_const_buffer(std::basic_string<unsigned char>& buffers)
+inline constbuf make_constbuf(std::basic_string<unsigned char>& buffers)
 {
-    return const_buffer(&(buffers[0]), buffers.size());
+    return constbuf(&(buffers[0]), buffers.size());
 }
 
 NS_FK_END

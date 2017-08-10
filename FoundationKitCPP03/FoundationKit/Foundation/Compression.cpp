@@ -74,7 +74,7 @@ long long Compression::uncompressorTime = 0;
 
 uint32_t Compression::defaultBufferLength = uint32_t(4) << 20; // 4MiB
 
-bool Compression::CompressMemory(CompressionFlags Flags, mutable_buffer& CompressedBuffer, const mutable_buffer& UncompressedBuffer)
+bool Compression::CompressMemory(CompressionFlags Flags, mutablebuf& CompressedBuffer, const mutablebuf& UncompressedBuffer)
 {
     static std::mutex zlibScopeMutex;
     std::lock_guard<std::mutex> scopeLock(zlibScopeMutex);
@@ -107,7 +107,7 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutable_buffer& Compres
         uLong uncompressedLength = static_cast<uLong>(UncompressedBuffer.size());
         stream.next_in  = static_cast<uint8*>(UncompressedBuffer.data());
         stream.avail_in = static_cast<uInt>(uncompressedLength);
-        mutable_buffer tempData;
+        mutablebuf tempData;
         tempData.reallocate(uncompressedLength);
         stream.next_out = static_cast<uint8*>(tempData.data());;
         stream.avail_out = static_cast<uInt>(uncompressedLength);
@@ -136,7 +136,7 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutable_buffer& Compres
     return bOperationSucceeded;
 }
 
-bool Compression::UncompressMemory(CompressionFlags Flags, mutable_buffer& UncompressedBuffer, const mutable_buffer& CompressedBuffer)
+bool Compression::UncompressMemory(CompressionFlags Flags, mutablebuf& UncompressedBuffer, const mutablebuf& CompressedBuffer)
 {
     static std::mutex zlibScopeMutex;
     std::lock_guard<std::mutex> scopeLock(zlibScopeMutex);
