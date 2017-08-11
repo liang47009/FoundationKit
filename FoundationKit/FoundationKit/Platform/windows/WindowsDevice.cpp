@@ -155,13 +155,13 @@ std::string PlatformDevice::GetDevice()
 std::string PlatformDevice::GetBrandName()
 {
     // https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+    // https://en.wikipedia.org/wiki/CPUID
     std::array<int, 4> cpui;
     // Calling __cpuid with 0x80000000 as the function_id argument  
     // gets the number of the highest valid extended ID.  
     __cpuid(cpui.data(), 0x80000000);
     int nExIds = cpui[0];
-    char brand[0x40];
-    memset(brand, 0, sizeof(brand));
+    char brand[64] = {0};
     std::vector<std::array<int, 4>> extdata;
     for (int i = 0x80000000; i <= nExIds; ++i)
     {
@@ -186,6 +186,7 @@ std::string PlatformDevice::GetModel()
 std::string PlatformDevice::GetManufacturer()
 {
     // https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+    // https://en.wikipedia.org/wiki/CPUID
     std::array<int, 4> cpui;
     __cpuid(cpui.data(), 0);
     int nIds = cpui[0];
@@ -195,8 +196,7 @@ std::string PlatformDevice::GetManufacturer()
         __cpuidex(cpui.data(), i, 0);
         data.push_back(cpui);
     }
-    char vendor[0x20];
-    memset(vendor, 0, sizeof(vendor));
+    char vendor[32] = {0};
     *reinterpret_cast<int*>(vendor) = data[0][1];
     *reinterpret_cast<int*>(vendor + 4) = data[0][3];
     *reinterpret_cast<int*>(vendor + 8) = data[0][2];
@@ -267,6 +267,15 @@ int PlatformDevice::GetCPUCoreCount()
 
 int PlatformDevice::GetCPUMaxFreq(int cpuIndex/* = -1*/)
 {
+    std::array<int, 4> cpui;
+    __cpuid(cpui.data(), 0);
+    int nIds = cpui[0];
+    __cpuid(cpui.data(), nIds);
+    if (nIds >= 0x16)
+    {
+        __cpuid(cpui.data(), 0x16);
+    }
+
     return 0;
 }
 
