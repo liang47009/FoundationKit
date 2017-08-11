@@ -55,7 +55,7 @@ long long Compression::compressorTime = 0;
 /** Time spent uncompressing data in seconds. */
 long long Compression::uncompressorTime = 0;
 
-uint32_t Compression::defaultBufferLength = uint32_t(4) << 20; // 4MiB
+int32_t Compression::defaultBufferLength = int32_t(4) << 20; // 4MiB
 
 bool Compression::CompressMemory(CompressionFlags Flags, mutablebuf& CompressedBuffer, const mutablebuf& UncompressedBuffer)
 {
@@ -190,8 +190,8 @@ bool Compression::CompressFile(const std::string& srcFilePath, const std::string
         BREAK_IF(gFile == nullptr);
         FILE* srcFp = fopen(srcFilePath.c_str(), "rb");
         BREAK_IF(srcFp == nullptr);
-        size_t readsize = 0;
-        size_t totalReadSize = 0;
+        long readsize = 0;
+        long totalReadSize = 0;
         char* buffer = new char[defaultBufferLength];
         do 
         {
@@ -218,8 +218,8 @@ bool Compression::UncompressFile(const std::string& srcFilePath, const std::stri
         BREAK_IF(gFile == nullptr);
         FILE* desFp = fopen(desFilePath.c_str(), "wb");
         BREAK_IF(desFp == nullptr);
-        size_t readsize = 0;
-        size_t totalReadSize = 0;
+        long readsize = 0;
+        long totalReadSize = 0;
         char* buffer = new char[defaultBufferLength];
         do 
         {

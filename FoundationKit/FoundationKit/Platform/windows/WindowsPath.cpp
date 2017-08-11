@@ -85,7 +85,7 @@ std::string Path::GetApplicationPath()
         // We need only directory part without exe
         //WCHAR *pUtf16DirEnd = wcsrchr(pUtf16ExePath, L'\\');
         //WideCharToMultiByte(CP_UTF8, 0, pUtf16ExePath, pUtf16DirEnd - pUtf16ExePath + 1, utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
-        WideCharToMultiByte(CP_UTF8, 0, pUtf16ExePath, wcslen(pUtf16ExePath), utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
+        WideCharToMultiByte(CP_UTF8, 0, pUtf16ExePath, static_cast<int>(wcslen(pUtf16ExePath)), utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
     }
     else
     {

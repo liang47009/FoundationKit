@@ -41,7 +41,7 @@ struct Compression
     /** Time spent uncompressing data in milliseconds. */
     static long long uncompressorTime;
 
-    static uint32_t defaultBufferLength;
+    static int32_t defaultBufferLength;
 
     /**
      * Thread-safe abstract compression routine. Compresses memory from uncompressed buffer and writes it to compressed

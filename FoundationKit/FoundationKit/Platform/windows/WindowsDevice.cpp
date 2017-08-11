@@ -11,50 +11,19 @@
 #include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Base/types.hpp"
 #include "FoundationKit/Crypto/md5.hpp"
-
+#include <array>
 #include <d3d9.h>
+#pragma   comment(lib,"d3d9.lib")
 #pragma   comment(lib,"Psapi.lib")
 // for getMacAddressUseGetAdaptersInfo
 #include <Iphlpapi.h>
 #pragma comment(lib, "iphlpapi.lib")
 
+
 NS_FK_BEGIN
 
 namespace detail
 {
-    DWORD deax;
-    DWORD debx;
-    DWORD decx;
-    DWORD dedx;
-    void ExeCPUID(DWORD veax)
-    {
-        __asm
-        {
-            mov eax, veax
-                cpuid
-                mov deax, eax
-                mov debx, ebx
-                mov decx, ecx
-                mov dedx, edx
-        }
-
-    }
-
-    std::string GetCPUType()
-    {
-        char CPUType[64] = { 0 };
-        const DWORD id = 0x80000002;
-        for (DWORD t = 0; t < 3; t++)
-        {
-            ExeCPUID(id + t);
-            memcpy(CPUType + 16 * t + 0, &deax, 4);
-            memcpy(CPUType + 16 * t + 4, &debx, 4);
-            memcpy(CPUType + 16 * t + 8, &decx, 4);
-            memcpy(CPUType + 16 * t + 12,&dedx, 4);
-        }
-        return std::string(CPUType);
-    }
-
     std::vector<uint8> GetMacAddressRaw()
     {
         std::vector<uint8> result;
@@ -185,7 +154,28 @@ std::string PlatformDevice::GetDevice()
 
 std::string PlatformDevice::GetBrandName()
 {
-    return "";
+    // https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+    std::array<int, 4> cpui;
+    // Calling __cpuid with 0x80000000 as the function_id argument  
+    // gets the number of the highest valid extended ID.  
+    __cpuid(cpui.data(), 0x80000000);
+    int nExIds = cpui[0];
+    char brand[0x40];
+    memset(brand, 0, sizeof(brand));
+    std::vector<std::array<int, 4>> extdata;
+    for (int i = 0x80000000; i <= nExIds; ++i)
+    {
+        __cpuidex(cpui.data(), i, 0);
+        extdata.push_back(cpui);
+    }
+    // Interpret CPU brand string if reported  
+    if (nExIds >= 0x80000004)
+    {
+        memcpy(brand, extdata[2].data(), sizeof(cpui));
+        memcpy(brand + 16, extdata[3].data(), sizeof(cpui));
+        memcpy(brand + 32, extdata[4].data(), sizeof(cpui));
+    }
+    return brand;
 }
 
 std::string PlatformDevice::GetModel()
@@ -195,7 +185,22 @@ std::string PlatformDevice::GetModel()
 
 std::string PlatformDevice::GetManufacturer()
 {
-    return "";
+    // https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+    std::array<int, 4> cpui;
+    __cpuid(cpui.data(), 0);
+    int nIds = cpui[0];
+    std::vector<std::array<int, 4>> data;
+    for (int i = 0; i <= nIds; ++i)
+    {
+        __cpuidex(cpui.data(), i, 0);
+        data.push_back(cpui);
+    }
+    char vendor[0x20];
+    memset(vendor, 0, sizeof(vendor));
+    *reinterpret_cast<int*>(vendor) = data[0][1];
+    *reinterpret_cast<int*>(vendor + 4) = data[0][3];
+    *reinterpret_cast<int*>(vendor + 8) = data[0][2];
+    return vendor;
 }
 
 typedef LONG(NTAPI* fnRtlGetVersion)(PRTL_OSVERSIONINFOW lpVersionInformation);
@@ -395,7 +400,7 @@ float PlatformDevice::GetScreenDPI()
         int PixelsX = GetDeviceCaps(hScreenDC, HORZRES);
         int MMX = GetDeviceCaps(hScreenDC, HORZSIZE);
         ReleaseDC(nullptr, hScreenDC);
-        dpi = 255*PixelsX / MMX / 10;
+        dpi = 255.0f*PixelsX / MMX / 10.0;
     }
     return dpi;
 }

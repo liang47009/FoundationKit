@@ -124,7 +124,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\openssl\prebuilt\win32\*.*" "$(OutDir)"</C
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>UNICODE;WIN64;_DEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;$(ProjectDir)/../../FoundationKit/FoundationKit/external/;../../FoundationKit/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
@@ -173,7 +173,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\openssl\prebuilt\win32\*.*" "$(OutDir)"</C
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>UNICODE;WIN64;NDEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../../FoundationKit/FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;$(ProjectDir)/../../FoundationKit/FoundationKit/external/;../../FoundationKit/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
