@@ -28,7 +28,7 @@ FILE* AndroidOpenAsset(const char * path, const char * mode)
 {
     if (mode[0] == 'w') return nullptr;
     AAssetManager* AndroidAssetManager = AndroidNode::AndroidJNI::GetAAssetManager();
-    AAsset* asset = AAssetManager_open(AndroidAssetManager, path, 0);
+    AAsset* asset = AAssetManager_open(AndroidAssetManager, path, AASSET_MODE_UNKNOWN);
     if (!asset) return nullptr;
     return funopen(asset, AndroidReadAsset, AndroidWriteAsset, AndroidSeekAsset, AndroidCloseAsset);
 }
