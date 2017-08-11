@@ -136,7 +136,7 @@ public:
 
     void reallocate(std::size_t size)
     {
-        clear();
+        release();
         _data = new uint8[size];
         memset(_data, 0, size);
         _size = size;
@@ -145,13 +145,18 @@ public:
 
     void assign(void* data, std::size_t size, bool need_del = false)
     {
-        clear();
+        release();
         _data = reinterpret_cast<uint8*>(data);
         _size = size;
         _owner = need_del;
     }
 
     void clear()
+    {
+        memset(_data, 0, _size);
+    }
+
+    void release()
     {
         if (_owner && _data != nullptr)
         {
@@ -169,7 +174,7 @@ public:
 
     ~basic_mutablebuf()
     {
-        clear();
+        release();
     }
 
 private:
@@ -196,7 +201,7 @@ private:
 
     void move(_Myt&& other)
     {
-        clear();
+        release();
         this->_data = other._data;
         this->_size = other._size;
         this->_owner = other._owner;

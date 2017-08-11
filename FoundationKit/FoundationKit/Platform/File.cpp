@@ -125,21 +125,21 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
         BREAK_IF(!fpDes);
         const size_t BUFF_SIZE = 1024;
         char read_buff[BUFF_SIZE];
-        size_t fileOriginalSize = static_cast<size_t>(srcFileSize);
         size_t readedSize = 0;
-        size_t unreadSize = fileOriginalSize;
         size_t writedSize = 0;
+        size_t fileOriginalSize = static_cast<size_t>(srcFileSize);
+        size_t unreadSize = fileOriginalSize;
         while (readedSize < fileOriginalSize)
         {
             if (unreadSize > BUFF_SIZE)
             {
                 readedSize += fread(read_buff, sizeof(char), BUFF_SIZE, fpSrc);
-                writedSize += fwrite(read_buff, 1, BUFF_SIZE, fpDes);
+                writedSize += fwrite(read_buff, 1, readedSize, fpDes);
             }
             else
             {
                 readedSize += fread(read_buff, sizeof(char), unreadSize, fpSrc);
-                writedSize += fwrite(read_buff, 1, unreadSize, fpDes);
+                writedSize += fwrite(read_buff, 1, readedSize, fpDes);
             }
             unreadSize = fileOriginalSize - readedSize;
         }

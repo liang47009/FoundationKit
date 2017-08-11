@@ -7,6 +7,7 @@
 #ifndef FOUNDATIONKIT_ALGORITHM_HPP
 #define FOUNDATIONKIT_ALGORITHM_HPP
 
+#include <algorithm>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 NS_FK_BEGIN
 
