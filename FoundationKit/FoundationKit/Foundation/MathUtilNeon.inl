@@ -15,8 +15,15 @@
 
  This file was modified to fit the FoundationKit project
  */
-#ifndef LOSEMYMIND_MATHUTILNEON_H
-#define LOSEMYMIND_MATHUTILNEON_H
+
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_MATHUTILNEON_INL
+#define FOUNDATIONKIT_MATHUTILNEON_INL
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -257,5 +264,7 @@ NS_FK_END
 
 #endif // #ifdef USE_NEON
 
+#endif // END OF FOUNDATIONKIT_MATHUTILNEON_INL
 
-#endif // LOSEMYMIND_MATHUTILNEON_H
+
+

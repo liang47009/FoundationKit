@@ -77,8 +77,12 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
 
-    PlatformDevice::GetBrandName();
-    PlatformDevice::GetManufacturer();
+    FunctionHandlerPointer funPointer = BindFunctionHandler([](const std::string& name, int value)
+    {
+        value = value + 10;
+    });
+
+    InvokeFunctionHandler(funPointer, "Test", 100);
 
     int im_a_breakpoint = 0;
 	return true;

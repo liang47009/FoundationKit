@@ -328,6 +328,9 @@
     <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformTLS.hpp">
       <Filter>Platform\Apple</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\AsyncTask.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

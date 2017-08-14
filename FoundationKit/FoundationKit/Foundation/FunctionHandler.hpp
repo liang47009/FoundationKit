@@ -152,6 +152,27 @@ namespace detail
         std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue>(std::bind(fun, PlaceHolderDetail::PlaceHolderMaker<indices>::Get()...)));
         return pSelector;
     }
+
+
+    template <typename T>
+    void BuildArgumentList(ArgumentList& al, const T &t)
+    {
+        al.emplace_back(t);
+    }
+
+
+    template <typename T, typename...Args>
+    void BuildArgumentList(ArgumentList& al, const T &t, const Args&... args)
+    {
+        al.emplace_back(t);
+        BuildArgumentList(al,args...);
+    }
+
+    //template <typename...Args>
+    //void BuildArgumentList(ArgumentList& al, const Args&... args)
+    //{
+    //    BuildArgumentList(al, args...);
+    //}
 }
 
 template<typename _Ft, typename _Ty>
@@ -169,6 +190,15 @@ FunctionHandlerPointer BindFunctionHandler(_Ft fun)
     typedef typename PlaceHolderDetail::PlaceHolderIndexList<arityvalue>::Type List;
     return detail::BindFunctionHandlerImpl(fun, List());
 }
+
+template<typename... Args>
+void InvokeFunctionHandler(FunctionHandlerPointer Handler, Args... args)
+{
+    ArgumentList al;
+    detail::BuildArgumentList(al, std::forward<Args>(args)...);
+    Handler->Invoke(al);
+}
+
 
 NS_FK_END
 
