@@ -455,8 +455,8 @@ Rect PlatformDevice::GetScreenResolution()
     lazyGetScreenResolution();
     return Rect(static_cast<float>(0)
         , static_cast<float>(0)
-        , static_cast<float>(GLOBAL_DisplayInfo.appSize.width)
-        , static_cast<float>(GLOBAL_DisplayInfo.appSize.height));
+        , static_cast<float>(GLOBAL_DisplayInfo.appSize.Width)
+        , static_cast<float>(GLOBAL_DisplayInfo.appSize.Height));
 }
 
 Rect PlatformDevice::GetScreenNativeResolution()
@@ -464,8 +464,8 @@ Rect PlatformDevice::GetScreenNativeResolution()
     lazyGetScreenResolution();
      return Rect(static_cast<float>(0)
         , static_cast<float>(0)
-        , static_cast<float>(GLOBAL_DisplayInfo.realSize.width)
-        , static_cast<float>(GLOBAL_DisplayInfo.realSize.height));
+        , static_cast<float>(GLOBAL_DisplayInfo.realSize.Width)
+        , static_cast<float>(GLOBAL_DisplayInfo.realSize.Height));
 }
 
 float PlatformDevice::GetScreenDPI()
