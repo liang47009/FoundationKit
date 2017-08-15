@@ -77,8 +77,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::string strErr = ec.message();
     HTTPClient::GetInstance()->Initialize();
 
-	PlatformDevice::GetBrandName();
-	PlatformDevice::GetManufacturer();
+	PlatformDevice::GetCPUFrequency();
+
 
     int im_a_breakpoint = 0;
 	return true;

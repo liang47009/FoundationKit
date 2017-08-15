@@ -40,18 +40,17 @@ NS_FK_BEGIN
  * it in application code should be carefully considered.
  */
 
-
+template<typename _Ty = uint8>
 class basic_mutablebuf
 {
 public:
-	using value_type = uint8;
+	using value_type = _Ty;
 	using size_type = size_t;
 	using pointer = value_type *;
 	using const_pointer = const value_type *;
 	using reference = value_type&;
 	using const_reference = const value_type&;
-	using _Myt      = basic_mutablebuf;
-
+	using _Myt      = basic_mutablebuf<_Ty>;
 
     /// Construct an empty buffer.
     basic_mutablebuf()
@@ -233,7 +232,7 @@ private:
 	bool      _bAlloced;
 };
 
-typedef basic_mutablebuf mutablebuf;
+typedef basic_mutablebuf<> mutablebuf;
 
 inline mutablebuf make_mutablebuf(std::vector<char>& buffers)
 {
