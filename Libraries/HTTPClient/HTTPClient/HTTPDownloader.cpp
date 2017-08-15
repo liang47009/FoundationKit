@@ -189,7 +189,7 @@ bool HTTPDownloader::Init()
             }
 
             std::string AcceptRanges = response->GetHeader("Accept-Ranges");
-            int32       RangeNum = 1;
+			uint32      RangeNum = 1;
             bool bAcceptRanges = (!AcceptRanges.empty() && AcceptRanges != "none");
             if (bAcceptRanges)
             {
@@ -200,7 +200,7 @@ bool HTTPDownloader::Init()
                     RangeNum = 1;
             }
             int64 chunkSize = ContentSize / RangeNum;
-            for (int32 i = 0; i <= RangeNum; ++i)
+            for (uint32 i = 0; i <= RangeNum; ++i)
             {
                 HTTPDownloadRequest::Pointer ContentRequest = HTTPDownloadRequest::Create();
                 ContentRequest->SetURL(strEffectiveUrl);

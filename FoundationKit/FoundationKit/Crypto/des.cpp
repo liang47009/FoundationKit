@@ -87,21 +87,21 @@ void DesImpl::Expansion()
     {
         for (j = 0; j < 6; j++)
         {
-            if ((j != 0) || (j != 5))
-            {
-                k = 4 * i + j;
-                exp[i][j] = right[k - 1];
-            }
             if (j == 0)
             {
                 k = 4 * i;
                 exp[i][j] = right[k - 1];
             }
-            if (j == 5)
+            else if (j == 5)
             {
                 k = 4 * i + j;
                 exp[i][j] = right[k - 1];
             }
+			else
+			{
+				k = 4 * i + j;
+				exp[i][j] = right[k - 1];
+			}
         }
     }
     exp[0][0] = right[31];

@@ -223,6 +223,7 @@ bool StringUtils::UTF8ToUTF16(const std::string& utf8, std::u16string& outUtf16)
 
     const size_t utf16Bytes = (utf8.length() + 1) * sizeof(char16_t);
     char16_t* utf16 = (char16_t*)malloc(utf16Bytes);
+	if (utf16 == nullptr) return false;
     memset(utf16, 0, utf16Bytes);
     char* utf16ptr = reinterpret_cast<char*>(utf16);
     const UTF8* error = nullptr;

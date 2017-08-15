@@ -22,31 +22,32 @@
     <ProjectGuid>{36B65CA0-399A-41A5-A554-D5E8FF0B5558}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>FoundationKitUnitTest</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141_xp</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141_xp</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141_xp</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141_xp</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -68,19 +69,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
-    <ExecutablePath>$(WindowsSdk_71A_ExecutablePath);$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(WindowsSdk_71A_IncludePath);$(IncludePath)</IncludePath>
-    <ExcludePath>$(WindowsSdk_71A_IncludePath);$(ExcludePath)</ExcludePath>
     <IntDir>$(SolutionDir)../Rubbish/$(ProjectName)/$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
-    <ExecutablePath>$(WindowsSdk_71A_ExecutablePath);$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(WindowsSdk_71A_IncludePath);$(IncludePath)</IncludePath>
-    <ExcludePath>$(WindowsSdk_71A_IncludePath);$(ExcludePath)</ExcludePath>
     <IntDir>$(SolutionDir)../Rubbish/$(ProjectName)/$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -193,6 +187,9 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\openssl\prebuilt\win32\*.*" "$(OutDir)"</C
   <ItemGroup>
     <ProjectReference Include="..\..\FoundationKit\proj.win32\FoundationKit.vcxproj">
       <Project>{8f5a5344-1249-4c82-ba4d-8b4733161585}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\HTTPClient\proj.win32\HTTPClient.vcxproj">
+      <Project>{b8b94732-07a8-4484-93b3-0f8690377cc9}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
