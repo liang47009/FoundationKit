@@ -20,24 +20,24 @@
 NS_FK_BEGIN
 
 /**
-* Holds a buffer that can be modified.
-* The mutable_buffer class provides a safe representation of a buffer that can
-* be modified. It does not own the underlying data, and so is cheap to copy or
-* assign.
-*
-* @par Accessing Buffer Contents
-*
-* The contents of a buffer may be accessed using the @c data() and @c size()
-* member functions:
-*
-* @code mutable_buffer b1 = ...;
-* std::_sizet s1 = b1.size();
-* unsigned char* p1 = static_cast<unsigned char*>(b1.data());
-* @endcode
-*
-* The @c data() member function permits violations of type safety, so uses of
-* it in application code should be carefully considered.
-*/
+ * Holds a buffer that can be modified.
+ * The mutable_buffer class provides a safe representation of a buffer that can
+ * be modified. It does not own the underlying data, and so is cheap to copy or
+ * assign.
+ *
+ * @par Accessing Buffer Contents
+ *
+ * The contents of a buffer may be accessed using the @c data() and @c size()
+ * member functions:
+ *
+ * @code mutable_buffer b1 = ...;
+ * std::_sizet s1 = b1.size();
+ * unsigned char* p1 = static_cast<unsigned char*>(b1.data());
+ * @endcode
+ *
+ * The @c data() member function permits violations of type safety, so uses of
+ * it in application code should be carefully considered.
+ */
 
 template <typename Allocator = std::allocator<uint8> >
 class basic_mutablebuf
@@ -232,12 +232,14 @@ typedef basic_mutablebuf<> mutablebuf;
 
 inline mutablebuf make_mutablebuf(std::vector<char>& buffers)
 {
-    return mutablebuf(&(buffers[0]), buffers.size());
+    //return mutablebuf(&(buffers[0]), buffers.size());
+	return mutablebuf(buffers.data(), buffers.size());
 }
 
 inline mutablebuf make_mutablebuf(std::vector<unsigned char>& buffers)
 {
-    return mutablebuf(&(buffers[0]), buffers.size());
+    //return mutablebuf(&(buffers[0]), buffers.size());
+	return mutablebuf(buffers.data(), buffers.size());
 }
 
 inline mutablebuf make_mutablebuf(std::basic_string<char>& buffers)
