@@ -86,14 +86,6 @@ typedef UPTRINT address;
 
 typedef std::basic_string<uint8, std::char_traits<uint8>, std::allocator<uint8> > ustring;
 
-template<typename _Ty>
-struct allocator_traits 
-{
-    typedef std::allocator<_Ty> type;
-};
-template<class _Ty>
-using allocator_traits_t = typename allocator_traits<_Ty>::type;
-
 class GenericArgument
 {
 public:

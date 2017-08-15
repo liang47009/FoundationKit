@@ -14,6 +14,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/types.hpp"
 
@@ -39,68 +40,72 @@ NS_FK_BEGIN
  * it in application code should be carefully considered.
  */
 
-template <typename Allocator = std::allocator<uint8> >
+
 class basic_mutablebuf
 {
 public:
-    typedef basic_mutablebuf<Allocator> _Myt;
+	using value_type = uint8;
+	using size_type = size_t;
+	using pointer = value_type *;
+	using const_pointer = const value_type *;
+	using reference = value_type&;
+	using const_reference = const value_type&;
+	using _Myt      = basic_mutablebuf;
+
 
     /// Construct an empty buffer.
     basic_mutablebuf()
-        : _data(nullptr)
-        , _size(0)
-        , _owner(false)
+		: _Ptr()
+		, _Mysize()
+        , _bAlloced(false)
     {
     }
 
     basic_mutablebuf(const _Myt& other)
-        : _data(nullptr)
-        , _size(0)
-        , _owner(false)
+		: _Ptr()
+		, _Mysize()
+		, _bAlloced(false)
     {
         copy(other);
     }
 
     basic_mutablebuf(_Myt&& other)
-        : _data(nullptr)
-        , _size(0)
-        , _owner(false)
+		: _Ptr()
+		, _Mysize()
+		, _bAlloced(false)
     {
         move(std::forward<_Myt&&>(other));
     }
 
 	basic_mutablebuf(std::size_t size)
-		: _data(nullptr)
-		, _size(0)
-		, _owner(false)
+		: _Ptr()
+		, _Mysize()
+		, _bAlloced(false)
 	{
-		_data = new uint8[size];
-		memset(_data, 0, size);
-		_size = size;
-		_owner = true;
+		allocate(size);
 	}
 
     /// Construct a buffer to represent a given memory range.
     basic_mutablebuf(uint8* data, std::size_t size, bool need_del = false)
-        : _data(data)
-        , _size(size)
-        , _owner(need_del)
+		: _Ptr(data)
+		, _Mysize(size)
+		, _bAlloced(need_del)
     {
     }
 
     /// Construct a buffer to represent a given memory range.
     basic_mutablebuf(char* data, std::size_t size, bool need_del = false)
-        : _data(reinterpret_cast<uint8*>(data))
-        , _size(size)
-        , _owner(need_del)
+        : _Ptr(reinterpret_cast<uint8*>(data))
+        , _Mysize(size)
+        , _bAlloced(need_del)
     {
     }
 
     /// Construct a buffer to represent a given memory range.
     basic_mutablebuf(void* data, std::size_t size, bool need_del = false)
-        : _data(reinterpret_cast<uint8*>(data))
-        , _size(size)
-        , _owner(need_del)
+        : _Ptr(reinterpret_cast<uint8*>(data))
+        , _Mysize(size)
+        , _bAlloced(need_del)
     {
     }
 
@@ -126,109 +131,109 @@ public:
     /// Get a pointer to the beginning of the memory range.
     void* data() const
     {
-        return reinterpret_cast<void*>(_data);;
+        return reinterpret_cast<void*>(_Ptr);;
     }
 
     /// Get the size of the memory range.
-    std::size_t size() const
+	size_type size() const
     {
-        return _size;
+        return _Mysize;
     }
 
     const char* c_str()const
     {
-        return reinterpret_cast<const char*>(_data);
+        return reinterpret_cast<const char*>(_Ptr);
     }
 
-    const uint8* uc_str()
+	const_pointer uc_str()
     {
-        return _data;
+        return _Ptr;
     }
+
+	void allocate(const size_type _Count)
+	{
+		_Ptr = new value_type[_Count];
+		_Mysize = _Count;
+		_bAlloced = true;
+		memset(_Ptr, 0, _Mysize);
+	}
+
+	void deallocate()
+	{
+		if (_bAlloced && _Ptr != nullptr)
+			delete[] _Ptr;
+		_Ptr = pointer();
+		_Mysize = 0;
+		_bAlloced = false;
+	}
+
 
     void reallocate(std::size_t size)
     {
-        release();
-        _data = new uint8[size];
-        memset(_data, 0, size);
-        _size = size;
-        _owner = true;
+		deallocate();
+		allocate(size);
     }
 
     void assign(void* data, std::size_t size, bool need_del = false)
     {
-        release();
-        _data = reinterpret_cast<uint8*>(data);
-        _size = size;
-        _owner = need_del;
+		deallocate();
+		_Ptr = reinterpret_cast<uint8*>(data);
+		_Mysize = size;
+		_bAlloced = need_del;
     }
 
-    void clear()
-    {
-        memset(_data, 0, _size);
-    }
-
-    void release()
-    {
-        if (_owner && _data != nullptr)
-        {
-            delete[] _data;
-        }
-        _data = nullptr;
-        _size = 0;
-        _owner = false;
-    }
+	void clear()
+	{
+		memset(_Ptr, 0, _Mysize);
+	}
 
     bool empty()
     {
-        return (_data == nullptr || _size == 0);
+        return (_Ptr == nullptr || _Mysize == 0);
     }
 
     ~basic_mutablebuf()
     {
-        release();
+		deallocate();
     }
 
+	void copy(const _Myt& other)
+	{
+		if (!other._bAlloced)
+		{
+			assign(other._Ptr, other._Mysize);
+		}
+		else
+		{
+			copy(other._Ptr, other._Mysize);
+		}
+	}
+
+	void copy(void* data, std::size_t size)
+	{
+		deallocate();
+		allocate(size);
+		memcpy(this->data(), data, size);
+	}
 private:
-    void copy(const _Myt& other)
-    {
-        this->_size = other._size;
-        if (!other._owner)
-        {
-            this->_data = other._data;
-            this->_owner = other._owner;
-        }
-        else
-        {
-            if (this->_data != nullptr && _owner == true)
-            {
-                delete[] _data;
-            }
-            _data = new uint8[other._size];
-            memset(_data, 0, other._size);
-            memcpy(_data, other._data, other._size);
-            this->_owner = true;
-        }
-    }
-
     void move(_Myt&& other)
     {
-        release();
-        this->_data = other._data;
-        this->_size = other._size;
-        this->_owner = other._owner;
-        other._data = nullptr;
-        other._size = 0;
-        other._owner = false;
+		deallocate();
+        this->_Ptr = other._Ptr;
+		this->_Mysize = other._Mysize;
+        this->_bAlloced = other._bAlloced;
+		other._Ptr = pointer();
+		other._Mysize = 0;
+        other._bAlloced = false;
     }
 
 private:
-    uint8*      _data;
-    std::size_t _size;
-    bool        _owner;
-    //Allocator   _allocator;
+	pointer   _Ptr;
+	size_type _Mysize;	// current length of string
+	bool      _bAlloced;
 };
 
-typedef basic_mutablebuf<> mutablebuf;
+typedef basic_mutablebuf mutablebuf;
 
 inline mutablebuf make_mutablebuf(std::vector<char>& buffers)
 {
