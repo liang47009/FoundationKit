@@ -9,6 +9,7 @@
 #include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
+#include "FoundationKit/Foundation/Version.hpp"
 #include "FoundationKit/Base/types.hpp"
 #include "FoundationKit/Crypto/md5.hpp"
 #include <array>
@@ -211,11 +212,12 @@ std::string PlatformDevice::GetSystemVersion()
     static auto RtlGetVersion = (fnRtlGetVersion)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
     if (RtlGetVersion != 0 && RtlGetVersion((PRTL_OSVERSIONINFOW)&verInfo) == 0)
     {
-        std::ostringstream str;
-        str << verInfo.dwMajorVersion << "." << verInfo.dwMinorVersion << " (Build " << (verInfo.dwBuildNumber & 0xFFFF);
-        if (verInfo.szCSDVersion[0]) str << ": " << verInfo.szCSDVersion;
-        str << ")";
-        return str.str();
+        //std::ostringstream str;
+        //str << verInfo.dwMajorVersion << "." << verInfo.dwMinorVersion << " (Build " << (verInfo.dwBuildNumber & 0xFFFF);
+        //if (verInfo.szCSDVersion[0]) str << ": " << verInfo.szCSDVersion;
+        //str << ")";
+		Version version(verInfo.dwMajorVersion, verInfo.dwMinorVersion, (verInfo.dwBuildNumber & 0xFFFF));
+        return version.ToString();
     }
     else
     {
