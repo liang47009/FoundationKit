@@ -75,34 +75,34 @@ inline Vector4& Vector4::operator*=(float x)
 
 inline const Vector4 Vector4::operator/(const float x) const
 {
-    return Vector4(this->x / x, this->y / x, this->z / x, this->w / x);
+    return Vector4(this->X / x, this->Y / x, this->Z / x, this->W / x);
 }
 
 inline bool Vector4::operator<(const Vector4& v) const
 {
-    if (x == v.x)
+    if (X == v.X)
     {
-        if (y == v.y)
+        if (Y == v.Y)
         {
-            if (z == v.z)
+            if (Z == v.Z)
             {
-                return w < v.w;
+                return W < v.W;
             }
-            return z < v.z;
+            return Z < v.Z;
         }
-        return y < v.y;
+        return Y < v.Y;
     }
-    return x < v.x;
+    return X < v.X;
 }
 
 inline bool Vector4::operator==(const Vector4& v) const
 {
-    return x==v.x && y==v.y && z==v.z && w==v.w;
+    return X==v.X && Y==v.Y && Z==v.Z && W==v.W;
 }
 
 inline bool Vector4::operator!=(const Vector4& v) const
 {
-    return x!=v.x || y!=v.y || z!=v.z || w!=v.w;
+    return X!=v.X || Y!=v.Y || Z!=v.Z || W!=v.W;
 }
 
 inline const Vector4 operator*(float x, const Vector4& v)

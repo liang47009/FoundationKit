@@ -190,16 +190,16 @@ bool Compression::CompressFile(const std::string& srcFilePath, const std::string
         BREAK_IF(gFile == nullptr);
         FILE* srcFp = fopen(srcFilePath.c_str(), "rb");
         BREAK_IF(srcFp == nullptr);
-        long readsize = 0;
-        long totalReadSize = 0;
+        size_t readsize = 0;
+		size_t totalReadSize = 0;
         char* buffer = new char[defaultBufferLength];
         do 
         {
-            fseek(srcFp, totalReadSize, SEEK_SET);
+            fseek(srcFp, static_cast<long>(totalReadSize), SEEK_SET);
             readsize = fread(buffer, 1, defaultBufferLength, srcFp);
             totalReadSize += readsize;
             gzwrite(gFile, buffer, static_cast<unsigned int>(readsize));
-        } while (readsize == defaultBufferLength);
+        } while (readsize == static_cast<size_t>(defaultBufferLength));
         delete[] buffer;
         gzflush(gFile, Z_FINISH);
         fclose(srcFp);

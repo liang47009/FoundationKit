@@ -34,11 +34,11 @@
 #include "FoundationKit/Crypto/des.hpp"
 #include "FoundationKit/Crypto/aes.hpp"
 #include "FoundationKit/Crypto/urlencode.hpp"
-#include "HTTPClient/HTTPClient.hpp"
-#include "HTTPClient/HTTPRequest.hpp"
-#include "HTTPClient/HTTPResponse.hpp"
-#include "HTTPClient/HTTPUploader.hpp"
-#include "HTTPClient/HTTPDownloader.hpp"
+//#include "HTTPClient/HTTPClient.hpp"
+//#include "HTTPClient/HTTPRequest.hpp"
+//#include "HTTPClient/HTTPResponse.hpp"
+//#include "HTTPClient/HTTPUploader.hpp"
+//#include "HTTPClient/HTTPDownloader.hpp"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/document.h"
@@ -75,14 +75,10 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     std::error_code ec;
     std::string strErr = ec.message();
-    HTTPClient::GetInstance()->Initialize();
+    //HTTPClient::GetInstance()->Initialize();
 
-    FunctionHandlerPointer funPointer = BindFunctionHandler([](const std::string& name, int value)
-    {
-        value = value + 10;
-    });
-
-    InvokeFunctionHandler(funPointer, "Test", 100);
+	PlatformDevice::GetBrandName();
+	PlatformDevice::GetManufacturer();
 
     int im_a_breakpoint = 0;
 	return true;
@@ -107,7 +103,7 @@ void AppDelegate::applicationWillTerminate()
 
 void AppDelegate::mainLoop()
 {
-    HTTPClient::GetInstance()->Tick(1 / 60.0f);
+    //HTTPClient::GetInstance()->Tick(1 / 60.0f);
 }
 
 

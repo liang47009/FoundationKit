@@ -42,22 +42,22 @@ public:
     /**
      * The x-coordinate.
      */
-    float x;
+    float X;
 
     /**
      * The y-coordinate.
      */
-    float y;
+    float Y;
 
     /**
      * The z-coordinate.
      */
-    float z;
+    float Z;
 
     /**
      * The w-coordinate.
      */
-    float w;
+    float W;
 
     /**
      * Constructs a new vector initialized to all zeros.

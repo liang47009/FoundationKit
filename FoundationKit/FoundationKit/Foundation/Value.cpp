@@ -44,25 +44,25 @@ Value::Value(Value&& other)
     Move(std::forward<Value>(other));
 }
 
-Value::Value(unsigned char data)
+Value::Value(uint8 data)
     : Value(Type::UCHAR)
 {
     _field._ucharVal = data;
 }
 
-Value::Value(unsigned short data)
+Value::Value(uint16 data)
     : Value(Type::USHORT)
 {
     _field._ushortVal = data;
 }
 
-Value::Value(unsigned int data)
+Value::Value(uint32 data)
     : Value(Type::UINT)
 {
     _field._uintVal = data;
 }
 
-Value::Value(unsigned long long data)
+Value::Value(uint64 data)
     : Value(Type::ULONGLONG)
 {
     _field._ulonglongVal = data;
@@ -80,19 +80,19 @@ Value::Value(char data)
     _field._charVal = data;
 }
 
-Value::Value(short data)
+Value::Value(int16 data)
     : Value(Type::SHORT)
 {
     _field._shortVal = data;
 }
 
-Value::Value(int data)
+Value::Value(int32 data)
     : Value(Type::INT)
 {
     _field._intVal = data;
 }
 
-Value::Value(long long data)
+Value::Value(int64 data)
     : Value(Type::LONGLONG)
 {
     _field._longlongVal = data;
@@ -138,19 +138,19 @@ Value& Value::operator=(Value&& other)
     Move(std::forward<Value>(other));
     return *this;
 }
-Value& Value::operator=(unsigned char data)
+Value& Value::operator=(uint8 data)
 {
     Reset(Type::UCHAR);
     _field._ucharVal = data;
     return *this;
 }
-Value& Value::operator=(unsigned short data)
+Value& Value::operator=(uint16 data)
 {
     Reset(Type::USHORT);
     _field._ushortVal = data;
     return *this;
 }
-Value& Value::operator=(unsigned int data)
+Value& Value::operator=(uint32 data)
 {
     Reset(Type::UINT);
     _field._uintVal = data;
@@ -158,7 +158,7 @@ Value& Value::operator=(unsigned int data)
 }
 
 
-Value& Value::operator=(unsigned long long data)
+Value& Value::operator=(uint64 data)
 {
     Reset(Type::ULONGLONG);
     _field._ulonglongVal = data;
@@ -176,20 +176,20 @@ Value& Value::operator=(char data)
     _field._charVal = data;
     return *this;
 }
-Value& Value::operator=(short data)
+Value& Value::operator=(int16 data)
 {
     Reset(Type::SHORT);
     _field._shortVal = data;
     return *this;
 }
-Value& Value::operator=(int data)
+Value& Value::operator=(int32 data)
 {
     Reset(Type::INT);
     _field._intVal = data;
     return *this;
 }
 
-Value& Value::operator=(long long data)
+Value& Value::operator=(int64 data)
 {
     Reset(Type::LONGLONG);
     _field._longlongVal = data;

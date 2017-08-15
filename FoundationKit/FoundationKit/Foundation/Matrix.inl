@@ -25,75 +25,75 @@
 
 NS_FK_BEGIN
 
-inline const Matrix Matrix::operator+(const Matrix& m) const
+inline const Matrix Matrix::operator+(const Matrix& mat) const
 {
     Matrix result(*this);
-    result.Add(m);
+    result.Add(mat);
     return result;
 }
 
-inline Matrix& Matrix::operator+=(const Matrix& m)
+inline Matrix& Matrix::operator+=(const Matrix& mat)
 {
-    Add(m);
+    Add(mat);
     return *this;
 }
 
-inline const Matrix Matrix::operator-(const Matrix& m) const
+inline const Matrix Matrix::operator-(const Matrix& mat) const
 {
     Matrix result(*this);
-    result.Subtract(m);
+    result.Subtract(mat);
     return result;
 }
 
-inline Matrix& Matrix::operator-=(const Matrix& m)
+inline Matrix& Matrix::operator-=(const Matrix& mat)
 {
-    Subtract(m);
+    Subtract(mat);
     return *this;
 }
 
 inline const Matrix Matrix::operator-() const
 {
-    Matrix m(*this);
-    m.Negate();
-    return m;
+    Matrix mat(*this);
+	mat.Negate();
+    return mat;
 }
 
-inline const Matrix Matrix::operator*(const Matrix& m) const
+inline const Matrix Matrix::operator*(const Matrix& mat) const
 {
     Matrix result(*this);
-    result.Multiply(m);
+    result.Multiply(mat);
     return result;
 }
 
-inline Matrix& Matrix::operator*=(const Matrix& m)
+inline Matrix& Matrix::operator*=(const Matrix& mat)
 {
-    Multiply(m);
+    Multiply(mat);
     return *this;
 }
 
-inline Vector3& operator*=(Vector3& v, const Matrix& m)
+inline Vector3& operator*=(Vector3& v, const Matrix& mat)
 {
-    m.TransformVector(&v);
+	mat.TransformVector(&v);
     return v;
 }
 
-inline const Vector3 operator*(const Matrix& m, const Vector3& v)
+inline const Vector3 operator*(const Matrix& mat, const Vector3& v)
 {
     Vector3 x;
-    m.TransformVector(v, &x);
+	mat.TransformVector(v, &x);
     return x;
 }
 
-inline Vector4& operator*=(Vector4& v, const Matrix& m)
+inline Vector4& operator*=(Vector4& v, const Matrix& mat)
 {
-    m.TransformVector(&v);
+	mat.TransformVector(&v);
     return v;
 }
 
-inline const Vector4 operator*(const Matrix& m, const Vector4& v)
+inline const Vector4 operator*(const Matrix& mat, const Vector4& v)
 {
     Vector4 x;
-    m.TransformVector(v, &x);
+	mat.TransformVector(v, &x);
     return x;
 }
 

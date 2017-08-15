@@ -99,23 +99,7 @@ public:
      * @param cpuIndex The CPU core index
      * @return Unit: KHz
      */
-    static int         GetCPUMaxFreq(int cpuIndex = -1);
-
-    /**
-     * If cpuIndex is equal to -1, then the function will return
-     * the maximum frequency of all the CPU's current frequency.
-     * @param cpuIndex  The CPU core index
-     * @return Unit: KHz
-     */
-    static int         GetCPUCurFreq(int cpuIndex = -1);
-
-    /**
-     * If cpuIndex is equal to -1, then the function will return
-     * the smallest of the minimum frequency of all CPUs.
-     * @param cpuIndex  The CPU core index
-     * @return Unit: KHz
-     */
-    static int         GetCPUMinFreq(int cpuIndex = -1);
+    static int         GetCPUFrequency();
 
     //1 WIFI,2 2G,3 3G,4 4G,0 other.
     static int         GetNetworkType();

@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <chrono> // for GetTempFileName create tmp file name.
+#include <cctype>
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 
@@ -153,7 +154,7 @@ std::string Path::GetExtension(const std::string& path)
     if (pos != std::string::npos)
     {
         fileExtension = path.substr(pos, path.size());
-        std::transform(fileExtension.begin(), fileExtension.end(), fileExtension.begin(), ::tolower);
+        std::transform(fileExtension.begin(), fileExtension.end(), fileExtension.begin(), [](unsigned char c) { return static_cast<unsigned char>(std::tolower(c)); });
     }
     return fileExtension;
 }

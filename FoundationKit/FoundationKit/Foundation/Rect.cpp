@@ -25,21 +25,21 @@ Rect::Rect(float x, float y, float width, float height)
 
 Rect::Rect(const Rect& other)
 {
-    SetRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
+    SetRect(other.origin.X, other.origin.Y, other.size.Width, other.size.Height);
 }
 
 Rect& Rect::operator= (const Rect& other)
 {
-    SetRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
+    SetRect(other.origin.X, other.origin.Y, other.size.Width, other.size.Height);
     return *this;
 }
 
 void Rect::SetRect(float x, float y, float width, float height)
 {
-    origin.x = x;
-    origin.y = y;
-    size.width = width;
-    size.height = height;
+    origin.X = x;
+    origin.Y = y;
+    size.Width = width;
+    size.Height = height;
 }
 
 bool Rect::Equals(const Rect& rect) const
@@ -50,40 +50,40 @@ bool Rect::Equals(const Rect& rect) const
 
 float Rect::GetMaxX() const
 {
-    return origin.x + size.width;
+    return origin.Y + size.Width;
 }
 
 float Rect::GetMidX() const
 {
-    return origin.x + size.width / 2.0f;
+    return origin.X + size.Width / 2.0f;
 }
 
 float Rect::GetMinX() const
 {
-    return origin.x;
+    return origin.X;
 }
 
 float Rect::GetMaxY() const
 {
-    return origin.y + size.height;
+    return origin.Y + size.Height;
 }
 
 float Rect::GetMidY() const
 {
-    return origin.y + size.height / 2.0f;
+    return origin.Y + size.Height / 2.0f;
 }
 
 float Rect::GetMinY() const
 {
-    return origin.y;
+    return origin.Y;
 }
 
 bool Rect::ContainsPoint(const Vector2& point) const
 {
     bool bRet = false;
 
-    if (point.x >= GetMinX() && point.x <= GetMaxX()
-        && point.y >= GetMinY() && point.y <= GetMaxY())
+    if (point.X >= GetMinX() && point.X <= GetMaxX()
+        && point.Y >= GetMinY() && point.Y <= GetMaxY())
     {
         bRet = true;
     }
@@ -101,10 +101,10 @@ bool Rect::IntersectsRect(const Rect& rect) const
 
 Rect Rect::UnionWithRect(const Rect & rect) const
 {
-    float thisLeftX   = origin.x;
-    float thisRightX  = origin.x + size.width;
-    float thisTopY    = origin.y + size.height;
-    float thisBottomY = origin.y;
+    float thisLeftX   = origin.X;
+    float thisRightX  = origin.X + size.Width;
+    float thisTopY    = origin.Y + size.Height;
+    float thisBottomY = origin.Y;
     
     if (thisRightX < thisLeftX)
     {
@@ -116,10 +116,10 @@ Rect Rect::UnionWithRect(const Rect & rect) const
         std::swap(thisTopY, thisBottomY);   // This rect has negative height
     }
     
-    float otherLeftX   = rect.origin.x;
-    float otherRightX  = rect.origin.x + rect.size.width;
-    float otherTopY    = rect.origin.y + rect.size.height;
-    float otherBottomY = rect.origin.y;
+    float otherLeftX   = rect.origin.X;
+    float otherRightX  = rect.origin.X + rect.size.Width;
+    float otherTopY    = rect.origin.Y + rect.size.Height;
+    float otherBottomY = rect.origin.Y;
     
     if (otherRightX < otherLeftX)
     {

@@ -107,44 +107,16 @@ namespace detail
         return value;
     }
 
-    static int ReadCPUsFreq(const char* freq, int cpuIndex, bool bFloor = false)
+    static int ReadCPUsFreq(const char* freq, int cpuIndex)
     {
         int result = 0;
-        if (cpuIndex < 0)
-        {
-            int cpuCount = PlatformDevice::GetCPUCoreCount();
-            for (int i = 0; i < cpuCount; ++i)
-            {
-                std::string cpufreqpath = StringUtils::Format("/sys/devices/system/cpu/cpu%d/cpufreq/scaling_%s_freq", i, freq);
-                int freqValue = ReadIntWithFile(cpufreqpath.c_str());
-                if (freqValue == 0)
-                {
-                    cpufreqpath = StringUtils::Format("/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_%s_freq", i, freq);
-                    freqValue = ReadIntWithFile(cpufreqpath.c_str());
-                }
-                if (result != 0)
-                {
-                    if (bFloor)
-                        result = Math::Min(result, freqValue);
-                    else
-                        result = Math::Max(result, freqValue);
-                }
-                else
-                {
-                    result = freqValue;
-                }
-            }
-        }
-        else
-        {
-            std::string cpufreqpath = StringUtils::Format("/sys/devices/system/cpu/cpu%d/cpufreq/scaling_%s_freq", cpuIndex, freq);
-            result = ReadIntWithFile(cpufreqpath.c_str());
-            if (result == 0)
-            {
-                cpufreqpath = StringUtils::Format("/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_%s_freq", cpuIndex, freq);
-                result = ReadIntWithFile(cpufreqpath.c_str());
-            }
-        }
+		std::string cpufreqpath = StringUtils::Format("/sys/devices/system/cpu/cpu%d/cpufreq/scaling_%s_freq", cpuIndex, freq);
+		result = ReadIntWithFile(cpufreqpath.c_str());
+		if (result == 0)
+		{
+			cpufreqpath = StringUtils::Format("/sys/devices/system/cpu/cpu%d/cpufreq/cpuinfo_%s_freq", cpuIndex, freq);
+			result = ReadIntWithFile(cpufreqpath.c_str());
+		}
         return result;
     }
 
@@ -286,19 +258,9 @@ int PlatformDevice::GetCPUCoreCount()
     return android_getCpuCount();
 }
 
-int PlatformDevice::GetCPUMaxFreq(int cpuIndex/* = -1*/)
+int PlatformDevice::GetCPUFrequency()
 {
-    return detail::ReadCPUsFreq("max", cpuIndex);
-}
-
-int PlatformDevice::GetCPUCurFreq(int cpuIndex/* = -1*/)
-{
-    return detail::ReadCPUsFreq("cur", cpuIndex);
-}
-
-int PlatformDevice::GetCPUMinFreq(int cpuIndex/* = -1*/)
-{
-    return detail::ReadCPUsFreq("min", cpuIndex, true);
+    return detail::ReadCPUsFreq("max", 0);
 }
 
 int PlatformDevice::GetNetworkType()

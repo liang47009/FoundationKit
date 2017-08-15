@@ -325,7 +325,7 @@ int PlatformDevice::GetCPUCoreCount()
     return static_cast<int>([[NSProcessInfo processInfo] processorCount]);
 }
 
-int PlatformDevice::GetCPUMaxFreq(int cpuIndex/* = -1*/)
+int PlatformDevice::GetCPUFrequency()
 {
     int cpuFreq = 0;
     std::string model = [[UIDeviceHardware platform] UTF8String];
@@ -336,16 +336,6 @@ int PlatformDevice::GetCPUMaxFreq(int cpuIndex/* = -1*/)
         
     }
     return cpuFreq;
-}
-
-int PlatformDevice::GetCPUCurFreq(int cpuIndex/* = -1*/)
-{
-    return GetCPUMaxFreq();
-}
-
-int PlatformDevice::GetCPUMinFreq(int cpuIndex/* = -1*/)
-{
-    return GetCPUMaxFreq();
 }
 
 int PlatformDevice::GetNetworkType()

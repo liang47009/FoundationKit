@@ -75,26 +75,26 @@ inline Vector2& Vector2::operator*=(float x)
 
 inline const Vector2 Vector2::operator/(const float x) const
 {
-    return Vector2(this->x / x, this->y / x);
+    return Vector2(this->X / x, this->Y / x);
 }
 
 inline bool Vector2::operator<(const Vector2& v) const
 {
-    if (x == v.x)
+    if (X == v.X)
     {
-        return y < v.y;
+        return Y < v.Y;
     }
-    return x < v.x;
+    return X < v.X;
 }
 
 inline bool Vector2::operator==(const Vector2& v) const
 {
-    return x==v.x && y==v.y;
+    return X==v.X && Y==v.Y;
 }
 
 inline bool Vector2::operator!=(const Vector2& v) const
 {
-    return x!=v.x || y!=v.y;
+    return X!=v.X || Y!=v.Y;
 }
 
 inline const Vector2 operator*(float x, const Vector2& v)

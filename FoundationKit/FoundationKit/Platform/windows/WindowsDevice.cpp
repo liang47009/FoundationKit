@@ -159,7 +159,7 @@ std::string PlatformDevice::GetBrandName()
     std::array<int, 4> cpui;
     // Calling __cpuid with 0x80000000 as the function_id argument  
     // gets the number of the highest valid extended ID.  
-    __cpuid(cpui.data(), 0x80000000);
+	__cpuidex(cpui.data(), 0x80000000,0);
     int nExIds = cpui[0];
     char brand[64] = {0};
     std::vector<std::array<int, 4>> extdata;
@@ -188,7 +188,7 @@ std::string PlatformDevice::GetManufacturer()
     // https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
     // https://en.wikipedia.org/wiki/CPUID
     std::array<int, 4> cpui;
-    __cpuid(cpui.data(), 0);
+	__cpuidex(cpui.data(), 0,0);
     int nIds = cpui[0];
     std::vector<std::array<int, 4>> data;
     for (int i = 0; i <= nIds; ++i)
@@ -265,26 +265,7 @@ int PlatformDevice::GetCPUCoreCount()
     return SystemInfo.dwNumberOfProcessors;
 }
 
-int PlatformDevice::GetCPUMaxFreq(int cpuIndex/* = -1*/)
-{
-    std::array<int, 4> cpui;
-    __cpuid(cpui.data(), 0);
-    int nIds = cpui[0];
-    __cpuid(cpui.data(), nIds);
-    if (nIds >= 0x16)
-    {
-        __cpuid(cpui.data(), 0x16);
-    }
-
-    return 0;
-}
-
-int PlatformDevice::GetCPUCurFreq(int cpuIndex/* = -1*/)
-{
-    return 0;
-}
-
-int PlatformDevice::GetCPUMinFreq(int cpuIndex/* = -1*/)
+int PlatformDevice::GetCPUFrequency()
 {
     return 0;
 }
@@ -409,7 +390,7 @@ float PlatformDevice::GetScreenDPI()
         int PixelsX = GetDeviceCaps(hScreenDC, HORZRES);
         int MMX = GetDeviceCaps(hScreenDC, HORZSIZE);
         ReleaseDC(nullptr, hScreenDC);
-        dpi = 255.0f*PixelsX / MMX / 10.0;
+        dpi = 255.0f*PixelsX / MMX / 10.0f;
     }
     return dpi;
 }

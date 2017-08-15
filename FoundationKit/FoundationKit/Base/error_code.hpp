@@ -48,7 +48,7 @@ static inline void throw_error_if(const std::error_code& err, const char* locati
 struct _Map_errtab_t
 {	// maps Windows error_code to STL generic_errno.
     int _Win_Errcode;
-    std::generic_errno _STD_Errcode;
+    std::errc _STD_Errcode;
 };
 
 static const _Map_errtab_t _Map_errtab[] =

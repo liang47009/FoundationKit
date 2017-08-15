@@ -97,7 +97,7 @@
 #endif
 #endif
 
-#if __cplusplus < 201103L
+#if TARGET_LANGUAGE_FEATURES < 201103L
 #	define noexcept
 #	define constexpr
 #endif

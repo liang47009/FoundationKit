@@ -36,12 +36,12 @@ Vector3 Vector3::FORWARD  = Vector3(0.f, 0.f, -1.f);
 Vector3 Vector3::BACKWARD = Vector3(0.f, 0.f, 1.f);
 
 Vector3::Vector3()
-    : x(0.0f), y(0.0f), z(0.0f)
+    : X(0.0f), Y(0.0f), Z(0.0f)
 {
 }
 
 Vector3::Vector3(float x, float y, float z)
-    : x(x), y(y), z(z)
+    : X(x), Y(y), Z(z)
 {
 }
 
@@ -111,87 +111,87 @@ const Vector3& Vector3::UnitZ()
 
 bool Vector3::IsZero() const
 {
-    return x == 0.0f && y == 0.0f && z == 0.0f;
+    return X == 0.0f && Y == 0.0f && Z == 0.0f;
 }
 
 bool Vector3::IsOne() const
 {
-    return x == 1.0f && y == 1.0f && z == 1.0f;
+    return X == 1.0f && Y == 1.0f && Z == 1.0f;
 }
 
 float Vector3::Angle(const Vector3& v1, const Vector3& v2)
 {
-    float dx = v1.y * v2.z - v1.z * v2.y;
-    float dy = v1.z * v2.x - v1.x * v2.z;
-    float dz = v1.x * v2.y - v1.y * v2.x;
+    float dx = v1.Y * v2.Z - v1.Z * v2.Y;
+    float dy = v1.Z * v2.X - v1.X * v2.Z;
+    float dz = v1.X * v2.Y - v1.Y * v2.X;
 
     return atan2f(sqrt(dx * dx + dy * dy + dz * dz) + Math::SmailFloat, Dot(v1, v2));
 }
 
 void Vector3::Add(const Vector3& v)
 {
-    x += v.x;
-    y += v.y;
-    z += v.z;
+    X += v.X;
+    Y += v.Y;
+    Z += v.Z;
 }
 
 void Vector3::Add(const Vector3& v1, const Vector3& v2, Vector3* dst)
 {
     assert(dst);
 
-    dst->x = v1.x + v2.x;
-    dst->y = v1.y + v2.y;
-    dst->z = v1.z + v2.z;
+    dst->X = v1.X + v2.X;
+    dst->Y = v1.Y + v2.Y;
+    dst->Z = v1.Z + v2.Z;
 }
 
 void Vector3::Clamp(const Vector3& min, const Vector3& max)
 {
-    assert(!(min.x > max.x || min.y > max.y || min.z > max.z));
+    assert(!(min.X > max.X || min.Y > max.Y || min.Z > max.Z));
 
-    // Clamp the x value.
-    if (x < min.x)
-        x = min.x;
-    if (x > max.x)
-        x = max.x;
+    // Clamp the X value.
+    if (X < min.X)
+        X = min.X;
+    if (X > max.X)
+        X = max.X;
 
-    // Clamp the y value.
-    if (y < min.y)
-        y = min.y;
-    if (y > max.y)
-        y = max.y;
+    // Clamp the Y value.
+    if (Y < min.Y)
+        Y = min.Y;
+    if (Y > max.Y)
+        Y = max.Y;
 
-    // Clamp the z value.
-    if (z < min.z)
-        z = min.z;
-    if (z > max.z)
-        z = max.z;
+    // Clamp the Z value.
+    if (Z < min.Z)
+        Z = min.Z;
+    if (Z > max.Z)
+        Z = max.Z;
 }
 
 void Vector3::Clamp(const Vector3& v, const Vector3& min, const Vector3& max, Vector3* dst)
 {
     assert(dst);
-    assert(!(min.x > max.x || min.y > max.y || min.z > max.z));
+    assert(!(min.X > max.X || min.Y > max.Y || min.Z > max.Z));
 
-    // Clamp the x value.
-    dst->x = v.x;
-    if (dst->x < min.x)
-        dst->x = min.x;
-    if (dst->x > max.x)
-        dst->x = max.x;
+    // Clamp the X value.
+    dst->X = v.X;
+    if (dst->X < min.X)
+        dst->X = min.X;
+    if (dst->X > max.X)
+        dst->X = max.X;
 
-    // Clamp the y value.
-    dst->y = v.y;
-    if (dst->y < min.y)
-        dst->y = min.y;
-    if (dst->y > max.y)
-        dst->y = max.y;
+    // Clamp the Y value.
+    dst->Y = v.Y;
+    if (dst->Y < min.Y)
+        dst->Y = min.Y;
+    if (dst->Y > max.Y)
+        dst->Y = max.Y;
 
-    // Clamp the z value.
-    dst->z = v.z;
-    if (dst->z < min.z)
-        dst->z = min.z;
-    if (dst->z > max.z)
-        dst->z = max.z;
+    // Clamp the Z value.
+    dst->Z = v.Z;
+    if (dst->Z < min.Z)
+        dst->Z = min.Z;
+    if (dst->Z > max.Z)
+        dst->Z = max.Z;
 }
 
 void Vector3::Cross(const Vector3& v)
@@ -206,52 +206,52 @@ void Vector3::Cross(const Vector3& v1, const Vector3& v2, Vector3* dst)
     // NOTE: This code assumes Vector3 struct members are contiguous floats in memory.
     // We might want to revisit this (and other areas of code that make this assumption)
     // later to guarantee 100% safety/compatibility.
-    MathUtil::CrossVector3(&v1.x, &v2.x, &dst->x);
+    MathUtil::CrossVector3(&v1.X, &v2.X, &dst->X);
 }
 
 float Vector3::Distance(const Vector3& v) const
 {
-    float dx = v.x - x;
-    float dy = v.y - y;
-    float dz = v.z - z;
+    float dx = v.X - X;
+    float dy = v.Y - Y;
+    float dz = v.Z - Z;
 
     return sqrt(dx * dx + dy * dy + dz * dz);
 }
 
 float Vector3::DistanceSquared(const Vector3& v) const
 {
-    float dx = v.x - x;
-    float dy = v.y - y;
-    float dz = v.z - z;
+    float dx = v.X - X;
+    float dy = v.Y - Y;
+    float dz = v.Z - Z;
 
     return (dx * dx + dy * dy + dz * dz);
 }
 
 float Vector3::Dot(const Vector3& v) const
 {
-    return (x * v.x + y * v.y + z * v.z);
+    return (X * v.X + Y * v.Y + Z * v.Z);
 }
 
 float Vector3::Dot(const Vector3& v1, const Vector3& v2)
 {
-    return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
+    return (v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z);
 }
 
 float Vector3::Length() const
 {
-    return sqrt(x * x + y * y + z * z);
+    return sqrt(X * X + Y * Y + Z * Z);
 }
 
 float Vector3::LengthSquared() const
 {
-    return (x * x + y * y + z * z);
+    return (X * X + Y * Y + Z * Z);
 }
 
 void Vector3::Negate()
 {
-    x = -x;
-    y = -y;
-    z = -z;
+    X = -X;
+    Y = -Y;
+    Z = -Z;
 }
 
 Vector3& Vector3::Normalize()
@@ -266,12 +266,12 @@ void Vector3::Normalize(Vector3* dst) const
 
     if (dst != this)
     {
-        dst->x = x;
-        dst->y = y;
-        dst->z = z;
+        dst->X = X;
+        dst->Y = Y;
+        dst->Z = Z;
     }
 
-    float n = x * x + y * y + z * z;
+    float n = X * X + Y * Y + Z * Z;
     // Already normalized.
     if (n == 1.0f)
         return;
@@ -282,62 +282,62 @@ void Vector3::Normalize(Vector3* dst) const
         return;
 
     n = 1.0f / n;
-    dst->x *= n;
-    dst->y *= n;
-    dst->z *= n;
+    dst->X *= n;
+    dst->Y *= n;
+    dst->Z *= n;
 }
 
 void Vector3::Scale(float scalar)
 {
-    x *= scalar;
-    y *= scalar;
-    z *= scalar;
+    X *= scalar;
+    Y *= scalar;
+    Z *= scalar;
 }
 
 void Vector3::Set(float x, float y, float z)
 {
-    this->x = x;
-    this->y = y;
-    this->z = z;
+    this->X = x;
+    this->Y = y;
+    this->Z = z;
 }
 
 void Vector3::Set(const float* array)
 {
     assert(array);
 
-    x = array[0];
-    y = array[1];
-    z = array[2];
+    X = array[0];
+    Y = array[1];
+    Z = array[2];
 }
 
 void Vector3::Set(const Vector3& v)
 {
-    this->x = v.x;
-    this->y = v.y;
-    this->z = v.z;
+    this->X = v.X;
+    this->Y = v.Y;
+    this->Z = v.Z;
 }
 
 void Vector3::Set(const Vector3& p1, const Vector3& p2)
 {
-    x = p2.x - p1.x;
-    y = p2.y - p1.y;
-    z = p2.z - p1.z;
+    X = p2.X - p1.X;
+    Y = p2.Y - p1.Y;
+    Z = p2.Z - p1.Z;
 }
 
 void Vector3::Subtract(const Vector3& v)
 {
-    x -= v.x;
-    y -= v.y;
-    z -= v.z;
+    X -= v.X;
+    Y -= v.Y;
+    Z -= v.Z;
 }
 
 void Vector3::Subtract(const Vector3& v1, const Vector3& v2, Vector3* dst)
 {
     assert(dst);
 
-    dst->x = v1.x - v2.x;
-    dst->y = v1.y - v2.y;
-    dst->z = v1.z - v2.z;
+    dst->X = v1.X - v2.X;
+    dst->Y = v1.Y - v2.Y;
+    dst->Z = v1.Z - v2.Z;
 }
 
 void Vector3::Smooth(const Vector3& target, float elapsedTime, float responseTime)

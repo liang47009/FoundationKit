@@ -274,23 +274,13 @@ int PlatformDevice::GetCPUCoreCount()
     return static_cast<int>([[NSProcessInfo processInfo] processorCount]);
 }
 
-int PlatformDevice::GetCPUMaxFreq(int cpuIndex/* = -1*/)
+int PlatformDevice::GetCPUFrequency()
 {
     int64 cpufreq = 0;
     int Mib[] = {CTL_HW, HW_CPU_FREQ};
     size_t Length = sizeof(int64);
     sysctl(Mib, 2, &cpufreq, &Length, NULL, 0);
     return static_cast<int>((cpufreq/1000)); //KHz
-}
-
-int PlatformDevice::GetCPUCurFreq(int cpuIndex/* = -1*/)
-{
-    return GetCPUMaxFreq();
-}
-
-int PlatformDevice::GetCPUMinFreq(int cpuIndex/* = -1*/)
-{
-    return GetCPUMaxFreq();
 }
 
 int PlatformDevice::GetNetworkType()

@@ -18,7 +18,7 @@ ProtectedMemoryAllocator::ProtectedMemoryAllocator(vm_size_t pool_size)
 {
     void* pAddress = VirtualAlloc(nullptr, _poolSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
     _valid = (pAddress != nullptr);
-    _baseAddress = (unsigned long)pAddress;
+    _baseAddress = (vm_address_t)pAddress;
     assert(_valid);
 }
 
