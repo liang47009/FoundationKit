@@ -69,6 +69,17 @@ public:
         move(std::forward<_Myt&&>(other));
     }
 
+	basic_mutablebuf(std::size_t size)
+		: _data(nullptr)
+		, _size(0)
+		, _owner(false)
+	{
+		_data = new uint8[size];
+		memset(_data, 0, size);
+		_size = size;
+		_owner = true;
+	}
+
     /// Construct a buffer to represent a given memory range.
     basic_mutablebuf(uint8* data, std::size_t size, bool need_del = false)
         : _data(data)

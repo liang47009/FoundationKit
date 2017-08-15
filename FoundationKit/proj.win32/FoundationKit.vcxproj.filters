@@ -495,9 +495,6 @@
     <None Include="..\FoundationKit\Foundation\Value.inl">
       <Filter>Foundation</Filter>
     </None>
-    <None Include="..\FoundationKit\Platform\Android\AndroidJNI\Android.mk">
-      <Filter>Platform\Android\AndroidJNI</Filter>
-    </None>
     <None Include="..\FoundationKit\Platform\Apple\AppleDirectory.mm">
       <Filter>Platform\Apple</Filter>
     </None>

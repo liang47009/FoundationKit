@@ -2,24 +2,30 @@
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 #include <windows.h>
 #include <WindowsX.h>
-#include <psapi.h>
 #include <vector>
 #include <memory>
+#include <array>
+
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Foundation/Version.hpp"
 #include "FoundationKit/Base/types.hpp"
+#include "FoundationKit/Base/mutablebuf.hpp"
 #include "FoundationKit/Crypto/md5.hpp"
-#include <array>
+
+#include <psapi.h>
+#pragma   comment(lib,"Psapi.lib")
+
 #include <d3d9.h>
 #pragma   comment(lib,"d3d9.lib")
-#pragma   comment(lib,"Psapi.lib")
-// for getMacAddressUseGetAdaptersInfo
-#include <Iphlpapi.h>
-#pragma comment(lib, "iphlpapi.lib")
 
+#include <Iphlpapi.h>
+#pragma comment(lib, "iphlpapi.lib") // for GetAdaptersInfo
+
+#include <Powrprof.h>
+#pragma comment(lib, "PowrProf.lib") // for CallNtPowerInformation
 
 NS_FK_BEGIN
 
@@ -267,9 +273,39 @@ int PlatformDevice::GetCPUCoreCount()
     return SystemInfo.dwNumberOfProcessors;
 }
 
+typedef struct _PROCESSOR_POWER_INFORMATION {
+	ULONG Number;
+	ULONG MaxMhz;
+	ULONG CurrentMhz;
+	ULONG MhzLimit;
+	ULONG MaxIdleState;
+	ULONG CurrentIdleState;
+} PROCESSOR_POWER_INFORMATION, *PPROCESSOR_POWER_INFORMATION;
+
 int PlatformDevice::GetCPUFrequency()
 {
-    return 0;
+	DWORD ProcessorIndex = 0;
+	int   ProcessorFrequencyKHz = 0;
+	// get the number or processors 
+	SYSTEM_INFO si = { 0 };
+	::GetSystemInfo(&si);
+	// allocate buffer to get info for each processor
+	const int size = si.dwNumberOfProcessors * sizeof(PROCESSOR_POWER_INFORMATION);
+	mutablebuf buffer(size);
+	auto status = ::CallNtPowerInformation(ProcessorInformation, NULL, 0, buffer.data(), size);
+	if (0 == status)
+	{
+		// list each processor frequency 
+		PPROCESSOR_POWER_INFORMATION ppi = (PPROCESSOR_POWER_INFORMATION)buffer.data();
+		for (DWORD nIndex = 0; nIndex < si.dwNumberOfProcessors; nIndex++)
+		{
+			ProcessorFrequencyKHz = ppi->CurrentMhz * 1024;
+			if (nIndex == ProcessorIndex)
+				break;
+			ppi++;
+		}
+	}
+    return ProcessorFrequencyKHz;
 }
 
 int PlatformDevice::GetNetworkType()
