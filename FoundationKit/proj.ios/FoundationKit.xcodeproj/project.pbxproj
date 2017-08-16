@@ -129,6 +129,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		092D7ED91F43EE000050B751 /* algorithm.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = algorithm.hpp; sourceTree = "<group>"; };
+		092D7EDA1F43EE290050B751 /* types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = types.hpp; sourceTree = "<group>"; };
 		09320FBA1F31B3CF00063C11 /* Directory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Directory.hpp; sourceTree = "<group>"; };
 		09320FBB1F31B3CF00063C11 /* File.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = File.hpp; sourceTree = "<group>"; };
 		09320FBC1F31B3CF00063C11 /* Path.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Path.hpp; sourceTree = "<group>"; };
@@ -143,7 +145,6 @@
 		09348ECB1E7F7BA20034ECF2 /* error_code.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = error_code.hpp; sourceTree = "<group>"; };
 		09348ECD1E7F7BA20034ECF2 /* noncopyable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = noncopyable.hpp; sourceTree = "<group>"; };
 		09348ECE1E7F7BA20034ECF2 /* nonmovable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = nonmovable.hpp; sourceTree = "<group>"; };
-		09348ECF1E7F7BA20034ECF2 /* Types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Types.hpp; sourceTree = "<group>"; };
 		09348ED11E7F7BA20034ECF2 /* AbstractCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractCache.h; sourceTree = "<group>"; };
 		09348ED21E7F7BA20034ECF2 /* AbstractStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractStrategy.h; sourceTree = "<group>"; };
 		09348ED31E7F7BA20034ECF2 /* KeyValueArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyValueArgs.h; sourceTree = "<group>"; };
@@ -336,6 +337,8 @@
 		09348EC81E7F7BA20034ECF2 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				092D7EDA1F43EE290050B751 /* types.hpp */,
+				092D7ED91F43EE000050B751 /* algorithm.hpp */,
 				09320FC21F385B5900063C11 /* mutablebuf.hpp */,
 				09320FBD1F38520600063C11 /* lexical_cast.hpp */,
 				09320FBE1F38520600063C11 /* locale.hpp */,
@@ -347,7 +350,6 @@
 				09348ECB1E7F7BA20034ECF2 /* error_code.hpp */,
 				09348ECD1E7F7BA20034ECF2 /* noncopyable.hpp */,
 				09348ECE1E7F7BA20034ECF2 /* nonmovable.hpp */,
-				09348ECF1E7F7BA20034ECF2 /* Types.hpp */,
 			);
 			path = Base;
 			sourceTree = "<group>";
