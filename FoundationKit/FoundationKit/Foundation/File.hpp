@@ -7,7 +7,7 @@
 #ifndef FOUNDATIONKIT_FILE_HPP
 #define FOUNDATIONKIT_FILE_HPP
 
-#include "../Platform/File.hpp"
+#include "FoundationKit/Platform/File.hpp"
 
 #endif // END OF FOUNDATIONKIT_FILE_HPP
 
