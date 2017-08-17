@@ -7,7 +7,7 @@
 #ifndef FOUNDATIONKIT_PATH_HPP
 #define FOUNDATIONKIT_PATH_HPP
 
-#include "../Platform/Path.hpp"
+#include "FoundationKit/Platform/Path.hpp"
 
 #endif // END OF FOUNDATIONKIT_PATH_HPP
 

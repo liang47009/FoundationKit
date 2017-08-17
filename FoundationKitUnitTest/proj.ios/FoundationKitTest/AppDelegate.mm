@@ -16,8 +16,8 @@
 #include "FoundationKit/std/function_traits.hpp"
 #include "FoundationKit/Base/types.hpp"
 #import <Foundation/Foundation.h>
-#include "FoundationKit/Platform/Path.hpp"
-#include "FoundationKit/Platform/Directory.hpp"
+#include "FoundationKit/Foundation/Path.hpp"
+#include "FoundationKit/Foundation/Directory.hpp"
 
 USING_NS_FK;
 
@@ -37,7 +37,7 @@ using namespace FoundationKit;
     auto envs = Environment::GetEnvironmentVariables();
     auto path = Environment::GetEnvironmentVariable("PATH");
     auto envs1 = [[NSProcessInfo processInfo]environment];
-    
+    auto appPath = Path::GetApplicationPath();
     return YES;
 }
 
