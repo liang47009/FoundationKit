@@ -48,7 +48,7 @@ static std::vector<std::string> Split(const std::string &s, char delim, std::vec
 static std::vector<std::string> Split(const std::string &s, char delim);
 
 static std::vector<std::string> Split(const std::string &s, std::string delim);
-    
+	
 static std::string Join(std::string delim, const std::vector<std::string>& values);
 
 /**
@@ -68,9 +68,9 @@ static std::wstring Towstring(_Val val,int precision = 2)
 template<class _Val>
 static std::string Tostring(_Val val, int precision = 2)
 {
-    std::ostringstream oss;
-    oss << std::fixed << std::setprecision(precision) << val;
-    return oss.str();
+	std::ostringstream oss;
+	oss << std::fixed << std::setprecision(precision) << val;
+	return oss.str();
 }
 
 /**
