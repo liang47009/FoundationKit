@@ -331,6 +331,9 @@
     <ClInclude Include="..\FoundationKit\Foundation\AsyncTask.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\ThreadTimer.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

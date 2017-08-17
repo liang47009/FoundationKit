@@ -403,10 +403,7 @@ Rect PlatformDevice::GetScreenResolution()
 {
     int width = GetSystemMetrics(SM_CXFULLSCREEN);
     int height = GetSystemMetrics(SM_CYFULLSCREEN);
-    return Rect(static_cast<float>(0)
-        , static_cast<float>(0)
-        , static_cast<float>(width)
-        , static_cast<float>(height));
+    return Rect(0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height));
 }
 
 Rect PlatformDevice::GetScreenNativeResolution()

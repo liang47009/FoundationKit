@@ -23,8 +23,8 @@ namespace noncopyable_  // protection from unintended ADL
 {
     class noncopyable
     {
-        noncopyable(const noncopyable&) = delete;
-        noncopyable& operator=(const noncopyable&) = delete;
+        noncopyable(const noncopyable&) = delete;              // no copy constructor
+        noncopyable& operator=(const noncopyable&) = delete;   // no assignment operator
 	protected:
 		noncopyable() noexcept = default;
     };
