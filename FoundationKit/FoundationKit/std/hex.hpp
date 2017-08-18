@@ -114,15 +114,16 @@ namespace detail
 
 } // namespace detail 
 
-
-/// \fn hex ( InputIterator first, InputIterator last, OutputIterator out )
-/// \brief   Converts a sequence of integral types into a hexadecimal sequence of characters.
-/// 
-/// \param first    The start of the input sequence
-/// \param last     One past the end of the input sequence
-/// \param out      An output iterator to the results into
-/// \return         The updated output iterator
-/// \note           Based on the MySQL function of the same name
+/**
+ * @fn hex ( InputIterator first, InputIterator last, OutputIterator out )
+ * @brief   Converts a sequence of integral types into a hexadecimal sequence of characters.
+ *
+ * @param first    The start of the input sequence
+ * @param last     One past the end of the input sequence
+ * @param out      An output iterator to the results into
+ * @return         The updated output iterator
+ * @note           Based on the MySQL function of the same name
+ */
 template <typename InputIterator, typename OutputIterator>
 typename std::enable_if<std::is_integral<typename detail::hex_iterator_traits<InputIterator>::value_type>::value, OutputIterator>::type
 hex(InputIterator first, InputIterator last, OutputIterator out) 

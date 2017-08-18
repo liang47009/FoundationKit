@@ -161,6 +161,9 @@ std::string PlatformDevice::GetDevice()
 
 std::string PlatformDevice::GetBrandName()
 {
+#ifdef _M_ARM
+	return "Windows";
+#else
     // https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
     // https://en.wikipedia.org/wiki/CPUID
     std::array<int, 4> cpui;
@@ -183,6 +186,7 @@ std::string PlatformDevice::GetBrandName()
         memcpy(brand + 32, extdata[4].data(), sizeof(cpui));
     }
     return brand;
+#endif
 }
 
 std::string PlatformDevice::GetModel()
@@ -192,22 +196,27 @@ std::string PlatformDevice::GetModel()
 
 std::string PlatformDevice::GetManufacturer()
 {
-    // https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
-    // https://en.wikipedia.org/wiki/CPUID
-    std::array<int, 4> cpui;
-	__cpuidex(cpui.data(), 0,0);
-    int nIds = cpui[0];
-    std::vector<std::array<int, 4>> data;
-    for (int i = 0; i <= nIds; ++i)
-    {
-        __cpuidex(cpui.data(), i, 0);
-        data.push_back(cpui);
-    }
-    char vendor[32] = {0};
-    *reinterpret_cast<int*>(vendor) = data[0][1];
-    *reinterpret_cast<int*>(vendor + 4) = data[0][3];
-    *reinterpret_cast<int*>(vendor + 8) = data[0][2];
-    return vendor;
+#ifdef _M_ARM
+	return "Windows";
+#else
+	// https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+	// https://en.wikipedia.org/wiki/CPUID
+	std::array<int, 4> cpui;
+	__cpuidex(cpui.data(), 0, 0);
+	int nIds = cpui[0];
+	std::vector<std::array<int, 4>> data;
+	for (int i = 0; i <= nIds; ++i)
+	{
+		__cpuidex(cpui.data(), i, 0);
+		data.push_back(cpui);
+	}
+	char vendor[32] = { 0 };
+	*reinterpret_cast<int*>(vendor) = data[0][1];
+	*reinterpret_cast<int*>(vendor + 4) = data[0][3];
+	*reinterpret_cast<int*>(vendor + 8) = data[0][2];
+	return vendor;
+#endif // ARM
+
 }
 
 typedef LONG(NTAPI* fnRtlGetVersion)(PRTL_OSVERSIONINFOW lpVersionInformation);
