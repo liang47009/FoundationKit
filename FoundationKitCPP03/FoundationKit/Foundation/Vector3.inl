@@ -75,30 +75,30 @@ inline Vector3& Vector3::operator*=(float x)
 
 inline const Vector3 Vector3::operator/(const float x) const
 {
-    return Vector3(this->x / x, this->y / x, this->z / x);
+    return Vector3(this->X / x, this->Y / x, this->Z / x);
 }
 
 inline bool Vector3::operator<(const Vector3& v) const
 {
-    if (x == v.x)
+    if (X == v.X)
     {
-        if (y == v.y)
+        if (Y == v.Y)
         {
-            return z < v.z;
+            return Z < v.Z;
         }
-        return y < v.y;
+        return Y < v.Y;
     }
-    return x < v.x;
+    return X < v.X;
 }
 
 inline bool Vector3::operator==(const Vector3& v) const
 {
-    return x==v.x && y==v.y && z==v.z;
+    return X==v.X && Y==v.Y && Z==v.Z;
 }
 
 inline bool Vector3::operator!=(const Vector3& v) const
 {
-    return x!=v.x || y!=v.y || z!=v.z;
+    return X!=v.X || Y!=v.Y || Z!=v.Z;
 }
 
 inline const Vector3 operator*(float x, const Vector3& v)

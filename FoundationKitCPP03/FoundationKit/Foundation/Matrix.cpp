@@ -41,9 +41,9 @@ Matrix::Matrix(float m11, float m12, float m13, float m14, float m21, float m22,
     Set(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 }
 
-Matrix::Matrix(const float* m)
+Matrix::Matrix(const float* mat)
 {
-    Set(m);
+    Set(mat);
 }
 
 Matrix::Matrix(const Matrix& copy)
@@ -77,8 +77,8 @@ const Matrix& Matrix::Zero()
 
 void Matrix::CreateLookAt(const Vector3& eyePosition, const Vector3& targetPosition, const Vector3& up, Matrix* dst)
 {
-    CreateLookAt(eyePosition.x, eyePosition.y, eyePosition.z, targetPosition.x, targetPosition.y, targetPosition.z,
-                 up.x, up.y, up.z, dst);
+    CreateLookAt(eyePosition.X, eyePosition.Y, eyePosition.Z, targetPosition.X, targetPosition.Y, targetPosition.Z,
+                 up.X, up.Y, up.Z, dst);
 }
 
 void Matrix::CreateLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
@@ -104,19 +104,19 @@ void Matrix::CreateLookAt(float eyePositionX, float eyePositionY, float eyePosit
     Vector3::Cross(zaxis, xaxis, &yaxis);
     yaxis.Normalize();
 
-    dst->m[0] = xaxis.x;
-    dst->m[1] = yaxis.x;
-    dst->m[2] = zaxis.x;
+    dst->m[0] = xaxis.X;
+    dst->m[1] = yaxis.X;
+    dst->m[2] = zaxis.X;
     dst->m[3] = 0.0f;
 
-    dst->m[4] = xaxis.y;
-    dst->m[5] = yaxis.y;
-    dst->m[6] = zaxis.y;
+    dst->m[4] = xaxis.Y;
+    dst->m[5] = yaxis.Y;
+    dst->m[6] = zaxis.Y;
     dst->m[7] = 0.0f;
 
-    dst->m[8] = xaxis.z;
-    dst->m[9] = yaxis.z;
-    dst->m[10] = zaxis.z;
+    dst->m[8] = xaxis.Z;
+    dst->m[9] = yaxis.Z;
+    dst->m[10] = zaxis.Z;
     dst->m[11] = 0.0f;
 
     dst->m[12] = -Vector3::Dot(xaxis, eye);
@@ -198,9 +198,9 @@ void Matrix::CreateBillboardHelper(const Vector3& objectPosition, const Vector3&
     bool isSufficientDelta = delta.LengthSquared() > MATH_EPSILON;
 
     dst->SetIdentity();
-    dst->m[3] = objectPosition.x;
-    dst->m[7] = objectPosition.y;
-    dst->m[11] = objectPosition.z;
+    dst->m[3] = objectPosition.X;
+    dst->m[7] = objectPosition.Y;
+    dst->m[11] = objectPosition.Z;
 
     // As per the contracts for the 2 variants of createBillboard, we need
     // either a safe default or a sufficient distance between object and camera.
@@ -231,16 +231,16 @@ void Matrix::createReflection(const Plane& plane, Matrix* dst)
 
     dst->SetIdentity();
 
-    dst->m[0] -= 2.0f * normal.x * normal.x;
-    dst->m[5] -= 2.0f * normal.y * normal.y;
-    dst->m[10] -= 2.0f * normal.z * normal.z;
-    dst->m[1] = dst->m[4] = -2.0f * normal.x * normal.y;
-    dst->m[2] = dst->m[8] = -2.0f * normal.x * normal.z;
-    dst->m[6] = dst->m[9] = -2.0f * normal.y * normal.z;
+    dst->m[0] -= 2.0f * normal.X * normal.X;
+    dst->m[5] -= 2.0f * normal.Y * normal.Y;
+    dst->m[10] -= 2.0f * normal.Z * normal.Z;
+    dst->m[1] = dst->m[4] = -2.0f * normal.X * normal.Y;
+    dst->m[2] = dst->m[8] = -2.0f * normal.X * normal.Z;
+    dst->m[6] = dst->m[9] = -2.0f * normal.Y * normal.Z;
     
-    dst->m[3] = k * normal.x;
-    dst->m[7] = k * normal.y;
-    dst->m[11] = k * normal.z;
+    dst->m[3] = k * normal.X;
+    dst->m[7] = k * normal.Y;
+    dst->m[11] = k * normal.Z;
 }
 */
 void Matrix::CreateScale(const Vector3& scale, Matrix* dst)
@@ -249,9 +249,9 @@ void Matrix::CreateScale(const Vector3& scale, Matrix* dst)
 
     memcpy(dst, MATRIX_IDENTITY, MATRIX_SIZE);
 
-    dst->m[0] = scale.x;
-    dst->m[5] = scale.y;
-    dst->m[10] = scale.z;
+    dst->m[0] = scale.X;
+    dst->m[5] = scale.Y;
+    dst->m[10] = scale.Z;
 }
 
 void Matrix::CreateScale(float xScale, float yScale, float zScale, Matrix* dst)
@@ -270,19 +270,19 @@ void Matrix::CreateRotation(const Quaternion& q, Matrix* dst)
 {
     assert(dst);
 
-    float x2 = q.x + q.x;
-    float y2 = q.y + q.y;
-    float z2 = q.z + q.z;
+    float x2 = q.X + q.X;
+    float y2 = q.Y + q.Y;
+    float z2 = q.Z + q.Z;
 
-    float xx2 = q.x * x2;
-    float yy2 = q.y * y2;
-    float zz2 = q.z * z2;
-    float xy2 = q.x * y2;
-    float xz2 = q.x * z2;
-    float yz2 = q.y * z2;
-    float wx2 = q.w * x2;
-    float wy2 = q.w * y2;
-    float wz2 = q.w * z2;
+    float xx2 = q.X * x2;
+    float yy2 = q.Y * y2;
+    float zz2 = q.Z * z2;
+    float xy2 = q.X * y2;
+    float xz2 = q.X * z2;
+    float yz2 = q.Y * z2;
+    float wx2 = q.W * x2;
+    float wy2 = q.W * y2;
+    float wz2 = q.W * z2;
 
     dst->m[0] = 1.0f - yy2 - zz2;
     dst->m[1] = xy2 + wz2;
@@ -309,12 +309,12 @@ void Matrix::CreateRotation(const Vector3& axis, float angle, Matrix* dst)
 {
     assert(dst);
 
-    float x = axis.x;
-    float y = axis.y;
-    float z = axis.z;
+    float X = axis.X;
+    float Y = axis.Y;
+    float Z = axis.Z;
 
     // Make sure the input axis is normalized.
-    float n = x*x + y*y + z*z;
+    float n = X*X + Y*Y + Z*Z;
     if (n != 1.0f)
     {
         // Not normalized.
@@ -323,9 +323,9 @@ void Matrix::CreateRotation(const Vector3& axis, float angle, Matrix* dst)
         if (n > 0.000001f)
         {
             n = 1.0f / n;
-            x *= n;
-            y *= n;
-            z *= n;
+            X *= n;
+            Y *= n;
+            Z *= n;
         }
     }
 
@@ -333,29 +333,29 @@ void Matrix::CreateRotation(const Vector3& axis, float angle, Matrix* dst)
     float s = sin(angle);
 
     float t = 1.0f - c;
-    float tx = t * x;
-    float ty = t * y;
-    float tz = t * z;
-    float txy = tx * y;
-    float txz = tx * z;
-    float tyz = ty * z;
-    float sx = s * x;
-    float sy = s * y;
-    float sz = s * z;
+    float tx = t * X;
+    float ty = t * Y;
+    float tz = t * Z;
+    float txy = tx * Y;
+    float txz = tx * Z;
+    float tyz = ty * Z;
+    float sx = s * X;
+    float sy = s * Y;
+    float sz = s * Z;
 
-    dst->m[0] = c + tx*x;
+    dst->m[0] = c + tx*X;
     dst->m[1] = txy + sz;
     dst->m[2] = txz - sy;
     dst->m[3] = 0.0f;
 
     dst->m[4] = txy - sz;
-    dst->m[5] = c + ty*y;
+    dst->m[5] = c + ty*Y;
     dst->m[6] = tyz + sx;
     dst->m[7] = 0.0f;
 
     dst->m[8] = txz + sy;
     dst->m[9] = tyz - sx;
-    dst->m[10] = c + tz*z;
+    dst->m[10] = c + tz*Z;
     dst->m[11] = 0.0f;
 
     dst->m[12] = 0.0f;
@@ -415,9 +415,9 @@ void Matrix::CreateTranslation(const Vector3& translation, Matrix* dst)
 
     memcpy(dst, MATRIX_IDENTITY, MATRIX_SIZE);
 
-    dst->m[12] = translation.x;
-    dst->m[13] = translation.y;
-    dst->m[14] = translation.z;
+    dst->m[12] = translation.X;
+    dst->m[13] = translation.Y;
+    dst->m[14] = translation.Z;
 }
 
 void Matrix::CreateTranslation(float xTranslation, float yTranslation, float zTranslation, Matrix* dst)
@@ -443,9 +443,9 @@ void Matrix::Add(float scalar, Matrix* dst)
     MathUtil::AddMatrix(m, scalar, dst->m);
 }
 
-void Matrix::Add(const Matrix& m)
+void Matrix::Add(const Matrix& other)
 {
-    Add(*this, m, this);
+    Add(*this, other, this);
 }
 
 void Matrix::Add(const Matrix& m1, const Matrix& m2, Matrix* dst)
@@ -460,9 +460,9 @@ bool Matrix::Decompose(Vector3* scale, Quaternion* rotation, Vector3* translatio
     if (translation)
     {
         // Extract the translation.
-        translation->x = m[12];
-        translation->y = m[13];
-        translation->z = m[14];
+        translation->X = m[12];
+        translation->Y = m[13];
+        translation->Z = m[14];
     }
 
     // Nothing left to do.
@@ -488,9 +488,9 @@ bool Matrix::Decompose(Vector3* scale, Quaternion* rotation, Vector3* translatio
 
     if (scale)
     {
-        scale->x = scaleX;
-        scale->y = scaleY;
-        scale->z = scaleZ;
+        scale->X = scaleX;
+        scale->Y = scaleY;
+        scale->Z = scaleZ;
     }
 
     // Nothing left to do.
@@ -505,58 +505,58 @@ bool Matrix::Decompose(Vector3* scale, Quaternion* rotation, Vector3* translatio
 
     // Factor the scale out of the matrix axes.
     rn = 1.0f / scaleX;
-    xaxis.x *= rn;
-    xaxis.y *= rn;
-    xaxis.z *= rn;
+    xaxis.X *= rn;
+    xaxis.Y *= rn;
+    xaxis.Z *= rn;
 
     rn = 1.0f / scaleY;
-    yaxis.x *= rn;
-    yaxis.y *= rn;
-    yaxis.z *= rn;
+    yaxis.X *= rn;
+    yaxis.Y *= rn;
+    yaxis.Z *= rn;
 
     rn = 1.0f / scaleZ;
-    zaxis.x *= rn;
-    zaxis.y *= rn;
-    zaxis.z *= rn;
+    zaxis.X *= rn;
+    zaxis.Y *= rn;
+    zaxis.Z *= rn;
 
     // Now calculate the rotation from the resulting matrix (axes).
-    float trace = xaxis.x + yaxis.y + zaxis.z + 1.0f;
+    float trace = xaxis.X + yaxis.Y + zaxis.Z + 1.0f;
 
     if (trace > MATH_EPSILON)
     {
         float s = 0.5f / sqrt(trace);
-        rotation->w = 0.25f / s;
-        rotation->x = (yaxis.z - zaxis.y) * s;
-        rotation->y = (zaxis.x - xaxis.z) * s;
-        rotation->z = (xaxis.y - yaxis.x) * s;
+        rotation->W = 0.25f / s;
+        rotation->X = (yaxis.Z - zaxis.Y) * s;
+        rotation->Y = (zaxis.X - xaxis.Z) * s;
+        rotation->Z = (xaxis.Y - yaxis.X) * s;
     }
     else
     {
         // Note: since xaxis, yaxis, and zaxis are normalized, 
         // we will never divide by zero in the code below.
-        if (xaxis.x > yaxis.y && xaxis.x > zaxis.z)
+        if (xaxis.X > yaxis.Y && xaxis.X > zaxis.Z)
         {
-            float s = 0.5f / sqrt(1.0f + xaxis.x - yaxis.y - zaxis.z);
-            rotation->w = (yaxis.z - zaxis.y) * s;
-            rotation->x = 0.25f / s;
-            rotation->y = (yaxis.x + xaxis.y) * s;
-            rotation->z = (zaxis.x + xaxis.z) * s;
+            float s = 0.5f / sqrt(1.0f + xaxis.X - yaxis.Y - zaxis.Z);
+            rotation->W = (yaxis.Z - zaxis.Y) * s;
+            rotation->X = 0.25f / s;
+            rotation->Y = (yaxis.X + xaxis.Y) * s;
+            rotation->Z = (zaxis.X + xaxis.Z) * s;
         }
-        else if (yaxis.y > zaxis.z)
+        else if (yaxis.Y > zaxis.Z)
         {
-            float s = 0.5f / sqrt(1.0f + yaxis.y - xaxis.x - zaxis.z);
-            rotation->w = (zaxis.x - xaxis.z) * s;
-            rotation->x = (yaxis.x + xaxis.y) * s;
-            rotation->y = 0.25f / s;
-            rotation->z = (zaxis.y + yaxis.z) * s;
+            float s = 0.5f / sqrt(1.0f + yaxis.Y - xaxis.X - zaxis.Z);
+            rotation->W = (zaxis.X - xaxis.Z) * s;
+            rotation->X = (yaxis.X + xaxis.Y) * s;
+            rotation->Y = 0.25f / s;
+            rotation->Z = (zaxis.Y + yaxis.Z) * s;
         }
         else
         {
-            float s = 0.5f / sqrt(1.0f + zaxis.z - xaxis.x - yaxis.y );
-            rotation->w = (xaxis.y - yaxis.x ) * s;
-            rotation->x = (zaxis.x + xaxis.z ) * s;
-            rotation->y = (zaxis.y + yaxis.z ) * s;
-            rotation->z = 0.25f / s;
+            float s = 0.5f / sqrt(1.0f + zaxis.Z - xaxis.X - yaxis.Y );
+            rotation->W = (xaxis.Y - yaxis.X ) * s;
+            rotation->X = (zaxis.X + xaxis.Z ) * s;
+            rotation->Y = (zaxis.Y + yaxis.Z ) * s;
+            rotation->Z = 0.25f / s;
         }
     }
 
@@ -601,54 +601,54 @@ void Matrix::GetUpVector(Vector3* dst) const
 {
     assert(dst);
 
-    dst->x = m[4];
-    dst->y = m[5];
-    dst->z = m[6];
+    dst->X = m[4];
+    dst->Y = m[5];
+    dst->Z = m[6];
 }
 
 void Matrix::GetDownVector(Vector3* dst) const
 {
     assert(dst);
     
-    dst->x = -m[4];
-    dst->y = -m[5];
-    dst->z = -m[6];
+    dst->X = -m[4];
+    dst->Y = -m[5];
+    dst->Z = -m[6];
 }
 
 void Matrix::GetLeftVector(Vector3* dst) const
 {
     assert(dst);
 
-    dst->x = -m[0];
-    dst->y = -m[1];
-    dst->z = -m[2];
+    dst->X = -m[0];
+    dst->Y = -m[1];
+    dst->Z = -m[2];
 }
 
 void Matrix::GetRightVector(Vector3* dst) const
 {
     assert(dst);
 
-    dst->x = m[0];
-    dst->y = m[1];
-    dst->z = m[2];
+    dst->X = m[0];
+    dst->Y = m[1];
+    dst->Z = m[2];
 }
 
 void Matrix::GetForwardVector(Vector3* dst) const
 {
     assert(dst);
 
-    dst->x = -m[8];
-    dst->y = -m[9];
-    dst->z = -m[10];
+    dst->X = -m[8];
+    dst->Y = -m[9];
+    dst->Z = -m[10];
 }
 
 void Matrix::GetBackVector(Vector3* dst) const
 {
     assert(dst);
 
-    dst->x = m[8];
-    dst->y = m[9];
-    dst->z = m[10];
+    dst->X = m[8];
+    dst->Y = m[9];
+    dst->Z = m[10];
 }
 
 bool Matrix::Invert()
@@ -720,16 +720,16 @@ void Matrix::Multiply(float scalar, Matrix* dst) const
     Multiply(*this, scalar, dst);
 }
 
-void Matrix::Multiply(const Matrix& m, float scalar, Matrix* dst)
+void Matrix::Multiply(const Matrix& mat, float scalar, Matrix* dst)
 {
     assert(dst);
 
-    MathUtil::MultiplyMatrix(m.m, scalar, dst->m);
+    MathUtil::MultiplyMatrix(mat.m, scalar, dst->m);
 }
 
-void Matrix::Multiply(const Matrix& m)
+void Matrix::Multiply(const Matrix& mat)
 {
-    Multiply(*this, m, this);
+    Multiply(*this, mat, this);
 }
 
 void Matrix::Multiply(const Matrix& m1, const Matrix& m2, Matrix* dst)
@@ -835,12 +835,12 @@ void Matrix::Scale(float xScale, float yScale, float zScale, Matrix* dst) const
 
 void Matrix::Scale(const Vector3& s)
 {
-    Scale(s.x, s.y, s.z, this);
+    Scale(s.X, s.Y, s.Z, this);
 }
 
 void Matrix::Scale(const Vector3& s, Matrix* dst) const
 {
-    Scale(s.x, s.y, s.z, dst);
+    Scale(s.X, s.Y, s.Z, dst);
 }
 
 void Matrix::Set(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24,
@@ -864,15 +864,15 @@ void Matrix::Set(float m11, float m12, float m13, float m14, float m21, float m2
     m[15] = m44;
 }
 
-void Matrix::Set(const float* m)
+void Matrix::Set(const float* mat)
 {
-    assert(m);
-    memcpy(this->m, m, MATRIX_SIZE);
+    assert(mat);
+    memcpy(this->m, mat, MATRIX_SIZE);
 }
 
-void Matrix::Set(const Matrix& m)
+void Matrix::Set(const Matrix& mat)
 {
-    memcpy(this->m, m.m, MATRIX_SIZE);
+    memcpy(this->m, mat.m, MATRIX_SIZE);
 }
 
 void Matrix::SetIdentity()
@@ -885,9 +885,9 @@ void Matrix::SetZero()
     memset(m, 0, MATRIX_SIZE);
 }
 
-void Matrix::Subtract(const Matrix& m)
+void Matrix::Subtract(const Matrix& mat)
 {
-    Subtract(*this, m, this);
+    Subtract(*this, mat, this);
 }
 
 void Matrix::Subtract(const Matrix& m1, const Matrix& m2, Matrix* dst)
@@ -900,29 +900,28 @@ void Matrix::Subtract(const Matrix& m1, const Matrix& m2, Matrix* dst)
 void Matrix::TransformPoint(Vector3* point) const
 {
     assert(point);
-    TransformVector(point->x, point->y, point->z, 1.0f, point);
+    TransformVector(point->X, point->Y, point->Z, 1.0f, point);
 }
 
 void Matrix::TransformPoint(const Vector3& point, Vector3* dst) const
 {
-    TransformVector(point.x, point.y, point.z, 1.0f, dst);
+    TransformVector(point.X, point.Y, point.Z, 1.0f, dst);
 }
 
 void Matrix::TransformVector(Vector3* vector) const
 {
     assert(vector);
-    TransformVector(vector->x, vector->y, vector->z, 0.0f, vector);
+    TransformVector(vector->X, vector->Y, vector->Z, 0.0f, vector);
 }
 
 void Matrix::TransformVector(const Vector3& vector, Vector3* dst) const
 {
-    TransformVector(vector.x, vector.y, vector.z, 0.0f, dst);
+    TransformVector(vector.X, vector.Y, vector.Z, 0.0f, dst);
 }
 
 void Matrix::TransformVector(float x, float y, float z, float w, Vector3* dst) const
 {
     assert(dst);
-
     MathUtil::TransformVector4(m, x, y, z, w, (float*)dst);
 }
 
@@ -953,12 +952,12 @@ void Matrix::Translate(float x, float y, float z, Matrix* dst) const
 
 void Matrix::Translate(const Vector3& t)
 {
-    Translate(t.x, t.y, t.z, this);
+    Translate(t.X, t.Y, t.Z, this);
 }
 
 void Matrix::Translate(const Vector3& t, Matrix* dst) const
 {
-    Translate(t.x, t.y, t.z, dst);
+    Translate(t.X, t.Y, t.Z, dst);
 }
 
 void Matrix::Transpose()

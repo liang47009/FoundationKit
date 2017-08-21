@@ -24,12 +24,12 @@
 NS_FK_BEGIN
 
 Quaternion::Quaternion()
-    : x(0.0f), y(0.0f), z(0.0f), w(1.0f)
+    : X(0.0f), Y(0.0f), Z(0.0f), W(1.0f)
 {
 }
 
 Quaternion::Quaternion(float x, float y, float z, float w)
-    : x(x), y(y), z(z), w(w)
+    : X(x), Y(y), Z(z), W(w)
 {
 }
 
@@ -71,12 +71,12 @@ const Quaternion& Quaternion::Zero()
 
 bool Quaternion::IsIdentity() const
 {
-    return x == 0.0f && y == 0.0f && z == 0.0f && w == 1.0f;
+    return X == 0.0f && Y == 0.0f && Z == 0.0f && W == 1.0f;
 }
 
 bool Quaternion::IsZero() const
 {
-    return x == 0.0f && y == 0.0f && z == 0.0f && w == 0.0f;
+    return X == 0.0f && Y == 0.0f && Z == 0.0f && W == 0.0f;
 }
 
 void Quaternion::CreateFromRotationMatrix(const Matrix& m, Quaternion* dst)
@@ -93,10 +93,10 @@ void Quaternion::CreateFromAxisAngle(const Vector3& axis, float angle, Quaternio
 
     Vector3 normal(axis);
     normal.Normalize();
-    dst->x = normal.x * sinHalfAngle;
-    dst->y = normal.y * sinHalfAngle;
-    dst->z = normal.z * sinHalfAngle;
-    dst->w = cosf(halfAngle);
+    dst->X = normal.X * sinHalfAngle;
+    dst->Y = normal.Y * sinHalfAngle;
+    dst->Z = normal.Z * sinHalfAngle;
+    dst->W = cosf(halfAngle);
 }
 
 void Quaternion::Conjugate()
@@ -108,10 +108,10 @@ void Quaternion::Conjugate(Quaternion* dst) const
 {
     assert(dst);
 
-    dst->x = -x;
-    dst->y = -y;
-    dst->z = -z;
-    dst->w =  w;
+    dst->X = -X;
+    dst->Y = -Y;
+    dst->Z = -Z;
+    dst->W =  W;
 }
 
 bool Quaternion::Inverse()
@@ -123,13 +123,13 @@ bool Quaternion::Inverse(Quaternion* dst) const
 {
     assert(dst);
 
-    float n = x * x + y * y + z * z + w * w;
+    float n = X * X + Y * Y + Z * Z + W * W;
     if (n == 1.0f)
     {
-        dst->x = -x;
-        dst->y = -y;
-        dst->z = -z;
-        dst->w = w;
+        dst->X = -X;
+        dst->Y = -Y;
+        dst->Z = -Z;
+        dst->W = W;
 
         return true;
     }
@@ -139,10 +139,10 @@ bool Quaternion::Inverse(Quaternion* dst) const
         return false;
 
     n = 1.0f / n;
-    dst->x = -x * n;
-    dst->y = -y * n;
-    dst->z = -z * n;
-    dst->w = w * n;
+    dst->X = -X * n;
+    dst->Y = -Y * n;
+    dst->Z = -Z * n;
+    dst->W = W * n;
 
     return true;
 }
@@ -156,15 +156,15 @@ void Quaternion::Multiply(const Quaternion& q1, const Quaternion& q2, Quaternion
 {
     assert(dst);
 
-    float x = q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y;
-    float y = q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x;
-    float z = q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w;
-    float w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;
+    float X = q1.W * q2.X + q1.X * q2.W + q1.Y * q2.Z - q1.Z * q2.Y;
+    float Y = q1.W * q2.Y - q1.X * q2.Z + q1.Y * q2.W + q1.Z * q2.X;
+    float Z = q1.W * q2.Z + q1.X * q2.Y - q1.Y * q2.X + q1.Z * q2.W;
+    float W = q1.W * q2.W - q1.X * q2.X - q1.Y * q2.Y - q1.Z * q2.Z;
 
-    dst->x = x;
-    dst->y = y;
-    dst->z = z;
-    dst->w = w;
+    dst->X = X;
+    dst->Y = Y;
+    dst->Z = Z;
+    dst->W = W;
 }
 
 void Quaternion::Normalize()
@@ -178,13 +178,13 @@ void Quaternion::Normalize(Quaternion* dst) const
 
     if (this != dst)
     {
-        dst->x = x;
-        dst->y = y;
-        dst->z = z;
-        dst->w = w;
+        dst->X = X;
+        dst->Y = Y;
+        dst->Z = Z;
+        dst->W = W;
     }
 
-    float n = x * x + y * y + z * z + w * w;
+    float n = X * X + Y * Y + Z * Z + W * W;
 
     // Already normalized.
     if (n == 1.0f)
@@ -196,28 +196,28 @@ void Quaternion::Normalize(Quaternion* dst) const
         return;
 
     n = 1.0f / n;
-    dst->x *= n;
-    dst->y *= n;
-    dst->z *= n;
-    dst->w *= n;
+    dst->X *= n;
+    dst->Y *= n;
+    dst->Z *= n;
+    dst->W *= n;
 }
 
 void Quaternion::Set(float x, float y, float z, float w)
 {
-    this->x = x;
-    this->y = y;
-    this->z = z;
-    this->w = w;
+    this->X = x;
+    this->Y = y;
+    this->Z = z;
+    this->W = w;
 }
 
 void Quaternion::Set(float* array)
 {
     assert(array);
 
-    x = array[0];
-    y = array[1];
-    z = array[2];
-    w = array[3];
+    X = array[0];
+    Y = array[1];
+    Z = array[2];
+    W = array[3];
 }
 
 void Quaternion::Set(const Matrix& m)
@@ -232,32 +232,32 @@ void Quaternion::Set(const Vector3& axis, float angle)
 
 void Quaternion::Set(const Quaternion& q)
 {
-    this->x = q.x;
-    this->y = q.y;
-    this->z = q.z;
-    this->w = q.w;
+    this->X = q.X;
+    this->Y = q.Y;
+    this->Z = q.Z;
+    this->W = q.W;
 }
 
 void Quaternion::SetIdentity()
 {
-    x = 0.0f;
-    y = 0.0f;
-    z = 0.0f;
-    w = 1.0f;
+    X = 0.0f;
+    Y = 0.0f;
+    Z = 0.0f;
+    W = 1.0f;
 }
 
 float Quaternion::ToAxisAngle(Vector3* axis) const
 {
     assert(axis);
 
-    Quaternion q(x, y, z, w);
+    Quaternion q(X, Y, Z, W);
     q.Normalize();
-    axis->x = q.x;
-    axis->y = q.y;
-    axis->z = q.z;
+    axis->X = q.X;
+    axis->Y = q.Y;
+    axis->Z = q.Z;
     axis->Normalize();
 
-    return (2.0f * acos(q.w));
+    return (2.0f * acos(q.W));
 }
 
 void Quaternion::Lerp(const Quaternion& q1, const Quaternion& q2, float t, Quaternion* dst)
@@ -278,16 +278,16 @@ void Quaternion::Lerp(const Quaternion& q1, const Quaternion& q2, float t, Quate
 
     float t1 = 1.0f - t;
 
-    dst->x = t1 * q1.x + t * q2.x;
-    dst->y = t1 * q1.y + t * q2.y;
-    dst->z = t1 * q1.z + t * q2.z;
-    dst->w = t1 * q1.w + t * q2.w;
+    dst->X = t1 * q1.X + t * q2.X;
+    dst->Y = t1 * q1.Y + t * q2.Y;
+    dst->Z = t1 * q1.Z + t * q2.Z;
+    dst->W = t1 * q1.W + t * q2.W;
 }
 
 void Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, float t, Quaternion* dst)
 {
     assert(dst);
-    Slerp(q1.x, q1.y, q1.z, q1.w, q2.x, q2.y, q2.z, q2.w, t, &dst->x, &dst->y, &dst->z, &dst->w);
+    Slerp(q1.X, q1.Y, q1.Z, q1.W, q2.X, q2.Y, q2.Z, q2.W, t, &dst->X, &dst->Y, &dst->Z, &dst->W);
 }
 
 void Quaternion::Squad(const Quaternion& q1, const Quaternion& q2, const Quaternion& s1, const Quaternion& s2, float t, Quaternion* dst)
@@ -384,21 +384,21 @@ void Quaternion::Slerp(float q1x, float q1y, float q1z, float q1w, float q2x, fl
     beta = f1 + f2b;
 
     // Apply final coefficients to a and b as usual.
-    float w = alpha * q1w + beta * q2w;
-    float x = alpha * q1x + beta * q2x;
-    float y = alpha * q1y + beta * q2y;
-    float z = alpha * q1z + beta * q2z;
+    float W = alpha * q1w + beta * q2w;
+    float X = alpha * q1x + beta * q2x;
+    float Y = alpha * q1y + beta * q2y;
+    float Z = alpha * q1z + beta * q2z;
 
     // This final adjustment to the quaternion's length corrects for
     // any small constraint error in the inputs q1 and q2 But as you
     // can see, it comes at the cost of 9 additional multiplication
     // operations. If this error-correcting feature is not required,
     // the following code may be removed.
-    f1 = 1.5f - 0.5f * (w * w + x * x + y * y + z * z);
-    *dstw = w * f1;
-    *dstx = x * f1;
-    *dsty = y * f1;
-    *dstz = z * f1;
+    f1 = 1.5f - 0.5f * (W * W + X * X + Y * Y + Z * Z);
+    *dstw = W * f1;
+    *dstx = X * f1;
+    *dsty = Y * f1;
+    *dstz = Z * f1;
 }
 
 void Quaternion::SlerpForSquad(const Quaternion& q1, const Quaternion& q2, float t, Quaternion* dst)
@@ -409,14 +409,14 @@ void Quaternion::SlerpForSquad(const Quaternion& q1, const Quaternion& q2, float
     // slerp(q1, q2, t) = (q1*sin((1-t)*omega) + q2*sin(t*omega))/sin(omega);
     // q1 = +- q2, slerp(q1,q2,t) = q1.
     // This is a straight-forward implementation of the formula of slerp. It does not do any sign switching.
-    float c = q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w;
+    float c = q1.X * q2.X + q1.Y * q2.Y + q1.Z * q2.Z + q1.W * q2.W;
 
     if (fabs(c) >= 1.0f)
     {
-        dst->x = q1.x;
-        dst->y = q1.y;
-        dst->z = q1.z;
-        dst->w = q1.w;
+        dst->X = q1.X;
+        dst->Y = q1.Y;
+        dst->Z = q1.Z;
+        dst->W = q1.W;
         return;
     }
 
@@ -424,19 +424,19 @@ void Quaternion::SlerpForSquad(const Quaternion& q1, const Quaternion& q2, float
     float s = sqrt(1.0f - c * c);
     if (fabs(s) <= 0.00001f)
     {
-        dst->x = q1.x;
-        dst->y = q1.y;
-        dst->z = q1.z;
-        dst->w = q1.w;
+        dst->X = q1.X;
+        dst->Y = q1.Y;
+        dst->Z = q1.Z;
+        dst->W = q1.W;
         return;
     }
 
     float r1 = sin((1 - t) * omega) / s;
     float r2 = sin(t * omega) / s;
-    dst->x = (q1.x * r1 + q2.x * r2);
-    dst->y = (q1.y * r1 + q2.y * r2);
-    dst->z = (q1.z * r1 + q2.z * r2);
-    dst->w = (q1.w * r1 + q2.w * r2);
+    dst->X = (q1.X * r1 + q2.X * r2);
+    dst->Y = (q1.Y * r1 + q2.Y * r2);
+    dst->Z = (q1.Z * r1 + q2.Z * r2);
+    dst->W = (q1.W * r1 + q2.W * r2);
 }
 
 NS_FK_END

@@ -65,19 +65,19 @@ public:
     /**
      * The x-value of the quaternion's vector component.
      */
-    float x;
+    float X;
     /**
      * The y-value of the quaternion's vector component.
      */
-    float y;
+    float Y;
     /**
      * The z-value of the quaternion's vector component.
      */
-    float z;
+    float Z;
     /**
      * The scalar component of the quaternion.
      */
-    float w;
+    float W;
 
     /**
      * Constructs a quaternion initialized to (0, 0, 0, 1).

@@ -73,14 +73,15 @@ void AppDelegate::applicationDidLaunching()
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
-    std::error_code ec;
-    std::string strErr = ec.message();
-    HTTPClient::GetInstance()->Initialize();
+	std::error_code ec;
+	std::string strErr = ec.message();
+	HTTPClient::GetInstance()->Initialize();
+
 
 	PlatformDevice::GetCPUFrequency();
 
 
-    int im_a_breakpoint = 0;
+	int im_a_breakpoint = 0;
 	return true;
 }
 
@@ -98,12 +99,12 @@ void AppDelegate::applicationWillEnterForeground()
 
 void AppDelegate::applicationWillTerminate()
 {
-    bExitApp = true;
+	bExitApp = true;
 }
 
 void AppDelegate::mainLoop()
 {
-    HTTPClient::GetInstance()->Tick(1 / 60.0f);
+	HTTPClient::GetInstance()->Tick(1 / 60.0f);
 }
 
 

@@ -28,12 +28,12 @@ Vector2 Vector2::UNITX = Vector2(1.f, 0.f);
 Vector2 Vector2::UNITY = Vector2(0.f, 1.f);
 
 Vector2::Vector2()
-    : x(0.0f), y(0.0f)
+    : X(0.0f), Y(0.0f)
 {
 }
 
 Vector2::Vector2(float x, float y)
-    : x(x), y(y)
+    : X(x), Y(y)
 {
 }
 
@@ -82,110 +82,110 @@ const Vector2& Vector2::UnitY()
 
 bool Vector2::IsZero() const
 {
-    return x == 0.0f && y == 0.0f;
+    return X == 0.0f && Y == 0.0f;
 }
 
 bool Vector2::IsOne() const
 {
-    return x == 1.0f && y == 1.0f;
+    return X == 1.0f && Y == 1.0f;
 }
 
 float Vector2::Angle(const Vector2& v1, const Vector2& v2)
 {
-    float dz = v1.x * v2.y - v1.y * v2.x;
+    float dz = v1.X * v2.Y - v1.Y * v2.X;
     return atan2f(fabsf(dz) + Math::SmailFloat, Dot(v1, v2));
 }
 
 void Vector2::Add(const Vector2& v)
 {
-    x += v.x;
-    y += v.y;
+    X += v.X;
+    Y += v.Y;
 }
 
 void Vector2::Add(const Vector2& v1, const Vector2& v2, Vector2* dst)
 {
     assert(dst);
 
-    dst->x = v1.x + v2.x;
-    dst->y = v1.y + v2.y;
+    dst->X = v1.X + v2.X;
+    dst->Y = v1.Y + v2.Y;
 }
 
 void Vector2::Clamp(const Vector2& min, const Vector2& max)
 {
-    assert(!(min.x > max.x || min.y > max.y ));
+    assert(!(min.X > max.X || min.Y > max.Y ));
 
-    // Clamp the x value.
-    if (x < min.x)
-        x = min.x;
-    if (x > max.x)
-        x = max.x;
+    // Clamp the X value.
+    if (X < min.X)
+        X = min.X;
+    if (X > max.X)
+        X = max.X;
 
-    // Clamp the y value.
-    if (y < min.y)
-        y = min.y;
-    if (y > max.y)
-        y = max.y;
+    // Clamp the Y value.
+    if (Y < min.Y)
+        Y = min.Y;
+    if (Y > max.Y)
+        Y = max.Y;
 }
 
 void Vector2::Clamp(const Vector2& v, const Vector2& min, const Vector2& max, Vector2* dst)
 {
     assert(dst);
-    assert(!(min.x > max.x || min.y > max.y ));
+    assert(!(min.X > max.X || min.Y > max.Y ));
 
-    // Clamp the x value.
-    dst->x = v.x;
-    if (dst->x < min.x)
-        dst->x = min.x;
-    if (dst->x > max.x)
-        dst->x = max.x;
+    // Clamp the X value.
+    dst->X = v.X;
+    if (dst->X < min.X)
+        dst->X = min.X;
+    if (dst->X > max.X)
+        dst->X = max.X;
 
-    // Clamp the y value.
-    dst->y = v.y;
-    if (dst->y < min.y)
-        dst->y = min.y;
-    if (dst->y > max.y)
-        dst->y = max.y;
+    // Clamp the Y value.
+    dst->Y = v.Y;
+    if (dst->Y < min.Y)
+        dst->Y = min.Y;
+    if (dst->Y > max.Y)
+        dst->Y = max.Y;
 }
 
 float Vector2::Distance(const Vector2& v) const
 {
-    float dx = v.x - x;
-    float dy = v.y - y;
+    float dx = v.X - X;
+    float dy = v.Y - Y;
 
     return sqrt(dx * dx + dy * dy);
 }
 
 float Vector2::DistanceSquared(const Vector2& v) const
 {
-    float dx = v.x - x;
-    float dy = v.y - y;
+    float dx = v.X - X;
+    float dy = v.Y - Y;
     return (dx * dx + dy * dy);
 }
 
 float Vector2::Dot(const Vector2& v) const
 {
-    return (x * v.x + y * v.y);
+    return (X * v.X + Y * v.Y);
 }
 
 float Vector2::Dot(const Vector2& v1, const Vector2& v2)
 {
-    return (v1.x * v2.x + v1.y * v2.y);
+    return (v1.X * v2.X + v1.Y * v2.Y);
 }
 
 float Vector2::Length() const
 {
-    return sqrt(x * x + y * y);
+    return sqrt(X * X + Y * Y);
 }
 
 float Vector2::LengthSquared() const
 {
-    return (x * x + y * y);
+    return (X * X + Y * Y);
 }
 
 void Vector2::Negate()
 {
-    x = -x;
-    y = -y;
+    X = -X;
+    Y = -Y;
 }
 
 Vector2& Vector2::Normalize()
@@ -200,11 +200,11 @@ void Vector2::Normalize(Vector2* dst) const
 
     if (dst != this)
     {
-        dst->x = x;
-        dst->y = y;
+        dst->X = X;
+        dst->Y = Y;
     }
 
-    float n = x * x + y * y;
+    float n = X * X + Y * Y;
     // Already normalized.
     if (n == 1.0f)
         return;
@@ -215,20 +215,20 @@ void Vector2::Normalize(Vector2* dst) const
         return;
 
     n = 1.0f / n;
-    dst->x *= n;
-    dst->y *= n;
+    dst->X *= n;
+    dst->Y *= n;
 }
 
 void Vector2::Scale(float scalar)
 {
-    x *= scalar;
-    y *= scalar;
+    X *= scalar;
+    Y *= scalar;
 }
 
 void Vector2::Scale(const Vector2& scale)
 {
-    x *= scale.x;
-    y *= scale.y;
+    X *= scale.X;
+    Y *= scale.Y;
 }
 
 void Vector2::Rotate(const Vector2& point, float angle)
@@ -238,58 +238,58 @@ void Vector2::Rotate(const Vector2& point, float angle)
 
     if (point.IsZero())
     {
-        float tempX = x * cosAngle - y * sinAngle;
-        y = y * cosAngle + x * sinAngle;
-        x = tempX;
+        float tempX = X * cosAngle - Y * sinAngle;
+        Y = Y * cosAngle + X * sinAngle;
+        X = tempX;
     }
     else
     {
-        float tempX = x - point.x;
-        float tempY = y - point.y;
+        float tempX = X - point.X;
+        float tempY = Y - point.Y;
 
-        x = tempX * cosAngle - tempY * sinAngle + point.x;
-        y = tempY * cosAngle + tempX * sinAngle + point.y;
+        X = tempX * cosAngle - tempY * sinAngle + point.X;
+        Y = tempY * cosAngle + tempX * sinAngle + point.Y;
     }
 }
 
 void Vector2::Set(float x, float y)
 {
-    this->x = x;
-    this->y = y;
+    this->X = x;
+    this->Y = y;
 }
 
 void Vector2::Set(const float* array)
 {
     assert(array);
 
-    x = array[0];
-    y = array[1];
+    X = array[0];
+    Y = array[1];
 }
 
 void Vector2::Set(const Vector2& v)
 {
-    this->x = v.x;
-    this->y = v.y;
+    this->X = v.X;
+    this->Y = v.Y;
 }
 
 void Vector2::Set(const Vector2& p1, const Vector2& p2)
 {
-     x = p2.x - p1.x;
-     y = p2.y - p1.y;
+     X = p2.X - p1.X;
+     Y = p2.Y - p1.Y;
 }
 
 void Vector2::Subtract(const Vector2& v)
 {
-    x -= v.x;
-    y -= v.y;
+    X -= v.X;
+    Y -= v.Y;
 }
 
 void Vector2::Subtract(const Vector2& v1, const Vector2& v2, Vector2* dst)
 {
     assert(dst);
 
-    dst->x = v1.x - v2.x;
-    dst->y = v1.y - v2.y;
+    dst->X = v1.X - v2.X;
+    dst->Y = v1.Y - v2.Y;
 }
 
 void Vector2::Smooth(const Vector2& target, float elapsedTime, float responseTime)

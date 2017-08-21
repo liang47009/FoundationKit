@@ -20,63 +20,71 @@ NS_FK_BEGIN
 class Size
 {
 public:
-    float width;
-    float height;
+    float Width;
+    float Height;
 public:
     operator Vector2() const
     {
-        return Vector2(width, height);
+        return Vector2(Width, Height);
     }
 
 public:
 
-    Size() : width(0), height(0){}
+    Size() : Width(0), Height(0){}
 
-    Size(float w, float h) : width(w), height(h){}
+    Size(float w, float h) : Width(w), Height(h){}
 
-    explicit Size(const Vector2& point) : width(point.x), height(point.y){}
+    explicit Size(const Vector2& point) : Width(point.X), Height(point.Y){}
 
-    Size(const Size& other) : width(other.width), height(other.height){}
+    Size(const Size& other) : Width(other.Width), Height(other.Height){}
 
     inline Size& operator= (const Size& other)
     {
-        SetSize(other.width, other.height);
+        SetSize(other.Width, other.Height);
         return *this;
     }
 
     inline Size& operator= (const Vector2& point)
     {
-        SetSize(point.x, point.y);
+        SetSize(point.X, point.Y);
         return *this;
     }
 
     inline Size operator+(const Size& right) const
     {
-        return Size(this->width + right.width, this->height + right.height);
+        return Size(this->Width + right.Width, this->Height + right.Height);
     }
 
     inline Size operator-(const Size& right) const
     {
-        return Size(this->width - right.width, this->height - right.height);
+        return Size(this->Width - right.Width, this->Height - right.Height);
     }
 
     inline Size operator*(float a) const
     {
-        return Size(this->width * a, this->height * a);
+        return Size(this->Width * a, this->Height * a);
     }
 
     inline Size operator/(float a) const
     {
-        return Size(this->width / a, this->height / a);
+        return Size(this->Width / a, this->Height / a);
     }
 
-    void SetSize(float width, float height);
+    void SetSize(float width, float height)
+    {
+        this->Width = width;
+        this->Height = height;
+    }
 
-    bool Equals(const Size& target) const;
+    bool Equals(const Size& target) const
+    {
+        return (fabs(this->Width - target.Width) < FLT_EPSILON)
+            && (fabs(this->Height - target.Height) < FLT_EPSILON);
+    }
 
     bool IsZero()
     {
-        return (width == 0 && height == 0);
+        return (Width == 0 && Height == 0);
     }
 };
 

@@ -51,10 +51,10 @@ void setWindowSize(HWND mainWindow, Size size)
     Size _winScreenSize = Size(GetSystemMetrics(SM_CXFULLSCREEN), GetSystemMetrics(SM_CYFULLSCREEN));
     SetWindowPos(mainWindow
         , NULL
-        ,(_winScreenSize.width - size.width) / 2
-        ,(_winScreenSize.height - size.height) / 2
-        ,size.width
-        ,size.height,SWP_NOZORDER|SWP_SHOWWINDOW);
+        ,(_winScreenSize.Width - size.Width) / 2
+        ,(_winScreenSize.Height - size.Height) / 2
+        ,size.Width
+        ,size.Height,SWP_NOZORDER|SWP_SHOWWINDOW);
     UpdateWindow(mainWindow);
 }
 
@@ -157,9 +157,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
         RegisterClassEx(&wndclass);
 
         Size winScreenSize = Size(GetSystemMetrics(SM_CXFULLSCREEN), GetSystemMetrics(SM_CYFULLSCREEN));
-        winScreenSize.width  += GetSystemMetrics(SM_CXDLGFRAME)*2;
-        winScreenSize.height += GetSystemMetrics(SM_CYDLGFRAME)*2;
-        winScreenSize.height +=GetSystemMetrics(SM_CYCAPTION);
+        winScreenSize.Width  += GetSystemMetrics(SM_CXDLGFRAME)*2;
+        winScreenSize.Height += GetSystemMetrics(SM_CYDLGFRAME)*2;
+        winScreenSize.Height +=GetSystemMetrics(SM_CYCAPTION);
 
         //Size windowSize = winScreenSize;
         Size windowSize(1280,720);
@@ -176,9 +176,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
         WCHAR title[256] = { 0 };
         swprintf_s(title, wstrViewName.c_str());
         _mainWindow = CreateWindow(TEXT("fm_main"), title, dwStyle,
-            (winScreenSize.width- windowSize.width) / 2-fixedXPos, 
-            (winScreenSize.height - windowSize.height) / 2, 
-            windowSize.width, windowSize.height, NULL, NULL, hInstance, NULL);
+            (winScreenSize.Width- windowSize.Width) / 2-fixedXPos, 
+            (winScreenSize.Height - windowSize.Height) / 2, 
+            windowSize.Width, windowSize.Height, NULL, NULL, hInstance, NULL);
 
         if (_mainWindow == NULL)
         {

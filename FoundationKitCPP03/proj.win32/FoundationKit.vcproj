@@ -437,10 +437,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Foundation\Size.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\FoundationKit\Foundation\Size.hpp"
 				>
 			</File>

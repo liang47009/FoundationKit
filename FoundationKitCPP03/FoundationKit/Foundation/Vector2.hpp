@@ -41,12 +41,12 @@ public:
     /**
      * The x coordinate.
      */
-    float x;
+    float X;
 
     /**
      * The y coordinate.
      */
-    float y;
+    float Y;
 
     /**
      * Constructs a new vector initialized to all zeros.
@@ -357,7 +357,6 @@ public:
      */
     void Smooth(const Vector2& target, float elapsedTime, float responseTime);
 
-    float Magnitude();
 
     /**
      * Calculates the sum of this vector with the given vector.

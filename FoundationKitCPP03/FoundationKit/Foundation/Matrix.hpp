@@ -119,7 +119,7 @@ public:
      *
      * @param m An array containing 16 elements in column-major order.
      */
-    explicit Matrix(const float* m);
+    explicit Matrix(const float* mat);
 
     /**
      * Constructs a new matrix by copying the values from the specified matrix.
@@ -380,7 +380,7 @@ public:
      *
      * @param m The matrix to add.
      */
-    void Add(const Matrix& m);
+    void Add(const Matrix& other);
 
     /**
      * Adds the specified matrices and stores the result in dst.
@@ -522,14 +522,14 @@ public:
      * @param scalar The scalar value.
      * @param dst A matrix to store the result in.
      */
-    static void Multiply(const Matrix& m, float scalar, Matrix* dst);
+    static void Multiply(const Matrix& mat, float scalar, Matrix* dst);
 
     /**
      * Multiplies this matrix by the specified one.
      *
      * @param m The matrix to multiply.
      */
-    void Multiply(const Matrix& m);
+    void Multiply(const Matrix& mat);
 
     /**
      * Multiplies m1 by m2 and stores the result in dst.
@@ -722,14 +722,14 @@ public:
      *
      * @param m An array containing 16 elements in column-major format.
      */
-    void Set(const float* m);
+    void Set(const float* mat);
 
     /**
      * Sets the values of this matrix to those of the specified matrix.
      *
      * @param m The source matrix.
      */
-    void Set(const Matrix& m);
+    void Set(const Matrix& mat);
 
     /**
      * Sets this matrix to the identity matrix.
@@ -746,7 +746,7 @@ public:
      *
      * @param m The matrix to subtract.
      */
-    void Subtract(const Matrix& m);
+    void Subtract(const Matrix& mat);
 
     /**
      * Subtracts the specified matrix from the current matrix.
@@ -881,7 +881,7 @@ public:
      * @param m The matrix to add.
      * @return The matrix sum.
      */
-    inline const Matrix operator+(const Matrix& m) const;
+    inline const Matrix operator+(const Matrix& mat) const;
     
     /**
      * Adds the given matrix to this matrix.
@@ -889,7 +889,7 @@ public:
      * @param m The matrix to add.
      * @return This matrix, after the addition occurs.
      */
-    inline Matrix& operator+=(const Matrix& m);
+    inline Matrix& operator+=(const Matrix& mat);
 
     /**
      * Calculates the difference of this matrix with the given matrix.
@@ -899,7 +899,7 @@ public:
      * @param m The matrix to subtract.
      * @return The matrix difference.
      */
-    inline const Matrix operator-(const Matrix& m) const;
+    inline const Matrix operator-(const Matrix& mat) const;
 
     /**
      * Subtracts the given matrix from this matrix.
@@ -907,7 +907,7 @@ public:
      * @param m The matrix to subtract.
      * @return This matrix, after the subtraction occurs.
      */
-    inline Matrix& operator-=(const Matrix& m);
+    inline Matrix& operator-=(const Matrix& mat);
 
     /**
      * Calculates the negation of this matrix.
@@ -926,7 +926,7 @@ public:
      * @param m The matrix to multiply by.
      * @return The matrix product.
      */
-    inline const Matrix operator*(const Matrix& m) const;
+    inline const Matrix operator*(const Matrix& mat) const;
 
     /**
      * Right-multiplies this matrix by the given matrix.
@@ -934,7 +934,7 @@ public:
      * @param m The matrix to multiply by.
      * @return This matrix, after the multiplication occurs.
      */
-    inline Matrix& operator*=(const Matrix& m);
+    inline Matrix& operator*=(const Matrix& mat);
     
 private:
 
@@ -952,7 +952,7 @@ private:
  * @param m The matrix to transform by.
  * @return This vector, after the transformation occurs.
  */
-inline Vector3& operator*=(Vector3& v, const Matrix& m);
+inline Vector3& operator*=(Vector3& v, const Matrix& mat);
 
 /**
  * Transforms the given vector by the given matrix.
@@ -963,7 +963,7 @@ inline Vector3& operator*=(Vector3& v, const Matrix& m);
  * @param v The vector to transform.
  * @return The resulting transformed vector.
  */
-inline const Vector3 operator*(const Matrix& m, const Vector3& v);
+inline const Vector3 operator*(const Matrix& mat, const Vector3& v);
 
 /**
  * Transforms the given vector by the given matrix.
@@ -974,7 +974,7 @@ inline const Vector3 operator*(const Matrix& m, const Vector3& v);
  * @param m The matrix to transform by.
  * @return This vector, after the transformation occurs.
  */
-inline Vector4& operator*=(Vector4& v, const Matrix& m);
+inline Vector4& operator*=(Vector4& v, const Matrix& mat);
 
 /**
  * Transforms the given vector by the given matrix.
@@ -985,7 +985,7 @@ inline Vector4& operator*=(Vector4& v, const Matrix& m);
  * @param v The vector to transform.
  * @return The resulting transformed vector.
  */
-inline const Vector4 operator*(const Matrix& m, const Vector4& v);
+inline const Vector4 operator*(const Matrix& mat, const Vector4& v);
 
 NS_FK_END
 #endif // FOUNDATIONKIT_MATRIX_HPP
