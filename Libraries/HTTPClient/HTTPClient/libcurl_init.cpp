@@ -55,10 +55,10 @@ namespace
 			pCopy = reinterpret_cast<char*>(::malloc(strLen));
 			if (pCopy)
 			{
-#if TARGET_PLATFORM == PLATFORM_ANDROID
-				::strcpy(pCopy, zeroTerminatedString);
+#if TARGET_PLATFORM == PLATFORM_WINDOWS
+                ::strcpy_s(pCopy, strLen, zeroTerminatedString);
 #else
-				::strcpy_s(pCopy, strLen, zeroTerminatedString);
+				::strcpy(pCopy, zeroTerminatedString);
 #endif // TARGET_PLATFORM == PLATFORM_ANDROID
 				assert(strcmp(pCopy, zeroTerminatedString) == 0);
 			}

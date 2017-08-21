@@ -10,4 +10,7 @@
    <FileRef
       location = "group:FoundationKit/proj.ios/FoundationKit.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Libraries/HTTPClient/proj.ios/HTTPClient.xcodeproj">
+   </FileRef>
 </Workspace>

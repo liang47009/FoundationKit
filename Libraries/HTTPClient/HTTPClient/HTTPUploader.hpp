@@ -37,7 +37,7 @@ public:
     std::string        GetFilePath();
 
 protected:
-    virtual bool   Build();
+    virtual bool   Build()override;
     virtual bool   OnFinishedRequest();
     virtual size_t UploadCallback(void* buffer, size_t sizeInBlocks, size_t blockSizeInBytes)override;
     virtual int    ProgressCallback(curl_off_t totalDownload, curl_off_t nowDownload, curl_off_t totalUpload, curl_off_t nowUpload)override;

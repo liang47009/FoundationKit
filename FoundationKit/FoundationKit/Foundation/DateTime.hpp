@@ -82,7 +82,7 @@ public:
 	/**
 	 * Creates and initializes a new instance with the specified number of ticks.
 	 *
-	 * @param Ticks The ticks representing the date and time.
+	 * @param inTicks The ticks representing the date and time.
 	 */
 	explicit DateTime( int64 inTicks )
         : _ticks(inTicks)
@@ -174,7 +174,7 @@ public:
 	/**
 	 * Compares this date with the given date for inequality.
 	 *
-	 * @param other The date to compare with.
+	 * @param Other The date to compare with.
 	 * @return true if the dates are not equal, false otherwise.
 	 */
 	bool operator!=( const DateTime& Other ) const
@@ -185,7 +185,7 @@ public:
 	/**
 	 * Checks whether this date is greater than the given date.
 	 *
-	 * @param other The date to compare with.
+	 * @param Other The date to compare with.
 	 * @return true if this date is greater, false otherwise.
 	 */
 	bool operator>( const DateTime& Other ) const
@@ -196,7 +196,7 @@ public:
 	/**
 	 * Checks whether this date is greater than or equal to the date span.
 	 *
-	 * @param other The date to compare with.
+	 * @param Other The date to compare with.
 	 * @return true if this date is greater or equal, false otherwise.
 	 */
 	bool operator>=( const DateTime& Other ) const
@@ -207,7 +207,7 @@ public:
 	/**
 	 * Checks whether this date is less than the given date.
 	 *
-	 * @param other The date to compare with.
+	 * @param Other The date to compare with.
 	 * @return true if this date is less, false otherwise.
 	 */
 	bool operator<( const DateTime& Other ) const
@@ -218,7 +218,7 @@ public:
 	/**
 	 * Checks whether this date is less than or equal to the given date.
 	 *
-	 * @param other The date to compare with.
+	 * @param Other The date to compare with.
 	 * @return true if this date is less or equal, false otherwise.
 	 */
 	bool operator<=( const DateTime& Other ) const
@@ -386,7 +386,6 @@ public:
 	/**
 	 * Gets the time elapsed since midnight of this date.
 	 *
-	 * @param Time of day since midnight.
 	 * @see getDayOfWeek, getDayOfYear, getMonthOfYear
 	 */
 	Timespan GetTimeOfDay() const
@@ -405,7 +404,7 @@ public:
 	/**
 	 * Gets whether this date's time is in the afternoon.
 	 *
-	 * @param true if it is in the afternoon, false otherwise.
+	 * @return true if it is in the afternoon, false otherwise.
 	 * @see isMorning
 	 */
 	bool IsAfternoon() const
@@ -416,7 +415,7 @@ public:
 	/**
 	 * Gets whether this date's time is in the morning.
 	 *
-	 * @param true if it is in the morning, false otherwise.
+	 * @return true if it is in the morning, false otherwise.
 	 * @see isAfternoon
 	 */
 	bool IsMorning() const
@@ -489,7 +488,7 @@ public:
 	/**
 	 * Returns the proleptic Gregorian date for the given Julian Day.
 	 *
-	 * @param JulianDay The Julian Day.
+	 * @param julianDay The Julian Day.
 	 * @return Gregorian date and time.
 	 * @see getJulianDay
 	 */
@@ -501,7 +500,7 @@ public:
 	/**
 	 * Returns the date from Unix time (seconds from midnight 1970-01-01)
 	 *
-	 * @param UnixTime Unix time (seconds from midnight 1970-01-01)
+	 * @param unixTime Unix time (seconds from midnight 1970-01-01)
 	 * @return Gregorian date and time.
 	 * @see toUnixTimestamp
 	 */
@@ -661,7 +660,6 @@ public:
 	/**
 	 * Gets the hash for the specified date and time.
 	 *
-	 * @param dateTime The date and time to get the hash for.
 	 * @return Hash value.
 	 */
     size_t GetHash()

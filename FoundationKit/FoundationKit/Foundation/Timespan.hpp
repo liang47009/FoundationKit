@@ -143,7 +143,7 @@ public:
 	/**
 	 * Returns the result of subtracting the given time span from this time span.
 	 *
-	 * @param Other The time span to compare with.
+	 * @param other The time span to compare with.
 	 * @return A time span whose value is the difference of this time span and the given time span.
 	 */
     Timespan operator-(const Timespan& other) const
@@ -154,7 +154,7 @@ public:
 	/**
 	 * Subtracts the given time span from this time span.
 	 *
-	 * @param Other The time span to subtract.
+	 * @param other The time span to subtract.
 	 * @return This time span.
 	 */
     Timespan& operator-=(const Timespan& other)
@@ -166,7 +166,7 @@ public:
 	/**
 	 * Returns the result of multiplying the this time span with the given scalar.
 	 *
-	 * @param Scalar The scalar to multiply with.
+	 * @param scalar The scalar to multiply with.
 	 * @return A time span whose value is the product of this time span and the given scalar.
 	 */
     Timespan operator*(float scalar) const
@@ -177,7 +177,7 @@ public:
 	/**
 	 * Multiplies this time span with the given scalar.
 	 *
-	 * @param Scalar The scalar to multiply with.
+	 * @param scalar The scalar to multiply with.
 	 * @return This time span.
 	 */
     Timespan& operator*=(float scalar)
@@ -189,7 +189,7 @@ public:
 	/**
 	 * Compares this time span with the given time span for equality.
 	 *
-	 * @param Other The time span to compare with.
+	 * @param other The time span to compare with.
 	 * @return true if the time spans are equal, false otherwise.
 	 */
     bool operator==(const Timespan& other) const
@@ -200,7 +200,7 @@ public:
 	/**
 	 * Compares this time span with the given time span for inequality.
 	 *
-	 * @param Other The time span to compare with.
+	 * @param other The time span to compare with.
 	 * @return true if the time spans are not equal, false otherwise.
 	 */
     bool operator!=(const Timespan& other) const
@@ -211,7 +211,7 @@ public:
 	/**
 	 * Checks whether this time span is greater than the given time span.
 	 *
-	 * @param Other The time span to compare with.
+	 * @param other The time span to compare with.
 	 * @return true if this time span is greater, false otherwise.
 	 */
     bool operator>(const Timespan& other) const
@@ -222,7 +222,7 @@ public:
 	/**
 	 * Checks whether this time span is greater than or equal to the given time span.
 	 *
-	 * @param Other The time span to compare with.
+	 * @param other The time span to compare with.
 	 * @return true if this time span is greater or equal, false otherwise.
 	 */
     bool operator>=(const Timespan& other) const
@@ -233,7 +233,7 @@ public:
 	/**
 	 * Checks whether this time span is less than the given time span.
 	 *
-	 * @param Other The time span to compare with.
+	 * @param other The time span to compare with.
 	 * @return true if this time span is less, false otherwise.
 	 */
     bool operator<(const Timespan& other) const
@@ -244,7 +244,7 @@ public:
 	/**
 	 * Checks whether this time span is less than or equal to the given time span.
 	 *
-	 * @param Other The time span to compare with.
+	 * @param other The time span to compare with.
 	 * @return true if this time span is less or equal, false otherwise.
 	 */
 	bool operator<=( const Timespan& other ) const
@@ -414,7 +414,7 @@ public:
 	 *		%S - prints the total number of seconds (without minus sign)
 	 *		%F - prints the total number of milliseconds (without minus sign)
 	 *
-	 * @param Format - The format of the returned string.
+	 * @param format - The format of the returned string.
 	 * @return String representation.
 	 * @see parse
 	 */
@@ -425,7 +425,7 @@ public:
 	/**
 	 * Creates a time span that represents the specified number of days.
 	 *
-	 * @param Days The number of days.
+	 * @param days The number of days.
 	 * @return Time span.
 	 * @see fromHours, fromMilliseconds, fromMinutes, fromSeconds
 	 */
@@ -434,7 +434,7 @@ public:
 	/**
 	 * Creates a time span that represents the specified number of hours.
 	 *
-	 * @param Hours The number of hours.
+	 * @param hours The number of hours.
 	 * @return Time span.
 	 * @see fromDays, fromMilliseconds, fromMinutes, fromSeconds
 	 */
@@ -443,7 +443,7 @@ public:
    /**
     * Creates a time span that represents the specified number of minutes.
     *
-    * @param Minutes The number of minutes.
+    * @param minutes The number of minutes.
     * @return Time span.
     * @see fromDays, fromHours, fromMilliseconds, fromSeconds
     */
@@ -452,7 +452,7 @@ public:
    /**
     * Creates a time span that represents the specified number of seconds.
     *
-    * @param Seconds The number of seconds.
+    * @param seconds The number of seconds.
     * @return Time span.
     * @see fromDays, fromHours, fromMilliseconds, fromMinutes
     */
@@ -461,7 +461,7 @@ public:
 	/**
 	 * Creates a time span that represents the specified number of milliseconds.
 	 *
-	 * @param Milliseconds The number of milliseconds.
+	 * @param milliseconds The number of milliseconds.
 	 * @return Time span.
 	 * @see fromDays, fromHours, fromMinutes, fromSeconds
 	 */
@@ -499,8 +499,8 @@ public:
 	 * Currently, the string must be in the format written by Timespan.ToString().
 	 * Other formats are not supported at this time.
 	 *
-	 * @param TimespanString The string to convert.
-	 * @param OutTimespan Will contain the parsed time span.
+	 * @param timespanString The string to convert.
+	 * @param outTimespan Will contain the parsed time span.
 	 * @return true if the string was converted successfully, false otherwise.
 	 * @see ToString
 	 */
@@ -522,7 +522,6 @@ public:
 	/**
 	 * Gets the hash for the specified time span.
 	 *
-	 * @param Timespan The timespan to get the hash for.
 	 * @return Hash value.
 	 */
 	size_t GetHash()
@@ -553,8 +552,8 @@ private:
 /**
  * Pre-multiplies a time span with the given scalar.
  *
- * @param Scalar The scalar to pre-multiply with.
- * @param Timespan The time span to multiply.
+ * @param scalar The scalar to pre-multiply with.
+ * @param timespan The time span to multiply.
  */
 inline Timespan operator*( float scalar, const Timespan& timespan )
 {
