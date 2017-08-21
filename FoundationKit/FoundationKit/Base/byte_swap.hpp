@@ -22,25 +22,25 @@ NS_FK_BEGIN
 //else
 //    std::cout << "Is unknow system" << std::endl;
 
-const int ENDIANNESS_ORDER = 0xFFFFFFFF & 1;
-const int ENDIANNESS_LITTLE_ENDIAN = 0x00000001;
-const int ENDIANNESS_BIG_ENDIAN = 0x01000000;
-const int ENDIANNESS_PDP_ENDIAN = 0x00010000;
+const int ENDIANNESS_ORDER          = 0xFFFFFFFF & 1;
+const int ENDIANNESS_LITTLE_ENDIAN  = 0x00000001;
+const int ENDIANNESS_BIG_ENDIAN     = 0x01000000;
+const int ENDIANNESS_PDP_ENDIAN     = 0x00010000;
 const int ENDIANNESS_UNKNOWN_ENDIAN = 0xFFFFFFFF;
 
 inline char *ENDIAN_SWAP128(char *val)
 {
     static char swp[16];
-    swp[0] = val[15];
-    swp[1] = val[14];
-    swp[2] = val[13];
-    swp[3] = val[12];
-    swp[4] = val[11];
-    swp[5] = val[10];
-    swp[6] = val[9];
-    swp[7] = val[8];
-    swp[8] = val[7];
-    swp[9] = val[6];
+    swp[0]  = val[15];
+    swp[1]  = val[14];
+    swp[2]  = val[13];
+    swp[3]  = val[12];
+    swp[4]  = val[11];
+    swp[5]  = val[10];
+    swp[6]  = val[9];
+    swp[7]  = val[8];
+    swp[8]  = val[7];
+    swp[9]  = val[6];
     swp[10] = val[5];
     swp[11] = val[4];
     swp[12] = val[3];

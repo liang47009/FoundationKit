@@ -101,23 +101,22 @@ private:
 
 namespace TypeTest
 {
-    static_assert(sizeof(uint8)  == 1, "uint8 type size test failed.");
-    static_assert(sizeof(uint16) == 2, "uint16 type size test failed.");
-    static_assert(sizeof(uint32) == 4, "uint32 type size test failed.");
-    static_assert(sizeof(uint64) == 8, "uint64 type size test failed.");
-    static_assert(sizeof(int8) == 1, "int8 type size test failed.");
-    static_assert(sizeof(int16) == 2, "int16 type size test failed.");
-    static_assert(sizeof(int32) == 4, "int32 type size test failed.");
-    static_assert(sizeof(int64) == 8, "int64 type size test failed.");
-    static_assert(sizeof(float32) == 4, "float32 type size test failed.");
-    static_assert(sizeof(float64) == 8, "float64 type size test failed.");
+    static_assert(sizeof(uint8)      == 1, "uint8 type size test failed.");
+    static_assert(sizeof(uint16)     == 2, "uint16 type size test failed.");
+    static_assert(sizeof(uint32)     == 4, "uint32 type size test failed.");
+    static_assert(sizeof(uint64)     == 8, "uint64 type size test failed.");
+    static_assert(sizeof(int8)       == 1, "int8 type size test failed.");
+    static_assert(sizeof(int16)      == 2, "int16 type size test failed.");
+    static_assert(sizeof(int32)      == 4, "int32 type size test failed.");
+    static_assert(sizeof(int64)      == 8, "int64 type size test failed.");
+    static_assert(sizeof(float32)    == 4, "float32 type size test failed.");
+    static_assert(sizeof(float64)    == 8, "float64 type size test failed.");
     //static_assert(sizeof(float128) == 8, "float128 type size test failed.");//ÓĞ´ıÉÌÈ¶
-    static_assert(sizeof(PTRINT) == sizeof(void *), "PTRINT type size test failed.");
-    static_assert(sizeof(UPTRINT) == sizeof(void *), "UPTRINT type size test failed.");
-
-    static_assert(int32(uint8(-1)) == 0xFF, "uint8 type sign test failed.");
-    static_assert(int32(uint16(-1)) == 0xFFFF, "uint16 type sign test failed.");
-    static_assert(int64(uint32(-1)) == int64(0xFFFFFFFF), "uint32 type sign test failed.");
+    static_assert(sizeof(PTRINT)     == sizeof(void *), "PTRINT type size test failed.");
+    static_assert(sizeof(UPTRINT)    == sizeof(void *), "UPTRINT type size test failed.");
+    static_assert(int32(uint8(-1))   == 0xFF, "uint8 type sign test failed.");
+    static_assert(int32(uint16(-1))  == 0xFFFF, "uint16 type sign test failed.");
+    static_assert(int64(uint32(-1))  == int64(0xFFFFFFFF), "uint32 type sign test failed.");
     static_assert(uint64(-1) > uint64(0), "uint64 type sign test failed.");
     static_assert(int32(int8(-1)) == -1, "int8 type sign test failed.");
     static_assert(int32(int16(-1)) == -1, "int16 type sign test failed.");

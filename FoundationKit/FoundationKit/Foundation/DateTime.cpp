@@ -341,12 +341,12 @@ bool DateTime::Parse( const std::string& dateTimeString, DateTime& outDateTime )
 		return false;
 	}
 
-    const int32 year = std::atoi(tokens[0].c_str());
-    const int32 month = std::atoi(tokens[1].c_str());
-    const int32 day = std::atoi(tokens[2].c_str());
-    const int32 hour = std::atoi(tokens[3].c_str());
-    const int32 minute = std::atoi(tokens[4].c_str());
-    const int32 second = std::atoi(tokens[5].c_str());
+    const int32 year        = std::atoi(tokens[0].c_str());
+    const int32 month       = std::atoi(tokens[1].c_str());
+    const int32 day         = std::atoi(tokens[2].c_str());
+    const int32 hour        = std::atoi(tokens[3].c_str());
+    const int32 minute      = std::atoi(tokens[4].c_str());
+    const int32 second      = std::atoi(tokens[5].c_str());
     const int32 millisecond = tokens.size() > 6 ? std::atoi(tokens[6].c_str()) : 0;
 
     if (!Validate(year, month, day, hour, minute, second, millisecond))
@@ -369,8 +369,8 @@ bool DateTime::ParseIso8601( const char* dateTimeString, DateTime& outDateTime )
     const char* dtPtr = dateTimeString;
 	char* next = nullptr;
 
-	int32 year = 0, month = 0, day = 0;
-	int32 hour = 0, minute = 0, second = 0, millisecond = 0;
+	int32 year   = 0, month = 0, day = 0;
+	int32 hour   = 0, minute = 0, second = 0, millisecond = 0;
 	int32 tzHour = 0, tzMinute = 0;
 
 	// get date
@@ -494,11 +494,11 @@ bool DateTime::ParseIso8601( const char* dateTimeString, DateTime& outDateTime )
 bool DateTime::Validate( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond )
 {
     return (year >= 1) && (year <= 9999) &&
-        (month >= 1) && (month <= 12) &&
-        (day >= 1) && (day <= DaysInMonth(year, month)) &&
-        (hour >= 0) && (hour <= 23) &&
-        (minute >= 0) && (minute <= 59) &&
-        (second >= 0) && (second <= 59) &&
+        (month       >= 1) && (month       <= 12) &&
+        (day         >= 1) && (day         <= DaysInMonth(year, month)) &&
+        (hour        >= 0) && (hour        <= 23) &&
+        (minute      >= 0) && (minute      <= 59) &&
+        (second      >= 0) && (second      <= 59) &&
         (millisecond >= 0) && (millisecond <= 999);
 }
 

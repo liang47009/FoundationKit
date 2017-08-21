@@ -350,17 +350,17 @@ void Quaternion::Slerp(float q1x, float q1y, float q1z, float q1w, float q2x, fl
     halfY = 1.0f + alpha * cosTheta;
 
     // Here we bisect the interval, so we need to fold t as well.
-    f2b = t - 0.5f;
-    u = f2b >= 0 ? f2b : -f2b;
-    f2a = u - f2b;
+    f2b  = t - 0.5f;
+    u    = f2b >= 0 ? f2b : -f2b;
+    f2a  = u - f2b;
     f2b += u;
-    u += u;
-    f1 = 1.0f - u;
+    u   += u;
+    f1   = 1.0f - u;
 
     // One iteration of Newton to get 1-cos(theta / 2) to good accuracy.
-    halfSecHalfTheta = 1.09f - (0.476537f - 0.0903321f * halfY) * halfY;
+    halfSecHalfTheta  = 1.09f - (0.476537f - 0.0903321f * halfY) * halfY;
     halfSecHalfTheta *= 1.5f - halfY * halfSecHalfTheta * halfSecHalfTheta;
-    versHalfTheta = 1.0f - halfY * halfSecHalfTheta;
+    versHalfTheta     = 1.0f - halfY * halfSecHalfTheta;
 
     // Evaluate series expansions of the coefficients.
     sqNotU = f1 * f1;
@@ -370,18 +370,18 @@ void Quaternion::Slerp(float q1x, float q1y, float q1z, float q1w, float q2x, fl
     ratio1 = -0.333333333f + ratio1 * (sqNotU - 4.0f) * versHalfTheta;
     ratio1 = 1.0f + ratio1 * (sqNotU - 1.0f) * versHalfTheta;
 
-    sqU = u * u;
+    sqU    = u * u;
     ratio2 = -0.00158730159f + (sqU - 16.0f) * ratio2;
     ratio2 = 0.0333333333f + ratio2 * (sqU - 9.0f) * versHalfTheta;
     ratio2 = -0.333333333f + ratio2 * (sqU - 4.0f) * versHalfTheta;
     ratio2 = 1.0f + ratio2 * (sqU - 1.0f) * versHalfTheta;
 
     // Perform the bisection and resolve the folding done earlier.
-    f1 *= ratio1 * halfSecHalfTheta;
-    f2a *= ratio2;
-    f2b *= ratio2;
+    f1    *= ratio1 * halfSecHalfTheta;
+    f2a   *= ratio2;
+    f2b   *= ratio2;
     alpha *= f1 + f2a;
-    beta = f1 + f2b;
+    beta   = f1 + f2b;
 
     // Apply final coefficients to a and b as usual.
     float W = alpha * q1w + beta * q2w;
@@ -394,7 +394,7 @@ void Quaternion::Slerp(float q1x, float q1y, float q1z, float q1w, float q2x, fl
     // can see, it comes at the cost of 9 additional multiplication
     // operations. If this error-correcting feature is not required,
     // the following code may be removed.
-    f1 = 1.5f - 0.5f * (W * W + X * X + Y * Y + Z * Z);
+    f1    = 1.5f - 0.5f * (W * W + X * X + Y * Y + Z * Z);
     *dstw = W * f1;
     *dstx = X * f1;
     *dsty = Y * f1;
@@ -433,10 +433,10 @@ void Quaternion::SlerpForSquad(const Quaternion& q1, const Quaternion& q2, float
 
     float r1 = sin((1 - t) * omega) / s;
     float r2 = sin(t * omega) / s;
-    dst->X = (q1.X * r1 + q2.X * r2);
-    dst->Y = (q1.Y * r1 + q2.Y * r2);
-    dst->Z = (q1.Z * r1 + q2.Z * r2);
-    dst->W = (q1.W * r1 + q2.W * r2);
+    dst->X   = (q1.X * r1 + q2.X * r2);
+    dst->Y   = (q1.Y * r1 + q2.Y * r2);
+    dst->Z   = (q1.Z * r1 + q2.Z * r2);
+    dst->W   = (q1.W * r1 + q2.W * r2);
 }
 
 NS_FK_END

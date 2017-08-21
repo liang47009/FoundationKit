@@ -36,9 +36,9 @@ Rect& Rect::operator= (const Rect& other)
 
 void Rect::SetRect(float x, float y, float width, float height)
 {
-    origin.X = x;
-    origin.Y = y;
-    size.Width = width;
+    origin.X    = x;
+    origin.Y    = y;
+    size.Width  = width;
     size.Height = height;
 }
 

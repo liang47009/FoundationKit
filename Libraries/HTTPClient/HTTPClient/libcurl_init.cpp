@@ -75,7 +75,7 @@ namespace
 	 */
 	void* custom_curl_calloc(size_t numElems, size_t elemSize)
 	{
-		void* ret = nullptr;
+		void* ret         = nullptr;
 		const size_t size = numElems * elemSize;
 		if (size)
 		{

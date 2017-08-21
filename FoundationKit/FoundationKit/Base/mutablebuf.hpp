@@ -150,8 +150,8 @@ public:
 
 	void allocate(const size_type size)
 	{
-		_Ptr = new value_type[size];
-		_Mysize = size;
+		_Ptr      = new value_type[size];
+		_Mysize   = size;
 		_bAlloced = true;
 		memset(_Ptr, 0, _Mysize);
 	}
@@ -160,8 +160,8 @@ public:
 	{
 		if (_bAlloced && _Ptr != nullptr)
 			delete[] _Ptr;
-		_Ptr = pointer();
-		_Mysize = 0;
+		_Ptr      = pointer();
+		_Mysize   = 0;
 		_bAlloced = false;
 	}
 
@@ -175,8 +175,8 @@ public:
     void assign(void* data, std::size_t size, bool need_del = false)
     {
 		deallocate();
-		_Ptr = reinterpret_cast<uint8*>(data);
-		_Mysize = size;
+		_Ptr      = reinterpret_cast<uint8*>(data);
+		_Mysize   = size;
 		_bAlloced = need_del;
     }
 
@@ -217,11 +217,11 @@ private:
     void move(_Myt&& other)
     {
 		deallocate();
-        this->_Ptr = other._Ptr;
-		this->_Mysize = other._Mysize;
+        this->_Ptr      = other._Ptr;
+		this->_Mysize   = other._Mysize;
         this->_bAlloced = other._bAlloced;
-		other._Ptr = pointer();
-		other._Mysize = 0;
+		other._Ptr      = pointer();
+		other._Mysize   = 0;
         other._bAlloced = false;
     }
 

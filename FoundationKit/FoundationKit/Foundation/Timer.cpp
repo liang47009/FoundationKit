@@ -25,11 +25,10 @@ Timer::Timer(const TimerOption& option)
     SetTimeScale(option.scale);
     SetMaximumDeltaTime(option.maximumDeltaTime);// initialized to 100 milliseconds.
     _repeatCount = option.repeatCount;
-
-    _deltaTime = 0;
-    _frameCount = 0;
+    _deltaTime   = 0;
+    _frameCount  = 0;
     _elapsedTime = 0;
-    _myid = _nextValidId++;
+    _myid        = _nextValidId++;
 }
 
 Timer::Timer(Timer&& other)
@@ -156,9 +155,9 @@ void Timer::Tick(float deltaTime)
     if (onTimedEvent && _elapsedTime > _interval)
     {
         TimedEventArgs timerArgs;
-        timerArgs.deltaTime = static_cast<int>(_elapsedTime*_timeScale);
+        timerArgs.deltaTime  = static_cast<int>(_elapsedTime*_timeScale);
         timerArgs.signalTime = DateTime::Now();
-        timerArgs.timerId = _myid;
+        timerArgs.timerId    = _myid;
         onTimedEvent(timerArgs);
         _elapsedTime = 0;
         _frameCount += 1;
@@ -186,19 +185,19 @@ void Timer::Move(Timer&& other)
     SetInterval(other.GetInterval());
     SetTimeScale(other.GetTimeScale());
     SetMaximumDeltaTime(other.GetMaximumDeltaTime());// initialized to 100 milliseconds.
-    _deltaTime = other._deltaTime.load();
-    _frameCount = other._frameCount.load();
+    _deltaTime   = other._deltaTime.load();
+    _frameCount  = other._frameCount.load();
     _elapsedTime = other._elapsedTime.load();
     _repeatCount = other._repeatCount.load();
-    _myid = other._myid;
+    _myid        = other._myid;
     other.Stop();
     other._myid = involid_id;
 }
 
 void Timer::Reset()
 {
-    _deltaTime = 0;
-    _frameCount = 0;
+    _deltaTime   = 0;
+    _frameCount  = 0;
     _elapsedTime = 0;
 }
 

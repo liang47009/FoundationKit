@@ -68,7 +68,7 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutablebuf& CompressedB
     {
         z_stream stream;
         stream.zalloc = &zipAlloc;
-        stream.zfree = &zipFree;
+        stream.zfree  = &zipFree;
         stream.opaque = Z_NULL;
 
         // Using deflateInit2() to support gzip.  "The windowBits parameter is the
@@ -100,13 +100,13 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutablebuf& CompressedB
         };
 
         uLong uncompressedLength = static_cast<uLong>(UncompressedBuffer.size());
-        stream.next_in  = static_cast<uint8*>(UncompressedBuffer.data());
-        stream.avail_in = static_cast<uInt>(uncompressedLength);
+        stream.next_in           = static_cast<uint8*>(UncompressedBuffer.data());
+        stream.avail_in          = static_cast<uInt>(uncompressedLength);
         mutablebuf tempData;
         tempData.reallocate(uncompressedLength);
-        stream.next_out = static_cast<uint8*>(tempData.data());;
+        stream.next_out  = static_cast<uint8*>(tempData.data());;
         stream.avail_out = static_cast<uInt>(uncompressedLength);
-        while ((status = deflate(&stream, Z_FINISH)) == Z_OK);
+        while ((status   = deflate(&stream, Z_FINISH)) == Z_OK);
         if (status != Z_STREAM_END)
         {
             FKLog("compressMemory deflate error:%d, msg:%s", status, stream.msg);
@@ -132,7 +132,7 @@ bool Compression::UncompressMemory(CompressionFlags Flags, mutablebuf& Uncompres
     {
         z_stream stream;
         stream.zalloc = &zipAlloc;
-        stream.zfree = &zipFree;
+        stream.zfree  = &zipFree;
         stream.opaque = nullptr;
         // "The windowBits parameter is the base two logarithm of the maximum window
         // size (...) The default value is 15 (...) add 16 to decode only the gzip
@@ -159,11 +159,11 @@ bool Compression::UncompressMemory(CompressionFlags Flags, mutablebuf& Uncompres
             }
         };
 
-        stream.next_in = static_cast<uint8*>(CompressedBuffer.data());
-        stream.avail_in = static_cast<uInt>(CompressedBuffer.size());
-        stream.next_out = nullptr;
+        stream.next_in   = static_cast<uint8*>(CompressedBuffer.data());
+        stream.avail_in  = static_cast<uInt>(CompressedBuffer.size());
+        stream.next_out  = nullptr;
         stream.avail_out = 0;
-        stream.total_in = 0;
+        stream.total_in  = 0;
         stream.total_out = 0;
         std::vector<uint8>  UncompressedData;
         while ((status = doInflate(&stream, UncompressedData, defaultBufferLength)) == Z_OK);
