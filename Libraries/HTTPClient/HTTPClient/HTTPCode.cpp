@@ -1,4 +1,5 @@
 #include "HTTPCode.hpp"
+#include "FoundationKit/Base/lexical_cast.hpp"
 NS_FK_BEGIN
 extern const HTTPCode* HTTPCodeList[];
 

@@ -12,6 +12,7 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
 #if(TARGET_PLATFORM == PLATFORM_ANDROID)
+#include <stdexcept>
 #include <sstream>
 #include <iomanip>
 #include <stdlib.h>

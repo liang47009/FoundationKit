@@ -13,6 +13,9 @@ losemymind.libo@gmail.com
 #include <android/asset_manager_jni.h>
 #include "AndroidJNI.hpp"
 
+
+NS_FK_BEGIN
+
 std::string GExternalFilePath;
 std::string GFilePathBase;
 
@@ -280,6 +283,8 @@ bool AndroidJNI::RegisterNativeMethods(const char* className, JNINativeMethod* n
 }
 
 } // namespace AndroidNode
+
+NS_FK_END
 
 #endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
 

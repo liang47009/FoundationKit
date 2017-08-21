@@ -14,6 +14,8 @@
 #include "AndroidJNI.hpp"
 #include "AndroidFoundation.hpp"
 
+NS_FK_BEGIN
+
 namespace AndroidNode{
 //java class:android/net/NetworkInfo
 //java enum:android.net.NetworkInfo$State
@@ -170,6 +172,8 @@ protected:
 
 
 } // namespace AndroidNode
+
+NS_FK_END
 
 #endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
 

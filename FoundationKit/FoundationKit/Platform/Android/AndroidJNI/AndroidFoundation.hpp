@@ -17,6 +17,8 @@
 #include <assert.h>
 #include "AndroidJNI.hpp"
 
+NS_FK_BEGIN
+
 namespace AndroidNode{
 
 //Compile Time String
@@ -1564,6 +1566,8 @@ void SetFieldStatic(const std::string & className, const std::string& fieldName,
 }
 
 } // namespace AndroidNode
+
+NS_FK_END
 
 #endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
 

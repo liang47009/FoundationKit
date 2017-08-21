@@ -26,6 +26,8 @@
 #define ANDROID_LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR,"AndroidJNI", __VA_ARGS__))
 #define ANDROID_CHECKF(expr, format,  ...) { if(!(expr)) {ANDROID_LOGE(format, ##__VA_ARGS__);}}
 
+NS_FK_BEGIN
+
 namespace AndroidNode{
 
 struct JavaClassMethod
@@ -76,6 +78,8 @@ private:
 };
 
 } // namespace AndroidNode
+
+NS_FK_END
 
 #endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
 

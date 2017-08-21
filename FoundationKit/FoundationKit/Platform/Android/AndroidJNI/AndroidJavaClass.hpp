@@ -13,6 +13,8 @@
 #include "AndroidJNI.hpp"
 #include "AndroidFoundation.hpp"
 
+NS_FK_BEGIN
+
 namespace AndroidNode{
 
 class AndroidJavaClass
@@ -109,6 +111,8 @@ protected:
 };
 
 } // namespace AndroidNode
+
+NS_FK_END
 
 #endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
 

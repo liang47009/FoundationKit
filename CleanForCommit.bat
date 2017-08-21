@@ -96,4 +96,12 @@ IF EXIST "FoundationKitCPP03\proj.win32\Release" (
     rmdir "FoundationKitCPP03\proj.win32\Release" /s /q
 )
 
+IF EXIST "Libraries\HTTPClient\proj.android\libs" (
+    rmdir "Libraries\HTTPClient\proj.android\libs" /s /q
+)
+
+IF EXIST "Libraries\HTTPClient\proj.android\obj" (
+    rmdir "Libraries\HTTPClient\proj.android\obj" /s /q
+)
+
 pause
