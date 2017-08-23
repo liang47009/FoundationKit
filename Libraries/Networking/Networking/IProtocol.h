@@ -1,6 +1,8 @@
 #ifndef LOSEMYMIND_IPROTOCOL_H
 #define LOSEMYMIND_IPROTOCOL_H
 
+#if 0
+
 #include <unordered_map>
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/Base/types.hpp"
@@ -29,6 +31,7 @@ public:
 };
 
 #define IMPLEMENT_PROTOCOL(CLS,IDX) CLS G_PROTOCOL_##CLS(IDX)
+#endif // 0
 
 #endif // LOSEMYMIND_IPROTOCOL_H
 

@@ -6,8 +6,8 @@
 
 # include <iosfwd>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Networking/ip/address.hpp"
-#include "FoundationKit/Networking/ip/detail/endpoint.hpp"
+#include "Networking/ip/address.hpp"
+#include "Networking/ip/detail/endpoint.hpp"
 
 NS_FK_BEGIN
 namespace network{
@@ -228,7 +228,7 @@ std::basic_ostream<Elem, Traits>& operator<<(
 } // namespace network
 NS_FK_END
 
-#include "FoundationKit/Networking/ip/impl/basic_endpoint.hpp"
+#include "Networking/ip/impl/basic_endpoint.hpp"
 
 
 #endif // LOSEMYMIND_BASIC_ENDPOINT_HPP

@@ -7,8 +7,8 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include "FoundationKit/GenericPlatformMacros.h"
-#include "FoundationKit/Networking/ip/address_v6_iterator.hpp"
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#include "Networking/ip/address_v6_iterator.hpp"
 
 NS_FK_BEGIN
 namespace network{

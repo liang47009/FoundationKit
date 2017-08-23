@@ -8,8 +8,8 @@
 #include <climits>
 #include <limits>
 #include <stdexcept>
-#include "FoundationKit/Networking/ip/address_v4.hpp"
-#include "FoundationKit/Networking/detail/socket_ops.hpp"
+#include "Networking/ip/address_v4.hpp"
+#include "Networking/detail/socket_ops.hpp"
 
 NS_FK_BEGIN
 namespace network{

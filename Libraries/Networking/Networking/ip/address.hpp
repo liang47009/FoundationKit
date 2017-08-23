@@ -10,9 +10,9 @@
 #include <iosfwd>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/error_code.hpp"
-#include "FoundationKit/Networking/ip/address_v4.hpp"
-#include "FoundationKit/Networking/ip/address_v6.hpp"
-#include "FoundationKit/Networking/ip/bad_address_cast.hpp"
+#include "Networking/ip/address_v4.hpp"
+#include "Networking/ip/address_v6.hpp"
+#include "Networking/ip/bad_address_cast.hpp"
 NS_FK_BEGIN
 namespace network{
 namespace ip{
@@ -197,8 +197,8 @@ std::basic_ostream<Elem, Traits>& operator<<(std::basic_ostream<Elem, Traits>& o
 } // namespace network
 NS_FK_END
 
-#include "FoundationKit/Networking/ip/impl/address.hpp"
-#include "FoundationKit/Networking/ip/impl/address.ipp"
+#include "Networking/ip/impl/address.hpp"
+#include "Networking/ip/impl/address.ipp"
 
 #endif // LOSEMYMIND_ADDRESS_HPP
 

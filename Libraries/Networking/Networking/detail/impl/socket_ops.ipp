@@ -11,9 +11,9 @@
 #include <cerrno>
 #include <new>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Networking/socket_types.hpp"
 #include "FoundationKit/Base/error_code.hpp"
-#include "FoundationKit/Networking/detail/socket_ops.hpp"
+#include "Networking/detail/socket_ops.hpp"
+#include "Networking/socket_types.hpp"
 
 NS_FK_BEGIN
 namespace network{

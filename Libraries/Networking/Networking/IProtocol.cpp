@@ -1,6 +1,7 @@
 
 #include "IProtocol.h"
-#include "FoundationKit/Foundation/Logger.h"
+#include "network.hpp"
+#if 0
 
 IProtocol::PROTOCOLS & IProtocol::GetProtoclsPool ()
 {
@@ -33,7 +34,7 @@ void IProtocol::DispathStreamProtocol(uint64 clientID, DataStream & stream)
     }
     else
     {
-        LOG_ERROR("***** Cannot found procotol by id[%d]", idx);
+        FKLog("***** Cannot found procotol by id[%d]", idx);
     }
 }
 
@@ -45,6 +46,6 @@ void IProtocol::RemoveProtocol(int32 idx)
         pool.erase(it);
 
 }
-
+#endif // 0
 
 

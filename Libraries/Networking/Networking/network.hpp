@@ -7,11 +7,11 @@
 //socketobj.open(network::ip::tcp::v4());
 //socketobj.connect(endpoint, ec);
 
-#include "FoundationKit/Networking/socket_types.hpp"
-#include "FoundationKit/Networking/winsock_init.hpp"
-#include "FoundationKit/Networking/basic_socket.hpp"
-#include "FoundationKit/Networking/ip/address.hpp"
-#include "FoundationKit/Networking/ip/tcp.hpp"
-#include "FoundationKit/Networking/ip/udp.hpp"
+#include "Networking/socket_types.hpp"
+#include "Networking/winsock_init.hpp"
+#include "Networking/basic_socket.hpp"
+#include "Networking/ip/address.hpp"
+#include "Networking/ip/tcp.hpp"
+#include "Networking/ip/udp.hpp"
 
 #endif // LOSEMYMIND_NETWORK_HPP

@@ -12,9 +12,9 @@
 #include "FoundationKit/Base/error_code.hpp"
 #include "FoundationKit/Base/noncopyable.hpp"
 #include "FoundationKit/Base/mutablebuf.hpp"
-#include "FoundationKit/Networking/socket_types.hpp"
-#include "FoundationKit/Networking/detail/socket_base.hpp"
-#include "FoundationKit/Networking/detail/socket_ops.hpp"
+#include "Networking/socket_types.hpp"
+#include "Networking/detail/socket_base.hpp"
+#include "Networking/detail/socket_ops.hpp"
 
 NS_FK_BEGIN
 namespace network{

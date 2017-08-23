@@ -5,10 +5,11 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include <string>
-#include "FoundationKit/Networking/socket_types.hpp"
-#include "FoundationKit/Networking/winsock_init.hpp"
-#include "FoundationKit/Networking/ip/address.hpp"
 #include "FoundationKit/Base/error_code.hpp"
+#include "Networking/socket_types.hpp"
+#include "Networking/winsock_init.hpp"
+#include "Networking/ip/address.hpp"
+
 NS_FK_BEGIN
 namespace network{
 namespace ip{
@@ -111,6 +112,6 @@ private:
 } // namespace network
 NS_FK_END
 
-# include "FoundationKit/Networking/ip/detail/impl/endpoint.ipp"
+# include "Networking/ip/detail/impl/endpoint.ipp"
 
 #endif // LOSEMYMIND_DETAIL_ENDPOINT_HPP

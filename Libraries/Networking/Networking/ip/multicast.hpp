@@ -7,7 +7,7 @@
 
 
 #include <cstddef>
-#include "FoundationKit/Networking/detail/socket_option.hpp"
+#include "Networking/detail/socket_option.hpp"
 
 NS_FK_BEGIN
 

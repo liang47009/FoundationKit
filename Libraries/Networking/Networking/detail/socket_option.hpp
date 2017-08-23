@@ -5,12 +5,13 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include "FoundationKit/GenericPlatformMacros.hpp"
+
 #include <cstddef>
 #include <stdexcept>
-#include "FoundationKit/Networking/socket_types.hpp"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/error_code.hpp"
-#include "FoundationKit/Networking/ip/address.hpp"
+#include "Networking/socket_types.hpp"
+#include "Networking/ip/address.hpp"
 
 NS_FK_BEGIN
 namespace network{

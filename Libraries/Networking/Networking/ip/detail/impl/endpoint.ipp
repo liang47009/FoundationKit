@@ -9,8 +9,8 @@
 #include <sstream>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/error_code.hpp"
-#include "FoundationKit/Networking/detail/socket_ops.hpp"
-#include "FoundationKit/Networking/ip/detail/endpoint.hpp"
+#include "Networking/detail/socket_ops.hpp"
+#include "Networking/ip/detail/endpoint.hpp"
 
 NS_FK_BEGIN
 namespace network{

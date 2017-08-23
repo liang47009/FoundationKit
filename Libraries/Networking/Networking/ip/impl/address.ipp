@@ -7,8 +7,8 @@
 
 #include <typeinfo>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Networking/ip/address.hpp"
-#include "FoundationKit/Networking/ip/bad_address_cast.hpp"
+#include "Networking/ip/address.hpp"
+#include "Networking/ip/bad_address_cast.hpp"
 NS_FK_BEGIN
 namespace network{
 namespace ip{

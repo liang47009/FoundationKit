@@ -9,9 +9,9 @@
 #include <stdexcept>
 #include <typeinfo>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Networking/ip/address_v6.hpp"
-#include "FoundationKit/Networking/detail/socket_ops.hpp"
-#include "FoundationKit/Networking/ip/bad_address_cast.hpp"
+#include "Networking/ip/address_v6.hpp"
+#include "Networking/detail/socket_ops.hpp"
+#include "Networking/ip/bad_address_cast.hpp"
 
 NS_FK_BEGIN
 namespace network{

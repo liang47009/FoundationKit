@@ -3,8 +3,9 @@
 
 #include <memory>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Networking/socket_types.hpp"
 #include "FoundationKit/Base/error_code.hpp"
+#include "Networking/socket_types.hpp"
+
 
 NS_FK_BEGIN
 namespace network{
@@ -135,6 +136,6 @@ namespace socket_ops
 } // namespace network
 NS_FK_END
 
-#include "FoundationKit/Networking/detail/impl/socket_ops.ipp"
+#include "Networking/detail/impl/socket_ops.ipp"
 
 #endif // LOSEMYMIND_NETWORK_SOCKET_OPS_HPP

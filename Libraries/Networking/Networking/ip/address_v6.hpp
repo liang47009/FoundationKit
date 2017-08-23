@@ -11,9 +11,9 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/types.hpp"
 #include "FoundationKit/Base/error_code.hpp"
-#include "FoundationKit/Networking/socket_types.hpp"
-#include "FoundationKit/Networking/winsock_init.hpp"
-#include "FoundationKit/Networking/ip/address_v4.hpp"
+#include "Networking/socket_types.hpp"
+#include "Networking/winsock_init.hpp"
+#include "Networking/ip/address_v4.hpp"
 
 NS_FK_BEGIN
 namespace network{
@@ -266,8 +266,8 @@ std::basic_ostream<Elem, Traits>& operator<<(std::basic_ostream<Elem, Traits>& o
 
 NS_FK_END
 
-#include "FoundationKit/Networking/ip/impl/address_v6.hpp"
-#include "FoundationKit/Networking/ip/impl/address_v6.ipp"
+#include "Networking/ip/impl/address_v6.hpp"
+#include "Networking/ip/impl/address_v6.ipp"
 
 #endif // LOSEMYMIND_ADDRESS_V6_HPP
 

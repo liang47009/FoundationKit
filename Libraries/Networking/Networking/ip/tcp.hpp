@@ -6,10 +6,10 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Networking/ip/basic_endpoint.hpp"
-#include "FoundationKit/Networking/detail/socket_option.hpp"
-#include "FoundationKit/Networking/detail/socket_base.hpp"
-#include "FoundationKit/Networking/basic_socket.hpp"
+#include "Networking/ip/basic_endpoint.hpp"
+#include "Networking/detail/socket_option.hpp"
+#include "Networking/detail/socket_base.hpp"
+#include "Networking/basic_socket.hpp"
 NS_FK_BEGIN
 namespace network{
 namespace ip{
