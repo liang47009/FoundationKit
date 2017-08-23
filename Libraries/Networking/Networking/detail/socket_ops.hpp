@@ -2,7 +2,7 @@
 #define LOSEMYMIND_NETWORK_SOCKET_OPS_HPP
 
 #include <memory>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Networking/socket_types.hpp"
 #include "FoundationKit/Base/error_code.hpp"
 

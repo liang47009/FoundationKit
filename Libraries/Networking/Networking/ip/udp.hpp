@@ -1,7 +1,7 @@
 #ifndef LOSEMYMIND_UDP_HPP
 #define LOSEMYMIND_UDP_HPP
 
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Networking/ip/basic_endpoint.hpp"
 #include "FoundationKit/Networking/detail/socket_base.hpp"
 #include "FoundationKit/Networking/basic_socket.hpp"

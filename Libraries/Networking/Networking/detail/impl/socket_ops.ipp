@@ -10,7 +10,7 @@
 #include <cstring>
 #include <cerrno>
 #include <new>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Networking/socket_types.hpp"
 #include "FoundationKit/Base/error_code.hpp"
 #include "FoundationKit/Networking/detail/socket_ops.hpp"

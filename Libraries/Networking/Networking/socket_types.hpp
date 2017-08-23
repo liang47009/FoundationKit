@@ -5,7 +5,7 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 
 #if (TARGET_PLATFORM == PLATFORM_WINRT)
 // Empty.

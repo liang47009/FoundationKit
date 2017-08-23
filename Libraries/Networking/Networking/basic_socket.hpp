@@ -8,11 +8,10 @@
 #include <functional>
 #include <algorithm>
 #include <memory>
-#include "FoundationKit/FoundationMacros.h"
+#include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/Base/error_code.hpp"
 #include "FoundationKit/Base/noncopyable.hpp"
-#include "FoundationKit/Base/multiple_buffer.hpp"
-#include "FoundationKit/Foundation/Logger.h"
+#include "FoundationKit/Base/mutablebuf.hpp"
 #include "FoundationKit/Networking/socket_types.hpp"
 #include "FoundationKit/Networking/detail/socket_base.hpp"
 #include "FoundationKit/Networking/detail/socket_ops.hpp"
@@ -393,7 +392,7 @@ public:
      * data in one go, and how to use it with arrays ,std::string or
      * std::vector.
      */
-    std::size_t send(const const_buffer& buffers, socket_base::message_flags flags = 0)
+    std::size_t send(const constbuf& buffers, socket_base::message_flags flags = 0)
     {
         std::error_code ec;
         std::size_t len = this->send(buffers, flags, ec);
@@ -419,7 +418,7 @@ public:
      * Consider using the @ref write function if you need to ensure that all data
      * is written before the blocking operation completes.
      */
-    std::size_t send(const const_buffer& buffers, socket_base::message_flags flags, std::error_code& ec)
+    std::size_t send(const constbuf& buffers, socket_base::message_flags flags, std::error_code& ec)
     {
         if ((_state & socket_ops::stream_oriented))
         {
@@ -469,7 +468,7 @@ public:
      * multiple buffers in one go, and how to use it with arrays, boost::array or
      * std::vector.
      */
-    std::size_t receive(const mutable_buffer& buffers, socket_base::message_flags flags = 0)
+    std::size_t receive(const mutablebuf& buffers, socket_base::message_flags flags = 0)
     {
         std::error_code ec;
         std::size_t result = this->receive(buffers, ec, flags);
@@ -495,7 +494,7 @@ public:
      * bytes. Consider using the @ref read function if you need to ensure that the
      * requested amount of data is read before the blocking operation completes.
      */
-    std::size_t receive(const mutable_buffer& buffers, std::error_code& ec, socket_base::message_flags flags = 0)
+    std::size_t receive(const mutablebuf& buffers, std::error_code& ec, socket_base::message_flags flags = 0)
     {
         if ((_state & socket_ops::stream_oriented))
         {
@@ -525,7 +524,7 @@ public:
      *
      * @throws std::system_error Thrown on failure.
      */
-    std::size_t send_to(const mutable_buffer& buffers
+    std::size_t send_to(const mutablebuf& buffers
         , const endpoint_type& destination
         , socket_base::message_flags flags = 0)
     {
@@ -551,7 +550,7 @@ public:
      *
      * @returns The number of bytes sent.
      */
-    std::size_t send_to(const mutable_buffer& buffers
+    std::size_t send_to(const mutablebuf& buffers
         , const endpoint_type& destination
         , socket_base::message_flags flags
         , std::error_code& ec)
@@ -589,7 +588,7 @@ public:
      *              Default is 0.
      * @returns The number of bytes received.
      */
-    std::size_t receive_from(const mutable_buffer& buffers
+    std::size_t receive_from(const mutablebuf& buffers
         , endpoint_type& sender_endpoint
         , socket_base::message_flags flags = 0)
     {
@@ -616,7 +615,7 @@ public:
      *
      * @returns The number of bytes received.
      */
-    std::size_t receive_from(const mutable_buffer& buffers
+    std::size_t receive_from(const mutablebuf& buffers
         , endpoint_type& sender_endpoint
         , socket_base::message_flags flags
         , std::error_code& ec)
@@ -883,7 +882,7 @@ public:
      * buffers in one go, and how to use it with arrays, std::array or
      * std::vector.
      */
-    void async_send(const mutable_buffer& buffers, async_send_handler& handler)
+    void async_send(const mutablebuf& buffers, async_send_handler& handler)
     {
         this->async_send(buffers, 0, handler);
     }
@@ -921,7 +920,7 @@ public:
      * buffers in one go, and how to use it with arrays, std::array or
      * std::vector.
      */
-    void async_send(const mutable_buffer& buffers, socket_base::message_flags flags, async_send_handler& handler)
+    void async_send(const mutablebuf& buffers, socket_base::message_flags flags, async_send_handler& handler)
     {
         if ((_state & socket_ops::stream_oriented))
         {
@@ -967,7 +966,7 @@ public:
      * multiple buffers in one go, and how to use it with arrays, boost::array or
      * std::vector.
      */
-    void async_receive(const mutable_buffer& buffers, async_recv_handler& handler)
+    void async_receive(const mutablebuf& buffers, async_recv_handler& handler)
     {
 
         this->async_receive(buffers, 0, handler);
@@ -1008,7 +1007,7 @@ public:
      * multiple buffers in one go, and how to use it with arrays, boost::array or
      * std::vector.
      */
-    void async_receive(const mutable_buffer& buffers, socket_base::message_flags flags, async_recv_handler& handler)
+    void async_receive(const mutablebuf& buffers, socket_base::message_flags flags, async_recv_handler& handler)
     {
         if ((_state & socket_ops::stream_oriented))
         {
@@ -1055,7 +1054,7 @@ public:
      * buffers in one go, and how to use it with arrays, std::array or
      * std::vector.
      */
-    void async_send_to(const mutable_buffer& buffers
+    void async_send_to(const mutablebuf& buffers
         , const endpoint_type& destination
         , async_send_handler& handler)
     {
@@ -1087,7 +1086,7 @@ public:
      * );
      * @endcode
      */
-    void async_send_to(const mutable_buffer& buffers
+    void async_send_to(const mutablebuf& buffers
         , const endpoint_type& destination
         , socket_base::message_flags flags
         , async_send_handler& handler)
@@ -1136,7 +1135,7 @@ public:
      * multiple buffers in one go, and how to use it with arrays, std::array or
      * std::vector.
      */
-    void async_receive_from(const mutable_buffer& buffers
+    void async_receive_from(const mutablebuf& buffers
         , endpoint_type& sender_endpoint
         , async_recv_handler& handler)
     {
@@ -1168,7 +1167,7 @@ public:
      *   std::size_t bytes_transferred // Number of bytes received.
      * ); @endcode
      */
-    void async_receive_from(const mutable_buffer& buffers
+    void async_receive_from(const mutablebuf& buffers
         , endpoint_type& sender_endpoint
         , socket_base::message_flags flags
         , async_recv_handler& handler)
@@ -1530,7 +1529,7 @@ public:
     endpoint_type local_endpoint(std::error_code& ec) const
     {
         endpoint_type endpoint;
-        std::size_t addr_len = endpoint.capacity();
+        int addr_len = static_cast<int>(endpoint.capacity());
         if (socket_ops::getsockname(native_handle(), endpoint.data(), &addr_len, ec))
             return endpoint_type();
         endpoint.resize(addr_len);

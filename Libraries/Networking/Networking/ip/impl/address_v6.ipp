@@ -8,7 +8,7 @@
 #include <cstring>
 #include <stdexcept>
 #include <typeinfo>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Networking/ip/address_v6.hpp"
 #include "FoundationKit/Networking/detail/socket_ops.hpp"
 #include "FoundationKit/Networking/ip/bad_address_cast.hpp"

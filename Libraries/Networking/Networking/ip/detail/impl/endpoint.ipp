@@ -7,7 +7,7 @@
 
 #include <cstring>
 #include <sstream>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/error_code.hpp"
 #include "FoundationKit/Networking/detail/socket_ops.hpp"
 #include "FoundationKit/Networking/ip/detail/endpoint.hpp"

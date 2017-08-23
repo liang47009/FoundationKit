@@ -8,7 +8,7 @@
 
 #include <string>
 #include <iosfwd>
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/error_code.hpp"
 #include "FoundationKit/Networking/ip/address_v4.hpp"
 #include "FoundationKit/Networking/ip/address_v6.hpp"

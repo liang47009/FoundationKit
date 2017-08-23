@@ -1,7 +1,7 @@
 #ifndef LOSEMYMIND_WINSOCK_INIT_HPP
 #define LOSEMYMIND_WINSOCK_INIT_HPP
 # pragma once
-#include "FoundationKit/GenericPlatformMacros.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
 
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 

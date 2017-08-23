@@ -8,8 +8,8 @@
 #include <string>
 #include <iosfwd>
 #include <array>
-#include "FoundationKit/GenericPlatformMacros.h"
-#include "FoundationKit/Base/Types.h"
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#include "FoundationKit/Base/types.hpp"
 #include "FoundationKit/Base/error_code.hpp"
 #include "FoundationKit/Networking/socket_types.hpp"
 #include "FoundationKit/Networking/winsock_init.hpp"
