@@ -96,7 +96,6 @@ public:
     /** 
      * If cpuIndex is equal to - 1, then the function will return 
      * the largest of the maximum frequency of all CPUs.
-     * @param cpuIndex The CPU core index
      * @return Unit: KHz
      */
     static int         GetCPUFrequency();
