@@ -2,9 +2,9 @@
 #define LOSEMYMIND_UDP_HPP
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "Networking/ip/basic_endpoint.hpp"
-#include "Networking/detail/socket_base.hpp"
 #include "Networking/basic_socket.hpp"
+#include "Networking/basic_endpoint.hpp"
+#include "Networking/detail/socket_base.hpp"
 
 NS_FK_BEGIN
 namespace network{

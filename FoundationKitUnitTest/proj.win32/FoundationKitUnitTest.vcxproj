@@ -94,7 +94,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../Libraries/Networking;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
@@ -118,7 +118,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\openssl\prebuilt\win32\*.*" "$(OutDir)"</C
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>UNICODE;WIN64;_DEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../Libraries/Networking;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
@@ -139,7 +139,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\openssl\prebuilt\win32\*.*" "$(OutDir)"</C
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../Libraries/Networking;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
@@ -167,7 +167,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\openssl\prebuilt\win32\*.*" "$(OutDir)"</C
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>UNICODE;WIN64;NDEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../Libraries/Networking;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

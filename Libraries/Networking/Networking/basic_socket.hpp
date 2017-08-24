@@ -22,11 +22,11 @@ namespace network{
 template<typename Protocol>
 class basic_socket : public socket_base, public noncopyable
 {
-    struct socket_holder
-    {
-        socket_type _socketHandle;
-        socket_ops::state_type _socketState;
-    };
+    //struct socket_holder
+    //{
+    //    socket_type _socketHandle;
+    //    socket_ops::state_type _socketState;
+    //};
 public:
     /// The protocol type.
     typedef Protocol protocol_type;

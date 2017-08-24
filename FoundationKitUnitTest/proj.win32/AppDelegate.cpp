@@ -48,7 +48,7 @@
 #include "FoundationKit/Base/string_builder.hpp"
 #include "FoundationKit/Base/locale.hpp"
 #include "FoundationKit/Base/unique_id.hpp"
-
+#include "../Libraries/Networking/Networking/network.hpp"
 using namespace std;
 USING_NS_FK;
 
@@ -77,8 +77,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::string strErr = ec.message();
 	HTTPClient::GetInstance()->Initialize();
 
-
-	PlatformDevice::GetCPUFrequency();
+    network::ip::tcp::socket _socket;
 
 
 	int im_a_breakpoint = 0;

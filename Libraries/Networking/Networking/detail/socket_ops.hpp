@@ -1,5 +1,5 @@
-#ifndef LOSEMYMIND_NETWORK_SOCKET_OPS_HPP
-#define LOSEMYMIND_NETWORK_SOCKET_OPS_HPP
+#ifndef LOSEMYMIND_NETWORK_DETAIL_SOCKET_OPS_HPP
+#define LOSEMYMIND_NETWORK_DETAIL_SOCKET_OPS_HPP
 
 #include <memory>
 #include "FoundationKit/GenericPlatformMacros.hpp"
@@ -136,6 +136,6 @@ namespace socket_ops
 } // namespace network
 NS_FK_END
 
-#include "Networking/detail/impl/socket_ops.ipp"
+#include "Networking/detail/socket_ops.ipp"
 
-#endif // LOSEMYMIND_NETWORK_SOCKET_OPS_HPP
+#endif // LOSEMYMIND_NETWORK_DETAIL_SOCKET_OPS_HPP

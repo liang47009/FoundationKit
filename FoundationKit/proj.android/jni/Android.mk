@@ -62,36 +62,57 @@ cpufeatures/
 
 LOCAL_SHORT_COMMANDS := true
 
-LOCAL_CFLAGS :=  -fexceptions
-LOCAL_CPPFLAGS := -frtti -fexceptions -fsigned-char -Wno-deprecated-declarations -std=c++11
-LOCAL_CFLAGS += -DUSE_FILE32API -DANDROID
-LOCAL_CPPFLAGS +=-DUSE_FILE32API -DANDROID
+TARGET_LOCAL_CFLAGS := \
+-fexceptions
 
-LOCAL_EXPORT_CFLAGS := -fexceptions
-LOCAL_EXPORT_CPPFLAGS := -frtti -fexceptions -fsigned-char -Wno-deprecated-declarations -std=c++11
-LOCAL_EXPORT_CFLAGS += -DUSE_FILE32API -DANDROID
-LOCAL_EXPORT_CPPFLAGS +=  -DUSE_FILE32API -DANDROID
+TARGET_LOCAL_CPPFLAGS := \
+-frtti \
+-fexceptions \
+-fsigned-char \
+-std=c++11 \
+-Wno-deprecated-declarations \
+-DUSE_FILE32API \
+-DANDROID
+
+TARGET_LOCAL_LDLIBS := \
+-latomic \
+-landroid \
+-llog \
+-lz \
+-lEGL \
+-lGLESv1_CM \
+-lGLESv2
 
 ifeq ($(NDK_DEBUG),1)
-  LOCAL_CPPFLAGS += -DDEBUG
-  LOCAL_EXPORT_CPPFLAGS += -DDEBUG
+  TARGET_LOCAL_CFLAGS += -DDEBUG
+  TARGET_LOCAL_CPPFLAGS += -DDEBUG
 else
-  LOCAL_CPPFLAGS += -DNDEBUG
-  LOCAL_EXPORT_CPPFLAGS += -DNDEBUG
+  TARGET_LOCAL_CFLAGS += -DNDEBUG
+  TARGET_LOCAL_CPPFLAGS += -DNDEBUG
 endif
 
 ifeq (armeabi-v7a,$(TARGET_ARCH_ABI))
-LOCAL_EXPORT_CPPFLAGS += -DUSE_NEON
+TARGET_LOCAL_CPPFLAGS += -DUSE_NEON
 endif
 
-LOCAL_LDLIBS     := -landroid -llog -lz -lEGL -lGLESv1_CM -lGLESv2 -lc
-LOCAL_EXPORT_LDLIBS     := -landroid -llog -lz -lEGL -lGLESv1_CM -lGLESv2
 
+LOCAL_CFLAGS := $(TARGET_LOCAL_CFLAG)
+LOCAL_CPPFLAGS := $(TARGET_LOCAL_CPPFLAGS)
+LOCAL_LDLIBS     := $(TARGET_LOCAL_LDLIBS)
+LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
+LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
+LOCAL_EXPORT_LDLIBS := $(LOCAL_EXPORT_LDLIBS)
+
+#Reduce Binaries Size
+LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections -fvisibility=hidden
+LOCAL_CFLAGS   += -ffunction-sections -fdata-sections -fvisibility=hidden 
+LOCAL_LDFLAGS  += -Wl,--gc-sections
+
+#Add cpufeatures library
 LOCAL_STATIC_LIBRARIES += cpufeatures
-#LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
-
-#include $(BUILD_STATIC_LIBRARY)
 include $(BUILD_SHARED_LIBRARY)
+#LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
+#include $(BUILD_STATIC_LIBRARY)
 $(call import-add-path,$(PROJECT_DIR)/FoundationKit)
 $(call import-module,android/cpufeatures)
 

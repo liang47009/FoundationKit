@@ -1,5 +1,5 @@
-#ifndef LOSEMYMIND_NETWORK_SOCKET_OPS_IPP
-#define LOSEMYMIND_NETWORK_SOCKET_OPS_IPP
+#ifndef LOSEMYMIND_NETWORK_DETAIL_SOCKET_OPS_IPP
+#define LOSEMYMIND_NETWORK_DETAIL_SOCKET_OPS_IPP
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
@@ -1192,7 +1192,7 @@ namespace socket_ops
 } // namespace network
 NS_FK_END
 
-#endif // LOSEMYMIND_NETWORK_SOCKET_OPS_IPP
+#endif // LOSEMYMIND_NETWORK_DETAIL_SOCKET_OPS_IPP
 
 
 

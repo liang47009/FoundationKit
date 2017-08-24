@@ -112,6 +112,6 @@ private:
 } // namespace network
 NS_FK_END
 
-# include "Networking/ip/detail/impl/endpoint.ipp"
+# include "Networking/ip/impl/endpoint.ipp"
 
 #endif // LOSEMYMIND_DETAIL_ENDPOINT_HPP

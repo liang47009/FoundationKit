@@ -7,7 +7,7 @@
 # include <iosfwd>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "Networking/ip/address.hpp"
-#include "Networking/ip/detail/endpoint.hpp"
+#include "Networking/ip/impl/endpoint.hpp"
 
 NS_FK_BEGIN
 namespace network{
@@ -218,17 +218,20 @@ private:
 *
 * @relates ip::basic_endpoint
 */
+
 template <typename Elem, typename Traits, typename InternetProtocol>
-std::basic_ostream<Elem, Traits>& operator<<( 
+std::basic_ostream<Elem, Traits>& operator<<(
     std::basic_ostream<Elem, Traits>& os,
-    const basic_endpoint<InternetProtocol>& endpoint);
+    const basic_endpoint<InternetProtocol>& endpoint)
+{
+    ip::endpoint tmp_ep(endpoint.address(), endpoint.port());
+    return os << tmp_ep.to_string().c_str();
+}
 
 
 } // namespace ip
 } // namespace network
 NS_FK_END
-
-#include "Networking/ip/impl/basic_endpoint.hpp"
 
 
 #endif // LOSEMYMIND_BASIC_ENDPOINT_HPP

@@ -10,7 +10,7 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/error_code.hpp"
 #include "Networking/detail/socket_ops.hpp"
-#include "Networking/ip/detail/endpoint.hpp"
+#include "Networking/ip/impl/endpoint.hpp"
 
 NS_FK_BEGIN
 namespace network{
