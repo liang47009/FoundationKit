@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_NETWORK_SOCKET_OPTION_HPP
-#define LOSEMYMIND_NETWORK_SOCKET_OPTION_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_SOCKET_OPTION_HPP
+#define FOUNDATIONKIT_NETWORKING_SOCKET_OPTION_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -829,11 +835,6 @@ private:
 } // namespace network
 NS_FK_END
 
-#endif // LOSEMYMIND_NETWORK_SOCKET_OPTION_HPP
 
-
-
-
-
-
+#endif // END OF FOUNDATIONKIT_NETWORKING_SOCKET_OPTION_HPP
 

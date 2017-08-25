@@ -1,6 +1,11 @@
-#ifndef LOSEMYMIND_WINSOCK_INIT_IPP
-#define LOSEMYMIND_WINSOCK_INIT_IPP
-# pragma once
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_WINSOCK_INIT_IPP
+#define FOUNDATIONKIT_NETWORKING_WINSOCK_INIT_IPP
 
 #include "socket_types.hpp"
 #include "winsock_init.hpp"
@@ -41,8 +46,4 @@ NS_FK_END
 
 #endif //TARGET_PLATFORM == PLATFORM_WINDOWS
 
-#endif //LOSEMYMIND_WINSOCK_INIT_IPP
-
-
-
-
+#endif // END OF FOUNDATIONKIT_NETWORKING_WINSOCK_INIT_IPP

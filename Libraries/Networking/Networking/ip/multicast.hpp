@@ -1,10 +1,15 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
-#ifndef LOSEMYMIND_IP_MULTICAST_HPP
-#define LOSEMYMIND_IP_MULTICAST_HPP
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_MULTICAST_HPP
+#define FOUNDATIONKIT_NETWORKING_MULTICAST_HPP
+
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
-
 
 #include <cstddef>
 #include "Networking/detail/socket_option.hpp"
@@ -159,7 +164,5 @@ typedef network::socket_option::multicast_enable_loopback<
 } // namespace ip
 } // namespace network
 NS_FK_END
-#endif // LOSEMYMIND_IP_MULTICAST_HPP
 
-
-
+#endif // END OF FOUNDATIONKIT_NETWORKING_MULTICAST_HPP

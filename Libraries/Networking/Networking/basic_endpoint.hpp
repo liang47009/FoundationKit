@@ -1,5 +1,12 @@
-#ifndef LOSEMYMIND_BASIC_ENDPOINT_HPP
-#define LOSEMYMIND_BASIC_ENDPOINT_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_BASIC_ENDPOINT_HPP
+#define FOUNDATIONKIT_NETWORKING_BASIC_ENDPOINT_HPP
+
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
@@ -7,7 +14,7 @@
 # include <iosfwd>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "Networking/ip/address.hpp"
-#include "Networking/ip/impl/endpoint.hpp"
+#include "Networking/ip/endpoint.hpp"
 
 NS_FK_BEGIN
 namespace network{
@@ -233,9 +240,5 @@ std::basic_ostream<Elem, Traits>& operator<<(
 } // namespace network
 NS_FK_END
 
-
-#endif // LOSEMYMIND_BASIC_ENDPOINT_HPP
-
-
-
+#endif // END OF FOUNDATIONKIT_NETWORKING_BASIC_ENDPOINT_HPP
 

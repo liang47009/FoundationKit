@@ -1,5 +1,12 @@
-#ifndef LOSEMYMIND_DETAIL_ENDPOINT_HPP
-#define LOSEMYMIND_DETAIL_ENDPOINT_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_ENDPOINT_HPP
+#define FOUNDATIONKIT_NETWORKING_ENDPOINT_HPP
+
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
@@ -9,6 +16,7 @@
 #include "Networking/socket_types.hpp"
 #include "Networking/winsock_init.hpp"
 #include "Networking/ip/address.hpp"
+#include "Networking/detail/config.hpp"
 
 NS_FK_BEGIN
 namespace network{
@@ -19,13 +27,13 @@ class endpoint
 {
 public:
     // Default constructor.
-    NETWORK_DECL endpoint();
+    NETWORK_API endpoint();
 
     // Construct an endpoint using a family and port number.
-    NETWORK_DECL endpoint(int family, unsigned short port_num);
+    NETWORK_API endpoint(int family, unsigned short port_num);
 
     // Construct an endpoint using an address and port number.
-    NETWORK_DECL endpoint(const ip::address& addr, unsigned short port_num);
+    NETWORK_API endpoint(const ip::address& addr, unsigned short port_num);
 
     // Copy constructor.
     endpoint(const endpoint& other)
@@ -62,7 +70,7 @@ public:
     }
 
     // Set the underlying size of the endpoint in the native type.
-    NETWORK_DECL void resize(std::size_t new_size);
+    NETWORK_API void resize(std::size_t new_size);
 
     // Get the capacity of the endpoint in the native type.
     std::size_t capacity() const
@@ -71,22 +79,22 @@ public:
     }
 
     // Get the port associated with the endpoint.
-    NETWORK_DECL unsigned short port() const;
+    NETWORK_API unsigned short port() const;
 
     // Set the port associated with the endpoint.
-    NETWORK_DECL void port(unsigned short port_num);
+    NETWORK_API void port(unsigned short port_num);
 
     // Get the IP address associated with the endpoint.
-    NETWORK_DECL ip::address address() const;
+    NETWORK_API ip::address address() const;
 
     // Set the IP address associated with the endpoint.
-    NETWORK_DECL void address(const ip::address& addr);
+    NETWORK_API void address(const ip::address& addr);
 
     // Compare two endpoints for equality.
-    NETWORK_DECL friend bool operator==(const endpoint& e1, const endpoint& e2);
+    NETWORK_API friend bool operator==(const endpoint& e1, const endpoint& e2);
 
     // Compare endpoints for ordering.
-    NETWORK_DECL friend bool operator<(const endpoint& e1, const endpoint& e2);
+    NETWORK_API friend bool operator<(const endpoint& e1, const endpoint& e2);
 
     // Determine whether the endpoint is IPv4.
     bool is_v4() const
@@ -95,7 +103,7 @@ public:
     }
 
     // Convert to a string.
-    NETWORK_DECL std::string to_string() const;
+    NETWORK_API std::string to_string() const;
 
 
 private:
@@ -112,6 +120,6 @@ private:
 } // namespace network
 NS_FK_END
 
-# include "Networking/ip/impl/endpoint.ipp"
+# include "Networking/ip/endpoint.ipp"
 
-#endif // LOSEMYMIND_DETAIL_ENDPOINT_HPP
+#endif // END OF FOUNDATIONKIT_NETWORKING_ENDPOINT_HPP

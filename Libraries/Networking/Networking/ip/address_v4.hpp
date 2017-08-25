@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_ADDRESS_V4_HPP
-#define LOSEMYMIND_ADDRESS_V4_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_ADDRESS_V4_HPP
+#define FOUNDATIONKIT_NETWORKING_ADDRESS_V4_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -13,6 +19,7 @@
 #include "FoundationKit/Base/error_code.hpp"
 #include "Networking/socket_types.hpp"
 #include "Networking/winsock_init.hpp"
+#include "Networking/detail/config.hpp"
 
 NS_FK_BEGIN
 namespace network{
@@ -47,10 +54,10 @@ public:
     }
 
     /// Construct an address from raw bytes.
-    NETWORK_DECL explicit address_v4(const bytes_type& bytes);
+    NETWORK_API explicit address_v4(const bytes_type& bytes);
 
     /// Construct an address from an unsigned integer in host byte order.
-    NETWORK_DECL explicit address_v4(uint_type addr);
+    NETWORK_API explicit address_v4(uint_type addr);
 
     /// Copy constructor.
     address_v4(const address_v4& other)
@@ -81,62 +88,62 @@ public:
 
 
     /// Get the address in bytes, in network byte order.
-    NETWORK_DECL bytes_type to_bytes() const;
+    NETWORK_API bytes_type to_bytes() const;
 
     /// Get the address as an unsigned integer in host byte order
-    NETWORK_DECL uint_type to_uint() const;
+    NETWORK_API uint_type to_uint() const;
 
 
     /// Get the address as an unsigned long in host byte order
-    NETWORK_DECL unsigned long to_ulong() const;
+    NETWORK_API unsigned long to_ulong() const;
 
 
     /// Get the address as a string in dotted decimal format.
-    NETWORK_DECL std::string to_string() const;
+    NETWORK_API std::string to_string() const;
 
 
     /// (Deprecated: Use other overload.) Get the address as a string in dotted
     /// decimal format.
-    NETWORK_DECL std::string to_string(std::error_code& ec) const;
+    NETWORK_API std::string to_string(std::error_code& ec) const;
 
     /// (Deprecated: Use make_address_v4().) Create an address from an IP address
     /// string in dotted decimal form.
-    NETWORK_DECL static address_v4 from_string(const char* str);
+    NETWORK_API static address_v4 from_string(const char* str);
 
     /// (Deprecated: Use make_address_v4().) Create an address from an IP address
     /// string in dotted decimal form.
-    NETWORK_DECL static address_v4 from_string(const char* str, std::error_code& ec);
+    NETWORK_API static address_v4 from_string(const char* str, std::error_code& ec);
 
     /// (Deprecated: Use make_address_v4().) Create an address from an IP address
     /// string in dotted decimal form.
-    NETWORK_DECL static address_v4 from_string(const std::string& str);
+    NETWORK_API static address_v4 from_string(const std::string& str);
 
     /// (Deprecated: Use make_address_v4().) Create an address from an IP address
     /// string in dotted decimal form.
-    NETWORK_DECL static address_v4 from_string(const std::string& str, std::error_code& ec);
+    NETWORK_API static address_v4 from_string(const std::string& str, std::error_code& ec);
 
 
     /// Determine whether the address is a loopback address.
-    NETWORK_DECL bool is_loopback() const;
+    NETWORK_API bool is_loopback() const;
 
     /// Determine whether the address is unspecified.
-    NETWORK_DECL bool is_unspecified() const;
+    NETWORK_API bool is_unspecified() const;
 
     /// (Deprecated: Use network_v4 class.) Determine whether the address is a
     /// class A address.
-    NETWORK_DECL bool is_class_a() const;
+    NETWORK_API bool is_class_a() const;
 
     /// (Deprecated: Use network_v4 class.) Determine whether the address is a
     /// class B address.
-    NETWORK_DECL bool is_class_b() const;
+    NETWORK_API bool is_class_b() const;
 
     /// (Deprecated: Use network_v4 class.) Determine whether the address is a
     /// class C address.
-    NETWORK_DECL bool is_class_c() const;
+    NETWORK_API bool is_class_c() const;
 
 
     /// Determine whether the address is a multicast address.
-    NETWORK_DECL bool is_multicast() const;
+    NETWORK_API bool is_multicast() const;
 
     /// Compare two addresses for equality.
     friend bool operator==(const address_v4& a1, const address_v4& a2)
@@ -195,11 +202,11 @@ public:
     /// (Deprecated: Use network_v4 class.) Obtain an address object that
     /// represents the broadcast address that corresponds to the specified
     /// address and netmask.
-    NETWORK_DECL static address_v4 broadcast(const address_v4& addr, const address_v4& mask);
+    NETWORK_API static address_v4 broadcast(const address_v4& addr, const address_v4& mask);
 
     /// (Deprecated: Use network_v4 class.) Obtain the netmask that corresponds
     /// to the address, based on its address class.
-    NETWORK_DECL static address_v4 netmask(const address_v4& addr);
+    NETWORK_API static address_v4 netmask(const address_v4& addr);
 
 
 private:
@@ -211,7 +218,7 @@ private:
 /**
 * @relates address_v4
 */
-NETWORK_DECL  address_v4 make_address_v4(const address_v4::bytes_type& bytes)
+inline  address_v4 make_address_v4(const address_v4::bytes_type& bytes)
 {
     return address_v4(bytes);
 }
@@ -220,7 +227,7 @@ NETWORK_DECL  address_v4 make_address_v4(const address_v4::bytes_type& bytes)
  * Create an IPv4 address from an unsigned integer in host byte order.
  * @relates address_v4
  */
-NETWORK_DECL  address_v4 make_address_v4(address_v4::uint_type addr)
+inline  address_v4 make_address_v4(address_v4::uint_type addr)
 {
     return address_v4(addr);
 }
@@ -229,25 +236,25 @@ NETWORK_DECL  address_v4 make_address_v4(address_v4::uint_type addr)
  * Create an IPv4 address from an IP address string in dotted decimal form.
  * @relates address_v4
  */
-NETWORK_DECL address_v4 make_address_v4(const char* str);
+NETWORK_API address_v4 make_address_v4(const char* str);
 
 /**
  * Create an IPv4 address from an IP address string in dotted decimal form.
  * @relates address_v4
  */
-NETWORK_DECL address_v4 make_address_v4(const char* str, std::error_code& ec);
+NETWORK_API address_v4 make_address_v4(const char* str, std::error_code& ec);
 
 /**
  * Create an IPv4 address from an IP address string in dotted decimal form.
  * @relates address_v4
  */
-NETWORK_DECL address_v4 make_address_v4(const std::string& str);
+NETWORK_API address_v4 make_address_v4(const std::string& str);
 
 /**
  * Create an IPv4 address from an IP address string in dotted decimal form.
  * @relates address_v4
  */
-NETWORK_DECL address_v4 make_address_v4(const std::string& str, std::error_code& ec);
+NETWORK_API address_v4 make_address_v4(const std::string& str, std::error_code& ec);
 
 /**
  * Output an address as a string.
@@ -262,12 +269,14 @@ NETWORK_DECL address_v4 make_address_v4(const std::string& str, std::error_code&
  * @relates asio::ip::address_v4
  */
 template <typename Elem, typename Traits>
-std::basic_ostream<Elem, Traits>& operator<<(std::basic_ostream<Elem, Traits>& os, const address_v4& addr);
+std::basic_ostream<Elem, Traits>& operator<<(std::basic_ostream<Elem, Traits>& os, const address_v4& addr)
+{
+    return os << addr.to_string().c_str();
+}
 
 } // namespace ip
 } // namespace network
 NS_FK_END
-#include "Networking/ip/impl/address_v4.hpp"
-#include "Networking/ip/impl/address_v4.ipp"
+#include "Networking/ip/address_v4.ipp"
 
-#endif // LOSEMYMIND_ADDRESS_V4_HPP
+#endif // END OF FOUNDATIONKIT_NETWORKING_ADDRESS_V4_HPP

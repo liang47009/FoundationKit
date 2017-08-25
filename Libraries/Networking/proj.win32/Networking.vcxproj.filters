@@ -10,9 +10,6 @@
     <Filter Include="Networking\ip">
       <UniqueIdentifier>{afba303d-4a98-4bf6-9b77-13fe61425982}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Networking\ip\impl">
-      <UniqueIdentifier>{9d43d02c-c387-4fad-ba1b-9b0f9f6906d8}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Networking\basic_socket.hpp">
@@ -72,26 +69,17 @@
     <ClInclude Include="..\Networking\ip\udp.hpp">
       <Filter>Networking\ip</Filter>
     </ClInclude>
-    <ClInclude Include="..\Networking\ip\impl\address.hpp">
-      <Filter>Networking\ip\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Networking\ip\impl\address_v4.hpp">
-      <Filter>Networking\ip\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Networking\ip\impl\address_v6.hpp">
-      <Filter>Networking\ip\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Networking\ip\impl\endpoint.hpp">
-      <Filter>Networking\ip\impl</Filter>
-    </ClInclude>
     <ClInclude Include="..\Networking\basic_endpoint.hpp">
       <Filter>Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\Networking\tcp.hpp">
-      <Filter>Networking</Filter>
+    <ClInclude Include="..\Networking\ip\endpoint.hpp">
+      <Filter>Networking\ip</Filter>
     </ClInclude>
-    <ClInclude Include="..\Networking\udp.hpp">
-      <Filter>Networking</Filter>
+    <ClInclude Include="..\Networking\detail\config.hpp">
+      <Filter>Networking\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Networking\detail\src.hpp">
+      <Filter>Networking\detail</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -103,20 +91,20 @@
     <None Include="..\Networking\winsock_init.ipp">
       <Filter>Networking</Filter>
     </None>
-    <None Include="..\Networking\ip\impl\address.ipp">
-      <Filter>Networking\ip\impl</Filter>
-    </None>
-    <None Include="..\Networking\ip\impl\address_v4.ipp">
-      <Filter>Networking\ip\impl</Filter>
-    </None>
-    <None Include="..\Networking\ip\impl\address_v6.ipp">
-      <Filter>Networking\ip\impl</Filter>
-    </None>
     <None Include="..\Networking\detail\socket_ops.ipp">
       <Filter>Networking\detail</Filter>
     </None>
-    <None Include="..\Networking\ip\impl\endpoint.ipp">
-      <Filter>Networking\ip\impl</Filter>
+    <None Include="..\Networking\ip\address.ipp">
+      <Filter>Networking\ip</Filter>
+    </None>
+    <None Include="..\Networking\ip\address_v4.ipp">
+      <Filter>Networking\ip</Filter>
+    </None>
+    <None Include="..\Networking\ip\address_v6.ipp">
+      <Filter>Networking\ip</Filter>
+    </None>
+    <None Include="..\Networking\ip\endpoint.ipp">
+      <Filter>Networking\ip</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_ADDRESS_HPP
-#define LOSEMYMIND_ADDRESS_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_ADDRESS_HPP
+#define FOUNDATIONKIT_NETWORKING_ADDRESS_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -13,6 +19,7 @@
 #include "Networking/ip/address_v4.hpp"
 #include "Networking/ip/address_v6.hpp"
 #include "Networking/ip/bad_address_cast.hpp"
+#include "Networking/detail/config.hpp"
 NS_FK_BEGIN
 namespace network{
 namespace ip{
@@ -30,31 +37,31 @@ class address
 {
 public:
     /// Default constructor.
-    NETWORK_DECL address();
+    NETWORK_API address();
 
     /// Construct an address from an IPv4 address.
-    NETWORK_DECL address(const ip::address_v4& ipv4_address);
+    NETWORK_API address(const ip::address_v4& ipv4_address);
 
     /// Construct an address from an IPv6 address.
-    NETWORK_DECL address(const ip::address_v6& ipv6_address);
+    NETWORK_API address(const ip::address_v6& ipv6_address);
 
     /// Copy constructor.
-    NETWORK_DECL address(const address& other);
+    NETWORK_API address(const address& other);
 
     /// Move constructor.
-    NETWORK_DECL address(address&& other);
+    NETWORK_API address(address&& other);
 
     /// Assign from another address.
-    NETWORK_DECL address& operator=(const address& other);
+    NETWORK_API address& operator=(const address& other);
 
     /// Move-assign from another address.
-    NETWORK_DECL address& operator=(address&& other);
+    NETWORK_API address& operator=(address&& other);
 
     /// Assign from an IPv4 address.
-    NETWORK_DECL address& operator=(const ip::address_v4& ipv4_address);
+    NETWORK_API address& operator=(const ip::address_v4& ipv4_address);
 
     /// Assign from an IPv6 address.
-    NETWORK_DECL address& operator=(const ip::address_v6& ipv6_address);
+    NETWORK_API address& operator=(const ip::address_v6& ipv6_address);
 
     /// Get whether the address is an IP version 4 address.
     bool is_v4() const
@@ -69,48 +76,48 @@ public:
     }
 
     /// Get the address as an IP version 4 address.
-    NETWORK_DECL ip::address_v4 to_v4() const;
+    NETWORK_API ip::address_v4 to_v4() const;
 
     /// Get the address as an IP version 6 address.
-    NETWORK_DECL ip::address_v6 to_v6() const;
+    NETWORK_API ip::address_v6 to_v6() const;
 
     /// Get the address as a string.
-    NETWORK_DECL std::string to_string() const;
+    NETWORK_API std::string to_string() const;
 
     /// (Deprecated: Use other overload.) Get the address as a string.
-    NETWORK_DECL std::string to_string(std::error_code& ec) const;
+    NETWORK_API std::string to_string(std::error_code& ec) const;
 
     /// (Deprecated: Use make_address().) Create an address from an IPv4 address
     /// string in dotted decimal form, or from an IPv6 address in hexadecimal
     /// notation.
-    NETWORK_DECL static address from_string(const char* str);
+    NETWORK_API static address from_string(const char* str);
 
     /// (Deprecated: Use make_address().) Create an address from an IPv4 address
     /// string in dotted decimal form, or from an IPv6 address in hexadecimal
     /// notation.
-    NETWORK_DECL static address from_string(const char* str, std::error_code& ec);
+    NETWORK_API static address from_string(const char* str, std::error_code& ec);
 
     /// (Deprecated: Use make_address().) Create an address from an IPv4 address
     /// string in dotted decimal form, or from an IPv6 address in hexadecimal
     /// notation.
-    NETWORK_DECL static address from_string(const std::string& str);
+    NETWORK_API static address from_string(const std::string& str);
 
     /// (Deprecated: Use make_address().) Create an address from an IPv4 address
     /// string in dotted decimal form, or from an IPv6 address in hexadecimal
     /// notation.
-    NETWORK_DECL static address from_string(const std::string& str, std::error_code& ec);
+    NETWORK_API static address from_string(const std::string& str, std::error_code& ec);
 
     /// Determine whether the address is a loopback address.
-    NETWORK_DECL bool is_loopback() const;
+    NETWORK_API bool is_loopback() const;
 
     /// Determine whether the address is unspecified.
-    NETWORK_DECL bool is_unspecified() const;
+    NETWORK_API bool is_unspecified() const;
 
     /// Determine whether the address is a multicast address.
-    NETWORK_DECL bool is_multicast() const;
+    NETWORK_API bool is_multicast() const;
 
     /// Compare two addresses for equality.
-    NETWORK_DECL friend bool operator==(const address& a1, const address& a2);
+    NETWORK_API friend bool operator==(const address& a1, const address& a2);
 
     /// Compare two addresses for inequality.
     friend bool operator!=(const address& a1, const address& a2)
@@ -119,7 +126,7 @@ public:
     }
 
     /// Compare addresses for ordering.
-    NETWORK_DECL friend bool operator<(const address& a1, const address& a2);
+    NETWORK_API friend bool operator<(const address& a1, const address& a2);
 
     /// Compare addresses for ordering.
     friend bool operator>(const address& a1, const address& a2)
@@ -155,28 +162,28 @@ private:
  * or from an IPv6 address in hexadecimal notation.
  * @relates address
  */
-NETWORK_DECL address make_address(const char* str);
+NETWORK_API address make_address(const char* str);
 
 /**
  * Create an address from an IPv4 address string in dotted decimal form,
  * or from an IPv6 address in hexadecimal notation.
  * @relates address
  */
-NETWORK_DECL address make_address(const char* str, std::error_code& ec);
+NETWORK_API address make_address(const char* str, std::error_code& ec);
 
 /**
  * Create an address from an IPv4 address string in dotted decimal form,
  * or from an IPv6 address in hexadecimal notation.
  * @relates address
  */
-NETWORK_DECL address make_address(const std::string& str);
+NETWORK_API address make_address(const std::string& str);
 
 /**
  * Create an address from an IPv4 address string in dotted decimal form,
  * or from an IPv6 address in hexadecimal notation.
  * @relates address
  */
-NETWORK_DECL address make_address(const std::string& str, std::error_code& ec);
+NETWORK_API address make_address(const std::string& str, std::error_code& ec);
 
 /**
  * Output an address as a string.
@@ -191,16 +198,15 @@ NETWORK_DECL address make_address(const std::string& str, std::error_code& ec);
  * @relates ip::address
  */
 template <typename Elem, typename Traits>
-std::basic_ostream<Elem, Traits>& operator<<(std::basic_ostream<Elem, Traits>& os, const address& addr);
+std::basic_ostream<Elem, Traits>& operator<<(std::basic_ostream<Elem, Traits>& os, const address& addr)
+{
+    return os << addr.to_string().c_str();
+}
 
 } // namespace ip
 } // namespace network
 NS_FK_END
 
-#include "Networking/ip/impl/address.hpp"
-#include "Networking/ip/impl/address.ipp"
+#include "Networking/ip/address.ipp"
 
-#endif // LOSEMYMIND_ADDRESS_HPP
-
-
-
+#endif // END OF FOUNDATIONKIT_NETWORKING_ADDRESS_HPP

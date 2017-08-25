@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClInclude Include="..\Networking\basic_endpoint.hpp" />
     <ClInclude Include="..\Networking\basic_socket.hpp" />
+    <ClInclude Include="..\Networking\detail\config.hpp" />
     <ClInclude Include="..\Networking\detail\socket_base.hpp" />
     <ClInclude Include="..\Networking\detail\socket_ops.hpp" />
     <ClInclude Include="..\Networking\detail\socket_option.hpp" />
+    <ClInclude Include="..\Networking\detail\src.hpp" />
     <ClInclude Include="..\Networking\IProtocol.h" />
     <ClInclude Include="..\Networking\ip\address.hpp" />
     <ClInclude Include="..\Networking\ip\address_v4.hpp" />
@@ -33,17 +35,12 @@
     <ClInclude Include="..\Networking\ip\address_v6_iterator.hpp" />
     <ClInclude Include="..\Networking\ip\address_v6_range.hpp" />
     <ClInclude Include="..\Networking\ip\bad_address_cast.hpp" />
-    <ClInclude Include="..\Networking\ip\impl\address.hpp" />
-    <ClInclude Include="..\Networking\ip\impl\address_v4.hpp" />
-    <ClInclude Include="..\Networking\ip\impl\address_v6.hpp" />
-    <ClInclude Include="..\Networking\ip\impl\endpoint.hpp" />
+    <ClInclude Include="..\Networking\ip\endpoint.hpp" />
     <ClInclude Include="..\Networking\ip\multicast.hpp" />
     <ClInclude Include="..\Networking\ip\tcp.hpp" />
     <ClInclude Include="..\Networking\ip\udp.hpp" />
     <ClInclude Include="..\Networking\network.hpp" />
     <ClInclude Include="..\Networking\socket_types.hpp" />
-    <ClInclude Include="..\Networking\tcp.hpp" />
-    <ClInclude Include="..\Networking\udp.hpp" />
     <ClInclude Include="..\Networking\winsock_init.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -51,10 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Networking\detail\socket_ops.ipp" />
-    <None Include="..\Networking\ip\impl\address.ipp" />
-    <None Include="..\Networking\ip\impl\address_v4.ipp" />
-    <None Include="..\Networking\ip\impl\address_v6.ipp" />
-    <None Include="..\Networking\ip\impl\endpoint.ipp" />
+    <None Include="..\Networking\ip\address.ipp" />
+    <None Include="..\Networking\ip\address_v4.ipp" />
+    <None Include="..\Networking\ip\address_v6.ipp" />
+    <None Include="..\Networking\ip\endpoint.ipp" />
     <None Include="..\Networking\winsock_init.ipp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_ADDRESS_V6_HPP
-#define LOSEMYMIND_ADDRESS_V6_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_ADDRESS_V6_HPP
+#define FOUNDATIONKIT_NETWORKING_ADDRESS_V6_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -14,6 +20,7 @@
 #include "Networking/socket_types.hpp"
 #include "Networking/winsock_init.hpp"
 #include "Networking/ip/address_v4.hpp"
+#include "Networking/detail/config.hpp"
 
 NS_FK_BEGIN
 namespace network{
@@ -41,22 +48,22 @@ public:
     typedef std::array<unsigned char, 16> bytes_type;
 
     /// Default constructor.
-    NETWORK_DECL address_v6();
+    NETWORK_API address_v6();
 
     /// Construct an address from raw bytes and scope ID.
-    NETWORK_DECL explicit address_v6(const bytes_type& bytes, unsigned long scope_id = 0);
+    NETWORK_API explicit address_v6(const bytes_type& bytes, unsigned long scope_id = 0);
 
     /// Copy constructor.
-    NETWORK_DECL address_v6(const address_v6& other);
+    NETWORK_API address_v6(const address_v6& other);
 
     /// Move constructor.
-    NETWORK_DECL address_v6(address_v6&& other);
+    NETWORK_API address_v6(address_v6&& other);
 
     /// Assign from another address.
-    NETWORK_DECL address_v6& operator=(const address_v6& other);
+    NETWORK_API address_v6& operator=(const address_v6& other);
 
     /// Move-assign from another address.
-    NETWORK_DECL address_v6& operator=(address_v6&& other);
+    NETWORK_API address_v6& operator=(address_v6&& other);
 
     /// The scope ID of the address.
     /**
@@ -77,73 +84,73 @@ public:
     }
 
     /// Get the address in bytes, in network byte order.
-    NETWORK_DECL bytes_type to_bytes() const;
+    NETWORK_API bytes_type to_bytes() const;
 
     /// Get the address as a string.
-    NETWORK_DECL std::string to_string() const;
+    NETWORK_API std::string to_string() const;
 
     /// (Deprecated: Use other overload.) Get the address as a string.
-    NETWORK_DECL std::string to_string(std::error_code& ec) const;
+    NETWORK_API std::string to_string(std::error_code& ec) const;
 
     /// (Deprecated: Use make_address_v6().) Create an IPv6 address from an IP
     /// address string.
-    NETWORK_DECL static address_v6 from_string(const char* str);
+    NETWORK_API static address_v6 from_string(const char* str);
 
     /// (Deprecated: Use make_address_v6().) Create an IPv6 address from an IP
     /// address string.
-    NETWORK_DECL static address_v6 from_string( const char* str, std::error_code& ec);
+    NETWORK_API static address_v6 from_string( const char* str, std::error_code& ec);
 
     /// (Deprecated: Use make_address_v6().) Create an IPv6 address from an IP
     /// address string.
-    NETWORK_DECL static address_v6 from_string(const std::string& str);
+    NETWORK_API static address_v6 from_string(const std::string& str);
 
     /// (Deprecated: Use make_address_v6().) Create an IPv6 address from an IP
     /// address string.
-    NETWORK_DECL static address_v6 from_string(const std::string& str, std::error_code& ec);
+    NETWORK_API static address_v6 from_string(const std::string& str, std::error_code& ec);
 
     /// (Deprecated: Use make_address_v4().) Converts an IPv4-mapped or
     /// IPv4-compatible address to an IPv4 address.
-    NETWORK_DECL address_v4 to_v4() const;
+    NETWORK_API address_v4 to_v4() const;
 
     /// Determine whether the address is a loopback address.
-    NETWORK_DECL bool is_loopback() const;
+    NETWORK_API bool is_loopback() const;
 
     /// Determine whether the address is unspecified.
-    NETWORK_DECL bool is_unspecified() const;
+    NETWORK_API bool is_unspecified() const;
 
     /// Determine whether the address is link local.
-    NETWORK_DECL bool is_link_local() const;
+    NETWORK_API bool is_link_local() const;
 
     /// Determine whether the address is site local.
-    NETWORK_DECL bool is_site_local() const;
+    NETWORK_API bool is_site_local() const;
 
     /// Determine whether the address is a mapped IPv4 address.
-    NETWORK_DECL bool is_v4_mapped() const;
+    NETWORK_API bool is_v4_mapped() const;
 
     /// (Deprecated: No replacement.) Determine whether the address is an
     /// IPv4-compatible address.
-    NETWORK_DECL bool is_v4_compatible() const;
+    NETWORK_API bool is_v4_compatible() const;
 
     /// Determine whether the address is a multicast address.
-    NETWORK_DECL bool is_multicast() const;
+    NETWORK_API bool is_multicast() const;
 
     /// Determine whether the address is a global multicast address.
-    NETWORK_DECL bool is_multicast_global() const;
+    NETWORK_API bool is_multicast_global() const;
 
     /// Determine whether the address is a link-local multicast address.
-    NETWORK_DECL bool is_multicast_link_local() const;
+    NETWORK_API bool is_multicast_link_local() const;
 
     /// Determine whether the address is a node-local multicast address.
-    NETWORK_DECL bool is_multicast_node_local() const;
+    NETWORK_API bool is_multicast_node_local() const;
 
     /// Determine whether the address is a org-local multicast address.
-    NETWORK_DECL bool is_multicast_org_local() const;
+    NETWORK_API bool is_multicast_org_local() const;
 
     /// Determine whether the address is a site-local multicast address.
-    NETWORK_DECL bool is_multicast_site_local() const;
+    NETWORK_API bool is_multicast_site_local() const;
 
     /// Compare two addresses for equality.
-    NETWORK_DECL friend bool operator==(const address_v6& a1, const address_v6& a2);
+    NETWORK_API friend bool operator==(const address_v6& a1, const address_v6& a2);
 
     /// Compare two addresses for inequality.
     friend bool operator!=(const address_v6& a1, const address_v6& a2)
@@ -152,7 +159,7 @@ public:
     }
 
     /// Compare addresses for ordering.
-    NETWORK_DECL friend bool operator<(const address_v6& a1, const address_v6& a2);
+    NETWORK_API friend bool operator<(const address_v6& a1, const address_v6& a2);
 
     /// Compare addresses for ordering.
     friend bool operator>(const address_v6& a1, const address_v6& a2)
@@ -179,13 +186,13 @@ public:
     }
 
     /// Obtain an address object that represents the loopback address.
-    NETWORK_DECL static address_v6 loopback();
+    NETWORK_API static address_v6 loopback();
 
     /// (Deprecated: Use make_address_v6().) Create an IPv4-mapped IPv6 address.
-    NETWORK_DECL static address_v6 v4_mapped(const address_v4& addr);
+    NETWORK_API static address_v6 v4_mapped(const address_v4& addr);
 
     /// (Deprecated: No replacement.) Create an IPv4-compatible IPv6 address.
-    NETWORK_DECL static address_v6 v4_compatible(const address_v4& addr);
+    NETWORK_API static address_v6 v4_compatible(const address_v4& addr);
 
 private:
     friend class basic_address_iterator<address_v6>;
@@ -201,7 +208,7 @@ private:
 /**
 * @relates address_v6
 */
-NETWORK_DECL  address_v6 make_address_v6(const address_v6::bytes_type& bytes, unsigned long scope_id = 0)
+inline  address_v6 make_address_v6(const address_v6::bytes_type& bytes, unsigned long scope_id = 0)
 {
     return address_v6(bytes, scope_id);
 }
@@ -210,25 +217,25 @@ NETWORK_DECL  address_v6 make_address_v6(const address_v6::bytes_type& bytes, un
 /**
 * @relates address_v6
 */
-NETWORK_DECL address_v6 make_address_v6(const char* str);
+NETWORK_API address_v6 make_address_v6(const char* str);
 
 /// Create an IPv6 address from an IP address string.
 /**
 * @relates address_v6
 */
-NETWORK_DECL address_v6 make_address_v6(const char* str, std::error_code& ec);
+NETWORK_API address_v6 make_address_v6(const char* str, std::error_code& ec);
 
 /// Createan IPv6 address from an IP address string.
 /**
 * @relates address_v6
 */
-NETWORK_DECL address_v6 make_address_v6(const std::string& str);
+NETWORK_API address_v6 make_address_v6(const std::string& str);
 
 /// Create an IPv6 address from an IP address string.
 /**
 * @relates address_v6
 */
-NETWORK_DECL address_v6 make_address_v6(const std::string& str, std::error_code& ec);
+NETWORK_API address_v6 make_address_v6(const std::string& str, std::error_code& ec);
 
 /// Tag type used for distinguishing overloads that deal in IPv4-mapped IPv6
 /// addresses.
@@ -238,13 +245,13 @@ enum v4_mapped_t { v4_mapped };
 /**
 * @relates address_v4
 */
-NETWORK_DECL address_v4 make_address_v4(v4_mapped_t, const address_v6& v6_addr);
+NETWORK_API address_v4 make_address_v4(v4_mapped_t, const address_v6& v6_addr);
 
 /// Create an IPv4-mapped IPv6 address from an IPv4 address.
 /**
 * @relates address_v6
 */
-NETWORK_DECL address_v6 make_address_v6(v4_mapped_t, const address_v4& v4_addr);
+NETWORK_API address_v6 make_address_v6(v4_mapped_t, const address_v4& v4_addr);
 
 /// Output an address as a string.
 /**
@@ -259,15 +266,17 @@ NETWORK_DECL address_v6 make_address_v6(v4_mapped_t, const address_v4& v4_addr);
 * @relates asio::ip::address_v6
 */
 template <typename Elem, typename Traits>
-std::basic_ostream<Elem, Traits>& operator<<(std::basic_ostream<Elem, Traits>& os, const address_v6& addr);
+std::basic_ostream<Elem, Traits>& operator<<(std::basic_ostream<Elem, Traits>& os, const address_v6& addr)
+{
+    return os << addr.to_string().c_str();
+}
 
 } // namespace ip
 } // namespace network
 
 NS_FK_END
 
-#include "Networking/ip/impl/address_v6.hpp"
-#include "Networking/ip/impl/address_v6.ipp"
+#include "Networking/ip/address_v6.ipp"
 
-#endif // LOSEMYMIND_ADDRESS_V6_HPP
 
+#endif // END OF FOUNDATIONKIT_NETWORKING_ADDRESS_V6_HPP

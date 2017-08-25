@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_IMPL_ADDRESS_V4_IPP
-#define LOSEMYMIND_IMPL_ADDRESS_V4_IPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_ADDRESS_V4_IPP
+#define FOUNDATIONKIT_NETWORKING_ADDRESS_V4_IPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -80,6 +86,25 @@ std::string address_v4::to_string(std::error_code& ec) const
     return addr;
 }
 
+inline address_v4 address_v4::from_string(const char* str)
+{
+    return ip::make_address_v4(str);
+}
+
+inline address_v4 address_v4::from_string(const char* str, std::error_code& ec)
+{
+    return ip::make_address_v4(str, ec);
+}
+
+inline address_v4 address_v4::from_string(const std::string& str)
+{
+    return ip::make_address_v4(str);
+}
+
+inline address_v4 address_v4::from_string(const std::string& str, std::error_code& ec)
+{
+    return ip::make_address_v4(str, ec);
+}
 
 bool address_v4::is_loopback() const
 {
@@ -157,4 +182,4 @@ address_v4 make_address_v4( const std::string& str, std::error_code& ec)
 } // namespace network
 NS_FK_END
 
-#endif // LOSEMYMIND_IMPL_ADDRESS_V4_IPP
+#endif // END OF FOUNDATIONKIT_NETWORKING_ADDRESS_V4_IPP

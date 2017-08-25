@@ -1,7 +1,14 @@
-#ifndef LOSEMYMIND_WINSOCK_INIT_HPP
-#define LOSEMYMIND_WINSOCK_INIT_HPP
-# pragma once
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_WINSOCK_INIT_HPP
+#define FOUNDATIONKIT_NETWORKING_WINSOCK_INIT_HPP
+
 #include "FoundationKit/GenericPlatformMacros.hpp"
+#include "Networking/detail/config.hpp"
 
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 
@@ -17,9 +24,9 @@ protected:
     long init_count_;
     long result_;
   };
-  NETWORK_DECL static void startup(data& d, unsigned char major, unsigned char minor);
-  NETWORK_DECL static void cleanup(data& d);
-  NETWORK_DECL static void throw_on_error(data& d);
+  NETWORK_API static void startup(data& d, unsigned char major, unsigned char minor);
+  NETWORK_API static void cleanup(data& d);
+  NETWORK_API static void throw_on_error(data& d);
 };
 
 template <int Major = 2, int Minor = 0>
@@ -61,7 +68,8 @@ NS_FK_END
 
 #endif //TARGET_PLATFORM == PLATFORM_WINDOWS
 
-#endif // LOSEMYMIND_WINSOCK_INIT_HPP
 
 
 
+
+#endif // END OF FOUNDATIONKIT_NETWORKING_WINSOCK_INIT_HPP

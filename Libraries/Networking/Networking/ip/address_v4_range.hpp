@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_ADDRESS_V4_RANGE_HPP
-#define LOSEMYMIND_ADDRESS_V4_RANGE_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_ADDRESS_V4_RANGE_HPP
+#define FOUNDATIONKIT_NETWORKING_ADDRESS_V4_RANGE_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -114,6 +120,5 @@ typedef basic_address_range<address_v4> address_v4_range;
 } // namespace network
 
 NS_FK_END
-#endif // LOSEMYMIND_ADDRESS_V4_RANGE_HPP
 
-
+#endif // END OF FOUNDATIONKIT_NETWORKING_ADDRESS_V4_RANGE_HPP

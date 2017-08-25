@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_IMPL_ADDRESS_V6_IPP
-#define LOSEMYMIND_IMPL_ADDRESS_V6_IPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_ADDRESS_V6_IPP
+#define FOUNDATIONKIT_NETWORKING_ADDRESS_V6_IPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -94,6 +100,26 @@ std::string address_v6::to_string(std::error_code& ec) const
     if (addr == 0)
         return std::string();
     return addr;
+}
+
+inline address_v6 address_v6::from_string(const char* str)
+{
+    return make_address_v6(str);
+}
+
+inline address_v6 address_v6::from_string(const char* str, std::error_code& ec)
+{
+    return ip::make_address_v6(str, ec);
+}
+
+inline address_v6 address_v6::from_string(const std::string& str)
+{
+    return ip::make_address_v6(str);
+}
+
+inline address_v6 address_v6::from_string(const std::string& str, std::error_code& ec)
+{
+    return ip::make_address_v6(str, ec);
 }
 
 address_v4 address_v6::to_v4() const
@@ -291,6 +317,4 @@ address_v6 make_address_v6(v4_mapped_t, const address_v4& v4_addr)
 
 NS_FK_END
 
-#endif // LOSEMYMIND_IMPL_ADDRESS_V6_IPP
-
-
+#endif // END OF FOUNDATIONKIT_NETWORKING_ADDRESS_V6_IPP

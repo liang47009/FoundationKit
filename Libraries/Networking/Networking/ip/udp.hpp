@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_UDP_HPP
-#define LOSEMYMIND_UDP_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_UDP_HPP
+#define FOUNDATIONKIT_NETWORKING_UDP_HPP
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "Networking/basic_socket.hpp"
@@ -89,13 +95,5 @@ private:
 } // namespace ip
 } // namespace network
 NS_FK_END
-#endif // LOSEMYMIND_UDP_HPP
 
-
-
-
-
-
-
-
-
+#endif // END OF FOUNDATIONKIT_NETWORKING_UDP_HPP

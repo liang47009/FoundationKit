@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_DETAIL_IMPL_ENDPOINT_IPP
-#define LOSEMYMIND_DETAIL_IMPL_ENDPOINT_IPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_ENDPOINT_IPP
+#define FOUNDATIONKIT_NETWORKING_ENDPOINT_IPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -10,7 +16,7 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/error_code.hpp"
 #include "Networking/detail/socket_ops.hpp"
-#include "Networking/ip/impl/endpoint.hpp"
+#include "Networking/ip/endpoint.hpp"
 
 NS_FK_BEGIN
 namespace network{
@@ -159,6 +165,4 @@ std::string endpoint::to_string() const
 } //namespace network
 NS_FK_END
 
-#endif // LOSEMYMIND_DETAIL_IMPL_ENDPOINT_IPP
-
-
+#endif // END OF FOUNDATIONKIT_NETWORKING_ENDPOINT_IPP

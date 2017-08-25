@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_BAD_ADDRESS_CAST_HPP
-#define LOSEMYMIND_BAD_ADDRESS_CAST_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_BAD_ADDRESS_CAST_HPP
+#define FOUNDATIONKIT_NETWORKING_BAD_ADDRESS_CAST_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -30,5 +36,5 @@ public:
 } // namespace ip
 } // namespace network
 NS_FK_END
-#endif // LOSEMYMIND_BAD_ADDRESS_CAST_HPP
 
+#endif // END OF FOUNDATIONKIT_NETWORKING_BAD_ADDRESS_CAST_HPP

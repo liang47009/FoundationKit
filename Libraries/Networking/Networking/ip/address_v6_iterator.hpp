@@ -1,5 +1,11 @@
-#ifndef LOSEMYMIND_ADDRESS_V6_ITERATOR_HPP
-#define LOSEMYMIND_ADDRESS_V6_ITERATOR_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_ADDRESS_V6_ITERATOR_HPP
+#define FOUNDATIONKIT_NETWORKING_ADDRESS_V6_ITERATOR_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -163,6 +169,5 @@ typedef basic_address_iterator<address_v6> address_v6_iterator;
 } // namespace network
 NS_FK_END
 
-#endif // LOSEMYMIND_ADDRESS_V6_ITERATOR_HPP
-
+#endif // END OF FOUNDATIONKIT_NETWORKING_ADDRESS_V6_ITERATOR_HPP
 

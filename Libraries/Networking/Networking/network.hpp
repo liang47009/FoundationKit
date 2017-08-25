@@ -1,6 +1,11 @@
-#ifndef LOSEMYMIND_NETWORK_HPP
-#define LOSEMYMIND_NETWORK_HPP
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
+****************************************************************************/
+#ifndef FOUNDATIONKIT_NETWORKING_NETWORK_HPP
+#define FOUNDATIONKIT_NETWORKING_NETWORK_HPP
 
 //network::ip::tcp::socket    socketobj;
 //network::ip::tcp::endpoint endpoint(network::ip::address::from_string("127.0.0.1"), 8080);
@@ -14,4 +19,6 @@
 #include "Networking/ip/tcp.hpp"
 #include "Networking/ip/udp.hpp"
 
-#endif // LOSEMYMIND_NETWORK_HPP
+
+#endif // END OF FOUNDATIONKIT_NETWORKING_NETWORK_HPP
+
