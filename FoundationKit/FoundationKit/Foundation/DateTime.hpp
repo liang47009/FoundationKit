@@ -464,6 +464,15 @@ public:
 		return (_ticks - DateTime(1970, 1, 1)._ticks) / ETimespan::TicksPerSecond;
 	}
 
+    /**
+     * Gets the hash for the specified date and time.
+     *
+     * @return Hash value.
+     */
+    size_t GetHash()
+    {
+        return std::hash<int64>()(this->_ticks);
+    }
 public:
 
 	/**
@@ -638,6 +647,7 @@ public:
      * @return Date string
      */
     static std::string GetDateString();
+
     /**
      * Get the system time
      *
@@ -654,19 +664,6 @@ public:
     static std::string GetTimestampString();
 
     static uint64 GetTimeStamp();
-
-public:
-
-	/**
-	 * Gets the hash for the specified date and time.
-	 *
-	 * @return Hash value.
-	 */
-    size_t GetHash()
-	{
-        return std::hash<int64>()(this->_ticks);
-	}
-
 protected:
 
 	/** Holds the days per month in a non-leap year. */
