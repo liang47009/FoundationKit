@@ -71,25 +71,25 @@ public:
 
 private:
 
-    inline static void AddMatrix(const float* m, float scalar, float* dst);
+    static void AddMatrix(const float* m, float scalar, float* dst);
 
-    inline static void AddMatrix(const float* m1, const float* m2, float* dst);
+    static void AddMatrix(const float* m1, const float* m2, float* dst);
 
-    inline static void SubtractMatrix(const float* m1, const float* m2, float* dst);
+    static void SubtractMatrix(const float* m1, const float* m2, float* dst);
 
-    inline static void MultiplyMatrix(const float* m, float scalar, float* dst);
+    static void MultiplyMatrix(const float* m, float scalar, float* dst);
 
-    inline static void MultiplyMatrix(const float* m1, const float* m2, float* dst);
+    static void MultiplyMatrix(const float* m1, const float* m2, float* dst);
 
-    inline static void NegateMatrix(const float* m, float* dst);
+    static void NegateMatrix(const float* m, float* dst);
 
-    inline static void TransposeMatrix(const float* m, float* dst);
+    static void TransposeMatrix(const float* m, float* dst);
 
-    inline static void TransformVector4(const float* m, float x, float y, float z, float w, float* dst);
+    static void TransformVector4(const float* m, float x, float y, float z, float w, float* dst);
 
-    inline static void TransformVector4(const float* m, const float* v, float* dst);
+    static void TransformVector4(const float* m, const float* v, float* dst);
 
-    inline static void CrossVector3(const float* v1, const float* v2, float* dst);
+    static void CrossVector3(const float* v1, const float* v2, float* dst);
 
     MathUtil();
 };
@@ -115,7 +115,6 @@ NS_FK_END
 
 #if defined(INCLUDE_NEON32) && defined(USE_NEON32)
 #include "MathUtilNeon.inl"
-#error what fuck
 #else
 #include "MathUtil.inl"
 #endif
