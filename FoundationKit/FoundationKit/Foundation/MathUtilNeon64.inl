@@ -173,7 +173,7 @@ inline void MathUtil::TransposeMatrix(const float* m, float* dst)
     );
 }
 
-inline void MathUtil::TransformVec4(const float* m, float x, float y, float z, float w, float* dst)
+inline void MathUtil::TransformVector4(const float* m, float x, float y, float z, float w, float* dst)
 {
     asm volatile(
         "ld1    {v0.s}[0],        [%1]    \n\t"    // V[x]
@@ -197,7 +197,7 @@ inline void MathUtil::TransformVec4(const float* m, float x, float y, float z, f
     );
 }
 
-inline void MathUtil::TransformVec4(const float* m, const float* v, float* dst)
+inline void MathUtil::TransformVector4(const float* m, const float* v, float* dst)
 {
     asm volatile
     (
@@ -216,7 +216,7 @@ inline void MathUtil::TransformVec4(const float* m, const float* v, float* dst)
     );
 }
 
-inline void MathUtil::CrossVec3(const float* v1, const float* v2, float* dst)
+inline void MathUtil::CrossVector3(const float* v1, const float* v2, float* dst)
 {
         asm volatile(
         "ld1 {v0.2s},  [%2]           \n\t"

@@ -121,7 +121,6 @@ NS_FK_END
 #include "MathUtil.inl"
 #endif
 
-
 #endif // FOUNDATIONKIT_MATHUTIL_HPP
 
 

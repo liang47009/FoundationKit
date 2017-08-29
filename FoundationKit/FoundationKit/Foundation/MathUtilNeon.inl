@@ -31,7 +31,7 @@
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
-#ifdef USE_NEON
+#ifdef USE_NEON32
 
 NS_FK_BEGIN
 
@@ -262,7 +262,7 @@ inline void MathUtil::CrossVector3(const float* v1, const float* v2, float* dst)
 
 NS_FK_END
 
-#endif // #ifdef USE_NEON
+#endif // #ifdef USE_NEON32
 
 #endif // END OF FOUNDATIONKIT_MATHUTILNEON_INL
 

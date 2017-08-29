@@ -291,6 +291,8 @@
 		094C50DE1EC3FF1B00AB3021 /* libFoundationKit_Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundationKit_Mac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0977BAF61AB6CC31006BC260 /* libFoundationKit_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundationKit_iOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		098D2A4F1F555F590092E166 /* MathUtilNeon64.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MathUtilNeon64.inl; sourceTree = "<group>"; };
+		098D2A501F5560240092E166 /* forward.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = forward.hpp; sourceTree = "<group>"; };
 		09A0B2451F04EC2A00572DEB /* FunctionHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FunctionHandler.hpp; sourceTree = "<group>"; };
 		09A0B2461F04EC3300572DEB /* scope_guard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = scope_guard.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -327,6 +329,7 @@
 				093490461E7F7BA20034ECF2 /* GenericPlatformMacros.cpp */,
 				093490471E7F7BA20034ECF2 /* GenericPlatformMacros.hpp */,
 				093490481E7F7BA20034ECF2 /* LanguageFeatures.hpp */,
+				098D2A501F5560240092E166 /* forward.hpp */,
 				093490751E7F7BA20034ECF2 /* std */,
 				0941099E1F3C0787006D6F80 /* Platform */,
 			);
@@ -418,6 +421,7 @@
 		0934900A1E7F7BA20034ECF2 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				098D2A4F1F555F590092E166 /* MathUtilNeon64.inl */,
 				09320FC11F38524700063C11 /* ITickable.hpp */,
 				09320FBA1F31B3CF00063C11 /* Directory.hpp */,
 				09320FBB1F31B3CF00063C11 /* File.hpp */,
