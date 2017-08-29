@@ -931,7 +931,7 @@ public:
     {
         if ((_state & socket_ops::stream_oriented))
         {
-            LOG_ERROR("***** Not Implementation.");
+            FKLog("***** Not Implementation.");
         }
         else
         {
@@ -1018,7 +1018,7 @@ public:
     {
         if ((_state & socket_ops::stream_oriented))
         {
-            LOG_ERROR("***** Not Implementation.");
+            FKLog("***** Not Implementation.");
         }
         else
         {
@@ -1100,7 +1100,7 @@ public:
     {
         if ((_state & socket_ops::datagram_oriented))
         {
-            LOG_ERROR("***** Not Implementation.");
+            FKLog("***** Not Implementation.");
         }
         else
         {
@@ -1181,7 +1181,7 @@ public:
     {
         if ((_state & socket_ops::datagram_oriented))
         {
-            LOG_ERROR("***** Not Implementation.");
+            FKLog("***** Not Implementation.");
         }
         else
         {
@@ -1231,7 +1231,7 @@ public:
     {
         if ((_state & socket_ops::datagram_oriented))
         {
-            LOG_ERROR("***** Not Implementation.");
+            FKLog("***** Not Implementation.");
         }
         else
         {
@@ -1275,7 +1275,7 @@ public:
      */
     void async_wait(wait_type w, std::function<void(std::error_code)>& handler)
     {
-        LOG_ERROR("***** Not Implementation.");
+        FKLog("***** Not Implementation.");
     }
 
     /// asynchronous operation functions
@@ -1359,21 +1359,31 @@ public:
      */
     std::error_code wait(wait_type w, std::error_code& ec)
     {
-        switch (w)
+        // Check the status of the state
+        int32 SelectStatus = 0;
+        do 
         {
-        case socket_base::wait_read:
-            socket_ops::poll_read(native_handle(), _state, ec);
-            break;
-        case socket_base::wait_write:
-            socket_ops::poll_write(native_handle(), _state, ec);
-            break;
-        case socket_base::wait_error:
-            socket_ops::poll_error(native_handle(), _state, ec);
-            break;
-        default:
-            ec = std::errc::invalid_argument;
-            break;
-        }
+            switch (w)
+            {
+            case socket_base::wait_read:
+                SelectStatus = socket_ops::poll_read(native_handle(), _state, ec);
+                break;
+            case socket_base::wait_write:
+                SelectStatus = socket_ops::poll_write(native_handle(), _state, ec);
+                break;
+            case socket_base::wait_error:
+                SelectStatus = socket_ops::poll_error(native_handle(), _state, ec);
+                break;
+            default:
+                ec = std::errc::invalid_argument;
+                break;
+            }
+            if (SelectStatus < 0 || SelectStatus > 0)
+            {
+                break;
+            }
+
+        } while (SelectStatus == 0 );
         return ec;
     }
 
@@ -1805,9 +1815,7 @@ protected:
         // the socket had the state, 
         // 0 means didn't have it, 
         // and negative is API error condition (not socket's error state)
-        return SelectStatus > 0 ? state_return::Yes :
-            SelectStatus == 0 ? state_return::No :
-            state_return::EncounteredError;
+        return SelectStatus > 0 ? state_return::Yes :SelectStatus == 0 ? state_return::No : state_return::EncounteredError;
     }
 private:
 

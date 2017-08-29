@@ -973,7 +973,6 @@ namespace socket_ops
 #endif // (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)|| defined(__SYMBIAN32__)
     }
 
-
     const char* inet_ntop(int af, const void* src, char* dest, size_t length,
         unsigned long scope_id, std::error_code& ec)
     {
