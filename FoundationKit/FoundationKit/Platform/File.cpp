@@ -33,7 +33,7 @@ namespace detail
             fseek(FileHandle, 0, SEEK_END);
             size_t FileSize = ftell(FileHandle);
             fseek(FileHandle, 0, SEEK_SET);
-            FileAllBytes.reallocate(FileSize);
+            FileAllBytes.allocate(FileSize);
             fread(FileAllBytes.data(), 1, FileSize, FileHandle);
 
             fclose(FileHandle);

@@ -103,7 +103,7 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutablebuf& CompressedB
         stream.next_in           = static_cast<uint8*>(UncompressedBuffer.data());
         stream.avail_in          = static_cast<uInt>(uncompressedLength);
         mutablebuf tempData;
-        tempData.reallocate(uncompressedLength);
+        tempData.allocate(uncompressedLength);
         stream.next_out  = static_cast<uint8*>(tempData.data());;
         stream.avail_out = static_cast<uInt>(uncompressedLength);
         while ((status   = deflate(&stream, Z_FINISH)) == Z_OK);
@@ -112,7 +112,7 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutablebuf& CompressedB
             FKLog("compressMemory deflate error:%d, msg:%s", status, stream.msg);
             break;
         }
-        CompressedBuffer.reallocate(stream.total_out);
+        CompressedBuffer.allocate(stream.total_out);
         memcpy(CompressedBuffer.data(), tempData.data(), stream.total_out);
     } while (false);
     // Keep track of compression time and stats.
@@ -172,7 +172,7 @@ bool Compression::UncompressMemory(CompressionFlags Flags, mutablebuf& Uncompres
             FKLog("uncompressMemory doInflate error:%d, msg:%s", status, stream.msg);
             break;
         }
-        UncompressedBuffer.reallocate(stream.total_out);
+        UncompressedBuffer.allocate(stream.total_out);
         memcpy(UncompressedBuffer.data(), &UncompressedData[0], stream.total_out);
     } while (false);
 

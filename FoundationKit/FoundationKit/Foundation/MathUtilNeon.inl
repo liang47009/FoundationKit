@@ -35,7 +35,7 @@
 
 NS_FK_BEGIN
 
-void MathUtil::AddMatrix(const float* m, float scalar, float* dst)
+inline void MathUtil::AddMatrix(const float* m, float scalar, float* dst)
 {
     asm volatile(
         "vld1.32 {q0, q1}, [%1]!    \n\t" // M[m0-m7]
@@ -58,7 +58,7 @@ void MathUtil::AddMatrix(const float* m, float scalar, float* dst)
     );
 }
 
-void MathUtil::AddMatrix(const float* m1, const float* m2, float* dst)
+inline void MathUtil::AddMatrix(const float* m1, const float* m2, float* dst)
 {
     asm volatile(
         "vld1.32     {q0, q1},     [%1]! \n\t" // M1[m0-m7]
@@ -79,7 +79,7 @@ void MathUtil::AddMatrix(const float* m1, const float* m2, float* dst)
     );
 }
 
-void MathUtil::SubtractMatrix(const float* m1, const float* m2, float* dst)
+inline void MathUtil::SubtractMatrix(const float* m1, const float* m2, float* dst)
 {
     asm volatile(
         "vld1.32     {q0, q1},     [%1]!  \n\t" // M1[m0-m7]
@@ -100,7 +100,7 @@ void MathUtil::SubtractMatrix(const float* m1, const float* m2, float* dst)
     );
 }
 
-void MathUtil::MultiplyMatrix(const float* m, float scalar, float* dst)
+inline void MathUtil::MultiplyMatrix(const float* m, float scalar, float* dst)
 {
     asm volatile(
         "vld1.32     {d0[0]},         [%2]        \n\t" // M[m0-m7]
@@ -120,7 +120,7 @@ void MathUtil::MultiplyMatrix(const float* m, float scalar, float* dst)
     );
 }
 
-void MathUtil::MultiplyMatrix(const float* m1, const float* m2, float* dst)
+inline void MathUtil::MultiplyMatrix(const float* m1, const float* m2, float* dst)
 {
     asm volatile(
         "vld1.32     {d16 - d19}, [%1]! \n\t"       // M1[m0-m7]
@@ -157,7 +157,7 @@ void MathUtil::MultiplyMatrix(const float* m1, const float* m2, float* dst)
     );
 }
 
-void MathUtil::NegateMatrix(const float* m, float* dst)
+inline void MathUtil::NegateMatrix(const float* m, float* dst)
 {
     asm volatile(
         "vld1.32     {q0-q1},  [%1]!     \n\t" // load m0-m7
@@ -176,7 +176,7 @@ void MathUtil::NegateMatrix(const float* m, float* dst)
     );
 }
 
-void MathUtil::TransposeMatrix(const float* m, float* dst)
+inline void MathUtil::TransposeMatrix(const float* m, float* dst)
 {
     asm volatile(
         "vld4.32 {d0[0], d2[0], d4[0], d6[0]}, [%1]!    \n\t" // DST->M[m0, m4, m8, m12] = M[m0-m3]
@@ -192,7 +192,7 @@ void MathUtil::TransposeMatrix(const float* m, float* dst)
     );
 }
 
-void MathUtil::TransformVector4(const float* m, float x, float y, float z, float w, float* dst)
+inline void MathUtil::TransformVector4(const float* m, float x, float y, float z, float w, float* dst)
 {
     asm volatile(
         "vld1.32    {d0[0]},        [%1]    \n\t"    // V[x]
@@ -215,7 +215,7 @@ void MathUtil::TransformVector4(const float* m, float x, float y, float z, float
     );
 }
 
-void MathUtil::TransformVector4(const float* m, const float* v, float* dst)
+inline void MathUtil::TransformVector4(const float* m, const float* v, float* dst)
 {
     asm volatile
     (
@@ -235,7 +235,7 @@ void MathUtil::TransformVector4(const float* m, const float* v, float* dst)
     );
 }
 
-void MathUtil::CrossVector3(const float* v1, const float* v2, float* dst)
+inline void MathUtil::CrossVector3(const float* v1, const float* v2, float* dst)
 {
     asm volatile(
         "vld1.32 {d1[1]},  [%1]         \n\t" //

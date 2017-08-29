@@ -150,6 +150,7 @@ public:
 
 	void allocate(const size_type size)
 	{
+        deallocate();
 		_Ptr      = new value_type[size];
 		_Mysize   = size;
 		_bAlloced = true;
@@ -164,13 +165,6 @@ public:
 		_Mysize   = 0;
 		_bAlloced = false;
 	}
-
-
-    void reallocate(std::size_t size)
-    {
-		deallocate();
-		allocate(size);
-    }
 
     void assign(void* data, std::size_t size, bool need_del = false)
     {
