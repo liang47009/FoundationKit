@@ -91,7 +91,7 @@ private:
 
     inline static void CrossVector3(const float* v1, const float* v2, float* dst);
 
-    MathUtil();
+    MathUtil() {};
 };
 
 NS_FK_END
@@ -115,6 +115,8 @@ NS_FK_END
 
 #if defined(INCLUDE_NEON32) && defined(USE_NEON32)
 #include "MathUtilNeon.inl"
+#elif defined(INCLUDE_NEON64) && defined(USE_NEON64)
+#include "MathUtilNeon64.inl"
 #else
 #include "MathUtil.inl"
 #endif
