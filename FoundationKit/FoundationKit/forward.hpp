@@ -30,15 +30,19 @@
 #include <future>
 
 // common headers
+#include <FoundationKit/Base/algorithm.hpp>
 #include <FoundationKit/Base/basic_streambuf.hpp>
 #include <FoundationKit/Base/byte_swap.hpp>
 #include <FoundationKit/Base/error_code.hpp>
+#include <FoundationKit/Base/lexical_cast.hpp>
+#include <FoundationKit/Base/locale.hpp>
 #include <FoundationKit/Base/mutablebuf.hpp>
 #include <FoundationKit/Base/noncopyable.hpp>
 #include <FoundationKit/Base/nonmovable.hpp>
-#include <FoundationKit/Base/locale.hpp>
-#include <FoundationKit/Base/lexical_cast.hpp>
+#include <FoundationKit/Base/scope_guard.hpp>
+#include <FoundationKit/Base/string_builder.hpp>
 #include <FoundationKit/Base/types.hpp>
+#include <FoundationKit/Base/unique_id.hpp>
 
 #endif // FOUNDATIONKIT_FORWARD_HPP
 
