@@ -328,10 +328,10 @@
     <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformTLS.hpp">
       <Filter>Platform\Apple</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\AsyncTask.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\ThreadTimer.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\AsyncTask.hpp">
       <Filter>experimental</Filter>
     </ClInclude>
   </ItemGroup>
@@ -524,6 +524,9 @@
     </None>
     <None Include="..\FoundationKit\Platform\mac\MACPlatform.mm">
       <Filter>Platform\mac</Filter>
+    </None>
+    <None Include="..\FoundationKit\Foundation\MathUtilNeon64.inl">
+      <Filter>Foundation</Filter>
     </None>
   </ItemGroup>
 </Project>

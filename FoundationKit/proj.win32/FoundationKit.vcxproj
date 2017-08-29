@@ -199,6 +199,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\urlencode.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\AsyncTask.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\BehaviourTree.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\BehaviourTreeTest.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\ThreadTimer.hpp" />
@@ -218,7 +219,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Foundation\Exception.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\File.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\FunctionHandler.hpp" />
-    <ClInclude Include="..\FoundationKit\Foundation\AsyncTask.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\ITickable.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\MathContent.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Math.hpp" />
@@ -323,6 +323,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
   <ItemGroup>
     <None Include="..\FoundationKit\Foundation\MathUtil.inl" />
     <None Include="..\FoundationKit\Foundation\MathUtilNeon.inl" />
+    <None Include="..\FoundationKit\Foundation\MathUtilNeon64.inl" />
     <None Include="..\FoundationKit\Foundation\Matrix.inl" />
     <None Include="..\FoundationKit\Foundation\Value.inl" />
     <None Include="..\FoundationKit\Foundation\Vector2.inl" />
