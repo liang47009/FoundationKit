@@ -71,15 +71,20 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
 	HTTPClient::GetInstance()->Initialize();
 
-    network::ip::tcp::socket _socket;
+    auto requestptr = HTTPRequest::Create();
+    for (int i = 0; i < 100; ++i)
+    {
+        HTTPClient::GetInstance()->PostRequest(requestptr);
+    }
 
-
+   
 	int im_a_breakpoint = 0;
 	return true;
 }

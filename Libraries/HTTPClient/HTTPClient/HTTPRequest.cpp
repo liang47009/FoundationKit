@@ -334,10 +334,9 @@ bool HTTPRequest::Build()
         return false;
     }
     // Nothing to do without a valid URL
-    else if (Url.empty())
+    if (Url.empty())
     {
         FKLog("Cannot process HTTP request: URL is empty");
-        return false;
     }
 
     bCompleted = false;

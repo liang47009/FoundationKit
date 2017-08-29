@@ -11,33 +11,28 @@ USING_NS_FK;
 bool bCanExit = false;
 static std::atomic<int> command = -1;
 static std::atomic<bool> bCreateCmd = false;
-void createCommand()
-{
-    if (bCreateCmd)
-    {
-        return;
-    }
-    bCreateCmd = true;
-    std::thread th([&](){
-        int nCmd = -1;
-        std::cin >> nCmd;
-        command = nCmd;
-        bCreateCmd = false;
-    });
-    th.detach();
-}
+
+
 
 int wmain()
 {
     std::error_code ec;
     std::string strError = ec.message();
 
+    std::thread th([&]() {
+        do 
+        {
+            int nCmd = -1;
+            std::cin >> nCmd;
+            command = nCmd;
+        } while (command != 0);
+    });
+
     AppDelegate app;
     Application::getInstance()->applicationDidLaunching();
     Application::getInstance()->applicationDidFinishLaunching();
     while (true)
     {
-        createCommand();
         switch (command)
         {
         case 0:
@@ -48,18 +43,22 @@ int wmain()
         default:
             break;
         }
-
         command = -1;
+        Application::getInstance()->mainLoop();
+        std::this_thread::sleep_for(std::chrono::milliseconds(16));
 
         if (bCanExit)
         {
             break;
         }
-        
-        Application::getInstance()->mainLoop();
-        std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
     Application::getInstance()->applicationWillTerminate();
+
+    if (th.joinable())
+    {
+        th.join();
+    }
+
     return 0;
 }
 

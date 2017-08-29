@@ -228,6 +228,8 @@ HTTPClient::~HTTPClient()
     std::lock_guard<std::mutex> lockRequest(HandlesToRequestsMutex);
     for (RequestMap::iterator iter = HandlesToRequests.begin(); iter != HandlesToRequests.end();)
     {
+        iter->second->Cancel();
+        iter->second->OnTick(0.0f);
         curl_multi_remove_handle(MultiHandle, iter->second->GetEasyHandle());
         iter = HandlesToRequests.erase(iter);
     }

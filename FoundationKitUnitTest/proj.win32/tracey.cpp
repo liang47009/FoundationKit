@@ -3258,7 +3258,8 @@ namespace tracey
 
 		std::string get_temp_pathfile() {
 			$windows(
-				std::string path = std::string( std::getenv("TEMP") ? std::getenv("TEMP") : "." ) + std::tmpnam(0);
+				//std::string path = std::string( std::getenv("TEMP") ? std::getenv("TEMP") : "." ) + std::tmpnam(0);
+                std::string path = std::tmpnam(0);
 				while( path.size() && path.at( path.size() - 1 ) == '.' ) path.resize( path.size() - 1 );
 				return path;
 			)
