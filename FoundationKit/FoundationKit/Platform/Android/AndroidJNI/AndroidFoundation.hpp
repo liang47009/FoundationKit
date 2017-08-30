@@ -22,38 +22,45 @@ NS_FK_BEGIN
 namespace AndroidNode{
 
 //Compile Time String
-template <char... Cs> struct CompileTimeString
+template <char... Chars> struct CompileTimeString
 {
     static const char * value()
     {
-        static const char a[sizeof...(Cs)] = { Cs... };
-        return a;
+        static const char _chararray[sizeof...(Chars)] = { Chars... };
+        return _chararray;
     }
 };
 
-//Concatenate 2 Strings
-template <class L, class R> struct Concatenate2;
+//CombineString 2 Strings
+template <class L, class R> 
+struct CombineStringImpl;
+
 template <char... LC, char... RC>
-struct Concatenate2 < CompileTimeString<LC...>, CompileTimeString<RC...> >
+struct CombineStringImpl < CompileTimeString<LC...>, CompileTimeString<RC...> >
 {
     using Result = CompileTimeString < LC..., RC... >;
 };
-//Concatenate N strings
-template <typename ...C> struct Concatenate;
 
-template <typename C1> struct Concatenate < C1 >
+//CombineString N strings
+template <typename ...C> 
+struct CombineString;
+
+template <typename C1> 
+struct CombineString < C1 >
 {
     using Result = C1;
 };
 
-template <typename C1, typename C2> struct Concatenate < C1, C2 >
+template <typename C1, typename C2> 
+struct CombineString < C1, C2 >
 {
-    using Result = typename Concatenate2<C1, C2>::Result;
+    using Result = typename CombineStringImpl<C1, C2>::Result;
 };
 
-template <typename C1, typename ...C> struct Concatenate < C1, C... >
+template <typename C1, typename ...C> 
+struct CombineString < C1, C... >
 {
-    using Result = typename Concatenate2<C1, typename Concatenate<C...>::Result>::Result;
+    using Result = typename CombineStringImpl<C1, typename CombineString<C...>::Result>::Result;
 };
 
 //=======================================================================
@@ -1342,7 +1349,7 @@ struct JNICaller<const char*, Args...> : public JNICaller<std::string, Args...>{
 template <typename T, typename... Args>
 const char * GetJNISignature(Args...)
 {
-    return Concatenate < 
+    return CombineString < 
         CompileTimeString<'('>,  //left parenthesis
         typename CPPToJNI<typename std::decay<Args>::type>::FunSig...,      //params signature
         CompileTimeString<')'>,  //right parenthesis
@@ -1441,7 +1448,7 @@ T GetField(jobject instance, const std::string & fieldName, std::string sig = ""
     std::string signature = sig;
     if (signature.empty())
     {
-        signature = Concatenate<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
+        signature = CombineString<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
     }
     jfieldID fid = jniEnv->GetFieldID(clazz, fieldName.c_str(), signature.c_str());
     jniEnv->DeleteLocalRef(clazz);
@@ -1468,7 +1475,7 @@ T GetFieldStatic(jclass clazz, const std::string & fieldName, std::string sig = 
     JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
     std::string signature = sig;
     if (signature.empty())
-        signature = Concatenate<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
+        signature = CombineString<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
     else
         std::replace(signature.begin(), signature.end(), '.', '/');
     jfieldID fid = jniEnv->GetStaticFieldID(clazz, fieldName.c_str(), signature.c_str());
@@ -1514,7 +1521,7 @@ void SetField(jobject instance, const std::string& fieldName, T fieldValue, std:
     std::string signature = sig;
     if (signature.empty())
     {
-        signature = Concatenate<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
+        signature = CombineString<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
     }
     jfieldID fid = jniEnv->GetFieldID(clazz, fieldName.c_str(), signature.c_str());
     jniEnv->DeleteLocalRef(clazz);
@@ -1542,7 +1549,7 @@ void SetFieldStatic(jclass clazz, const std::string& fieldName, T fieldValue, st
     std::string signature = sig;
     if (signature.empty())
     {
-        signature = Concatenate<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
+        signature = CombineString<typename CPPToJNI<typename std::decay<T>::type>::FunSig, CompileTimeString < '\0' > > ::Result::value();
     }
     jfieldID fid = jniEnv->GetStaticFieldID(clazz, fieldName.c_str(), signature.c_str());
     JNICaller<typename std::decay<T>::type>::setFieldStatic(jniEnv, clazz, fid, CPPToJNI<typename std::decay<T>::type>::convert(fieldValue));
