@@ -104,8 +104,10 @@ LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
 LOCAL_EXPORT_LDLIBS := $(LOCAL_EXPORT_LDLIBS)
 
 #Reduce Binaries Size
-LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections -fvisibility=hidden
-LOCAL_CFLAGS   += -ffunction-sections -fdata-sections -fvisibility=hidden 
+# LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections -fvisibility=hidden
+# LOCAL_CFLAGS   += -ffunction-sections -fdata-sections -fvisibility=hidden 
+LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
+LOCAL_CFLAGS   += -ffunction-sections -fdata-sections
 LOCAL_LDFLAGS  += -Wl,--gc-sections
 
 #Add cpufeatures library

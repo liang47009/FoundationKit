@@ -160,6 +160,10 @@
     #error Unknown platform
 #endif
 
+// Enable in C++14
+//#undef DEPRECATED
+//#define DEPRECATED(VERSION, MESSAGE) [[deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")]]
+
 #ifndef MS_ALIGN
 #define MS_ALIGN(n)
 #endif // !MS_ALIGN

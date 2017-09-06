@@ -334,6 +334,9 @@
     <ClInclude Include="..\FoundationKit\experimental\AsyncTask.hpp">
       <Filter>experimental</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\string_encoding.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

@@ -48,7 +48,9 @@
 #include "FoundationKit/Base/string_builder.hpp"
 #include "FoundationKit/Base/locale.hpp"
 #include "FoundationKit/Base/unique_id.hpp"
+#include "FoundationKit/Base/string_encoding.hpp"
 #include "../Libraries/Networking/Networking/network.hpp"
+
 using namespace std;
 USING_NS_FK;
 
@@ -78,11 +80,10 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::string strErr = ec.message();
 	HTTPClient::GetInstance()->Initialize();
 
-    auto requestptr = HTTPRequest::Create();
-    for (int i = 0; i < 100; ++i)
-    {
-        HTTPClient::GetInstance()->PostRequest(requestptr);
-    }
+
+
+    std::string FileContext = File::ReadAllText("F:\\Projects\\TaijiPanda3\\code\\mobile\\amber_mobil_crossx.sln");
+
 
    
 	int im_a_breakpoint = 0;
