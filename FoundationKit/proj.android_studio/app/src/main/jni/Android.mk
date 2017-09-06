@@ -19,13 +19,11 @@ $(SRCROOT)/FoundationKit/Foundation/Compression.cpp \
 $(SRCROOT)/FoundationKit/Foundation/DateTime.cpp \
 $(SRCROOT)/FoundationKit/Foundation/DelegateManager.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Exception.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Logger.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Math.cpp \
 $(SRCROOT)/FoundationKit/Foundation/MathUtil.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Matrix.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Quaternion.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Rect.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Size.cpp \
 $(SRCROOT)/FoundationKit/Foundation/StringUtils.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Timer.cpp \
 $(SRCROOT)/FoundationKit/Foundation/TimerQueue.cpp \
@@ -36,17 +34,19 @@ $(SRCROOT)/FoundationKit/Foundation/Vector4.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Version.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Value.cpp \
 $(SRCROOT)/FoundationKit/GenericPlatformMacros.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidBridge.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidJavaBridge.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/EnvironmentAndroid.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/FileUtilsAndroid.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/PlatformAndroid.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/PlatformDevice.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/ProtectedMemoryAllocator.cpp \
-$(SRCROOT)/FoundationKit/Platform/FileUtils.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidDirectory.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidEnvironment.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidFile.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidPath.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidPlatform.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidDevice.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidProtectedMemoryAllocator.cpp \
+$(SRCROOT)/FoundationKit/Platform/Directory.cpp \
+$(SRCROOT)/FoundationKit/Platform/File.cpp \
+$(SRCROOT)/FoundationKit/Platform/Path.cpp \
 $(SRCROOT)/FoundationKit/Platform/Platform.cpp \
-
 
 LOCAL_C_INCLUDES := \
 $(PROJECT_DIR)/ \
@@ -60,36 +60,63 @@ $(PROJECT_DIR)/FoundationKit/external/unzip \
 $(PROJECT_DIR)/../ThirdParty/spdlog/include \
 cpufeatures/
 
-LOCAL_CFLAGS :=  -DUSE_FILE32API -DANDROID
-LOCAL_EXPORT_CFLAGS := -DUSE_FILE32API -DANDROID
+LOCAL_SHORT_COMMANDS := true
 
-LOCAL_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++11 -DUSE_FILE32API -DANDROID
-LOCAL_EXPORT_CPPFLAGS   := -frtti -fexceptions -fsigned-char -std=c++11 -DUSE_FILE32API -DANDROID
+TARGET_LOCAL_CFLAGS := \
+-fexceptions
+
+TARGET_LOCAL_CPPFLAGS := \
+-frtti \
+-fexceptions \
+-fsigned-char \
+-std=c++11 \
+-Wno-deprecated-declarations \
+-DUSE_FILE32API \
+-DANDROID
+
+TARGET_LOCAL_LDLIBS := \
+-latomic \
+-landroid \
+-llog \
+-lz \
+-lEGL \
+-lGLESv1_CM \
+-lGLESv2
 
 ifeq ($(NDK_DEBUG),1)
-  LOCAL_CPPFLAGS += -DDEBUG
-  LOCAL_EXPORT_CPPFLAGS += -DDEBUG
+  TARGET_LOCAL_CFLAGS += -DDEBUG
+  TARGET_LOCAL_CPPFLAGS += -DDEBUG
 else
-  LOCAL_CPPFLAGS += -DNDEBUG
-  LOCAL_EXPORT_CPPFLAGS += -DNDEBUG
+  TARGET_LOCAL_CFLAGS += -DNDEBUG
+  TARGET_LOCAL_CPPFLAGS += -DNDEBUG
 endif
 
 ifeq (armeabi-v7a,$(TARGET_ARCH_ABI))
-LOCAL_EXPORT_CPPFLAGS += -DUSE_NEON
+TARGET_LOCAL_CPPFLAGS += -DUSE_NEON
 endif
 
-LOCAL_LDLIBS     := -landroid -llog -lz -lEGL -lGLESv1_CM -lGLESv2 -lc
-LOCAL_EXPORT_LDLIBS     := -landroid -llog -lz -lEGL -lGLESv1_CM -lGLESv2
 
-LOCAL_STATIC_LIBRARIES += cpufeatures androidjni
-#LOCAL_WHOLE_STATIC_LIBRARIES += androidjni
+LOCAL_CFLAGS := $(TARGET_LOCAL_CFLAG)
+LOCAL_CPPFLAGS := $(TARGET_LOCAL_CPPFLAGS)
+LOCAL_LDLIBS     := $(TARGET_LOCAL_LDLIBS)
+LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
+LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
+LOCAL_EXPORT_LDLIBS := $(LOCAL_EXPORT_LDLIBS)
 
-#include $(BUILD_STATIC_LIBRARY)
+#Reduce Binaries Size
+# LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections -fvisibility=hidden
+# LOCAL_CFLAGS   += -ffunction-sections -fdata-sections -fvisibility=hidden 
+LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
+LOCAL_CFLAGS   += -ffunction-sections -fdata-sections
+LOCAL_LDFLAGS  += -Wl,--gc-sections
+
+#Add cpufeatures library
+LOCAL_STATIC_LIBRARIES += cpufeatures
 include $(BUILD_SHARED_LIBRARY)
+#LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
+#include $(BUILD_STATIC_LIBRARY)
 $(call import-add-path,$(PROJECT_DIR)/FoundationKit)
 $(call import-module,android/cpufeatures)
-$(call import-module,Platform/Android/AndroidJNI)
-
 
 #==============================================================
 $(info ----------------- Compile libfoundationkit infomation -------------------)

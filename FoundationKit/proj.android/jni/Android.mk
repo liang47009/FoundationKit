@@ -69,7 +69,7 @@ TARGET_LOCAL_CPPFLAGS := \
 -frtti \
 -fexceptions \
 -fsigned-char \
--std=c++11 \
+-std=c++14 \
 -Wno-deprecated-declarations \
 -DUSE_FILE32API \
 -DANDROID
