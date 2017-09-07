@@ -84,8 +84,6 @@ TARGET_LOCAL_LDLIBS := \
 -landroid \
 -llog \
 -lz \
--lEGL \
--lGLESv1_CM \
 -lGLESv2
 
 ifeq ($(NDK_DEBUG),1)
