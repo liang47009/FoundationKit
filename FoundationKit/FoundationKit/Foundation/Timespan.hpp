@@ -21,10 +21,12 @@ NS_FK_BEGIN
 
 namespace ETimespan
 {
+#if (__cplusplus == 201402L)
+
 	/** The number of timespan ticks per millisecond. */
-    static const int64 TicksPerMillisecond = 100'00;
+    static const int64 TicksPerMillisecond = 10'000;
     /** The number of timespan ticks per second. */
-    static const int64 TicksPerSecond      = 100'000'00;
+    static const int64 TicksPerSecond      = 10'000'000;
 	/** The number of timespan ticks per minute. */
     static const int64 TicksPerMinute      = 600'000'000;
     /** The number of timespan ticks per hour. */
@@ -33,6 +35,20 @@ namespace ETimespan
     static const int64 TicksPerDay         = 864'000'000'000;
 	/** The number of timespan ticks per week. */
     static const int64 TicksPerWeek        = 6'048'000'000'000;
+#else
+    /** The number of timespan ticks per millisecond. */
+    static const int64 TicksPerMillisecond = 10000;
+    /** The number of timespan ticks per second. */
+    static const int64 TicksPerSecond      = 10000000;
+    /** The number of timespan ticks per minute. */
+    static const int64 TicksPerMinute      = 600000000;
+    /** The number of timespan ticks per hour. */
+    static const int64 TicksPerHour        = 36000000000;
+    /** The number of timespan ticks per day. */
+    static const int64 TicksPerDay         = 864000000000;
+    /** The number of timespan ticks per week. */
+    static const int64 TicksPerWeek        = 6048000000000;
+#endif
 }
 
 
