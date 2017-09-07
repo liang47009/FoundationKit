@@ -1,6 +1,11 @@
 
 LOCAL_PATH := $(call my-dir)
 
+# include $(CLEAR_VARS)
+# LOCAL_MODULE    := libfoundationkit
+# LOCAL_SRC_FILES := ../../../../../../ThirdParty/android/libs/$(TARGET_ARCH_ABI)/libfoundationkit.so
+# include $(PREBUILT_SHARED_LIBRARY)
+
 include $(CLEAR_VARS)
 SRCROOT := ../..
 PROJECT_DIR=$(LOCAL_PATH)/../..
