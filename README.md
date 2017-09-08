@@ -19,3 +19,8 @@ libz.1.2.5.tbd
 Other
 I like these word.
 Transmission
+
+
+Other info:
+http://screensiz.es/phone
+
