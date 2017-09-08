@@ -17,21 +17,48 @@
 
 NS_FK_BEGIN
 
-
-enum class PlatformType
+enum class TargetPlatform
 {
+    // Unknown target platform
+    Unknown,
+
+    // 32-bit Windows
     Win32,
+
+    // 64-bit Windows
     Win64,
+
+    // Mac
     Mac,
-    IOS,
-    Linux,
-    Android,
-    TVOS,
-    HTML5,
+
+    // XboxOne
     XboxOne,
+
+    // Playstation 4
     PS4,
+
+    // iOS
+    IOS,
+
+    // Android
+    Android,
+
+    // HTML5
+    HTML5,
+
+    // Linux
+    Linux,
+
+    // All desktop platforms
+    AllDesktop,
+
+    // TVOS
+    TVOS,
+
+    // Nintendo Switch
     Switch,
 };
+
 
 class Platform
 {
