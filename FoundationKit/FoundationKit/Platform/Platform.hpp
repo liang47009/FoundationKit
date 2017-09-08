@@ -17,6 +17,22 @@
 
 NS_FK_BEGIN
 
+
+enum class PlatformType
+{
+    Win32,
+    Win64,
+    Mac,
+    IOS,
+    Linux,
+    Android,
+    TVOS,
+    HTML5,
+    XboxOne,
+    PS4,
+    Switch,
+};
+
 class Platform
 {
 public:

@@ -10,88 +10,37 @@ losemymind.libo@gmail.com
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
+#include "FoundationKit/Foundation/Time.hpp"
 
 NS_FK_BEGIN
 
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
 /** Returns the system time. */
 void SystemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
-    SYSTEMTIME st;
-    // localtime_s
-    GetLocalTime(&st);
-    year      = st.wYear;
-    month     = st.wMonth;
-    dayOfWeek = st.wDayOfWeek;
-    day       = st.wDay;
-    hour      = st.wHour;
-    min       = st.wMinute;
-    sec       = st.wSecond;
-    msec      = st.wMilliseconds;
+    Time::TimeDate td = Time::GetSystemTime();
+    year              = td.Year;
+    month             = td.Month;
+    dayOfWeek         = td.DayOfWeek;
+    day               = td.Day;
+    hour              = td.Hour;
+    min               = td.Minute;
+    sec               = td.Second;
+    msec              = td.Milliseconds;
 }
 
 /** Returns the UTC time. */
 void UtcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
-    SYSTEMTIME st;
-    //gmtime_s
-    GetSystemTime(&st);
-    year      = st.wYear;
-    month     = st.wMonth;
-    dayOfWeek = st.wDayOfWeek;
-    day       = st.wDay;
-    hour      = st.wHour;
-    min       = st.wMinute;
-    sec       = st.wSecond;
-    msec      = st.wMilliseconds;
+    Time::TimeDate td = Time::GetUTCTime();
+    year              = td.Year;
+    month             = td.Month;
+    dayOfWeek         = td.DayOfWeek;
+    day               = td.Day;
+    hour              = td.Hour;
+    min               = td.Minute;
+    sec               = td.Second;
+    msec              = td.Milliseconds;
 }
-#elif (TARGET_PLATFORM == PLATFORM_ANDROID) ||(TARGET_PLATFORM == PLATFORM_IOS) ||((TARGET_PLATFORM == PLATFORM_MAC))
-#include <sys/time.h>
-/** Returns the system time. */
-void SystemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
-{
-    // query for calendar time
-    struct timeval tmVal;
-    gettimeofday(&tmVal, NULL);
-
-    // convert it to local time
-    struct tm localTime;
-    localtime_r(&tmVal.tv_sec, &localTime);
-
-    // pull out data/time
-    year      = localTime.tm_year + 1900;
-    month     = localTime.tm_mon + 1;
-    dayOfWeek = localTime.tm_wday;
-    day       = localTime.tm_mday;
-    hour      = localTime.tm_hour;
-    min       = localTime.tm_min;
-    sec       = localTime.tm_sec;
-    msec      = tmVal.tv_usec / 1000;
-    
-}
-
-/** Returns the UTC time. */
-void UtcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
-{
-    // query for calendar time
-    struct timeval tmVal;
-    gettimeofday(&tmVal, NULL);
-
-    // convert it to UTC
-    struct tm utcTime;
-    gmtime_r(&tmVal.tv_sec, &utcTime);
-
-    // pull out data/time
-    year      = utcTime.tm_year + 1900;
-    month     = utcTime.tm_mon + 1;
-    dayOfWeek = utcTime.tm_wday;
-    day       = utcTime.tm_mday;
-    hour      = utcTime.tm_hour;
-    min       = utcTime.tm_min;
-    sec       = utcTime.tm_sec;
-    msec      = tmVal.tv_usec / 1000;
-}
-#endif
 
 /* DateTime constants
  *****************************************************************************/
@@ -124,11 +73,11 @@ DateTime::DateTime( int32 year, int32 month, int32 day, int32 hour, int32 minute
     totalDays += DaysToMonth[month];				// days in this year up to last month
     totalDays += day - 1;							// days in this month minus today
 
-    _ticks = totalDays   * ETimespan::TicksPerDay
-           + hour        * ETimespan::TicksPerHour
-           + minute      * ETimespan::TicksPerMinute
-           + second      * ETimespan::TicksPerSecond
-           + millisecond * ETimespan::TicksPerMillisecond;
+    _ticks = totalDays   * Time::TicksPerDay
+           + hour        * Time::TicksPerHour
+           + minute      * Time::TicksPerMinute
+           + second      * Time::TicksPerSecond
+           + millisecond * Time::TicksPerMillisecond;
 }
 
 
@@ -163,7 +112,7 @@ int32 DateTime::GetDay() const
 EDayOfWeek DateTime::GetDayOfWeek() const
 {
 	// January 1, 0001 was a Monday
-	return static_cast<EDayOfWeek>((_ticks / ETimespan::TicksPerDay) % 7);
+	return static_cast<EDayOfWeek>((_ticks / Time::TicksPerDay) % 7);
 }
 
 
@@ -538,29 +487,6 @@ std::string DateTime::GetTimestampString()
     timestamp += " ";
     timestamp += GetTimeString();
     return timestamp;
-}
-
-uint64 DateTime::GetTimeStamp()
-{
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
-    FILETIME filetime;
-    uint64 time = 0;
-    GetSystemTimeAsFileTime(&filetime);
-    time |= filetime.dwHighDateTime;
-    time <<= 32;
-    time |= filetime.dwLowDateTime;
-    time /= 10;
-    time -= 11644473600000000Ui64;
-    time /= 1000;
-    return time;
-#else
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    uint64 time = tv.tv_usec;
-    time /= 1000;
-    time += (tv.tv_sec * 1000);
-    return time;
-#endif
 }
 
 NS_FK_END

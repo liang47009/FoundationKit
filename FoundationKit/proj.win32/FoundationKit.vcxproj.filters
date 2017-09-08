@@ -31,9 +31,6 @@
     <Filter Include="std">
       <UniqueIdentifier>{113270e5-ac52-439c-a315-9677c3f83638}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Platform\windows\system">
-      <UniqueIdentifier>{bef2ae3c-6bfc-4e28-9173-943161f875f6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="experimental">
       <UniqueIdentifier>{77ba71ed-6746-4d2a-8085-4d7e997e5f01}</UniqueIdentifier>
     </Filter>
@@ -51,6 +48,9 @@
     </Filter>
     <Filter Include="Platform\mac">
       <UniqueIdentifier>{2065263b-45a1-44a2-a138-ef45432fbf0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\windows\sys">
+      <UniqueIdentifier>{bef2ae3c-6bfc-4e28-9173-943161f875f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +113,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\std\function_cache.hpp">
       <Filter>std</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\windows\system\dirent.h">
-      <Filter>Platform\windows\system</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\std\match.hpp">
       <Filter>std</Filter>
@@ -337,6 +334,15 @@
     <ClInclude Include="..\FoundationKit\Base\string_encoding.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Time.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\windows\sys\dirent.h">
+      <Filter>Platform\windows\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.hpp">
+      <Filter>Platform\windows\sys</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
@@ -477,6 +483,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidProtectedMemoryAllocator.cpp">
       <Filter>Platform\Android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Time.cpp">
+      <Filter>Foundation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

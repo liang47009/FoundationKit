@@ -67,31 +67,31 @@ std::string Timespan::ToString( const char* format ) const
 Timespan Timespan::FromDays( double days )
 {
     ASSERTED((days >= MinValue().GetTotalDays()) && (days <= MaxValue().GetTotalDays()), "The days param invalid.");
-    return Timespan(static_cast<int64>(days * ETimespan::TicksPerDay));
+    return Timespan(static_cast<int64>(days * Time::TicksPerDay));
 }
 
 Timespan Timespan::FromHours( double hours )
 {
     ASSERTED((hours >= MinValue().GetTotalHours()) && (hours <= MaxValue().GetTotalHours()), "The hours param invalid.");
-    return Timespan(static_cast<int64>(hours * ETimespan::TicksPerHour));
+    return Timespan(static_cast<int64>(hours * Time::TicksPerHour));
 }
 
 Timespan Timespan::FromMinutes(double minutes)
 {
     ASSERTED((minutes >= MinValue().GetTotalMinutes()) && (minutes <= MaxValue().GetTotalMinutes()), "The minutes param invalid.");
-    return Timespan(static_cast<int64>(minutes * ETimespan::TicksPerMinute));
+    return Timespan(static_cast<int64>(minutes * Time::TicksPerMinute));
 }
 
 Timespan Timespan::FromSeconds(double seconds)
 {
     ASSERTED((seconds >= MinValue().GetTotalSeconds()) && (seconds <= MaxValue().GetTotalSeconds()), "The seconds param invalid.");
-    return Timespan(static_cast<int64>(seconds * ETimespan::TicksPerSecond));
+    return Timespan(static_cast<int64>(seconds * Time::TicksPerSecond));
 }
 
 Timespan Timespan::FromMilliseconds( double milliseconds )
 {
     ASSERTED((milliseconds >= MinValue().GetTotalMilliseconds()) && (milliseconds <= MaxValue().GetTotalMilliseconds()), "The milliseconds param invalid.");
-    return Timespan(static_cast<int64>(milliseconds * ETimespan::TicksPerMillisecond));
+    return Timespan(static_cast<int64>(milliseconds * Time::TicksPerMillisecond));
 }
 
 
@@ -129,7 +129,7 @@ void Timespan::Assign( int32 days, int32 hours, int32 minutes, int32 seconds, in
 {
     int64 totalms = 1000 * (60 * 60 * 24 * (int64)days + 60 * 60 * (int64)hours + 60 * (int64)minutes + (int64)seconds) + (int64)milliseconds;
     ASSERTED((totalms >= MinValue().GetTotalMilliseconds()) && (totalms <= MaxValue().GetTotalMilliseconds()), "Total millisecond is invalid.");
-	_ticks = totalms * ETimespan::TicksPerMillisecond;
+	_ticks = totalms * Time::TicksPerMillisecond;
 }
 
 NS_FK_END

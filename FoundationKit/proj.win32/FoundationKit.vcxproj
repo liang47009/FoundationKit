@@ -233,6 +233,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Foundation\Singleton.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Size.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Time.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Timer.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\TimerQueue.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Timespan.hpp" />
@@ -260,7 +261,8 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\PlatformDevice.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\ProtectedMemoryAllocator.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\windows\system\dirent.h" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\sys\dirent.h" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\std\contains_of_type.hpp" />
     <ClInclude Include="..\FoundationKit\std\disable_if.hpp" />
@@ -291,6 +293,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClCompile Include="..\FoundationKit\Foundation\Quaternion.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Rect.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Time.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Timer.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\TimerQueue.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Timespan.cpp" />

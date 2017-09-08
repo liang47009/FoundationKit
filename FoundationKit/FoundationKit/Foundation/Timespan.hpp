@@ -16,41 +16,9 @@
 #include <chrono>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/types.hpp"
+#include "FoundationKit/Foundation/Time.hpp"
 
 NS_FK_BEGIN
-
-namespace ETimespan
-{
-#if (__cplusplus == 201402L)
-
-	/** The number of timespan ticks per millisecond. */
-    static const int64 TicksPerMillisecond = 10'000;
-    /** The number of timespan ticks per second. */
-    static const int64 TicksPerSecond      = 10'000'000;
-	/** The number of timespan ticks per minute. */
-    static const int64 TicksPerMinute      = 600'000'000;
-    /** The number of timespan ticks per hour. */
-    static const int64 TicksPerHour        = 36'000'000'000;
-    /** The number of timespan ticks per day. */
-    static const int64 TicksPerDay         = 864'000'000'000;
-	/** The number of timespan ticks per week. */
-    static const int64 TicksPerWeek        = 6'048'000'000'000;
-#else
-    /** The number of timespan ticks per millisecond. */
-    static const int64 TicksPerMillisecond = 10000;
-    /** The number of timespan ticks per second. */
-    static const int64 TicksPerSecond      = 10000000;
-    /** The number of timespan ticks per minute. */
-    static const int64 TicksPerMinute      = 600000000;
-    /** The number of timespan ticks per hour. */
-    static const int64 TicksPerHour        = 36000000000;
-    /** The number of timespan ticks per day. */
-    static const int64 TicksPerDay         = 864000000000;
-    /** The number of timespan ticks per week. */
-    static const int64 TicksPerWeek        = 6048000000000;
-#endif
-}
-
 
 /**
  * Implements a time span.
@@ -290,7 +258,7 @@ public:
     */
     int32 GetDays() const
     {
-        return static_cast<int32>(_ticks / ETimespan::TicksPerDay);
+        return static_cast<int32>(_ticks / Time::TicksPerDay);
     }
 
 	/**
@@ -301,7 +269,7 @@ public:
 	 */
 	int32 GetHours() const
 	{
-        return static_cast<int32>((_ticks / ETimespan::TicksPerHour) % 24);
+        return static_cast<int32>((_ticks / Time::TicksPerHour) % 24);
 	}
 
    /**
@@ -312,7 +280,7 @@ public:
     */
     int32 GetMinutes() const
     {
-        return static_cast<int32>((_ticks / ETimespan::TicksPerMinute) % 60);
+        return static_cast<int32>((_ticks / Time::TicksPerMinute) % 60);
     }
 
    /**
@@ -323,7 +291,7 @@ public:
     */
     int32 GetSeconds() const
     {
-        return static_cast<int32>((_ticks / ETimespan::TicksPerSecond) % 60);
+        return static_cast<int32>((_ticks / Time::TicksPerSecond) % 60);
     }
 
 	/**
@@ -334,7 +302,7 @@ public:
 	 */
 	int32 GetMilliseconds() const
 	{
-        return static_cast<int32>((_ticks / ETimespan::TicksPerMillisecond) % 1000);
+        return static_cast<int32>((_ticks / Time::TicksPerMillisecond) % 1000);
 	}
 
 	/**
@@ -355,7 +323,7 @@ public:
 	 */
 	double GetTotalDays() const
 	{
-        return static_cast<double>(_ticks / ETimespan::TicksPerDay);
+        return static_cast<double>(_ticks / Time::TicksPerDay);
 	}
 
 	/**
@@ -366,7 +334,7 @@ public:
 	 */
 	double GetTotalHours() const
 	{
-        return static_cast<double>(_ticks / ETimespan::TicksPerHour);
+        return static_cast<double>(_ticks / Time::TicksPerHour);
 	}
 
 	/**
@@ -377,7 +345,7 @@ public:
 	 */
 	double GetTotalMilliseconds() const
 	{
-        return static_cast<double>(_ticks / ETimespan::TicksPerMillisecond);
+        return static_cast<double>(_ticks / Time::TicksPerMillisecond);
 	}
 
 	/**
@@ -388,7 +356,7 @@ public:
 	 */
 	double GetTotalMinutes() const
 	{
-        return static_cast<double>(_ticks / ETimespan::TicksPerMinute);
+        return static_cast<double>(_ticks / Time::TicksPerMinute);
 	}
 
 	/**
@@ -399,7 +367,7 @@ public:
 	 */
 	double GetTotalSeconds() const
 	{
-        return static_cast<double>(_ticks / ETimespan::TicksPerSecond);
+        return static_cast<double>(_ticks / Time::TicksPerSecond);
 	}
 
 	/**

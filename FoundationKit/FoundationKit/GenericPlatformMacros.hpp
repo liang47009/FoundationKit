@@ -240,5 +240,17 @@ __pragma (warning(disable:4127))
 //#endif
 
 
+
+#define FOUNDATIONKIT_VERSION_STRING "2.2.0"
+#define FOUNDATIONKIT_PACKAGE_STRING "FoundationKit 2.2.0"
+#define FOUNDATIONKIT_VERSION_MAJOR 2
+#define FOUNDATIONKIT_VERSION_MINOR 2
+#define FOUNDATIONKIT_VERSION_PATCH 0
+
+// Version as a single hex number, e.g. 0x01000300 == 1.0.3
+#define FOUNDATIONKIT_VERSION_HEX ((FOUNDATIONKIT_VERSION_MAJOR << 24) | \
+                                   (FOUNDATIONKIT_VERSION_MINOR << 16) | \
+                                   (FOUNDATIONKIT_VERSION_PATCH <<  8))
+
 #endif // #ifndef LOSEMYMIND_GENERICPLATFORMMACROS_H
 

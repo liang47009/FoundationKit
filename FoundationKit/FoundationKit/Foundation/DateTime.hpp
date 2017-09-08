@@ -237,7 +237,7 @@ public:
 	 */
 	DateTime GetDate() const
 	{
-		return DateTime(_ticks - (_ticks % ETimespan::TicksPerDay));
+		return DateTime(_ticks - (_ticks % Time::TicksPerDay));
 	}
 
 	/**
@@ -281,7 +281,7 @@ public:
 	 */
 	int32 GetHour() const
 	{
-		return (int32)((_ticks / ETimespan::TicksPerHour) % 24);
+		return (int32)((_ticks / Time::TicksPerHour) % 24);
 	}
 
 	/**
@@ -304,7 +304,7 @@ public:
 	 */
 	double GetJulianDay() const
 	{
-		return (double)(1721425.5 + _ticks / ETimespan::TicksPerDay);
+		return (double)(1721425.5 + _ticks / Time::TicksPerDay);
 	}
 
 	/**
@@ -329,7 +329,7 @@ public:
 	 */
 	int32 GetMillisecond() const
 	{
-		return (int32)((_ticks / ETimespan::TicksPerMillisecond) % 1000);
+		return (int32)((_ticks / Time::TicksPerMillisecond) % 1000);
 	}
 
 	/**
@@ -340,7 +340,7 @@ public:
 	 */
 	int32 GetMinute() const
 	{
-		return (int32)((_ticks / ETimespan::TicksPerMinute) % 60);
+		return (int32)((_ticks / Time::TicksPerMinute) % 60);
 	}
 
 	/**
@@ -370,7 +370,7 @@ public:
 	 */
 	int32 GetSecond() const
 	{
-		return (int32)((_ticks / ETimespan::TicksPerSecond) % 60);
+		return (int32)((_ticks / Time::TicksPerSecond) % 60);
 	}
 
 	/**
@@ -390,7 +390,7 @@ public:
 	 */
 	Timespan GetTimeOfDay() const
 	{
-		return Timespan(_ticks % ETimespan::TicksPerDay);
+		return Timespan(_ticks % Time::TicksPerDay);
 	}
 
 	/**
@@ -461,7 +461,7 @@ public:
 	 */
 	int64 ToUnixTimestamp() const
 	{
-		return (_ticks - DateTime(1970, 1, 1)._ticks) / ETimespan::TicksPerSecond;
+		return (_ticks - DateTime(1970, 1, 1)._ticks) / Time::TicksPerSecond;
 	}
 
     /**
@@ -503,7 +503,7 @@ public:
 	 */
 	static DateTime FromJulianDay( double julianDay )
 	{
-        return DateTime((int64)((julianDay - 1721425.5) * ETimespan::TicksPerDay));
+        return DateTime((int64)((julianDay - 1721425.5) * Time::TicksPerDay));
 	}
 
 	/**
@@ -515,7 +515,7 @@ public:
 	 */
 	static DateTime FromUnixTimestamp( int64 unixTime )
 	{
-        return DateTime(1970, 1, 1) + Timespan(unixTime * ETimespan::TicksPerSecond);
+        return DateTime(1970, 1, 1) + Timespan(unixTime * Time::TicksPerSecond);
 	}
 
 	/**
@@ -539,7 +539,7 @@ public:
 	 */
 	static DateTime MaxValue()
 	{
-		return DateTime(3652059 * ETimespan::TicksPerDay - 1);
+		return DateTime(3652059 * Time::TicksPerDay - 1);
 	}
 
 	/**
@@ -663,7 +663,6 @@ public:
      */
     static std::string GetTimestampString();
 
-    static uint64 GetTimeStamp();
 protected:
 
 	/** Holds the days per month in a non-leap year. */
