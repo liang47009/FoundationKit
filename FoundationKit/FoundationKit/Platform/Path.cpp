@@ -236,6 +236,35 @@ bool Path::IsPathRooted(std::string path)
 }
 
 
+std::string Path::GetRelativePath(const std::string& workPath, const std::string& fullPath)
+{
+    std::string finalWorkPath = ConvertPathFormatToUnixStyle(workPath);
+    std::string finalFullPath = ConvertPathFormatToUnixStyle(fullPath);
+    std::vector<std::string> workPathDirectories = StringUtils::Split(finalWorkPath, "/");
+    std::vector<std::string> fullPathDirectories = StringUtils::Split(finalFullPath, "/");
+    size_t dirCount = workPathDirectories.size() < fullPathDirectories.size() ? workPathDirectories.size() : fullPathDirectories.size();
+    size_t lastCommonDirIndex = 0;
+    for (size_t index = 0; index < dirCount; ++index)
+    {
+        if (workPathDirectories[index] == fullPathDirectories[index])
+            lastCommonDirIndex = index;
+        else
+            break;
+    }
+
+    if (lastCommonDirIndex == 0)
+        return fullPath;
+
+    std::string RelativePath;
+    for (size_t index = lastCommonDirIndex + 1; index < workPathDirectories.size(); ++index)
+        RelativePath += "../";
+
+    for (size_t index = lastCommonDirIndex + 1; index < fullPathDirectories.size()-1; ++index)
+        RelativePath += fullPathDirectories[index] + "/";
+    RelativePath += fullPathDirectories[fullPathDirectories.size() - 1];
+    return RelativePath;
+}
+
 
 
 NS_FK_END

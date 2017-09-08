@@ -229,6 +229,8 @@ public:
     */
     static bool IsPathRooted(std::string path);
 
+    static std::string GetRelativePath(const std::string& workPath, const std::string& fullPath);
+
 #if TARGET_PLATFORM == PLATFORM_ANDROID
     // On android platform, first must be call this function
     // to set writable path.
