@@ -5,7 +5,7 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 
 NS_FK_BEGIN
-bool Directory::CreateDirectory(const std::string& path)
+bool Directory::Create(const std::string& path)
 {
     if (Exists(path))
         return true;
@@ -57,7 +57,7 @@ bool Directory::CreateDirectory(const std::string& path)
     return true;
 }
 
-bool Directory::RemoveDirectory(const std::string& path)
+bool Directory::Remove(const std::string& path)
 {
     std::wstring wpath = StringUtils::string2UTF8wstring(path);
     std::wstring files = wpath + L"*.*";
@@ -76,7 +76,7 @@ bool Directory::RemoveDirectory(const std::string& path)
                 if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
                 {
                     temp += '/';
-                    ret = ret && RemoveDirectory(StringUtils::wstring2UTF8string(temp));
+                    ret = ret && Remove(StringUtils::wstring2UTF8string(temp));
                 }
                 else
                 {
@@ -120,6 +120,40 @@ bool Directory::Exists(const std::string& path)
         return true;
     }
     return false;
+}
+
+
+bool Directory::SetCurrentDirectory(const std::string& path)
+{
+    CurrentDirectory = path;
+    return ::SetCurrentDirectoryA(CurrentDirectory.c_str());
+}
+
+std::string Directory::GetCurrentDirectory()
+{
+    if (CurrentDirectory.empty())
+    {
+        char utf8ExeDir[MAX_PATH + 1] = { 0 };
+        if (_wpgmptr != NULL)
+        {
+            WCHAR *pUtf16ExePath = nullptr;
+            _get_wpgmptr(&pUtf16ExePath);
+            // We need only directory part without exe
+            WCHAR *pUtf16DirEnd = wcsrchr(pUtf16ExePath, L'\\');
+            WideCharToMultiByte(CP_UTF8, 0, pUtf16ExePath, pUtf16DirEnd - pUtf16ExePath + 1, utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
+        }
+        else
+        {
+            char *pUtf16ExePath = nullptr;
+            _get_pgmptr(&pUtf16ExePath);
+            char *pUtf16DirEnd = strrchr(pUtf16ExePath, '\\');
+            memcpy(utf8ExeDir, pUtf16ExePath, pUtf16DirEnd - pUtf16ExePath + 1);
+        }
+
+        //::GetCurrentDirectoryA(MAX_PATH + 1, utf8ExeDir);
+        CurrentDirectory = utf8ExeDir;
+    }
+    return CurrentDirectory;
 }
 
 NS_FK_END

@@ -133,7 +133,7 @@ public:
     *         character in the path. The first separator character is included, but the last
     *         separator character is not included in the returned string.
     */
-    static std::string GetDirectoryName(const std::string& path);
+    static std::string GetDirectoryPath(const std::string& path);
 
    /** 
     * Returns the extension of the specified path string.

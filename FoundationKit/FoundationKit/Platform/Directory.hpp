@@ -29,7 +29,7 @@ public:
     *  @param path The path of the directory, it must be an absolute path.
     *  @return True if the directory have been created successfully, false if not.
     */
-    static bool CreateDirectory(const std::string& path);
+    static bool Create(const std::string& path);
 
    /**
     *  Implement on platform.
@@ -38,7 +38,7 @@ public:
     *  @param path  The full path of the directory, it must be an absolute path.
     *  @return True if the directory have been removed successfully, false if not.
     */
-    static bool RemoveDirectory(const std::string& path);
+    static bool Remove(const std::string& path);
 
    /**
     *  Implement on platform.
@@ -56,7 +56,22 @@ public:
     static bool Exists(const std::string& path);
 
    /**
-    *  get all files from a directory
+    *  Implement on platform.
+    *  Sets the application's current working directory to the specified directory.
+    *  @path: The path to which the current working directory is set.
+    */
+    static bool SetCurrentDirectory(const std::string& path);
+
+   /**
+    *  Implement on platform.
+    *  Gets the current working directory of the application.
+    *  @return A string that contains the path of the current working directory, and does not
+    *          end with a (/).
+    */
+    static std::string GetCurrentDirectory();
+
+   /**
+    *  Get all files from a directory
     *
     *  @param path The path of the directory.
     */
@@ -64,12 +79,15 @@ public:
     static void GetFiles(const std::string& path, const EnumFileCallback& callback, SearchOption searchOption = SearchOption::TopDirectoryOnly);
 
    /**
-    *  get all dirs from a directory
+    *  Get all dirs from a directory
     *
     *  @param path The path of the directory.
     */
     static void GetDirectories(const std::string& path, std::vector<std::string>& dirs, SearchOption searchOption = SearchOption::TopDirectoryOnly);
 
+
+protected:
+    static std::string CurrentDirectory;
 };
 NS_FK_END
 #endif // FOUNDATIONKIT_PLATFORM_DIRECTORY_HPP

@@ -115,8 +115,8 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
             break;
         }
 
-        std::string dirPath = Path::GetDirectoryName(destFileName);
-        Directory::CreateDirectory(dirPath);
+        std::string dirPath = Path::GetDirectoryPath(destFileName);
+        Directory::Create(dirPath);
         int64 srcFileSize = GetSize(sourceFileName);
         BREAK_IF(srcFileSize == -1);
         FILE *fpSrc = fopen(sourceFileName.c_str(), "rb");

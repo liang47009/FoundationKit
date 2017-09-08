@@ -13,7 +13,7 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 
 NS_FK_BEGIN
-bool Directory::CreateDirectory(const std::string& path)
+bool Directory::Create(const std::string& path)
 {
     if (Exists(path))
         return true;
@@ -72,7 +72,7 @@ bool Directory::CreateDirectory(const std::string& path)
 
 }
 
-bool Directory::RemoveDirectory(const std::string& path)
+bool Directory::Remove(const std::string& path)
 {
     if (path.size() > 0 && path[path.size() - 1] != '/')
     {
@@ -105,6 +105,17 @@ bool Directory::Exists(const std::string& path)
     if (stat(path.c_str(), &sts) == 0 && S_ISDIR(sts.st_mode))
         return true;
     return false;
+}
+
+bool Directory::SetCurrentDirectory(const std::string& path)
+{
+    CurrentDirectory = path;
+    return true;
+}
+
+std::string Directory::GetCurrentDirectory()
+{
+    return CurrentDirectory;
 }
 
 NS_FK_END

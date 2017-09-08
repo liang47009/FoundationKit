@@ -140,7 +140,7 @@ std::string Path::Combine(const std::string& path1, const std::string& path2, co
     return result;
 }
 
-std::string Path::GetDirectoryName(const std::string& path)
+std::string Path::GetDirectoryPath(const std::string& path)
 {
     std::string result = GetFileName(path);
     result = path.substr(0, path.size() - result.size()-1);
