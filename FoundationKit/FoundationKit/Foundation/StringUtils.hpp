@@ -36,8 +36,7 @@ static std::string &Trim(std::string &s);
 
 /*
  * std::string str = "|aaaa|bbbb|cccc|dddd|";
- * auto splitVec = StringUtils::split(str, '|');
- * splitVec[0]="";
+ * auto splitVec = StringUtils::Split(str, '|');
  * splitVec[1]="aaaa";
  * splitVec[2]="bbbb";
  * splitVec[3]="cccc";
