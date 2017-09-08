@@ -15,7 +15,7 @@
 NS_FK_BEGIN
 bool Directory::CreateDirectory(const std::string& path)
 {
-    if (IsExists(path))
+    if (Exists(path))
         return true;
 
     // Split the path
@@ -90,16 +90,16 @@ bool Directory::RemoveDirectory(const std::string& path)
 
 bool Directory::Move(const std::string& sourceDirName, const std::string& destDirName)
 {
-    if (IsExists(destDirName))
+    if (Exists(destDirName))
         return false;
 
-    if (!IsExists(sourceDirName))
+    if (!Exists(sourceDirName))
         return false;
 
     return (rename(sourceDirName.c_str(), destDirName.c_str()) == 0);
 }
 
-bool Directory::IsExists(const std::string& path)
+bool Directory::Exists(const std::string& path)
 {
     struct stat sts;
     if (stat(path.c_str(), &sts) == 0 && S_ISDIR(sts.st_mode))

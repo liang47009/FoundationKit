@@ -53,7 +53,7 @@ public:
     *  @param path The path of the directory, it could be a relative or an absolute path.
     *  @return True if the directory exists, false if not.
     */
-    static bool IsExists(const std::string& path);
+    static bool Exists(const std::string& path);
 
    /**
     *  get all files from a directory
