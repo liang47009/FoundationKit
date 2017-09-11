@@ -340,7 +340,7 @@
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\dirent.h">
       <Filter>Platform\windows\sys</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.hpp">
+    <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.h">
       <Filter>Platform\windows\sys</Filter>
     </ClInclude>
   </ItemGroup>

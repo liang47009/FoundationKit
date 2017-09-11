@@ -6,6 +6,7 @@
 #import <Foundation/Foundation.h>
 #include <ftw.h>
 #include "FoundationKit/Platform/Directory.hpp"
+#include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 
 NS_FK_BEGIN
@@ -113,12 +114,18 @@ bool Directory::Exists(const std::string& path)
 
 bool Directory::SetCurrentDirectory(const std::string& path)
 {
-
+    CurrentDirectory = path;
+    return true;
 }
 
 std::string Directory::GetCurrentDirectory()
 {
+    if (CurrentDirectory.empty())
+    {
+        CurrentDirectory = Path::GetDocumentsPath();
+    }
 
+    return CurrentDirectory;
 }
 
 NS_FK_END

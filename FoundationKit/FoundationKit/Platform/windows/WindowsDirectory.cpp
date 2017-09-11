@@ -126,7 +126,7 @@ bool Directory::Exists(const std::string& path)
 bool Directory::SetCurrentDirectory(const std::string& path)
 {
     CurrentDirectory = path;
-    return ::SetCurrentDirectoryA(CurrentDirectory.c_str());
+    return (::SetCurrentDirectoryA(CurrentDirectory.c_str()) == TRUE);
 }
 
 std::string Directory::GetCurrentDirectory()

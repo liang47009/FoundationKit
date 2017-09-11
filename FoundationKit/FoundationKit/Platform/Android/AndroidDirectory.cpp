@@ -10,6 +10,7 @@
 #include <dirent.h> // for DIR
 #include <stdlib.h>
 #include "FoundationKit/Platform/Directory.hpp"
+#include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 
 NS_FK_BEGIN
@@ -115,6 +116,10 @@ bool Directory::SetCurrentDirectory(const std::string& path)
 
 std::string Directory::GetCurrentDirectory()
 {
+    if (CurrentDirectory.empty())
+    {
+        CurrentDirectory = Path::GetDocumentsPath();
+    }
     return CurrentDirectory;
 }
 

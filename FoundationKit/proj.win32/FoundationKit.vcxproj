@@ -262,7 +262,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\ProtectedMemoryAllocator.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\dirent.h" />
-    <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\std\contains_of_type.hpp" />
     <ClInclude Include="..\FoundationKit\std\disable_if.hpp" />
