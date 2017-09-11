@@ -38,7 +38,7 @@ enum class TargetPlatform
     PS4,
 
     // iOS
-    IOS,
+    iOS,
 
     // Android
     Android,
