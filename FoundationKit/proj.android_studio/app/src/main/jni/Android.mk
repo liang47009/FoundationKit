@@ -1,6 +1,11 @@
 
 LOCAL_PATH := $(call my-dir)
 
+# include $(CLEAR_VARS)
+# LOCAL_MODULE    := libfoundationkit
+# LOCAL_SRC_FILES := ../../../../../../ThirdParty/android/libs/$(TARGET_ARCH_ABI)/libfoundationkit.so
+# include $(PREBUILT_SHARED_LIBRARY)
+
 include $(CLEAR_VARS)
 SRCROOT := ../../../../..
 PROJECT_DIR=$(LOCAL_PATH)/../../../../..
@@ -25,6 +30,7 @@ $(SRCROOT)/FoundationKit/Foundation/Matrix.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Quaternion.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Rect.cpp \
 $(SRCROOT)/FoundationKit/Foundation/StringUtils.cpp \
+$(SRCROOT)/FoundationKit/Foundation/Time.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Timer.cpp \
 $(SRCROOT)/FoundationKit/Foundation/TimerQueue.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Timespan.cpp \
@@ -54,13 +60,11 @@ $(PROJECT_DIR)/FoundationKit/external/unzip \
 $(PROJECT_DIR)/../ThirdParty/spdlog/include \
 cpufeatures/
 
-LOCAL_EXPORT_C_INCLUDES := \
+#LOCAL_EXPORT_C_INCLUDES := \
 $(PROJECT_DIR)/ \
 $(PROJECT_DIR)/FoundationKit/external/unzip \
 $(PROJECT_DIR)/../ThirdParty/spdlog/include \
 cpufeatures/
-
-LOCAL_SHORT_COMMANDS := true
 
 TARGET_LOCAL_CFLAGS := \
 -fexceptions
@@ -69,18 +73,18 @@ TARGET_LOCAL_CPPFLAGS := \
 -frtti \
 -fexceptions \
 -fsigned-char \
--std=c++11 \
+-std=c++14 \
 -Wno-deprecated-declarations \
 -DUSE_FILE32API \
 -DANDROID
+
+TARGET_LOCAL_LDFLAGS := -Wl,--gc-sections
 
 TARGET_LOCAL_LDLIBS := \
 -latomic \
 -landroid \
 -llog \
 -lz \
--lEGL \
--lGLESv1_CM \
 -lGLESv2
 
 ifeq ($(NDK_DEBUG),1)
@@ -95,20 +99,23 @@ ifeq (armeabi-v7a,$(TARGET_ARCH_ABI))
 TARGET_LOCAL_CPPFLAGS += -DUSE_NEON
 endif
 
-
-LOCAL_CFLAGS := $(TARGET_LOCAL_CFLAG)
-LOCAL_CPPFLAGS := $(TARGET_LOCAL_CPPFLAGS)
-LOCAL_LDLIBS     := $(TARGET_LOCAL_LDLIBS)
-LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
-LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
-LOCAL_EXPORT_LDLIBS := $(LOCAL_EXPORT_LDLIBS)
-
 #Reduce Binaries Size
-# LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections -fvisibility=hidden
-# LOCAL_CFLAGS   += -ffunction-sections -fdata-sections -fvisibility=hidden 
-LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
-LOCAL_CFLAGS   += -ffunction-sections -fdata-sections
-LOCAL_LDFLAGS  += -Wl,--gc-sections
+# TARGET_LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections -fvisibility=hidden
+# TARGET_LOCAL_CFLAGS   += -ffunction-sections -fdata-sections -fvisibility=hidden 
+TARGET_LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
+TARGET_LOCAL_CFLAGS   += -ffunction-sections -fdata-sections
+
+
+LOCAL_SHORT_COMMANDS := true
+
+LOCAL_CFLAGS   := $(TARGET_LOCAL_CFLAG)
+LOCAL_CPPFLAGS := $(TARGET_LOCAL_CPPFLAGS)
+LOCAL_LDFLAGS  := $(TARGET_LOCAL_LDFLAGS)
+LOCAL_LDLIBS   := $(TARGET_LOCAL_LDLIBS)
+
+#LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
+#LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
+#LOCAL_EXPORT_LDLIBS := $(LOCAL_EXPORT_LDLIBS)
 
 #Add cpufeatures library
 LOCAL_STATIC_LIBRARIES += cpufeatures

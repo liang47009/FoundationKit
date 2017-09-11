@@ -143,7 +143,7 @@ std::string Path::Combine(const std::string& path1, const std::string& path2, co
 std::string Path::GetDirectoryPath(const std::string& path)
 {
     std::string result = GetFileName(path);
-    result = path.substr(0, path.size() - result.size()-1);
+    result = path.substr(0, path.size() - result.size());
     return result;
 }
 
@@ -266,6 +266,39 @@ std::string Path::GetRelativePath(const std::string& workPath, const std::string
 }
 
 
+std::string Path::GetAbsolutePath(const std::string& path)
+{
+    std::string fileName = GetFileName(path);
+    std::string finalPath = GetDirectoryPath(path);
+    std::vector<std::string> pathNodes = StringUtils::Split(finalPath, "/");
+    std::vector<std::string> absolutePaths;
+    for (auto& pathNode : pathNodes)
+    {
+        if (pathNode == ".")
+        {
+            continue;
+        }
+        if (pathNode == "..")
+        {
+            if (absolutePaths.size() > 1)
+            {
+                absolutePaths.erase(absolutePaths.end() - 1);
+            }
+        }
+        else
+        {
+            absolutePaths.push_back(pathNode);
+        }
+    }
+    finalPath = "";
+    for (auto& absoluteNode : absolutePaths)
+    {
+        finalPath += absoluteNode;
+        finalPath += "/";
+    }
+    finalPath += fileName;
+    return finalPath;
+}
 
 NS_FK_END
 

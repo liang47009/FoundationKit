@@ -230,6 +230,7 @@ public:
     static bool IsPathRooted(std::string path);
 
     static std::string GetRelativePath(const std::string& workPath, const std::string& fullPath);
+    static std::string GetAbsolutePath(const std::string& path);
 
 #if TARGET_PLATFORM == PLATFORM_ANDROID
     // On android platform, first must be call this function
