@@ -343,6 +343,9 @@
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.h">
       <Filter>Platform\windows\sys</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\threadsafe_stack.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

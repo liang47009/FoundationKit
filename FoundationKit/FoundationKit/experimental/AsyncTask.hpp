@@ -2,8 +2,12 @@
 
 #include <thread>
 #include <mutex>
+#include <list>
+#include <atomic>
+#include <future>
 #include <condition_variable>
-#include "FoundationKit/Foundation/FunctionHandler.hpp"
+#include "FoundationKit/GenericPlatformMacros.hpp"
+#include "FoundationKit/Foundation/Singleton.hpp"
 
 NS_FK_BEGIN
 
@@ -31,48 +35,72 @@ enum class AsyncTaskState
     Running,
 };
 
-/**
- * Interface for asynchronous tasks.
- *
- * A asynchronous task is a unit of work that runs in parallel to the caller and may take a
- * considerable amount of time to complete, i.e. several seconds, minutes or even hours.
- * This interface provides mechanisms for tracking and canceling such tasks.
- */
-class IAsyncTask
+class AsyncTask
 {
 public:
+    typedef std::shared_ptr<AsyncTask>   Pointer;
 
-    /**
-    * Cancel this task.
-    *
-    * If the task is already running, it should make a best effort to abort execution
-    * as soon as possible. This method should be implemented in such a way that it returns
-    * immediately and does not block the caller.
-    */
-    virtual void Cancel() = 0;
+    virtual AsyncTaskState GetTaskState()
+    {
+        return TaskState;
+    }
 
-    /**
-    * Gets the current state of the task.
-    *
-    * @return Task state.
-    */
-    virtual AsyncTaskState GetTaskState() = 0;
+    virtual void Cancel()
+    {
 
-public:
+    }
 
-    /** Virtual destructor. */
-    virtual ~IAsyncTask() { }
+    virtual void Run()
+    {
 
+    }
 protected:
-    FunctionHandlerPointer  TaskSelector;
+    AsyncTaskState          TaskState;
 };
 
 
-class AsyncTaskPool
+template<typename _RT, typename _FT>
+class AsyncResult
 {
 public:
-    AsyncTaskPool();
-    ~AsyncTaskPool();
+    std::future<_RT>   Future;
+};
+
+
+class AsyncTaskPool : public Singleton<AsyncTaskPool>
+{
+    friend Singleton<AsyncTaskPool>;
+
+    AsyncTaskPool()
+    {
+       
+    }
+public:
+
+    ~AsyncTaskPool()
+    {
+
+    }
+
+    void Initialize()
+    {
+    }
+
+  
+    template<class _Fty, class... _ArgTypes>
+    AsyncTask::Pointer RunTask(_Fty&& _Fnarg, _ArgTypes&&... _Args)
+    {
+
+    }
+
+
+    void StopTask(const AsyncTask::Pointer& task)
+    {
+        task->Cancel();
+    }
+
+protected:
+
 };
 
 
