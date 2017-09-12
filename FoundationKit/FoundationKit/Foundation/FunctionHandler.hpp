@@ -7,12 +7,14 @@
 #ifndef FOUNDATIONKIT_FUNCATIONLISTENER_HPP
 #define FOUNDATIONKIT_FUNCATIONLISTENER_HPP
 
+#include <type_traits>
+#include <memory>
+#include <utility>
+#include <functional>
 #include "FoundationKit/Foundation/Value.hpp"
 #include "FoundationKit/Foundation/ApplyTuple.hpp"
 #include "FoundationKit/std/function_traits.hpp"
-#include <type_traits>
-#include <memory>
-#include <functional>
+
 NS_FK_BEGIN
 typedef ValueList ArgumentList;
 
