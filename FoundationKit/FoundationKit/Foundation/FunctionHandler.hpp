@@ -104,21 +104,6 @@ public:
 
 namespace PlaceHolderDetail
 {
-#if (__cplusplus < 201402L)
-	template<std::size_t... indices>
-	struct IndexList
-	{
-		typedef IndexList<indices...> Type;
-	};
-
-	template<std::size_t count, std::size_t... indices>
-	struct PlaceHolderIndexList : public PlaceHolderIndexList<count - 1, count - 1, indices...> {};
-
-	// ends recursion - the complete (one from base) class, inheriting
-	// directly from IndexList
-	template<std::size_t... indices>
-	struct PlaceHolderIndexList<0, indices...> : public IndexList<indices...>{};
-#endif
 	template<size_t _Index>
 	struct PlaceHolderMaker{};
 	template<>
@@ -144,8 +129,6 @@ namespace PlaceHolderDetail
 }
 
 
-
-#if (__cplusplus >= 201402L) || (defined(_MSC_VER) && _MSC_VER >= 1800)
 namespace detail
 {
     template<typename _Ft, typename _Ty, std::size_t... index >
@@ -203,68 +186,6 @@ void InvokeFunctionHandler(FunctionHandlerPointer Handler, Args... args)
     detail::BuildArgumentList(al, std::forward<Args>(args)...);
     Handler->Invoke(al);
 }
-
-#else
-namespace detail
-{
-    template<typename _Ft, typename _Ty, std::size_t... indices >
-    FunctionHandlerPointer BindFunctionHandlerImpl(_Ft fun, _Ty object, PlaceHolderDetail::IndexList<indices...>)
-    {
-        const size_t arityvalue = std::function_traits < _Ft >::arity::value;
-        std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue >(std::bind(fun, object, PlaceHolderDetail::PlaceHolderMaker<indices>::Get()...)));
-        return pSelector;
-    }
-
-    template<typename _Ft, std::size_t... indices >
-    FunctionHandlerPointer BindFunctionHandlerImpl(_Ft fun, PlaceHolderDetail::IndexList<indices...>)
-    {
-        const size_t arityvalue = std::function_traits < _Ft >::arity::value;
-        std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue>(std::bind(fun, PlaceHolderDetail::PlaceHolderMaker<indices>::Get()...)));
-        return pSelector;
-    }
-
-
-    template <typename T>
-    void BuildArgumentList(ArgumentList& al, const T &t)
-    {
-        al.emplace_back(t);
-    }
-
-
-    template <typename T, typename...Args>
-    void BuildArgumentList(ArgumentList& al, const T &t, const Args&... args)
-    {
-        al.emplace_back(t);
-        BuildArgumentList(al, args...);
-    }
-}
-
-template<typename _Ft, typename _Ty>
-FunctionHandlerPointer BindFunctionHandler(_Ft fun, _Ty object)
-{
-    const size_t arityvalue = std::function_traits < _Ft >::arity::value;
-    typedef typename PlaceHolderDetail::PlaceHolderIndexList<arityvalue>::Type List;
-    return detail::BindFunctionHandlerImpl(fun, object, List());
-}
-
-template<typename _Ft>
-FunctionHandlerPointer BindFunctionHandler(_Ft fun)
-{
-    const size_t arityvalue = std::function_traits < _Ft >::arity::value;
-    typedef typename PlaceHolderDetail::PlaceHolderIndexList<arityvalue>::Type List;
-    return detail::BindFunctionHandlerImpl(fun, List());
-}
-
-template<typename... Args>
-void InvokeFunctionHandler(FunctionHandlerPointer Handler, Args... args)
-{
-    ArgumentList al;
-    detail::BuildArgumentList(al, std::forward<Args>(args)...);
-    Handler->Invoke(al);
-}
-#endif
-
-
 
 NS_FK_END
 
