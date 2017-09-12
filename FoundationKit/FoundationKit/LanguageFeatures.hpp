@@ -97,7 +97,7 @@
 #endif
 #endif
 
-#if TARGET_LANGUAGE_FEATURES < 201103L
+#if TARGET_LANGUAGE_FEATURES < LANGUAGE_FEATURES_CPP2011
 #	define noexcept
 #	define constexpr
 #endif
