@@ -186,9 +186,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\Timespan.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\TupleApply.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Vector2.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -218,9 +215,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Crypto\aes.hpp">
       <Filter>Crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.hpp">
-      <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\types.hpp">
       <Filter>Base</Filter>
@@ -345,6 +339,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\threadsafe_stack.hpp">
       <Filter>experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\std\apply.hpp">
+      <Filter>std</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

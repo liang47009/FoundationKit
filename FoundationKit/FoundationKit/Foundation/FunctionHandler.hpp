@@ -12,8 +12,8 @@
 #include <utility>
 #include <functional>
 #include "FoundationKit/Foundation/Value.hpp"
-#include "FoundationKit/Foundation/ApplyTuple.hpp"
 #include "FoundationKit/std/function_traits.hpp"
+#include "FoundationKit/std/apply.hpp"
 
 NS_FK_BEGIN
 typedef ValueList ArgumentList;
@@ -79,7 +79,7 @@ public:
 	virtual void Invoke(const ArgumentList& args)
 	{
 		ApplyBuildTuple(ArgsTuple, args);
-		applyTuple(Invoker, ArgsTuple);
+		std::apply(Invoker, ArgsTuple);
 	}
 };
 

@@ -211,7 +211,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h" />
     <ClInclude Include="..\FoundationKit\forward.hpp" />
     <ClInclude Include="..\FoundationKit\FoundationMacros.hpp" />
-    <ClInclude Include="..\FoundationKit\Foundation\ApplyTuple.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Compression.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\DateTime.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.hpp" />
@@ -238,7 +237,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Foundation\Timer.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\TimerQueue.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Timespan.hpp" />
-    <ClInclude Include="..\FoundationKit\Foundation\TupleApply.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Value.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Vector2.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Vector3.hpp" />
@@ -265,6 +263,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\dirent.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp" />
+    <ClInclude Include="..\FoundationKit\std\apply.hpp" />
     <ClInclude Include="..\FoundationKit\std\contains_of_type.hpp" />
     <ClInclude Include="..\FoundationKit\std\disable_if.hpp" />
     <ClInclude Include="..\FoundationKit\std\function_cache.hpp" />
