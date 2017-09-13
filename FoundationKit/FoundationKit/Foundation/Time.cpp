@@ -3,7 +3,7 @@
 #if TARGET_PLATFORM == PLATFORM_WINDOWS
 
 #elif (TARGET_PLATFORM == PLATFORM_ANDROID) ||(TARGET_PLATFORM == PLATFORM_IOS) ||((TARGET_PLATFORM == PLATFORM_MAC))
-#include <sys/time.h>
+#include <time.h>
 #endif
 
 NS_FK_BEGIN
