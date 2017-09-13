@@ -1,3 +1,4 @@
+
 #include "FoundationKit/Foundation/Timer.hpp"
 #include "FoundationKit/Foundation/Timespan.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
@@ -6,31 +7,16 @@ NS_FK_BEGIN
 int Timer::_nextValidId = 1000;
 
 Timer::Timer()
-    : Timer(1000)
 {
-
+    _interval = 1000;
+    _deltaTime = 0;
+    _repeatCount = repeat_forever;
+    _frameCount = 0;
+    _bRunning = false;
+    //_deltaTimer;
+    _timeScale = 1.0f;
+    _myid = _nextValidId++;
 }
-
-Timer::Timer(int interval)
-    :Timer(TimerOption(false, interval, 1.0f, 100, repeat_forever))
-{
-
-}
-
-Timer::Timer(const TimerOption& option)
-    : onTimedEvent(option.onTimedEvent)
-{
-    SetEnabled(option.enable);
-    SetInterval(option.interval);
-    SetTimeScale(option.scale);
-    SetMaximumDeltaTime(option.maximumDeltaTime);// initialized to 100 milliseconds.
-    _repeatCount = option.repeatCount;
-    _deltaTime   = 0;
-    _frameCount  = 0;
-    _elapsedTime = 0;
-    _myid        = _nextValidId++;
-}
-
 Timer::Timer(Timer&& other)
 {
     Move(std::forward<Timer&&>(other));
@@ -38,7 +24,8 @@ Timer::Timer(Timer&& other)
 
 Timer::~Timer()
 {
-    SetEnabled(false);
+    Stop();
+    _future.wait();
 }
 
 Timer& Timer::operator=(Timer&& other)
@@ -47,40 +34,13 @@ Timer& Timer::operator=(Timer&& other)
     return (*this);
 }
 
-Timer::pointer Timer::Create()
+Timer::Pointer Timer::Create()
 {
-    Timer::pointer pTimer = std::make_shared<Timer>();
+    Timer::Pointer pTimer = Timer::Pointer(new Timer());
     return pTimer;
 }
 
-Timer::pointer Timer::Create(int interval)
-{
-    Timer::pointer pTimer = std::make_shared<Timer>(interval);
-    return pTimer;
-}
-
-Timer::pointer Timer::Create(const TimerOption& option)
-{
-    Timer::pointer pTimer = std::make_shared<Timer>(option);
-    return pTimer;
-}
-
-void Timer::SetOption(const TimerOption& option)
-{
-    this->SetEnabled(option.enable)
-        .SetInterval(option.interval)
-        .SetTimeScale(option.scale)
-        .SetMaximumDeltaTime(option.maximumDeltaTime)
-        .SetRepeatCount(option.repeatCount);
-    this->onTimedEvent = option.onTimedEvent;
-}
-
-Timer& Timer::SetEnabled(bool value)
-{
-    _enable = value;
-    return (*this);
-}
-Timer& Timer::SetInterval(int value)
+Timer& Timer::SetInterval(long value)
 {
     if (value < 0)
         throw std::invalid_argument("setInterval value must be > 0");
@@ -94,111 +54,127 @@ Timer& Timer::SetTimeScale(float value)
     return (*this);
 }
 
-Timer& Timer::SetMaximumDeltaTime(int value)
-{
-    _maximumDeltaTime = value;
-    return (*this);
-}
-
-Timer& Timer::SetRepeatCount(int value)
+Timer& Timer::SetRepeatCount(long value)
 {
     _repeatCount = value;
     return (*this);
 }
 
-bool Timer::GetEnabled()const
+Timer& Timer::SetUserData(void* userData)
 {
-    return _enable;
+    _userData = userData;
+    return (*this);
 }
 
-int Timer::GetInterval()const
+Timer& Timer::SetTimedEvent(const TimedEvent& callback)
 {
-    return _interval;
+    onTimedEvent = callback;
+    return (*this);
+}
+
+long Timer::GetInterval()const
+{
+    return _interval.load();
 }
 
 
 float Timer::GetTimeScale()const
 {
-    return _timeScale;
+    return _timeScale.load();
 }
 
-
-int Timer::GetMaximumDeltaTime()const
+long Timer::GetDeltaTime()const
 {
-    return _maximumDeltaTime;
+    return _deltaTime.load();
 }
 
-int Timer::GetDeltaTime()const
+long Timer::GetFrameCount()const
 {
-    return _deltaTime;
+    return _frameCount.load();
 }
 
-int Timer::GetFrameCount()const
-{
-    return _frameCount;
-}
-
-int Timer::GetId()const
+long Timer::GetId()const
 {
     return _myid;
 }
 
-void Timer::Tick(float deltaTime)
+void* Timer::GetUserData() const
 {
-    if (!_enable) return;
-    if (deltaTime > _maximumDeltaTime)
-    {
-        deltaTime = _maximumDeltaTime;
-    }
-    _deltaTime = deltaTime;
-    _elapsedTime += deltaTime;
-    if (onTimedEvent && _elapsedTime > _interval)
-    {
-        TimedEventArgs timerArgs;
-        timerArgs.deltaTime  = static_cast<int>(_elapsedTime*_timeScale);
-        timerArgs.signalTime = DateTime::Now();
-        timerArgs.timerId    = _myid;
-        onTimedEvent(timerArgs);
-        _elapsedTime = 0;
-        _frameCount += 1;
-        if (_frameCount >= _repeatCount && _repeatCount != repeat_forever)
-        {
-            Stop();
-        }
-    }
+    return _userData;
 }
 
-void Timer::Start()
+bool Timer::Start()
 {
-    SetEnabled(true);
+    if (onTimedEvent)
+    {
+        _bRunning = true;
+        _deltaTimer.Reset();
+        _future = std::async(std::launch::async, std::bind(&Timer::Run, this));
+        return true;
+    }
+    return false;
+}
+
+bool Timer::Start(const TimedEvent& callback)
+{
+    onTimedEvent = callback;
+    return Start();
+}
+
+bool Timer::Start(const TimedEvent& callback, long milliseconds, long repeatCount /*= repeat_forever*/, float timeScale /*= 1.0f*/)
+{
+    _interval    = milliseconds;
+    _repeatCount = repeatCount;
+    _timeScale   = timeScale;
+    onTimedEvent = callback;
+    return Start();
 }
 
 void Timer::Stop()
 {
-    SetEnabled(false);
+    _bRunning = false;
     Reset();
 }
 
 void Timer::Move(Timer&& other)
 {
-    SetEnabled(other.GetEnabled());
     SetInterval(other.GetInterval());
     SetTimeScale(other.GetTimeScale());
-    SetMaximumDeltaTime(other.GetMaximumDeltaTime());// initialized to 100 milliseconds.
     _deltaTime   = other._deltaTime.load();
     _frameCount  = other._frameCount.load();
-    _elapsedTime = other._elapsedTime.load();
     _repeatCount = other._repeatCount.load();
     _myid        = other._myid;
+    other._myid  = involid_id;
     other.Stop();
-    other._myid = involid_id;
 }
 
 void Timer::Reset()
 {
     _deltaTime   = 0;
     _frameCount  = 0;
-    _elapsedTime = 0;
+}
+
+void Timer::Run()
+{
+    do 
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        //std::this_thread::yield();
+        long  elapsedTime   = static_cast<long>(_deltaTimer.Milliseconds());
+        long  finalInterval = static_cast<long>(_interval*_timeScale);
+        if (onTimedEvent &&  elapsedTime  >= finalInterval)
+        {
+            _deltaTimer.Reset();
+            _deltaTime   = elapsedTime;
+            _frameCount += 1;
+            onTimedEvent(shared_from_this());
+            if (_frameCount >= _repeatCount && _repeatCount != repeat_forever)
+            {
+                Stop();
+                break;
+            }
+        }
+    } while (_bRunning == true);
 }
 
 NS_FK_END

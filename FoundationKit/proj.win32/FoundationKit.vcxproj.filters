@@ -180,9 +180,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\Timer.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\TimerQueue.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Timespan.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -395,9 +392,6 @@
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Timer.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\TimerQueue.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Timespan.cpp">

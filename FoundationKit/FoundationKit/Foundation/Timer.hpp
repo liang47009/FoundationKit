@@ -15,60 +15,28 @@
 #include <thread>
 #include <atomic>
 #include <memory>
+#include <future>
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
+#include "FoundationKit/Foundation/ElapsedTimer.hpp"
 #include "FoundationKit/Base/types.hpp"
 
 NS_FK_BEGIN
 
-// Provides data for the Timer::onTimedEvent event.
-struct TimedEventArgs
-{
-    int      timerId;
-    int      deltaTime;
-    DateTime signalTime;
-};
-typedef std::function<void(const TimedEventArgs&)>  TimedEvent;
 
-struct TimerOption
-{
-    bool  enable;
-    int   interval;         //expressed in milliseconds
-    float scale;
-    int   maximumDeltaTime; //expressed in milliseconds
-    int   repeatCount;
-    TimedEvent onTimedEvent;
 
-    /**
-     * Creates and initializes a new TimerOption.
-     *
-     * @param e Sets a value indicating whether the Timer should raise the timed event.
-     * @param i Sets the interval, expressed in milliseconds, at which to raise the timed event.
-     * @param s The scale at which the time is passing. This can be used for slow motion effects.
-     * @param m The maximum time a frame can take, expressed in milliseconds.
-     * @param r Sets a value indicating the Timer invoke timed event to count, default Timer::repeat_forever
-     * @param callback Occurs when the specified timer interval has elapsed and the timer is enabled.
-     */
-    TimerOption(bool e, int i, float s, int m, int r, const TimedEvent& callback = nullptr)
-        : enable(e)
-        , interval(i)
-        , scale(s)
-        , maximumDeltaTime(m)
-        , repeatCount(r)
-        , onTimedEvent(callback)
-    {}
-
-    TimerOption() :TimerOption(false, 1000, 1.0f, 100, -1, nullptr){}
-};
 
 // Generates an event after a set interval,with some option to generate recurring events.
 // Expressed in milliseconds.
 class Timer final : public std::enable_shared_from_this<Timer>
 {
+    static int         _nextValidId;
+    Timer();
 public:
-    typedef std::shared_ptr<Timer>   pointer;
-    static const int repeat_forever = -1;
-    static const int involid_id = -1;
+    typedef std::shared_ptr<Timer>   Pointer;
+    typedef std::function<void(const Timer::Pointer&)>  TimedEvent;
+    static const long repeat_forever = -1;
+    static const long involid_id     = -1;
 
     // Occurs when the specified timer interval has elapsed and the timer is enabled.
     TimedEvent onTimedEvent;
@@ -76,74 +44,61 @@ public:
     Timer(const Timer&) = delete;
     Timer& operator=(const Timer&) = delete;
 
-    Timer();
-    explicit Timer(int interval);
-    Timer(const TimerOption& other);
     Timer(Timer&& other);
     ~Timer();
     Timer& operator=(Timer&& other);
 
-    static Timer::pointer Create();
-    static Timer::pointer Create(int interval);
-    static Timer::pointer Create(const TimerOption& option);
-
-    void SetOption(const TimerOption& option);
-
-    // Sets a value indicating whether the Timer should raise the timed event.
-    Timer& SetEnabled(bool value);
+    static Timer::Pointer Create();
 
     // Sets the interval, expressed in milliseconds, at which to raise the timed event.
-    Timer& SetInterval(int value);
+    Timer&  SetInterval(long milliseconds);
+
+    // Sets a value indicating the Timer invoke timed event to count, default Timer::repeat_forever
+    Timer&  SetRepeatCount(long value);
 
     // The scale at which the time is passing. This can be used for slow motion effects.
     Timer&  SetTimeScale(float value);
 
-    // The maximum time a frame can take, expressed in milliseconds.
-    Timer&  SetMaximumDeltaTime(int value);
+    Timer&  SetUserData(void* userData);
 
-    // Sets a value indicating the Timer invoke timed event to count, default Timer::repeat_forever
-    Timer&  SetRepeatCount(int value);
-
-
-    // Gets a value indicating whether the Timer should raise the timed event.
-    bool GetEnabled()const;
+    Timer&  SetTimedEvent(const TimedEvent& callback);
 
     // Gets the interval, expressed in milliseconds, at which to raise the timed event.
-    int  GetInterval()const;
-
-    // The scale at which the time is passing. This can be used for slow motion effects.
-    float GetTimeScale()const;
-
-    // The maximum time a frame can take, expressed in milliseconds.
-    int   GetMaximumDeltaTime()const;
+    long    GetInterval()const;
 
     // The time in milliseconds it took to complete the last frame (Read Only).
-    int   GetDeltaTime()const;
+    long    GetDeltaTime()const;
 
     // The total number of frames that have passed (Read Only).
-    int   GetFrameCount()const;
+    long    GetFrameCount()const;
 
-    int   GetId()const;
+    long    GetId()const;
 
-    //expressed in seconds
-    void Tick(float deltaTime);
-    void Start();
-    void Stop();
+    // The scale at which the time is passing. This can be used for slow motion effects.
+    float   GetTimeScale()const;
+
+    void*   GetUserData()const;
+
+    bool    Start();
+    bool    Start(const TimedEvent& callback);
+    bool    Start(const TimedEvent& callback, long milliseconds, long repeatCount = repeat_forever, float timeScale = 1.0f);
+    void    Stop();
 private:
-    void Move(Timer&& other);
-    void Reset();
-    void InternalUpdate(int deltaTime);
+    void    Move(Timer&& other);
+    void    Reset();
+    void    Run();
 private:
-    std::atomic_bool _enable;
-    std::atomic_int  _interval;         // expressed in milliseconds
-    float            _timeScale;
-    std::atomic_int  _repeatCount;
-    std::atomic_int  _maximumDeltaTime; // expressed in milliseconds,default to 100 seconds.
-    std::atomic_int  _deltaTime;        // expressed in milliseconds
-    std::atomic_int  _frameCount;
-    std::atomic_int  _elapsedTime;      // expressed in milliseconds
-    int              _myid;
-    static int       _nextValidId;
+    std::atomic_long   _interval;         // expressed in milliseconds
+    std::atomic_long   _deltaTime;        // expressed in milliseconds
+    std::atomic_long   _repeatCount;
+    std::atomic_long   _frameCount;
+    std::atomic_bool   _bRunning;
+    ElapsedTimer       _deltaTimer;
+    std::atomic<float> _timeScale;
+    long               _myid;
+    void*              _userData;
+    std::future<void>  _future;
+
 };
 
 inline bool operator <(const Timer& _Left, const Timer& _Right)
@@ -161,12 +116,12 @@ inline bool operator ==(const Timer& _Left, int timerId)
     return _Left.GetId() == timerId;
 }
 
-inline bool operator ==(const Timer::pointer& _Left, const Timer::pointer& _Right)
+inline bool operator ==(const Timer::Pointer& _Left, const Timer::Pointer& _Right)
 {
     return _Left->GetId() == _Right->GetId();
 }
 
-inline bool operator ==(const Timer::pointer& _Left, int timerId)
+inline bool operator ==(const Timer::Pointer& _Left, int timerId)
 {
     return _Left->GetId() == timerId;
 }
