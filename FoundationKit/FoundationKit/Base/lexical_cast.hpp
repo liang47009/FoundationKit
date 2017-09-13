@@ -11,7 +11,7 @@
 #include <type_traits>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
-#if(TARGET_PLATFORM == PLATFORM_ANDROID)
+#if(TARGET_PLATFORM == PLATFORM_ANDROID) && !defined(__clang__)
 #include <stdexcept>
 #include <sstream>
 #include <iomanip>
