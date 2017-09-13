@@ -4,6 +4,7 @@
 
 #elif (TARGET_PLATFORM == PLATFORM_ANDROID) ||(TARGET_PLATFORM == PLATFORM_IOS) ||((TARGET_PLATFORM == PLATFORM_MAC))
 #include <time.h>
+#include <sys/time.h>
 #endif
 
 NS_FK_BEGIN

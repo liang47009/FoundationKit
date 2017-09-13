@@ -24,8 +24,6 @@
 		093490CB1E7F7BA30034ECF2 /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490251E7F7BA20034ECF2 /* Quaternion.cpp */; };
 		093490CC1E7F7BA30034ECF2 /* Rect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490281E7F7BA20034ECF2 /* Rect.cpp */; };
 		093490CE1E7F7BA30034ECF2 /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934902E1E7F7BA20034ECF2 /* StringUtils.cpp */; };
-		093490CF1E7F7BA30034ECF2 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490301E7F7BA20034ECF2 /* Timer.cpp */; };
-		093490D01E7F7BA30034ECF2 /* TimerQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490321E7F7BA20034ECF2 /* TimerQueue.cpp */; };
 		093490D11E7F7BA30034ECF2 /* Timespan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490341E7F7BA20034ECF2 /* Timespan.cpp */; };
 		093490D21E7F7BA30034ECF2 /* Value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490371E7F7BA20034ECF2 /* Value.cpp */; };
 		093490D31E7F7BA30034ECF2 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934903A1E7F7BA20034ECF2 /* Vector2.cpp */; };
@@ -91,7 +89,6 @@
 		094C50BD1EC3FF1B00AB3021 /* Rect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490281E7F7BA20034ECF2 /* Rect.cpp */; };
 		094C50BE1EC3FF1B00AB3021 /* ConvertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = 09348F481E7F7BA20034ECF2 /* ConvertUTF.c */; };
 		094C50C11EC3FF1B00AB3021 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934903A1E7F7BA20034ECF2 /* Vector2.cpp */; };
-		094C50C21EC3FF1B00AB3021 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490301E7F7BA20034ECF2 /* Timer.cpp */; };
 		094C50C51EC3FF1B00AB3021 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934903D1E7F7BA20034ECF2 /* Vector3.cpp */; };
 		094C50C71EC3FF1B00AB3021 /* Version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490431E7F7BA20034ECF2 /* Version.cpp */; };
 		094C50C81EC3FF1B00AB3021 /* unzip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09348FE11E7F7BA20034ECF2 /* unzip.cpp */; };
@@ -99,7 +96,6 @@
 		094C50CC1EC3FF1B00AB3021 /* ioapi_mem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09348FDF1E7F7BA20034ECF2 /* ioapi_mem.cpp */; };
 		094C50CF1EC3FF1B00AB3021 /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934901E1E7F7BA20034ECF2 /* MathUtil.cpp */; };
 		094C50D01EC3FF1B00AB3021 /* Timespan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490341E7F7BA20034ECF2 /* Timespan.cpp */; };
-		094C50D21EC3FF1B00AB3021 /* TimerQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490321E7F7BA20034ECF2 /* TimerQueue.cpp */; };
 		094C50D31EC3FF1B00AB3021 /* DateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490101E7F7BA20034ECF2 /* DateTime.cpp */; };
 		094C50D51EC3FF1B00AB3021 /* ioapi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09348FDD1E7F7BA20034ECF2 /* ioapi.cpp */; };
 		094C50D71EC3FF1B00AB3021 /* Value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490371E7F7BA20034ECF2 /* Value.cpp */; };
@@ -107,6 +103,7 @@
 		095286721ACA31DB00718FA9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 095286711ACA31DB00718FA9 /* Foundation.framework */; };
 		098D2A641F66261B0092E166 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 098D2A621F66261B0092E166 /* Time.cpp */; };
 		098D2A651F6626230092E166 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 098D2A621F66261B0092E166 /* Time.cpp */; };
+		098D2A731F692BDC0092E166 /* ThreadTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 098D2A711F692BDC0092E166 /* ThreadTimer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -198,10 +195,6 @@
 		0934902D1E7F7BA20034ECF2 /* Size.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Size.hpp; sourceTree = "<group>"; };
 		0934902E1E7F7BA20034ECF2 /* StringUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringUtils.cpp; sourceTree = "<group>"; };
 		0934902F1E7F7BA20034ECF2 /* StringUtils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StringUtils.hpp; sourceTree = "<group>"; };
-		093490301E7F7BA20034ECF2 /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
-		093490311E7F7BA20034ECF2 /* Timer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timer.hpp; sourceTree = "<group>"; };
-		093490321E7F7BA20034ECF2 /* TimerQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimerQueue.cpp; sourceTree = "<group>"; };
-		093490331E7F7BA20034ECF2 /* TimerQueue.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TimerQueue.hpp; sourceTree = "<group>"; };
 		093490341E7F7BA20034ECF2 /* Timespan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timespan.cpp; sourceTree = "<group>"; };
 		093490351E7F7BA20034ECF2 /* Timespan.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timespan.hpp; sourceTree = "<group>"; };
 		093490371E7F7BA20034ECF2 /* Value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Value.cpp; sourceTree = "<group>"; };
@@ -305,6 +298,8 @@
 		098D2A6E1F67E7FD0092E166 /* match.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = match.hpp; sourceTree = "<group>"; };
 		098D2A6F1F67E7FD0092E166 /* max_integer_of.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = max_integer_of.hpp; sourceTree = "<group>"; };
 		098D2A701F67E7FD0092E166 /* memory_aligned.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = memory_aligned.hpp; sourceTree = "<group>"; };
+		098D2A711F692BDC0092E166 /* ThreadTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadTimer.cpp; sourceTree = "<group>"; };
+		098D2A721F692BDC0092E166 /* ThreadTimer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ThreadTimer.hpp; sourceTree = "<group>"; };
 		09A0B2451F04EC2A00572DEB /* FunctionHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FunctionHandler.hpp; sourceTree = "<group>"; };
 		09A0B2461F04EC3300572DEB /* scope_guard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = scope_guard.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -433,6 +428,8 @@
 		0934900A1E7F7BA20034ECF2 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				098D2A711F692BDC0092E166 /* ThreadTimer.cpp */,
+				098D2A721F692BDC0092E166 /* ThreadTimer.hpp */,
 				098D2A621F66261B0092E166 /* Time.cpp */,
 				098D2A631F66261B0092E166 /* Time.hpp */,
 				098D2A4F1F555F590092E166 /* MathUtilNeon64.inl */,
@@ -471,10 +468,6 @@
 				0934902D1E7F7BA20034ECF2 /* Size.hpp */,
 				0934902E1E7F7BA20034ECF2 /* StringUtils.cpp */,
 				0934902F1E7F7BA20034ECF2 /* StringUtils.hpp */,
-				093490301E7F7BA20034ECF2 /* Timer.cpp */,
-				093490311E7F7BA20034ECF2 /* Timer.hpp */,
-				093490321E7F7BA20034ECF2 /* TimerQueue.cpp */,
-				093490331E7F7BA20034ECF2 /* TimerQueue.hpp */,
 				093490341E7F7BA20034ECF2 /* Timespan.cpp */,
 				093490351E7F7BA20034ECF2 /* Timespan.hpp */,
 				093490371E7F7BA20034ECF2 /* Value.cpp */,
@@ -763,7 +756,6 @@
 				094C50BE1EC3FF1B00AB3021 /* ConvertUTF.c in Sources */,
 				094C50C11EC3FF1B00AB3021 /* Vector2.cpp in Sources */,
 				09410A061F3C0948006D6F80 /* AppleDirectory.mm in Sources */,
-				094C50C21EC3FF1B00AB3021 /* Timer.cpp in Sources */,
 				094C50C51EC3FF1B00AB3021 /* Vector3.cpp in Sources */,
 				094C50C71EC3FF1B00AB3021 /* Version.cpp in Sources */,
 				094C50C81EC3FF1B00AB3021 /* unzip.cpp in Sources */,
@@ -772,7 +764,6 @@
 				09410A041F3C07D0006D6F80 /* File.cpp in Sources */,
 				094C50CF1EC3FF1B00AB3021 /* MathUtil.cpp in Sources */,
 				094C50D01EC3FF1B00AB3021 /* Timespan.cpp in Sources */,
-				094C50D21EC3FF1B00AB3021 /* TimerQueue.cpp in Sources */,
 				094C50D31EC3FF1B00AB3021 /* DateTime.cpp in Sources */,
 				094C50D51EC3FF1B00AB3021 /* ioapi.cpp in Sources */,
 				09410A071F3C094A006D6F80 /* AppleEnvironment.mm in Sources */,
@@ -799,6 +790,7 @@
 				094109F81F3C0787006D6F80 /* Platform.cpp in Sources */,
 				094109FA1F3C0787006D6F80 /* WindowsDirectory.cpp in Sources */,
 				094109FF1F3C0787006D6F80 /* WindowsProtectedMemoryAllocator.cpp in Sources */,
+				098D2A731F692BDC0092E166 /* ThreadTimer.cpp in Sources */,
 				093490D71E7F7BA30034ECF2 /* GenericPlatformMacros.cpp in Sources */,
 				093490C61E7F7BA30034ECF2 /* Exception.cpp in Sources */,
 				094109F41F3C0787006D6F80 /* IOSPlatform.mm in Sources */,
@@ -810,7 +802,6 @@
 				093490A41E7F7BA20034ECF2 /* ConvertUTF.c in Sources */,
 				093490D31E7F7BA30034ECF2 /* Vector2.cpp in Sources */,
 				094109FE1F3C0787006D6F80 /* WindowsPlatform.cpp in Sources */,
-				093490CF1E7F7BA30034ECF2 /* Timer.cpp in Sources */,
 				093490D41E7F7BA30034ECF2 /* Vector3.cpp in Sources */,
 				094109E11F3C0787006D6F80 /* AndroidEnvironment.cpp in Sources */,
 				094109E51F3C0787006D6F80 /* AndroidPath.cpp in Sources */,
@@ -834,7 +825,6 @@
 				093490D11E7F7BA30034ECF2 /* Timespan.cpp in Sources */,
 				094109E71F3C0787006D6F80 /* AndroidProtectedMemoryAllocator.cpp in Sources */,
 				094109FB1F3C0787006D6F80 /* WindowsEnvironment.cpp in Sources */,
-				093490D01E7F7BA30034ECF2 /* TimerQueue.cpp in Sources */,
 				094109DF1F3C0787006D6F80 /* AndroidDevice.cpp in Sources */,
 				094109ED1F3C0787006D6F80 /* Directory.cpp in Sources */,
 				093490C41E7F7BA30034ECF2 /* DateTime.cpp in Sources */,
