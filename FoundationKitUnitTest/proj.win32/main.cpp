@@ -4,9 +4,8 @@
 #include <thread>
 #include <iostream>
 #include <atomic>
-#include "FoundationKit/Foundation/Timer.hpp"
 
-USING_NS_FK;
+//USING_NS_FK;
 
 bool bCanExit = false;
 static std::atomic<int> command = -1;

@@ -31,8 +31,7 @@ $(SRCROOT)/FoundationKit/Foundation/Quaternion.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Rect.cpp \
 $(SRCROOT)/FoundationKit/Foundation/StringUtils.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Time.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Timer.cpp \
-$(SRCROOT)/FoundationKit/Foundation/TimerQueue.cpp \
+$(SRCROOT)/FoundationKit/Foundation/ThreadTimer.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Timespan.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Vector2.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Vector3.cpp \

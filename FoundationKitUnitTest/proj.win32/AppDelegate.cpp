@@ -10,8 +10,6 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Version.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/ApplyTuple.hpp"
-#include "FoundationKit/Foundation/TupleApply.hpp"
 #include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/std/memory_aligned.hpp"
 #include "FoundationKit/std/function_cache.hpp"
@@ -25,9 +23,7 @@
 #include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Crypto/Base64.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
-#include "FoundationKit/Foundation/Timer.hpp"
 #include "FoundationKit/Foundation/Compression.hpp"
-#include "FoundationKit/Foundation/TimerQueue.hpp"
 #include "FoundationKit/Foundation/DelegateManager.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Base/scope_guard.hpp"
@@ -49,7 +45,10 @@
 #include "FoundationKit/Base/locale.hpp"
 #include "FoundationKit/Base/unique_id.hpp"
 #include "FoundationKit/Base/string_encoding.hpp"
+#include "FoundationKit/Foundation/Time.hpp"
+#include "FoundationKit/Foundation/Directory.hpp"
 #include "../Libraries/Networking/Networking/network.hpp"
+#include "FoundationKit/experimental/AsyncTask.hpp"
 
 using namespace std;
 USING_NS_FK;
@@ -81,11 +80,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 	HTTPClient::GetInstance()->Initialize();
 
 
-
-    std::string FileContext = File::ReadAllText("F:\\Projects\\TaijiPanda3\\code\\mobile\\amber_mobil_crossx.sln");
-
-
-   
 	int im_a_breakpoint = 0;
 	return true;
 }
@@ -110,6 +104,7 @@ void AppDelegate::applicationWillTerminate()
 void AppDelegate::mainLoop()
 {
 	HTTPClient::GetInstance()->Tick(1 / 60.0f);
+
 }
 
 

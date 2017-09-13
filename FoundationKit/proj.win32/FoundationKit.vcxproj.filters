@@ -177,9 +177,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\Size.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Timer.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Timespan.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -316,9 +313,6 @@
     <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformTLS.hpp">
       <Filter>Platform\Apple</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\ThreadTimer.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\AsyncTask.hpp">
       <Filter>experimental</Filter>
     </ClInclude>
@@ -339,6 +333,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\std\apply.hpp">
       <Filter>std</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\ThreadTimer.hpp">
+      <Filter>Foundation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -389,9 +386,6 @@
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Timer.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Timespan.cpp">
@@ -479,6 +473,9 @@
       <Filter>Platform\Android</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Time.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\ThreadTimer.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
   </ItemGroup>

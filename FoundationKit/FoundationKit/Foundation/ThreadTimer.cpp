@@ -1,12 +1,12 @@
 
-#include "FoundationKit/Foundation/Timer.hpp"
+#include "FoundationKit/Foundation/ThreadTimer.hpp"
 #include "FoundationKit/Foundation/Timespan.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 NS_FK_BEGIN
 
-int Timer::_nextValidId = 1000;
+int ThreadTimer::_nextValidId = 1000;
 
-Timer::Timer()
+ThreadTimer::ThreadTimer()
 {
     _interval = 1000;
     _deltaTime = 0;
@@ -17,30 +17,30 @@ Timer::Timer()
     _timeScale = 1.0f;
     _myid = _nextValidId++;
 }
-Timer::Timer(Timer&& other)
+ThreadTimer::ThreadTimer(ThreadTimer&& other)
 {
-    Move(std::forward<Timer&&>(other));
+    Move(std::forward<ThreadTimer&&>(other));
 }
 
-Timer::~Timer()
+ThreadTimer::~ThreadTimer()
 {
     Stop();
     _future.wait();
 }
 
-Timer& Timer::operator=(Timer&& other)
+ThreadTimer& ThreadTimer::operator=(ThreadTimer&& other)
 {
-    move(std::forward<Timer&&>(other));
+    move(std::forward<ThreadTimer&&>(other));
     return (*this);
 }
 
-Timer::Pointer Timer::Create()
+ThreadTimer::Pointer ThreadTimer::Create()
 {
-    Timer::Pointer pTimer = Timer::Pointer(new Timer());
+    ThreadTimer::Pointer pTimer = ThreadTimer::Pointer(new ThreadTimer());
     return pTimer;
 }
 
-Timer& Timer::SetInterval(long value)
+ThreadTimer& ThreadTimer::SetInterval(long value)
 {
     if (value < 0)
         throw std::invalid_argument("setInterval value must be > 0");
@@ -48,80 +48,80 @@ Timer& Timer::SetInterval(long value)
     return (*this);
 }
 
-Timer& Timer::SetTimeScale(float value)
+ThreadTimer& ThreadTimer::SetTimeScale(float value)
 {
     _timeScale = value;
     return (*this);
 }
 
-Timer& Timer::SetRepeatCount(long value)
+ThreadTimer& ThreadTimer::SetRepeatCount(long value)
 {
     _repeatCount = value;
     return (*this);
 }
 
-Timer& Timer::SetUserData(void* userData)
+ThreadTimer& ThreadTimer::SetUserData(void* userData)
 {
     _userData = userData;
     return (*this);
 }
 
-Timer& Timer::SetTimedEvent(const TimedEvent& callback)
+ThreadTimer& ThreadTimer::SetTimedEvent(const TimedEvent& callback)
 {
     onTimedEvent = callback;
     return (*this);
 }
 
-long Timer::GetInterval()const
+long ThreadTimer::GetInterval()const
 {
     return _interval.load();
 }
 
 
-float Timer::GetTimeScale()const
+float ThreadTimer::GetTimeScale()const
 {
     return _timeScale.load();
 }
 
-long Timer::GetDeltaTime()const
+long ThreadTimer::GetDeltaTime()const
 {
     return _deltaTime.load();
 }
 
-long Timer::GetFrameCount()const
+long ThreadTimer::GetFrameCount()const
 {
     return _frameCount.load();
 }
 
-long Timer::GetId()const
+long ThreadTimer::GetId()const
 {
     return _myid;
 }
 
-void* Timer::GetUserData() const
+void* ThreadTimer::GetUserData() const
 {
     return _userData;
 }
 
-bool Timer::Start()
+bool ThreadTimer::Start()
 {
     if (onTimedEvent)
     {
         _bRunning = true;
         _deltaTimer.Reset();
-        _future = std::async(std::launch::async, std::bind(&Timer::Run, this));
+        _future = std::async(std::launch::async, std::bind(&ThreadTimer::Run, this));
         return true;
     }
     return false;
 }
 
-bool Timer::Start(const TimedEvent& callback)
+bool ThreadTimer::Start(const TimedEvent& callback)
 {
     onTimedEvent = callback;
     return Start();
 }
 
-bool Timer::Start(const TimedEvent& callback, long milliseconds, long repeatCount /*= repeat_forever*/, float timeScale /*= 1.0f*/)
+bool ThreadTimer::Start(const TimedEvent& callback, long milliseconds, long repeatCount /*= repeat_forever*/, float timeScale /*= 1.0f*/)
 {
     _interval    = milliseconds;
     _repeatCount = repeatCount;
@@ -130,13 +130,13 @@ bool Timer::Start(const TimedEvent& callback, long milliseconds, long repeatCoun
     return Start();
 }
 
-void Timer::Stop()
+void ThreadTimer::Stop()
 {
     _bRunning = false;
     Reset();
 }
 
-void Timer::Move(Timer&& other)
+void ThreadTimer::Move(ThreadTimer&& other)
 {
     SetInterval(other.GetInterval());
     SetTimeScale(other.GetTimeScale());
@@ -148,13 +148,13 @@ void Timer::Move(Timer&& other)
     other.Stop();
 }
 
-void Timer::Reset()
+void ThreadTimer::Reset()
 {
     _deltaTime   = 0;
     _frameCount  = 0;
 }
 
-void Timer::Run()
+void ThreadTimer::Run()
 {
     do 
     {
