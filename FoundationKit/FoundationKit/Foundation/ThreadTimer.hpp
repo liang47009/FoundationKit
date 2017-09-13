@@ -1,4 +1,11 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
+****************************************************************************/
+#ifndef FOUNDATIONKIT_FOUNDATIONKIT_THREADTIMER_HPP
+#define FOUNDATIONKIT_FOUNDATIONKIT_THREADTIMER_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -8,16 +15,13 @@
 #include <thread>
 #include <atomic>
 #include <memory>
-#include <future>
+//#include <future>
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 #include "FoundationKit/Base/types.hpp"
 
 NS_FK_BEGIN
-
-
-
 
 // Generates an event after a set interval,with some option to generate recurring events.
 // Expressed in milliseconds.
@@ -79,7 +83,6 @@ public:
 private:
     void    Move(ThreadTimer&& other);
     void    Reset();
-    void    Run();
 private:
     std::atomic_long   _interval;         // expressed in milliseconds
     std::atomic_long   _deltaTime;        // expressed in milliseconds
@@ -90,7 +93,8 @@ private:
     std::atomic<float> _timeScale;
     long               _myid;
     void*              _userData;
-    std::future<void>  _future;
+    std::thread        _thread;
+    //std::future<void>  _future;
 
 };
 
@@ -121,3 +125,5 @@ inline bool operator ==(const ThreadTimer::Pointer& _Left, int timerId)
 
 NS_FK_END
 
+
+#endif // END OF FOUNDATIONKIT_FOUNDATIONKIT_THREADTIMER_HPP

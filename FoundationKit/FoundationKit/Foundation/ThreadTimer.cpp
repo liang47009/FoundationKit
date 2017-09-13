@@ -25,7 +25,11 @@ ThreadTimer::ThreadTimer(ThreadTimer&& other)
 ThreadTimer::~ThreadTimer()
 {
     Stop();
-    _future.wait();
+    if (_thread.joinable())
+    {
+        _thread.join();
+    }
+    //_future.wait();
 }
 
 ThreadTimer& ThreadTimer::operator=(ThreadTimer&& other)
@@ -109,7 +113,31 @@ bool ThreadTimer::Start()
     {
         _bRunning = true;
         _deltaTimer.Reset();
-        _future = std::async(std::launch::async, std::bind(&ThreadTimer::Run, this));
+        auto TimerLoop = [this]()
+        {
+            do
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                //std::this_thread::yield();
+                long  elapsedTime = static_cast<long>(_deltaTimer.Milliseconds());
+                long  finalInterval = static_cast<long>(_interval*_timeScale);
+                if (onTimedEvent &&  elapsedTime >= finalInterval)
+                {
+                    _deltaTimer.Reset();
+                    _deltaTime = elapsedTime;
+                    _frameCount += 1;
+                    onTimedEvent(shared_from_this());
+                    if (_frameCount >= _repeatCount && _repeatCount != repeat_forever)
+                    {
+                        Stop();
+                        break;
+                    }
+                }
+            } while (_bRunning == true);
+        };
+
+        //_future = std::async(std::launch::async, TimerLoop);
+        _thread = std::thread(TimerLoop);
         return true;
     }
     return false;
@@ -154,28 +182,6 @@ void ThreadTimer::Reset()
     _frameCount  = 0;
 }
 
-void ThreadTimer::Run()
-{
-    do 
-    {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        //std::this_thread::yield();
-        long  elapsedTime   = static_cast<long>(_deltaTimer.Milliseconds());
-        long  finalInterval = static_cast<long>(_interval*_timeScale);
-        if (onTimedEvent &&  elapsedTime  >= finalInterval)
-        {
-            _deltaTimer.Reset();
-            _deltaTime   = elapsedTime;
-            _frameCount += 1;
-            onTimedEvent(shared_from_this());
-            if (_frameCount >= _repeatCount && _repeatCount != repeat_forever)
-            {
-                Stop();
-                break;
-            }
-        }
-    } while (_bRunning == true);
-}
 
 NS_FK_END
 
