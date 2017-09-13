@@ -25,11 +25,6 @@ ThreadTimer::ThreadTimer(ThreadTimer&& other)
 ThreadTimer::~ThreadTimer()
 {
     Stop();
-    if (_thread.joinable())
-    {
-        _thread.join();
-    }
-    //_future.wait();
 }
 
 ThreadTimer& ThreadTimer::operator=(ThreadTimer&& other)
@@ -109,7 +104,7 @@ void* ThreadTimer::GetUserData() const
 
 bool ThreadTimer::Start()
 {
-    if (onTimedEvent)
+    if (onTimedEvent && !_bRunning)
     {
         _bRunning = true;
         _deltaTimer.Reset();
@@ -145,22 +140,35 @@ bool ThreadTimer::Start()
 
 bool ThreadTimer::Start(const TimedEvent& callback)
 {
-    onTimedEvent = callback;
-    return Start();
+    if (!_bRunning)
+    {
+        onTimedEvent = callback;
+        return Start();
+    }
+    return false;
 }
 
 bool ThreadTimer::Start(const TimedEvent& callback, long milliseconds, long repeatCount /*= repeat_forever*/, float timeScale /*= 1.0f*/)
 {
-    _interval    = milliseconds;
-    _repeatCount = repeatCount;
-    _timeScale   = timeScale;
-    onTimedEvent = callback;
-    return Start();
+    if (!_bRunning)
+    {
+        _interval = milliseconds;
+        _repeatCount = repeatCount;
+        _timeScale = timeScale;
+        onTimedEvent = callback;
+        return Start();
+    }
+    return false;
 }
 
 void ThreadTimer::Stop()
 {
     _bRunning = false;
+    if (_thread.joinable())
+    {
+        _thread.join();
+    }
+    //_future.wait();
     Reset();
 }
 
