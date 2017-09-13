@@ -104,7 +104,6 @@ endif
 TARGET_LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
 TARGET_LOCAL_CFLAGS   += -ffunction-sections -fdata-sections
 
-
 LOCAL_SHORT_COMMANDS := true
 
 LOCAL_CFLAGS   := $(TARGET_LOCAL_CFLAG)
