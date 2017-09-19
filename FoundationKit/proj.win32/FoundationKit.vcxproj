@@ -247,7 +247,9 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaClass.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaObject.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformTLS.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Directory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Environment.hpp" />
@@ -256,10 +258,11 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\Path.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Platform.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformDevice.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\PlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\ProtectedMemoryAllocator.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\dirent.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.h" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\std\apply.hpp" />
     <ClInclude Include="..\FoundationKit\std\contains_of_type.hpp" />
@@ -308,7 +311,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPath.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPlatform.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidProtectedMemoryAllocator.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Directory.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\File.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Path.cpp" />
@@ -319,7 +321,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsFile.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPath.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPlatform.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsProtectedMemoryAllocator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\Foundation\MathUtil.inl" />
@@ -334,7 +335,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <None Include="..\FoundationKit\Platform\Apple\AppleEnvironment.mm" />
     <None Include="..\FoundationKit\Platform\Apple\AppleFile.mm" />
     <None Include="..\FoundationKit\Platform\Apple\ApplePath.mm" />
-    <None Include="..\FoundationKit\Platform\Apple\AppleProtectedMemoryAllocator.mm" />
     <None Include="..\FoundationKit\Platform\ios\IOSDevice.mm" />
     <None Include="..\FoundationKit\Platform\ios\IOSPlatform.mm" />
     <None Include="..\FoundationKit\Platform\mac\MACDevice.mm" />

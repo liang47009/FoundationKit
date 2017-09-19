@@ -47,7 +47,6 @@ $(SRCROOT)/FoundationKit/Platform/Android/AndroidFile.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidPath.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidPlatform.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidDevice.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidProtectedMemoryAllocator.cpp \
 $(SRCROOT)/FoundationKit/Platform/Directory.cpp \
 $(SRCROOT)/FoundationKit/Platform/File.cpp \
 $(SRCROOT)/FoundationKit/Platform/Path.cpp \

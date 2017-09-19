@@ -301,9 +301,6 @@
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp">
       <Filter>Platform\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\ProtectedMemoryAllocator.hpp">
-      <Filter>Platform</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJavaBridge.hpp">
       <Filter>Platform\Android</Filter>
     </ClInclude>
@@ -336,6 +333,18 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\ThreadTimer.hpp">
       <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformMemory.hpp">
+      <Filter>Platform\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\PlatformMemory.hpp">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformMemory.hpp">
+      <Filter>Platform\Apple</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformMemory.hpp">
+      <Filter>Platform\Android</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -445,9 +454,6 @@
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPlatform.cpp">
       <Filter>Platform\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsProtectedMemoryAllocator.cpp">
-      <Filter>Platform\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDevice.cpp">
       <Filter>Platform\Android</Filter>
     </ClCompile>
@@ -467,9 +473,6 @@
       <Filter>Platform\Android</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPlatform.cpp">
-      <Filter>Platform\Android</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidProtectedMemoryAllocator.cpp">
       <Filter>Platform\Android</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Time.cpp">
@@ -511,9 +514,6 @@
       <Filter>Platform\Apple</Filter>
     </None>
     <None Include="..\FoundationKit\Platform\Apple\ApplePath.mm">
-      <Filter>Platform\Apple</Filter>
-    </None>
-    <None Include="..\FoundationKit\Platform\Apple\AppleProtectedMemoryAllocator.mm">
       <Filter>Platform\Apple</Filter>
     </None>
     <None Include="..\FoundationKit\Platform\ios\IOSDevice.mm">
