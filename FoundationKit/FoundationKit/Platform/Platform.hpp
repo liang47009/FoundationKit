@@ -66,7 +66,6 @@ public:
 	Platform();
 	~Platform();
     static bool IsDebuggerPresent();
-    static size_t MallocUsableSize(void* ptr);
     static std::string ExecuteSystemCommand(const std::string& command);
     static bool ScreenShot(std::string& outSavePath);
 };

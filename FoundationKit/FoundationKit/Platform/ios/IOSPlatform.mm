@@ -26,11 +26,6 @@ bool Platform::IsDebuggerPresent()
 	return ( Info.kp_proc.p_flag & P_TRACED ) != 0;
 }
 
-size_t Platform::MallocUsableSize(void* ptr)
-{
-    return malloc_size(ptr);
-}
-
 std::string Platform::ExecuteSystemCommand(const std::string& command)
 {
     char buffer[256+1]={0};

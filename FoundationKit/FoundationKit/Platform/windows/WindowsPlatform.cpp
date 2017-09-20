@@ -16,10 +16,6 @@ bool Platform::IsDebuggerPresent()
     return ::IsDebuggerPresent() == TRUE;
 }
 
-size_t Platform::MallocUsableSize(void* ptr)
-{
-    return _msize(ptr);
-}
 
 #define USER_POPEN 0
 std::string Platform::ExecuteSystemCommand(const std::string& command)

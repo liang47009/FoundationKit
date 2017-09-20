@@ -64,6 +64,19 @@ $(PROJECT_DIR)/FoundationKit/external/unzip \
 $(PROJECT_DIR)/../ThirdParty/spdlog/include \
 cpufeatures/
 
+###############################################
+############### CUSTOM OPTION #################
+
+# Enable AddressSanitizer
+ENABLE_ADDRESS_SANITIZER:=1
+# Enable UndefinedBehaviorSanitizer
+ENABLE_UNDEFINED_SANITIZER:=1
+
+REDUCE_BIN_SIZE := 0
+
+############### CUSTOM OPTION #################
+###############################################
+
 TARGET_LOCAL_CFLAGS := \
 -fexceptions
 
@@ -97,11 +110,27 @@ ifeq (armeabi-v7a,$(TARGET_ARCH_ABI))
 TARGET_LOCAL_CPPFLAGS += -DUSE_NEON
 endif
 
-#Reduce Binaries Size
-# TARGET_LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections -fvisibility=hidden
-# TARGET_LOCAL_CFLAGS   += -ffunction-sections -fdata-sections -fvisibility=hidden 
+ifeq ($(ENABLE_ADDRESS_SANITIZER),1)
+TARGET_LOCAL_CPPFLAGS += -fsanitize=address -fsanitize-address-use-after-scope -fno-omit-frame-pointer -O1
+TARGET_LOCAL_CFLAGS   += -fsanitize=address -fsanitize-address-use-after-scope -fno-omit-frame-pointer -O1
+TARGET_LOCAL_LDFLAGS  += -fsanitize=address -fsanitize-address-use-after-scope -O1
+endif
+
+ifeq ($(ENABLE_UNDEFINED_SANITIZER),1)
+LOCAL_SANITIZE:=unsigned-integer-overflow signed-integer-overflow
+LOCAL_SANITIZE_DIAG:=unsigned-integer-overflow signed-integer-overflow
+endif
+
+
+ifeq ($(REDUCE_BIN_SIZE),1)
+TARGET_LOCAL_CPPFLAGS += -fvisibility=hidden
+TARGET_LOCAL_CFLAGS   += -fvisibility=hidden 
+endif
+
 TARGET_LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
 TARGET_LOCAL_CFLAGS   += -ffunction-sections -fdata-sections
+
+################## COMPILE CONFIG ###################
 
 LOCAL_SHORT_COMMANDS := true
 
