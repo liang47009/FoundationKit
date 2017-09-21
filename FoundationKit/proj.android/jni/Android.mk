@@ -68,9 +68,9 @@ cpufeatures/
 ############### CUSTOM OPTION #################
 
 # Enable AddressSanitizer
-ENABLE_ADDRESS_SANITIZER:=1
+ENABLE_ADDRESS_SANITIZER:=0
 # Enable UndefinedBehaviorSanitizer
-ENABLE_UNDEFINED_SANITIZER:=1
+ENABLE_UNDEFINED_SANITIZER:=0
 
 REDUCE_BIN_SIZE := 0
 
@@ -81,8 +81,8 @@ TARGET_LOCAL_CFLAGS := \
 -fexceptions
 
 TARGET_LOCAL_CPPFLAGS := \
--frtti \
 -fexceptions \
+-frtti \
 -fsigned-char \
 -std=c++14 \
 -Wno-deprecated-declarations \
@@ -111,16 +111,15 @@ TARGET_LOCAL_CPPFLAGS += -DUSE_NEON
 endif
 
 ifeq ($(ENABLE_ADDRESS_SANITIZER),1)
-TARGET_LOCAL_CPPFLAGS += -fsanitize=address -fsanitize-address-use-after-scope -fno-omit-frame-pointer -O1
-TARGET_LOCAL_CFLAGS   += -fsanitize=address -fsanitize-address-use-after-scope -fno-omit-frame-pointer -O1
-TARGET_LOCAL_LDFLAGS  += -fsanitize=address -fsanitize-address-use-after-scope -O1
+# TARGET_LOCAL_CPPFLAGS += -fsanitize=address -fno-omit-frame-pointer -O1
+# TARGET_LOCAL_CFLAGS   += -fsanitize=address -fno-omit-frame-pointer -O1
+# TARGET_LOCAL_LDFLAGS  += -fsanitize=address -O1
 endif
 
 ifeq ($(ENABLE_UNDEFINED_SANITIZER),1)
 LOCAL_SANITIZE:=unsigned-integer-overflow signed-integer-overflow
 LOCAL_SANITIZE_DIAG:=unsigned-integer-overflow signed-integer-overflow
 endif
-
 
 ifeq ($(REDUCE_BIN_SIZE),1)
 TARGET_LOCAL_CPPFLAGS += -fvisibility=hidden
