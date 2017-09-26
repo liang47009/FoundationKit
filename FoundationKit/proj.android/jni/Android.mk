@@ -55,27 +55,7 @@ $(SRCROOT)/FoundationKit/Platform/Platform.cpp \
 LOCAL_C_INCLUDES := \
 $(PROJECT_DIR)/ \
 $(PROJECT_DIR)/FoundationKit/external/unzip \
-$(PROJECT_DIR)/../ThirdParty/spdlog/include \
-cpufeatures/
-
-#LOCAL_EXPORT_C_INCLUDES := \
-$(PROJECT_DIR)/ \
-$(PROJECT_DIR)/FoundationKit/external/unzip \
-$(PROJECT_DIR)/../ThirdParty/spdlog/include \
-cpufeatures/
-
-###############################################
-############### CUSTOM OPTION #################
-
-# Enable AddressSanitizer
-ENABLE_ADDRESS_SANITIZER:=0
-# Enable UndefinedBehaviorSanitizer
-ENABLE_UNDEFINED_SANITIZER:=0
-
-REDUCE_BIN_SIZE := 0
-
-############### CUSTOM OPTION #################
-###############################################
+$(PROJECT_DIR)/../ThirdParty/spdlog/include
 
 TARGET_LOCAL_CFLAGS := \
 -fexceptions
@@ -99,35 +79,31 @@ TARGET_LOCAL_LDLIBS := \
 -lGLESv2
 
 ifeq ($(NDK_DEBUG),1)
-  TARGET_LOCAL_CFLAGS += -DDEBUG
-  TARGET_LOCAL_CPPFLAGS += -DDEBUG
+	TARGET_LOCAL_CFLAGS += -DDEBUG
+	TARGET_LOCAL_CPPFLAGS += -DDEBUG
 else
-  TARGET_LOCAL_CFLAGS += -DNDEBUG
-  TARGET_LOCAL_CPPFLAGS += -DNDEBUG
+	TARGET_LOCAL_CFLAGS += -DNDEBUG
+	TARGET_LOCAL_CPPFLAGS += -DNDEBUG
 endif
 
 ifeq (armeabi-v7a,$(TARGET_ARCH_ABI))
-TARGET_LOCAL_CPPFLAGS += -DUSE_NEON
+	TARGET_LOCAL_CPPFLAGS += -DUSE_NEON
 endif
 
 ifeq ($(ENABLE_ADDRESS_SANITIZER),1)
 # TARGET_LOCAL_CPPFLAGS += -fsanitize=address -fno-omit-frame-pointer -O1
 # TARGET_LOCAL_CFLAGS   += -fsanitize=address -fno-omit-frame-pointer -O1
 # TARGET_LOCAL_LDFLAGS  += -fsanitize=address -O1
-endif
-
-ifeq ($(ENABLE_UNDEFINED_SANITIZER),1)
-LOCAL_SANITIZE:=unsigned-integer-overflow signed-integer-overflow
-LOCAL_SANITIZE_DIAG:=unsigned-integer-overflow signed-integer-overflow
+# LOCAL_SANITIZE:=unsigned-integer-overflow signed-integer-overflow
+# LOCAL_SANITIZE_DIAG:=unsigned-integer-overflow signed-integer-overflow
 endif
 
 ifeq ($(REDUCE_BIN_SIZE),1)
-TARGET_LOCAL_CPPFLAGS += -fvisibility=hidden
-TARGET_LOCAL_CFLAGS   += -fvisibility=hidden 
+# TARGET_LOCAL_CPPFLAGS += -fvisibility=hidden
+# TARGET_LOCAL_CFLAGS   += -fvisibility=hidden 
+# TARGET_LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
+# TARGET_LOCAL_CFLAGS   += -ffunction-sections -fdata-sections
 endif
-
-TARGET_LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
-TARGET_LOCAL_CFLAGS   += -ffunction-sections -fdata-sections
 
 ################## COMPILE CONFIG ###################
 
@@ -135,31 +111,34 @@ LOCAL_SHORT_COMMANDS := true
 
 LOCAL_CFLAGS   := $(TARGET_LOCAL_CFLAG)
 LOCAL_CPPFLAGS := $(TARGET_LOCAL_CPPFLAGS)
-LOCAL_LDFLAGS  := $(TARGET_LOCAL_LDFLAGS)
-LOCAL_LDLIBS   := $(TARGET_LOCAL_LDLIBS)
+#LOCAL_LDFLAGS  := $(TARGET_LOCAL_LDFLAGS)
+#LOCAL_LDLIBS   := $(TARGET_LOCAL_LDLIBS)
 
-#LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
-#LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
-#LOCAL_EXPORT_LDLIBS := $(LOCAL_EXPORT_LDLIBS)
-
-#Add cpufeatures library
 LOCAL_STATIC_LIBRARIES += cpufeatures
-include $(BUILD_SHARED_LIBRARY)
+
+LOCAL_EXPORT_CFLAGS := $(TARGET_LOCAL_CFLAG)
+LOCAL_EXPORT_CPPFLAGS := $(TARGET_LOCAL_CPPFLAGS)
+LOCAL_EXPORT_LDLIBS := $(TARGET_LOCAL_LDLIBS)
+LOCAL_EXPORT_LDFLAGS := $(TARGET_LOCAL_LDFLAGS)
+LOCAL_EXPORT_C_INCLUDES :=$(LOCAL_C_INCLUDES)
+#LOCAL_EXPORT_STATIC_LIBRARIES+= cpufeatures
 #LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
-#include $(BUILD_STATIC_LIBRARY)
+include $(BUILD_STATIC_LIBRARY)
+#==============================================================
 $(call import-add-path,$(PROJECT_DIR)/FoundationKit)
 $(call import-module,android/cpufeatures)
 
-#==============================================================
 $(info ----------------- Compile libfoundationkit infomation -------------------)
+$(info TARGET_PLATFORM = $(TARGET_PLATFORM))
 $(info TARGET_ARCH     = $(TARGET_ARCH))
 $(info TARGET_ARCH_ABI = $(TARGET_ARCH_ABI))
 $(info TARGET_ABI      = $(TARGET_ABI))
 $(info APP_ABI         = $(APP_ABI))
 $(info NDK_DEBUG       = $(NDK_DEBUG))
-$(info LOCAL_PATH      = $(LOCAL_PATH))
 $(info SRCROOT         = $(SRCROOT))
 $(info --------------------------------------------------------------------------)
+
+
 
 
 

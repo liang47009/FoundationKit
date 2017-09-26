@@ -4,7 +4,7 @@
 
 #include <sys/system_properties.h>//for __system_property_get
 #include <jni.h>
-#include <cpu-features.h> //fou cpu count
+#include <cpu-features.h> //for cpu count
 #include <sys/sysinfo.h>
 #include <unistd.h>
 #include <errno.h>
