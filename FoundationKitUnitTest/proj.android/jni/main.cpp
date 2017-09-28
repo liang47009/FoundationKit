@@ -18,13 +18,13 @@
 #include <jni.h>
 #include <android/log.h>
 #include <stdio.h>
-#include "FoundationKit/Foundation/Logger.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
 #include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
 #include "FoundationKit/std/function_cache.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
+#include "FoundationKit/Platform/PlatformDevice.hpp"
 #include <vector>
 #include <stdarg.h>
 
@@ -66,24 +66,55 @@ void testFunctionCache()
      auto v2 = hasCache(45);
 }
     
+int TestHeapUseAfterFree(int argc)
+{
+    int *array = new int[100];
+    delete [] array;
+    return array[argc];  // BOOM
+}
 
-JNIEXPORT void JNICALL Java_com_example_foundationkitunittest_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
+int TestHeapBufferOverflow(int argc)
+{
+    int *array = new int[100];
+    array[0] = 0;
+    int res = array[argc + 100];  // BOOM
+    delete [] array;
+    return res;
+}
+
+int TestStackBufferOverflow(int argc)
+{
+    int stack_array[100];
+    stack_array[1] = 0;
+    return stack_array[argc + 100];  // BOOM
+}
+
+int global_array[100] = {-1};
+int TestGlobalBufferOverflow(int argc)
+ {
+    return global_array[argc + 100];  // BOOM
+}
+
+JNIEXPORT void JNICALL Java_com_example_test_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
 {
     ANDROID_LOGE("============== >>>>> foundationInit");
-     AndroidJNI::initializeJavaEnv(g_vm, JNI_VERSION_1_6, context);
+     AndroidJNI::InitializeJavaEnv(g_vm, JNI_VERSION_1_6, context);
      AndroidJavaObject  mainActive(context);
-     mainActive.call("debug_Print", 100,"======", "========");
-    ANDROID_LOGE("========== MAC ADDRESS: %s", Platform::getMacAddress().c_str());
+     mainActive.Call("debug_Print", 100,"======", "========");
 
-    AndroidJavaClass  mainActiveClass("com.example.foundationkitunittest.MainActivity");
+    AndroidJavaClass  mainActiveClass("com.example.test.MainActivity");
 
-    std::string mainClassName = mainActiveClass.callStatic<std::string>("getClassName");
+    std::string mainClassName = mainActiveClass.CallStatic<std::string>("getClassName");
 
     ANDROID_LOGE("========== mainClassName: %s", mainClassName.c_str());
      
-
-
-
+    char* leak = new char[1024];
+    int ret = TestHeapUseAfterFree(10);
+    ret = TestHeapBufferOverflow(10);
+    ret = TestStackBufferOverflow(10);
+    ret = TestGlobalBufferOverflow(10);
+    ANDROID_LOGE(" CPU Core count:%d", PlatformDevice::GetCPUCoreCount());
+    ANDROID_LOGE("========== Java_com_example_test_MainActivity_foundationInit End");
     //testFunctionCache();
 }
 

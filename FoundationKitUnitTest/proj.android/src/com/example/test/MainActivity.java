@@ -1,4 +1,4 @@
-package com.example.foundationkitunittest;
+package com.example.test;
 import com.losemymind.foundationkit.AndroidJavaBridge;
 
 import android.app.Activity;
@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
 		
 		@SuppressWarnings("deprecation")
 		String version_sdk = Build.VERSION.SDK; // è®¾å¤‡SDKç‰ˆæœ¬  
-		String version_release = Build.VERSION.RELEASE; // è®¾å¤‡çš„ç³»ç»Ÿç‰ˆæœ¬ 
+		String version_release = Build.VERSION.RELEASE; // è®¾å¤‡çš„ç³»ç»Ÿç‰ˆæœ? 
 		Log.e("TAG","===== version_sdk " + version_sdk);
 		Log.e("TAG","===== version_release" + version_release);
 		
@@ -40,6 +40,15 @@ public class MainActivity extends Activity {
 		AndroidJavaBridge.getInstance().invoke("CallAndroidJavaBridge", 10, "This is test");
 	}
 	
+   @Override  
+    public void onBackPressed() {  
+        super.onBackPressed();  
+        System.out.println("°´ÏÂÁËback¼ü   onBackPressed()"); 
+        this.finish();
+        //android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(0);
+    } 
+	   
 	public void debug_Print(int line, String fileName, String message)
 	{
 		Log.e("TAG", "=====debugPrint line:" + line + " file:" + fileName + " msg:"+message);
@@ -54,6 +63,7 @@ public class MainActivity extends Activity {
 
     static 
     {
+    	System.loadLibrary("foundationkit");
         System.loadLibrary("foundationkittest");
     }
 }

@@ -72,12 +72,21 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+void fun1(std::string a)
+{
+
+}
+
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
 	HTTPClient::GetInstance()->Initialize();
+
+	std::string aab;
+	fun1(aab);
+
 
 
 	int im_a_breakpoint = 0;
