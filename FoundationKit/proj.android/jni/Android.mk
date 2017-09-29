@@ -1,11 +1,6 @@
 
 LOCAL_PATH := $(call my-dir)
 
-# include $(CLEAR_VARS)
-# LOCAL_MODULE    := libfoundationkit
-# LOCAL_SRC_FILES := ../../../../../../ThirdParty/android/libs/$(TARGET_ARCH_ABI)/libfoundationkit.so
-# include $(PREBUILT_SHARED_LIBRARY)
-
 include $(CLEAR_VARS)
 SRCROOT := ../..
 PROJECT_DIR:=$(LOCAL_PATH)/../..
@@ -56,66 +51,38 @@ $(PROJECT_DIR)/ \
 $(PROJECT_DIR)/FoundationKit/external/unzip \
 $(PROJECT_DIR)/../ThirdParty/spdlog/include
 
-TARGET_LOCAL_CFLAGS:= \
+LOCAL_CFLAGS := \
+-fsigned-char \
+-DANDROID \
+-DNDEBUG \
+-DUSE_FILE32API
+
+LOCAL_CPPFLAGS := \
 -fsigned-char \
 -std=c++14 \
--Wno-deprecated-declarations \
--DUSE_FILE32API \
--DANDROID
+-DANDROID \
+-DNDEBUG \
+-DUSE_FILE32API
 
-TARGET_LOCAL_CPPFLAGS := \
--fsigned-char \
--std=c++14 \
--Wno-deprecated-declarations \
--DUSE_FILE32API \
--DANDROID
-
-TARGET_LOCAL_LDFLAGS := -Wl,--gc-sections
-
-TARGET_LOCAL_LDLIBS := \
--latomic \
--landroid \
--llog \
--lz \
--lGLESv2
-
-TARGET_LOCAL_CFLAGS   += -DNDEBUG
-TARGET_LOCAL_CPPFLAGS += -DNDEBUG
-
-ifeq ($(ENABLE_ADDRESS_SANITIZER),1)
-# TARGET_LOCAL_CPPFLAGS += -fsanitize=address -fno-omit-frame-pointer -O1
-# TARGET_LOCAL_LDFLAGS  += -fsanitize=address -O1
-# LOCAL_SANITIZE:=unsigned-integer-overflow signed-integer-overflow
-# LOCAL_SANITIZE_DIAG:=unsigned-integer-overflow signed-integer-overflow
-endif
-
-ifeq ($(REDUCE_BIN_SIZE),1)
-# TARGET_LOCAL_CPPFLAGS += -fvisibility=hidden
-# TARGET_LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
-endif
-
-################## COMPILE CONFIG ###################
+#-ffunction-sections 和 -fdata-sections 将每个函数或符号创建为一个sections，
+#其中每个sections名与function或data名保持一致。而在链接阶段， -Wl,–gc-sections 
+#指示链接器去掉不用的section（其中-wl, 表示后面的参数 -gc-sections 传递给链接器），
+#这样就能减少最终的可执行程序的大小了。
+LOCAL_CFLAGS += -ffunction-sections -fdata-sections
+LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
 
 LOCAL_SHORT_COMMANDS := true
 LOCAL_CPP_FEATURES := rtti exceptions
-
-LOCAL_CFLAGS:= $(TARGET_LOCAL_CFLAGS)
-LOCAL_CPPFLAGS := $(TARGET_LOCAL_CPPFLAGS)
-#LOCAL_LDFLAGS  := $(TARGET_LOCAL_LDFLAGS)
-#LOCAL_LDLIBS   := $(TARGET_LOCAL_LDLIBS)
-
-LOCAL_STATIC_LIBRARIES := cpufeatures
-LOCAL_EXPORT_CFLAGS := $(TARGET_LOCAL_CFLAGS)
-LOCAL_EXPORT_CPPFLAGS := $(TARGET_LOCAL_CPPFLAGS)
-LOCAL_EXPORT_LDLIBS := $(TARGET_LOCAL_LDLIBS)
-LOCAL_EXPORT_LDFLAGS := $(TARGET_LOCAL_LDFLAGS)
+LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
+LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
+LOCAL_EXPORT_LDLIBS := -latomic -landroid -llog -lz -lGLESv2
 LOCAL_EXPORT_C_INCLUDES :=$(LOCAL_C_INCLUDES)
-#LOCAL_EXPORT_STATIC_LIBRARIES+= cpufeatures
-#LOCAL_WHOLE_STATIC_LIBRARIES += cpufeatures
+LOCAL_STATIC_LIBRARIES := cpufeatures
 include $(BUILD_STATIC_LIBRARY)
 #==============================================================
 $(call import-add-path,$(PROJECT_DIR)/FoundationKit)
 $(call import-module,android/cpufeatures)
+
 $(info ----------------- Compile libfoundationkit infomation -------------------)
 $(info TARGET_PLATFORM = $(TARGET_PLATFORM))
 $(info TARGET_ARCH     = $(TARGET_ARCH))
