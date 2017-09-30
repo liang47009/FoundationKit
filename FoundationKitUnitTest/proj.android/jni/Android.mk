@@ -16,8 +16,8 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
 # LOCAL_ARM_MODE += arm
 
 #DrMemory
-LOCAL_CPPFLAGS += -m32 -g -fno-inline -fno-omit-frame-pointer -O0
-LOCAL_CFLAGS   += -m32 -g -fno-inline -fno-omit-frame-pointer -O0
+LOCAL_CPPFLAGS += -g -fno-omit-frame-pointer -O0
+LOCAL_CFLAGS   += -g -fno-omit-frame-pointer -O0
 
 #LOCAL_STATIC_LIBRARIES += foundationkit
 LOCAL_WHOLE_STATIC_LIBRARIES+= foundationkit
