@@ -44,7 +44,7 @@ extern "C"
         ANDROID_LOGD("======= nativeInvoke Method argcount:%d", count);
         std::vector<AndroidJavaObject>  arguments;
         jsize arrLen = env->GetArrayLength(args);
-        for(size_t i = 0; i < arrLen; ++i)
+        for(int i = 0; i < arrLen; ++i)
         {
             arguments.emplace_back(env->GetObjectArrayElement(args, i));
         }

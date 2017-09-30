@@ -20,11 +20,10 @@ APP_PLATFORM=android-15
 APP_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++14
 APP_LDFLAGS := -latomic -llog -landroid
 
-APP_DEBUG := $(strip $(NDK_DEBUG))
-ifeq ($(APP_DEBUG),1)
-  APP_CPPFLAGS += -DDEBUG
-  APP_OPTIM := debug
-else
-  APP_CPPFLAGS += -DNDEBUG
-  APP_OPTIM := release
-endif
+#APP_OPTIM := debug
+#APP_CPPFLAGS += -DDEBUG
+
+
+APP_CPPFLAGS += -DNDEBUG
+APP_OPTIM := release
+

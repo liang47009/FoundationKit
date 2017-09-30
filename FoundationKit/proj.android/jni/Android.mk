@@ -71,6 +71,11 @@ LOCAL_CPPFLAGS := \
 LOCAL_CFLAGS += -ffunction-sections -fdata-sections
 LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
 
+LOCAL_CPPFLAGS += -Os
+
+#编译警告
+LOCAL_CPPFLAGS += -Wall
+
 LOCAL_SHORT_COMMANDS := true
 LOCAL_CPP_FEATURES := rtti exceptions
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)

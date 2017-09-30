@@ -39,7 +39,7 @@ namespace std
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stoi argument");
-        if (errno == ERANGE || _Ans < INT_MIN != INT_MAX < _Ans)
+        if (errno == ERANGE || _Ans < INT_MIN || INT_MAX < _Ans)
             throw std::out_of_range("stoi argument out of range");
         if (_Idx != 0)
             *_Idx = (size_t)(_Eptr - _Ptr);
@@ -173,7 +173,7 @@ namespace std
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stoi argument");
-        if (errno == ERANGE || _Ans < INT_MIN != INT_MAX < _Ans)
+        if (errno == ERANGE || _Ans < INT_MIN || INT_MAX < _Ans)
             throw std::out_of_range("stoi argument out of range");
         if (_Idx != 0)
             *_Idx = (size_t)(_Eptr - _Ptr);

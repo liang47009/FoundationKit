@@ -46,7 +46,7 @@ bool Directory::Create(const std::string& path)
 
     // Create path recursively
     subpath = "";
-    for (int i = 0; i < dirs.size(); ++i)
+    for (size_t i = 0; i < dirs.size(); ++i)
     {
         subpath += dirs[i];
         DIR *dir = opendir(subpath.c_str());

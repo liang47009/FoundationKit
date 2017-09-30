@@ -1,3 +1,5 @@
+#GCC 编译选项：http://blog.csdn.net/rheostat/article/details/19811407
+
 #启用 Address Sanitizer
 LOCAL_CPPFLAGS += -fsanitize=address -fno-omit-frame-pointer -O1
 LOCAL_LDFLAGS  += -fsanitize=address -O1
