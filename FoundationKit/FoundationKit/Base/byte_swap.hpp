@@ -9,60 +9,223 @@
 
 #pragma once
 #include "FoundationKit/Base/types.hpp"
+
+// The following guarantees declaration of the byte swap functions
+#ifdef _MSC_VER
+# include <cstdlib>
+#elif defined(__APPLE__)
+// Mac OS X / Darwin features
+#include <libkern/OSByteOrder.h>
+#elif defined(__GLIBC__) || defined(__linux__)
+#include <byteswap.h>
+#define HAVE_BYTESWAP 1
+#endif
+
 NS_FK_BEGIN
 
-//=============== Endian ====================
 //Other impl see:https://sourceforge.net/p/predef/wiki/Endianness/
-//if (ENDIANNESS_ORDER == ENDIANNESS_LITTLE_ENDIAN)
-//    std::cout << "Is little system" << std::endl;
-//else if (ENDIANNESS_ORDER == ENDIANNESS_BIG_ENDIAN)
-//    std::cout << "Is big system" << std::endl;
-//else if (ENDIANNESS_ORDER == ENDIANNESS_PDP_ENDIAN)
-//    std::cout << "Is pop system" << std::endl;
-//else
-//    std::cout << "Is unknow system" << std::endl;
+#define BYTE_ORDER (0xFFFFFFFF & 1)
+#define BYTE_LITTLE_ENDIAN 0x00000001
+#define BYTE_BIG_ENDIAN 0x01000000
+#define BYTE_PDP_ENDIAN 0x00010000
+#define BYTE_UNKNOWN_ENDIAN  0xFFFFFFFF
 
-const int ENDIANNESS_ORDER          = 0xFFFFFFFF & 1;
-const int ENDIANNESS_LITTLE_ENDIAN  = 0x00000001;
-const int ENDIANNESS_BIG_ENDIAN     = 0x01000000;
-const int ENDIANNESS_PDP_ENDIAN     = 0x00010000;
-const int ENDIANNESS_UNKNOWN_ENDIAN = 0xFFFFFFFF;
-
-inline char *ENDIAN_SWAP128(char *val)
+enum endianness
 {
-    static char swp[16];
-    swp[0]  = val[15];
-    swp[1]  = val[14];
-    swp[2]  = val[13];
-    swp[3]  = val[12];
-    swp[4]  = val[11];
-    swp[5]  = val[10];
-    swp[6]  = val[9];
-    swp[7]  = val[8];
-    swp[8]  = val[7];
-    swp[9]  = val[6];
-    swp[10] = val[5];
-    swp[11] = val[4];
-    swp[12] = val[3];
-    swp[13] = val[2];
-    swp[14] = val[1];
-    swp[15] = val[0];
-    return swp;
-}
+    big_endian,
+    little_endian,
+#if (BYTE_ORDER == BYTE_BIG_ENDIAN)
+    native_endian = big_endian,
+#else
+    native_endian = little_endian,
+#endif
+};
 
 /// when define returns true it means that our architecture uses big endian
 #define HOST_IS_BIG_ENDIAN (bool)(*(unsigned short *)"\0\xff" < 0x100) 
-#define ENDIAN_SWAP16(i)  ((i & 0x00ff) << 8 | (i &0xff00) >> 8)  
-#define ENDIAN_SWAP32(i)  ((i & 0x000000ff) << 24 | (i & 0x0000ff00) << 8 | (i & 0x00ff0000) >> 8 | (i & 0xff000000) >> 24)
-#define ENDIAN_SWAP64(val)((((val) >> 56) & 0x00000000000000FF) | (((val) >> 40) & 0x000000000000FF00) |(((val) >> 24) & 0x0000000000FF0000) | (((val) >> 8) & 0x00000000FF000000) |(((val) << 8) & 0x000000FF00000000) | (((val) << 24) & 0x0000FF0000000000) |(((val) << 40) & 0x00FF000000000000) | (((val) << 56) & 0xFF00000000000000))
-#define SWAP_INT16_LITTLE_TO_HOST(i) ((HOST_IS_BIG_ENDIAN == true)? ENDIAN_SWAP16(i) : (i) )
-#define SWAP_INT32_LITTLE_TO_HOST(i) ((HOST_IS_BIG_ENDIAN == true)? ENDIAN_SWAP32(i) : (i) )
-#define SWAP_INT64_LITTLE_TO_HOST(i) ((HOST_IS_BIG_ENDIAN == true)? ENDIAN_SWAP64(i) : (i) )
-#define SWAP_INT16_BIG_TO_HOST(i)    ((HOST_IS_BIG_ENDIAN == true)? (i):  ENDIAN_SWAP16(i) )
-#define SWAP_INT32_BIG_TO_HOST(i)    ((HOST_IS_BIG_ENDIAN == true)? (i):  ENDIAN_SWAP32(i) )
-#define SWAP_INT64_BIG_TO_HOST(i)    ((HOST_IS_BIG_ENDIAN == true)? (i):  ENDIAN_SWAP64(i) )
 
-//=============== Endian End =================
+
+
+#if defined(_MSC_VER)
+
+static inline uint16_t bswap_16(uint16_t val)
+{
+    return _byteswap_ushort(val);
+}
+
+static inline uint32_t bswap_32(uint32_t val)
+{
+    return _byteswap_ulong(val);
+}
+
+static inline uint64_t bswap_64(uint64_t val)
+{
+    return _byteswap_uint64(val);
+}
+
+#elif defined(__APPLE__)
+static inline uint16_t bswap_16(uint16_t val)
+{
+    return OSSwapInt16(val);
+}
+
+static inline uint32_t bswap_32(uint32_t val)
+{
+    return OSSwapInt32(val);
+}
+
+static inline uint64_t bswap_64(uint64_t val)
+{
+    return OSSwapInt64(val);
+}
+
+#elif !defined(HAVE_BYTESWAP)
+
+/**
+ * bswap_16 - reverse bytes in a uint16_t value.
+ * @val: value whose bytes to swap.
+ *
+ * Example:
+ *	// Output contains "1024 is 4 as two bytes reversed"
+ *	printf("1024 is %u as two bytes reversed\n", bswap_16(1024));
+ */
+static inline uint16_t bswap_16(uint16_t val)
+{
+    return ((val & (uint16_t)0x00ffU) << 8)
+        | ((val & (uint16_t)0xff00U) >> 8);
+}
+
+/**
+ * bswap_32 - reverse bytes in a uint32_t value.
+ * @val: value whose bytes to swap.
+ *
+ * Example:
+ *	// Output contains "1024 is 262144 as four bytes reversed"
+ *	printf("1024 is %u as four bytes reversed\n", bswap_32(1024));
+ */
+static inline uint32_t bswap_32(uint32_t val)
+{
+    return ((val & (uint32_t)0x000000ffUL) << 24)
+        | ((val & (uint32_t)0x0000ff00UL) << 8)
+        | ((val & (uint32_t)0x00ff0000UL) >> 8)
+        | ((val & (uint32_t)0xff000000UL) >> 24);
+}
+
+
+/**
+ * bswap_64 - reverse bytes in a uint64_t value.
+ * @val: value whose bytes to swap.
+ *
+ * Example:
+ *	// Output contains "1024 is 1125899906842624 as eight bytes reversed"
+ *	printf("1024 is %llu as eight bytes reversed\n",
+ *		(unsigned long long)bswap_64(1024));
+ */
+static inline uint64_t bswap_64(uint64_t val)
+{
+    return ((val & (uint64_t)0x00000000000000ffULL) << 56)
+        | ((val & (uint64_t)0x000000000000ff00ULL) << 40)
+        | ((val & (uint64_t)0x0000000000ff0000ULL) << 24)
+        | ((val & (uint64_t)0x00000000ff000000ULL) << 8)
+        | ((val & (uint64_t)0x000000ff00000000ULL) >> 8)
+        | ((val & (uint64_t)0x0000ff0000000000ULL) >> 24)
+        | ((val & (uint64_t)0x00ff000000000000ULL) >> 40)
+        | ((val & (uint64_t)0xff00000000000000ULL) >> 56);
+}
+
+#endif // #elif !defined(HAVE_BYTESWAP)
+
+
+static inline void bswap_128(const void *src, void *dst)
+{
+    const uint8_t *s = (const uint8_t *)src;
+    uint8_t *d = (uint8_t *)dst;
+    int i;
+    for (i = 0; i < 16; i++)
+        d[15 - i] = s[i];
+}
+
+static inline int8_t   endian_reverse(int8_t x) noexcept
+{
+    return x;
+}
+
+static inline int16_t  endian_reverse(int16_t x) noexcept
+{
+    return bswap_16(static_cast<uint16_t>(x));
+}
+
+static inline int32_t  endian_reverse(int32_t x) noexcept
+{
+    return bswap_32(static_cast<uint32_t>(x));
+}
+
+static inline int64_t  endian_reverse(int64_t x) noexcept
+{
+    return bswap_64(static_cast<uint64_t>(x));
+}
+
+static inline uint8_t  endian_reverse(uint8_t x) noexcept
+{
+    return x;
+}
+
+static inline uint16_t endian_reverse(uint16_t x) noexcept
+{
+    return bswap_16(x);
+}
+
+static inline uint32_t endian_reverse(uint32_t x) noexcept
+{
+    return bswap_32(x);
+}
+
+static inline uint64_t endian_reverse(uint64_t x) noexcept
+{
+    return bswap_64(x);
+}
+
+
+
+template <class EndianReversible >
+inline EndianReversible  big_to_native(EndianReversible  x) noexcept
+{
+#if (BYTE_ORDER == BYTE_BIG_ENDIAN)
+    return x;
+#   else
+    return endian_reverse(x);
+#   endif
+}
+
+template <class EndianReversible >
+inline EndianReversible  native_to_big(EndianReversible  x) noexcept
+{
+#if (BYTE_ORDER == BYTE_BIG_ENDIAN)
+    return x;
+#   else
+    return endian_reverse(x);
+#   endif
+}
+
+template <class EndianReversible >
+inline EndianReversible  little_to_native(EndianReversible  x) noexcept
+{
+#if (BYTE_ORDER == BYTE_LITTLE_ENDIAN)
+    return x;
+#   else
+    return endian_reverse(x);
+#   endif
+}
+
+template <class EndianReversible >
+inline EndianReversible  native_to_little(EndianReversible  x) noexcept
+{
+#if (BYTE_ORDER == BYTE_LITTLE_ENDIAN)
+    return x;
+#   else
+    return endian_reverse(x);
+#   endif
+}
 
 NS_FK_END
 

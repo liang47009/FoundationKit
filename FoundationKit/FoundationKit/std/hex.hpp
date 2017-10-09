@@ -12,6 +12,7 @@
 #include <utility>
 #include <type_traits>
 #include <algorithm>
+#include <iterator>
 
 // code from boost hex:boost/algorithm/hex.hpp
 namespace std
@@ -41,7 +42,7 @@ namespace detail
         if (c >= '0' && c <= '9') retval = c - '0';
         else if (c >= 'A' && c <= 'F') retval = c - 'A' + 10;
         else if (c >= 'a' && c <= 'f') retval = c - 'a' + 10;
-        else LOG_ASSERT(false,"Non hex input:%c",c);
+        else FKLog("Non hex input:%c",c);
         return static_cast<unsigned char>(retval);
     }
 
@@ -103,7 +104,7 @@ namespace detail
         for (std::size_t i = 0; i < 2 * sizeof(T); ++i, ++first) 
         {
             if (pred(first, last))
-                LOG_ASSERT(false, "Non hex input");
+                FKLog("Non hex input");
             res = (16 * res) + hex_char_to_int(*first);
         }
 

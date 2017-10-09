@@ -45,6 +45,7 @@
 #include "FoundationKit/Base/locale.hpp"
 #include "FoundationKit/Base/unique_id.hpp"
 #include "FoundationKit/Base/string_encoding.hpp"
+#include "FoundationKit/Base/byte_swap.hpp"
 #include "FoundationKit/Foundation/Time.hpp"
 #include "FoundationKit/Foundation/Directory.hpp"
 #include "../Libraries/Networking/Networking/network.hpp"
@@ -72,10 +73,6 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-void fun1(std::string a)
-{
-
-}
 
 
 bool AppDelegate::applicationDidFinishLaunching() 
@@ -83,10 +80,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::error_code ec;
 	std::string strErr = ec.message();
 	HTTPClient::GetInstance()->Initialize();
-
-	std::string aab;
-	fun1(aab);
-
 
 
 	int im_a_breakpoint = 0;
