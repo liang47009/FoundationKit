@@ -85,7 +85,7 @@ LOCAL_EXPORT_C_INCLUDES :=$(LOCAL_C_INCLUDES)
 LOCAL_STATIC_LIBRARIES := cpufeatures
 include $(BUILD_STATIC_LIBRARY)
 #==============================================================
-$(call import-add-path,$(PROJECT_DIR)/FoundationKit)
+$(call import-add-path,$(LOCAL_PATH)/../../FoundationKit)
 $(call import-module,android/cpufeatures)
 
 $(info ----------------- Compile libfoundationkit infomation -------------------)
