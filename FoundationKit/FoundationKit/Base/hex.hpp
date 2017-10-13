@@ -135,14 +135,15 @@ hex(InputIterator first, InputIterator last, OutputIterator out)
     return out;
 }
 
-
-/// \fn hex ( const T *ptr, OutputIterator out )
-/// \brief   Converts a sequence of integral types into a hexadecimal sequence of characters.
-/// 
-/// \param ptr      A pointer to a 0-terminated sequence of data.
-/// \param out      An output iterator to the results into
-/// \return         The updated output iterator
-/// \note           Based on the MySQL function of the same name
+/**
+ * @fn hex ( const T *ptr, OutputIterator out )
+ * @brief   Converts a sequence of integral types into a hexadecimal sequence of characters.
+ *  
+ * @param ptr      A pointer to a 0-terminated sequence of data.
+ * @param out      An output iterator to the results into
+ * @return         The updated output iterator
+ * @note           Based on the MySQL function of the same name
+ */
 template <typename T, typename OutputIterator>
 typename std::enable_if<std::is_integral<T>::value, OutputIterator>::type
 hex(const T *ptr, OutputIterator out) 
@@ -152,13 +153,15 @@ hex(const T *ptr, OutputIterator out)
     return out;
 }
 
-/// \fn hex ( const Range &r, OutputIterator out )
-/// \brief   Converts a sequence of integral types into a hexadecimal sequence of characters.
-/// 
-/// \param r        The input range
-/// \param out      An output iterator to the results into
-/// \return         The updated output iterator
-/// \note           Based on the MySQL function of the same name
+/**
+ * @fn hex ( const Range &r, OutputIterator out )
+ * @brief   Converts a sequence of integral types into a hexadecimal sequence of characters.
+ *  
+ * @param r        The input range
+ * @param out      An output iterator to the results into
+ * @return         The updated output iterator
+ * @note           Based on the MySQL function of the same name
+ */
 template <typename Range, typename OutputIterator>
 typename std::enable_if<std::is_integral<typename detail::hex_iterator_traits<typename Range::iterator>::value_type>::value, OutputIterator>::type
 hex(const Range &r, OutputIterator out) 
@@ -166,15 +169,16 @@ hex(const Range &r, OutputIterator out)
     return hex(std::begin(r), std::end(r), out);
 }
 
-
-/// \fn unhex ( InputIterator first, InputIterator last, OutputIterator out )
-/// \brief   Converts a sequence of hexadecimal characters into a sequence of integers.
-/// 
-/// \param first    The start of the input sequence
-/// \param last     One past the end of the input sequence
-/// \param out      An output iterator to the results into
-/// \return         The updated output iterator
-/// \note           Based on the MySQL function of the same name
+/**
+ * @fn unhex ( InputIterator first, InputIterator last, OutputIterator out )
+ * @brief   Converts a sequence of hexadecimal characters into a sequence of integers.
+ *  
+ * @param first    The start of the input sequence
+ * @param last     One past the end of the input sequence
+ * @param out      An output iterator to the results into
+ * @return         The updated output iterator
+ * @note           Based on the MySQL function of the same name
+ */
 template <typename InputIterator, typename OutputIterator>
 OutputIterator unhex(InputIterator first, InputIterator last, OutputIterator out) 
 {
@@ -183,14 +187,15 @@ OutputIterator unhex(InputIterator first, InputIterator last, OutputIterator out
     return out;
 }
 
-
-/// \fn unhex ( const T *ptr, OutputIterator out )
-/// \brief   Converts a sequence of hexadecimal characters into a sequence of integers.
-/// 
-/// \param ptr      A pointer to a null-terminated input sequence.
-/// \param out      An output iterator to the results into
-/// \return         The updated output iterator
-/// \note           Based on the MySQL function of the same name
+/**
+ * @fn unhex ( const T *ptr, OutputIterator out )
+ * @brief   Converts a sequence of hexadecimal characters into a sequence of integers.
+ *  
+ * @param ptr      A pointer to a null-terminated input sequence.
+ * @param out      An output iterator to the results into
+ * @return         The updated output iterator
+ * @note           Based on the MySQL function of the same name
+ */
 template <typename T, typename OutputIterator>
 OutputIterator unhex(const T *ptr, OutputIterator out) 
 {
@@ -202,26 +207,28 @@ OutputIterator unhex(const T *ptr, OutputIterator out)
     return out;
 }
 
-
-/// \fn OutputIterator unhex ( const Range &r, OutputIterator out )
-/// \brief   Converts a sequence of hexadecimal characters into a sequence of integers.
-/// 
-/// \param r        The input range
-/// \param out      An output iterator to the results into
-/// \return         The updated output iterator
-/// \note           Based on the MySQL function of the same name
+/**
+ * @fn OutputIterator unhex ( const Range &r, OutputIterator out )
+ * @brief   Converts a sequence of hexadecimal characters into a sequence of integers.
+ *  
+ * @param r        The input range
+ * @param out      An output iterator to the results into
+ * @return         The updated output iterator
+ * @note           Based on the MySQL function of the same name
+ */
 template <typename Range, typename OutputIterator>
 OutputIterator unhex(const Range &r, OutputIterator out) 
 {
     return unhex(std::begin(r), std::end(r), out);
 }
 
-
-/// \fn String hex ( const String &input )
-/// \brief   Converts a sequence of integral types into a hexadecimal sequence of characters.
-/// 
-/// \param input    A container to be converted
-/// \return         A container with the encoded text
+/**
+ * @fn String hex ( const String &input )
+ * @brief   Converts a sequence of integral types into a hexadecimal sequence of characters.
+ *  
+ * @param input    A container to be converted
+ * @return         A container with the encoded text
+ */
 template<typename String>
 String hex(const String &input) 
 {
@@ -231,11 +238,13 @@ String hex(const String &input)
     return output;
 }
 
-/// \fn String unhex ( const String &input )
-/// \brief   Converts a sequence of hexadecimal characters into a sequence of characters.
-/// 
-/// \param input    A container to be converted
-/// \return         A container with the decoded text
+/**
+ * @fn String unhex ( const String &input )
+ * @brief   Converts a sequence of hexadecimal characters into a sequence of characters.
+ *  
+ * @param input    A container to be converted
+ * @return         A container with the decoded text
+ */
 template<typename String>
 String unhex(const String &input)
 {

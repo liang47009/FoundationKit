@@ -27,6 +27,7 @@
 #include "FoundationKit/Foundation/DelegateManager.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Base/scope_guard.hpp"
+#include "FoundationKit/Base/hex.hpp"
 #include "FoundationKit/Crypto/des.hpp"
 #include "FoundationKit/Crypto/aes.hpp"
 #include "FoundationKit/Crypto/urlencode.hpp"
@@ -81,6 +82,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::string strErr = ec.message();
 	HTTPClient::GetInstance()->Initialize();
 
+    string strPlant = "fjdslfjspousdpfdsfs6f4sd6f4sd6f4sf4sfsdfw6rtdf4htu6g4dg6dsf4gdr6g";
+    string strHex = hex(strPlant);
+    string strUnHex = unhex(strHex);
 
 	int im_a_breakpoint = 0;
 	return true;

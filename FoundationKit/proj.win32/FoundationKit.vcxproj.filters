@@ -28,9 +28,6 @@
     <Filter Include="Base">
       <UniqueIdentifier>{65b125cc-d559-4605-bbc6-67c151774db0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="std">
-      <UniqueIdentifier>{113270e5-ac52-439c-a315-9677c3f83638}</UniqueIdentifier>
-    </Filter>
     <Filter Include="experimental">
       <UniqueIdentifier>{77ba71ed-6746-4d2a-8085-4d7e997e5f01}</UniqueIdentifier>
     </Filter>
@@ -89,33 +86,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h">
       <Filter>external\ConvertUTF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\std\function_traits.hpp">
-      <Filter>std</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\std\hex.hpp">
-      <Filter>std</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\std\memory_aligned.hpp">
-      <Filter>std</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\std\contains_of_type.hpp">
-      <Filter>std</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\std\disable_if.hpp">
-      <Filter>std</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\std\has_member.hpp">
-      <Filter>std</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\std\max_integer_of.hpp">
-      <Filter>std</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\std\function_cache.hpp">
-      <Filter>std</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\std\match.hpp">
-      <Filter>std</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp">
       <Filter>Base</Filter>
@@ -327,9 +297,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\threadsafe_stack.hpp">
       <Filter>experimental</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\std\apply.hpp">
-      <Filter>std</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\ThreadTimer.hpp">
       <Filter>Foundation</Filter>
