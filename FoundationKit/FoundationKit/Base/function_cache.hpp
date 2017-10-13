@@ -9,25 +9,29 @@
 
 #include <utility>
 #include <map>
-namespace std{
-    namespace detail {
+#include <functional>
+#include "FoundationKit/GenericPlatformMacros.hpp"
+NS_FK_BEGIN
 
-        // function_cache helper method.
-        template <typename R, typename... Args>
-        std::function<R(Args...)> function_cache(R(*func) (Args...))
+namespace detail 
+{
+
+    // function_cache helper method.
+    template <typename R, typename... Args>
+    std::function<R(Args...)> function_cache(R(*func) (Args...))
+    {
+        auto result_map = std::make_shared<std::map<std::tuple<Args...>, R>>();
+
+        return ([=](Args... args)
         {
-            auto result_map = std::make_shared<std::map<std::tuple<Args...>, R>>();
-
-            return ([=](Args... args)
-            {
-                std::tuple<Args...> t(args...);
-                if (result_map->find(t) == result_map->end())
-                    (*result_map)[t] = func(args...);
-                return (*result_map)[t];
-            });
-        }
-
+            std::tuple<Args...> t(args...);
+            if (result_map->find(t) == result_map->end())
+                (*result_map)[t] = func(args...);
+            return (*result_map)[t];
+        });
     }
+
+}
 
 /**
  * sugar the function and cache.
@@ -68,7 +72,7 @@ std::function<R(Args...)> function_cache(R(*func)(Args...), bool needClear = fal
     return functor_map[func];  
 } 
 
-} //namespace std
+NS_FK_END
 
 
 #endif // FOUNDATIONKIT_FUNCTION_CACHE_HPP

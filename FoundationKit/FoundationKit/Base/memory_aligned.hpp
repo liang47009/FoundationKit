@@ -14,12 +14,10 @@
 #include <memory>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/Types.hpp"
-#include "FoundationKit/std/max_integer_of.hpp"
+#include "FoundationKit/Base/max_integer_of.hpp"
 
-USING_NS_FK;
 
-namespace std
-{
+NS_FK_BEGIN
 
 template<typename T>
 using memory_aligned_t = typename std::aligned_storage<sizeof(T), std::alignment_of<T>::value>::type;
@@ -240,7 +238,7 @@ public:
     }
 };
 
-} // namespace std
+NS_FK_END
 #endif // FOUNDATIONKIT_MEMORY_ALIGNED_HPP
 
 

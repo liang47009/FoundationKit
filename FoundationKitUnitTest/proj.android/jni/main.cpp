@@ -22,7 +22,7 @@
 #include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
-#include "FoundationKit/std/function_cache.hpp"
+#include "FoundationKit/Base/function_cache.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include <vector>
@@ -57,7 +57,7 @@ size_t noCache(size_t n)
 
 size_t hasCache(size_t n)  
 {  
-     return (n < 2) ? n : std::function_cache(hasCache)(n - 1) + std::function_cache(hasCache)(n - 2);  
+     return (n < 2) ? n : function_cache(hasCache)(n - 1) + function_cache(hasCache)(n - 2);  
 } 
 
 void testFunctionCache()

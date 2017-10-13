@@ -8,8 +8,8 @@
 #define FOUNDATIONKIT_HAS_MEMBER_HPP
 
 #include <utility>
-namespace std
-{
+#include "FoundationKit/GenericPlatformMacros.hpp"
+NS_FK_BEGIN
 
    /**
     * this can detect inherited member functions!
@@ -58,5 +58,5 @@ public:\
 	enum{value = std::is_same<decltype(check<T>(0)), std::true_type>::value};\
 };
 
-} //namespace std
+NS_FK_END
 #endif // FOUNDATIONKIT_HAS_MEMBER_HPP

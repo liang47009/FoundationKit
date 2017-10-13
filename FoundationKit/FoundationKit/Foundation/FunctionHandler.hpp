@@ -12,8 +12,8 @@
 #include <utility>
 #include <functional>
 #include "FoundationKit/Foundation/Value.hpp"
-#include "FoundationKit/std/function_traits.hpp"
-#include "FoundationKit/std/apply.hpp"
+#include "FoundationKit/Base/function_traits.hpp"
+#include "FoundationKit/Base/apply.hpp"
 
 NS_FK_BEGIN
 typedef ValueList ArgumentList;
@@ -63,7 +63,7 @@ typedef std::shared_ptr<FunctionHandlerBase>   FunctionHandlerPointer;
 template<typename _Ft, size_t ArgsNum>
 class FunctionHandler : public FunctionHandlerBase
 {
-	using function_traits_t = std::function_traits < _Ft >;
+	using function_traits_t = function_traits < _Ft >;
 	using stl_function_type = typename function_traits_t::stl_function_type;
 	using args_tuple_type   = typename function_traits_t::args_tuple_type;
 
@@ -79,14 +79,14 @@ public:
 	virtual void Invoke(const ArgumentList& args)
 	{
 		ApplyBuildTuple(ArgsTuple, args);
-		std::apply(Invoker, ArgsTuple);
+		apply(Invoker, ArgsTuple);
 	}
 };
 
 template<typename _Ft>
 class FunctionHandler<_Ft, 0> : public FunctionHandlerBase
 {
-	using function_traits_t = std::function_traits < _Ft >;
+	using function_traits_t = function_traits < _Ft >;
 	using stl_function_type = typename function_traits_t::stl_function_type;
 public:
 	stl_function_type   Invoker;
@@ -134,7 +134,7 @@ namespace detail
     template<typename _Ft, typename _Ty, std::size_t... index >
     FunctionHandlerPointer BindFunctionHandlerImpl(_Ft fun, _Ty object, std::index_sequence<index...>)
     {
-        const size_t arityvalue = std::function_traits < _Ft >::arity::value;
+        const size_t arityvalue = function_traits < _Ft >::arity::value;
         std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue >(std::bind(fun, object, PlaceHolderDetail::PlaceHolderMaker<index>::Get()...)));
         return pSelector;
     }
@@ -142,7 +142,7 @@ namespace detail
     template<typename _Ft, std::size_t... index >
     FunctionHandlerPointer BindFunctionHandlerImpl(_Ft fun, std::index_sequence<index...>)
     {
-        const size_t arityvalue = std::function_traits < _Ft >::arity::value;
+        const size_t arityvalue = function_traits < _Ft >::arity::value;
         std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue>(std::bind(fun, PlaceHolderDetail::PlaceHolderMaker<index>::Get()...)));
         return pSelector;
     }
@@ -165,14 +165,14 @@ namespace detail
 template<typename _Ft, typename _Ty>
 FunctionHandlerPointer BindFunctionHandler(_Ft fun, _Ty object)
 {
-    const size_t arityvalue = std::function_traits < _Ft >::arity::value;
+    const size_t arityvalue = function_traits < _Ft >::arity::value;
     return detail::BindFunctionHandlerImpl(fun, object, std::make_index_sequence<arityvalue>{});
 }
 
 template<typename _Ft>
 FunctionHandlerPointer BindFunctionHandler(_Ft fun)
 {
-    const size_t arityvalue = std::function_traits < _Ft >::arity::value;
+    const size_t arityvalue = function_traits < _Ft >::arity::value;
     return detail::BindFunctionHandlerImpl(fun, std::make_index_sequence<arityvalue>{});
     // or
     //typedef typename std::make_index_sequence<arityvalue> Indices;

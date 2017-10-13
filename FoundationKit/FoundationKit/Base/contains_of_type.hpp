@@ -8,8 +8,8 @@
 #define FOUNDATIONKIT_CONTAINS_OF_TYPE_HPP
 
 #include <utility>
-namespace std
-{
+#include "FoundationKit/GenericPlatformMacros.hpp"
+NS_FK_BEGIN
 /**
  * Whether it contains a type
  * @code
@@ -29,5 +29,5 @@ template<typename T, typename H, typename... R>
 struct contains_of_type<T, H, R...> 
     : std::conditional < std::is_same<T, H>::value, std::true_type, contains_of_type < T, R... > > ::type{};
 
-} //namespace std
+NS_FK_END
 #endif // FOUNDATIONKIT_CONTAINS_OF_TYPE_HPP

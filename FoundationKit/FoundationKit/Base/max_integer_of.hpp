@@ -8,8 +8,8 @@
 #define FOUNDATIONKIT_MAX_INTEGER_OF_HPP
 
 #include <utility>
-namespace std
-{
+#include "FoundationKit/GenericPlatformMacros.hpp"
+NS_FK_BEGIN
 /**
  * Get max integer
  * @code
@@ -29,5 +29,5 @@ struct max_integer_of<N0, N1, R...> :std::integral_constant < size_t,
     max_integer_of<N0, R...>::value :
     max_integer_of<N1, R...>::value >{};
 
-} //namespace std
+NS_FK_END
 #endif // FOUNDATIONKIT_MAX_INTEGER_OF_HPP

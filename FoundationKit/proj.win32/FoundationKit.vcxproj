@@ -175,10 +175,20 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Base\algorithm.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\apply.hpp" />
     <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp" />
     <ClInclude Include="..\FoundationKit\Base\byte_swap.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\contains_of_type.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\disable_if.hpp" />
     <ClInclude Include="..\FoundationKit\Base\error_code.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\function_cache.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\function_traits.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\has_member.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\hex.hpp" />
     <ClInclude Include="..\FoundationKit\Base\locale.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\match.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\max_integer_of.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\memory_aligned.hpp" />
     <ClInclude Include="..\FoundationKit\Base\mutablebuf.hpp" />
     <ClInclude Include="..\FoundationKit\Base\noncopyable.hpp" />
     <ClInclude Include="..\FoundationKit\Base\nonmovable.hpp" />

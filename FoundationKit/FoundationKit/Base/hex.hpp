@@ -15,8 +15,9 @@
 #include <iterator>
 
 // code from boost hex:boost/algorithm/hex.hpp
-namespace std
-{
+#include "FoundationKit/GenericPlatformMacros.hpp"
+NS_FK_BEGIN
+
 struct hex_decode_error : virtual std::exception {};
 struct not_enough_input : virtual hex_decode_error {};
 struct non_hex_input : virtual hex_decode_error {};
@@ -245,7 +246,7 @@ String unhex(const String &input)
 }
 
 
-} // namespace std
+NS_FK_END
 
 #define ENABLE_TEXT_STD_HEX 0
 #if ENABLE_TEXT_STD_HEX

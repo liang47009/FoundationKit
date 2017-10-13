@@ -346,6 +346,36 @@
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformMemory.hpp">
       <Filter>Platform\Android</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\apply.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\contains_of_type.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\disable_if.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\function_cache.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\function_traits.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\has_member.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\hex.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\match.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\max_integer_of.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\memory_aligned.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
