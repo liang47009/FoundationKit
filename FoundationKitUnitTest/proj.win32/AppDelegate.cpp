@@ -75,17 +75,19 @@ void AppDelegate::applicationDidLaunching()
 }
 
 
+class Version1
+{
+
+};
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
 	HTTPClient::GetInstance()->Initialize();
-
     string strPlant = "fjdslfjspousdpfdsfs6f4sd6f4sd6f4sf4sfsdfw6rtdf4htu6g4dg6dsf4gdr6g";
     string strHex = hex(strPlant);
     string strUnHex = unhex(strHex);
-
 	int im_a_breakpoint = 0;
 	return true;
 }
@@ -110,7 +112,6 @@ void AppDelegate::applicationWillTerminate()
 void AppDelegate::mainLoop()
 {
 	HTTPClient::GetInstance()->Tick(1 / 60.0f);
-
 }
 
 

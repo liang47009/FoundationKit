@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 		
 		foundationInit((Context)this);
 		char[] arr = {'a','b','c','d','e'};
-		AndroidJavaBridge.getInstance().invoke("CallAndroidJavaBridge", 10, "This is test");
+		//AndroidJavaBridge.getInstance().invoke("CallAndroidJavaBridge", 10, "This is test");
 	}
 	
    @Override  

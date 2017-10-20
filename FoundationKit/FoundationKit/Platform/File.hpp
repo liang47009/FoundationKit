@@ -23,7 +23,7 @@ class File
 public:
     typedef std::vector<std::string> FileLineType;
 
-    FILE*  Open(const std::string& path, const char* mode, bool isAsset=false);
+    static FILE*  Open(const std::string& path, const char* mode, bool isAsset=false);
 
    /**
     *  Implement on platform.

@@ -20,10 +20,21 @@ APP_PLATFORM=android-15
 APP_CPPFLAGS := -frtti -fexceptions -fsigned-char -std=c++14
 APP_LDFLAGS := -latomic -llog -landroid
 
-#APP_OPTIM := debug
-#APP_CPPFLAGS += -DDEBUG
+
+APP_CPPFLAGS += -fno-omit-frame-pointer -fno-optimize-sibling-call -fPIE -pie -g -O1
+APP_CFLAGS   += -fno-omit-frame-pointer -fno-optimize-sibling-call -fPIE -pie -g -O1
+APP_LDFLAGS  += -O1
+APP_ARM_MODE += arm
+
+#Address Sanitizer
+APP_CPPFLAGS += -fsanitize=address
+APP_CFLAGS   += -fsanitize=address
+APP_LDFLAGS  += -fsanitize=address
+
+APP_OPTIM := debug
+APP_CPPFLAGS += -DDEBUG
 
 
-APP_CPPFLAGS += -DNDEBUG
-APP_OPTIM := release
+# APP_CPPFLAGS += -DNDEBUG
+# APP_OPTIM := release
 

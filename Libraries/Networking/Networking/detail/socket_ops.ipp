@@ -1011,7 +1011,7 @@ namespace socket_ops
 
         DWORD string_length = static_cast<DWORD>(length);
 #if defined(_MSC_VER) && (_MSC_VER >= 1800)
-        LPWSTR string_buffer = (LPWSTR)_alloca(length * sizeof(WCHAR));
+        LPWSTR string_buffer = (LPWSTR)_malloca(length * sizeof(WCHAR));
         int result = error_wrapper(::WSAAddressToStringW(&address.base,
             address_length, 0, string_buffer, &string_length), ec);
         ::WideCharToMultiByte(CP_ACP, 0, string_buffer, -1,
@@ -1076,7 +1076,7 @@ namespace socket_ops
         int address_length = sizeof(sockaddr_storage_type);
 #if defined(_MSC_VER) && (_MSC_VER >= 1800)
         int num_wide_chars = static_cast<int>(strlen(src)) + 1;
-        LPWSTR wide_buffer = (LPWSTR)_alloca(num_wide_chars * sizeof(WCHAR));
+        LPWSTR wide_buffer = (LPWSTR)_malloca(num_wide_chars * sizeof(WCHAR));
         ::MultiByteToWideChar(CP_ACP, 0, src, -1, wide_buffer, num_wide_chars);
         int result = error_wrapper(::WSAStringToAddressW(
             wide_buffer, af, 0, &address.base, &address_length), ec);
