@@ -8,13 +8,14 @@
 #import "UIDeviceHardware.h"
 #include <sys/types.h>
 #include <sys/sysctl.h>
+#import <UIKit/UIKit.h>
 
 @implementation UIDeviceHardware
 
 + (NSString *) platform{
     size_t size;
     sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-    char *machine = malloc(size);
+    char *machine = static_cast<char*>(malloc(size));
     sysctlbyname("hw.machine", machine, &size, NULL, 0);
     NSString *platform = [NSString stringWithUTF8String:machine];
     free(machine);

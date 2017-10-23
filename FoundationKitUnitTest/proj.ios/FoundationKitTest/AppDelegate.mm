@@ -13,7 +13,7 @@
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 #include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
-#include "FoundationKit/std/function_traits.hpp"
+#include "FoundationKit/Base/function_traits.hpp"
 #include "FoundationKit/Base/types.hpp"
 #import <Foundation/Foundation.h>
 #include "FoundationKit/Foundation/Path.hpp"
