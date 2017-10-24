@@ -278,11 +278,11 @@ std::string PlatformDevice::GetSDKVersion()
     return [systemVersion UTF8String];
 }
 
-std::string PlatformDevice::GetRendererVersion()
-{
-    char* szOpenGLVersionString = (char*)glGetString(GL_VERSION);
-    return szOpenGLVersionString?szOpenGLVersionString:"";
-}
+//std::string PlatformDevice::GetRendererVersion()
+//{
+//    char* szOpenGLVersionString = (char*)glGetString(GL_VERSION);
+//    return szOpenGLVersionString?szOpenGLVersionString:"";
+//}
 
 std::string PlatformDevice::GetCPUArch()
 {
@@ -434,17 +434,17 @@ long long PlatformDevice::GetAvailableMemory()
     return vm_stat.free_count * pagesize;
 }
 
-std::string PlatformDevice::GetGPURenderer()
-{
-    char* szRenderer = (char*)glGetString(GL_RENDERER);
-    return szRenderer?szRenderer:"";
-}
-
-std::string PlatformDevice::GetGPUVendor()
-{
-    char* szVendor = (char*)glGetString(GL_VENDOR);
-    return szVendor?szVendor:"";
-}
+//std::string PlatformDevice::GetGPURenderer()
+//{
+//    char* szRenderer = (char*)glGetString(GL_RENDERER);
+//    return szRenderer?szRenderer:"";
+//}
+//
+//std::string PlatformDevice::GetGPUVendor()
+//{
+//    char* szVendor = (char*)glGetString(GL_VENDOR);
+//    return szVendor?szVendor:"";
+//}
 
 
 Rect PlatformDevice::GetScreenResolution()
@@ -579,7 +579,6 @@ void PlatformDevice::DumpDeviceInfo()
     ss << "GetManufacturer:" << GetManufacturer() << "\n";
     ss << "GetSystemVersion:" << GetSystemVersion() << "\n";
     ss << "GetSDKVersion:" << GetSDKVersion() << "\n";
-    ss << "GetRendererVersion:" << GetRendererVersion() << "\n";
     ss << "GetCPUCoreCount:" << GetCPUCoreCount() << "\n";
     ss << "GetCPUFrequency:" << GetCPUFrequency() << "\n";
     ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
@@ -592,8 +591,6 @@ void PlatformDevice::DumpDeviceInfo()
     }
     ss << "GetTotalMemory:" << GetTotalMemory() << " bytes\n";
     ss << "GetAvailableMemory:" << GetAvailableMemory() << "bytes\n";
-    ss << "GetGPURenderer:" << GetGPURenderer() << "\n";
-    ss << "GetGPUVendor:" << GetGPUVendor() << "\n";
     
     /// Get the screen resolution, not including the virtual button area
     Rect Resolution  = GetScreenResolution();
