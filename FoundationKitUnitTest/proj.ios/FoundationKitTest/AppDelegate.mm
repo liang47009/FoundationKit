@@ -24,7 +24,28 @@
 
 USING_NS_FK;
 
-using namespace FoundationKit;
+std::string GetOSStringData(int key, int type)
+{
+    int mib[2] = {key, type};
+    u_int nameLen = sizeof(mib)/ sizeof(mib[0]);
+    size_t bufferSize= 0;
+    sysctl(mib, nameLen, nullptr, &bufferSize, NULL, 0);
+    char *sysVersion = new char[bufferSize+1];
+    memset(sysVersion, 0, bufferSize+1);
+    sysctl(mib, nameLen, sysVersion, &bufferSize, NULL, 0);
+    return sysVersion;
+}
+
+size_t GetOSIntData(int key, int type)
+{
+    int mib[2] = {key, type};
+    u_int nameLen = sizeof(mib)/ sizeof(mib[0]);
+    size_t valueSize= 0;
+    sysctl(mib, nameLen, nullptr, &valueSize, NULL, 0);
+    size_t kernValue = 0;
+    sysctl(mib, nameLen, &kernValue, &valueSize, NULL, 0);
+    return kernValue;
+}
 
 @interface AppDelegate ()
 
@@ -42,6 +63,8 @@ using namespace FoundationKit;
     auto envs1 = [[NSProcessInfo processInfo]environment];
     auto appPath = Path::GetApplicationPath();
     PlatformDevice::DumpDeviceInfo();
+    auto strValue = GetOSStringData(CTL_HW, HW_MODEL);
+    auto intValue = GetOSIntData(CTL_HW, HW_CPU_FREQ);
     return YES;
 }
 
