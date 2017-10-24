@@ -246,12 +246,12 @@ std::string PlatformDevice::GetSDKVersion()
 {
     return "";
 }
-
-std::string PlatformDevice::GetRendererVersion()
-{
-    char* szOpenGLVersionString = (char*)glGetString(GL_VERSION);
-    return szOpenGLVersionString ? szOpenGLVersionString : "";
-}
+//
+//std::string PlatformDevice::GetRendererVersion()
+//{
+//    char* szOpenGLVersionString = (char*)glGetString(GL_VERSION);
+//    return szOpenGLVersionString ? szOpenGLVersionString : "";
+//}
 
 std::string PlatformDevice::GetCPUArch()
 {
@@ -361,6 +361,8 @@ long long PlatformDevice::GetAvailableMemory()
     return free_memory;
 }
 
+/**
+
 std::string PlatformDevice::GetGPURenderer()
 {
     std::string gpuname = "N/A";
@@ -407,6 +409,7 @@ std::string PlatformDevice::GetGPUVendor()
 {
     return vendor_from_name(GetGPURenderer());
 }
+*/
 
 Rect PlatformDevice::GetScreenResolution()
 {

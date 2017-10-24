@@ -89,7 +89,7 @@ public:
     static std::string GetManufacturer();
     static std::string GetSystemVersion();
     static std::string GetSDKVersion();
-    static std::string GetRendererVersion();
+    //static std::string GetRendererVersion();
     static std::string GetCPUArch();
     static int         GetCPUCoreCount();
 
@@ -109,8 +109,8 @@ public:
     static long long   GetTotalMemory();
     // byte
     static long long   GetAvailableMemory();
-    static std::string GetGPURenderer();
-    static std::string GetGPUVendor();
+    //static std::string GetGPURenderer();
+    //static std::string GetGPUVendor();
     /// Get the screen resolution, not including the virtual button area
     static Rect GetScreenResolution();
     /// Get the screen resolution, including the virtual button area

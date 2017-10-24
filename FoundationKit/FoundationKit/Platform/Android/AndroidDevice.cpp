@@ -241,12 +241,12 @@ std::string PlatformDevice::GetSDKVersion()
     return detail::GetSystemProperty("ro.build.version.sdk");
 }
 
-std::string PlatformDevice::GetRendererVersion()
-{
-    //return detail::GetSystemProperty("ro.opengles.version");
-    char* szOpenGLVersionString = (char*)glGetString(GL_VERSION);
-    return szOpenGLVersionString ? szOpenGLVersionString : "";
-}
+//std::string PlatformDevice::GetRendererVersion()
+//{
+//    //return detail::GetSystemProperty("ro.opengles.version");
+//    char* szOpenGLVersionString = (char*)glGetString(GL_VERSION);
+//    return szOpenGLVersionString ? szOpenGLVersionString : "";
+//}
 
 std::string PlatformDevice::GetCPUArch()
 {
@@ -395,17 +395,17 @@ long long PlatformDevice::GetAvailableMemory()
     return physical_memory * 1024;
 }
 
-std::string PlatformDevice::GetGPURenderer()
-{
-    char* szRenderer = (char*)glGetString(GL_RENDERER);
-    return szRenderer ? szRenderer : "";
-}
-
-std::string PlatformDevice::GetGPUVendor()
-{
-    char* szVendor = (char*)glGetString(GL_VENDOR);
-    return szVendor ? szVendor : "";
-}
+//std::string PlatformDevice::GetGPURenderer()
+//{
+//    char* szRenderer = (char*)glGetString(GL_RENDERER);
+//    return szRenderer ? szRenderer : "";
+//}
+//
+//std::string PlatformDevice::GetGPUVendor()
+//{
+//    char* szVendor = (char*)glGetString(GL_VENDOR);
+//    return szVendor ? szVendor : "";
+//}
 
 
 struct DisplayInfo
