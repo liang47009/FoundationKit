@@ -13,11 +13,14 @@
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 #include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
+#include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Base/function_traits.hpp"
 #include "FoundationKit/Base/types.hpp"
-#import <Foundation/Foundation.h>
 #include "FoundationKit/Foundation/Path.hpp"
 #include "FoundationKit/Foundation/Directory.hpp"
+#import <Foundation/Foundation.h>
+
+#include <sys/sysctl.h>
 
 USING_NS_FK;
 
@@ -38,6 +41,7 @@ using namespace FoundationKit;
     auto path = Environment::GetEnvironmentVariable("PATH");
     auto envs1 = [[NSProcessInfo processInfo]environment];
     auto appPath = Path::GetApplicationPath();
+    PlatformDevice::DumpDeviceInfo();
     return YES;
 }
 

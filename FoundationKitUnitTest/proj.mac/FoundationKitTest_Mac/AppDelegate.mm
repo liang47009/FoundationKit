@@ -46,6 +46,8 @@ USING_NS_FK;
     auto envs = Environment::GetEnvironmentVariables();
     auto path = Environment::GetEnvironmentVariable("PATH");
     NSDictionary<NSString *, NSString *>* envs1 = [[NSProcessInfo processInfo]environment];
+    PlatformDevice::DumpDeviceInfo();
+
     
 }
 

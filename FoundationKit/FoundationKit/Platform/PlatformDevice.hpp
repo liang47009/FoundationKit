@@ -125,6 +125,7 @@ public:
     static float GetScreenYDPI();
     static float GetNativeScale();
     static PlatformMemoryConstants& GetMemoryConstants();
+    static void DumpDeviceInfo();
 };
 NS_FK_END
 

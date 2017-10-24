@@ -10,6 +10,7 @@
 #include <mach/mach.h>
 #include <mach/mach_host.h>
 #include <unordered_map>
+#include <sstream>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #include "detail/FCUUID.h"
 #include "detail/UICKeyChainStore.h" //Based on https://github.com/kishikawakatsumi/UICKeyChainStore
@@ -518,8 +519,15 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
     
     // Get memory.
     vm_statistics64 Stats;
-    mach_msg_type_number_t StatsSize = sizeof(Stats);
-    host_statistics64(mach_host_self(), HOST_VM_INFO64, (host_info64_t)&Stats, &StatsSize);
+    mach_msg_type_number_t StatsCount = HOST_VM_INFO64_COUNT;
+    host_statistics64(mach_host_self(), HOST_VM_INFO64, (host_info64_t)&Stats, &StatsCount);
+    
+//    int64 TotalPhysical = 0;
+//    size_t Length = sizeof(int64);
+//    int Mib[] = {CTL_HW, HW_MEMSIZE};
+//    sysctl(Mib, 2, &TotalPhysical, &Length, NULL, 0);
+//    sysctlbyname("hw.memsize", NULL, &Length, NULL, 0);
+//    sysctlbyname("hw.memsize", &TotalPhysical, &Length, NULL, 0);
     
     mach_task_basic_info_data_t TaskInfo;
     mach_msg_type_number_t TaskInfoCount = MACH_TASK_BASIC_INFO_COUNT;
@@ -529,6 +537,17 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
     uint64_t UsedMem = (Stats.active_count + Stats.inactive_count + Stats.wire_count) * PageSize;
     uint64_t TotalPhys = FreeMem + UsedMem;
 
+    static size_t PeakUsedPhysical = 0;
+    static size_t PeakUsedVirtual = 0;
+    if (TaskInfo.resident_size > PeakUsedPhysical)
+    {
+        PeakUsedPhysical = TaskInfo.resident_size;
+    }
+    if (TaskInfo.virtual_size > PeakUsedPhysical)
+    {
+        PeakUsedVirtual = TaskInfo.virtual_size;
+    }
+    
     MemoryConstants.TotalPhysical     = TotalPhys;
     MemoryConstants.TotalVirtual      = TotalPhys + SwapUsage.xsu_total;
     MemoryConstants.PageSize          = PageSize;
@@ -536,9 +555,63 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
     MemoryConstants.AvailableVirtual  = FreeMem + SwapUsage.xsu_avail;
     MemoryConstants.UsedPhysical      = TaskInfo.resident_size;
     MemoryConstants.UsedVirtual       = TaskInfo.virtual_size;
-    MemoryConstants.PeakUsedPhysical  = 0;
-    MemoryConstants.PeakUsedVirtual   = 0;
+    MemoryConstants.PeakUsedPhysical  = PeakUsedPhysical;
+    MemoryConstants.PeakUsedVirtual   = PeakUsedVirtual;
     return MemoryConstants;
+}
+
+void PlatformDevice::DumpDeviceInfo()
+{
+    FKLog("============ Device Info===============");
+    std::ostringstream ss;
+    ss << "GetDeviceId:" << GetDeviceId() << "\n";
+    ss << "GetDeviceId:" << GetProduct() << "\n";
+    ss << "GetHardware:" << GetHardware() << "\n";
+    ss << "GetDevice:" << GetDevice() << "\n";
+    ss << "GetModel:" << GetModel() << "\n";
+    ss << "GetManufacturer:" << GetManufacturer() << "\n";
+    ss << "GetSystemVersion:" << GetSystemVersion() << "\n";
+    ss << "GetSDKVersion:" << GetSDKVersion() << "\n";
+    ss << "GetRendererVersion:" << GetRendererVersion() << "\n";
+    ss << "GetCPUCoreCount:" << GetCPUCoreCount() << "\n";
+    ss << "GetCPUFrequency:" << GetCPUFrequency() << "\n";
+    ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
+    ss << "GetIpAddressV4:" << GetIpAddressV4() << "\n";
+    ss << "GetIpAddressV6:" << GetIpAddressV6() << "\n";
+    auto dnss = GetDNS();
+    for(auto dns : dnss)
+    {
+        ss << "GetDNS:" << dns << "\n";
+    }
+    ss << "GetTotalMemory:" << GetTotalMemory() << " bytes\n";
+    ss << "GetAvailableMemory:" << GetAvailableMemory() << "bytes\n";
+    ss << "GetGPURenderer:" << GetGPURenderer() << "\n";
+    ss << "GetGPUVendor:" << GetGPUVendor() << "\n";
+    
+    /// Get the screen resolution, not including the virtual button area
+    Rect Resolution  = GetScreenResolution();
+    ss << "GetScreenResolution:" << Resolution.size.Width<<"*"<< Resolution.size.Height<< "\n";
+    /// Get the screen resolution, including the virtual button area
+    Resolution = GetScreenNativeResolution();
+    ss << "GetScreenNativeResolution:" << Resolution.size.Width<<"*"<< Resolution.size.Height<< "\n";
+    ss << "GetScreenDPI:" << GetScreenDPI() << "\n";
+    ss << "GetRefreshRate:" << GetRefreshRate() << "\n";
+    ss << "GetScreenXDPI:" << GetScreenXDPI() << "\n";
+    ss << "GetScreenYDPI:" << GetScreenYDPI() << "\n";
+    ss << "GetNativeScale:" << GetNativeScale() << "\n";
+    
+    PlatformMemoryConstants memConstants =  GetMemoryConstants();
+    ss << "PageSize:" << memConstants.PageSize << "\n";
+    ss << "TotalPhysical:" << memConstants.TotalPhysical << "\n";
+    ss << "TotalVirtual:" << memConstants.TotalVirtual << "\n";
+    ss << "AddressLimit:" << memConstants.AddressLimit << "\n";
+    ss << "AvailablePhysical:" << memConstants.AvailablePhysical << "\n";
+    ss << "AvailableVirtual:" << memConstants.AvailableVirtual << "\n";
+    ss << "UsedPhysical:" << memConstants.UsedPhysical << "\n";
+    ss << "PeakUsedPhysical:" << memConstants.PeakUsedPhysical << "\n";
+    ss << "UsedVirtual:" << memConstants.UsedVirtual << "\n";
+    ss << "PeakUsedVirtual:" << memConstants.PeakUsedVirtual << "\n";
+    FKLog(ss.str().c_str());
 }
 
 NS_FK_END

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0907E8421CE0940900A65A3C /* AdSupport.framework */; };
+		0956169D1F9ECE1E00DEDFA7 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0956169C1F9ECE1000DEDFA7 /* CoreTelephony.framework */; };
 		09C19B011BABB760007A8C99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B001BABB760007A8C99 /* main.m */; };
 		09C19B041BABB760007A8C99 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B031BABB760007A8C99 /* AppDelegate.mm */; };
 		09C19B071BABB760007A8C99 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B061BABB760007A8C99 /* ViewController.m */; };
@@ -22,6 +23,7 @@
 		0907E8421CE0940900A65A3C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		093490EB1E7F7D740034ECF2 /* libFoundationKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFoundationKit.a; path = "../../../../../Library/Developer/Xcode/DerivedData/FoundationKitFramework-gqtmmrnbxavaofbusneqnsvkmpwv/Build/Products/Debug-iphoneos/libFoundationKit.a"; sourceTree = "<group>"; };
 		093492DF1E8106FF0034ECF2 /* libHTTPClient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHTTPClient.a; path = "../../../../../Library/Developer/Xcode/DerivedData/FoundationKitFramework-gqtmmrnbxavaofbusneqnsvkmpwv/Build/Products/Debug-iphoneos/libHTTPClient.a"; sourceTree = "<group>"; };
+		0956169C1F9ECE1000DEDFA7 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		09C19AFB1BABB760007A8C99 /* FoundationKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoundationKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C19AFF1BABB760007A8C99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		09C19B001BABB760007A8C99 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -45,6 +47,7 @@
 				09DAF11C1ED449AF00AD585D /* libz.1.2.5.tbd in Frameworks */,
 				09DAF11A1ED4470F00AD585D /* libFoundationKit_iOS.a in Frameworks */,
 				0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */,
+				0956169D1F9ECE1E00DEDFA7 /* CoreTelephony.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +57,7 @@
 		093490EA1E7F7D740034ECF2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0956169C1F9ECE1000DEDFA7 /* CoreTelephony.framework */,
 				09DAF11B1ED449AF00AD585D /* libz.1.2.5.tbd */,
 				09DAF1191ED4470F00AD585D /* libFoundationKit_iOS.a */,
 				09DAF1171ED4470A00AD585D /* libHTTPClient_iOS.a */,

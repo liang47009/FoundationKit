@@ -288,7 +288,7 @@
 				);
 				INFOPLIST_FILE = FoundationKitTest_Mac/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.snailgames.FoundationKitTest-Mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -307,7 +307,7 @@
 				);
 				INFOPLIST_FILE = FoundationKitTest_Mac/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.snailgames.FoundationKitTest-Mac";
 				PRODUCT_NAME = "$(TARGET_NAME)";
