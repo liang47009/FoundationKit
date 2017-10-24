@@ -235,8 +235,15 @@ std::string PlatformDevice::GetBrandName()
 
 std::string PlatformDevice::GetModel()
 {
-    NSString* model = [UIDeviceHardware platformString];
-    return [model UTF8String];
+    size_t size = 0;
+    std::string strModel;
+    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    char *machine = new char[size+1];
+    memset(machine, 0, size+1);
+    if(sysctlbyname("hw.machine", machine, &size, NULL, 0) >= 0)
+        strModel = machine;
+    delete[] machine;
+    return strModel;
 }
 
 std::string PlatformDevice::GetManufacturer()
