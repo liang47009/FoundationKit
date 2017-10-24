@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include <array>
+#include <sstream>
 
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/OpenGL.hpp"
@@ -496,6 +497,57 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
     MemoryConstants.PeakUsedPhysical  = ProcessMemoryCounters.PeakWorkingSetSize;
     MemoryConstants.PeakUsedVirtual   = ProcessMemoryCounters.PeakPagefileUsage;
     return MemoryConstants;
+}
+
+void PlatformDevice::DumpDeviceInfo()
+{
+    FKLog("============ Device Info===============");
+    std::ostringstream ss;
+    ss << "GetDeviceId:" << GetDeviceId() << "\n";
+    ss << "GetDeviceId:" << GetProduct() << "\n";
+    ss << "GetHardware:" << GetHardware() << "\n";
+    ss << "GetDevice:" << GetDevice() << "\n";
+    ss << "GetModel:" << GetModel() << "\n";
+    ss << "GetManufacturer:" << GetManufacturer() << "\n";
+    ss << "GetSystemVersion:" << GetSystemVersion() << "\n";
+    ss << "GetSDKVersion:" << GetSDKVersion() << "\n";
+    ss << "GetCPUCoreCount:" << GetCPUCoreCount() << "\n";
+    ss << "GetCPUFrequency:" << GetCPUFrequency() << "\n";
+    ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
+    ss << "GetIpAddressV4:" << GetIpAddressV4() << "\n";
+    ss << "GetIpAddressV6:" << GetIpAddressV6() << "\n";
+    auto dnss = GetDNS();
+    for (auto dns : dnss)
+    {
+        ss << "GetDNS:" << dns << "\n";
+    }
+    ss << "GetTotalMemory:" << GetTotalMemory() << " bytes\n";
+    ss << "GetAvailableMemory:" << GetAvailableMemory() << "bytes\n";
+
+    /// Get the screen resolution, not including the virtual button area
+    Rect Resolution = GetScreenResolution();
+    ss << "GetScreenResolution:" << Resolution.size.Width << "*" << Resolution.size.Height << "\n";
+    /// Get the screen resolution, including the virtual button area
+    Resolution = GetScreenNativeResolution();
+    ss << "GetScreenNativeResolution:" << Resolution.size.Width << "*" << Resolution.size.Height << "\n";
+    ss << "GetScreenDPI:" << GetScreenDPI() << "\n";
+    ss << "GetRefreshRate:" << GetRefreshRate() << "\n";
+    ss << "GetScreenXDPI:" << GetScreenXDPI() << "\n";
+    ss << "GetScreenYDPI:" << GetScreenYDPI() << "\n";
+    ss << "GetNativeScale:" << GetNativeScale() << "\n";
+
+    PlatformMemoryConstants memConstants = GetMemoryConstants();
+    ss << "PageSize:" << memConstants.PageSize << "\n";
+    ss << "TotalPhysical:" << memConstants.TotalPhysical << "\n";
+    ss << "TotalVirtual:" << memConstants.TotalVirtual << "\n";
+    ss << "AddressLimit:" << memConstants.AddressLimit << "\n";
+    ss << "AvailablePhysical:" << memConstants.AvailablePhysical << "\n";
+    ss << "AvailableVirtual:" << memConstants.AvailableVirtual << "\n";
+    ss << "UsedPhysical:" << memConstants.UsedPhysical << "\n";
+    ss << "PeakUsedPhysical:" << memConstants.PeakUsedPhysical << "\n";
+    ss << "UsedVirtual:" << memConstants.UsedVirtual << "\n";
+    ss << "PeakUsedVirtual:" << memConstants.PeakUsedVirtual << "\n";
+    FKLog(ss.str().c_str());
 }
 
 NS_FK_END
