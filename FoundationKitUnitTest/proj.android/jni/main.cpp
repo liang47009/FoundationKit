@@ -18,19 +18,20 @@
 #include <jni.h>
 #include <android/log.h>
 #include <stdio.h>
-// #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
-// #include "FoundationKit/Platform/Platform.hpp"
-// #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
-// #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
-// #include "FoundationKit/Base/function_cache.hpp"
-// #include "FoundationKit/Platform/PlatformTLS.hpp"
-// #include "FoundationKit/Platform/PlatformDevice.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
+#include "FoundationKit/Platform/Platform.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
+#include "FoundationKit/Base/function_cache.hpp"
+#include "FoundationKit/Platform/PlatformTLS.hpp"
+#include "FoundationKit/Platform/PlatformDevice.hpp"
+#include "FoundationKit/Platform/Environment.hpp"
 #include <vector>
 #include <stdarg.h>
 
 
-// using namespace FoundationKit;
-// using namespace AndroidNode;
+using namespace FoundationKit;
+using namespace AndroidNode;
 
 /* This is a trivial JNI example where we use a native method
  * to return a new VM String. See the corresponding Java source
@@ -44,27 +45,34 @@ static JavaVM* g_vm = nullptr;
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
-	//ANDROID_LOGE("============== >>>>> JNI_OnLoad");
+	ANDROID_LOGE("============== >>>>> JNI_OnLoad");
     g_vm = vm;
+    auto cmdList =  Environment::GetCommandLineArgs();
+    ANDROID_LOGE("============== CommandLineArgs:");
+    for(std::string val : cmdList)
+    {
+        ANDROID_LOGE("Command = %s", val.c_str());
+    }
+    ANDROID_LOGE("============== CommandLineArgs end");
     return JNI_VERSION_1_6;
 }
 
 
-// size_t noCache(size_t n)  
-// {  
-//     return (n < 2) ? n : noCache(n - 1) + noCache(n - 2);  
-// }
+size_t noCache(size_t n)  
+{  
+    return (n < 2) ? n : noCache(n - 1) + noCache(n - 2);  
+}
 
-// size_t hasCache(size_t n)  
-// {  
-//      return (n < 2) ? n : function_cache(hasCache)(n - 1) + function_cache(hasCache)(n - 2);  
-// } 
+size_t hasCache(size_t n)  
+{  
+     return (n < 2) ? n : function_cache(hasCache)(n - 1) + function_cache(hasCache)(n - 2);  
+} 
 
-// void testFunctionCache()
-// {
-//      auto v1 = noCache(45);
-//      auto v2 = hasCache(45);
-// }
+void testFunctionCache()
+{
+     auto v1 = noCache(45);
+     auto v2 = hasCache(45);
+}
     
 int TestHeapUseAfterFree(int argc)
 {
@@ -97,23 +105,23 @@ int TestGlobalBufferOverflow(int argc)
 
 JNIEXPORT void JNICALL Java_com_example_test_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
 {
-    // ANDROID_LOGE("============== >>>>> foundationInit");
-    // AndroidJNI::InitializeJavaEnv(g_vm, JNI_VERSION_1_6, context);
-    // AndroidJavaObject  mainActive(context);
-    // mainActive.Call("debug_Print", 100,"======", "========");
+    ANDROID_LOGE("============== >>>>> foundationInit");
+    AndroidJNI::InitializeJavaEnv(g_vm, JNI_VERSION_1_6, context);
+    AndroidJavaObject  mainActive(context);
+    mainActive.Call("debug_Print", 100,"======", "========");
 
-    // AndroidJavaClass  mainActiveClass("com.example.test.MainActivity");
+    AndroidJavaClass  mainActiveClass("com.example.test.MainActivity");
 
-    // std::string mainClassName = mainActiveClass.CallStatic<std::string>("getClassName");
-    // ANDROID_LOGE("========== mainClassName: %s", mainClassName.c_str());
+    std::string mainClassName = mainActiveClass.CallStatic<std::string>("getClassName");
+    ANDROID_LOGE("========== mainClassName: %s", mainClassName.c_str());
      
     char* leak = new char[1024];
     int ret = TestHeapUseAfterFree(10);
     ret = TestHeapBufferOverflow(10);
     ret = TestStackBufferOverflow(10);
     ret = TestGlobalBufferOverflow(10);
-    //ANDROID_LOGE(" CPU Core count:%d", PlatformDevice::GetCPUCoreCount());
-    //ANDROID_LOGE("========== Java_com_example_test_MainActivity_foundationInit End");
+    ANDROID_LOGE(" CPU Core count:%d", PlatformDevice::GetCPUCoreCount());
+    ANDROID_LOGE("========== Java_com_example_test_MainActivity_foundationInit End");
     //testFunctionCache();
 }
 

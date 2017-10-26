@@ -14,10 +14,12 @@
 #include <thread>
 #include <condition_variable>
 #include "curl.h"
+#include "libcurl_init.hpp"
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"
 #include "HTTPRequest.hpp"
 #include "HTTPResponse.hpp"
+
 
 NS_FK_BEGIN
 

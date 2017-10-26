@@ -27,9 +27,9 @@ APP_LDFLAGS  += -O1
 APP_ARM_MODE += arm
 
 #Address Sanitizer
-APP_CPPFLAGS += -fsanitize=address
-APP_CFLAGS   += -fsanitize=address
-APP_LDFLAGS  += -fsanitize=address
+# APP_CPPFLAGS += -fsanitize=address
+# APP_CFLAGS   += -fsanitize=address
+# APP_LDFLAGS  += -fsanitize=address
 
 APP_OPTIM := debug
 APP_CPPFLAGS += -DDEBUG
