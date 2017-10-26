@@ -20,6 +20,10 @@ IF EXIST "publish" (
     rmdir "publish" /s /q
 )
 
+IF EXIST "Rubbish" (
+    rmdir "Rubbish" /s /q
+)
+
 IF EXIST "FoundationKit\proj.android\libs" (
     rmdir "FoundationKit\proj.android\libs" /s /q
 )
@@ -80,28 +84,12 @@ IF EXIST "FoundationKitUnitTest\proj.android\libs\x86" (
     rmdir "FoundationKitUnitTest\proj.android\libs\x86" /s /q
 )
 
-IF EXIST "HTTPClient\proj.win32\Debug" (
-    rmdir "HTTPClient\proj.win32\Debug" /s /q
-)
-
-IF EXIST "HTTPClient\proj.win32\Release" (
-    rmdir "HTTPClient\proj.win32\Release" /s /q
-)
-
 IF EXIST "FoundationKitCPP03\proj.win32\Debug" (
     rmdir "FoundationKitCPP03\proj.win32\Debug" /s /q
 )
 
 IF EXIST "FoundationKitCPP03\proj.win32\Release" (
     rmdir "FoundationKitCPP03\proj.win32\Release" /s /q
-)
-
-IF EXIST "Libraries\HTTPClient\proj.android\libs" (
-    rmdir "Libraries\HTTPClient\proj.android\libs" /s /q
-)
-
-IF EXIST "Libraries\HTTPClient\proj.android\obj" (
-    rmdir "Libraries\HTTPClient\proj.android\obj" /s /q
 )
 
 pause
