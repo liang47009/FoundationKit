@@ -39,17 +39,14 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/document.h"
-
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Base/string_builder.hpp"
 #include "FoundationKit/Base/locale.hpp"
 #include "FoundationKit/Base/unique_id.hpp"
-#include "FoundationKit/Base/string_encoding.hpp"
 #include "FoundationKit/Base/byte_swap.hpp"
 #include "FoundationKit/Foundation/Time.hpp"
 #include "FoundationKit/Foundation/Directory.hpp"
-#include "../Libraries/Networking/Networking/network.hpp"
 #include "FoundationKit/experimental/AsyncTask.hpp"
 
 using namespace std;
@@ -85,9 +82,10 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::error_code ec;
 	std::string strErr = ec.message();
 	HTTPClient::GetInstance()->Initialize();
-    string strPlant = "fjdslfjspousdpfdsfs6f4sd6f4sd6f4sf4sfsdfw6rtdf4htu6g4dg6dsf4gdr6g";
-    string strHex = hex(strPlant);
-    string strUnHex = unhex(strHex);
+    PlatformDevice::DumpDeviceInfo();
+
+    
+
 	int im_a_breakpoint = 0;
 	return true;
 }
@@ -113,7 +111,6 @@ void AppDelegate::mainLoop()
 {
 	HTTPClient::GetInstance()->Tick(1 / 60.0f);
 }
-
 
 void AppDelegate::ThreadMethod(void* userData)
 {

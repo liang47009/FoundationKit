@@ -94,7 +94,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../Libraries/Networking;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../OnlineFramework/OnlineFramework;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
@@ -139,7 +139,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\openssl\prebuilt\win32\*.*" "$(OutDir)"</C
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../Libraries/HTTPClient;../../Libraries/Networking;../../HTTPDownloader/;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/../../FoundationKit/FoundationKit/external/unzip;../../FoundationKit/;../../OnlineFramework/OnlineFramework;$(SolutionDir)ThirdParty/spdlog/include;$(SolutionDir)ThirdParty/zlib/windows/include/zlib;$(SolutionDir)ThirdParty\curl\include\win32\curl;$(SolutionDir)ThirdParty\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
@@ -188,8 +188,8 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\openssl\prebuilt\win32\*.*" "$(OutDir)"</C
     <ProjectReference Include="..\..\FoundationKit\proj.win32\FoundationKit.vcxproj">
       <Project>{8f5a5344-1249-4c82-ba4d-8b4733161585}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Libraries\HTTPClient\proj.win32\HTTPClient.vcxproj">
-      <Project>{b8b94732-07a8-4484-93b3-0f8690377cc9}</Project>
+    <ProjectReference Include="..\..\OnlineFramework\proj.win32\OnlineFramework.vcxproj">
+      <Project>{fbfcea90-a2e0-4580-9848-65a3b73973d2}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -283,9 +283,6 @@
     <ClInclude Include="..\FoundationKit\experimental\AsyncTask.hpp">
       <Filter>experimental</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\string_encoding.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Time.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>

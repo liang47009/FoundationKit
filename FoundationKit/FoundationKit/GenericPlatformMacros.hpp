@@ -3,12 +3,6 @@
 #define LOSEMYMIND_GENERICPLATFORMMACROS_H
 #pragma once
 
-#define LIBFK_VERSION "1.0.0"
-#define LIBFK_VERSION_MAJOR 1
-#define LIBFK_VERSION_MINOR 0
-#define LIBFK_VERSION_PATCH 0
-#define LIBFK_VERSION_NUM 0x010000
-
 #include "LanguageFeatures.hpp"
 // namespace FoundationKit {}
 #ifdef __cplusplus
