@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKit", "Foundation
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKitUnitTest", "FoundationKitUnitTest\proj.win32\FoundationKitUnitTest.vcxproj", "{36B65CA0-399A-41A5-A554-D5E8FF0B5558}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OnlineFramework", "OnlineFramework\proj.win32\OnlineFramework.vcxproj", "{FBFCEA90-A2E0-4580-9848-65A3B73973D2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetFramework", "NetFramework\proj.win32\NetFramework.vcxproj", "{FBFCEA90-A2E0-4580-9848-65A3B73973D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

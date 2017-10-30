@@ -19,65 +19,66 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\OnlineFramework\HTTPClient\HTTPClient.cpp" />
-    <ClCompile Include="..\OnlineFramework\HTTPClient\HTTPCode.cpp" />
-    <ClCompile Include="..\OnlineFramework\HTTPClient\HTTPDownloader.cpp" />
-    <ClCompile Include="..\OnlineFramework\HTTPClient\HTTPRequest.cpp" />
-    <ClCompile Include="..\OnlineFramework\HTTPClient\HTTPResponse.cpp" />
-    <ClCompile Include="..\OnlineFramework\HTTPClient\HTTPUploader.cpp" />
-    <ClCompile Include="..\OnlineFramework\HTTPClient\libcurl_init.cpp" />
-    <ClCompile Include="..\OnlineFramework\HTTPClient\MimeTypes.cpp" />
-    <ClCompile Include="..\OnlineFramework\Networking\IProtocol.cpp" />
+    <ClCompile Include="..\NetFramework\HTTPClient\HTTPClient.cpp" />
+    <ClCompile Include="..\NetFramework\HTTPClient\HTTPCode.cpp" />
+    <ClCompile Include="..\NetFramework\HTTPClient\HTTPDownloader.cpp" />
+    <ClCompile Include="..\NetFramework\HTTPClient\HTTPRequest.cpp" />
+    <ClCompile Include="..\NetFramework\HTTPClient\HTTPResponse.cpp" />
+    <ClCompile Include="..\NetFramework\HTTPClient\HTTPUploader.cpp" />
+    <ClCompile Include="..\NetFramework\HTTPClient\libcurl_init.cpp" />
+    <ClCompile Include="..\NetFramework\HTTPClient\MimeTypes.cpp" />
+    <ClCompile Include="..\NetFramework\Networking\IProtocol.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\OnlineFramework\HTTPClient\HTTPClient.hpp" />
-    <ClInclude Include="..\OnlineFramework\HTTPClient\HTTPCode.hpp" />
-    <ClInclude Include="..\OnlineFramework\HTTPClient\HTTPDownloader.hpp" />
-    <ClInclude Include="..\OnlineFramework\HTTPClient\HTTPRequest.hpp" />
-    <ClInclude Include="..\OnlineFramework\HTTPClient\HTTPResponse.hpp" />
-    <ClInclude Include="..\OnlineFramework\HTTPClient\HTTPUploader.hpp" />
-    <ClInclude Include="..\OnlineFramework\HTTPClient\libcurl_init.hpp" />
-    <ClInclude Include="..\OnlineFramework\HTTPClient\MimeTypes.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\basic_endpoint.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\basic_socket.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\detail\config.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\detail\socket_base.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\detail\socket_ops.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\detail\socket_option.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\detail\src.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\IProtocol.h" />
-    <ClInclude Include="..\OnlineFramework\Networking\ip\address.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\ip\address_v4.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\ip\address_v4_iterator.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\ip\address_v4_range.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\ip\address_v6.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\ip\address_v6_iterator.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\ip\address_v6_range.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\ip\bad_address_cast.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\ip\endpoint.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\ip\multicast.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\ip\tcp.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\ip\udp.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\network.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\socket_types.hpp" />
-    <ClInclude Include="..\OnlineFramework\Networking\winsock_init.hpp" />
+    <ClInclude Include="..\NetFramework\HTTPClient\HTTPClient.hpp" />
+    <ClInclude Include="..\NetFramework\HTTPClient\HTTPCode.hpp" />
+    <ClInclude Include="..\NetFramework\HTTPClient\HTTPDownloader.hpp" />
+    <ClInclude Include="..\NetFramework\HTTPClient\HTTPRequest.hpp" />
+    <ClInclude Include="..\NetFramework\HTTPClient\HTTPResponse.hpp" />
+    <ClInclude Include="..\NetFramework\HTTPClient\HTTPUploader.hpp" />
+    <ClInclude Include="..\NetFramework\HTTPClient\libcurl_init.hpp" />
+    <ClInclude Include="..\NetFramework\HTTPClient\MimeTypes.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\basic_endpoint.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\basic_socket.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\detail\config.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\detail\socket_base.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\detail\socket_ops.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\detail\socket_option.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\detail\src.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\IProtocol.h" />
+    <ClInclude Include="..\NetFramework\Networking\ip\address.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\ip\address_v4.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\ip\address_v4_iterator.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\ip\address_v4_range.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\ip\address_v6.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\ip\address_v6_iterator.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\ip\address_v6_range.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\ip\bad_address_cast.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\ip\endpoint.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\ip\multicast.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\ip\tcp.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\ip\udp.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\network.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\socket_types.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\winsock_init.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\OnlineFramework\Networking\readme.txt" />
+    <Text Include="..\NetFramework\Networking\readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\OnlineFramework\Networking\detail\socket_ops.ipp" />
-    <None Include="..\OnlineFramework\Networking\ip\address.ipp" />
-    <None Include="..\OnlineFramework\Networking\ip\address_v4.ipp" />
-    <None Include="..\OnlineFramework\Networking\ip\address_v6.ipp" />
-    <None Include="..\OnlineFramework\Networking\ip\endpoint.ipp" />
-    <None Include="..\OnlineFramework\Networking\winsock_init.ipp" />
+    <None Include="..\NetFramework\Networking\detail\socket_ops.ipp" />
+    <None Include="..\NetFramework\Networking\ip\address.ipp" />
+    <None Include="..\NetFramework\Networking\ip\address_v4.ipp" />
+    <None Include="..\NetFramework\Networking\ip\address_v6.ipp" />
+    <None Include="..\NetFramework\Networking\ip\endpoint.ipp" />
+    <None Include="..\NetFramework\Networking\winsock_init.ipp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FBFCEA90-A2E0-4580-9848-65A3B73973D2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>OnlineFramework</RootNamespace>
+    <RootNamespace>NetFramework</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <ProjectName>NetFramework</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -113,19 +114,19 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="OnlineFramework.props" />
+    <Import Project="NetFramework.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="OnlineFramework.props" />
+    <Import Project="NetFramework.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="OnlineFramework.props" />
+    <Import Project="NetFramework.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="OnlineFramework.props" />
+    <Import Project="NetFramework.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />

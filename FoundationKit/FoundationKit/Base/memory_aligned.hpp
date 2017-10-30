@@ -65,7 +65,7 @@ constexpr inline bool is_alignment(std::size_t value) noexcept
  inline bool is_alignment(const /*volatile*/ void* ptr, std::size_t alignment)noexcept
 {
     ASSERTED(is_alignment(alignment),"alignment must be is ");
-    return (address(ptr) & (alignment - 1)) == 0;
+    return (UPTRINT(ptr) & (alignment - 1)) == 0;
 }
 
 inline void *allocate_aligned(size_t n) 

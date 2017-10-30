@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\OnlineFramework;$(ProjectDir)..\..\FoundationKit;$(ProjectDir)..\..\ThirdParty\curl\include\win32\curl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\NetFramework;$(ProjectDir)..\..\FoundationKit;$(ProjectDir)..\..\ThirdParty\curl\include\win32\curl</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
