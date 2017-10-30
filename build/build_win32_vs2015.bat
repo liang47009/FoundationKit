@@ -12,9 +12,9 @@ if exist "..\Win32" rmdir "..\Win32" /s /q
 call "%DEVENV%" ..\FoundationKitFramework.sln /rebuild "Debug|win32" /project FoundationKit /projectconfig "Debug|win32"
 call "%DEVENV%" ..\FoundationKitFramework.sln /rebuild "Release|win32" /project FoundationKit /projectconfig "Release|win32"
 
-::Build Solution FoundationKitCPP03.sln
-::call "%DEVENV%" ..\FoundationKitFramework.sln /rebuild "Debug|win32"
-::call "%DEVENV%" ..\FoundationKitFramework.sln /rebuild "Release|win32"
+::Build project OnlineFramework
+call "%DEVENV%" ..\FoundationKitFramework.sln /rebuild "Debug|win32" /project OnlineFramework /projectconfig "Debug|win32"
+call "%DEVENV%" ..\FoundationKitFramework.sln /rebuild "Release|win32" /project OnlineFramework /projectconfig "Release|win32"
 
 set PUBLISH_DIR="..\publish\vs2015\"
 
@@ -23,6 +23,11 @@ if exist %PUBLISH_DIR% rmdir %PUBLISH_DIR% /s /q
 xcopy /Y /Q /S "..\FoundationKit\FoundationKit\*.h" "%PUBLISH_DIR%include\FoundationKit\"
 xcopy /Y /Q /S "..\FoundationKit\FoundationKit\*.hpp" "%PUBLISH_DIR%include\FoundationKit\"
 xcopy /Y /Q /S "..\FoundationKit\FoundationKit\*.inl" "%PUBLISH_DIR%include\FoundationKit\"
+
+xcopy /Y /Q /S "..\OnlineFramework\OnlineFramework\*.h" "%PUBLISH_DIR%include\OnlineFramework\"
+xcopy /Y /Q /S "..\OnlineFramework\OnlineFramework\*.hpp" "%PUBLISH_DIR%include\OnlineFramework\"
+xcopy /Y /Q /S "..\OnlineFramework\OnlineFramework\*.inl" "%PUBLISH_DIR%include\OnlineFramework\"
+xcopy /Y /Q /S "..\OnlineFramework\OnlineFramework\*.ipp" "%PUBLISH_DIR%include\OnlineFramework\"
 
 xcopy /Y /Q /S "..\Win32\Debug\*.lib" "%PUBLISH_DIR%libs\Debug\"
 xcopy /Y /Q /S "..\Win32\Release\*.lib" "%PUBLISH_DIR%libs\Release\"

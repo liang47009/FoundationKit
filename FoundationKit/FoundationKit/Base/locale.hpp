@@ -17,22 +17,7 @@
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
 NS_FK_BEGIN
-class scope_locale
-{
-public:
-    scope_locale(const char *_Locname = "")
-    {
-        old_loc = std::locale::global(std::locale(_Locname));
-    }
 
-    ~scope_locale()
-    {
-        std::locale::global(old_loc);
-    }
-
-private:
-    std::locale old_loc;
-};
 
 inline std::locale default_locale()
 {
@@ -56,6 +41,31 @@ inline std::locale& process_locale()
     return loc;
 }
 
+
+class scope_locale
+{
+public:
+    scope_locale(const char *_Locname)
+    {
+        if(_Locname == nullptr)
+            old_loc = std::locale::global(default_locale());
+        else
+            old_loc = std::locale::global(std::locale(_Locname));
+    }
+
+    scope_locale(const std::locale& _LocalVal = default_locale())
+    {
+        old_loc = std::locale::global(_LocalVal);
+    }
+
+    ~scope_locale()
+    {
+        std::locale::global(old_loc);
+    }
+
+private:
+    std::locale old_loc;
+};
 NS_FK_END
 
 #endif // END OF FOUNDATIONKIT_LOCALE_HPP

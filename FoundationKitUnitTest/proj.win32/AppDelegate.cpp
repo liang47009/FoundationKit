@@ -72,11 +72,6 @@ void AppDelegate::applicationDidLaunching()
 }
 
 
-class Version1
-{
-
-};
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;
@@ -84,7 +79,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 	HTTPClient::GetInstance()->Initialize();
     PlatformDevice::DumpDeviceInfo();
 
-    
 
 	int im_a_breakpoint = 0;
 	return true;

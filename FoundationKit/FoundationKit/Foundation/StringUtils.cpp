@@ -46,35 +46,26 @@ std::string StringUtils::Toupper( const std::string& str )
 
 std::string StringUtils::Format( const char* format, ... )
 {
-	const static unsigned int MAX_STRING_LENGTH = 64;
+	const static unsigned int MAX_LENGTH = 54;
+    // Pass one greater needed size to leave room for NULL terminator
+    std::vector<char> dynamicBuffer(MAX_LENGTH+1);
+    char* result = &dynamicBuffer[0];
 	va_list arglist;
-	int size = MAX_STRING_LENGTH;
-	std::vector<char> dynamicBuffer(MAX_STRING_LENGTH);
-	char* str = &dynamicBuffer[0];
-	for (;;)
-	{
+    va_start(arglist, format);
+    // Pass one greater needed size to leave room for NULL terminator
+    int needed = vsnprintf(result, MAX_LENGTH+1, format, arglist);
+    va_end(arglist);
+    if (needed >= MAX_LENGTH)
+    {
+        // Pass one greater needed size to leave room for NULL terminator
+        dynamicBuffer.resize(needed+1);
+        result = &dynamicBuffer[0];
         va_start(arglist, format);
-        // Pass one less than size to leave room for NULL terminator
-        int needed = vsnprintf(str, size - 1, format, arglist);
+        // Pass one greater needed size to leave room for NULL terminator
+        needed = vsnprintf(result, needed+1, format, arglist);
         va_end(arglist);
-
-		// NOTE: Some platforms return -1 when vsnprintf runs out of room, while others return
-		// the number of characters actually needed to fill the buffer.
-		if (needed >= 0 && needed < size)
-		{
-			// Successfully wrote buffer. Added a NULL terminator in case it wasn't written.
-			str[needed] = '\0';
-			break;
-		}
-        if (needed < 0)
-        {
-            return format;
-        }
-		size = needed > 0 ? (needed + 1) : (size * 2);
-		dynamicBuffer.resize(size);
-		str = &dynamicBuffer[0];
-	}
-	return str;
+    }
+    return result;
 }
 
 std::string & StringUtils::LTrim( std::string &s )
