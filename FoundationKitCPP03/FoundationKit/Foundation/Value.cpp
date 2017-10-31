@@ -21,11 +21,9 @@ Value::Value(Type valType)
 
 
 Value::Value()
-: _type(Type::NONE)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::NONE);
 }
-
 
 Value::~Value()
 {
@@ -34,91 +32,80 @@ Value::~Value()
 
 Value::Value(const Value& other)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::NONE);
     Copy(const_cast<Value&>(other));
 }
 
-Value::Value(unsigned char data)
-    : _type(Type::UCHAR)
+
+Value::Value(uint8 data)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::UCHAR);
     _field._ucharVal = data;
 }
 
-Value::Value(unsigned short data)
-    : _type(Type::USHORT)
+Value::Value(uint16 data)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::USHORT);
     _field._ushortVal = data;
 }
 
-Value::Value(unsigned int data)
-    : _type(Type::UINT)
+Value::Value(uint32 data)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::UINT);
     _field._uintVal = data;
 }
 
-Value::Value(unsigned long long data)
-    : _type(Type::ULONGLONG)
+Value::Value(uint64 data)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::ULONGLONG);
     _field._ulonglongVal = data;
 }
 
 Value::Value(bool data)
-    : _type(Type::BOOL)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::BOOL);
     _field._boolVal = data;
 }
 
 Value::Value(char data)
-    : _type(Type::CHAR)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::CHAR);
     _field._charVal = data;
 }
 
-Value::Value(short data)
-    : _type(Type::SHORT)
+Value::Value(int16 data)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::SHORT);
     _field._shortVal = data;
 }
 
-Value::Value(int data)
-    : _type(Type::INT)
+Value::Value(int32 data)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::INT);
     _field._intVal = data;
 }
 
-Value::Value(long long data)
-    : _type(Type::LONGLONG)
+Value::Value(int64 data)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::LONGLONG);
     _field._longlongVal = data;
 }
 
 Value::Value(float data)
-    : _type(Type::FLOAT)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::FLOAT);
     _field._floatVal = data;
 }
 
 Value::Value(double data)
-    : _type(Type::DOUBLE)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::DOUBLE);
     _field._doubleVal = data;
 }
 
 Value::Value(const char* data)
-    : _type(Type::PCHAR)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::PCHAR);
     size_t len = strlen(data);
     _field._pcharVal = new char[len + 1];
     memcpy(_field._pcharVal, data, len);
@@ -126,9 +113,8 @@ Value::Value(const char* data)
 }
 
 Value::Value(const std::string& data)
-    : _type(Type::STRING)
 {
-    memset(&_field, 0x00, sizeof(_field));
+    init(Type::STRING);
     _field._stringVal = new char[data.size() + 1];
     memcpy(_field._stringVal, data.c_str(), data.size());
     _field._stringVal[data.size()] = '\0';
@@ -140,19 +126,19 @@ Value& Value::operator=(const Value& value)
     return *this;
 }
 
-Value& Value::operator=(unsigned char data)
+Value& Value::operator=(uint8 data)
 {
     Reset(Type::UCHAR);
     _field._ucharVal = data;
     return *this;
 }
-Value& Value::operator=(unsigned short data)
+Value& Value::operator=(uint16 data)
 {
     Reset(Type::USHORT);
     _field._ushortVal = data;
     return *this;
 }
-Value& Value::operator=(unsigned int data)
+Value& Value::operator=(uint32 data)
 {
     Reset(Type::UINT);
     _field._uintVal = data;
@@ -160,7 +146,7 @@ Value& Value::operator=(unsigned int data)
 }
 
 
-Value& Value::operator=(unsigned long long data)
+Value& Value::operator=(uint64 data)
 {
     Reset(Type::ULONGLONG);
     _field._ulonglongVal = data;
@@ -178,20 +164,20 @@ Value& Value::operator=(char data)
     _field._charVal = data;
     return *this;
 }
-Value& Value::operator=(short data)
+Value& Value::operator=(int16 data)
 {
     Reset(Type::SHORT);
     _field._shortVal = data;
     return *this;
 }
-Value& Value::operator=(int data)
+Value& Value::operator=(int32 data)
 {
     Reset(Type::INT);
     _field._intVal = data;
     return *this;
 }
 
-Value& Value::operator=(long long data)
+Value& Value::operator=(int64 data)
 {
     Reset(Type::LONGLONG);
     _field._longlongVal = data;
@@ -340,6 +326,13 @@ void Value::Copy(Value& other)
     }
 }
 
+void Value::Move(Value& other)
+{
+    _type = std::move(other._type);
+    _field = std::move(other._field);
+    memset(&other._field, 0, sizeof(other._field));
+    other._type = Type::NONE; 
+}
 
 void Value::Swap(Value& other)
 {
@@ -367,6 +360,12 @@ void Value::Clear()
     _type = Type::NONE;
 }
 
+
+void FoundationKit::Value::init(Type valType)
+{
+    _type = valType;
+    memset(&_field, 0x00, sizeof(_field));
+}
 
 void Value::Reset(Type valType)
 {

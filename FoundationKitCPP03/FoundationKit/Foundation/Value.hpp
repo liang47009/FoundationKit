@@ -46,6 +46,8 @@ NS_FK_BEGIN
 class  Value
 {
 public:
+    static const Value Null;
+public:
     enum Type
     {
         NONE = 0,
@@ -65,12 +67,11 @@ public:
         POINTER
     };
 
-
-    static const Value Null;
-    template<typename _Ty>
-    Value(_Ty* data);
     Value();
     ~Value();
+
+    template<typename _Ty>
+    Value(_Ty* data);
     Value(const Value& other);
     explicit Value(uint8 data);
     explicit Value(uint16 data);
@@ -87,6 +88,9 @@ public:
     explicit Value(const std::string& data);
 
     // assignment operator
+    template<typename _Ty>
+    Value& operator= (_Ty* data);
+
     Value& operator= (const Value& other);
     Value& operator= (uint8 data);
     Value& operator= (uint16 data);
@@ -110,18 +114,11 @@ public:
     bool operator== (const Value& other);
     /** == operator overloading */
     bool operator== (const Value& other) const;
-    ///** >= operator overloading */
-    //bool operator>= (const Value & other) const;
-    ///** <= operator overloading */
-    //bool operator<= (const Value & other) const;
-    ///** < operator overloading */
-    //bool operator < (const Value & other) const;
-    ///** > operator overloading */
-    //bool operator > (const Value & other) const;
 
     inline bool IsNull()  const { return _type == Type::NONE; }
     inline Type GetType() const { return _type; };
     void        Copy(Value&  other);
+    void        Move(Value& other);
     void        Swap(Value&  other);
     void        Clear();
 
@@ -131,8 +128,8 @@ public:
 
 private:
 
+    void init(Type valType);
     void Reset(Type valType);
-
     Value(Type valType);
     union
     {

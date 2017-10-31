@@ -11,14 +11,13 @@
 NS_FK_BEGIN
 
 Version::Version()
-    : Major(0)
-    , Minor(0)
-    , Build(-1)
-    , Revision(-1)
-    , MajorRevision(-1)
-    , MinorRevision(-1)
+	: Major(0)
+	, Minor(0)
+	, Build(-1)
+	, Revision(-1)
+	, MajorRevision(-1)
+	, MinorRevision(-1)
 {
-    
 }
 
 Version::Version(const std::string& version)
@@ -40,7 +39,7 @@ Version::Version(int major, int minor)
     , MajorRevision(-1)
     , MinorRevision(-1)
 {
-    Init(major, minor, 0, 0);
+    Init(major, minor, -1, -1);
 }
 
 Version::Version(int major, int minor, int build)
@@ -51,7 +50,7 @@ Version::Version(int major, int minor, int build)
     , MajorRevision(-1)
     , MinorRevision(-1)
 {
-    Init(major, minor, build, 0);
+    Init(major, minor, build, -1);
 }
 
 Version::Version(int major, int minor, int build, int revision)
@@ -71,10 +70,10 @@ bool Version::Init(int major, int minor, int build, int revision)
         throw std::invalid_argument("ArgumentOutOfRange_Version");
     if (minor < 0)
         throw std::invalid_argument("ArgumentOutOfRange_Version");
-    if (build < 0)
-        throw std::invalid_argument("ArgumentOutOfRange_Version");
-    if (revision < 0)
-        throw std::invalid_argument("ArgumentOutOfRange_Version");
+    //if (build < 0)
+    //    throw std::invalid_argument("ArgumentOutOfRange_Version");
+    //if (revision < 0)
+    //    throw std::invalid_argument("ArgumentOutOfRange_Version");
     Major    = major;
     Minor    = minor;
     Build    = build;

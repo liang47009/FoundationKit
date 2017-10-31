@@ -10,86 +10,37 @@ losemymind.libo@gmail.com
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
+#include "FoundationKit/Foundation/Time.hpp"
 
 NS_FK_BEGIN
 
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
 /** Returns the system time. */
 void SystemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
-    SYSTEMTIME st;
-    GetLocalTime(&st);
-    year      = st.wYear;
-    month     = st.wMonth;
-    dayOfWeek = st.wDayOfWeek;
-    day       = st.wDay;
-    hour      = st.wHour;
-    min       = st.wMinute;
-    sec       = st.wSecond;
-    msec      = st.wMilliseconds;
+    Time::TimeDate td = Time::GetSystemTime();
+    year              = td.Year;
+    month             = td.Month;
+    dayOfWeek         = td.DayOfWeek;
+    day               = td.Day;
+    hour              = td.Hour;
+    min               = td.Minute;
+    sec               = td.Second;
+    msec              = td.Milliseconds;
 }
 
 /** Returns the UTC time. */
 void UtcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
-    SYSTEMTIME st;
-    GetSystemTime(&st);
-    year      = st.wYear;
-    month     = st.wMonth;
-    dayOfWeek = st.wDayOfWeek;
-    day       = st.wDay;
-    hour      = st.wHour;
-    min       = st.wMinute;
-    sec       = st.wSecond;
-    msec      = st.wMilliseconds;
+    Time::TimeDate td = Time::GetUTCTime();
+    year              = td.Year;
+    month             = td.Month;
+    dayOfWeek         = td.DayOfWeek;
+    day               = td.Day;
+    hour              = td.Hour;
+    min               = td.Minute;
+    sec               = td.Second;
+    msec              = td.Milliseconds;
 }
-#elif (TARGET_PLATFORM == PLATFORM_ANDROID) ||(TARGET_PLATFORM == PLATFORM_IOS) ||((TARGET_PLATFORM == PLATFORM_MAC))
-#include <sys/time.h>
-/** Returns the system time. */
-void SystemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
-{
-    // query for calendar time
-    struct timeval tmVal;
-    gettimeofday(&tmVal, NULL);
-
-    // convert it to local time
-    struct tm localTime;
-    localtime_r(&tmVal.tv_sec, &localTime);
-
-    // pull out data/time
-    year      = localTime.tm_year + 1900;
-    month     = localTime.tm_mon + 1;
-    dayOfWeek = localTime.tm_wday;
-    day       = localTime.tm_mday;
-    hour      = localTime.tm_hour;
-    min       = localTime.tm_min;
-    sec       = localTime.tm_sec;
-    msec      = tmVal.tv_usec / 1000;
-    
-}
-
-/** Returns the UTC time. */
-void UtcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
-{
-    // query for calendar time
-    struct timeval tmVal;
-    gettimeofday(&tmVal, NULL);
-
-    // convert it to UTC
-    struct tm utcTime;
-    gmtime_r(&tmVal.tv_sec, &utcTime);
-
-    // pull out data/time
-    year      = utcTime.tm_year + 1900;
-    month     = utcTime.tm_mon + 1;
-    dayOfWeek = utcTime.tm_wday;
-    day       = utcTime.tm_mday;
-    hour      = utcTime.tm_hour;
-    min       = utcTime.tm_min;
-    sec       = utcTime.tm_sec;
-    msec      = tmVal.tv_usec / 1000;
-}
-#endif
 
 /* DateTime constants
  *****************************************************************************/
@@ -122,11 +73,11 @@ DateTime::DateTime( int32 year, int32 month, int32 day, int32 hour, int32 minute
     totalDays += DaysToMonth[month];				// days in this year up to last month
     totalDays += day - 1;							// days in this month minus today
 
-    _ticks = totalDays   * ETimespan::TicksPerDay
-           + hour        * ETimespan::TicksPerHour
-           + minute      * ETimespan::TicksPerMinute
-           + second      * ETimespan::TicksPerSecond
-           + millisecond * ETimespan::TicksPerMillisecond;
+    _ticks = totalDays   * Time::TicksPerDay
+           + hour        * Time::TicksPerHour
+           + minute      * Time::TicksPerMinute
+           + second      * Time::TicksPerSecond
+           + millisecond * Time::TicksPerMillisecond;
 }
 
 
@@ -161,7 +112,7 @@ int32 DateTime::GetDay() const
 EDayOfWeek DateTime::GetDayOfWeek() const
 {
 	// January 1, 0001 was a Monday
-	return static_cast<EDayOfWeek>((_ticks / ETimespan::TicksPerDay) % 7);
+	return static_cast<EDayOfWeek>((_ticks / Time::TicksPerDay) % 7);
 }
 
 
@@ -339,12 +290,12 @@ bool DateTime::Parse( const std::string& dateTimeString, DateTime& outDateTime )
 		return false;
 	}
 
-    const int32 year = std::atoi(tokens[0].c_str());
-    const int32 month = std::atoi(tokens[1].c_str());
-    const int32 day = std::atoi(tokens[2].c_str());
-    const int32 hour = std::atoi(tokens[3].c_str());
-    const int32 minute = std::atoi(tokens[4].c_str());
-    const int32 second = std::atoi(tokens[5].c_str());
+    const int32 year        = std::atoi(tokens[0].c_str());
+    const int32 month       = std::atoi(tokens[1].c_str());
+    const int32 day         = std::atoi(tokens[2].c_str());
+    const int32 hour        = std::atoi(tokens[3].c_str());
+    const int32 minute      = std::atoi(tokens[4].c_str());
+    const int32 second      = std::atoi(tokens[5].c_str());
     const int32 millisecond = tokens.size() > 6 ? std::atoi(tokens[6].c_str()) : 0;
 
     if (!Validate(year, month, day, hour, minute, second, millisecond))
@@ -367,8 +318,8 @@ bool DateTime::ParseIso8601( const char* dateTimeString, DateTime& outDateTime )
     const char* dtPtr = dateTimeString;
 	char* next = nullptr;
 
-	int32 year = 0, month = 0, day = 0;
-	int32 hour = 0, minute = 0, second = 0, millisecond = 0;
+	int32 year   = 0, month = 0, day = 0;
+	int32 hour   = 0, minute = 0, second = 0, millisecond = 0;
 	int32 tzHour = 0, tzMinute = 0;
 
 	// get date
@@ -492,11 +443,11 @@ bool DateTime::ParseIso8601( const char* dateTimeString, DateTime& outDateTime )
 bool DateTime::Validate( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond )
 {
     return (year >= 1) && (year <= 9999) &&
-        (month >= 1) && (month <= 12) &&
-        (day >= 1) && (day <= DaysInMonth(year, month)) &&
-        (hour >= 0) && (hour <= 23) &&
-        (minute >= 0) && (minute <= 59) &&
-        (second >= 0) && (second <= 59) &&
+        (month       >= 1) && (month       <= 12) &&
+        (day         >= 1) && (day         <= DaysInMonth(year, month)) &&
+        (hour        >= 0) && (hour        <= 23) &&
+        (minute      >= 0) && (minute      <= 59) &&
+        (second      >= 0) && (second      <= 59) &&
         (millisecond >= 0) && (millisecond <= 999);
 }
 
@@ -537,7 +488,6 @@ std::string DateTime::GetTimestampString()
     timestamp += GetTimeString();
     return timestamp;
 }
-
 
 NS_FK_END
 

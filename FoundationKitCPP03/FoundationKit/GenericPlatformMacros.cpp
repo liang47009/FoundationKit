@@ -3,6 +3,8 @@
 #include <cstdarg>
 #include <cstdio>
 #include <cassert>
+#include <string>
+#include <vector>
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationMacros.hpp"
 #if (TARGET_PLATFORM == PLATFORM_ANDROID)
@@ -75,7 +77,7 @@ void __log__(const char* fmt, ...)
     strPreMsg += "\n";
 
 #if (TARGET_PLATFORM == PLATFORM_ANDROID)
-    __android_log_print(ANDROID_LOG_DEBUG, "FoundationKit", "%s", strPreMsg.c_str());
+    __android_log_print(ANDROID_LOG_INFO, "FoundationKit", "%s", strPreMsg.c_str());
 #elif TARGET_PLATFORM ==  PLATFORM_WINDOWS
     std::wstring wstr = StringUtils::string2UTF8wstring(strPreMsg);
     OutputDebugStringW(wstr.c_str());
@@ -87,4 +89,6 @@ void __log__(const char* fmt, ...)
     fflush(stdout);
 #endif
 }
+
+
 

@@ -69,7 +69,6 @@ enum EMonthOfYear
  * The companion struct Timespan is provided for enabling date and time based arithmetic, such as
  * calculating the difference between two dates or adding a certain amount of time to a given date.
  *
- * Ranges of dates and times can be represented by the FDateRange class.
  *
  * @see Timespan
  */
@@ -83,7 +82,7 @@ public:
 	/**
 	 * Creates and initializes a new instance with the specified number of ticks.
 	 *
-	 * @param Ticks The ticks representing the date and time.
+	 * @param inTicks The ticks representing the date and time.
 	 */
 	explicit DateTime( int64 inTicks )
         : _ticks(inTicks)
@@ -175,7 +174,7 @@ public:
 	/**
 	 * Compares this date with the given date for inequality.
 	 *
-	 * @param other The date to compare with.
+	 * @param Other The date to compare with.
 	 * @return true if the dates are not equal, false otherwise.
 	 */
 	bool operator!=( const DateTime& Other ) const
@@ -186,7 +185,7 @@ public:
 	/**
 	 * Checks whether this date is greater than the given date.
 	 *
-	 * @param other The date to compare with.
+	 * @param Other The date to compare with.
 	 * @return true if this date is greater, false otherwise.
 	 */
 	bool operator>( const DateTime& Other ) const
@@ -197,7 +196,7 @@ public:
 	/**
 	 * Checks whether this date is greater than or equal to the date span.
 	 *
-	 * @param other The date to compare with.
+	 * @param Other The date to compare with.
 	 * @return true if this date is greater or equal, false otherwise.
 	 */
 	bool operator>=( const DateTime& Other ) const
@@ -208,7 +207,7 @@ public:
 	/**
 	 * Checks whether this date is less than the given date.
 	 *
-	 * @param other The date to compare with.
+	 * @param Other The date to compare with.
 	 * @return true if this date is less, false otherwise.
 	 */
 	bool operator<( const DateTime& Other ) const
@@ -219,7 +218,7 @@ public:
 	/**
 	 * Checks whether this date is less than or equal to the given date.
 	 *
-	 * @param other The date to compare with.
+	 * @param Other The date to compare with.
 	 * @return true if this date is less or equal, false otherwise.
 	 */
 	bool operator<=( const DateTime& Other ) const
@@ -238,7 +237,7 @@ public:
 	 */
 	DateTime GetDate() const
 	{
-		return DateTime(_ticks - (_ticks % ETimespan::TicksPerDay));
+		return DateTime(_ticks - (_ticks % Time::TicksPerDay));
 	}
 
 	/**
@@ -282,7 +281,7 @@ public:
 	 */
 	int32 GetHour() const
 	{
-		return (int32)((_ticks / ETimespan::TicksPerHour) % 24);
+		return (int32)((_ticks / Time::TicksPerHour) % 24);
 	}
 
 	/**
@@ -305,7 +304,7 @@ public:
 	 */
 	double GetJulianDay() const
 	{
-		return (double)(1721425.5 + _ticks / ETimespan::TicksPerDay);
+		return (double)(1721425.5 + _ticks / Time::TicksPerDay);
 	}
 
 	/**
@@ -330,7 +329,7 @@ public:
 	 */
 	int32 GetMillisecond() const
 	{
-		return (int32)((_ticks / ETimespan::TicksPerMillisecond) % 1000);
+		return (int32)((_ticks / Time::TicksPerMillisecond) % 1000);
 	}
 
 	/**
@@ -341,7 +340,7 @@ public:
 	 */
 	int32 GetMinute() const
 	{
-		return (int32)((_ticks / ETimespan::TicksPerMinute) % 60);
+		return (int32)((_ticks / Time::TicksPerMinute) % 60);
 	}
 
 	/**
@@ -371,7 +370,7 @@ public:
 	 */
 	int32 GetSecond() const
 	{
-		return (int32)((_ticks / ETimespan::TicksPerSecond) % 60);
+		return (int32)((_ticks / Time::TicksPerSecond) % 60);
 	}
 
 	/**
@@ -387,12 +386,11 @@ public:
 	/**
 	 * Gets the time elapsed since midnight of this date.
 	 *
-	 * @param Time of day since midnight.
 	 * @see getDayOfWeek, getDayOfYear, getMonthOfYear
 	 */
 	Timespan GetTimeOfDay() const
 	{
-		return Timespan(_ticks % ETimespan::TicksPerDay);
+		return Timespan(_ticks % Time::TicksPerDay);
 	}
 
 	/**
@@ -406,7 +404,7 @@ public:
 	/**
 	 * Gets whether this date's time is in the afternoon.
 	 *
-	 * @param true if it is in the afternoon, false otherwise.
+	 * @return true if it is in the afternoon, false otherwise.
 	 * @see isMorning
 	 */
 	bool IsAfternoon() const
@@ -417,7 +415,7 @@ public:
 	/**
 	 * Gets whether this date's time is in the morning.
 	 *
-	 * @param true if it is in the morning, false otherwise.
+	 * @return true if it is in the morning, false otherwise.
 	 * @see isAfternoon
 	 */
 	bool IsMorning() const
@@ -463,9 +461,18 @@ public:
 	 */
 	int64 ToUnixTimestamp() const
 	{
-		return (_ticks - DateTime(1970, 1, 1)._ticks) / ETimespan::TicksPerSecond;
+		return (_ticks - DateTime(1970, 1, 1)._ticks) / Time::TicksPerSecond;
 	}
 
+    /**
+     * Gets the hash for the specified date and time.
+     *
+     * @return Hash value.
+     */
+    size_t GetHash()
+    {
+        return std::hash<int64>()(this->_ticks);
+    }
 public:
 
 	/**
@@ -490,25 +497,25 @@ public:
 	/**
 	 * Returns the proleptic Gregorian date for the given Julian Day.
 	 *
-	 * @param JulianDay The Julian Day.
+	 * @param julianDay The Julian Day.
 	 * @return Gregorian date and time.
 	 * @see getJulianDay
 	 */
 	static DateTime FromJulianDay( double julianDay )
 	{
-        return DateTime((int64)((julianDay - 1721425.5) * ETimespan::TicksPerDay));
+        return DateTime((int64)((julianDay - 1721425.5) * Time::TicksPerDay));
 	}
 
 	/**
 	 * Returns the date from Unix time (seconds from midnight 1970-01-01)
 	 *
-	 * @param UnixTime Unix time (seconds from midnight 1970-01-01)
+	 * @param unixTime Unix time (seconds from midnight 1970-01-01)
 	 * @return Gregorian date and time.
 	 * @see toUnixTimestamp
 	 */
 	static DateTime FromUnixTimestamp( int64 unixTime )
 	{
-        return DateTime(1970, 1, 1) + Timespan(unixTime * ETimespan::TicksPerSecond);
+        return DateTime(1970, 1, 1) + Timespan(unixTime * Time::TicksPerSecond);
 	}
 
 	/**
@@ -532,7 +539,7 @@ public:
 	 */
 	static DateTime MaxValue()
 	{
-		return DateTime(3652059 * ETimespan::TicksPerDay - 1);
+		return DateTime(3652059 * Time::TicksPerDay - 1);
 	}
 
 	/**
@@ -640,6 +647,7 @@ public:
      * @return Date string
      */
     static std::string GetDateString();
+
     /**
      * Get the system time
      *
@@ -654,19 +662,6 @@ public:
      * @return timestamp string
      */
     static std::string GetTimestampString();
-
-public:
-
-	/**
-	 * Gets the hash for the specified date and time.
-	 *
-	 * @param dateTime The date and time to get the hash for.
-	 * @return Hash value.
-	 */
-    size_t GetHash()
-	{
-        return std::hash<int64>()(this->_ticks);
-	}
 
 protected:
 

@@ -4,8 +4,8 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FOUNDATIONKIT_PATH_HPP
-#define FOUNDATIONKIT_PATH_HPP
+#ifndef FOUNDATIONKIT_PLATFORM_PATH_HPP
+#define FOUNDATIONKIT_PLATFORM_PATH_HPP
 
 #include <string>
 #include <vector>
@@ -42,7 +42,7 @@ public:
     * Convert directory separator to unix style if the 
     * path is windows style.The path cannot contain any of the characters
     * defined in Path::GetInvalidPathChars.
-    * @param path:
+    * @param path
     *         The path of a file or directory.
     * @return The converted path.
     */
@@ -51,7 +51,7 @@ public:
    /**
     * Convert directory separator to current platform style.
     * defined in Path::GetInvalidPathChars.
-    * @param path:
+    * @param path
     *         The path of a file or directory.
     * @return The converted path.
     */
@@ -59,10 +59,10 @@ public:
 
    /**
     * Changes the extension of a path string.
-    * @param path:
+    * @param path
     *         The path information to modify. The path cannot contain any of the characters
     *         defined in Path::GetInvalidPathChars.
-    * @param extension:
+    * @param extension
     *         The new extension (with or without a leading period). Specify an empty string ("") to remove
     *         an existing extension from path.
     * @return The modified path information.On Windows-based desktop platforms, if path is
@@ -86,9 +86,9 @@ public:
    /**
     * Combines two strings into a path.The path cannot contain any of the characters
     * defined in Path::GetInvalidPathChars.
-    * @param path1:
+    * @param path1
     *         The first path to combine.
-    * @param path2:
+    * @param path2
     *         The second path to combine.
     * @return The combined paths. If one of the specified paths is a zero-length string, this
     *         method returns the other path. If path2 contains an absolute path, this method
@@ -99,11 +99,11 @@ public:
    /**
     * Combines three strings into a path.The path cannot contain any of the characters
     * defined in Path::GetInvalidPathChars.
-    * @param path1:
+    * @param path1
     *         The first path to combine.
-    * @param path2:
+    * @param path2
     *         The second path to combine.
-    * @param path3:
+    * @param path3
     *         The third path to combine.
     * @return The combined paths. 
     */
@@ -112,13 +112,13 @@ public:
    /**
     * Combines four strings into a path.The path cannot contain any of the characters
     * defined in Path::GetInvalidPathChars.
-    * @param path1:
+    * @param path1
     *         The first path to combine.
-    * @param path2:
+    * @param path2
     *         The second path to combine.
-    * @param path3:
+    * @param path3
     *         The third path to combine.
-    * @param path4:
+    * @param path4
     *         The fourth path to combine.
     * @return The combined paths.
     */
@@ -126,18 +126,18 @@ public:
 
    /**
     * Returns the directory information for the specified path string.
-    * @param path:
+    * @param path
     *         The path of a file or directory.
     * @return The string returned by this method consists of all characters
     *         between the first and last DirectorySeparatorChar or AltDirectorySeparatorChar
     *         character in the path. The first separator character is included, but the last
     *         separator character is not included in the returned string.
     */
-    static std::string GetDirectoryName(const std::string& path);
+    static std::string GetDirectoryPath(const std::string& path);
 
    /** 
     * Returns the extension of the specified path string.
-    * @param path:
+    * @param path
     *         The path string from which to get the extension.
     * @return The extension of the specified path (including the period "."), or "".
     */
@@ -145,7 +145,7 @@ public:
 
    /** 
     * Returns the file name and extension of the specified path string.
-    * @param path:
+    * @param path
     *         The path string from which to obtain the file name and extension.
     * @return The characters after the last directory character in path. If the last character
     *         of path is a directory or volume separator character, this method returns "".
@@ -155,7 +155,7 @@ public:
 
    /** 
     * Returns the file name of the specified path string without the extension.
-    * @param path:
+    * @param path
     *         The path of the file.
     * @return The string returned by Path::GetFileName(System.String), minus the last
     *         period (.) and all characters following it.
@@ -194,7 +194,7 @@ public:
    /**
     * Creates a uniquely named, zero-byte temporary file on disk and returns the full
     * path of that file.
-    * @param path:
+    * @return
     *         The full path of the temporary file.
     */
     static std::string GetTempFileName();
@@ -213,7 +213,7 @@ public:
 
    /** 
     * Determines whether a path includes a file name extension.
-    * @param path:
+    * @param path
     *         The path to search for an extension.
     * @return true if the characters that follow the last directory separator (\\ or /) or
     *         volume separator (:) in the path include a period (.) followed by one or more
@@ -223,11 +223,14 @@ public:
 
    /** 
     * Gets a value indicating whether the specified path string contains a root.
-    * @param path:
+    * @param path
     *         The path to test.
     * @return true if path contains a root; otherwise, false.
     */
     static bool IsPathRooted(std::string path);
+
+    static std::string GetRelativePath(const std::string& workPath, const std::string& fullPath);
+    static std::string GetAbsolutePath(const std::string& path);
 
 #if TARGET_PLATFORM == PLATFORM_ANDROID
     // On android platform, first must be call this function
@@ -244,4 +247,4 @@ protected:
 NS_FK_END
 
 
-#endif // FOUNDATIONKIT_PATH_HPP
+#endif // FOUNDATIONKIT_PLATFORM_PATH_HPP

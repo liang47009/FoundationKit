@@ -1,7 +1,6 @@
 
 #include "AppDelegate.h"
 #include <iostream>
-#include "FoundationKit/Foundation/Timer.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Size.hpp"
 

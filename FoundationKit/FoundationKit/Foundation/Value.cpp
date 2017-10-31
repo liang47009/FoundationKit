@@ -237,7 +237,7 @@ bool Value::operator!= (const Value& other) const
 
 bool Value::operator== (const Value& other)
 {
-    const auto &t = *this;
+    const Value &t = *this;
     return t == other;
 }
 

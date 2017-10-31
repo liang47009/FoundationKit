@@ -6,8 +6,6 @@
 ****************************************************************************/
 #ifndef FOUNDATIONKIT_STRING_BUILDER_HPP
 #define FOUNDATIONKIT_STRING_BUILDER_HPP
-#if 0
-
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include <string>
 #include <list>
@@ -141,8 +139,6 @@ public:
 }; // class string_builder
 
 NS_FK_END
-
-#endif
 
 #endif // FOUNDATIONKIT_STRING_BUILDER_HPP
 

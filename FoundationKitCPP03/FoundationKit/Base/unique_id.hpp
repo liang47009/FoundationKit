@@ -13,7 +13,8 @@
 #else
 #include <sys/time.h>
 #endif
-#include "FoundationKit/std/stdheader.h"
+
+#include <mutex>
 
 NS_FK_BEGIN
 // https://github.com/beyondfengyu/SnowFlake/blob/master/SnowFlake.java
@@ -83,11 +84,11 @@ public:
 	}
 
 protected:
-    int64 SequenceId;
-    int64 LastTimeStamp;
-    int64 WorkerId;
     int64 CustomId;
+    int64 WorkerId;
+    int64 SequenceId;
     int64 StartTimeStamp;
+    int64 LastTimeStamp;
     std::mutex IdMutex;
 
     int64 GetTimeStamp()

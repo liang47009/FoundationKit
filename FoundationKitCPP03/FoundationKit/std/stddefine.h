@@ -18,7 +18,7 @@
 #endif
 
 #ifndef nullptr
-#define nullptr 0
+#define nullptr NULL
 #endif
 
 #ifndef final

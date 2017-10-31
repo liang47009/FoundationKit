@@ -50,35 +50,26 @@ std::string StringUtils::Toupper( const std::string& str )
 
 std::string StringUtils::Format( const char* format, ... )
 {
-	const static unsigned int MAX_STRING_LENGTH = 64;
+	const static unsigned int MAX_LENGTH = 64;
+    // Pass one greater needed size to leave room for NULL terminator
+    std::vector<char> dynamicBuffer(MAX_LENGTH+1);
+    char* result = &dynamicBuffer[0];
 	va_list arglist;
-	int size = MAX_STRING_LENGTH;
-	std::vector<char> dynamicBuffer(MAX_STRING_LENGTH);
-	char* str = &dynamicBuffer[0];
-	for (;;)
-	{
+    va_start(arglist, format);
+    // Pass one greater needed size to leave room for NULL terminator
+    int needed = vsnprintf(result, MAX_LENGTH+1, format, arglist);
+    va_end(arglist);
+    if (needed >= MAX_LENGTH)
+    {
+        // Pass one greater needed size to leave room for NULL terminator
+        dynamicBuffer.resize(needed+1);
+        result = &dynamicBuffer[0];
         va_start(arglist, format);
-        // Pass one less than size to leave room for NULL terminator
-        int needed = vsnprintf(str, size - 1, format, arglist);
+        // Pass one greater needed size to leave room for NULL terminator
+        needed = vsnprintf(result, needed+1, format, arglist);
         va_end(arglist);
-
-		// NOTE: Some platforms return -1 when vsnprintf runs out of room, while others return
-		// the number of characters actually needed to fill the buffer.
-		if (needed >= 0 && needed < size)
-		{
-			// Successfully wrote buffer. Added a NULL terminator in case it wasn't written.
-			str[needed] = '\0';
-			break;
-		}
-        if (needed < 0)
-        {
-            return format;
-        }
-		size = needed > 0 ? (needed + 1) : (size * 2);
-		dynamicBuffer.resize(size);
-		str = &dynamicBuffer[0];
-	}
-	return str;
+    }
+    return result;
 }
 
 std::string & StringUtils::LTrim( std::string &s )
@@ -100,7 +91,10 @@ std::string & StringUtils::Trim( std::string &s )
 
 std::vector<std::string> StringUtils::Split( const std::string &s, char delim, std::vector<std::string> &elems )
 {
-	std::stringstream ss(s);
+    std::string swapStr = s;
+    if (swapStr.size() > 0 && swapStr[0] == delim)
+        swapStr = swapStr.substr(1, swapStr.size() - 1);
+	std::stringstream ss(swapStr);
 	std::string item;
 	while (std::getline(ss, item, delim))
 	{
@@ -149,12 +143,12 @@ std::vector<std::string> StringUtils::Split(const std::string &s, std::string de
     return elems;
 }
 
-std::string StringUtils::Join(std::string delim, std::vector<std::string>& values)
+std::string StringUtils::Join(std::string delim, const std::vector<std::string>& values)
 {
 	std::string ret;
 	size_t index = 0;
 	size_t valuesSize = values.size();
-    std::vector<std::string>::iterator iter = values.begin();
+    std::vector<std::string>::const_iterator iter = values.begin();
     for (iter; iter!= values.end();++iter)
 	{
 		++index;
@@ -183,11 +177,10 @@ std::string StringUtils::wstring2UTF8string(const std::wstring &input)
     std::string result;
     // First, determine the length of the destination buffer.
     size_t mbs_length = wcstombs(NULL, input.c_str(), 0);
-    if (mbs_length == ((size_t)-1))
+	if (mbs_length == ((size_t)-1) || mbs_length == 0)
     {
         return result;
     }
-    assert(mbs_length > 0);
     std::vector<char> mbs_v(mbs_length+1);
     // Now, convert.
     if (wcstombs(&mbs_v[0], input.c_str(), mbs_length) == ((size_t)-1))
@@ -204,12 +197,10 @@ std::wstring StringUtils::string2UTF8wstring(const std::string &input)
     std::wstring result;
     // First, determine the length of the destination buffer.
     size_t wcs_length = mbstowcs(NULL, input.c_str(), 0);
-    if (wcs_length == ((size_t)-1))
+	if (wcs_length == ((size_t)-1) || wcs_length == 0)
     {
         return result;
     }
-
-    assert(wcs_length > 0);
     std::vector<wchar_t> wcs_v(wcs_length+1);
     // Now, convert.
     if (mbstowcs(&wcs_v[0], input.c_str(), wcs_length) == ((size_t)-1))
@@ -229,15 +220,13 @@ bool StringUtils::UTF8ToUTF16(const std::string& utf8, std::u16string& outUtf16)
         return true;
     }
 
-    bool ret = false;
-
     const size_t utf16Bytes = (utf8.length() + 1) * sizeof(char16_t);
     char16_t* utf16 = (char16_t*)malloc(utf16Bytes);
+	if (utf16 == nullptr) return false;
     memset(utf16, 0, utf16Bytes);
-
     char* utf16ptr = reinterpret_cast<char*>(utf16);
     const UTF8* error = nullptr;
-
+	bool ret = false;
     if (llvm::ConvertUTF8toWide(2, utf8, utf16ptr, error))
     {
         outUtf16 = utf16;

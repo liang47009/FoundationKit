@@ -31,7 +31,7 @@ namespace Math
     const float   MinFloat  = (std::numeric_limits<float>::min)();
 
     const float   SmailFloat = 1.0e-37f;
-    const float   Tolerance = 2e-37f;
+    const float   Tolerance  = 2e-37f;
 
     /// Represents the log base ten of e(0.4342945).
     const float Log10E = 0.4342945f;
@@ -72,10 +72,10 @@ namespace Math
     /// A representation of negative infinity.
     const float NegativeInfinity = MinFloat;// -1.0f / 0.0f;
 
-    /// The infamous 3.14159265358979... value.
-    const float    PI = 3.14159f;
-    const double   TwoPi = PI * 2;
-    const double   HalfPi = PI / 2;
+    /// The infamous 3.14159265358979323846... value.
+    const float    PI        = 3.141592f;
+    const double   TwoPi     = PI * 2;
+    const double   HalfPi    = PI / 2;
     const double   QuarterPi = PI / 4;
 }
 

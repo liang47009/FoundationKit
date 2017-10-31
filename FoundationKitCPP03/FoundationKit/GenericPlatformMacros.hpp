@@ -3,24 +3,18 @@
 #define LOSEMYMIND_GENERICPLATFORMMACROS_H
 #pragma once
 
-#define LIBFK_VERSION "2.8.0"
-#define LIBFK_VERSION_MAJOR 2
-#define LIBFK_VERSION_MINOR 8
-#define LIBFK_VERSION_PATCH 0
-#define LIBFK_VERSION_NUM 0x070800
-
 #include "LanguageFeatures.hpp"
 // namespace FoundationKit {}
 #ifdef __cplusplus
     #define NS_FK_BEGIN                     namespace FoundationKit {
     #define NS_FK_END                       }
     #define USING_NS_FK                     using namespace FoundationKit
-    #define NS_NAME                         FoundationKit
+    #define FK_NAME                         FoundationKit::
 #else
     #define NS_FK_BEGIN 
     #define NS_FK_END 
     #define USING_NS_FK 
-    #define NS_NAME  
+    #define FK_NAME  
 #endif 
 
 // see https://sourceforge.net/p/predef/wiki/Compilers/
@@ -74,7 +68,11 @@
     #define DLL_EXPORT
     #define DLL_IMPORT
     // Alignment.
+    // eg. uint32 Height ATTRIBUTE_PACK(1);
     #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
+
+    // eg. MS_ALIGN(16) struct Vector4{}ATTRIBUTE_ALIGN(16);
+    // eg. MS_ALIGN(16) Vector4 Min[3]  ATTRIBUTE_ALIGN(16);
     #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
     #define ATTRIBUTE_UNUSED __attribute__((unused))//__attribute__((__unused__)) ?
     #define ATTRIBUTE_USED __attribute__((used))
@@ -82,7 +80,6 @@
     #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
     #define THREAD_LOCAL __thread
     #define FILEPATH_MAX MAX_PATH
-
 
 #elif defined(__ANDROID__) || defined(ANDROID)
     #undef TARGET_PLATFORM
@@ -101,7 +98,6 @@
     #define THREAD_LOCAL __thread
     #define FILEPATH_MAX PATH_MAX
 
-
 #elif defined(_WIN32) || defined(__WIN32__) || defined(WIN32) || defined(WIN64) || defined(_WIN64)
     #undef TARGET_PLATFORM
     #define TARGET_PLATFORM PLATFORM_WINDOWS
@@ -111,7 +107,8 @@
     #define DLL_IMPORT __declspec(dllimport)
     // Alignment.
     #define ATTRIBUTE_PACK(n)
-    #define ATTRIBUTE_ALIGN(n) __declspec(align(n))
+    #define ATTRIBUTE_ALIGN(n) 
+    #define MS_ALIGN(n) __declspec(align(n))
     #define ATTRIBUTE_UNUSED
     #define ATTRIBUTE_USED 
     #define FORCEINLINE __forceinline				  /* Force code to be inline */
@@ -157,6 +154,14 @@
     #error Unknown platform
 #endif
 
+// Enable in C++14
+//#undef DEPRECATED
+//#define DEPRECATED(VERSION, MESSAGE) [[deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")]]
+
+#ifndef MS_ALIGN
+#define MS_ALIGN(n)
+#endif // !MS_ALIGN
+
 #define UNUSED_ARG(arg)          do {(void)(arg);}while(0)
 #define SAFE_DELETE(p)           do { if(p) { delete   (p); (p) = nullptr; } } while(0)
 #define SAFE_DELETE_ARRAY(p)     do { if(p) { delete[] (p); (p) = nullptr; } } while(0)
@@ -164,8 +169,8 @@
 #define BREAK_IF(cond)           if(cond) break
 
 // Make a string to Wide string
-#define TEXT_HELPER(a,b) a ## b
-#define MAKE_TEXT(s) TEXT_HELPER(L, s)
+#define TEXT_CAT(a,b) a ## b
+#define MAKE_TEXT(s) TEXT_CAT(L, s)
 
 // Helper macro STRINGIZE:
 // Converts the parameter X to a string after macro replacement
@@ -178,27 +183,25 @@
 
 extern void __fail__(const char* expr, const char* file, int line);
 extern void __log__(const char* fmt, ...);
+#define FKLog(fmt, ...) __log__(fmt, ##__VA_ARGS__)
 #if defined(_DEBUG) || defined(DEBUG)
     #define ASSERTED(CHECK, MSG)do{if(!(CHECK)){__fail__(#MSG,__FILE__, __LINE__);}}while(false)
     #define ASSERTED_EXPRESSION(COND, EXPR) ((COND) ? (EXPR) : (__fail__(#COND, __FILE__, __LINE__), (EXPR)))
     #define DEBUG_MODE 1
-    #define FKLog(fmt, ...) __log__(fmt, ##__VA_ARGS__)
+    #define FKDebug(fmt, ...) __log__(fmt, ##__VA_ARGS__)
 #else
     #define ASSERTED(CHECK, MSG)
     #define ASSERTED_EXPRESSION(COND, EXPR) (EXPR)
     #define DEBUG_MODE 0
-    #define FKLog(fmt, ...)
+    #define FKDebug(fmt, ...)
 #endif
-
-
-#define NETWORK_DECL inline
-
 
 //===============================================================================================
 // Platform Pre-Setup
 //===============================================================================================
 #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 __pragma (warning(disable:4127))
+#pragma warning(disable:4127)
 #define _XKEYCHECK_H // disable windows xkeycheck.h
 
 #ifndef WIN32_LEAN_AND_MEAN
@@ -225,12 +228,20 @@ __pragma (warning(disable:4127))
 
 #endif //(TARGET_PLATFORM == PLATFORM_WINDOWS)
 
-// IOS,ANDROID,MAC platform must be defined USE_FILE32API
-//#ifndef USE_FILE32API
-//#define USE_FILE32API 1
-//#endif
-
 #include "FoundationKit/std/stdheader.h"
+
+
+
+#define FOUNDATIONKIT_VERSION_STRING "2.2.0"
+#define FOUNDATIONKIT_PACKAGE_STRING "FoundationKit 2.2.0"
+#define FOUNDATIONKIT_VERSION_MAJOR 2
+#define FOUNDATIONKIT_VERSION_MINOR 2
+#define FOUNDATIONKIT_VERSION_PATCH 0
+
+// Version as a single hex number, e.g. 0x01000300 == 1.0.3
+#define FOUNDATIONKIT_VERSION_HEX ((FOUNDATIONKIT_VERSION_MAJOR << 24) | \
+                                   (FOUNDATIONKIT_VERSION_MINOR << 16) | \
+                                   (FOUNDATIONKIT_VERSION_PATCH <<  8))
 
 #endif // #ifndef LOSEMYMIND_GENERICPLATFORMMACROS_H
 

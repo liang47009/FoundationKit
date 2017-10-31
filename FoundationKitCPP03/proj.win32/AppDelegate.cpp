@@ -7,8 +7,6 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Version.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/ApplyTuple.hpp"
-#include "FoundationKit/Foundation/TupleApply.hpp"
 #include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
@@ -18,9 +16,7 @@
 #include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Crypto/Base64.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
-#include "FoundationKit/Foundation/Timer.hpp"
 #include "FoundationKit/Foundation/Compression.hpp"
-#include "FoundationKit/Foundation/TimerQueue.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Foundation/DelegateManager.hpp"
 
@@ -32,7 +28,6 @@
 using namespace std;
 USING_NS_FK;
 
-static TimerQueue  G_TimerQueue;
 static bool bExitApp = false;
 
 static std::thread clientThread;

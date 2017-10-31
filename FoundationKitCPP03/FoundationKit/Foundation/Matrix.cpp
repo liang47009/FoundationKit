@@ -104,18 +104,18 @@ void Matrix::CreateLookAt(float eyePositionX, float eyePositionY, float eyePosit
     Vector3::Cross(zaxis, xaxis, &yaxis);
     yaxis.Normalize();
 
-    dst->m[0] = xaxis.X;
-    dst->m[1] = yaxis.X;
-    dst->m[2] = zaxis.X;
-    dst->m[3] = 0.0f;
+    dst->m[0]  = xaxis.X;
+    dst->m[1]  = yaxis.X;
+    dst->m[2]  = zaxis.X;
+    dst->m[3]  = 0.0f;
 
-    dst->m[4] = xaxis.Y;
-    dst->m[5] = yaxis.Y;
-    dst->m[6] = zaxis.Y;
-    dst->m[7] = 0.0f;
+    dst->m[4]  = xaxis.Y;
+    dst->m[5]  = yaxis.Y;
+    dst->m[6]  = zaxis.Y;
+    dst->m[7]  = 0.0f;
 
-    dst->m[8] = xaxis.Z;
-    dst->m[9] = yaxis.Z;
+    dst->m[8]  = xaxis.Z;
+    dst->m[9]  = yaxis.Z;
     dst->m[10] = zaxis.Z;
     dst->m[11] = 0.0f;
 
@@ -145,8 +145,8 @@ void Matrix::CreatePerspective(float fieldOfView, float aspectRatio,
     memset(dst, 0, MATRIX_SIZE);
 
     assert(aspectRatio);
-    dst->m[0] = (1.0f / aspectRatio) * factor;
-    dst->m[5] = factor;
+    dst->m[0]  = (1.0f / aspectRatio) * factor;
+    dst->m[5]  = factor;
     dst->m[10] = (-(zFarPlane + zNearPlane)) * f_n;
     dst->m[11] = -1.0f;
     dst->m[14] = -2.0f * zFarPlane * zNearPlane * f_n;
@@ -163,13 +163,13 @@ void Matrix::CreateOrthographicOffCenter(float left, float right, float bottom, 
                                          float zNearPlane, float zFarPlane, Matrix* dst)
 {
     assert(dst);
-    assert(right != left);
-    assert(top != bottom);
+    assert(right     != left);
+    assert(top       != bottom);
     assert(zFarPlane != zNearPlane);
 
     memset(dst, 0, MATRIX_SIZE);
-    dst->m[0] = 2 / (right - left);
-    dst->m[5] = 2 / (top - bottom);
+    dst->m[0]  = 2 / (right - left);
+    dst->m[5]  = 2 / (top - bottom);
     dst->m[12] = (left + right) / (left - right);
     dst->m[10] = 1 / (zNearPlane - zFarPlane);
     dst->m[13] = (top + bottom) / (bottom - top);
@@ -198,8 +198,8 @@ void Matrix::CreateBillboardHelper(const Vector3& objectPosition, const Vector3&
     bool isSufficientDelta = delta.LengthSquared() > MATH_EPSILON;
 
     dst->SetIdentity();
-    dst->m[3] = objectPosition.X;
-    dst->m[7] = objectPosition.Y;
+    dst->m[3]  = objectPosition.X;
+    dst->m[7]  = objectPosition.Y;
     dst->m[11] = objectPosition.Z;
 
     // As per the contracts for the 2 variants of createBillboard, we need
@@ -211,14 +211,14 @@ void Matrix::CreateBillboardHelper(const Vector3& objectPosition, const Vector3&
         // A billboard is the inverse of a lookAt rotation
         Matrix lookAt;
         CreateLookAt(objectPosition, target, cameraUpVector, &lookAt);
-        dst->m[0] = lookAt.m[0];
-        dst->m[1] = lookAt.m[4];
-        dst->m[2] = lookAt.m[8];
-        dst->m[4] = lookAt.m[1];
-        dst->m[5] = lookAt.m[5];
-        dst->m[6] = lookAt.m[9];
-        dst->m[8] = lookAt.m[2];
-        dst->m[9] = lookAt.m[6];
+        dst->m[0]  = lookAt.m[0];
+        dst->m[1]  = lookAt.m[4];
+        dst->m[2]  = lookAt.m[8];
+        dst->m[4]  = lookAt.m[1];
+        dst->m[5]  = lookAt.m[5];
+        dst->m[6]  = lookAt.m[9];
+        dst->m[8]  = lookAt.m[2];
+        dst->m[9]  = lookAt.m[6];
         dst->m[10] = lookAt.m[10];
     }
 }
@@ -231,37 +231,33 @@ void Matrix::createReflection(const Plane& plane, Matrix* dst)
 
     dst->SetIdentity();
 
-    dst->m[0] -= 2.0f * normal.X * normal.X;
-    dst->m[5] -= 2.0f * normal.Y * normal.Y;
+    dst->m[0]  -= 2.0f * normal.X * normal.X;
+    dst->m[5]  -= 2.0f * normal.Y * normal.Y;
     dst->m[10] -= 2.0f * normal.Z * normal.Z;
-    dst->m[1] = dst->m[4] = -2.0f * normal.X * normal.Y;
-    dst->m[2] = dst->m[8] = -2.0f * normal.X * normal.Z;
-    dst->m[6] = dst->m[9] = -2.0f * normal.Y * normal.Z;
+    dst->m[1]   = dst->m[4] = -2.0f * normal.X * normal.Y;
+    dst->m[2]   = dst->m[8] = -2.0f * normal.X * normal.Z;
+    dst->m[6]   = dst->m[9] = -2.0f * normal.Y * normal.Z;
     
-    dst->m[3] = k * normal.X;
-    dst->m[7] = k * normal.Y;
+    dst->m[3]  = k * normal.X;
+    dst->m[7]  = k * normal.Y;
     dst->m[11] = k * normal.Z;
 }
 */
 void Matrix::CreateScale(const Vector3& scale, Matrix* dst)
 {
     assert(dst);
-
     memcpy(dst, MATRIX_IDENTITY, MATRIX_SIZE);
-
-    dst->m[0] = scale.X;
-    dst->m[5] = scale.Y;
+    dst->m[0]  = scale.X;
+    dst->m[5]  = scale.Y;
     dst->m[10] = scale.Z;
 }
 
 void Matrix::CreateScale(float xScale, float yScale, float zScale, Matrix* dst)
 {
     assert(dst);
-
     memcpy(dst, MATRIX_IDENTITY, MATRIX_SIZE);
-
-    dst->m[0] = xScale;
-    dst->m[5] = yScale;
+    dst->m[0]  = xScale;
+    dst->m[5]  = yScale;
     dst->m[10] = zScale;
 }
 
@@ -270,32 +266,32 @@ void Matrix::CreateRotation(const Quaternion& q, Matrix* dst)
 {
     assert(dst);
 
-    float x2 = q.X + q.X;
-    float y2 = q.Y + q.Y;
-    float z2 = q.Z + q.Z;
+    float x2   = q.X + q.X;
+    float y2   = q.Y + q.Y;
+    float z2   = q.Z + q.Z;
 
-    float xx2 = q.X * x2;
-    float yy2 = q.Y * y2;
-    float zz2 = q.Z * z2;
-    float xy2 = q.X * y2;
-    float xz2 = q.X * z2;
-    float yz2 = q.Y * z2;
-    float wx2 = q.W * x2;
-    float wy2 = q.W * y2;
-    float wz2 = q.W * z2;
+    float xx2  = q.X * x2;
+    float yy2  = q.Y * y2;
+    float zz2  = q.Z * z2;
+    float xy2  = q.X * y2;
+    float xz2  = q.X * z2;
+    float yz2  = q.Y * z2;
+    float wx2  = q.W * x2;
+    float wy2  = q.W * y2;
+    float wz2  = q.W * z2;
 
-    dst->m[0] = 1.0f - yy2 - zz2;
-    dst->m[1] = xy2 + wz2;
-    dst->m[2] = xz2 - wy2;
-    dst->m[3] = 0.0f;
+    dst->m[0]  = 1.0f - yy2 - zz2;
+    dst->m[1]  = xy2 + wz2;
+    dst->m[2]  = xz2 - wy2;
+    dst->m[3]  = 0.0f;
 
-    dst->m[4] = xy2 - wz2;
-    dst->m[5] = 1.0f - xx2 - zz2;
-    dst->m[6] = yz2 + wx2;
-    dst->m[7] = 0.0f;
+    dst->m[4]  = xy2 - wz2;
+    dst->m[5]  = 1.0f - xx2 - zz2;
+    dst->m[6]  = yz2 + wx2;
+    dst->m[7]  = 0.0f;
 
-    dst->m[8] = xz2 + wy2;
-    dst->m[9] = yz2 - wx2;
+    dst->m[8]  = xz2 + wy2;
+    dst->m[9]  = yz2 - wx2;
     dst->m[10] = 1.0f - xx2 - yy2;
     dst->m[11] = 0.0f;
 
@@ -322,26 +318,25 @@ void Matrix::CreateRotation(const Vector3& axis, float angle, Matrix* dst)
         // Prevent divide too close to zero.
         if (n > 0.000001f)
         {
-            n = 1.0f / n;
+            n  = 1.0f / n;
             X *= n;
             Y *= n;
             Z *= n;
         }
     }
 
-    float c = cos(angle);
-    float s = sin(angle);
-
-    float t = 1.0f - c;
-    float tx = t * X;
-    float ty = t * Y;
-    float tz = t * Z;
+    float c   = cos(angle);
+    float s   = sin(angle);
+    float t   = 1.0f - c;
+    float tx  = t * X;
+    float ty  = t * Y;
+    float tz  = t * Z;
     float txy = tx * Y;
     float txz = tx * Z;
     float tyz = ty * Z;
-    float sx = s * X;
-    float sy = s * Y;
-    float sz = s * Z;
+    float sx  = s * X;
+    float sy  = s * Y;
+    float sz  = s * Z;
 
     dst->m[0] = c + tx*X;
     dst->m[1] = txy + sz;
@@ -353,8 +348,8 @@ void Matrix::CreateRotation(const Vector3& axis, float angle, Matrix* dst)
     dst->m[6] = tyz + sx;
     dst->m[7] = 0.0f;
 
-    dst->m[8] = txz + sy;
-    dst->m[9] = tyz - sx;
+    dst->m[8]  = txz + sy;
+    dst->m[9]  = tyz - sx;
     dst->m[10] = c + tz*Z;
     dst->m[11] = 0.0f;
 
@@ -504,17 +499,17 @@ bool Matrix::Decompose(Vector3* scale, Quaternion* rotation, Vector3* translatio
     float rn;
 
     // Factor the scale out of the matrix axes.
-    rn = 1.0f / scaleX;
+    rn       = 1.0f / scaleX;
     xaxis.X *= rn;
     xaxis.Y *= rn;
     xaxis.Z *= rn;
 
-    rn = 1.0f / scaleY;
+    rn       = 1.0f / scaleY;
     yaxis.X *= rn;
     yaxis.Y *= rn;
     yaxis.Z *= rn;
 
-    rn = 1.0f / scaleZ;
+    rn       = 1.0f / scaleZ;
     zaxis.X *= rn;
     zaxis.Y *= rn;
     zaxis.Z *= rn;
@@ -524,7 +519,7 @@ bool Matrix::Decompose(Vector3* scale, Quaternion* rotation, Vector3* translatio
 
     if (trace > MATH_EPSILON)
     {
-        float s = 0.5f / sqrt(trace);
+        float s     = 0.5f / sqrt(trace);
         rotation->W = 0.25f / s;
         rotation->X = (yaxis.Z - zaxis.Y) * s;
         rotation->Y = (zaxis.X - xaxis.Z) * s;
@@ -536,7 +531,7 @@ bool Matrix::Decompose(Vector3* scale, Quaternion* rotation, Vector3* translatio
         // we will never divide by zero in the code below.
         if (xaxis.X > yaxis.Y && xaxis.X > zaxis.Z)
         {
-            float s = 0.5f / sqrt(1.0f + xaxis.X - yaxis.Y - zaxis.Z);
+            float s     = 0.5f / sqrt(1.0f + xaxis.X - yaxis.Y - zaxis.Z);
             rotation->W = (yaxis.Z - zaxis.Y) * s;
             rotation->X = 0.25f / s;
             rotation->Y = (yaxis.X + xaxis.Y) * s;
@@ -544,7 +539,7 @@ bool Matrix::Decompose(Vector3* scale, Quaternion* rotation, Vector3* translatio
         }
         else if (yaxis.Y > zaxis.Z)
         {
-            float s = 0.5f / sqrt(1.0f + yaxis.Y - xaxis.X - zaxis.Z);
+            float s     = 0.5f / sqrt(1.0f + yaxis.Y - xaxis.X - zaxis.Z);
             rotation->W = (zaxis.X - xaxis.Z) * s;
             rotation->X = (yaxis.X + xaxis.Y) * s;
             rotation->Y = 0.25f / s;
@@ -552,7 +547,7 @@ bool Matrix::Decompose(Vector3* scale, Quaternion* rotation, Vector3* translatio
         }
         else
         {
-            float s = 0.5f / sqrt(1.0f + zaxis.Z - xaxis.X - yaxis.Y );
+            float s     = 0.5f / sqrt(1.0f + zaxis.Z - xaxis.X - yaxis.Y );
             rotation->W = (xaxis.Y - yaxis.X ) * s;
             rotation->X = (zaxis.X + xaxis.Z ) * s;
             rotation->Y = (zaxis.Y + yaxis.Z ) * s;

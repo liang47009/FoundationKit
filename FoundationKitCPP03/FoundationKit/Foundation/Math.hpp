@@ -18,6 +18,7 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Foundation/MathContent.hpp"
 
+
 NS_FK_BEGIN
 
 /// Provides constants and static methods for trigonometric, 
@@ -33,7 +34,7 @@ namespace Math
     }
 
     /// returns the minimum of two values
-    template <typename T>
+    template< typename T >
     FORCEINLINE T Min(T v1, T v2)
     {
         return v1 < v2 ? v1 : v2;
@@ -192,12 +193,20 @@ namespace Math
         return roughlyEqual(a, b, 0.1f);
     }
 
-	/// Interpolates between from and to by t. t is clamped between 0 and 1.
-	template< typename T, typename U, typename V>
-    FORCEINLINE float Lerp(T from, U to, V t)
-	{ 
-		return t >= 1 ? to : t < 0 ? from : from + (to - from) * t; 
-	}
+    // Linearly interpolate between range_start and range_end, based on percent.
+    template <class T, class T2>
+    FORCEINLINE T Lerp(const T &range_start, const T &range_end, const T2 &percent) 
+    {
+        const T2 one_minus_percent = static_cast<T2>(1.0) - percent;
+        return range_start * one_minus_percent + range_end * percent;
+    }
+
+    // Linearly interpolate between range_start and range_end, based on percent.
+    template <class T>
+    FORCEINLINE T Lerp(const T &range_start, const T &range_end, const T &percent) 
+    {
+        return Lerp<T, T>(range_start, range_end, percent);
+    }
 
    /**
     * Compares two floating point values if they are similar.
@@ -214,7 +223,7 @@ namespace Math
 
 	/// Returns f rounded to the nearest integer.
     template <typename T>
-    FORCEINLINE T Round(T val)
+    T Round(T val)
     {
 #if TARGET_PLATFORM == PLATFORM_ANDROID
         return (val > T(0)) ? std::floor(val + T(0.5)) : std::ceil(val - T(0.5));
@@ -258,15 +267,15 @@ namespace Math
 
     // return true is the third parameter is in the range described by the first two
     template< typename T, typename U, typename V>
-    FORCEINLINE bool InRange(T start, U end, V val)
+    FORCEINLINE bool InRange(T range_start, U range_end, V val)
     {
-        if (start < end)
+        if (range_start < range_end)
         {
-            return ((val > start) && (val < end));
+            return ((val > range_start) && (val < range_end));
         }
         else
         {
-            return ((val < start) && (val > end));
+            return ((val < range_start) && (val > range_end));
         }
     }
 

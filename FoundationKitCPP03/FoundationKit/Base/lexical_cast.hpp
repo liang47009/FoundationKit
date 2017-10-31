@@ -8,15 +8,174 @@
 #define FOUNDATIONKIT_TYPE_CAST_HPP
 
 #include <string>
-#include <type_traits>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
-#if(TARGET_PLATFORM == PLATFORM_ANDROID)
+#include <stdexcept>
 #include <sstream>
 #include <iomanip>
 #include <stdlib.h>
 #include <wchar.h>
 #include <errno.h>
+
+
+static long long int strtoll(const char *nptr, char **endptr, int base)
+{
+	const char *s;
+	/* LONGLONG */
+	long long int acc, cutoff;
+	int c;
+	int neg, any, cutlim;
+	/*
+	 * Skip white space and pick up leading +/- sign if any.
+	 * If base is 0, allow 0x for hex and 0 for octal, else
+	 * assume decimal; if base is already 16, allow 0x.
+	 */
+	s = nptr;
+	do {
+		c = (unsigned char) *s++;
+	} while (isspace(c));
+	if (c == '-') {
+		neg = 1;
+		c = *s++;
+	} else {
+		neg = 0;
+		if (c == '+')
+			c = *s++;
+	}
+	if ((base == 0 || base == 16) &&
+	    c == '0' && (*s == 'x' || *s == 'X')) {
+		c = s[1];
+		s += 2;
+		base = 16;
+	}
+	if (base == 0)
+		base = c == '0' ? 8 : 10;
+
+	/*
+	 * Compute the cutoff value between legal numbers and illegal
+	 * numbers.  That is the largest legal value, divided by the
+	 * base.  An input number that is greater than this value, if
+	 * followed by a legal input character, is too big.  One that
+	 * is equal to this value may be valid or not; the limit
+	 * between valid and invalid numbers is then based on the last
+	 * digit.  For instance, if the range for long longs is
+	 * [-9223372036854775808..9223372036854775807] and the input base
+	 * is 10, cutoff will be set to 922337203685477580 and cutlim to
+	 * either 7 (neg==0) or 8 (neg==1), meaning that if we have
+	 * accumulated a value > 922337203685477580, or equal but the
+	 * next digit is > 7 (or 8), the number is too big, and we will
+	 * return a range error.
+	 *
+	 * Set any if any `digits' consumed; make it negative to indicate
+	 * overflow.
+	 */
+	cutoff = neg ? LLONG_MIN : LLONG_MAX;
+	cutlim = (int)(cutoff % base);
+	cutoff /= base;
+	if (neg) {
+		if (cutlim > 0) {
+			cutlim -= base;
+			cutoff += 1;
+		}
+		cutlim = -cutlim;
+	}
+	for (acc = 0, any = 0;; c = (unsigned char) *s++) {
+		if (isdigit(c))
+			c -= '0';
+		else if (isalpha(c))
+			c -= isupper(c) ? 'A' - 10 : 'a' - 10;
+		else
+			break;
+		if (c >= base)
+			break;
+		if (any < 0)
+			continue;
+		if (neg) {
+			if (acc < cutoff || (acc == cutoff && c > cutlim)) {
+				any = -1;
+				acc = LLONG_MIN;
+				errno = ERANGE;
+			} else {
+				any = 1;
+				acc *= base;
+				acc -= c;
+			}
+		} else {
+			if (acc > cutoff || (acc == cutoff && c > cutlim)) {
+				any = -1;
+				acc = LLONG_MAX;
+				errno = ERANGE;
+			} else {
+				any = 1;
+				acc *= base;
+				acc += c;
+			}
+		}
+	}
+	if (endptr != 0)
+		/* LINTED interface specification */
+		*endptr = (char *)(any ? s - 1 : nptr);
+	return (acc);
+}
+
+static unsigned long long int strtoull(const char *nptr, char **endptr, register int base)
+{
+    typedef unsigned long long int ullong_type;
+	const char *s = nptr;
+	ullong_type acc;
+	int c;
+	ullong_type cutoff;
+	int neg = 0, any, cutlim;
+
+	/*
+	 * See strtol for comments as to the logic used.
+	 */
+	do {
+		c = *s++;
+	} while (isspace(c));
+	if (c == '-') {
+		neg = 1;
+		c = *s++;
+	} else if (c == '+')
+		c = *s++;
+	if ((base == 0 || base == 16) &&
+	    c == '0' && (*s == 'x' || *s == 'X')) {
+		c = s[1];
+		s += 2;
+		base = 16;
+	}
+	if (base == 0)
+		base = c == '0' ? 8 : 10;
+	cutoff = (ullong_type)ULLONG_MAX / (ullong_type)base;
+	cutlim = (ullong_type)ULLONG_MAX % (ullong_type)base;
+	for (acc = 0, any = 0;; c = *s++) {
+		if (isdigit(c))
+			c -= '0';
+		else if (isalpha(c))
+			c -= isupper(c) ? 'A' - 10 : 'a' - 10;
+		else
+			break;
+		if (c >= base)
+			break;
+		if (any < 0 || acc > cutoff || (acc == cutoff && c > cutlim))
+			any = -1;
+		else {
+			any = 1;
+			acc *= base;
+			acc += c;
+		}
+	}
+	if (any < 0) {
+		acc = ULLONG_MAX;
+		errno = ERANGE;
+	} else if (neg)
+		acc = -acc;
+	if (endptr != 0)
+		*endptr = (char *) (any ? s - 1 : nptr);
+	return (acc);
+}
+
+
 #define _STRTO_LL	strtoll
 #define _STRTO_ULL	strtoull 
 #define _STRTO_F	strtod
@@ -38,7 +197,7 @@ namespace std
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stoi argument");
-        if (errno == ERANGE || _Ans < INT_MIN != INT_MAX < _Ans)
+        if (errno == ERANGE || _Ans < INT_MIN || INT_MAX < _Ans)
             throw std::out_of_range("stoi argument out of range");
         if (_Idx != 0)
             *_Idx = (size_t)(_Eptr - _Ptr);
@@ -172,7 +331,7 @@ namespace std
 
         if (_Ptr == _Eptr)
             throw std::invalid_argument("invalid stoi argument");
-        if (errno == ERANGE || _Ans < INT_MIN != INT_MAX < _Ans)
+        if (errno == ERANGE || _Ans < INT_MIN || INT_MAX < _Ans)
             throw std::out_of_range("stoi argument out of range");
         if (_Idx != 0)
             *_Idx = (size_t)(_Eptr - _Ptr);
@@ -311,7 +470,7 @@ namespace std
         return oss.str();
     }
 }
-#endif // #if(TARGET_PLATFORM == PLATFORM_ANDROID)
+
 
 NS_FK_BEGIN
 
@@ -468,13 +627,13 @@ namespace detail
 }
 
 template<typename To, typename From>
-typename std::enable_if<!std::is_same<To, From>::value, To>::type lexical_cast(const From& from)
+To lexical_cast(const From& from)
 {
     return detail::converter<To, From>::convert(from);
 }
 
-template<typename To, typename From>
-typename std::enable_if<std::is_same<To, From>::value, To>::type lexical_cast(const From& from)
+template<typename To>
+To lexical_cast(const To& from)
 {
     return from;
 }

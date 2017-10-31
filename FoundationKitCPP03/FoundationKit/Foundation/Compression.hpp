@@ -21,11 +21,11 @@ NS_FK_BEGIN
 enum CompressionFlags
 {
     /** No compression */
-    COMPRESSION_NONE = 0x00,
+    COMPRESSION_NONE    = 0x00,
     /** Compress with ZLIB */
-    COMPRESSION_ZLIB = 0x01,
+    COMPRESSION_ZLIB    = 0x01,
     /** Compress with GZIP */
-    COMPRESSION_GZIP = 0x02,
+    COMPRESSION_GZIP    = 0x02,
     // default compression
     COMPRESSION_DEFAULT = COMPRESSION_GZIP
 };
@@ -41,7 +41,7 @@ struct Compression
     /** Time spent uncompressing data in milliseconds. */
     static long long uncompressorTime;
 
-    static uint32_t defaultBufferLength;
+    static int32_t defaultBufferLength;
 
     /**
      * Thread-safe abstract compression routine. Compresses memory from uncompressed buffer and writes it to compressed

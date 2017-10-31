@@ -5,6 +5,7 @@
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 #include "FoundationKit/Foundation/Compression.hpp"
 
+
 NS_FK_BEGIN
 
 static void *zipAlloc(void *opaque, unsigned int size, unsigned int num)
@@ -46,25 +47,6 @@ static int doInflate(z_stream* stream, std::vector<uint8>& head, size_t blockSiz
     return status;
 }
 
-struct scope_exit
-{
-    typedef std::function<void()> _Fun;
-    scope_exit(const _Fun& fun)
-        :_fun(fun)
-    {
-
-    }
-
-    ~scope_exit()
-    {
-        if (_fun)
-        {
-            _fun();
-        }
-    }
-    _Fun   _fun;
-};
-
 
 /** Time spent compressing data in seconds. */
 long long Compression::compressorTime = 0;
@@ -72,7 +54,7 @@ long long Compression::compressorTime = 0;
 /** Time spent uncompressing data in seconds. */
 long long Compression::uncompressorTime = 0;
 
-uint32_t Compression::defaultBufferLength = uint32_t(4) << 20; // 4MiB
+int32_t Compression::defaultBufferLength = int32_t(4) << 20; // 4MiB
 
 bool Compression::CompressMemory(CompressionFlags Flags, mutablebuf& CompressedBuffer, const mutablebuf& UncompressedBuffer)
 {
@@ -85,7 +67,7 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutablebuf& CompressedB
     {
         z_stream stream;
         stream.zalloc = &zipAlloc;
-        stream.zfree = &zipFree;
+        stream.zfree  = &zipFree;
         stream.opaque = Z_NULL;
 
         // Using deflateInit2() to support gzip.  "The windowBits parameter is the
@@ -103,22 +85,21 @@ bool Compression::CompressMemory(CompressionFlags Flags, mutablebuf& CompressedB
             FKLog("compressMemory deflateInit2 error:%d, msg:%s", status, stream.msg);
             break;
         }
-
         uLong uncompressedLength = static_cast<uLong>(UncompressedBuffer.size());
-        stream.next_in  = static_cast<uint8*>(UncompressedBuffer.data());
-        stream.avail_in = static_cast<uInt>(uncompressedLength);
+        stream.next_in           = static_cast<uint8*>(UncompressedBuffer.data());
+        stream.avail_in          = static_cast<uInt>(uncompressedLength);
         mutablebuf tempData;
-        tempData.reallocate(uncompressedLength);
-        stream.next_out = static_cast<uint8*>(tempData.data());;
+        tempData.allocate(uncompressedLength);
+        stream.next_out  = static_cast<uint8*>(tempData.data());;
         stream.avail_out = static_cast<uInt>(uncompressedLength);
-        while ((status = deflate(&stream, Z_FINISH)) == Z_OK);
+        while ((status   = deflate(&stream, Z_FINISH)) == Z_OK);
         if (status != Z_STREAM_END)
         {
             FKLog("compressMemory deflate error:%d, msg:%s", status, stream.msg);
         }
         else
         {
-            CompressedBuffer.reallocate(stream.total_out);
+            CompressedBuffer.allocate(stream.total_out);
             memcpy(CompressedBuffer.data(), tempData.data(), stream.total_out);
         }
         status = deflateEnd(&stream);
@@ -148,7 +129,7 @@ bool Compression::UncompressMemory(CompressionFlags Flags, mutablebuf& Uncompres
     {
         z_stream stream;
         stream.zalloc = &zipAlloc;
-        stream.zfree = &zipFree;
+        stream.zfree  = &zipFree;
         stream.opaque = nullptr;
         // "The windowBits parameter is the base two logarithm of the maximum window
         // size (...) The default value is 15 (...) add 16 to decode only the gzip
@@ -161,12 +142,11 @@ bool Compression::UncompressMemory(CompressionFlags Flags, mutablebuf& Uncompres
             FKLog("Compression inflateInit2 error:%d, msg:%s", status, stream.msg);
             break;
         }
-
-        stream.next_in = static_cast<uint8*>(CompressedBuffer.data());
-        stream.avail_in = static_cast<uInt>(CompressedBuffer.size());
-        stream.next_out = nullptr;
+        stream.next_in   = static_cast<uint8*>(CompressedBuffer.data());
+        stream.avail_in  = static_cast<uInt>(CompressedBuffer.size());
+        stream.next_out  = nullptr;
         stream.avail_out = 0;
-        stream.total_in = 0;
+        stream.total_in  = 0;
         stream.total_out = 0;
         std::vector<uint8>  UncompressedData;
         while ((status = doInflate(&stream, UncompressedData, defaultBufferLength)) == Z_OK);
@@ -176,7 +156,7 @@ bool Compression::UncompressMemory(CompressionFlags Flags, mutablebuf& Uncompres
         }
         else
         {
-            UncompressedBuffer.reallocate(stream.total_out);
+            UncompressedBuffer.allocate(stream.total_out);
             memcpy(UncompressedBuffer.data(), &UncompressedData[0], stream.total_out);
         }
         status = inflateEnd(&stream);
@@ -205,15 +185,15 @@ bool Compression::CompressFile(const std::string& srcFilePath, const std::string
         FILE* srcFp = fopen(srcFilePath.c_str(), "rb");
         BREAK_IF(srcFp == nullptr);
         size_t readsize = 0;
-        size_t totalReadSize = 0;
+		size_t totalReadSize = 0;
         char* buffer = new char[defaultBufferLength];
         do 
         {
-            fseek(srcFp, totalReadSize, SEEK_SET);
+            fseek(srcFp, static_cast<long>(totalReadSize), SEEK_SET);
             readsize = fread(buffer, 1, defaultBufferLength, srcFp);
             totalReadSize += readsize;
             gzwrite(gFile, buffer, static_cast<unsigned int>(readsize));
-        } while (readsize == defaultBufferLength);
+        } while (readsize == static_cast<size_t>(defaultBufferLength));
         delete[] buffer;
         gzflush(gFile, Z_FINISH);
         fclose(srcFp);
@@ -232,8 +212,8 @@ bool Compression::UncompressFile(const std::string& srcFilePath, const std::stri
         BREAK_IF(gFile == nullptr);
         FILE* desFp = fopen(desFilePath.c_str(), "wb");
         BREAK_IF(desFp == nullptr);
-        size_t readsize = 0;
-        size_t totalReadSize = 0;
+        long readsize = 0;
+        long totalReadSize = 0;
         char* buffer = new char[defaultBufferLength];
         do 
         {

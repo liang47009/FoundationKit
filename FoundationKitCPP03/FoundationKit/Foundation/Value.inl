@@ -14,17 +14,26 @@
 #include <cassert>
 
 NS_FK_BEGIN
+
 template<typename _Ty>
 Value::Value(_Ty* data)
-: _type(Type::POINTER)
 {
+    init(Type::POINTER);
     _field._pointer = data;
+}
+
+template<typename _Ty>
+Value&  Value::operator= (_Ty* data)
+{
+    Reset(Type::POINTER);
+    _field._pointer = data;
+    return *this;
 }
 
 template< typename T >
 T Value::As()
 {
-    if (_type == Type::POINTER)
+    if (_type == Type::POINTER && std::is_pointer<T>::value)
         return static_cast<T>(_field._pointer);
     assert(false);
     return T();
@@ -110,16 +119,23 @@ inline double Value::As<double>()
 template<>
 inline char* Value::As<char*>()
 {
-    assert(_type == Type::PCHAR);
-    return _field._pcharVal;
+    assert(_type == Type::PCHAR || _type == Type::STRING);
+    if (_type == Type::PCHAR)
+        return _field._pcharVal;
+    else
+        return _field._stringVal;
 }
 
 template<>
 inline std::string Value::As<std::string>()
 {
-    assert(_type == Type::STRING);
-    return _field._stringVal;
+    assert(_type == Type::STRING || _type == Type::PCHAR);
+    if (_type == Type::PCHAR)
+        return _field._pcharVal;
+    else
+        return _field._stringVal;
 }
+
 
 NS_FK_END
 

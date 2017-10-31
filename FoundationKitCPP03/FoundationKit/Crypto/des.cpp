@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <fstream>
 #include <string.h>
-#include <conio.h>
 #include <iostream>
 #include "aes.hpp"
 
@@ -88,21 +87,21 @@ void DesImpl::Expansion()
     {
         for (j = 0; j < 6; j++)
         {
-            if ((j != 0) || (j != 5))
-            {
-                k = 4 * i + j;
-                exp[i][j] = right[k - 1];
-            }
             if (j == 0)
             {
                 k = 4 * i;
                 exp[i][j] = right[k - 1];
             }
-            if (j == 5)
+            else if (j == 5)
             {
                 k = 4 * i + j;
                 exp[i][j] = right[k - 1];
             }
+			else
+			{
+				k = 4 * i + j;
+				exp[i][j] = right[k - 1];
+			}
         }
     }
     exp[0][0] = right[31];
@@ -198,7 +197,7 @@ void DesImpl::substitution()
         7, 11, 4, 1, 9, 12, 14, 2, 0, 6, 10, 13, 15, 3, 5, 8,
         2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11
     };
-    int a[8][6], k = 0, i, j, p, q, count = 0, g = 0, v=0;
+    int a[8][6], k = 0, i, j, np, q, count = 0, g = 0, v=0;
 
     for (i = 0; i < 8; i++)
     {
@@ -210,13 +209,13 @@ void DesImpl::substitution()
 
     for (i = 0; i < 8; i++)
     {
-        p = 1; q = 0;
+		np = 1; q = 0;
         k = (a[i][0] * 2) + (a[i][5] * 1);
         j = 4;
         while (j > 0)
         {
-            q = q + (a[i][j] * p);
-            p = p * 2;
+            q = q + (a[i][j] * np);
+			np = np * 2;
             j--;
         }
         count = i + 1;
@@ -232,20 +231,21 @@ void DesImpl::substitution()
         case 8:	v = s8[k][q];	break;
         }
 
-        int d, i = 3, a[4];
+        int d, arr[4];
+		i = 3;
         while (v > 0)
         {
             d = v % 2;
-            a[i--] = d;
+			arr[i--] = d;
             v = v / 2;
         }
         while (i >= 0)
         {
-            a[i--] = 0;
+			arr[i--] = 0;
         }
 
         for (i = 0; i < 4; i++)
-            sub[g++] = a[i];
+            sub[g++] = arr[i];
     }
 }
 
@@ -267,10 +267,10 @@ void DesImpl::xor_two()
 
 void DesImpl::inverse()
 {
-    int p = 40, q = 8, k1, k2, i, j;
+    int np = 40, q = 8, k1, k2, i, j;
     for (i = 0; i < 8; i++)
     {
-        k1 = p; k2 = q;
+        k1 = np; k2 = q;
         for (j = 0; j < 8; j++)
         {
             if (j % 2 == 0)
@@ -284,7 +284,7 @@ void DesImpl::inverse()
                 k2 = k2 + 8;
             }
         }
-        p = p - 1; q = q - 1;
+		np = np - 1; q = q - 1;
     }
 }
 
@@ -353,7 +353,8 @@ int DesImpl::Encrypt(unsigned char* output, int outlen, unsigned char* input, in
         IP();
         for (i = 0; i < 64; i++) total[i] = ip[i];
         for (i = 0; i < 32; i++) left[i] = total[i];
-        for (; i < 64; i++) right[i - 32] = total[i];   for (round = 1; round <= 16; round++)
+        for (; i < 64; i++) right[i - 32] = total[i];   
+		for (round = 1; round <= 16; round++)
         {
             Expansion();
             xor_oneE(round);
@@ -514,7 +515,7 @@ int desDecrypt(unsigned char* output, int outlen, unsigned char* input, int inle
         memcpy(ciphertext, input, BLOCK_SIZE); // stuff a block from input in ciphertext
         input += BLOCK_SIZE;
         inlen -= BLOCK_SIZE;
-        int decodeLen = desimpl.Decrypt(plaintext, BLOCK_SIZE, ciphertext, BLOCK_SIZE);
+        desimpl.Decrypt(plaintext, BLOCK_SIZE, ciphertext, BLOCK_SIZE);
         if (inlen < BLOCK_SIZE) { // we're on our last block.  check the padding to determine the size of the original data
             int padlen = plaintext[BLOCK_SIZE - 1]; // look at the last byte
             if (padlen < 1 || padlen > 8) // check for bogus padlen

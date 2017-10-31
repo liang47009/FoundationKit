@@ -26,6 +26,8 @@
 
 NS_FK_BEGIN
 
+#define MATRIX_SIZE ( sizeof(float) * 16)
+
 /**
  * Defines a math utility class.
  *
@@ -89,17 +91,36 @@ private:
 
     inline static void CrossVector3(const float* v1, const float* v2, float* dst);
 
-    MathUtil();
+    MathUtil() {};
 };
 
-#define MATRIX_SIZE ( sizeof(float) * 16)
-
 NS_FK_END
-#endif // FOUNDATIONKIT_MATHUTIL_HPP
 
-#ifdef USE_NEON
+#if (TARGET_PLATFORM == PLATFORM_IOS)
+#if defined (__arm64__)
+#define USE_NEON64
+#define INCLUDE_NEON64
+#elif defined (__ARM_NEON__)
+#define USE_NEON32
+#define INCLUDE_NEON32
+#endif
+#elif (TARGET_PLATFORM == PLATFORM_ANDROID)
+#if defined (__arm64__) || defined (__aarch64__)
+#define USE_NEON64
+#define INCLUDE_NEON64
+#elif defined (__ARM_NEON__)
+#define INCLUDE_NEON32
+#endif
+#endif
+
+#if defined(INCLUDE_NEON32) && defined(USE_NEON32)
 #include "MathUtilNeon.inl"
+#elif defined(INCLUDE_NEON64) && defined(USE_NEON64)
+#include "MathUtilNeon64.inl"
 #else
 #include "MathUtil.inl"
 #endif
+
+#endif // FOUNDATIONKIT_MATHUTIL_HPP
+
 

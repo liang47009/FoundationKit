@@ -6,6 +6,8 @@
 #include "FoundationKit/Platform/Path.hpp"
 NS_FK_BEGIN
 
+std::string Directory::CurrentDirectory;
+
 void InternalGetFiles(const std::string& path, std::vector<std::string>& files, Directory::SearchOption searchOption /*= SearchOption::TopDirectoryOnly*/)
 {
     std::string finallyPath = path;

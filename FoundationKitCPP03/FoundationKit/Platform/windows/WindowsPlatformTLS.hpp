@@ -8,6 +8,8 @@
 #define FOUNDATIONKIT_WINDOWSPLATFORMTLS_HPP
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
+#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+
 #include "FoundationKit/Base/types.hpp"
 
 NS_FK_BEGIN
@@ -45,7 +47,7 @@ public:
 	 */
 	static FORCEINLINE uint32 AllocTlsSlot(void)
 	{
-		ASSERTED(static_cast<uint32>(-1) == TLS_OUT_OF_INDEXES, "TLS_OUT_OF_INDEXES is different from INDEX_NONE, change FWindowsPlatformTLS::AllocTlsSlot() implementation.");
+		//static_assert(static_cast<uint32>(-1) == TLS_OUT_OF_INDEXES, "TLS_OUT_OF_INDEXES is different from INDEX_NONE, change FWindowsPlatformTLS::AllocTlsSlot() implementation.");
 		return ::TlsAlloc();
 	}
 
@@ -86,5 +88,7 @@ public:
 typedef WindowsPlatformTLS PlatformTLS;
 
 NS_FK_END
+
+#endif // OF #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
 
 #endif // FOUNDATIONKIT_WINDOWSPLATFORMTLS_HPP

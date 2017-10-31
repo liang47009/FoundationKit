@@ -1,7 +1,9 @@
 #include <algorithm>
+//#include <chrono> // for GetTempFileName create tmp file name.
+#include <cctype>
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Platform/Path.hpp"
-#include "FoundationKit/std/stdheader.h"
+
 
 NS_FK_BEGIN
 const char Path::AltDirectorySeparatorChar = '/';
@@ -108,7 +110,6 @@ std::string Path::Combine(const std::vector<std::string>& paths)
 
 std::string Path::Combine(const std::string& path1, const std::string& path2)
 {
-    std::string result;
     if (path1.empty())
         return path2;
 
@@ -139,10 +140,10 @@ std::string Path::Combine(const std::string& path1, const std::string& path2, co
     return result;
 }
 
-std::string Path::GetDirectoryName(const std::string& path)
+std::string Path::GetDirectoryPath(const std::string& path)
 {
     std::string result = GetFileName(path);
-    result = path.substr(0, path.size() - result.size()-1);
+    result = path.substr(0, path.size() - result.size());
     return result;
 }
 
@@ -212,7 +213,7 @@ bool Path::HasExtension(const std::string& path)
             char ch = path[i];
             if (ch == '.') 
             {
-                if (i != path.size() - 1)
+                if (i != static_cast<int>(path.size()) - 1)
                     return true;
                 else
                     return false;
@@ -235,7 +236,73 @@ bool Path::IsPathRooted(std::string path)
 }
 
 
+std::string Path::GetRelativePath(const std::string& workPath, const std::string& fullPath)
+{
+    std::string finalWorkPath = ConvertPathFormatToUnixStyle(workPath);
+    std::string finalFullPath = ConvertPathFormatToUnixStyle(fullPath);
+    std::vector<std::string> workPathDirectories = StringUtils::Split(finalWorkPath, "/");
+    std::vector<std::string> fullPathDirectories = StringUtils::Split(finalFullPath, "/");
+    size_t dirCount = workPathDirectories.size() < fullPathDirectories.size() ? workPathDirectories.size() : fullPathDirectories.size();
+    size_t lastCommonDirIndex = 0;
+    for (size_t index = 0; index < dirCount; ++index)
+    {
+        if (workPathDirectories[index] == fullPathDirectories[index])
+            lastCommonDirIndex = index;
+        else
+            break;
+    }
 
+    if (lastCommonDirIndex == 0)
+        return fullPath;
+
+    std::string RelativePath;
+    for (size_t index = lastCommonDirIndex + 1; index < workPathDirectories.size(); ++index)
+        RelativePath += "../";
+
+    for (size_t index = lastCommonDirIndex + 1; index < fullPathDirectories.size()-1; ++index)
+        RelativePath += fullPathDirectories[index] + "/";
+    RelativePath += fullPathDirectories[fullPathDirectories.size() - 1];
+    return RelativePath;
+}
+
+
+std::string Path::GetAbsolutePath(const std::string& path)
+{
+    std::string fileName = GetFileName(path);
+    std::string finalPath = GetDirectoryPath(path);
+    std::vector<std::string> pathNodes = StringUtils::Split(finalPath, "/");
+    std::vector<std::string> absolutePaths;
+    std::vector<std::string>::iterator pathNodeIter = pathNodes.begin();
+    for (pathNodeIter; pathNodeIter != pathNodes.end(); ++pathNodeIter)
+    {
+        std::string pathNode = *pathNodeIter;
+        if (pathNode == ".")
+        {
+            continue;
+        }
+        if (pathNode == "..")
+        {
+            if (absolutePaths.size() > 1)
+            {
+                absolutePaths.erase(absolutePaths.end() - 1);
+            }
+        }
+        else
+        {
+            absolutePaths.push_back(pathNode);
+        }
+    }
+    finalPath = "";
+    std::vector<std::string>::iterator absoluteNodeIter = absolutePaths.begin();
+    for (absoluteNodeIter; absoluteNodeIter!= absolutePaths.end(); ++absoluteNodeIter)
+    {
+        std::string absoluteNode = *absoluteNodeIter;
+        finalPath += absoluteNode;
+        finalPath += "/";
+    }
+    finalPath += fileName;
+    return finalPath;
+}
 
 NS_FK_END
 

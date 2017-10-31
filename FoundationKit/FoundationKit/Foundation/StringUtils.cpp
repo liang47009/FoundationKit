@@ -46,7 +46,7 @@ std::string StringUtils::Toupper( const std::string& str )
 
 std::string StringUtils::Format( const char* format, ... )
 {
-	const static unsigned int MAX_LENGTH = 54;
+	const static unsigned int MAX_LENGTH = 64;
     // Pass one greater needed size to leave room for NULL terminator
     std::vector<char> dynamicBuffer(MAX_LENGTH+1);
     char* result = &dynamicBuffer[0];

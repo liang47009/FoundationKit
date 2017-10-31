@@ -14,10 +14,10 @@
 #include <memory>
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"
-#include "FoundationKit/Foundation/Value.hpp"
 #include "FoundationKit/Foundation/FunctionHandler.hpp"
 
 NS_FK_BEGIN
+
 class DelegateObserver
 {
 public:

@@ -43,13 +43,13 @@ NS_FK_BEGIN
 class basic_mutablebuf
 {
 public:
-	typedef uint8 value_type;
-	typedef size_t size_type;
-	typedef value_type* pointer;
-	typedef const value_type* const_pointer;
-	typedef value_type& reference;
-	typedef const value_type& const_reference;
-	typedef basic_mutablebuf _Myt;
+    typedef uint8 value_type;
+    typedef size_t size_type;
+    typedef value_type* pointer;
+    typedef const value_type* const_pointer;
+    typedef value_type& reference;
+    typedef const value_type& const_reference;
+    typedef basic_mutablebuf _Myt;
 
     /// Construct an empty buffer.
     basic_mutablebuf()
@@ -133,8 +133,9 @@ public:
 
 	void allocate(const size_type size)
 	{
-		_Ptr = new value_type[size];
-		_Mysize = size;
+        deallocate();
+		_Ptr      = new value_type[size];
+		_Mysize   = size;
 		_bAlloced = true;
 		memset(_Ptr, 0, _Mysize);
 	}
@@ -143,23 +144,16 @@ public:
 	{
 		if (_bAlloced && _Ptr != nullptr)
 			delete[] _Ptr;
-		_Ptr = pointer();
-		_Mysize = 0;
+		_Ptr      = pointer();
+		_Mysize   = 0;
 		_bAlloced = false;
 	}
-
-
-    void reallocate(std::size_t size)
-    {
-		deallocate();
-		allocate(size);
-    }
 
     void assign(void* data, std::size_t size, bool need_del = false)
     {
 		deallocate();
-		_Ptr = reinterpret_cast<uint8*>(data);
-		_Mysize = size;
+		_Ptr      = reinterpret_cast<uint8*>(data);
+		_Mysize   = size;
 		_bAlloced = need_del;
     }
 
@@ -196,7 +190,17 @@ public:
 		allocate(size);
 		memcpy(this->data(), data, size);
 	}
-
+private:
+    void move(_Myt& other)
+    {
+		deallocate();
+        this->_Ptr      = other._Ptr;
+		this->_Mysize   = other._Mysize;
+        this->_bAlloced = other._bAlloced;
+		other._Ptr      = pointer();
+		other._Mysize   = 0;
+        other._bAlloced = false;
+    }
 private:
 	pointer   _Ptr;
 	size_type _Mysize;	// current length of string
@@ -344,6 +348,14 @@ private:
     {
         this->_size = other._size;
         this->_data = other._data;
+    }
+
+    void move(constbuf& other)
+    {
+        this->_data = other._data;
+        this->_size = other._size;
+        other._data = nullptr;
+        other._size = 0;
     }
 
 private:

@@ -3,9 +3,9 @@
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/Directory.hpp"
 
-#if (TARGET_PLATFORM==PLATFORM_WINDOWS)
-#include <Windows.h>
-#endif
+//#if (TARGET_PLATFORM==PLATFORM_WINDOWS)
+//#include <Windows.h>
+//#endif
 #include "unzip.h"
 
 NS_FK_BEGIN
@@ -17,64 +17,87 @@ const char PlatformNewLine[] ={'\n'};
 const char PlatformNewLine[] ={ '\r'};
 #endif
 
-mutablebuf ReadDataFromFile(const std::string& path, bool isText = false)
+namespace detail
 {
-    mutablebuf  FileAllBytes;
-    do
+    mutablebuf ReadDataFromFile(const std::string& path, bool isText = false)
+    {
+        mutablebuf  FileAllBytes;
+        do
+        {
+            FILE* FileHandle = nullptr;
+            if (isText)
+                FileHandle = fopen(path.c_str(), "rt");
+            else
+                FileHandle = fopen(path.c_str(), "rb");
+            BREAK_IF(!FileHandle);
+            fseek(FileHandle, 0, SEEK_END);
+            size_t FileSize = ftell(FileHandle);
+            fseek(FileHandle, 0, SEEK_SET);
+            FileAllBytes.allocate(FileSize);
+            fread(FileAllBytes.data(), 1, FileSize, FileHandle);
+
+            fclose(FileHandle);
+        } while (false);
+        return FileAllBytes;
+    }
+
+    bool WriteLinesToFile(const std::string& path, const File::FileLineType& contents, bool bAppend = false)
+    {
+        bool result = false;
+        do
+        {
+            FILE* FileHandle = nullptr;
+            if (bAppend)
+                FileHandle = fopen(path.c_str(), "ab");
+            else
+                FileHandle = fopen(path.c_str(), "wb");
+            BREAK_IF(!FileHandle);
+            File::FileLineType::const_iterator line = contents.begin();
+            for (line; line != contents.end(); ++line)
+            {
+                fwrite((*line).c_str(), 1, (*line).size(), FileHandle);
+                fwrite(PlatformNewLine, 1, sizeof(PlatformNewLine), FileHandle);
+            }
+            fclose(FileHandle);
+            result = true;
+        } while (false);
+        return result;
+    }
+
+    bool WriteDataToFile(const std::string& path, const char* bytes, size_t length, bool isText = false)
     {
         FILE* FileHandle = nullptr;
         if (isText)
-            FileHandle = fopen(path.c_str(), "rt");
-        else
-            FileHandle = fopen(path.c_str(), "rb");
-        BREAK_IF(!FileHandle);
-        fseek(FileHandle, 0, SEEK_END);
-        size_t FileSize = ftell(FileHandle);
-        fseek(FileHandle, 0, SEEK_SET);
-        FileAllBytes.reallocate(FileSize);
-        fread(FileAllBytes.data(), 1, FileSize, FileHandle);
-
-        fclose(FileHandle);
-    } while (false);
-    return FileAllBytes;
-}
-
-bool WriteLinesToFile(const std::string& path, const File::FileLineType& contents, bool bAppend = false)
-{
-    bool result = false;
-    do
-    {
-        FILE* FileHandle = nullptr;
-        if (bAppend)
-            FileHandle = fopen(path.c_str(), "ab");
+            FileHandle = fopen(path.c_str(), "wt");
         else
             FileHandle = fopen(path.c_str(), "wb");
-        BREAK_IF(!FileHandle);
-        File::FileLineType::const_iterator iter = contents.begin();
-        for (iter; iter != contents.end();++iter)
-        {
-            fwrite(iter->c_str(), 1, iter->size(), FileHandle);
-            fwrite(PlatformNewLine, 1, sizeof(PlatformNewLine), FileHandle);
-        }
+        if (!FileHandle) return false;
+        size_t WriteSize = fwrite(bytes, 1, length, FileHandle);
         fclose(FileHandle);
-        result = true;
-    } while (false);
-    return result;
-}
+        return (WriteSize == length);
+    }
+} //namespace detail
 
-bool WriteDataToFile(const std::string& path, const char* bytes, size_t length, bool isText = false)
+#if TARGET_PLATFORM == PLATFORM_ANDROID
+extern FILE* AndroidOpenAsset(const char * path, const char * mode);
+#endif
+
+FILE* File::Open(const std::string& path, const char* mode, bool isAsset/* = false*/)
 {
     FILE* FileHandle = nullptr;
-    if (isText)
-        FileHandle = fopen(path.c_str(), "wt");
+#if TARGET_PLATFORM == PLATFORM_ANDROID
+    if (isAsset)
+    {
+        FileHandle = AndroidOpenAsset(path.c_str(), mode);
+    }
     else
-        FileHandle = fopen(path.c_str(), "wb");
-    if (!FileHandle) return false;
-    size_t WriteSize = fwrite(bytes, 1, length, FileHandle);
-    fclose(FileHandle);
-    return (WriteSize == length);
+#endif
+    {
+        UNUSED_ARG(isAsset);
+        FileHandle = fopen(path.c_str(), mode);
+    }
+    return FileHandle;
 }
-
 
 bool File::Copy(const std::string& sourceFileName, const std::string& destFileName, bool overwrite /*= false*/)
 {
@@ -93,9 +116,8 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
             break;
         }
 
-        std::string dirPath = Path::GetDirectoryName(destFileName);
-        Directory::CreateDirectory(dirPath);
-
+        std::string dirPath = Path::GetDirectoryPath(destFileName);
+        Directory::Create(dirPath);
         int64 srcFileSize = GetSize(sourceFileName);
         BREAK_IF(srcFileSize == -1);
         FILE *fpSrc = fopen(sourceFileName.c_str(), "rb");
@@ -104,21 +126,21 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
         BREAK_IF(!fpDes);
         const size_t BUFF_SIZE = 1024;
         char read_buff[BUFF_SIZE];
-        size_t fileOriginalSize = static_cast<size_t>(srcFileSize);
         size_t readedSize = 0;
-        size_t unreadSize = fileOriginalSize;
         size_t writedSize = 0;
+        size_t fileOriginalSize = static_cast<size_t>(srcFileSize);
+        size_t unreadSize = fileOriginalSize;
         while (readedSize < fileOriginalSize)
         {
             if (unreadSize > BUFF_SIZE)
             {
                 readedSize += fread(read_buff, sizeof(char), BUFF_SIZE, fpSrc);
-                writedSize += fwrite(read_buff, 1, BUFF_SIZE, fpDes);
+                writedSize += fwrite(read_buff, 1, readedSize, fpDes);
             }
             else
             {
                 readedSize += fread(read_buff, sizeof(char), unreadSize, fpSrc);
-                writedSize += fwrite(read_buff, 1, unreadSize, fpDes);
+                writedSize += fwrite(read_buff, 1, readedSize, fpDes);
             }
             unreadSize = fileOriginalSize - readedSize;
         }
@@ -146,7 +168,7 @@ int64 File::GetSize(const std::string& path)
 
 bool File::AppendAllLines(const std::string& path, const FileLineType& contents)
 {
-    return WriteLinesToFile(path, contents, true);
+    return detail::WriteLinesToFile(path, contents, true);
 }
 
 bool File::AppendAllText(const std::string& path, const std::string& contents)
@@ -161,11 +183,6 @@ bool File::AppendAllText(const std::string& path, const std::string& contents)
         result = true;
     } while (false);
     return result;
-}
-
-mutablebuf FoundationKit::File::ReadAllBytes(const std::string& path)
-{
-    return ReadDataFromFile(path);
 }
 
 #if (TARGET_PLATFORM==PLATFORM_IOS)
@@ -213,10 +230,9 @@ mutablebuf File::ReadAllBytesFromZip(const std::string& path, const std::string&
     return retData;
 }
 
-std::string File::ReadAllText(const std::string& path)
+mutablebuf FoundationKit::File::ReadAllBytes(const std::string& path)
 {
-    mutablebuf FileTexts = ReadDataFromFile(path, true);
-    return std::string(FileTexts.c_str(), FileTexts.size());
+    return detail::ReadDataFromFile(path);
 }
 
 File::FileLineType File::ReadAllLines(const std::string& path)
@@ -235,19 +251,25 @@ File::FileLineType File::ReadAllLines(const std::string& path)
     return lines;
 }
 
+std::string File::ReadAllText(const std::string& path)
+{
+    mutablebuf FileTexts = detail::ReadDataFromFile(path, true);
+    return std::string(FileTexts.c_str(), FileTexts.size());
+}
+
 bool File::WriteAllBytes(const std::string& path, const char* bytes, size_t length)
 {
-    return WriteDataToFile(path, bytes, length);
+    return detail::WriteDataToFile(path, bytes, length);
 }
 
 bool File::WriteAllLines(const std::string& path, const FileLineType& contents)
 {
-    return WriteLinesToFile(path, contents);
+    return detail::WriteLinesToFile(path, contents);
 }
 
 bool File::WriteAllText(const std::string& path, const std::string& contents)
 {
-    return WriteDataToFile(path, contents.c_str(), contents.size(), true);
+    return detail::WriteDataToFile(path, contents.c_str(), contents.size(), true);
 }
 
 NS_FK_END

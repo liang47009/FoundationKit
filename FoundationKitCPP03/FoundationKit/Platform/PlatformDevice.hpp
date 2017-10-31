@@ -89,33 +89,16 @@ public:
     static std::string GetManufacturer();
     static std::string GetSystemVersion();
     static std::string GetSDKVersion();
-    static std::string GetRendererVersion();
+    //static std::string GetRendererVersion();
     static std::string GetCPUArch();
     static int         GetCPUCoreCount();
 
     /** 
      * If cpuIndex is equal to - 1, then the function will return 
      * the largest of the maximum frequency of all CPUs.
-     * @param cpuIndex
      * @return Unit: KHz
      */
-    static int         GetCPUMaxFreq(int cpuIndex = -1);
-
-    /**
-     * If cpuIndex is equal to -1, then the function will return
-     * the maximum frequency of all the CPU's current frequency.
-     * @param cpuIndex
-     * @return Unit: KHz
-     */
-    static int         GetCPUCurFreq(int cpuIndex = -1);
-
-    /**
-     * If cpuIndex is equal to -1, then the function will return
-     * the smallest of the minimum frequency of all CPUs.
-     * @param cpuIndex
-     * @return Unit: KHz
-     */
-    static int         GetCPUMinFreq(int cpuIndex = -1);
+    static int         GetCPUFrequency();
 
     //1 WIFI,2 2G,3 3G,4 4G,0 other.
     static int         GetNetworkType();
@@ -126,8 +109,8 @@ public:
     static long long   GetTotalMemory();
     // byte
     static long long   GetAvailableMemory();
-    static std::string GetGPURenderer();
-    static std::string GetGPUVendor();
+    //static std::string GetGPURenderer();
+    //static std::string GetGPUVendor();
     /// Get the screen resolution, not including the virtual button area
     static Rect GetScreenResolution();
     /// Get the screen resolution, including the virtual button area
@@ -137,13 +120,12 @@ public:
     //dp = px/(dpi/160)
     //dpi = px/dp*160
     static float GetScreenDPI();
-    static float GetScreenFPS();
+    static float GetRefreshRate();
     static float GetScreenXDPI();
     static float GetScreenYDPI();
     static float GetNativeScale();
     static PlatformMemoryConstants& GetMemoryConstants();
-
-    static std::string ExecuteSystemCommand(const std::string& command);
+    static void DumpDeviceInfo();
 };
 NS_FK_END
 

@@ -17,13 +17,57 @@
 
 NS_FK_BEGIN
 
+enum TargetPlatform
+{
+    // Unknown target platform
+    Unknown,
+
+    // 32-bit Windows
+    Win32,
+
+    // 64-bit Windows
+    Win64,
+
+    // Mac
+    Mac,
+
+    // XboxOne
+    XboxOne,
+
+    // Playstation 4
+    PS4,
+
+    // iOS
+    iOS,
+
+    // Android
+    Android,
+
+    // HTML5
+    HTML5,
+
+    // Linux
+    Linux,
+
+    // All desktop platforms
+    AllDesktop,
+
+    // TVOS
+    TVOS,
+
+    // Nintendo Switch
+    Switch,
+};
+
+
 class Platform
 {
 public:
 	Platform();
 	~Platform();
     static bool IsDebuggerPresent();
-    static size_t MallocUsableSize(void* ptr);
+    static std::string ExecuteSystemCommand(const std::string& command);
+    static bool ScreenShot(std::string& outSavePath);
 };
 
 NS_FK_END

@@ -20,6 +20,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
+			InheritedPropertySheets=".\FoundationKit.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -40,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\;..\FoundationKit\external\win32\i386\include\zlib;..\FoundationKit\external\win32\i386\include\curl;..\FoundationKit\external\unzip;..\FoundationKit\external;..\FoundationKit\Platform\windows\system;&quot;%(AdditionalIncludeDirectories)&quot;"
+				AdditionalIncludeDirectories="&quot;$(WindowsSdk_71A_IncludePath)&quot;;&quot;%(AdditionalIncludeDirectories)&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_USING_V110_SDK71_;_WIN32_WINNT=0x0600;WIN32_LEAN_AND_MEAN=1"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -49,7 +50,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4482;4267"
+				DisableSpecificWarnings="4482;4267;4309"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -84,6 +85,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
+			InheritedPropertySheets=".\FoundationKit.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -104,7 +106,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\;..\FoundationKit\external\win32\i386\include\zlib;..\FoundationKit\external\win32\i386\include\curl;..\FoundationKit\external\unzip;..\FoundationKit\external;..\FoundationKit\Platform\windows\system;&quot;%(AdditionalIncludeDirectories)&quot;"
+				AdditionalIncludeDirectories="&quot;$(WindowsSdk_71A_IncludePath)&quot;;&quot;%(AdditionalIncludeDirectories)&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_USING_V110_SDK71_;_WIN32_WINNT=0x0600;WIN32_LEAN_AND_MEAN=1"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -153,6 +155,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\FoundationKit\Base\apply.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\FoundationKit\Base\basic_streambuf.hpp"
 				>
 			</File>
@@ -161,7 +167,31 @@
 				>
 			</File>
 			<File
+				RelativePath="..\FoundationKit\Base\contains_of_type.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Base\disable_if.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\FoundationKit\Base\error_code.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Base\function_cache.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Base\function_traits.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Base\has_member.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Base\hex.hpp"
 				>
 			</File>
 			<File
@@ -170,6 +200,18 @@
 			</File>
 			<File
 				RelativePath="..\FoundationKit\Base\locale.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Base\match.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Base\max_integer_of.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Base\memory_aligned.hpp"
 				>
 			</File>
 			<File
@@ -321,10 +363,6 @@
 			Name="Foundation"
 			>
 			<File
-				RelativePath="..\FoundationKit\Foundation\ApplyTuple.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\FoundationKit\Foundation\Compression.cpp"
 				>
 			</File>
@@ -353,6 +391,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\FoundationKit\Foundation\Directory.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\FoundationKit\Foundation\ElapsedTimer.hpp"
 				>
 			</File>
@@ -365,7 +407,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\FoundationKit\Foundation\File.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\FoundationKit\Foundation\FunctionHandler.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Foundation\ITickable.hpp"
 				>
 			</File>
 			<File
@@ -397,6 +447,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\FoundationKit\Foundation\MathUtilNeon64.inl"
+				>
+			</File>
+			<File
 				RelativePath="..\FoundationKit\Foundation\Matrix.cpp"
 				>
 			</File>
@@ -406,6 +460,10 @@
 			</File>
 			<File
 				RelativePath="..\FoundationKit\Foundation\Matrix.inl"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Foundation\Path.hpp"
 				>
 			</File>
 			<File
@@ -449,19 +507,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Foundation\Timer.cpp"
+				RelativePath="..\FoundationKit\Foundation\ThreadTimer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Foundation\Timer.hpp"
+				RelativePath="..\FoundationKit\Foundation\ThreadTimer.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Foundation\TimerQueue.cpp"
+				RelativePath="..\FoundationKit\Foundation\Time.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Foundation\TimerQueue.hpp"
+				RelativePath="..\FoundationKit\Foundation\Time.hpp"
 				>
 			</File>
 			<File
@@ -470,10 +528,6 @@
 			</File>
 			<File
 				RelativePath="..\FoundationKit\Foundation\Timespan.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\FoundationKit\Foundation\TupleApply.hpp"
 				>
 			</File>
 			<File
@@ -581,46 +635,42 @@
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Platform\PlatformTLS.hpp"
+				RelativePath="..\FoundationKit\Platform\PlatformMemory.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Platform\ProtectedMemoryAllocator.hpp"
+				RelativePath="..\FoundationKit\Platform\PlatformTLS.hpp"
 				>
 			</File>
 			<Filter
 				Name="windows"
 				>
 				<File
-					RelativePath="..\FoundationKit\Platform\windows\DirectoryWindows.cpp"
+					RelativePath="..\FoundationKit\Platform\windows\WindowsDevice.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\FoundationKit\Platform\windows\EnvironmentWindows.cpp"
+					RelativePath="..\FoundationKit\Platform\windows\WindowsDirectory.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\FoundationKit\Platform\windows\FileWindows.cpp"
+					RelativePath="..\FoundationKit\Platform\windows\WindowsEnvironment.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\FoundationKit\Platform\windows\PathWindows.cpp"
+					RelativePath="..\FoundationKit\Platform\windows\WindowsFile.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\FoundationKit\Platform\windows\PlatformDevice.cpp"
+					RelativePath="..\FoundationKit\Platform\windows\WindowsPath.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\FoundationKit\Platform\windows\PlatformWindows.cpp"
+					RelativePath="..\FoundationKit\Platform\windows\WindowsPlatform.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\FoundationKit\Platform\windows\ProtectedMemoryAllocator.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\FoundationKit\Platform\windows\ProtectedMemoryAllocatorTest.h"
+					RelativePath="..\FoundationKit\Platform\windows\WindowsPlatformMemory.hpp"
 					>
 				</File>
 				<File
@@ -737,6 +787,10 @@
 				</File>
 			</Filter>
 		</Filter>
+		<File
+			RelativePath="..\FoundationKit\forward.hpp"
+			>
+		</File>
 		<File
 			RelativePath="..\FoundationKit\FoundationMacros.hpp"
 			>

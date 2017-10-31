@@ -9,12 +9,12 @@
     #define NS_FK_BEGIN                     namespace FoundationKit {
     #define NS_FK_END                       }
     #define USING_NS_FK                     using namespace FoundationKit
-    #define NS_NAME                         FoundationKit
+    #define FK_NAME                         FoundationKit::
 #else
     #define NS_FK_BEGIN 
     #define NS_FK_END 
     #define USING_NS_FK 
-    #define NS_NAME  
+    #define FK_NAME  
 #endif 
 
 // see https://sourceforge.net/p/predef/wiki/Compilers/

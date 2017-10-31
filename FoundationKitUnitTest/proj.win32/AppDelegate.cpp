@@ -79,17 +79,10 @@ bool AppDelegate::applicationDidFinishLaunching()
 	HTTPClient::GetInstance()->Initialize();
     PlatformDevice::DumpDeviceInfo();
 
-    const char*  pdata = "sfdsfsdfsfsdgdsdfsd";
+    Value vl(10);
+    Value v2(0.2);
 
-    char* out = new char[strlen(pdata) * 2 +1];
-    memset(out, 0, strlen(pdata) * 2 + 1);
-    hex(pdata, out);
-
-    char* unout = new char[strlen(out) +1 ];
-    memset(unout, 0, strlen(out) + 1);
-    unout = unhex<char>(out, unout);
-    delete[] out;
-    delete[] unout;
+    bool e = (vl == v2);
 
 
 

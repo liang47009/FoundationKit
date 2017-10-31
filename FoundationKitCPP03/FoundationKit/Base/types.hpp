@@ -55,7 +55,7 @@ typedef signed long long	int64;		// 64-bit signed.
 // Floating point types
 typedef float		        float32;    // 32-bit signed.
 typedef double		        float64;    // 64-bit signed.
-//typedef long double         float128;   // 80-bit signed.
+//typedef long double       float128;   // 80-bit signed.
 
 // Character types.
 typedef char				ANSICHAR;	// An ANSI character       -                  8-bit fixed-width representation of 7-bit characters.
@@ -68,15 +68,7 @@ typedef WIDECHAR			TCHAR;		// A switchable character  - In-memory only.  Either 
 typedef SelectIntPointerType<uint32, uint64, sizeof(void*)>::type UPTRINT;	// unsigned int the same size as a pointer
 typedef SelectIntPointerType<int32, int64, sizeof(void*)>::type PTRINT;   // signed int the same size as a pointer
 
-typedef UPTRINT address;
-
 typedef std::basic_string<uint8, std::char_traits<uint8>, std::allocator<uint8> > ustring;
-
-template<typename _Ty>
-struct allocator_traits 
-{
-    typedef std::allocator<_Ty> type;
-};
 
 class GenericArgument
 {
@@ -90,6 +82,11 @@ private:
     const void *_data;
     const char *_name;
 };
+
+namespace TypeTest
+{
+
+}
 
 NS_FK_END
 
