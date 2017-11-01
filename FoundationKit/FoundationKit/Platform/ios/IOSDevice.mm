@@ -22,6 +22,7 @@
 #include "detail/Reachability_libo.h"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/OpenGL.hpp"
+#include "FoundationKit/Foundation/DateTime.hpp"
 
 NS_FK_BEGIN
 

@@ -11,7 +11,6 @@
 #include "FoundationKit/Foundation/DateTime.hpp"
 #include "FoundationKit/Foundation/Rect.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
-#include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Base/function_traits.hpp"
@@ -92,7 +91,7 @@ size_t GetOSIntData(int key, int type)
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     std::string path;
-    Platform::ScreenShot(path);
+    PlatformDevice::ScreenShot(path);
 }
 
 @end
