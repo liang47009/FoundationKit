@@ -168,9 +168,6 @@
     <ClInclude Include="..\FoundationKit\Platform\OpenGL.hpp">
       <Filter>Platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\Platform.hpp">
-      <Filter>Platform</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.hpp">
       <Filter>Platform</Filter>
     </ClInclude>
@@ -357,9 +354,6 @@
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
       <Filter>Crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\Platform.cpp">
-      <Filter>Platform</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\external\unzip\ioapi.cpp">
       <Filter>external\unzip</Filter>
     </ClCompile>
@@ -457,9 +451,6 @@
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPath.cpp">
       <Filter>Platform\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPlatform.cpp">
-      <Filter>Platform\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDevice.cpp">
       <Filter>Platform\Android</Filter>
     </ClCompile>
@@ -525,13 +516,7 @@
     <None Include="..\FoundationKit\Platform\ios\IOSDevice.mm">
       <Filter>Platform\ios</Filter>
     </None>
-    <None Include="..\FoundationKit\Platform\ios\IOSPlatform.mm">
-      <Filter>Platform\ios</Filter>
-    </None>
     <None Include="..\FoundationKit\Platform\mac\MACDevice.mm">
-      <Filter>Platform\mac</Filter>
-    </None>
-    <None Include="..\FoundationKit\Platform\mac\MACPlatform.mm">
       <Filter>Platform\mac</Filter>
     </None>
     <None Include="..\FoundationKit\Foundation\MathUtilNeon64.inl">

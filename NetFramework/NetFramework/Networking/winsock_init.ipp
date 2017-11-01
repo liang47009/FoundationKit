@@ -10,7 +10,7 @@
 #include "socket_types.hpp"
 #include "winsock_init.hpp"
 
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
 NS_FK_BEGIN
 
 void winsock_init_base::startup(data& d,
@@ -44,6 +44,6 @@ void winsock_init_base::throw_on_error(data& d)
 
 NS_FK_END
 
-#endif //TARGET_PLATFORM == PLATFORM_WINDOWS
+#endif //PLATFORM_WINDOWS
 
 #endif // END OF FOUNDATIONKIT_NETWORKING_WINSOCK_INIT_IPP

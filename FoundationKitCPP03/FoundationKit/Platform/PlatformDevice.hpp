@@ -126,7 +126,13 @@ public:
     static float GetNativeScale();
     static PlatformMemoryConstants& GetMemoryConstants();
     static void DumpDeviceInfo();
+
+    static bool IsDebuggerPresent();
+    static std::string ExecuteSystemCommand(const std::string& command);
+    static bool ScreenShot(std::string& outSavePath);
 };
+
+
 NS_FK_END
 
 #endif // FOUNDATIONKIT_PLATFORMDEVICE_HPP

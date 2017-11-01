@@ -58,11 +58,11 @@ bool HTTPDownloadRequest::Build()
 	{
 		WriteOffset = Offset;
 		char range[64] = { 0 };
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
         sprintf_s(range, 64, "%lld-%lld", Offset, Offset + Size);
 #else
 		sprintf(range, "%lld-%lld", Offset, Offset + Size);
-#endif // TARGET_PLATFORM == PLATFORM_ANDROID
+#endif // PLATFORM_ANDROID
 		curl_easy_setopt(EasyHandle, CURLOPT_RANGE, range);
 	}
 	return result;
@@ -174,14 +174,14 @@ bool HTTPDownloader::Init()
 		checkedStoragePath += URL.substr(pos + 1);
 	}
 
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
     int errcode = fopen_s(&FileHandle, checkedStoragePath.c_str(), "wb");
     if (errcode != 0 || FileHandle == nullptr) return false;
 
 #else
     FileHandle = fopen(checkedStoragePath.c_str(), "wb");
     if (FileHandle == nullptr) return false;
-#endif // TARGET_PLATFORM == PLATFORM_ANDROID
+#endif // PLATFORM_ANDROID
 	uint32 concurrency = std::thread::hardware_concurrency();
 	HTTPRequest::Pointer  HeadRequest = HTTPRequest::Create();
 	HeadRequest->SetMethod(RequestMethodType::HEAD);

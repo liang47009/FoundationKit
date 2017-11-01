@@ -8,15 +8,16 @@
 #include <sys/sysinfo.h>
 #include <unistd.h>
 #include <errno.h>
+#include <malloc.h>
 #include <sstream>
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-#include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
+
 
 
 NS_FK_BEGIN
@@ -336,7 +337,7 @@ int PlatformDevice::GetNetworkType()
 std::string PlatformDevice::GetIpAddressV4()
 {
     std::string ipaddressv4;
-    std::string result = Platform::ExecuteSystemCommand("ip addr show wlan0 |grep \"inet \"");
+    std::string result = ExecuteSystemCommand("ip addr show wlan0 |grep \"inet \"");
     size_t inetPos = result.find("inet");
     if (inetPos != std::string::npos)
     {
@@ -352,7 +353,7 @@ std::string PlatformDevice::GetIpAddressV4()
 std::string PlatformDevice::GetIpAddressV6()
 {
     std::string ipaddressv6;
-    std::string result = Platform::ExecuteSystemCommand("ip addr show wlan0 |grep \"inet6 \"");
+    std::string result = ExecuteSystemCommand("ip addr show wlan0 |grep \"inet6 \"");
     size_t inet6Pos = result.find("inet6");
     if (inet6Pos != std::string::npos)
     {
@@ -662,6 +663,40 @@ void PlatformDevice::DumpDeviceInfo()
     FKLog(ss.str().c_str());
 }
 
+bool PlatformDevice::IsDebuggerPresent()
+{
+    return false;
+}
+
+std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
+{
+    std::string result = "";
+    FILE* pipe = popen(command.c_str(), "r");
+    if (!pipe)
+    {
+        FKLog("****** popen() failed!");
+    }
+    try {
+        char buffer[256 + 1] = { 0 };
+        while (!feof(pipe))
+        {
+            if (fgets(buffer, 256, pipe) != NULL)
+                result += buffer;
+        }
+    }
+    catch (...)
+    {
+        pclose(pipe);
+        FKLog("****** Cannot execute command:%s with errno:%d", command.c_str(), errno);
+    }
+    pclose(pipe);
+    return result;
+}
+
+bool PlatformDevice::ScreenShot(std::string& outSavePath)
+{
+    return false;
+}
 NS_FK_END
 
 #endif //#if PLATFORM_ANDROID

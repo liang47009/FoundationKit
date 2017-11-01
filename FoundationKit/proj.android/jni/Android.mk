@@ -39,12 +39,10 @@ $(SRCROOT)/FoundationKit/Platform/Android/AndroidDirectory.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidEnvironment.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidFile.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidPath.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidPlatform.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidDevice.cpp \
 $(SRCROOT)/FoundationKit/Platform/Directory.cpp \
 $(SRCROOT)/FoundationKit/Platform/File.cpp \
-$(SRCROOT)/FoundationKit/Platform/Path.cpp \
-$(SRCROOT)/FoundationKit/Platform/Platform.cpp \
+$(SRCROOT)/FoundationKit/Platform/Path.cpp 
 
 LOCAL_C_INCLUDES := \
 $(PROJECT_DIR)/ \

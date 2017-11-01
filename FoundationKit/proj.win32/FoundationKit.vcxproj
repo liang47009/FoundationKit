@@ -268,7 +268,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\mac\MACPlatform.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\OpenGL.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Path.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\Platform.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformDevice.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.hpp" />
@@ -317,13 +316,11 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClCompile Include="..\FoundationKit\Platform\Directory.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\File.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Path.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\Platform.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsDevice.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsDirectory.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsEnvironment.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsFile.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPath.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPlatform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\Foundation\MathUtil.inl" />
@@ -339,9 +336,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <None Include="..\FoundationKit\Platform\Apple\AppleFile.mm" />
     <None Include="..\FoundationKit\Platform\Apple\ApplePath.mm" />
     <None Include="..\FoundationKit\Platform\ios\IOSDevice.mm" />
-    <None Include="..\FoundationKit\Platform\ios\IOSPlatform.mm" />
     <None Include="..\FoundationKit\Platform\mac\MACDevice.mm" />
-    <None Include="..\FoundationKit\Platform\mac\MACPlatform.mm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -526,7 +526,7 @@ template <int IPv4_Level, int IPv4_Name, int IPv6_Level, int IPv6_Name>
 class multicast_hops
 {
 public:
-#if TARGET_PLATFORM==PLATFORM_WINDOWS && defined(UNDER_CE)
+#if PLATFORM_WINDOWS && defined(UNDER_CE)
     typedef int ipv4_value_type;
 #else
     typedef unsigned char ipv4_value_type;

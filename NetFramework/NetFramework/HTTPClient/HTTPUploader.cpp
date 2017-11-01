@@ -45,12 +45,12 @@ bool HTTPUploadRequest::Build()
 		result = HTTPRequest::Build();
 		BREAK_IF(!result);
 
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
         int errcode = fopen_s(&FileHandle, FilePath.c_str(), "rb");
         BREAK_IF(errcode != 0);
 #else
 		FileHandle = fopen(FilePath.c_str(), "rb");
-#endif // TARGET_PLATFORM == PLATFORM_ANDROID
+#endif // PLATFORM_ANDROID
 		BREAK_IF(!FileHandle);
 		fseek(FileHandle, 0, SEEK_END);
 		curl_off_t FileSize = ftell(FileHandle);

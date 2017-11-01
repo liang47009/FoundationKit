@@ -10,7 +10,6 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Version.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Base/memory_aligned.hpp"
 #include "FoundationKit/Base/function_cache.hpp"
 #include "FoundationKit/Base/function_traits.hpp"

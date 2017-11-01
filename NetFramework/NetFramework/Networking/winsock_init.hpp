@@ -10,7 +10,7 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "Networking/detail/config.hpp"
 
-#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#if (PLATFORM_WINDOWS)
 
 NS_FK_BEGIN
 
@@ -66,7 +66,7 @@ NS_FK_END
 
 # include "winsock_init.ipp"
 
-#endif //TARGET_PLATFORM == PLATFORM_WINDOWS
+#endif //PLATFORM_WINDOWS
 
 
 

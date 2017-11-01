@@ -15,6 +15,8 @@
 #include <net/if_dl.h>
 #include <arpa/inet.h>
 #include <ifaddrs.h>
+#include <unistd.h>
+#include <malloc/malloc.h>
 #include <unordered_map>
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/OpenGL.hpp"
@@ -22,6 +24,7 @@
 #import <IOKit/IOKitLib.h>
 #import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
+
 
 
 NS_FK_BEGIN
@@ -495,6 +498,42 @@ void PlatformDevice::DumpDeviceInfo()
     FKLog(ss.str().c_str());
 }
 
+bool PlatformDevice::IsDebuggerPresent()
+{
+    // Based on http://developer.apple.com/library/mac/#qa/qa1361/_index.html
+	struct kinfo_proc Info;
+	int32 Mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid() };
+	size_t Size = sizeof(Info);
+	sysctl( Mib, sizeof( Mib ) / sizeof( *Mib ), &Info, &Size, NULL, 0 );
+	return ( Info.kp_proc.p_flag & P_TRACED ) != 0;
+}
+
+std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
+{
+    char buffer[256+1]={0};
+    std::string result = "";
+    FILE* pipe = popen(command.c_str(), "r");
+    if (!pipe) throw std::runtime_error("popen() failed!");
+    try {
+        while (!feof(pipe))
+        {
+            if (fgets(buffer, 256, pipe) != NULL)
+                result += buffer;
+        }
+    }
+    catch (...)
+    {
+        pclose(pipe);
+        throw;
+    }
+    pclose(pipe);
+    return result;
+}
+
+bool PlatformDevice::ScreenShot(std::string& outSavePath)
+{
+    return false;
+}
 NS_FK_END
 
 #endif // OF #if (PLATFORM_MAC)

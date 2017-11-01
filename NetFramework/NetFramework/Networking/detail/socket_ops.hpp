@@ -128,7 +128,7 @@ namespace socket_ops
     NETWORK_API u_short_type network_to_host_short(u_short_type value);
     NETWORK_API u_short_type host_to_network_short(u_short_type value);
 
-#if (TARGET_PLATFORM == PLATFORM_WINDOWS) || defined(__CYGWIN__)
+#if (PLATFORM_WINDOWS) || defined(__CYGWIN__)
     typedef WSABUF buf;
 #else // defined(ASIO_WINDOWS) || defined(__CYGWIN__)
     typedef iovec buf;

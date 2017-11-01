@@ -13,9 +13,9 @@
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
-#if (TARGET_PLATFORM == PLATFORM_WINRT)
+#if (PLATFORM_WINRT)
 // Empty.
-#elif (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#elif (PLATFORM_WINDOWS)
 # if defined(_WINSOCKAPI_) && !defined(_WINSOCK2API_)
 #  error WinSock.h has already been included
 # endif // defined(_WINSOCKAPI_) && !defined(_WINSOCK2API_)
@@ -37,7 +37,7 @@
 #   pragma comment(lib, "ws2_32.lib")
 #  endif // defined(_MSC_VER) || defined(__BORLANDC__)
 
-#else // (TARGET_PLATFORM != PLATFORM_WINDOWS)
+#else // (PLATFORM_WINDOWS)
 
 # include <sys/ioctl.h>
 # if !defined(__SYMBIAN32__)
@@ -73,7 +73,7 @@
 NS_FK_BEGIN
 namespace network{
 
-#if (TARGET_PLATFORM == PLATFORM_WINRT)
+#if (PLATFORM_WINRT)
     const int max_addr_v4_str_len = 256;
     const int max_addr_v6_str_len = 256;
     typedef unsigned __int32 u_long_type;
@@ -165,7 +165,7 @@ namespace network{
 # define NET_OS_DEF_AI_ALL 0x100
 # define NET_OS_DEF_AI_ADDRCONFIG 0x400
 
-#elif (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#elif (PLATFORM_WINDOWS)
     typedef SOCKET socket_type;
     const SOCKET invalid_socket = INVALID_SOCKET;
     const int socket_error_retval = SOCKET_ERROR;

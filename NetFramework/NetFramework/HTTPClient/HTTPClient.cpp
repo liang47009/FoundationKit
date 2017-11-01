@@ -122,7 +122,7 @@ void HTTPClient::Initialize()
     }
 
     // discover cert location
-#if (TARGET_PLATFORM == PLATFORM_LINUX)	// only relevant to Linux (for now?), not #ifdef'ed to keep the code checked by the compiler when compiling for other platforms
+#if (PLATFORM_LINUX)	// only relevant to Linux (for now?), not #ifdef'ed to keep the code checked by the compiler when compiling for other platforms
     {
         static const char * knownBundlePaths[] =
         {
@@ -148,7 +148,7 @@ void HTTPClient::Initialize()
             FKLog(" Libcurl: did not find a cert bundle in any of known locations, TLS may not work");
         }
     }
-#elif TARGET_PLATFORM == PLATFORM_ANDROID
+#elif PLATFORM_ANDROID
     // used #if here to protect against GExternalFilePath only available on Android
     {
         const int32 PathLength = 200;
