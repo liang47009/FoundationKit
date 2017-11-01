@@ -469,9 +469,6 @@
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPath.cpp">
       <Filter>Platform\Android</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPlatform.cpp">
-      <Filter>Platform\Android</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Time.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>

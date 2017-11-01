@@ -312,7 +312,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJavaBridge.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPath.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPlatform.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Directory.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\File.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Path.cpp" />
