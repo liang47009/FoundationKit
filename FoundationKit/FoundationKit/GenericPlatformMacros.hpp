@@ -70,8 +70,6 @@
 
 #if PLATFORM_WINDOWS
 #include "FoundationKit/Platform/windows/WindowsPlatform.hpp"
-#elif PLATFORM_APPLE
-#include "FoundationKit/Platform/Apple/ApplePlatform.hpp"
 #elif PLATFORM_ANDROID
 #include "FoundationKit/Platform/Android/AndroidPlatform.hpp"
 #elif PLATFORM_IOS
