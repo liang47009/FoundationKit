@@ -21,7 +21,7 @@ NS_FK_BEGIN
 
 inline std::locale default_locale()
 {
-# if TARGET_PLATFORM == PLATFORM_WINDOWS
+# if PLATFORM_WINDOWS
     std::locale global_loc = std::locale();
     return std::locale(global_loc, new std::codecvt_utf8<wchar_t>);
 # elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__) \

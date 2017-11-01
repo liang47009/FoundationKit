@@ -232,7 +232,7 @@ public:
     static std::string GetRelativePath(const std::string& workPath, const std::string& fullPath);
     static std::string GetAbsolutePath(const std::string& path);
 
-#if TARGET_PLATFORM == PLATFORM_ANDROID
+#if PLATFORM_ANDROID
     // On android platform, first must be call this function
     // to set writable path.
     // like:/sdcard/Android/data/com.xxx.xxx/files

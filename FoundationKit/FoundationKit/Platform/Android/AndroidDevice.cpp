@@ -1,6 +1,6 @@
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if TARGET_PLATFORM == PLATFORM_ANDROID
+#if PLATFORM_ANDROID
 
 #include <sys/system_properties.h>//for __system_property_get
 #include <jni.h>
@@ -664,4 +664,4 @@ void PlatformDevice::DumpDeviceInfo()
 
 NS_FK_END
 
-#endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
+#endif //#if PLATFORM_ANDROID

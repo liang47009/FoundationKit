@@ -112,7 +112,7 @@ static voidpf ZCALLBACK fopen64_file_func (voidpf opaque, const void* filename, 
 
     if ((filename!=NULL) && (mode_fopen != NULL))
     {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_MARMALADE || CC_TARGET_PLATFORM == CC_PLATFORM_BADA || CC_TARGET_PLATFORM == CC_PLATFORM_BLACKBERRY || CC_TARGET_PLATFORM == CC_PLATFORM_NACL || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#if (CC_CC_PLATFORM_MARMALADE || CC_CC_PLATFORM_BADA || CC_CC_PLATFORM_BLACKBERRY || CC_CC_PLATFORM_NACL || CC_CC_PLATFORM_EMSCRIPTEN)
         file = NULL;
 #else
         file = fopen64((const char*)filename, mode_fopen);    
@@ -153,7 +153,7 @@ static ZPOS64_T ZCALLBACK ftell64_file_func (voidpf opaque, voidpf stream)
     (void)(opaque);
     (void)(stream);
     ZPOS64_T ret;
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_MARMALADE || CC_TARGET_PLATFORM == CC_PLATFORM_BADA || CC_TARGET_PLATFORM == CC_PLATFORM_BLACKBERRY || CC_TARGET_PLATFORM == CC_PLATFORM_NACL || CC_TARGET_PLATFORM == CC_PLATFORM_EMSCRIPTEN)
+#if (CC_CC_PLATFORM_MARMALADE || CC_CC_PLATFORM_BADA || CC_CC_PLATFORM_BLACKBERRY || CC_CC_PLATFORM_NACL || CC_CC_PLATFORM_EMSCRIPTEN)
     ret = 0;
 #else
     ret = ftello64((FILE *)stream);

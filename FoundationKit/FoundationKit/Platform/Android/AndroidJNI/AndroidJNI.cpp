@@ -6,7 +6,7 @@ losemymind.libo@gmail.com
 ****************************************************************************/
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if TARGET_PLATFORM == PLATFORM_ANDROID
+#if PLATFORM_ANDROID
 
 #include <pthread.h>
 #include <algorithm>
@@ -286,7 +286,7 @@ bool AndroidJNI::RegisterNativeMethods(const char* className, JNINativeMethod* n
 
 NS_FK_END
 
-#endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
+#endif //#if PLATFORM_ANDROID
 
 
 

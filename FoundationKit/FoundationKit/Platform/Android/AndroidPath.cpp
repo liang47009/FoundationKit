@@ -1,6 +1,6 @@
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if (TARGET_PLATFORM == PLATFORM_ANDROID || TARGET_PLATFORM == PLATFORM_LINUX)
+#if (PLATFORM_ANDROID || PLATFORM_LINUX)
 
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -29,4 +29,4 @@ std::string Path::GetApplicationPath()
 }
 NS_FK_END
 
-#endif // #if (TARGET_PLATFORM == PLATFORM_ANDROID || TARGET_PLATFORM == PLATFORM_LINUX)
+#endif // #if (PLATFORM_ANDROID || PLATFORM_LINUX)

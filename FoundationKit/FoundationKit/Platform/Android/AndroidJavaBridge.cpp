@@ -1,6 +1,6 @@
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if TARGET_PLATFORM == PLATFORM_ANDROID
+#if PLATFORM_ANDROID
 
 #include <jni.h>
 #include "FoundationKit/Foundation/DelegateManager.hpp"
@@ -118,5 +118,5 @@ extern "C"
     }
 }//extern "C"
 
-#endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
+#endif //#if PLATFORM_ANDROID
 

@@ -1,6 +1,6 @@
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if TARGET_PLATFORM == PLATFORM_ANDROID
+#if PLATFORM_ANDROID
 
 #include <malloc.h>
 #include <errno.h>
@@ -40,7 +40,7 @@ std::string Platform::ExecuteSystemCommand(const std::string& command)
 
 NS_FK_END
 
-#endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
+#endif //#if PLATFORM_ANDROID
 
 
 

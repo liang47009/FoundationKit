@@ -17,150 +17,76 @@
     #define FK_NAME  
 #endif 
 
+
 // see https://sourceforge.net/p/predef/wiki/Compilers/
 // or boost\config\select_platform_config.hpp
 // define supported target platform macro which to uses.
-#define PLATFORM_UNKNOWN            0
-#define PLATFORM_IOS                1
-#define PLATFORM_ANDROID            2
-#define PLATFORM_WINDOWS            3
-#define PLATFORM_LINUX              4
-#define PLATFORM_MAC                5
-
-#define TARGET_PLATFORM PLATFORM_UNKNOWN
+#define PLATFORM_WINDOWS 0
+#define PLATFORM_XBOXONE 0
+#define PLATFORM_APPLE 0
+#define PLATFORM_MAC 0
+#define PLATFORM_IOS 0
+#define PLATFORM_TVOS 0
+#define PLATFORM_ANDROID 0
+#define PLATFORM_PS4 0
+#define PLATFORM_HTML5 0
+#define PLATFORM_HTML5_BROWSER 0
+#define PLATFORM_HTML5_WIN32 0
+#define PLATFORM_LINUX 0
+#define PLATFORM_SWITCH 0
+#define PLATFORM_FREEBSD 0
 
 #if defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
 // TARGET_OS_IPHONE inlcudes TARGET_OS_IOS TARGET_OS_TV and TARGET_OS_WATCH. see TargetConditionals.h
 #include <TargetConditionals.h>
 #include <AvailabilityMacros.h>
+#undef  PLATFORM_APPLE
+#define PLATFORM_APPLE 1
 #endif
 
 #if defined(TARGET_OS_IOS) && (TARGET_OS_IOS == 1)
-    #undef TARGET_PLATFORM
-    #define TARGET_PLATFORM PLATFORM_IOS
-   /**
-    * Macro for marking up deprecated code, functions and types.
-    *
-    * Features that are marked as deprecated are scheduled to be removed from the code base
-    * in a future release. If you are using a deprecated feature in your code, you should
-    * replace it before upgrading to the next release. See the Upgrade Notes in the release
-    * notes for the release in which the feature was marked deprecated.
-    *
-    * Sample usage (note the slightly different syntax for classes and structures):
-    *
-    *		DEPRECATED(4.6, "Message")
-    *		void Function();
-    *
-    *		struct DEPRECATED(4.6, "Message") MODULE_API MyStruct
-    *		{
-    *			// StructImplementation
-    *		};
-    *		class DEPRECATED(4.6, "Message") MODULE_API MyClass
-    *		{
-    *			// ClassImplementation
-    *		};
-    *
-    * @param VERSION The release number in which the feature was marked deprecated.
-    * @param MESSAGE A message containing upgrade notes.
-    */
-    #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
-    // Symbol export and import definitions
-    #define DLL_EXPORT
-    #define DLL_IMPORT
-    // Alignment.
-    // eg. uint32 Height ATTRIBUTE_PACK(1);
-    #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
-
-    // eg. MS_ALIGN(16) struct Vector4{}ATTRIBUTE_ALIGN(16);
-    // eg. MS_ALIGN(16) Vector4 Min[3]  ATTRIBUTE_ALIGN(16);
-    #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
-    #define ATTRIBUTE_UNUSED __attribute__((unused))//__attribute__((__unused__)) ?
-    #define ATTRIBUTE_USED __attribute__((used))
-    #define FORCEINLINE inline __attribute__ ((always_inline))	/* Force code to be inline */
-    #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
-    #define THREAD_LOCAL __thread
-    #define FILEPATH_MAX MAX_PATH
+#undef  PLATFORM_IOS
+#define PLATFORM_IOS 1
 
 #elif defined(__ANDROID__) || defined(ANDROID)
-    #undef TARGET_PLATFORM
-    #define TARGET_PLATFORM PLATFORM_ANDROID
-    #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
-    // Symbol export and import definitions
-    #define DLL_EXPORT		__attribute__((visibility("default")))
-    #define DLL_IMPORT		__attribute__((visibility("default")))
-    // Alignment.
-    #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
-    #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
-    #define ATTRIBUTE_UNUSED __attribute__((unused))//__attribute__((__unused__)) ?
-    #define ATTRIBUTE_USED __attribute__((used))
-    #define FORCEINLINE inline __attribute__ ((always_inline)) /* Force code to be inline */
-    #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
-    #define THREAD_LOCAL __thread
-    #define FILEPATH_MAX PATH_MAX
+#undef  PLATFORM_ANDROID
+#define PLATFORM_ANDROID 1
 
 #elif defined(_WIN32) || defined(__WIN32__) || defined(WIN32) || defined(WIN64) || defined(_WIN64)
-    #undef TARGET_PLATFORM
-    #define TARGET_PLATFORM PLATFORM_WINDOWS
-    #define DEPRECATED(VERSION, MESSAGE) __declspec(deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile."))
-    // Symbol export and import definitions
-    #define DLL_EXPORT __declspec(dllexport)
-    #define DLL_IMPORT __declspec(dllimport)
-    // Alignment.
-    #define ATTRIBUTE_PACK(n)
-    #define ATTRIBUTE_ALIGN(n) 
-    #define MS_ALIGN(n) __declspec(align(n))
-    #define ATTRIBUTE_UNUSED
-    #define ATTRIBUTE_USED 
-    #define FORCEINLINE __forceinline				  /* Force code to be inline */
-    #define FORCENOINLINE __declspec(noinline)        /* Force code to NOT be inline */	
-    #define THREAD_LOCAL __declspec(thread)
-    #define FILEPATH_MAX MAX_PATH
+#undef  PLATFORM_WINDOWS
+#define PLATFORM_WINDOWS 1
 
 #elif (defined(linux) || defined(__linux) || defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(_CRAYC)
-    #undef TARGET_PLATFORM    
-    #define TARGET_PLATFORM PLATFORM_LINUX
-    #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
-    // Symbol export and import definitions
-    #define DLL_EXPORT			__attribute__((visibility("default")))
-    #define DLL_IMPORT			__attribute__((visibility("default")))
-    // Alignment.
-    #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
-    #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
-    #define ATTRIBUTE_UNUSED __attribute__((unused))//__attribute__((__unused__)) ?
-    #define ATTRIBUTE_USED __attribute__((used))
-    #define FORCEINLINE inline __attribute__ ((always_inline)) /* Force code to be inline */
-    #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
-    #define THREAD_LOCAL __thread
-    #define FILEPATH_MAX PATH_MAX
+#undef  PLATFORM_LINUX
+#define PLATFORM_LINUX 0
 
 #elif(TARGET_OS_MAC)
-    #undef TARGET_PLATFORM
-    #define TARGET_PLATFORM PLATFORM_MAC
-    #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
-    // Symbol export and import definitions
-    #define DLL_EXPORT
-    #define DLL_IMPORT
-    // Alignment.
-    #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
-    #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
-    #define ATTRIBUTE_UNUSED __attribute__((unused)) //__attribute__((__unused__)) ?
-    #define ATTRIBUTE_USED __attribute__((used))
-    #define FORCEINLINE inline __attribute__ ((always_inline))  /* Force code to be inline */
-    #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
-    #define THREAD_LOCAL __thread
-    #define FILEPATH_MAX MAX_PATH
+#undef  PLATFORM_MAC
+#define PLATFORM_MAC 1
 
 #else
     #error Unknown platform
 #endif
 
+#if PLATFORM_WINDOWS
+#include "FoundationKit/Platform/windows/WindowsPlatform.hpp"
+#elif PLATFORM_APPLE
+#include "FoundationKit/Platform/Apple/ApplePlatform.hpp"
+#elif PLATFORM_ANDROID
+#include "FoundationKit/Platform/Android/AndroidPlatform.hpp"
+#elif PLATFORM_IOS
+#include "FoundationKit/Platform/ios/IOSPlatform.hpp"
+#elif PLATFORM_MAC
+#include "FoundationKit/Platform/mac/MACPlatform.hpp"
+#elif PLATFORM_LINUX
+#include "FoundationKit/Platform/linux/LinuxPlatform.hpp"
+#else
+#error Unknown platform
+#endif
+
 // Enable in C++14
 //#undef DEPRECATED
 //#define DEPRECATED(VERSION, MESSAGE) [[deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")]]
-
-#ifndef MS_ALIGN
-#define MS_ALIGN(n)
-#endif // !MS_ALIGN
 
 #define UNUSED_ARG(arg)          do {(void)(arg);}while(0)
 #define SAFE_DELETE(p)           do { if(p) { delete   (p); (p) = nullptr; } } while(0)
@@ -199,7 +125,7 @@ extern void __log__(const char* fmt, ...);
 //===============================================================================================
 // Platform Pre-Setup
 //===============================================================================================
-#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#if PLATFORM_WINDOWS
 __pragma (warning(disable:4127))
 #pragma warning(disable:4127)
 #define _XKEYCHECK_H // disable windows xkeycheck.h
@@ -226,7 +152,7 @@ __pragma (warning(disable:4127))
  */
 #include <windows.h>
 
-#endif //(TARGET_PLATFORM == PLATFORM_WINDOWS)
+#endif //PLATFORM_WINDOWS
 
 // IOS,ANDROID,MAC platform must be defined USE_FILE32API
 //#ifndef USE_FILE32API

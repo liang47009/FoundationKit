@@ -1,6 +1,6 @@
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+#if (PLATFORM_IOS || PLATFORM_MAC)
 
 #include <dirent.h> // for DIR
 #import <Foundation/Foundation.h>
@@ -130,7 +130,7 @@ std::string Directory::GetCurrentDirectory()
 
 NS_FK_END
 
-#endif // OF #if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+#endif // OF #if (PLATFORM_IOS || PLATFORM_MAC)
 
 
 

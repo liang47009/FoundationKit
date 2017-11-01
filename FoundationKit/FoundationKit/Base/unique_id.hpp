@@ -8,7 +8,7 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/Types.hpp"
 #include <atomic>
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
 #include <time.h>
 #else
 #include <sys/time.h>
@@ -93,7 +93,7 @@ protected:
 
     int64 GetTimeStamp()
 	{
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
 		FILETIME filetime;
         int64 time = 0;
 		GetSystemTimeAsFileTime(&filetime);

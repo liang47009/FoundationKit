@@ -5,7 +5,7 @@
  
  ****************************************************************************/
  #include "FoundationKit/GenericPlatformMacros.hpp"
- #if (TARGET_PLATFORM == PLATFORM_IOS)
+ #if (PLATFORM_IOS)
 
 #include <unistd.h>
 #include <malloc/malloc.h>
@@ -103,7 +103,7 @@ bool Platform::ScreenShot(std::string& outSavePath)
 
 NS_FK_END
 
-#endif // OF #if (TARGET_PLATFORM == PLATFORM_IOS)
+#endif // OF #if (PLATFORM_IOS)
 
 
 

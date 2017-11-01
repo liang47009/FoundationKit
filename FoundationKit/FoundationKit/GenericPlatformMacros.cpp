@@ -7,9 +7,9 @@
 #include <vector>
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationMacros.hpp"
-#if (TARGET_PLATFORM == PLATFORM_ANDROID)
+#if (PLATFORM_ANDROID)
 #include <android/log.h>
-#elif (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#elif (PLATFORM_WINDOWS)
 #include <Windows.h>
 #endif
 USING_NS_FK;
@@ -76,9 +76,9 @@ void __log__(const char* fmt, ...)
     strPreMsg += str;
     strPreMsg += "\n";
 
-#if (TARGET_PLATFORM == PLATFORM_ANDROID)
+#if (PLATFORM_ANDROID)
     __android_log_print(ANDROID_LOG_INFO, "FoundationKit", "%s", strPreMsg.c_str());
-#elif TARGET_PLATFORM ==  PLATFORM_WINDOWS
+#elif  PLATFORM_WINDOWS
     std::wstring wstr = StringUtils::string2UTF8wstring(strPreMsg);
     OutputDebugStringW(wstr.c_str());
     printf("%s", strPreMsg.c_str());

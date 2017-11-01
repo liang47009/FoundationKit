@@ -8,7 +8,7 @@
 #define FOUNDATIONKIT_ANDROIDJAVAOBJECT_HPP
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if TARGET_PLATFORM == PLATFORM_ANDROID
+#if PLATFORM_ANDROID
 
 #include <memory>
 #include "AndroidJNI.hpp"
@@ -175,6 +175,6 @@ protected:
 
 NS_FK_END
 
-#endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
+#endif //#if PLATFORM_ANDROID
 
 #endif // FOUNDATIONKIT_ANDROIDJAVAOBJECT_HPP

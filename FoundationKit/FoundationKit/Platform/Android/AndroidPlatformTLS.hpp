@@ -8,7 +8,7 @@
 #define FOUNDATIONKIT_ANDROIDPLATFORMTLS_HPP
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if TARGET_PLATFORM == PLATFORM_ANDROID
+#if PLATFORM_ANDROID
 
 /*=============================================================================================
 	AndroidTLS.h: Android platform TLS (Thread local storage and thread ID) functions
@@ -95,6 +95,6 @@ typedef AndroidTLS PlatformTLS;
 
 NS_FK_END
 
-#endif //#if TARGET_PLATFORM == PLATFORM_ANDROID
+#endif //#if PLATFORM_ANDROID
 
 #endif // FOUNDATIONKIT_ANDROIDPLATFORMTLS_HPP

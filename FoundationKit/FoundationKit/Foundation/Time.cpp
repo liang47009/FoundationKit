@@ -1,8 +1,8 @@
 #include "FoundationKit/Foundation/Time.hpp"
 
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
 
-#elif (TARGET_PLATFORM == PLATFORM_ANDROID) ||(TARGET_PLATFORM == PLATFORM_IOS) ||((TARGET_PLATFORM == PLATFORM_MAC))
+#elif (PLATFORM_ANDROID) ||(PLATFORM_IOS) ||((PLATFORM_MAC))
 #include <time.h>
 #include <sys/time.h>
 #endif
@@ -12,7 +12,7 @@ NS_FK_BEGIN
 
 uint64 Time::GetTimeStamp()
 {
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
     FILETIME filetime;
     uint64 time = 0;
     GetSystemTimeAsFileTime(&filetime);
@@ -37,7 +37,7 @@ uint64 Time::GetTimeStamp()
 Time::TimeDate Time::GetSystemTime()
 {
     TimeDate   td;
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
     SYSTEMTIME st;
     // localtime_s
     GetLocalTime(&st);
@@ -49,7 +49,7 @@ Time::TimeDate Time::GetSystemTime()
     td.Minute       = st.wMinute;
     td.Second       = st.wSecond;
     td.Milliseconds = st.wMilliseconds;
-#elif (TARGET_PLATFORM == PLATFORM_ANDROID) ||(TARGET_PLATFORM == PLATFORM_IOS) ||((TARGET_PLATFORM == PLATFORM_MAC))
+#elif (PLATFORM_ANDROID) ||(PLATFORM_IOS) ||((PLATFORM_MAC))
     // query for calendar time
     struct timeval tmVal;
     gettimeofday(&tmVal, NULL);
@@ -73,7 +73,7 @@ Time::TimeDate Time::GetSystemTime()
 Time::TimeDate Time::GetUTCTime()
 {
     TimeDate   td;
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
     SYSTEMTIME st;
     //gmtime_s
     ::GetSystemTime(&st);
@@ -85,7 +85,7 @@ Time::TimeDate Time::GetUTCTime()
     td.Minute       = st.wMinute;
     td.Second       = st.wSecond;
     td.Milliseconds = st.wMilliseconds;
-#elif (TARGET_PLATFORM == PLATFORM_ANDROID) ||(TARGET_PLATFORM == PLATFORM_IOS) ||((TARGET_PLATFORM == PLATFORM_MAC))
+#elif (PLATFORM_ANDROID) ||(PLATFORM_IOS) ||((PLATFORM_MAC))
     // query for calendar time
     struct timeval tmVal;
     gettimeofday(&tmVal, NULL);

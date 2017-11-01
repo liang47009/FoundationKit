@@ -256,6 +256,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaClass.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaObject.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatform.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformMemory.hpp" />
@@ -263,6 +264,8 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\Directory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Environment.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\File.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\ios\IOSPlatform.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\mac\MACPlatform.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\OpenGL.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Path.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Platform.hpp" />
@@ -271,6 +274,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\dirent.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.h" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatform.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp" />
   </ItemGroup>

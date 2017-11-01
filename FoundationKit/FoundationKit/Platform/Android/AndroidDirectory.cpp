@@ -1,6 +1,6 @@
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if (TARGET_PLATFORM == PLATFORM_ANDROID || TARGET_PLATFORM == PLATFORM_LINUX)
+#if (PLATFORM_ANDROID || PLATFORM_LINUX)
 
 #include <sys/stat.h>
 #include <unistd.h>
@@ -125,4 +125,4 @@ std::string Directory::GetCurrentDirectory()
 
 NS_FK_END
 
-#endif // #if (TARGET_PLATFORM == PLATFORM_ANDROID || TARGET_PLATFORM == PLATFORM_LINUX)
+#endif // #if (PLATFORM_ANDROID || PLATFORM_LINUX)

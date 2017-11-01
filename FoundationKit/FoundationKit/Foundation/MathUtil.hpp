@@ -96,7 +96,7 @@ private:
 
 NS_FK_END
 
-#if (TARGET_PLATFORM == PLATFORM_IOS)
+#if (PLATFORM_IOS)
 #if defined (__arm64__)
 #define USE_NEON64
 #define INCLUDE_NEON64
@@ -104,7 +104,7 @@ NS_FK_END
 #define USE_NEON32
 #define INCLUDE_NEON32
 #endif
-#elif (TARGET_PLATFORM == PLATFORM_ANDROID)
+#elif (PLATFORM_ANDROID)
 #if defined (__arm64__) || defined (__aarch64__)
 #define USE_NEON64
 #define INCLUDE_NEON64

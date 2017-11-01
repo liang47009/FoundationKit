@@ -8,7 +8,7 @@
 NS_FK_BEGIN
 const char Path::AltDirectorySeparatorChar = '/';
 
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
 const char Path::DirectorySeparatorChar = '\\';
 #else
 const char Path::DirectorySeparatorChar = '/';

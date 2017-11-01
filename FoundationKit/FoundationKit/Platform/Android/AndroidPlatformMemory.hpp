@@ -8,7 +8,7 @@
 #define FOUNDATIONKIT_FOUNDATIONKIT_ANDROIDPLATFORMMEMORY_HPP
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if TARGET_PLATFORM == PLATFORM_ANDROID
+#if PLATFORM_ANDROID
 
 #include <assert.h>
 #include <memory>
@@ -124,6 +124,6 @@ private:
 
 NS_FK_END
 
-#endif // #if TARGET_PLATFORM == PLATFORM_ANDROID
+#endif // #if PLATFORM_ANDROID
 
 #endif // END OF FOUNDATIONKIT_FOUNDATIONKIT_ANDROIDPLATFORMMEMORY_HPP

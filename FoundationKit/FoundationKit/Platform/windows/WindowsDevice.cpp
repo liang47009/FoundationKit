@@ -1,5 +1,5 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#if (PLATFORM_WINDOWS)
 #include <windows.h>
 #include <WindowsX.h>
 #include <vector>
@@ -552,4 +552,4 @@ void PlatformDevice::DumpDeviceInfo()
 
 NS_FK_END
 
-#endif // OF #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#endif // OF #if (PLATFORM_WINDOWS)

@@ -1,5 +1,5 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#if (PLATFORM_WINDOWS)
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 NS_FK_BEGIN
@@ -49,5 +49,5 @@ bool File::Rename(const std::string& sourceFileName, const std::string& destFile
 
 NS_FK_END
 
-#endif // OF #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#endif // OF #if (PLATFORM_WINDOWS)
 

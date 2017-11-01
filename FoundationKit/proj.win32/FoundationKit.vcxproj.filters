@@ -340,6 +340,18 @@
     <ClInclude Include="..\FoundationKit\Base\memory_aligned.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatform.hpp">
+      <Filter>Platform\Android</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\ios\IOSPlatform.hpp">
+      <Filter>Platform\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\mac\MACPlatform.hpp">
+      <Filter>Platform\mac</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatform.hpp">
+      <Filter>Platform\windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

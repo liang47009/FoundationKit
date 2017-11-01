@@ -6,7 +6,7 @@
 #define FOUNDATIONKIT_APPLEPLATFORMTLS_HPP
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+#if (PLATFORM_IOS || PLATFORM_MAC)
 
 #include "FoundationKit/Base/types.hpp"
 #include <pthread.h>
@@ -85,7 +85,7 @@ typedef ApplePlatformTLS PlatformTLS;
 
 NS_FK_END
 
-#endif //OF #if (TARGET_PLATFORM == PLATFORM_IOS || TARGET_PLATFORM == PLATFORM_MAC)
+#endif //OF #if (PLATFORM_IOS || PLATFORM_MAC)
 
 #endif // FOUNDATIONKIT_APPLEPLATFORMTLS_HPP
 

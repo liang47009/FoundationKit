@@ -227,7 +227,7 @@ namespace Math
     FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
     Round(T val)
     {
-#if TARGET_PLATFORM == PLATFORM_ANDROID
+#if PLATFORM_ANDROID
         return (val > T(0)) ? std::floor(val + T(0.5)) : std::ceil(val - T(0.5));
 #else
         return std::round(val);

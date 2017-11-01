@@ -8,6 +8,9 @@
 #define FOUNDATIONKIT_FOUNDATIONKIT_WINDOWSPLATFORMMEMORY_HPP
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
+
+#if PLATFORM_WINDOWS
+
 #include <assert.h>
 #include <memory>
 
@@ -109,5 +112,7 @@ private:
 
 NS_FK_END
 
+
+#endif // #if PLATFORM_WINDOWS
 
 #endif // END OF FOUNDATIONKIT_FOUNDATIONKIT_WINDOWSPLATFORMMEMORY_HPP

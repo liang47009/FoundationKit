@@ -46,7 +46,7 @@ std::string StringUtils::Toupper( const std::string& str )
 
 std::string StringUtils::Format( const char* format, ... )
 {
-	const static unsigned int MAX_LENGTH = 64;
+	const static int MAX_LENGTH = 64;
     // Pass one greater needed size to leave room for NULL terminator
     std::vector<char> dynamicBuffer(MAX_LENGTH+1);
     char* result = &dynamicBuffer[0];
@@ -90,13 +90,13 @@ std::vector<std::string> StringUtils::Split( const std::string &s, char delim, s
     std::string swapStr = s;
     if (swapStr.size() > 0 && swapStr[0] == delim)
         swapStr = swapStr.substr(1, swapStr.size() - 1);
-	std::stringstream ss(swapStr);
-	std::string item;
-	while (std::getline(ss, item, delim))
-	{
-		elems.push_back(item);
-	}
-	return elems;
+    std::stringstream ss(swapStr);
+    std::string item;
+    while (std::getline(ss, item, delim))
+    {
+        elems.push_back(item);
+    }
+    return elems;
 }
 
 std::vector<std::string> StringUtils::Split( const std::string &s, char delim )

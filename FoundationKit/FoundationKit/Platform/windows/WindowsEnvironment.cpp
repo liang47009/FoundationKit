@@ -1,5 +1,5 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#if (PLATFORM_WINDOWS)
 #include <sstream>
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -221,4 +221,4 @@ LPWSTR *SegmentCommandLine(LPCWSTR lpCmdLine, DWORD *pNumArgs)
 
 NS_FK_END
 
-#endif // OF #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#endif // OF #if (PLATFORM_WINDOWS)

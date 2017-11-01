@@ -10,11 +10,11 @@
 #include <mutex>
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if (TARGET_PLATFORM == PLATFORM_ANDROID)
+#if (PLATFORM_ANDROID)
 #include "FoundationKit/Platform/Android/AndroidPlatformMemory.hpp"
-#elif (TARGET_PLATFORM == PLATFORM_IOS) || (TARGET_PLATFORM == PLATFORM_MAC)
+#elif (PLATFORM_APPLE)
 #include "FoundationKit/Platform/Apple/ApplePlatformMemory.hpp"
-#elif (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#elif (PLATFORM_WINDOWS)
 #include "FoundationKit/Platform/windows/WindowsPlatformMemory.hpp"
 #endif
 

@@ -1,5 +1,5 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if (TARGET_PLATFORM == PLATFORM_MAC)
+#if (PLATFORM_MAC)
 
 #include <mach/machine.h>
 #include <mach/mach.h>
@@ -497,7 +497,7 @@ void PlatformDevice::DumpDeviceInfo()
 
 NS_FK_END
 
-#endif // OF #if (TARGET_PLATFORM == PLATFORM_MAC)
+#endif // OF #if (PLATFORM_MAC)
 
 
 
