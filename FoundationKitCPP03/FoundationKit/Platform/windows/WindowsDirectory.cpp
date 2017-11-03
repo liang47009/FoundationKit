@@ -1,5 +1,5 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#if (PLATFORM_WINDOWS)
 #include <Windows.h>
 #include "FoundationKit/Platform/Directory.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -158,5 +158,5 @@ std::string Directory::GetCurrentDirectory()
 
 NS_FK_END
 
-#endif // OF #if (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#endif // OF #if (PLATFORM_WINDOWS)
 

@@ -623,14 +623,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Platform\Platform.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\FoundationKit\Platform\Platform.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\FoundationKit\Platform\PlatformDevice.hpp"
 				>
 			</File>
@@ -666,7 +658,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\FoundationKit\Platform\windows\WindowsPlatform.cpp"
+					RelativePath="..\FoundationKit\Platform\windows\WindowsPlatform.hpp"
 					>
 				</File>
 				<File

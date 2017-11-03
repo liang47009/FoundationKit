@@ -157,6 +157,7 @@ __pragma (warning(disable:4127))
 //#define USE_FILE32API 1
 //#endif
 
+#include "FoundationKit/std/stdheader.h"
 
 
 #define FOUNDATIONKIT_VERSION_STRING "2.2.0"

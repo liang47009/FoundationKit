@@ -3,17 +3,14 @@
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/Directory.hpp"
 
-//#if (TARGET_PLATFORM==PLATFORM_WINDOWS)
-//#include <Windows.h>
-//#endif
 #include "unzip.h"
 
 NS_FK_BEGIN
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
 const char PlatformNewLine[] ={ '\r', '\n' };
-#elif (TARGET_PLATFORM == PLATFORM_ANDROID) ||(TARGET_PLATFORM == PLATFORM_LINUX)
+#elif (PLATFORM_ANDROID) ||(PLATFORM_LINUX)
 const char PlatformNewLine[] ={'\n'};
-#elif (TARGET_PLATFORM == PLATFORM_MAC)||(TARGET_PLATFORM == PLATFORM_IOS)
+#elif (PLATFORM_MAC)||(PLATFORM_IOS)
 const char PlatformNewLine[] ={ '\r'};
 #endif
 
@@ -78,14 +75,14 @@ namespace detail
     }
 } //namespace detail
 
-#if TARGET_PLATFORM == PLATFORM_ANDROID
+#if PLATFORM_ANDROID
 extern FILE* AndroidOpenAsset(const char * path, const char * mode);
 #endif
 
 FILE* File::Open(const std::string& path, const char* mode, bool isAsset/* = false*/)
 {
     FILE* FileHandle = nullptr;
-#if TARGET_PLATFORM == PLATFORM_ANDROID
+#if PLATFORM_ANDROID
     if (isAsset)
     {
         FileHandle = AndroidOpenAsset(path.c_str(), mode);
@@ -185,7 +182,7 @@ bool File::AppendAllText(const std::string& path, const std::string& contents)
     return result;
 }
 
-#if (TARGET_PLATFORM==PLATFORM_IOS)
+#if (PLATFORM_IOS)
 #define MINIZIP_FROM_SYSTEM
 #endif
 mutablebuf File::ReadAllBytesFromZip(const std::string& path, const std::string& fileName)

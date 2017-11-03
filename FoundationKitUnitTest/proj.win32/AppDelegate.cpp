@@ -70,6 +70,8 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+char* TestPointer = nullptr;
+char* TestPointerOther = nullptr;
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
@@ -78,10 +80,14 @@ bool AppDelegate::applicationDidFinishLaunching()
 	HTTPClient::GetInstance()->Initialize();
     PlatformDevice::DumpDeviceInfo();
 
-    Value vl(10);
-    Value v2(0.2);
+    TestPointer = new char[8];
+    memset(TestPointer, 0, 8);
 
-    bool e = (vl == v2);
+    TestPointerOther = TestPointer;
+    delete[] TestPointer;
+    TestPointer = nullptr;
+
+
 
 
 

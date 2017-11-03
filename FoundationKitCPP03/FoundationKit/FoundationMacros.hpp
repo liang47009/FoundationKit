@@ -166,7 +166,7 @@ public: virtual const varType& Get##funName(void) const { return varName; }
  *
  * @endcode
  */
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
     // Constructor attribute support for Visual Studio
     #pragma section(" ", read)
     #define constructor__(name)                       \
@@ -184,7 +184,7 @@ public: virtual const varType& Get##funName(void) const { return varName; }
     void (__cdecl*name##_)(void) = &name ## __::init; \
     void name ## __::name(void)
 
-#elif (TARGET_PLATFORM == PLATFORM_ANDROID) || (TARGET_PLATFORM == PLATFORM_IOS) || (TARGET_PLATFORM == PLATFORM_MAC)
+#elif (PLATFORM_ANDROID) || (PLATFORM_IOS) || (PLATFORM_MAC)
     // Constructor attribute support for gcc
     #define constructor__(name)         \
     struct name ## __                   \

@@ -4,7 +4,6 @@
 #include <WindowsX.h>
 #include <vector>
 #include <memory>
-#include <array>
 #include <sstream>
 
 #include "FoundationKit/Platform/PlatformDevice.hpp"
@@ -50,7 +49,7 @@ namespace detail
                 if (AdapterList->AddressLength > 0)
                 {
                     //result.resize(AdapterList->AddressLength);
-                    std::memcpy(result.data(), AdapterList->Address, result.size());
+                    std::memcpy(&result[0], AdapterList->Address, result.size());
                     break;
                 }
                 AdapterList = AdapterList->Next;
@@ -86,7 +85,7 @@ std::string PlatformDevice::GetProduct()
 {
     RTL_OSVERSIONINFOEXW verInfo = { 0 };
     verInfo.dwOSVersionInfoSize = sizeof(verInfo);
-    static auto RtlGetVersion = (fnRtlGetVersion)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
+    static fnRtlGetVersion RtlGetVersion = (fnRtlGetVersion)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
     if (RtlGetVersion != 0)
         RtlGetVersion((PRTL_OSVERSIONINFOW)&verInfo);
 
@@ -162,32 +161,7 @@ std::string PlatformDevice::GetDevice()
 
 std::string PlatformDevice::GetBrandName()
 {
-#ifdef _M_ARM
 	return "Windows";
-#else
-    // https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
-    // https://en.wikipedia.org/wiki/CPUID
-    std::array<int, 4> cpui;
-    // Calling __cpuid with 0x80000000 as the function_id argument  
-    // gets the number of the highest valid extended ID.  
-	__cpuidex(cpui.data(), 0x80000000,0);
-    int nExIds = cpui[0];
-    char brand[64] = {0};
-    std::vector<std::array<int, 4>> extdata;
-    for (int i = 0x80000000; i <= nExIds; ++i)
-    {
-        __cpuidex(cpui.data(), i, 0);
-        extdata.push_back(cpui);
-    }
-    // Interpret CPU brand string if reported  
-    if (nExIds >= 0x80000004)
-    {
-        memcpy(brand, extdata[2].data(), sizeof(cpui));
-        memcpy(brand + 16, extdata[3].data(), sizeof(cpui));
-        memcpy(brand + 32, extdata[4].data(), sizeof(cpui));
-    }
-    return brand;
-#endif
 }
 
 std::string PlatformDevice::GetModel()
@@ -197,27 +171,7 @@ std::string PlatformDevice::GetModel()
 
 std::string PlatformDevice::GetManufacturer()
 {
-#ifdef _M_ARM
 	return "Windows";
-#else
-	// https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
-	// https://en.wikipedia.org/wiki/CPUID
-	std::array<int, 4> cpui;
-	__cpuidex(cpui.data(), 0, 0);
-	int nIds = cpui[0];
-	std::vector<std::array<int, 4>> data;
-	for (int i = 0; i <= nIds; ++i)
-	{
-		__cpuidex(cpui.data(), i, 0);
-		data.push_back(cpui);
-	}
-	char vendor[32] = { 0 };
-	*reinterpret_cast<int*>(vendor) = data[0][1];
-	*reinterpret_cast<int*>(vendor + 4) = data[0][3];
-	*reinterpret_cast<int*>(vendor + 8) = data[0][2];
-	return vendor;
-#endif // ARM
-
 }
 
 typedef LONG(NTAPI* fnRtlGetVersion)(PRTL_OSVERSIONINFOW lpVersionInformation);
@@ -225,7 +179,7 @@ std::string PlatformDevice::GetSystemVersion()
 {
     RTL_OSVERSIONINFOEXW verInfo = { 0 };
     verInfo.dwOSVersionInfoSize = sizeof(verInfo);
-    static auto RtlGetVersion = (fnRtlGetVersion)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
+    static fnRtlGetVersion RtlGetVersion = (fnRtlGetVersion)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
     if (RtlGetVersion != 0 && RtlGetVersion((PRTL_OSVERSIONINFOW)&verInfo) == 0)
     {
         //std::ostringstream str;
@@ -302,7 +256,7 @@ int PlatformDevice::GetCPUFrequency()
 	// allocate buffer to get info for each processor
 	const int size = si.dwNumberOfProcessors * sizeof(PROCESSOR_POWER_INFORMATION);
 	mutablebuf buffer(size);
-	auto status = ::CallNtPowerInformation(ProcessorInformation, NULL, 0, buffer.data(), size);
+	LONG status = ::CallNtPowerInformation(ProcessorInformation, NULL, 0, buffer.data(), size);
 	if (0 == status)
 	{
 		// list each processor frequency 
@@ -516,11 +470,6 @@ void PlatformDevice::DumpDeviceInfo()
     ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
     ss << "GetIpAddressV4:" << GetIpAddressV4() << "\n";
     ss << "GetIpAddressV6:" << GetIpAddressV6() << "\n";
-    auto dnss = GetDNS();
-    for (auto dns : dnss)
-    {
-        ss << "GetDNS:" << dns << "\n";
-    }
     ss << "GetTotalMemory:" << GetTotalMemory() << " bytes\n";
     ss << "GetAvailableMemory:" << GetAvailableMemory() << "bytes\n";
 

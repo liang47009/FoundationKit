@@ -10,7 +10,7 @@
 #pragma once
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
-#if (TARGET_PLATFORM == PLATFORM_IOS)
+#if (PLATFORM_IOS)
     #define glClearDepth                glClearDepthf
     #define glDeleteVertexArrays        glDeleteVertexArraysOES
     #define glGenVertexArrays           glGenVertexArraysOES
@@ -22,7 +22,7 @@
     #include <OpenGLES/ES2/gl.h>
     #include <OpenGLES/ES2/glext.h>
 
-#elif (TARGET_PLATFORM == PLATFORM_ANDROID)
+#elif (PLATFORM_ANDROID)
     #define glClearDepth                glClearDepthf
     #define glDeleteVertexArrays        glDeleteVertexArraysOES
     #define glGenVertexArrays           glGenVertexArraysOES
@@ -55,14 +55,14 @@
     #define glDeleteVertexArraysOES glDeleteVertexArraysOESEXT
 
 
-#elif (TARGET_PLATFORM == PLATFORM_WINDOWS)
+#elif (PLATFORM_WINDOWS)
     #include <GL/GL.h>
     #define CC_GL_DEPTH24_STENCIL8      GL_DEPTH24_STENCIL8
 
-#elif (TARGET_PLATFORM == PLATFORM_LINUX)
+#elif (PLATFORM_LINUX)
     #define CC_GL_DEPTH24_STENCIL8      GL_DEPTH24_STENCIL8
 
-#elif (TARGET_PLATFORM == PLATFORM_MAC)
+#elif (PLATFORM_MAC)
     #import <OpenGL/gl.h>
     #import <OpenGL/glu.h>
     #import <OpenGL/glext.h>

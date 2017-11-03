@@ -1,7 +1,19 @@
-<?xml version="1.0"?>
-<VisualStudioPropertySheet 
-	ProjectType="Visual C++" 
-	Version="8.00" 
+<?xml version="1.0" encoding="gb2312"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
 	Name="FoundationKit"
 	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(ProjectDir)..\&quot;;&quot;$(SolutionDir)..\..\ThirdParty\spdlog\include&quot;;&quot;$(SolutionDir)..\..\ThirdParty\zlib\include\win32&quot;;&quot;$(ProjectDir)..\FoundationKit\Platform\windows\sys&quot;;&quot;$(ProjectDir)..\FoundationKit\external\unzip&quot;"
+	/>
+	<UserMacro
+		Name="WindowsSdk_71A_IncludePath"
+		Value="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\include"
+	/>
+	<UserMacro
+		Name="WindowsSdk_71A_LibraryPath_x86"
+		Value="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\lib"
+	/>
 </VisualStudioPropertySheet>

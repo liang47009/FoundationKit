@@ -24,7 +24,7 @@ class Base64
 
     /** Ctor hidden on purpose, use static methods only */
     Base64();
-
+public:
     /**
      * Encodes the source into a Base64 string
      *
@@ -46,8 +46,6 @@ class Base64
      * @return TRUE if the buffer was decoded, FALSE if it failed to decode
      */
     static bool decode(const char* source, uint32 length, uint8* dest, uint32& padCount);
-
-public:
 
     /**
      * Encodes a binary uint8 array into a Base64 string

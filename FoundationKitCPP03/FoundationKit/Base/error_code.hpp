@@ -43,7 +43,7 @@ static void throw_error_if(const std::error_code& err, const char* location= nul
     }
 }
 
-#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
 struct _Map_errtab_t
 {	// maps Windows error_code to STL generic_errno.
     int _Win_Errcode;
@@ -138,7 +138,7 @@ static int  WinErrorCodeToErrc(int _Errcode)
     return _Errcode;
 }
 
-#endif //#if TARGET_PLATFORM == PLATFORM_WINDOWS
+#endif //#if PLATFORM_WINDOWS
 
 NS_FK_END
 
