@@ -39,41 +39,43 @@ void __fail__(const char* expr, const char* file, int line)
 # endif
 }
 
-const size_t MAX_LOG_LENGTH = 256;
+const size_t DEFAULT_LOG_LENGTH = 256;
 void __log__(const char* fmt, ...)
 {
-    std::string strPreMsg;
-    va_list args;
-
-    // Declare a moderately sized buffer on the stack that should be
-    // large enough to accommodate most log requests.
-    int size = MAX_LOG_LENGTH;
-    //char stackBuffer[MAX_LOG_LENGTH] = { 0 };
-    std::vector<char> dynamicBuffer(MAX_LOG_LENGTH);
-    char* str = &dynamicBuffer[0];
-    for (;;)
+    // Pass one greater needed size to leave room for NULL terminator
+    std::vector<char> dynamicBuffer(DEFAULT_LOG_LENGTH + 1);
+    char* result = &dynamicBuffer[0];
+    int BufferSize = DEFAULT_LOG_LENGTH;
+    int needed = 0;
+    int loopCount = 0;
+    va_list arglist;
+    va_start(arglist, fmt);
+    do
     {
-        va_start(args, fmt);
-        // Pass one less than size to leave room for NULL terminator
-        int needed = vsnprintf(str, size - 1, fmt, args);
-        va_end(args);
-        // NOTE: Some platforms return -1 when vsnprintf runs out of room, while others return
-        // the number of characters actually needed to fill the buffer.
-        if (needed >= 0 && needed < size)
+        // Pass one greater needed size to leave room for NULL terminator
+        dynamicBuffer.resize(BufferSize + 1);
+        result = &dynamicBuffer[0];
+        /*
+        pitfall: The behavior of vsnprintf between VS2013 and VS2015/2017 is different
+        VS2013 or Unix-Like System will return -1 when buffer not enough, but VS2015/2017
+        will return the actural needed length for buffer at this station
+        The _vsnprintf behavior is compatible API which always return -1 when buffer isn't
+        enough at VS2013/2015/2017 Yes, The vsnprintf is more efficient implemented by MSVC 19.0 or later, AND it's also standard-compliant, see reference: http://www.cplusplus.com/reference/cstdio/vsnprintf/
+        */
+        // Pass one greater needed size to leave room for NULL terminator
+        needed = vsnprintf(result, BufferSize + 1, fmt, arglist);
+        if (needed >= 0 && needed < BufferSize)
         {
-            // Successfully wrote buffer. Added a NULL terminator in case it wasn't written.
-            str[needed] = '\0';
             break;
         }
-        if (needed < 0)
+        else
         {
-            return;
+            BufferSize *= 2;
         }
-        size = needed > 0 ? (needed + 1) : (size * 2);
-        dynamicBuffer.resize(size);
-        str = &dynamicBuffer[0];
-    }
-    strPreMsg += str;
+    } while (++loopCount < 10);
+    va_end(arglist);
+
+    std::string strPreMsg = result;
     strPreMsg += "\n";
 
 #if (PLATFORM_ANDROID)

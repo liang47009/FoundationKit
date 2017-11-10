@@ -197,12 +197,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Base\types.hpp" />
     <ClInclude Include="..\FoundationKit\Base\lexical_cast.hpp" />
     <ClInclude Include="..\FoundationKit\Base\unique_id.hpp" />
-    <ClInclude Include="..\FoundationKit\Cache\AbstractCache.h" />
-    <ClInclude Include="..\FoundationKit\Cache\AbstractStrategy.h" />
-    <ClInclude Include="..\FoundationKit\Cache\KeyValueArgs.h" />
-    <ClInclude Include="..\FoundationKit\Cache\LRUCache.h" />
-    <ClInclude Include="..\FoundationKit\Cache\LRUCacheTest.h" />
-    <ClInclude Include="..\FoundationKit\Cache\LRUStrategy.h" />
     <ClInclude Include="..\FoundationKit\Crypto\aes.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\Base64.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\des.hpp" />

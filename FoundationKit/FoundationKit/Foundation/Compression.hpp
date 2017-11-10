@@ -73,5 +73,4 @@ struct Compression
 };
 
 NS_FK_END
-
 #endif // FOUNDATIONKIT_COMPRESSION_HPP

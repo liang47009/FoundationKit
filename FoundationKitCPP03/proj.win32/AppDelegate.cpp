@@ -79,6 +79,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     DelegateManager::GetInstance()->AddObserver("TestTupleArgs", BindFunctionHandler(&AppDelegate::TestTupleArgs, this));
     DelegateManager::GetInstance()->Invoke("TupleTestArgs", args);
     DelegateManager::GetInstance()->Invoke("TestTupleArgs", args);
+
+    std::string val = StringUtils::Format("sfsdfdsf============================ %d, %s", 100, "sfjsdjflsdfjdslfsdlfjslfjdslfjsdlfjsdlfjsdlfjds");
+
 	return true;
 }
 

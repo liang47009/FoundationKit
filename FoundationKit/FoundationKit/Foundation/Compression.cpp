@@ -1,3 +1,10 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+
 #include <mutex>
 #include <vector>
 #include <stdio.h>
@@ -239,17 +246,4 @@ bool Compression::UncompressFile(const std::string& srcFilePath, const std::stri
 }
 
 NS_FK_END
-
-
-
-
-
-
-
-
-
-
-
-
-
 

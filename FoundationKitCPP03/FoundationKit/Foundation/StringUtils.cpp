@@ -50,25 +50,39 @@ std::string StringUtils::Toupper( const std::string& str )
 
 std::string StringUtils::Format( const char* format, ... )
 {
-	const static unsigned int MAX_LENGTH = 64;
+	const static int MAX_LENGTH = 64;
     // Pass one greater needed size to leave room for NULL terminator
-    std::vector<char> dynamicBuffer(MAX_LENGTH+1);
+    std::vector<char> dynamicBuffer(MAX_LENGTH + 1);
     char* result = &dynamicBuffer[0];
-	va_list arglist;
+    int BufferSize = MAX_LENGTH;
+    int needed = 0;
+    int loopCount = 0;
+    va_list arglist;
     va_start(arglist, format);
-    // Pass one greater needed size to leave room for NULL terminator
-    int needed = vsnprintf(result, MAX_LENGTH+1, format, arglist);
-    va_end(arglist);
-    if (needed >= MAX_LENGTH)
+    do
     {
         // Pass one greater needed size to leave room for NULL terminator
-        dynamicBuffer.resize(needed+1);
+        dynamicBuffer.resize(BufferSize + 1);
         result = &dynamicBuffer[0];
-        va_start(arglist, format);
+        /*
+        pitfall: The behavior of vsnprintf between VS2013 and VS2015/2017 is different
+        VS2013 or Unix-Like System will return -1 when buffer not enough, but VS2015/2017
+        will return the actural needed length for buffer at this station
+        The _vsnprintf behavior is compatible API which always return -1 when buffer isn't
+        enough at VS2013/2015/2017 Yes, The vsnprintf is more efficient implemented by MSVC 19.0 or later, AND it's also standard-compliant, see reference: http://www.cplusplus.com/reference/cstdio/vsnprintf/
+        */
         // Pass one greater needed size to leave room for NULL terminator
-        needed = vsnprintf(result, needed+1, format, arglist);
-        va_end(arglist);
-    }
+        needed = vsnprintf(result, BufferSize + 1, format, arglist);
+        if (needed >= 0 && needed < BufferSize)
+        {
+            break;
+        }
+        else
+        {
+            BufferSize *= 2;
+        }
+    } while (++loopCount < 10);
+    va_end(arglist);
     return result;
 }
 

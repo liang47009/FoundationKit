@@ -1,7 +1,7 @@
 ﻿/****************************************************************************
-Copyright (c) 2017 libo All rights reserved.
-
-losemymind.libo@gmail.com
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
 ****************************************************************************/
 #include <vector>
@@ -490,7 +490,4 @@ std::string DateTime::GetTimestampString()
 }
 
 NS_FK_END
-
-
-
 
