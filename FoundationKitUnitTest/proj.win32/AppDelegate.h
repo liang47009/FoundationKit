@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+#include <functional>
 #include "Application.h"
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
@@ -39,9 +41,8 @@ public:
 
 	void mainLoop();
 
-    void TestTupleArgs(int a, const std::string& str, char* str1);
+    void TestTupleArgs(int a, const std::string& str, const char* str1);
 
-    static void ThreadMethod(void* userData);
 };
 
 

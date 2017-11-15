@@ -64,14 +64,11 @@ AppDelegate::~AppDelegate()
 
 }
 
-
 void AppDelegate::applicationDidLaunching()
 {
 
 }
 
-char* TestPointer = nullptr;
-char* TestPointerOther = nullptr;
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
@@ -79,18 +76,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::string strErr = ec.message();
 	HTTPClient::GetInstance()->Initialize();
     PlatformDevice::DumpDeviceInfo();
-
-    TestPointer = new char[8];
-    memset(TestPointer, 0, 8);
-
-    TestPointerOther = TestPointer;
-    delete[] TestPointer;
-    TestPointer = nullptr;
-
-
-
-
-
 
 	int im_a_breakpoint = 0;
 	return true;
@@ -118,8 +103,6 @@ void AppDelegate::mainLoop()
 	HTTPClient::GetInstance()->Tick(1 / 60.0f);
 }
 
-void AppDelegate::ThreadMethod(void* userData)
+void AppDelegate::TestTupleArgs(int a, const std::string & str, const char * str1)
 {
-
 }
-

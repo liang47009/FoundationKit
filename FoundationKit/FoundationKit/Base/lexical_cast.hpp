@@ -27,7 +27,7 @@
 #define _WCSTO_ULL	wcstoul
 #define _WCSTO_F	wcstod
 #define _WCSTO_LD	wcstod
-namespace std
+namespace DelegateTypestd
 {
     inline int stoi(const string& _Str, size_t *_Idx = 0,
         int _Base = 10)
@@ -469,16 +469,25 @@ namespace detail
 }
 
 template<typename To, typename From>
-typename std::enable_if<!std::is_same<To, From>::value, To>::type lexical_cast(const From& from)
+typename std::enable_if<!std::is_same<To, From>::value, To>::type 
+lexical_cast(const From& from)
 {
     return detail::converter<To, From>::convert(from);
 }
 
 template<typename To, typename From>
-typename std::enable_if<std::is_same<To, From>::value, To>::type lexical_cast(const From& from)
+typename std::enable_if<std::is_same<To, From>::value, To>::type 
+lexical_cast(const From& from)
 {
     return from;
 }
+
+template<typename To, typename From>
+To lexical_pointer_cast(From from)
+{
+    return *static_cast<To*>(static_cast<void*>(&from));
+}
+
 
 NS_FK_END
 #endif // FOUNDATIONKIT_TYPE_CAST_HPP

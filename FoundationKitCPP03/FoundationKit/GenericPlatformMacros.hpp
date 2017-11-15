@@ -3,6 +3,17 @@
 #define LOSEMYMIND_GENERICPLATFORMMACROS_H
 #pragma once
 
+#define FOUNDATIONKIT_VERSION_STRING "3.0.0"
+#define FOUNDATIONKIT_PACKAGE_STRING "FoundationKit 3.0.0"
+#define FOUNDATIONKIT_VERSION_MAJOR 3
+#define FOUNDATIONKIT_VERSION_MINOR 0
+#define FOUNDATIONKIT_VERSION_PATCH 0
+
+// Version as a single hex number, e.g. 0x01000300 == 1.0.3
+#define FOUNDATIONKIT_VERSION_HEX ((FOUNDATIONKIT_VERSION_MAJOR << 24) | \
+    (FOUNDATIONKIT_VERSION_MINOR << 16) | \
+    (FOUNDATIONKIT_VERSION_PATCH <<  8))
+
 #include "LanguageFeatures.hpp"
 // namespace FoundationKit {}
 #ifdef __cplusplus
@@ -158,18 +169,6 @@ __pragma (warning(disable:4127))
 //#endif
 
 #include "FoundationKit/std/stdheader.h"
-
-
-#define FOUNDATIONKIT_VERSION_STRING "2.2.0"
-#define FOUNDATIONKIT_PACKAGE_STRING "FoundationKit 2.2.0"
-#define FOUNDATIONKIT_VERSION_MAJOR 2
-#define FOUNDATIONKIT_VERSION_MINOR 2
-#define FOUNDATIONKIT_VERSION_PATCH 0
-
-// Version as a single hex number, e.g. 0x01000300 == 1.0.3
-#define FOUNDATIONKIT_VERSION_HEX ((FOUNDATIONKIT_VERSION_MAJOR << 24) | \
-                                   (FOUNDATIONKIT_VERSION_MINOR << 16) | \
-                                   (FOUNDATIONKIT_VERSION_PATCH <<  8))
 
 #endif // #ifndef LOSEMYMIND_GENERICPLATFORMMACROS_H
 

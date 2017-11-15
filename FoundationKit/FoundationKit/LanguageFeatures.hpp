@@ -1,5 +1,12 @@
-#ifndef LOSEMYMIND_LANGUAGEFEATURES_H
-#define LOSEMYMIND_LANGUAGEFEATURES_H
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef FOUNDATIONKIT_LANGUAGEFEATURES_HPP
+#define FOUNDATIONKIT_LANGUAGEFEATURES_HPP
+
 
 /// Macro for determining if GCC version is >= than X.Y
 // #if defined(__GNUC__) && !CHECK_GCC_VERSION(4, 4)
@@ -103,4 +110,4 @@
 #endif
 
 
-#endif // LOSEMYMIND_LANGUAGEFEATURES_H
+#endif // END OF FOUNDATIONKIT_LANGUAGEFEATURES_HPP

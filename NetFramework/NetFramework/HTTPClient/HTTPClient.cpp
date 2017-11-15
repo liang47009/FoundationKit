@@ -52,6 +52,8 @@ void HTTPClient::Initialize()
         return;
     }
 
+
+
     if (libcurl_init::Succeeded())
     {
         curl_version_info_data * versionInfo = curl_version_info(CURLVERSION_NOW);
@@ -82,15 +84,29 @@ void HTTPClient::Initialize()
 			    FKLog("     %s", #Feature);                        	\
             }
 
+            PrintCurlFeature(CURL_VERSION_IPV6);
+            PrintCurlFeature(CURL_VERSION_KERBEROS4);
             PrintCurlFeature(CURL_VERSION_SSL);
             PrintCurlFeature(CURL_VERSION_LIBZ);
+            PrintCurlFeature(CURL_VERSION_NTLM);
+            PrintCurlFeature(CURL_VERSION_GSSNEGOTIATE);
             PrintCurlFeature(CURL_VERSION_DEBUG);
-            PrintCurlFeature(CURL_VERSION_IPV6);
             PrintCurlFeature(CURL_VERSION_ASYNCHDNS);
+            PrintCurlFeature(CURL_VERSION_SPNEGO);
             PrintCurlFeature(CURL_VERSION_LARGEFILE);
             PrintCurlFeature(CURL_VERSION_IDN);
+            PrintCurlFeature(CURL_VERSION_SSPI);
             PrintCurlFeature(CURL_VERSION_CONV);
+            PrintCurlFeature(CURL_VERSION_CURLDEBUG);
             PrintCurlFeature(CURL_VERSION_TLSAUTH_SRP);
+            PrintCurlFeature(CURL_VERSION_NTLM_WB);
+            PrintCurlFeature(CURL_VERSION_HTTP2);
+            PrintCurlFeature(CURL_VERSION_GSSAPI);
+            PrintCurlFeature(CURL_VERSION_KERBEROS5);
+            PrintCurlFeature(CURL_VERSION_UNIX_SOCKETS);
+            PrintCurlFeature(CURL_VERSION_PSL);
+            PrintCurlFeature(CURL_VERSION_HTTPS_PROXY);
+
 #undef PrintCurlFeature
         }
 
