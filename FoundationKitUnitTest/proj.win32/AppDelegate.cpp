@@ -7,29 +7,42 @@
 #include <atomic>
 
 #include "AppDelegate.h"
-#include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/Version.hpp"
-#include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Base/basic_streambuf.hpp"
+#include "FoundationKit/Base/function_cache.hpp"
 #include "FoundationKit/Base/memory_aligned.hpp"
 #include "FoundationKit/Base/function_cache.hpp"
 #include "FoundationKit/Base/function_traits.hpp"
-#include "FoundationKit/Platform/Environment.hpp"
-#include "FoundationKit/Foundation/DateTime.hpp"
-#include "FoundationKit/Platform/PlatformTLS.hpp"
-#include "FoundationKit/Base/basic_streambuf.hpp"
-#include "FoundationKit/Base/function_cache.hpp"
-#include "FoundationKit/Foundation/Dictionary.hpp"
-#include "FoundationKit/Foundation/Math.hpp"
-#include "FoundationKit/Crypto/Base64.hpp"
-#include "FoundationKit/Foundation/ElapsedTimer.hpp"
-#include "FoundationKit/Foundation/Compression.hpp"
-#include "FoundationKit/Foundation/DelegateManager.hpp"
-#include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Base/scope_guard.hpp"
 #include "FoundationKit/Base/hex.hpp"
+#include "FoundationKit/Base/string_builder.hpp"
+#include "FoundationKit/Base/locale.hpp"
+#include "FoundationKit/Base/unique_id.hpp"
+#include "FoundationKit/Base/byte_swap.hpp"
+
+#include "FoundationKit/Crypto/Base64.hpp"
 #include "FoundationKit/Crypto/des.hpp"
 #include "FoundationKit/Crypto/aes.hpp"
 #include "FoundationKit/Crypto/urlencode.hpp"
+
+#include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Foundation/Version.hpp"
+#include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Foundation/DateTime.hpp"
+#include "FoundationKit/Foundation/Dictionary.hpp"
+#include "FoundationKit/Foundation/Math.hpp"
+#include "FoundationKit/Foundation/ElapsedTimer.hpp"
+#include "FoundationKit/Foundation/Compression.hpp"
+#include "FoundationKit/Foundation/DelegateManager.hpp"
+#include "FoundationKit/Foundation/Time.hpp"
+#include "FoundationKit/Foundation/Directory.hpp"
+#include "FoundationKit/Foundation/Value.hpp"
+
+#include "FoundationKit/Platform/Environment.hpp"
+#include "FoundationKit/Platform/PlatformTLS.hpp"
+#include "FoundationKit/Platform/PlatformDevice.hpp"
+#include "FoundationKit/Platform/Path.hpp"
+#include "FoundationKit/Platform/File.hpp"
+
 #include "HTTPClient/HTTPClient.hpp"
 #include "HTTPClient/HTTPRequest.hpp"
 #include "HTTPClient/HTTPResponse.hpp"
@@ -38,15 +51,7 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/document.h"
-#include "FoundationKit/Platform/Path.hpp"
-#include "FoundationKit/Platform/File.hpp"
-#include "FoundationKit/Base/string_builder.hpp"
-#include "FoundationKit/Base/locale.hpp"
-#include "FoundationKit/Base/unique_id.hpp"
-#include "FoundationKit/Base/byte_swap.hpp"
-#include "FoundationKit/Foundation/Time.hpp"
-#include "FoundationKit/Foundation/Directory.hpp"
-#include "FoundationKit/experimental/AsyncTask.hpp"
+
 
 using namespace std;
 USING_NS_FK;
@@ -63,6 +68,8 @@ AppDelegate::~AppDelegate()
 {
 
 }
+
+
 
 void AppDelegate::applicationDidLaunching()
 {

@@ -8,7 +8,7 @@
 #include <sstream>
 #include <assert.h>
 #include "Value.hpp"
-
+#include "FoundationKit/Foundation/StringUtils.hpp"
 NS_FK_BEGIN
 
 const Value Value::Null;
@@ -373,6 +373,59 @@ void Value::Clear()
 }
 
 
+std::string FoundationKit::Value::ToString()
+{
+    std::string result;
+    switch (_type)
+    {
+    case Value::Type::UCHAR:
+        result = StringUtils::Format("%c", _field._ucharVal);
+        break;
+    case Value::Type::USHORT:
+        result = StringUtils::Format("%d", _field._ushortVal);
+        break;
+    case Value::Type::UINT:
+        result = StringUtils::Format("%d", _field._uintVal);
+        break;
+    case Value::Type::ULONGLONG:
+        result = StringUtils::Format("%lld", _field._ulonglongVal);
+        break;
+    case Value::Type::BOOL:
+        result = StringUtils::Format("%s", _field._boolVal?"true":"false");
+        break;
+    case Value::Type::CHAR:
+        result = StringUtils::Format("%c", _field._charVal);
+        break;
+    case Value::Type::SHORT:
+        result = StringUtils::Format("%d", _field._shortVal);
+        break;
+    case Value::Type::INT:
+        result = StringUtils::Format("%d", _field._intVal);
+        break;
+    case Value::Type::LONGLONG:
+        result = StringUtils::Format("%lld", _field._longlongVal);
+        break;
+    case Value::Type::FLOAT:
+        result = StringUtils::Format("%f", _field._floatVal);
+        break;
+    case Value::Type::DOUBLE:
+        result = StringUtils::Format("%f", _field._doubleVal);
+        break;
+    case Value::Type::PCHAR:
+        result = _field._pcharVal;
+        break;
+    case Value::Type::STRING:
+        result = _field._stringVal;
+        break;
+    case  Value::Type::POINTER:
+        result = StringUtils::Format("%p", _field._pointer);
+        break;
+    default:
+        break;
+    }
+    return result;
+}
+
 void Value::Reset(Type valType)
 {
     if (_type == valType)
@@ -387,6 +440,53 @@ void Value::Reset(Type valType)
     }
     _type = valType;
 }
+
+
+void TestValue()
+{
+    uint8 uc = 'c';
+    uint16 us = 10;
+    uint32 ui = 100;
+    uint64 ul = 1000;
+    bool   b = true;
+    char   c = 'a';
+    int16  s = 11;
+    int32  i = 101;
+    int64  l = 1001;
+    float  f = 10.01f;
+    double d = 100.001;
+    const char* pc = "Char*Value";
+    std::string str = "StringValue";
+
+    Value v0 = uc;
+    Value v1 = us;
+    Value v2 = ui;
+    Value v3 = ul;
+    Value v4 = b;
+    Value v5 = c;
+    Value v6 = s;
+    Value v7 = i;
+    Value v8 = l;
+    Value v9 = f;
+    Value v10 = d;
+    Value v11 = pc;
+    Value v12 = str;
+
+    FKLog("v0=%s", v0.ToString().c_str());
+    FKLog("v1=%s", v1.ToString().c_str());
+    FKLog("v2=%s", v2.ToString().c_str());
+    FKLog("V3=%s", v3.ToString().c_str());
+    FKLog("V4=%s", v4.ToString().c_str());
+    FKLog("V5=%s", v5.ToString().c_str());
+    FKLog("V6=%s", v6.ToString().c_str());
+    FKLog("V7=%s", v7.ToString().c_str());
+    FKLog("V8=%s", v8.ToString().c_str());
+    FKLog("V9=%s", v9.ToString().c_str());
+    FKLog("V10=%s", v10.ToString().c_str());
+    FKLog("V11=%s", v11.ToString().c_str());
+    FKLog("V12=%s", v12.ToString().c_str());
+}
+
 
 NS_FK_END
 

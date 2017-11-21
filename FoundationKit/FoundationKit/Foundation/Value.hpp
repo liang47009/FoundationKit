@@ -74,19 +74,19 @@ public:
     Value(_Ty* data);
     Value(const Value& other);
     Value(Value&& other);
-    explicit Value(uint8 data);
-    explicit Value(uint16 data);
-    explicit Value(uint32 data);
-    explicit Value(uint64 data);
-    explicit Value(bool data);
-    explicit Value(char data);
-    explicit Value(int16 data);
-    explicit Value(int32 data);
-    explicit Value(int64 data);
-    explicit Value(float data);
-    explicit Value(double data);
-    explicit Value(const char* data);
-    explicit Value(const std::string& data);
+    Value(uint8 data);
+    Value(uint16 data);
+    Value(uint32 data);
+    Value(uint64 data);
+    Value(bool data);
+    Value(char data);
+    Value(int16 data);
+    Value(int32 data);
+    Value(int64 data);
+    Value(float data);
+    Value(double data);
+    Value(const char* data);
+    Value(const std::string& data);
 
     // assignment operator
     template<typename _Ty>
@@ -123,6 +123,7 @@ public:
     void        Move(Value&& other);
     void        Swap(Value&  other);
     void        Clear();
+    std::string ToString();
 
 //================= Define Template Method =================
     template< typename T >
