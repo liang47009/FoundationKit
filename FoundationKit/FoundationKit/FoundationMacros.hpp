@@ -18,72 +18,8 @@ enum { INDEX_NONE = -1 };
 #define FUN_BIND_2(__selector__,__target__, ...) std::bind(&__selector__,__target__, std::placeholders::_1, std::placeholders::_2, ##__VA_ARGS__)
 #define FUN_BIND_3(__selector__,__target__, ...) std::bind(&__selector__,__target__, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, ##__VA_ARGS__)
 
-/** @def PROPERTY_DEFINE
- * It is used to declare a protected variable.
- * We can use getter to read the variable, and use the setter to change the variable.
- *
- * @param varType     The type of variable.
- * @param varName     Variable name.
- * @param funName     "get + funName" will be the name of the getter.
- *                    "set + funName" will be the name of the setter.
- * @warning   The getter and setter are public virtual functions, you should rewrite them first.
- *            The variables and methods declared after PROPERTY_DEFINE are all public.
- *            If you need protected or private, please declare.
- */
-#define PROPERTY_DEFINE(varType, varName, funName)\
-protected: varType varName;\
-public: virtual varType Get##funName(void) const;\
-public: virtual void Set##funName(varType var);
 
-/** @def PROPERTY_DEFINE_REF
- * It is used to declare a protected variable.
- * We can use getter to read the variable, and use the setter to change the variable.
- *
- * @param varType     The type of variable.
- * @param varName     Variable name.
- * @param funName     "get + funName" will be the name of the getter.
- *                    "set + funName" will be the name of the setter.
- * @warning   The getter and setter are public virtual functions, you should rewrite them first.
- *            The variables and methods declared after PROPERTY_DEFINE_REF are all public.
- *            If you need protected or private, please declare.
- */
-#define PROPERTY_DEFINE_REF(varType, varName, funName)\
-protected: varType varName;\
-public: virtual const varType& Get##funName(void) const;\
-public: virtual void Set##funName(const varType& var);
-
-/** @def PROPERTY_DEFINE_READONLY
- * It is used to declare a protected variable.
- * We can use getter to read the variable, and use the setter to change the variable.
- *
- * @param varType     The type of variable.
- * @param varName     Variable name.
- * @param funName     "get + funName" will be the name of the getter.
- * @warning   The getter and setter are public virtual functions, you should rewrite them first.
- *            The variables and methods declared after PROPERTY_DEFINE_READONLY are all public.
- *            If you need protected or private, please declare.
- */
-#define PROPERTY_DEFINE_READONLY(varType, varName, funName)\
-protected: varType varName;\
-public: virtual varType Get##funName(void) const;
-
-/** @def PROPERTY_DEFINE_REF_READONLY
- * It is used to declare a protected variable.
- * We can use getter to read the variable, and use the setter to change the variable.
- *
- * @param varType     The type of variable.
- * @param varName     Variable name.
- * @param funName     "get + funName" will be the name of the getter.
- * @warning   The getter and setter are public virtual functions, you should rewrite them first.
- *            The variables and methods declared after PROPERTY_DEFINE_REF_READONLY are all public.
- *            If you need protected or private, please declare.
- */
-#define PROPERTY_DEFINE_REF_READONLY(varType, varName, funName)\
-protected: varType varName;\
-public: virtual const varType& Get##funName(void) const;
-
-
-/** @def PROPERTY_SYNTHESIZE
+/** @def PROPERTY
  * It is used to declare a protected variable.
  * We can use getter to read the variable, and use the setter to change the variable.
  *
@@ -92,15 +28,15 @@ public: virtual const varType& Get##funName(void) const;
  * @param funName     "get + funName" will be the name of the getter.
  *                    "set + funName" will be the name of the setter.
  * @warning   The getter and setter are public inline functions.
- *            The variables and methods declared after PROPERTY_SYNTHESIZE are all public.
+ *            The variables and methods declared after PROPERTY are all public.
  *            If you need protected or private, please declare.
  */
-#define PROPERTY_SYNTHESIZE(varType, varName, funName)\
+#define PROPERTY(varType, varName, funName)\
 protected: varType varName;\
 public: virtual varType Get##funName(void) const { return varName; }\
 public: virtual void Set##funName(varType var){ varName = var; }
 
-/** @def PROPERTY_SYNTHESIZE_REF
+/** @def PROPERTY_REF
  * It is used to declare a protected variable.
  * We can use getter to read the variable, and use the setter to change the variable.
  *
@@ -109,15 +45,15 @@ public: virtual void Set##funName(varType var){ varName = var; }
  * @param funName     "get + funName" will be the name of the getter.
  *                    "set + funName" will be the name of the setter.
  * @warning   The getter and setter are public inline functions.
- *            The variables and methods declared after PROPERTY_SYNTHESIZE_REF are all public.
+ *            The variables and methods declared after PROPERTY_REF are all public.
  *            If you need protected or private, please declare.
  */
-#define PROPERTY_SYNTHESIZE_REF(varType, varName, funName)\
+#define PROPERTY_REF(varType, varName, funName)\
 protected: varType varName;\
 public: virtual const varType& Get##funName(void) const { return varName; }\
 public: virtual void Set##funName(const varType& var){ varName = var; }
 
-/** @def PROPERTY_SYNTHESIZE_READONLY
+/** @def PROPERTY_READONLY
  * It is used to declare a protected variable.
  * We can use getter to read the variable, and use the setter to change the variable.
  *
@@ -125,14 +61,14 @@ public: virtual void Set##funName(const varType& var){ varName = var; }
  * @param varName     Variable name.
  * @param funName     "get + funName" will be the name of the getter.
  * @warning   The getter and setter are public inline functions.
- *            The variables and methods declared after PROPERTY_SYNTHESIZE_READONLY are all public.
+ *            The variables and methods declared after PROPERTY_READONLY are all public.
  *            If you need protected or private, please declare.
  */
-#define PROPERTY_SYNTHESIZE_READONLY(varType, varName, funName)\
+#define PROPERTY_READONLY(varType, varName, funName)\
 protected: varType varName;\
 public: virtual varType Get##funName(void) const { return varName; }
 
-/** @def PROPERTY_SYNTHESIZE_REF_READONLY
+/** @def PROPERTY_REF_READONLY
  * It is used to declare a protected variable.
  * We can use getter to read the variable, and use the setter to change the variable.
  *
@@ -140,10 +76,10 @@ public: virtual varType Get##funName(void) const { return varName; }
  * @param varName     Variable name.
  * @param funName     "get + funName" will be the name of the getter.
  * @warning   The getter and setter are public inline functions.
- *            The variables and methods declared after PROPERTY_SYNTHESIZE_REF_READONLY are all public.
+ *            The variables and methods declared after PROPERTY_REF_READONLY are all public.
  *            If you need protected or private, please declare.
  */
-#define PROPERTY_SYNTHESIZE_REF_READONLY(varType, varName, funName)\
+#define PROPERTY_REF_READONLY(varType, varName, funName)\
 protected: varType varName;\
 public: virtual const varType& Get##funName(void) const { return varName; }
 
