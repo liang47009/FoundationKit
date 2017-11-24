@@ -134,12 +134,6 @@
 		09348ECB1E7F7BA20034ECF2 /* error_code.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = error_code.hpp; sourceTree = "<group>"; };
 		09348ECD1E7F7BA20034ECF2 /* noncopyable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = noncopyable.hpp; sourceTree = "<group>"; };
 		09348ECE1E7F7BA20034ECF2 /* nonmovable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = nonmovable.hpp; sourceTree = "<group>"; };
-		09348ED11E7F7BA20034ECF2 /* AbstractCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractCache.h; sourceTree = "<group>"; };
-		09348ED21E7F7BA20034ECF2 /* AbstractStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractStrategy.h; sourceTree = "<group>"; };
-		09348ED31E7F7BA20034ECF2 /* KeyValueArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyValueArgs.h; sourceTree = "<group>"; };
-		09348ED41E7F7BA20034ECF2 /* LRUCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUCache.h; sourceTree = "<group>"; };
-		09348ED51E7F7BA20034ECF2 /* LRUCacheTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUCacheTest.h; sourceTree = "<group>"; };
-		09348ED61E7F7BA20034ECF2 /* LRUStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LRUStrategy.h; sourceTree = "<group>"; };
 		09348ED81E7F7BA20034ECF2 /* aes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aes.cpp; sourceTree = "<group>"; };
 		09348ED91E7F7BA20034ECF2 /* aes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = aes.hpp; sourceTree = "<group>"; };
 		09348EDA1E7F7BA20034ECF2 /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Base64.cpp; sourceTree = "<group>"; };
@@ -256,7 +250,6 @@
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		095616921F9DE74E00DEDFA7 /* disable_if.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = disable_if.hpp; sourceTree = "<group>"; };
 		095616931F9DE74E00DEDFA7 /* contains_of_type.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = contains_of_type.hpp; sourceTree = "<group>"; };
-		095616941F9DE74E00DEDFA7 /* match.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = match.hpp; sourceTree = "<group>"; };
 		095616951F9DE74E00DEDFA7 /* hex.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = hex.hpp; sourceTree = "<group>"; };
 		095616961F9DE74E00DEDFA7 /* apply.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = apply.hpp; sourceTree = "<group>"; };
 		095616971F9DE74F00DEDFA7 /* memory_aligned.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = memory_aligned.hpp; sourceTree = "<group>"; };
@@ -307,7 +300,6 @@
 			isa = PBXGroup;
 			children = (
 				09348EC81E7F7BA20034ECF2 /* Base */,
-				09348ED01E7F7BA20034ECF2 /* Cache */,
 				09348ED71E7F7BA20034ECF2 /* Crypto */,
 				09348EDE1E7F7BA20034ECF2 /* external */,
 				0934900A1E7F7BA20034ECF2 /* Foundation */,
@@ -332,7 +324,6 @@
 				095616981F9DE74F00DEDFA7 /* function_traits.hpp */,
 				0956169A1F9DE74F00DEDFA7 /* has_member.hpp */,
 				095616951F9DE74E00DEDFA7 /* hex.hpp */,
-				095616941F9DE74E00DEDFA7 /* match.hpp */,
 				0956169B1F9DE74F00DEDFA7 /* max_integer_of.hpp */,
 				095616971F9DE74F00DEDFA7 /* memory_aligned.hpp */,
 				092D7EDA1F43EE290050B751 /* types.hpp */,
@@ -350,19 +341,6 @@
 				09348ECE1E7F7BA20034ECF2 /* nonmovable.hpp */,
 			);
 			path = Base;
-			sourceTree = "<group>";
-		};
-		09348ED01E7F7BA20034ECF2 /* Cache */ = {
-			isa = PBXGroup;
-			children = (
-				09348ED11E7F7BA20034ECF2 /* AbstractCache.h */,
-				09348ED21E7F7BA20034ECF2 /* AbstractStrategy.h */,
-				09348ED31E7F7BA20034ECF2 /* KeyValueArgs.h */,
-				09348ED41E7F7BA20034ECF2 /* LRUCache.h */,
-				09348ED51E7F7BA20034ECF2 /* LRUCacheTest.h */,
-				09348ED61E7F7BA20034ECF2 /* LRUStrategy.h */,
-			);
-			path = Cache;
 			sourceTree = "<group>";
 		};
 		09348ED71E7F7BA20034ECF2 /* Crypto */ = {
@@ -652,7 +630,7 @@
 		0977BAEE1AB6CC31006BC260 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = libo;
 				TargetAttributes = {
 					0977BAF51AB6CC31006BC260 = {
@@ -840,14 +818,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -883,14 +867,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

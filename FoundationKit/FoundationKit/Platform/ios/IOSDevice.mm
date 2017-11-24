@@ -549,8 +549,8 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
     uint64_t UsedMem = (Stats.active_count + Stats.inactive_count + Stats.wire_count) * PageSize;
     uint64_t TotalPhys = FreeMem + UsedMem;
 
-    static size_t PeakUsedPhysical = 0;
-    static size_t PeakUsedVirtual = 0;
+    static mach_vm_size_t PeakUsedPhysical = 0;
+    static mach_vm_size_t PeakUsedVirtual = 0;
     if (TaskInfo.resident_size > PeakUsedPhysical)
     {
         PeakUsedPhysical = TaskInfo.resident_size;
