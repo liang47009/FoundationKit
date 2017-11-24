@@ -71,10 +71,10 @@ namespace detail
 
             if (strcmp(key, "MemFree") == 0)
             {
-                //    debianÖ®ÀàµÄÏµÍ³ÈÏÎª£º
-                //    ¿ÉÓÃÄÚ´æ=MemFreeµÄÄÚ´æ+BuffersµÄÄÚ´æ+CachedµÄÄÚ´æ
-                //    ¶øSUSEÖ®ÀàµÄÏµÍ³ÔòÈÏÎª£º
-                //    ¿ÉÓÃÄÚ´æ=MemFreeµÄÄÚ´æ+BuffersµÄÄÚ´æ+CachedµÄÄÚ´æ+SReclaimableµÄÄÚ´æ
+                //    debianä¹‹ç±»çš„ç³»ç»Ÿè®¤ä¸ºï¼š
+                //    å¯ç”¨å†…å­˜=MemFreeçš„å†…å­˜+Buffersçš„å†…å­˜+Cachedçš„å†…å­˜
+                //    è€ŒSUSEä¹‹ç±»çš„ç³»ç»Ÿåˆ™è®¤ä¸ºï¼š
+                //    å¯ç”¨å†…å­˜=MemFreeçš„å†…å­˜+Buffersçš„å†…å­˜+Cachedçš„å†…å­˜+SReclaimableçš„å†…å­˜
                 if (strcmp(key_buf, "MemFree") == 0 || strcmp(key_buf, "Buffers") == 0 ||strcmp(key_buf, "Cached") == 0)
                 {
                     resultValue += value;
@@ -271,17 +271,17 @@ int PlatformDevice::GetNetworkType()
     static const int TYPE_MOBILE = 0;
     static const int TYPE_WIFI = 1;
 
-    JNIEnv* env = AndroidNode::AndroidJNI::GetJavaEnv();
-    jobject mainActivity = AndroidNode::AndroidJNI::GetMainActivity();
-    AndroidNode::AndroidJavaObject  ajoMainActivity(mainActivity);
+    JNIEnv* env = AndroidJNI::GetJavaEnv();
+    jobject mainActivity = AndroidJNI::GetMainActivity();
+    AndroidJavaObject  ajoMainActivity(mainActivity);
     jobject ConnectivityManager = ajoMainActivity.Call<jobject>("getSystemService", CONNECTIVITY_SERVICE);
-    AndroidNode::AndroidJavaObject ajoConnectivityManager(ConnectivityManager);
+    AndroidJavaObject ajoConnectivityManager(ConnectivityManager);
     jobject NetworkInfo = ajoConnectivityManager.CallWithSig<jobject>("getNetworkInfo", "(I)Landroid/net/NetworkInfo;", TYPE_WIFI);
     if (NetworkInfo != nullptr)
     {
-        AndroidNode::AndroidJavaObject ajoNetworkInfo(NetworkInfo);
+        AndroidJavaObject ajoNetworkInfo(NetworkInfo);
         jobject State = ajoNetworkInfo.CallWithSig<jobject>("getState", "()Landroid.net.NetworkInfo$State;");
-        int stateValue = AndroidNode::Call<int>(State, "ordinal");
+        int stateValue = AndroidFoundation::Call<int>(State, "ordinal");
         env->DeleteLocalRef(State);
         if (stateValue == detail::NetworkState::CONNECTED)
         {
@@ -295,7 +295,7 @@ int PlatformDevice::GetNetworkType()
     detail::NetworkType netType = detail::NetworkType::NONE;
     if (NetworkInfo != nullptr)
     {
-        AndroidNode::AndroidJavaObject ajoNetworkInfo(NetworkInfo);
+        AndroidJavaObject ajoNetworkInfo(NetworkInfo);
         int subType = ajoNetworkInfo.Call<int>("getSubtype");
         switch (subType)
         {
@@ -426,26 +426,26 @@ static void lazyGetScreenResolution()
 {
     if (!GLOBAL_DisplayInfo.bInit)
     {
-        jobject mainActivity = AndroidNode::AndroidJNI::GetMainActivity();
-        AndroidNode::AndroidJavaObject  ajoMainActivity(mainActivity);
+        jobject mainActivity = AndroidJNI::GetMainActivity();
+        AndroidJavaObject  ajoMainActivity(mainActivity);
         jobject WindowManager = ajoMainActivity.CallWithSig<jobject>("getWindowManager", "()Landroid/view/WindowManager;");
-        AndroidNode::AndroidJavaObject ajoWindowManager(WindowManager);
+        AndroidJavaObject ajoWindowManager(WindowManager);
         jobject Display = ajoWindowManager.CallWithSig<jobject>("getDefaultDisplay", "()Landroid/view/Display;");
-        AndroidNode::AndroidJavaObject ajoDisplay(Display);
-        AndroidNode::AndroidJavaObject ajoPoint("android.graphics.Point");
-        AndroidNode::AndroidJavaObject ajoPointReal("android.graphics.Point");
+        AndroidJavaObject ajoDisplay(Display);
+        AndroidJavaObject ajoPoint("android.graphics.Point");
+        AndroidJavaObject ajoPointReal("android.graphics.Point");
         ajoDisplay.CallWithSig("getSize", "(Landroid/graphics/Point;)V", ajoPoint.GetRawObject());
         ajoDisplay.CallWithSig("getRealSize", "(Landroid/graphics/Point;)V", ajoPointReal.GetRawObject());
         GLOBAL_DisplayInfo.appSize = Size(ajoPoint.Get<int>("x"), ajoPoint.Get<int>("y") );
         GLOBAL_DisplayInfo.realSize = Size(ajoPointReal.Get<int>("x"), ajoPointReal.Get<int>("y"));
-        AndroidNode::AndroidJavaObject ajoDisplayMetrics("android.util.DisplayMetrics");
+        AndroidJavaObject ajoDisplayMetrics("android.util.DisplayMetrics");
         ajoDisplay.CallWithSig("getRealMetrics", "(Landroid.util.DisplayMetrics;)V", ajoDisplayMetrics.GetRawObject());
         GLOBAL_DisplayInfo.fps = ajoDisplay.Call<float>("getRefreshRate");
         GLOBAL_DisplayInfo.densityDpi = ajoDisplayMetrics.Get<int>("densityDpi");
         GLOBAL_DisplayInfo.nativeScale = ajoDisplayMetrics.Get<float>("density");
         GLOBAL_DisplayInfo.xdpi = ajoDisplayMetrics.Get<float>("xdpi");
         GLOBAL_DisplayInfo.ydpi = ajoDisplayMetrics.Get<float>("ydpi");
-        JNIEnv* env = AndroidNode::AndroidJNI::GetJavaEnv();
+        JNIEnv* env = AndroidJNI::GetJavaEnv();
         env->DeleteLocalRef(Display);
         env->DeleteLocalRef(WindowManager);
         GLOBAL_DisplayInfo.bInit = true;

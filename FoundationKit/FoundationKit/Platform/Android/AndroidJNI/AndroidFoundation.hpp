@@ -19,7 +19,8 @@
 
 NS_FK_BEGIN
 
-namespace AndroidNode{
+namespace AndroidFoundation {
+
 
 //Compile Time String
 template <char... Chars> struct CompileTimeString
@@ -1572,7 +1573,7 @@ void SetFieldStatic(const std::string & className, const std::string& fieldName,
     SetFieldStatic<T>(clazz, fieldName, fieldValue, sig);
 }
 
-} // namespace AndroidNode
+} // namespace AndroidFoundation 
 
 NS_FK_END
 

@@ -16,7 +16,7 @@
 
 NS_FK_BEGIN
 
-namespace AndroidNode{
+
 //java class:android/net/NetworkInfo
 //java enum:android.net.NetworkInfo$State
 class AndroidJavaObject
@@ -54,9 +54,9 @@ public:
     AndroidJavaObject(std::string className, Args... args)
     {
         JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
-        std::string methodSignature = GetJNISignature<void, Args...>(args...);
+        std::string methodSignature = AndroidFoundation::GetJNISignature<void, Args...>(args...);
         JavaClassMethod method = AndroidJNI::GetClassMethod(className.c_str(), "<init>", methodSignature.c_str());
-        jobject object = jniEnv->NewObject(method.clazz, method.method, CPPToJNI<Args>::convert(args)...);
+        jobject object = jniEnv->NewObject(method.clazz, method.method, AndroidFoundation::CPPToJNI<Args>::convert(args)...);
         ANDROID_CHECKF(object, "*** Create %s failed.", className.c_str());
         // Promote local references to global
         _object = std::shared_ptr<_jobject>(jniEnv->NewGlobalRef(object), jobjectDeleter);
@@ -89,25 +89,25 @@ public:
     {
       std::string rightSig(sig);
       std::replace(rightSig.begin(), rightSig.end(), '.', '/');
-      return AndroidNode::CallWithSig<T>(GetRawObject(), methodName, rightSig, std::forward<Args>(args)...);
+      return AndroidFoundation::CallWithSig<T>(GetRawObject(), methodName, rightSig, std::forward<Args>(args)...);
     }
 
     template<typename T = void, typename... Args>
     T Call(std::string methodName, Args... args)
     {
-        return AndroidNode::Call<T>(GetRawObject(), methodName, std::forward<Args>(args)...);
+        return AndroidFoundation::Call<T>(GetRawObject(), methodName, std::forward<Args>(args)...);
     }
 
     template<typename T>
     void Set(std::string fieldName, T fieldValue, std::string sig = "")
     {
-        AndroidNode::SetField<T>(GetRawObject(), fieldName, fieldValue, sig);
+        AndroidFoundation::SetField<T>(GetRawObject(), fieldName, fieldValue, sig);
     }
 
     template<typename T>
     T Get(std::string fieldName, std::string sig = "")
     {
-        return AndroidNode::GetField<T>(GetRawObject(), fieldName, sig);
+        return AndroidFoundation::GetField<T>(GetRawObject(), fieldName, sig);
     }
 
     template<typename T = void, typename... Args>
@@ -115,25 +115,25 @@ public:
     {
         std::string rightSig(sig);
         std::replace(rightSig.begin(), rightSig.end(), '.', '/');
-        return AndroidNode::CallStaticWithSig<T>(GetRawClass(), methodName, rightSig, std::forward<Args>(args)...);
+        return AndroidFoundation::CallStaticWithSig<T>(GetRawClass(), methodName, rightSig, std::forward<Args>(args)...);
     }
 
     template<typename T = void, typename... Args>
     T CallStatic(std::string methodName, Args... args)
     {
-        return AndroidNode::CallStatic<T>(GetRawClass(), methodName, std::forward<Args>(args)...);
+        return AndroidFoundation::CallStatic<T>(GetRawClass(), methodName, std::forward<Args>(args)...);
     }
 
     template<typename T>
     void SetStatic(std::string fieldName, T fieldValue, std::string sig = "")
     {
-        AndroidNode::SetFieldStatic<T>(GetRawClass(), fieldName, fieldValue, sig);
+        AndroidFoundation::SetFieldStatic<T>(GetRawClass(), fieldName, fieldValue, sig);
     }
 
     template<typename T>
     T GetStatic(std::string fieldName, std::string sig = "")
     {
-        return AndroidNode::GetFieldStatic<T>(GetRawClass(), fieldName, sig);
+        return AndroidFoundation::GetFieldStatic<T>(GetRawClass(), fieldName, sig);
     }
 
     jclass GetRawClass()const
@@ -170,8 +170,6 @@ protected:
     std::shared_ptr<_jobject> _object;
 };
 
-
-} // namespace AndroidNode
 
 NS_FK_END
 

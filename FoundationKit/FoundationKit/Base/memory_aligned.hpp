@@ -13,7 +13,7 @@
 #include <cassert>
 #include <memory>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Base/Types.hpp"
+#include "FoundationKit/Base/types.hpp"
 #include "FoundationKit/Base/max_integer_of.hpp"
 
 

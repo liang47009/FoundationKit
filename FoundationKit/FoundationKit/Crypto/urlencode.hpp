@@ -37,7 +37,7 @@ std::string encode(const std::string& source)
                                                         result.push_back(*i);
             break;
         default:
-            std::string::value_type bytes[3] = { '%', (*i & 0xF0) / 16, *i & 0x0F };
+            std::string::value_type bytes[3] = { '%', static_cast<char>((*i & 0xF0) / 16), static_cast<char>(*i & 0x0F) };
             for (std::size_t j = 1; j < sizeof(bytes); ++j)
             {
                 bytes[j] += (bytes[j] > 9) ? 'A' - 10 : '0';

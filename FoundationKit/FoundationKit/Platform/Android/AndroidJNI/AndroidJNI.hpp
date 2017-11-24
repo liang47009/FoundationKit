@@ -28,7 +28,6 @@
 
 NS_FK_BEGIN
 
-namespace AndroidNode{
 
 struct JavaClassMethod
 {
@@ -76,8 +75,6 @@ public:
 private:
     AndroidJNI();
 };
-
-} // namespace AndroidNode
 
 NS_FK_END
 

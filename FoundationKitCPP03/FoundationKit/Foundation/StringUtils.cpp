@@ -226,39 +226,93 @@ std::wstring StringUtils::string2UTF8wstring(const std::string &input)
 }
 
 
-bool StringUtils::UTF8ToUTF16(const std::string& utf8, std::u16string& outUtf16)
+namespace detail
 {
-    if (utf8.empty())
+    template <typename T>
+    struct ConvertTrait 
     {
-        outUtf16.clear();
-        return true;
-    }
+        typedef T ArgType;
+    };
 
-    const size_t utf16Bytes = (utf8.length() + 1) * sizeof(char16_t);
-    char16_t* utf16 = (char16_t*)malloc(utf16Bytes);
-	if (utf16 == nullptr) return false;
-    memset(utf16, 0, utf16Bytes);
-    char* utf16ptr = reinterpret_cast<char*>(utf16);
-    const UTF8* error = nullptr;
-	bool ret = false;
-    if (llvm::ConvertUTF8toWide(2, utf8, utf16ptr, error))
+    template <>
+    struct ConvertTrait<char> 
     {
-        outUtf16 = utf16;
-        ret = true;
-    }
-    free(utf16);
-    return ret;
+        typedef UTF8 ArgType;
+    };
+
+    template <>
+    struct ConvertTrait<char16_t> 
+    {
+        typedef UTF16 ArgType;
+    };
+
+    template <>
+    struct ConvertTrait<char32_t>
+    {
+        typedef UTF32 ArgType;
+    };
+
+    template <typename From, typename To>
+    bool UTFConvert(const std::basic_string<From>& from, std::basic_string<To>& to, ConversionResult(*cvtfunc)(const typename ConvertTrait<From>::ArgType**, const typename ConvertTrait<From>::ArgType*,
+        typename ConvertTrait<To>::ArgType**, typename ConvertTrait<To>::ArgType*,
+        ConversionFlags)
+        )
+    {
+        if (from.empty())
+        {
+            to.clear();
+            return true;
+        }
+
+        // See: http://unicode.org/faq/utf_bom.html#gen6
+        static const int most_bytes_per_character = 4;
+
+        const size_t maxNumberOfChars = from.length(); // all UTFs at most one element represents one character.
+        const size_t numberOfOut = maxNumberOfChars * most_bytes_per_character / sizeof(To);
+
+        std::basic_string<To> working(numberOfOut, 0);
+
+        const typename ConvertTrait<From>::ArgType* inbeg = (typename ConvertTrait<From>::ArgType*)(&from[0]);
+        const typename ConvertTrait<From>::ArgType* inend = inbeg + from.length();
+
+        typename ConvertTrait<To>::ArgType* outbeg =(typename ConvertTrait<To>::ArgType*)(&working[0]);
+        typename ConvertTrait<To>::ArgType* outend = outbeg + working.length();
+        ConversionResult r = cvtfunc(&inbeg, inend, &outbeg, outend, strictConversion);
+        if (r != conversionOK)
+            return false;
+
+        working.resize((To*)outbeg - &working[0]);
+        to = working;
+        return true;
+    };
+
 }
 
-bool StringUtils::UTF16ToUTF8(const std::u16string& utf16, std::string& outUtf8)
+bool StringUtils::UTF8ToUTF16(const std::string& inUtf8, std::u16string& outUtf16)
 {
-    if (utf16.empty())
-    {
-        outUtf8.clear();
-        return true;
-    }
+    return detail::UTFConvert(inUtf8, outUtf16, ConvertUTF8toUTF16);
+}
+bool StringUtils::UTF8ToUTF32(const std::string& inUtf8, std::u32string& outUtf32)
+{
+    return detail::UTFConvert(inUtf8, outUtf32, ConvertUTF8toUTF32);
+}
 
-    return llvm::convertUTF16ToUTF8String(utf16, outUtf8);
+bool StringUtils::UTF16ToUTF8(const std::u16string& inUtf16, std::string& outUtf8)
+{
+    return detail::UTFConvert(inUtf16, outUtf8, ConvertUTF16toUTF8);
+}
+bool StringUtils::UTF16ToUTF32(const std::u16string& inUtf16, std::u32string& outUtf32)
+{
+    return detail::UTFConvert(inUtf16, outUtf32, ConvertUTF16toUTF32);
+}
+
+bool StringUtils::UTF32ToUTF8(const std::u32string& inUtf32, std::string& outUtf8)
+{
+    return detail::UTFConvert(inUtf32, outUtf8, ConvertUTF32toUTF8);
+}
+bool StringUtils::UTF32ToUTF16(const std::u32string& inUtf32, std::u16string& outUtf16)
+{
+    return detail::UTFConvert(inUtf32, outUtf16, ConvertUTF32toUTF16);
 }
 
 /*

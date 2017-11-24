@@ -16,8 +16,6 @@
 
 NS_FK_BEGIN
 
-using namespace AndroidNode;
-
 namespace Android
 {
     typedef std::vector<AndroidJavaObject> NativeArguments;

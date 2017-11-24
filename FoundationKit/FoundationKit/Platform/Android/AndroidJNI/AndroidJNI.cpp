@@ -19,7 +19,6 @@ NS_FK_BEGIN
 std::string GExternalFilePath;
 std::string GFilePathBase;
 
-namespace AndroidNode{
 
 static jint      GCurrentJavaVersion = JNI_VERSION_1_6;
 static JavaVM*   GCurrentJavaVM      = nullptr;
@@ -282,7 +281,6 @@ bool AndroidJNI::RegisterNativeMethods(const char* className, JNINativeMethod* n
     return true;
 }
 
-} // namespace AndroidNode
 
 NS_FK_END
 

@@ -15,8 +15,6 @@
 
 NS_FK_BEGIN
 
-namespace AndroidNode{
-
 class AndroidJavaClass
 {
 public:
@@ -74,25 +72,25 @@ public:
     template<typename T = void, typename... Args>
     T CallStaticWithSig(const std::string& methodName, const std::string& sig, Args... args)
     {
-        return AndroidNode::CallStaticWithSig<T>(_class, methodName, sig, std::forward<Args>(args)...);
+        return AndroidFoundation::CallStaticWithSig<T>(_class, methodName, sig, std::forward<Args>(args)...);
     }
 
     template<typename T = void, typename... Args>
     T CallStatic(std::string methodName, Args... args)
     {
-        return AndroidNode::CallStatic<T>(_class, methodName, std::forward<Args>(args)...);
+        return AndroidFoundation::CallStatic<T>(_class, methodName, std::forward<Args>(args)...);
     }
 
     template<typename T>
     void SetStatic(std::string fieldName, T fieldValue, std::string sig = "")
     {
-        AndroidNode::SetFieldStatic<T>(_class, fieldName, fieldValue, sig);
+        AndroidFoundation::SetFieldStatic<T>(_class, fieldName, fieldValue, sig);
     }
 
     template<typename T>
     T GetStatic(std::string fieldName, std::string sig = "")
     {
-        return AndroidNode::GetFieldStatic<T>(_class, fieldName, sig);
+        return AndroidFoundation::GetFieldStatic<T>(_class, fieldName, sig);
     }
 
     jclass GetRawClass()const
@@ -109,8 +107,6 @@ private:
 protected:
     jclass _class;
 };
-
-} // namespace AndroidNode
 
 NS_FK_END
 

@@ -6,7 +6,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Base/Types.hpp"
+#include "FoundationKit/Base/types.hpp"
 #include <atomic>
 #if PLATFORM_WINDOWS
 #include <time.h>
@@ -22,8 +22,8 @@ class unique_id
 {
 public:
     unique_id()
-        : WorkerId(0)
-        , CustomId(0)
+        : CustomId(0)
+        , WorkerId(0)
         , StartTimeStamp(GetTimeStamp())
     {
         SequenceId = 0;
@@ -46,17 +46,17 @@ public:
     {
         if (workerid > MAX_WORKERID || workerid < 0 || customid > MAX_CUSTOMID || customid < 0)
             return false;
-
         WorkerId = workerid;
         CustomId = customid;
+        return true;
     }
 
     bool SetStartTimeStamp(int64 timestamp)
     {
         if (StartTimeStamp < 0)
             return false;
-
         StartTimeStamp = timestamp;
+        return true;
     }
 
     int64 Generate()

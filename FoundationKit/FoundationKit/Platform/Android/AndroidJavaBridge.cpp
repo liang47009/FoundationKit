@@ -104,7 +104,7 @@ extern "C"
             case 'T':
             {
                 jstring jstr = static_cast<jstring>(arguments[argIndex].GetRawObject());
-                std::string str = AndroidNode::AndroidJNI::jstring2string(jstr);
+                std::string str = AndroidJNI::jstring2string(jstr);
                 arglist.emplace_back(str);
             }
                 break;

@@ -61,14 +61,14 @@ public:
 
     explicit ProtectedMemoryPool(vm_size_t pool_size)
     {
-        void* pAddress = VirtualAlloc(nullptr, _poolSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
-        _valid = (pAddress != nullptr);
-        _baseAddress = (vm_address_t)pAddress;
+        void* pAddress = mmap(nullptr, _poolSize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+        _valid = (pAddress != 0 && pAddress != MAP_FAILED);
+        _baseAddress = reinterpret_cast<vm_address_t>(pAddress);
         assert(_valid);
     }
     ~ProtectedMemoryPool()
     {
-        VirtualFree(reinterpret_cast<void*>(_baseAddress), 0, MEM_RELEASE);
+        munmap(reinterpret_cast<void*>(_baseAddress), _poolSize);
     }
 
     char* Allocate(vm_size_t size)
