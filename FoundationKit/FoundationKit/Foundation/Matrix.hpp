@@ -117,7 +117,7 @@ public:
      *     2   6   10  14
      *     3   7   11  15
      *
-     * @param m An array containing 16 elements in column-major order.
+     * @param mat An array containing 16 elements in column-major order.
      */
     explicit Matrix(const float* mat);
 
@@ -378,7 +378,7 @@ public:
     /**
      * Adds the specified matrix to this matrix.
      *
-     * @param m The matrix to add.
+     * @param other The matrix to add.
      */
     void Add(const Matrix& other);
 
@@ -518,7 +518,7 @@ public:
     /**
      * Multiplies the components of the specified matrix by a scalar and stores the result in dst.
      *
-     * @param m The matrix.
+     * @param mat The matrix.
      * @param scalar The scalar value.
      * @param dst A matrix to store the result in.
      */
@@ -527,7 +527,7 @@ public:
     /**
      * Multiplies this matrix by the specified one.
      *
-     * @param m The matrix to multiply.
+     * @param mat The matrix to multiply.
      */
     void Multiply(const Matrix& mat);
 
@@ -720,14 +720,14 @@ public:
     /**
      * Sets the values of this matrix to those in the specified column-major array.
      *
-     * @param m An array containing 16 elements in column-major format.
+     * @param mat An array containing 16 elements in column-major format.
      */
     void Set(const float* mat);
 
     /**
      * Sets the values of this matrix to those of the specified matrix.
      *
-     * @param m The source matrix.
+     * @param mat The source matrix.
      */
     void Set(const Matrix& mat);
 
@@ -744,7 +744,7 @@ public:
     /**
      * Subtracts the specified matrix from the current matrix.
      *
-     * @param m The matrix to subtract.
+     * @param mat The matrix to subtract.
      */
     void Subtract(const Matrix& mat);
 
@@ -878,7 +878,7 @@ public:
      * 
      * Note: this does not modify this matrix.
      * 
-     * @param m The matrix to add.
+     * @param mat The matrix to add.
      * @return The matrix sum.
      */
     inline const Matrix operator+(const Matrix& mat) const;
@@ -886,7 +886,7 @@ public:
     /**
      * Adds the given matrix to this matrix.
      * 
-     * @param m The matrix to add.
+     * @param mat The matrix to add.
      * @return This matrix, after the addition occurs.
      */
     inline Matrix& operator+=(const Matrix& mat);
@@ -896,7 +896,7 @@ public:
      * 
      * Note: this does not modify this matrix.
      * 
-     * @param m The matrix to subtract.
+     * @param mat The matrix to subtract.
      * @return The matrix difference.
      */
     inline const Matrix operator-(const Matrix& mat) const;
@@ -904,7 +904,7 @@ public:
     /**
      * Subtracts the given matrix from this matrix.
      * 
-     * @param m The matrix to subtract.
+     * @param mat The matrix to subtract.
      * @return This matrix, after the subtraction occurs.
      */
     inline Matrix& operator-=(const Matrix& mat);
@@ -923,7 +923,7 @@ public:
      * 
      * Note: this does not modify this matrix.
      * 
-     * @param m The matrix to multiply by.
+     * @param mat The matrix to multiply by.
      * @return The matrix product.
      */
     inline const Matrix operator*(const Matrix& mat) const;
@@ -931,7 +931,7 @@ public:
     /**
      * Right-multiplies this matrix by the given matrix.
      * 
-     * @param m The matrix to multiply by.
+     * @param mat The matrix to multiply by.
      * @return This matrix, after the multiplication occurs.
      */
     inline Matrix& operator*=(const Matrix& mat);
@@ -949,7 +949,7 @@ private:
  * Note: this treats the given vector as a vector and not as a point.
  * 
  * @param v The vector to transform.
- * @param m The matrix to transform by.
+ * @param mat The matrix to transform by.
  * @return This vector, after the transformation occurs.
  */
 inline Vector3& operator*=(Vector3& v, const Matrix& mat);
@@ -959,7 +959,7 @@ inline Vector3& operator*=(Vector3& v, const Matrix& mat);
  * 
  * Note: this treats the given vector as a vector and not as a point.
  * 
- * @param m The matrix to transform by.
+ * @param mat The matrix to transform by.
  * @param v The vector to transform.
  * @return The resulting transformed vector.
  */
@@ -971,7 +971,7 @@ inline const Vector3 operator*(const Matrix& mat, const Vector3& v);
  * Note: this treats the given vector as a vector and not as a point.
  * 
  * @param v The vector to transform.
- * @param m The matrix to transform by.
+ * @param mat The matrix to transform by.
  * @return This vector, after the transformation occurs.
  */
 inline Vector4& operator*=(Vector4& v, const Matrix& mat);
@@ -981,7 +981,7 @@ inline Vector4& operator*=(Vector4& v, const Matrix& mat);
  * 
  * Note: this treats the given vector as a vector and not as a point.
  * 
- * @param m The matrix to transform by.
+ * @param mat The matrix to transform by.
  * @param v The vector to transform.
  * @return The resulting transformed vector.
  */

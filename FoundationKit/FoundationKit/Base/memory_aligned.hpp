@@ -38,7 +38,7 @@ struct max_aligned : std::integral_constant < int, max_integer_of<std::alignment
 /**
  * Aligns a value to the nearest higher multiple of 'Alignment', which must be a power of two.
  * @param Ptr			Value to align
- * @param Alignment		alignment, must be a power of two
+ * @param alignment		alignment, must be a power of two
  * @return				Aligned value
  */
 template <typename T>
@@ -59,7 +59,7 @@ constexpr inline bool is_alignment(std::size_t value) noexcept
 
 /**
  * Checks if a pointer is aligned to the specified alignment.
- * @param Ptr - The pointer to check.
+ * @param ptr - The pointer to check.
  * @return true if the pointer is aligned, false otherwise.
  */
  inline bool is_alignment(const /*volatile*/ void* ptr, std::size_t alignment)noexcept
@@ -100,7 +100,6 @@ inline void free_aligned(void *p)
  * For example:
  *     std::vector<CusTomClass, aligned_allocator<CusTomClass>> myvector;
  *
- * @param T type allocated by this object.
  */
 template <typename T>
 class aligned_allocator : public std::allocator<T> {
@@ -121,15 +120,12 @@ public:
     /// @brief Constructs and copies a simd_allocator.
     ///
     /// @param a Allocator to copy.
-    /// @param U type of the object allocated by the allocator to copy.
     template <class U>
     aligned_allocator(const aligned_allocator<U> &a) throw() : std::allocator<T>(a) {}
     /// @brief Destructs a simd_allocator.
     ~aligned_allocator() throw() {}
 
     /// @brief Obtains an allocator of a different type.
-    ///
-    /// @param  _Tp1 type of the new allocator.
     template <typename _Tp1>
     struct rebind 
     {

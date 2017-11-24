@@ -13,6 +13,8 @@
 #include <assert.h>
 #include <memory>
 #include <malloc/malloc.h>
+#include <mach/mach.h>
+#include <mach/mach_host.h>
 
 NS_FK_BEGIN
 
