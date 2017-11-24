@@ -186,7 +186,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Base\has_member.hpp" />
     <ClInclude Include="..\FoundationKit\Base\hex.hpp" />
     <ClInclude Include="..\FoundationKit\Base\locale.hpp" />
-    <ClInclude Include="..\FoundationKit\Base\match.hpp" />
     <ClInclude Include="..\FoundationKit\Base\max_integer_of.hpp" />
     <ClInclude Include="..\FoundationKit\Base\memory_aligned.hpp" />
     <ClInclude Include="..\FoundationKit\Base\mutablebuf.hpp" />
@@ -206,6 +205,9 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\experimental\AsyncTask.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\BehaviourTree.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\BehaviourTreeTest.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\FileHandle.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\IFileHandle.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\match.hpp" />
     <ClInclude Include="..\FoundationKit\experimental\threadsafe_stack.hpp" />
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
@@ -275,6 +277,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp" />
     <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp" />
     <ClCompile Include="..\FoundationKit\Crypto\des.cpp" />
+    <ClCompile Include="..\FoundationKit\experimental\FileHandle.cpp" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.c" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTFWrapper.cpp" />
     <ClCompile Include="..\FoundationKit\external\unzip\ioapi.cpp" />

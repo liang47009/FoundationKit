@@ -307,9 +307,6 @@
     <ClInclude Include="..\FoundationKit\Base\hex.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Base\match.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\max_integer_of.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -327,6 +324,15 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatform.hpp">
       <Filter>Platform\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\FileHandle.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\IFileHandle.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\match.hpp">
+      <Filter>experimental</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -453,6 +459,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Compression.cpp">
       <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\experimental\FileHandle.cpp">
+      <Filter>experimental</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

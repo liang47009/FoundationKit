@@ -27,7 +27,7 @@
 #define _WCSTO_ULL	wcstoul
 #define _WCSTO_F	wcstod
 #define _WCSTO_LD	wcstod
-namespace DelegateTypestd
+namespace std
 {
     inline int stoi(const string& _Str, size_t *_Idx = 0,
         int _Base = 10)

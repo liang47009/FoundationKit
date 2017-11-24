@@ -11,7 +11,7 @@
 #include "FoundationKit/Base/function_traits.hpp"
 
 #if (__cplusplus && (__cplusplus > 201103L)) || (_MSC_VER && _MSC_VER > 1800)
-
+NS_FK_BEGIN
 // forward declarations
 template<class T, class Case, class ...Cases>
 decltype(auto) match(T&& value, const Case& _case, const Cases&... cases);
@@ -37,7 +37,7 @@ decltype(auto) match(T&& value, const Case& _case, const Cases&... cases)
 {
     //using args = typename function_traits<Case>::args_tuple;
     //using arg = std::tuple_element_t<0, args>;
-    using arg = std::function_traits<Case>::args<0>::type;
+    using arg = function_traits<Case>::args<0>::type;
     using match = std::is_same < std::decay_t<arg>, std::decay_t<T> > ;
     return details::match_call(_case, std::forward<T>(value), match{}, cases...);
 }
@@ -93,6 +93,8 @@ void matchTest()
 }
 
 
-#endif
+#endif //#if ENABLE_TEST_MATCH
+
+NS_FK_END
 
 #endif // FOUNDATIONKIT_MATCH_HPP

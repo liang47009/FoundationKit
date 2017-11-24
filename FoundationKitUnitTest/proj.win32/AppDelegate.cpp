@@ -76,6 +76,17 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+class AAClass
+{
+public:
+    AAClass(int ini, char inc)
+        : i(ini)
+        , c(inc)
+    {}
+
+    int i;
+    char c;
+};
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
@@ -83,6 +94,11 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::string strErr = ec.message();
 	HTTPClient::GetInstance()->Initialize();
     PlatformDevice::DumpDeviceInfo();
+
+    size_t aab = alignment_of_max_align;
+
+    aligned_ptr<AAClass> apAAClass(100, 'a');
+
 
 	int im_a_breakpoint = 0;
 	return true;

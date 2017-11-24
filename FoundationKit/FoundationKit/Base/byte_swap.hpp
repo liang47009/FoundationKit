@@ -24,7 +24,7 @@
 NS_FK_BEGIN
 
 //Other impl see:https://sourceforge.net/p/predef/wiki/Endianness/
-#define BYTE_ORDER (0xFFFFFFFF & 1)
+#define BYTE_ENDIAN_ORDER (0xFFFFFFFF & 1)
 #define BYTE_LITTLE_ENDIAN 0x00000001
 #define BYTE_BIG_ENDIAN 0x01000000
 #define BYTE_PDP_ENDIAN 0x00010000
@@ -190,7 +190,7 @@ static inline uint64_t endian_reverse(uint64_t x) noexcept
 template <class EndianReversible >
 inline EndianReversible  big_to_native(EndianReversible  x) noexcept
 {
-#if (BYTE_ORDER == BYTE_BIG_ENDIAN)
+#if (BYTE_ENDIAN_ORDER == BYTE_BIG_ENDIAN)
     return x;
 #   else
     return endian_reverse(x);
@@ -200,7 +200,7 @@ inline EndianReversible  big_to_native(EndianReversible  x) noexcept
 template <class EndianReversible >
 inline EndianReversible  native_to_big(EndianReversible  x) noexcept
 {
-#if (BYTE_ORDER == BYTE_BIG_ENDIAN)
+#if (BYTE_ENDIAN_ORDER == BYTE_BIG_ENDIAN)
     return x;
 #   else
     return endian_reverse(x);
@@ -210,7 +210,7 @@ inline EndianReversible  native_to_big(EndianReversible  x) noexcept
 template <class EndianReversible >
 inline EndianReversible  little_to_native(EndianReversible  x) noexcept
 {
-#if (BYTE_ORDER == BYTE_LITTLE_ENDIAN)
+#if (BYTE_ENDIAN_ORDER == BYTE_LITTLE_ENDIAN)
     return x;
 #   else
     return endian_reverse(x);
@@ -220,7 +220,7 @@ inline EndianReversible  little_to_native(EndianReversible  x) noexcept
 template <class EndianReversible >
 inline EndianReversible  native_to_little(EndianReversible  x) noexcept
 {
-#if (BYTE_ORDER == BYTE_LITTLE_ENDIAN)
+#if (BYTE_ENDIAN_ORDER == BYTE_LITTLE_ENDIAN)
     return x;
 #   else
     return endian_reverse(x);

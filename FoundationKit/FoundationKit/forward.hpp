@@ -43,7 +43,6 @@
 #include <FoundationKit/Base/hex.hpp>
 #include <FoundationKit/Base/lexical_cast.hpp>
 #include <FoundationKit/Base/locale.hpp>
-#include <FoundationKit/Base/match.hpp>
 #include <FoundationKit/Base/max_integer_of.hpp>
 #include <FoundationKit/Base/memory_aligned.hpp>
 #include <FoundationKit/Base/mutablebuf.hpp>

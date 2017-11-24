@@ -19,7 +19,6 @@
 #include <android/log.h>
 #include <stdio.h>
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
-#include "FoundationKit/Platform/Platform.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
 #include "FoundationKit/Base/function_cache.hpp"
@@ -28,6 +27,11 @@
 #include "FoundationKit/Platform/Environment.hpp"
 #include <vector>
 #include <stdarg.h>
+
+#include "FoundationKit/Base/apply.hpp"
+#include "FoundationKit/Base/byte_swap.hpp"
+#include "FoundationKit/Base/lexical_cast.hpp"
+#include "FoundationKit/Base/memory_aligned.hpp"
 
 
 using namespace FoundationKit;

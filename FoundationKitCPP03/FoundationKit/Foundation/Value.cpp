@@ -8,7 +8,7 @@
 #include <sstream>
 #include <assert.h>
 #include "Value.hpp"
-
+#include "FoundationKit/Foundation/StringUtils.hpp"
 NS_FK_BEGIN
 
 const Value Value::Null;
@@ -366,6 +366,59 @@ void FoundationKit::Value::init(Type valType)
     _type = valType;
     memset(&_field, 0x00, sizeof(_field));
 }
+std::string FoundationKit::Value::ToString()
+{
+    std::string result;
+    switch (_type)
+    {
+    case Value::Type::UCHAR:
+        result = StringUtils::Format("%c", _field._ucharVal);
+        break;
+    case Value::Type::USHORT:
+        result = StringUtils::Format("%d", _field._ushortVal);
+        break;
+    case Value::Type::UINT:
+        result = StringUtils::Format("%d", _field._uintVal);
+        break;
+    case Value::Type::ULONGLONG:
+        result = StringUtils::Format("%lld", _field._ulonglongVal);
+        break;
+    case Value::Type::BOOL:
+        result = StringUtils::Format("%s", _field._boolVal?"true":"false");
+        break;
+    case Value::Type::CHAR:
+        result = StringUtils::Format("%c", _field._charVal);
+        break;
+    case Value::Type::SHORT:
+        result = StringUtils::Format("%d", _field._shortVal);
+        break;
+    case Value::Type::INT:
+        result = StringUtils::Format("%d", _field._intVal);
+        break;
+    case Value::Type::LONGLONG:
+        result = StringUtils::Format("%lld", _field._longlongVal);
+        break;
+    case Value::Type::FLOAT:
+        result = StringUtils::Format("%f", _field._floatVal);
+        break;
+    case Value::Type::DOUBLE:
+        result = StringUtils::Format("%f", _field._doubleVal);
+        break;
+    case Value::Type::PCHAR:
+        result = _field._pcharVal;
+        break;
+    case Value::Type::STRING:
+        result = _field._stringVal;
+        break;
+    case  Value::Type::POINTER:
+        result = StringUtils::Format("%p", _field._pointer);
+        break;
+    default:
+        break;
+    }
+    return result;
+}
+
 
 void Value::Reset(Type valType)
 {
