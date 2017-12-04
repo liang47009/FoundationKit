@@ -13,12 +13,10 @@ losemymind.libo@gmail.com
 #include <android/asset_manager_jni.h>
 #include "AndroidJNI.hpp"
 
-
 NS_FK_BEGIN
 
 std::string GExternalFilePath;
 std::string GFilePathBase;
-
 
 static jint      GCurrentJavaVersion = JNI_VERSION_1_6;
 static JavaVM*   GCurrentJavaVM      = nullptr;
@@ -26,6 +24,22 @@ static jobject   GMainActivityRef    = nullptr;
 static jobject   GClassLoader        = nullptr;
 static jmethodID GFindClassMethod    = nullptr;
 static pthread_key_t GTlsSlot;
+
+/************************************************************************
+Memory Manage:
+NewGlobalRef           -> DeleteGlobalRef
+FindClass              -> DeleteLocalRef
+GetObjectField         -> DeleteLocalRef
+GetObjectClass         -> DeleteLocalRef
+GetObjectArrayElement  -> DeleteLocalRef
+NewString              -> DeleteLocalRef
+NewStringUTF           -> DeleteLocalRef
+NewObject              -> DeleteLocalRef
+NewByteArray           -> DeleteLocalRef
+GetStringUTFChars      -> ReleaseStringUTFChars
+GetStringChars         -> ReleaseStringChars
+GetByteArrayElements   -> ReleaseByteArrayElements
+************************************************************************/
 
 AndroidJNI::AndroidJNI()
 {
@@ -93,6 +107,10 @@ void AndroidJNI::InitializeJavaEnv(JavaVM* vm, jint version, jobject activityIns
             env->DeleteLocalRef(externalFilesPathString);
             env->DeleteLocalRef(externalFilesDirPath);
             env->DeleteLocalRef(contextClass);
+            env->DeleteLocalRef(MainClass);
+            env->DeleteLocalRef(classLoader);
+            env->DeleteLocalRef(classClass);
+            env->DeleteLocalRef(classLoaderClass);
             ANDROID_LOGI("ExternalFilePath found as '%s'\n", GExternalFilePath.c_str());
         }
 
