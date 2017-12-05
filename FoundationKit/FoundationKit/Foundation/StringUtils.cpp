@@ -48,8 +48,8 @@ std::string StringUtils::Format( const char* format, ... )
 {
 	const static int MAX_LENGTH = 64;
     // Pass one greater needed size to leave room for NULL terminator
-    std::vector<char> dynamicBuffer(MAX_LENGTH + 1);
-    char* result = &dynamicBuffer[0];
+    std::vector<char> dynamicBuffer;
+    char* result = nullptr;
     int BufferSize = MAX_LENGTH;
     int needed = 0;
     int loopCount = 0;

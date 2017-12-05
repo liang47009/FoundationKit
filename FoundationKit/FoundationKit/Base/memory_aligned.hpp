@@ -37,14 +37,14 @@ struct max_aligned : std::integral_constant < int, max_integer_of<std::alignment
 
 /**
  * Aligns a value to the nearest higher multiple of 'Alignment', which must be a power of two.
- * @param Ptr			Value to align
+ * @param ptr			Value to align
  * @param alignment		alignment, must be a power of two
  * @return				Aligned value
  */
 template <typename T>
-inline constexpr T* align(const T* Ptr, int32_t alignment)
+inline constexpr T* align(const T* ptr, int32_t alignment)
 {
-    return (T*)((address(Ptr) + alignment - 1) & ~(alignment - 1));
+    return (T*)((address(ptr) + alignment - 1) & ~(alignment - 1));
 }
 
 /**
@@ -60,6 +60,7 @@ constexpr inline bool is_alignment(std::size_t value) noexcept
 /**
  * Checks if a pointer is aligned to the specified alignment.
  * @param ptr - The pointer to check.
+ * @param alignment		alignment, must be a power of two
  * @return true if the pointer is aligned, false otherwise.
  */
  inline bool is_alignment(const /*volatile*/ void* ptr, std::size_t alignment)noexcept

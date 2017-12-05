@@ -43,8 +43,8 @@ const size_t DEFAULT_LOG_LENGTH = 256;
 void __log__(const char* fmt, ...)
 {
     // Pass one greater needed size to leave room for NULL terminator
-    std::vector<char> dynamicBuffer(DEFAULT_LOG_LENGTH + 1);
-    char* result = &dynamicBuffer[0];
+    std::vector<char> dynamicBuffer;
+    char* result = nullptr;
     int BufferSize = DEFAULT_LOG_LENGTH;
     int needed = 0;
     int loopCount = 0;
