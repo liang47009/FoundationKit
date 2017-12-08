@@ -48,5 +48,31 @@
 #define THREAD_LOCAL __declspec(thread)
 #define FILEPATH_MAX MAX_PATH
 
+__pragma (warning(disable:4127))
+#pragma warning(disable:4127)
+#define _XKEYCHECK_H // disable windows xkeycheck.h
+
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN 1
+#endif
+
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
+#ifndef _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS 1
+#endif
+
+#ifndef _SCL_SECURE_NO_WARNINGS
+#define _SCL_SECURE_NO_WARNINGS 1
+#endif
+
+/*
+* Include windows.h without Windows Sockets 1.1 to prevent conflicts with
+* Windows Sockets 2.0.
+*/
+#include <windows.h>
+
 #endif // END OF defined(_WIN32) || defined(__WIN32__) || defined(WIN32) || defined(WIN64) || defined(_WIN64)
 #endif // END OF FOUNDATIONKIT_WINDOWSPLATFORM_HPP

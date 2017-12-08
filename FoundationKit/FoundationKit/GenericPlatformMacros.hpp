@@ -136,38 +136,6 @@ extern void __log__(const char* fmt, ...);
     #define FKDebug(fmt, ...)
 #endif
 
-//===============================================================================================
-// Platform Pre-Setup
-//===============================================================================================
-#if PLATFORM_WINDOWS
-__pragma (warning(disable:4127))
-#pragma warning(disable:4127)
-#define _XKEYCHECK_H // disable windows xkeycheck.h
-
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN 1
-#endif
-
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-
-#ifndef _CRT_SECURE_NO_WARNINGS
-#define _CRT_SECURE_NO_WARNINGS 1
-#endif
-
-#ifndef _SCL_SECURE_NO_WARNINGS
-#define _SCL_SECURE_NO_WARNINGS 1
-#endif
-
-/*
- * Include windows.h without Windows Sockets 1.1 to prevent conflicts with
- * Windows Sockets 2.0.
- */
-#include <windows.h>
-
-#endif //PLATFORM_WINDOWS
-
 // IOS,ANDROID,MAC platform must be defined USE_FILE32API
 //#ifndef USE_FILE32API
 //#define USE_FILE32API 1
