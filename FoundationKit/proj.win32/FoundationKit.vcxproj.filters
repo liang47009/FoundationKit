@@ -117,9 +117,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\Quaternion.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\RandomHelper.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Rect.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -333,6 +330,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\match.hpp">
       <Filter>experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Utility.hpp">
+      <Filter>Foundation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

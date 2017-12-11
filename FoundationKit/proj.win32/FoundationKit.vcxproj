@@ -231,7 +231,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Foundation\Matrix.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Path.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Quaternion.hpp" />
-    <ClInclude Include="..\FoundationKit\Foundation\RandomHelper.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Rect.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Runnable.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Singleton.hpp" />
@@ -240,6 +239,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Foundation\Time.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\ThreadTimer.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Timespan.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Utility.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Value.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Vector2.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Vector3.hpp" />

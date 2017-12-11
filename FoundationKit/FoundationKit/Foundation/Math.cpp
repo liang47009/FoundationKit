@@ -4,12 +4,12 @@
  losemymind.libo@gmail.com
  
  ****************************************************************************/
-
 #include "FoundationKit/Foundation/Math.hpp"
 NS_FK_BEGIN
 
 namespace Math
 {
+
 
 int NextPowerOfTwo( int val )
 {
@@ -41,6 +41,14 @@ double StandardDeviation( const std::vector<double>& vec )
     }
     sd = sd / vec.size();
     return sqrt(sd);
+}
+
+
+std::default_random_engine& GetRandomEngine()
+{
+    static std::random_device          _randomDevice;
+    static std::default_random_engine  _randomEngine(_randomDevice());
+    return _randomEngine;
 }
 
 } // namespace MathEx

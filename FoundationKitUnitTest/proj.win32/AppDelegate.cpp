@@ -5,6 +5,7 @@
 #include <thread>
 #include <iostream>
 #include <atomic>
+#include <utility>
 
 #include "AppDelegate.h"
 
@@ -36,7 +37,6 @@
 #include "FoundationKit/Foundation/Matrix.hpp"
 #include "FoundationKit/Foundation/Path.hpp"
 #include "FoundationKit/Foundation/Quaternion.hpp"
-#include "FoundationKit/Foundation/RandomHelper.hpp"
 #include "FoundationKit/Foundation/Rect.hpp"
 #include "FoundationKit/Foundation/Runnable.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"
@@ -103,9 +103,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
 
-    size_t aab = alignment_of_max_align;
-
-    aligned_ptr<AAClass> apAAClass(100, 'a');
+    std::vector<uint8>  Data;
+    Data.resize(100);
+    Data.clear();
 
 
 	int im_a_breakpoint = 0;
