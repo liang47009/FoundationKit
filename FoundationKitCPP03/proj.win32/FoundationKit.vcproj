@@ -471,10 +471,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Foundation\RandomHelper.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\FoundationKit\Foundation\Rect.cpp"
 				>
 			</File>
@@ -524,6 +520,10 @@
 			</File>
 			<File
 				RelativePath="..\FoundationKit\Foundation\Timespan.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Foundation\Utility.hpp"
 				>
 			</File>
 			<File
