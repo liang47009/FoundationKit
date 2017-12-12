@@ -339,7 +339,6 @@ bool StringUtils::UTF32ToUTF16(const std::u32string& inUtf32, std::u16string& ou
     return detail::UTFConvert(inUtf32, outUtf16, ConvertUTF32toUTF16);
 }
 
-
 bool StringUtils::UTF32ToUTF16(const std::u32string& inUtf32, std::wstring& outUtf16)
 {
     return detail::UTFConvert(inUtf32, outUtf16, ConvertUTF32toUTF16);
