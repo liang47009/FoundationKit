@@ -241,6 +241,12 @@ namespace detail
     };
 
     template <>
+    struct ConvertTrait<wchar_t>
+    {
+        typedef UTF16 ArgType;
+    };
+
+    template <>
     struct ConvertTrait<char32_t>
     {
         typedef UTF32 ArgType;
@@ -293,6 +299,12 @@ bool StringUtils::UTF8ToUTF16(const std::string& inUtf8, std::u16string& outUtf1
 {
     return detail::UTFConvert(inUtf8, outUtf16, ConvertUTF8toUTF16);
 }
+
+bool StringUtils::UTF8ToUTF16(const std::string& inUtf8, std::wstring& outUtf16)
+{
+    return detail::UTFConvert(inUtf8, outUtf16, ConvertUTF8toUTF16);
+}
+
 bool StringUtils::UTF8ToUTF32(const std::string& inUtf8, std::u32string& outUtf32)
 {
     return detail::UTFConvert(inUtf8, outUtf32, ConvertUTF8toUTF32);
@@ -302,7 +314,18 @@ bool StringUtils::UTF16ToUTF8(const std::u16string& inUtf16, std::string& outUtf
 {
     return detail::UTFConvert(inUtf16, outUtf8, ConvertUTF16toUTF8);
 }
+
+bool StringUtils::UTF16ToUTF8(const std::wstring& inUtf16, std::string& outUtf8)
+{
+    return detail::UTFConvert(inUtf16, outUtf8, ConvertUTF16toUTF8);
+}
+
 bool StringUtils::UTF16ToUTF32(const std::u16string& inUtf16, std::u32string& outUtf32)
+{
+    return detail::UTFConvert(inUtf16, outUtf32, ConvertUTF16toUTF32);
+}
+
+bool StringUtils::UTF16ToUTF32(const std::wstring& inUtf16, std::u32string& outUtf32)
 {
     return detail::UTFConvert(inUtf16, outUtf32, ConvertUTF16toUTF32);
 }
@@ -317,6 +340,10 @@ bool StringUtils::UTF32ToUTF16(const std::u32string& inUtf32, std::u16string& ou
 }
 
 
+bool StringUtils::UTF32ToUTF16(const std::u32string& inUtf32, std::wstring& outUtf16)
+{
+    return detail::UTFConvert(inUtf32, outUtf16, ConvertUTF32toUTF16);
+}
 
 /*
 std::u16string StringUtils::UTF8ToUTF16(const std::string &s)
