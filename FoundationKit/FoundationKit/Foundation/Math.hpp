@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
   Copyright (c) 2017 libo All rights reserved.
  
   losemymind.libo@gmail.com
@@ -14,6 +14,7 @@
 #include <vector>
 #include <limits>
 #include <cmath>
+#include <cfloat>
 #include <random>
 #include <algorithm>
 #include <type_traits>

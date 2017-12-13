@@ -16,7 +16,6 @@
 		093490BA1E7F7BA30034ECF2 /* unzip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09348FE11E7F7BA20034ECF2 /* unzip.cpp */; };
 		093490C21E7F7BA30034ECF2 /* Compression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934900C1E7F7BA20034ECF2 /* Compression.cpp */; };
 		093490C41E7F7BA30034ECF2 /* DateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490101E7F7BA20034ECF2 /* DateTime.cpp */; };
-		093490C51E7F7BA30034ECF2 /* DelegateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490121E7F7BA20034ECF2 /* DelegateManager.cpp */; };
 		093490C61E7F7BA30034ECF2 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490161E7F7BA20034ECF2 /* Exception.cpp */; };
 		093490C81E7F7BA30034ECF2 /* Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934901B1E7F7BA20034ECF2 /* Math.cpp */; };
 		093490C91E7F7BA30034ECF2 /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934901E1E7F7BA20034ECF2 /* MathUtil.cpp */; };
@@ -65,6 +64,7 @@
 		09410A071F3C094A006D6F80 /* AppleEnvironment.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B21F3C0787006D6F80 /* AppleEnvironment.mm */; };
 		09410A081F3C094D006D6F80 /* AppleFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B31F3C0787006D6F80 /* AppleFile.mm */; };
 		09410A091F3C094F006D6F80 /* ApplePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B41F3C0787006D6F80 /* ApplePath.mm */; };
+		094A12C81FE0F2DB00B1F8B9 /* NotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094A12C61FE0F2DA00B1F8B9 /* NotificationCenter.cpp */; };
 		094C50B11EC3FF1B00AB3021 /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934902E1E7F7BA20034ECF2 /* StringUtils.cpp */; };
 		094C50B21EC3FF1B00AB3021 /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490251E7F7BA20034ECF2 /* Quaternion.cpp */; };
 		094C50B31EC3FF1B00AB3021 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490221E7F7BA20034ECF2 /* Matrix.cpp */; };
@@ -72,7 +72,6 @@
 		094C50B51EC3FF1B00AB3021 /* Math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934901B1E7F7BA20034ECF2 /* Math.cpp */; };
 		094C50B61EC3FF1B00AB3021 /* GenericPlatformMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490461E7F7BA20034ECF2 /* GenericPlatformMacros.cpp */; };
 		094C50B71EC3FF1B00AB3021 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490161E7F7BA20034ECF2 /* Exception.cpp */; };
-		094C50B81EC3FF1B00AB3021 /* DelegateManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490121E7F7BA20034ECF2 /* DelegateManager.cpp */; };
 		094C50B91EC3FF1B00AB3021 /* aes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09348ED81E7F7BA20034ECF2 /* aes.cpp */; };
 		094C50BB1EC3FF1B00AB3021 /* Compression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934900C1E7F7BA20034ECF2 /* Compression.cpp */; };
 		094C50BC1EC3FF1B00AB3021 /* Vector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490401E7F7BA20034ECF2 /* Vector4.cpp */; };
@@ -153,8 +152,6 @@
 		0934900D1E7F7BA20034ECF2 /* Compression.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Compression.hpp; sourceTree = "<group>"; };
 		093490101E7F7BA20034ECF2 /* DateTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DateTime.cpp; sourceTree = "<group>"; };
 		093490111E7F7BA20034ECF2 /* DateTime.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DateTime.hpp; sourceTree = "<group>"; };
-		093490121E7F7BA20034ECF2 /* DelegateManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DelegateManager.cpp; sourceTree = "<group>"; };
-		093490131E7F7BA20034ECF2 /* DelegateManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DelegateManager.hpp; sourceTree = "<group>"; };
 		093490141E7F7BA20034ECF2 /* Dictionary.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Dictionary.hpp; sourceTree = "<group>"; };
 		093490151E7F7BA20034ECF2 /* ElapsedTimer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ElapsedTimer.hpp; sourceTree = "<group>"; };
 		093490161E7F7BA20034ECF2 /* Exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
@@ -171,7 +168,6 @@
 		093490241E7F7BA20034ECF2 /* Matrix.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Matrix.inl; sourceTree = "<group>"; };
 		093490251E7F7BA20034ECF2 /* Quaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Quaternion.cpp; sourceTree = "<group>"; };
 		093490261E7F7BA20034ECF2 /* Quaternion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
-		093490271E7F7BA20034ECF2 /* RandomHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RandomHelper.hpp; sourceTree = "<group>"; };
 		093490281E7F7BA20034ECF2 /* Rect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rect.cpp; sourceTree = "<group>"; };
 		093490291E7F7BA20034ECF2 /* Rect.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Rect.hpp; sourceTree = "<group>"; };
 		0934902A1E7F7BA20034ECF2 /* Runnable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Runnable.hpp; sourceTree = "<group>"; };
@@ -246,6 +242,9 @@
 		094109DA1F3C0787006D6F80 /* WindowsFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowsFile.cpp; sourceTree = "<group>"; };
 		094109DB1F3C0787006D6F80 /* WindowsPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowsPath.cpp; sourceTree = "<group>"; };
 		094109DD1F3C0787006D6F80 /* WindowsPlatformTLS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowsPlatformTLS.hpp; sourceTree = "<group>"; };
+		094A12C51FE0F2DA00B1F8B9 /* NotificationCenter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NotificationCenter.hpp; sourceTree = "<group>"; };
+		094A12C61FE0F2DA00B1F8B9 /* NotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NotificationCenter.cpp; sourceTree = "<group>"; };
+		094A12C71FE0F2DB00B1F8B9 /* Utility.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Utility.hpp; sourceTree = "<group>"; };
 		094C50DE1EC3FF1B00AB3021 /* libFoundationKit_Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundationKit_Mac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		095616921F9DE74E00DEDFA7 /* disable_if.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = disable_if.hpp; sourceTree = "<group>"; };
@@ -394,6 +393,9 @@
 		0934900A1E7F7BA20034ECF2 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				094A12C61FE0F2DA00B1F8B9 /* NotificationCenter.cpp */,
+				094A12C51FE0F2DA00B1F8B9 /* NotificationCenter.hpp */,
+				094A12C71FE0F2DB00B1F8B9 /* Utility.hpp */,
 				098D2A711F692BDC0092E166 /* ThreadTimer.cpp */,
 				098D2A721F692BDC0092E166 /* ThreadTimer.hpp */,
 				098D2A621F66261B0092E166 /* Time.cpp */,
@@ -408,8 +410,6 @@
 				0934900D1E7F7BA20034ECF2 /* Compression.hpp */,
 				093490101E7F7BA20034ECF2 /* DateTime.cpp */,
 				093490111E7F7BA20034ECF2 /* DateTime.hpp */,
-				093490121E7F7BA20034ECF2 /* DelegateManager.cpp */,
-				093490131E7F7BA20034ECF2 /* DelegateManager.hpp */,
 				093490141E7F7BA20034ECF2 /* Dictionary.hpp */,
 				093490151E7F7BA20034ECF2 /* ElapsedTimer.hpp */,
 				093490161E7F7BA20034ECF2 /* Exception.cpp */,
@@ -426,7 +426,6 @@
 				093490241E7F7BA20034ECF2 /* Matrix.inl */,
 				093490251E7F7BA20034ECF2 /* Quaternion.cpp */,
 				093490261E7F7BA20034ECF2 /* Quaternion.hpp */,
-				093490271E7F7BA20034ECF2 /* RandomHelper.hpp */,
 				093490281E7F7BA20034ECF2 /* Rect.cpp */,
 				093490291E7F7BA20034ECF2 /* Rect.hpp */,
 				0934902A1E7F7BA20034ECF2 /* Runnable.hpp */,
@@ -671,7 +670,6 @@
 				094C50B61EC3FF1B00AB3021 /* GenericPlatformMacros.cpp in Sources */,
 				094C50B71EC3FF1B00AB3021 /* Exception.cpp in Sources */,
 				093DF5431ECAAA5E00BA1C7C /* des.cpp in Sources */,
-				094C50B81EC3FF1B00AB3021 /* DelegateManager.cpp in Sources */,
 				09410A001F3C07AB006D6F80 /* MACDevice.mm in Sources */,
 				094C50B91EC3FF1B00AB3021 /* aes.cpp in Sources */,
 				09410A091F3C094F006D6F80 /* ApplePath.mm in Sources */,
@@ -717,7 +715,6 @@
 				098D2A731F692BDC0092E166 /* ThreadTimer.cpp in Sources */,
 				093490D71E7F7BA30034ECF2 /* GenericPlatformMacros.cpp in Sources */,
 				093490C61E7F7BA30034ECF2 /* Exception.cpp in Sources */,
-				093490C51E7F7BA30034ECF2 /* DelegateManager.cpp in Sources */,
 				093490901E7F7BA20034ECF2 /* aes.cpp in Sources */,
 				093490C21E7F7BA30034ECF2 /* Compression.cpp in Sources */,
 				093490D51E7F7BA30034ECF2 /* Vector4.cpp in Sources */,
@@ -731,6 +728,7 @@
 				094109E41F3C0787006D6F80 /* AndroidJNI.cpp in Sources */,
 				098D2A641F66261B0092E166 /* Time.cpp in Sources */,
 				094109EF1F3C0787006D6F80 /* FCUUID.m in Sources */,
+				094A12C81FE0F2DB00B1F8B9 /* NotificationCenter.cpp in Sources */,
 				094109E21F3C0787006D6F80 /* AndroidFile.cpp in Sources */,
 				093490BA1E7F7BA30034ECF2 /* unzip.cpp in Sources */,
 				093490A51E7F7BA20034ECF2 /* ConvertUTFWrapper.cpp in Sources */,

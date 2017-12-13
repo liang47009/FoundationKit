@@ -22,7 +22,7 @@
 
 #include "FoundationKit/Foundation/Compression.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
-#include "FoundationKit/Foundation/DelegateManager.hpp"
+#include "FoundationKit/Foundation/NotificationCenter.hpp"
 #include "FoundationKit/Foundation/Dictionary.hpp"
 #include "FoundationKit/Foundation/Directory.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
@@ -36,7 +36,6 @@
 #include "FoundationKit/Foundation/Matrix.hpp"
 #include "FoundationKit/Foundation/Path.hpp"
 #include "FoundationKit/Foundation/Quaternion.hpp"
-#include "FoundationKit/Foundation/RandomHelper.hpp"
 #include "FoundationKit/Foundation/Rect.hpp"
 #include "FoundationKit/Foundation/Runnable.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"

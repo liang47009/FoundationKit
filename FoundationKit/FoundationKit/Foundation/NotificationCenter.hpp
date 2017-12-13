@@ -7,7 +7,6 @@
 #ifndef FOUNDATIONKIT_NOTIFICATIONCENTER_HPP
 #define FOUNDATIONKIT_NOTIFICATIONCENTER_HPP
 
-
 #pragma once
 #include <vector>
 #include <string>
