@@ -3,7 +3,7 @@
 #if PLATFORM_ANDROID
 
 #include <jni.h>
-#include "FoundationKit/Foundation/DelegateManager.hpp"
+#include "FoundationKit/Foundation/NotificationCenter.hpp"
 #include "FoundationKit/Foundation/FunctionHandler.hpp"
 #include "AndroidJNI/AndroidJNI.hpp"
 #include "AndroidJavaBridge.hpp"
@@ -114,7 +114,7 @@ extern "C"
             }
             ++argIndex;
         }
-        FoundationKit::DelegateManager::GetInstance()->Invoke(strFunName, arglist);
+        FoundationKit::NotificationCenter::GetInstance()->Invoke(strFunName, arglist);
     }
 }//extern "C"
 

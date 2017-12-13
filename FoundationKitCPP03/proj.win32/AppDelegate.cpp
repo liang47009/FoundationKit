@@ -17,7 +17,7 @@
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 #include "FoundationKit/Foundation/Compression.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-#include "FoundationKit/Foundation/DelegateManager.hpp"
+#include "FoundationKit/Foundation/NotificationCenter.hpp"
 
 #include <sqltypes.h>
 #include <sql.h>
@@ -69,16 +69,16 @@ void AppDelegate::TestTupleArgs(const ArgumentList& args)
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 
-    DelegateManager::GetInstance()->AddObserver("TupleTest", BindFunctionHandler(&TupleTest));
-    DelegateManager::GetInstance()->Invoke("TupleTest", ArgumentList());
+    NotificationCenter::GetInstance()->AddObserver("TupleTest", BindFunctionHandler(&TupleTest));
+    NotificationCenter::GetInstance()->Invoke("TupleTest", ArgumentList());
     ArgumentList args;
     args.push_back(Value(10));
     args.push_back(Value("Fuck you"));
     args.push_back(Value("Fuck you again"));
-    DelegateManager::GetInstance()->AddObserver("TupleTestArgs", BindFunctionHandler(&TupleTestArgs));
-    DelegateManager::GetInstance()->AddObserver("TestTupleArgs", BindFunctionHandler(&AppDelegate::TestTupleArgs, this));
-    DelegateManager::GetInstance()->Invoke("TupleTestArgs", args);
-    DelegateManager::GetInstance()->Invoke("TestTupleArgs", args);
+    NotificationCenter::GetInstance()->AddObserver("TupleTestArgs", BindFunctionHandler(&TupleTestArgs));
+    NotificationCenter::GetInstance()->AddObserver("TestTupleArgs", BindFunctionHandler(&AppDelegate::TestTupleArgs, this));
+    NotificationCenter::GetInstance()->Invoke("TupleTestArgs", args);
+    NotificationCenter::GetInstance()->Invoke("TestTupleArgs", args);
 
 	return true;
 }

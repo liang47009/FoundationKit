@@ -87,9 +87,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\DateTime.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\DelegateManager.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Singleton.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -334,6 +331,9 @@
     <ClInclude Include="..\FoundationKit\Foundation\Utility.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\NotificationCenter.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
@@ -358,9 +358,6 @@
       <Filter>Crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp" />
-    <ClCompile Include="..\FoundationKit\Foundation\DelegateManager.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Exception.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
@@ -462,6 +459,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\experimental\FileHandle.cpp">
       <Filter>experimental</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\NotificationCenter.cpp">
+      <Filter>Foundation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

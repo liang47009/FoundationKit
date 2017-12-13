@@ -23,7 +23,7 @@
 
 #include "FoundationKit/Foundation/Compression.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
-#include "FoundationKit/Foundation/DelegateManager.hpp"
+#include "FoundationKit/Foundation/NotificationCenter.hpp"
 #include "FoundationKit/Foundation/Dictionary.hpp"
 #include "FoundationKit/Foundation/Directory.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
@@ -103,9 +103,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
 
-    std::vector<uint8>  Data;
-    Data.resize(100);
-    Data.clear();
 
 
 	int im_a_breakpoint = 0;

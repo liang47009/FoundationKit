@@ -140,7 +140,6 @@ static unsigned char* ToUnsigned(std::string& str)
  *  @endcode
  */
 static bool UTF8ToUTF16(const std::string& inUtf8, std::u16string& outUtf16);
-static bool UTF8ToUTF16(const std::string& inUtf8, std::wstring& outUtf16);
 
 /**
  *  @brief Same as \a UTF8ToUTF16 but converts form UTF8 to UTF32.
@@ -155,7 +154,6 @@ static bool UTF8ToUTF32(const std::string& inUtf8, std::u32string& outUtf32);
  *  @see UTF8ToUTF16
  */
 static bool UTF16ToUTF8(const std::u16string& inUtf16, std::string& outUtf8);
-static bool UTF16ToUTF8(const std::wstring& inUtf16, std::string& outUtf8);
 
 /**
  *  @brief Same as \a UTF8ToUTF16 but converts form UTF16 to UTF32.
@@ -163,7 +161,6 @@ static bool UTF16ToUTF8(const std::wstring& inUtf16, std::string& outUtf8);
  *  @see UTF8ToUTF16
  */
 static bool UTF16ToUTF32(const std::u16string& inUtf16, std::u32string& outUtf32);
-static bool UTF16ToUTF32(const std::wstring& inUtf16, std::u32string& outUtf32);
 
 /**
  *  @brief Same as \a UTF8ToUTF16 but converts form UTF32 to UTF8.
@@ -178,7 +175,6 @@ static bool UTF32ToUTF8(const std::u32string& inUtf32, std::string& outUtf8);
  *  @see UTF8ToUTF16
  */
 static bool UTF32ToUTF16(const std::u32string& inUtf32, std::u16string& outUtf16);
-static bool UTF32ToUTF16(const std::u32string& inUtf32, std::wstring& outUtf16);
 
 /**
 static std::u16string UTF8ToUTF16(const std::string &s);

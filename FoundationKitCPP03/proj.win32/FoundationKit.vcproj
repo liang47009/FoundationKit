@@ -375,14 +375,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Foundation\DelegateManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\FoundationKit\Foundation\DelegateManager.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\FoundationKit\Foundation\Dictionary.hpp"
 				>
 			</File>
@@ -456,6 +448,14 @@
 			</File>
 			<File
 				RelativePath="..\FoundationKit\Foundation\Matrix.inl"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Foundation\NotificationCenter.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Foundation\NotificationCenter.hpp"
 				>
 			</File>
 			<File

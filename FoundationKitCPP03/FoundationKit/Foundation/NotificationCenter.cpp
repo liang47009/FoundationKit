@@ -5,20 +5,20 @@
  
  ****************************************************************************/
 
-#include "FoundationKit/Foundation/DelegateManager.hpp"
+#include "FoundationKit/Foundation/NotificationCenter.hpp"
 NS_FK_BEGIN
 
 /************************************************************************/
-/*                          DelegateObserver                            */
+/*                          NotificationObserver                            */
 /************************************************************************/
 
-DelegateObserver::Pointer DelegateObserver::Create(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+NotificationObserver::Pointer NotificationObserver::Create(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 {
-    DelegateObserver *observer = new  DelegateObserver(name, selector, target, callOnce);
-    return DelegateObserver::Pointer(observer);
+    NotificationObserver *observer = new  NotificationObserver(name, selector, target, callOnce);
+    return NotificationObserver::Pointer(observer);
 }
 
-DelegateObserver::DelegateObserver(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+NotificationObserver::NotificationObserver(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 : _name(name)
 , _pSelector(selector)
 , _target(target)
@@ -27,12 +27,12 @@ DelegateObserver::DelegateObserver(const std::string& name, FunctionHandlerPoint
 
 }
 
-DelegateObserver::~DelegateObserver()
+NotificationObserver::~NotificationObserver()
 {
 
 }
 
-void DelegateObserver::Invoke(const ArgumentList& args)
+void NotificationObserver::Invoke(const ArgumentList& args)
 {
     if (_pSelector)
     {
@@ -41,71 +41,71 @@ void DelegateObserver::Invoke(const ArgumentList& args)
 }
 
 
-void* DelegateObserver::GetTarget() const
+void* NotificationObserver::GetTarget() const
 {
     return _target;
 }
 
-const FunctionHandlerPointer DelegateObserver::GetSelector() const
+const FunctionHandlerPointer NotificationObserver::GetSelector() const
 {
     return _pSelector;
 }
 
-const std::string& DelegateObserver::GetName() const
+const std::string& NotificationObserver::GetName() const
 {
     return _name;
 }
 
-bool DelegateObserver::IsCallOnce()
+bool NotificationObserver::IsCallOnce()
 {
     return _callOnce;
 }
 
-bool DelegateObserver::operator==(const DelegateObserver& other)
+bool NotificationObserver::operator==(const NotificationObserver& other)
 {
     return (this->_target == other._target&&
             this->_name == other._name);
 }
 
-bool DelegateObserver::operator!=(const DelegateObserver& other)
+bool NotificationObserver::operator!=(const NotificationObserver& other)
 {
     return !(*this == other);
 }
 
 
 /************************************************************************/
-/*                  DelegateManager                                     */
+/*                  NotificationCenter                                     */
 /************************************************************************/
-DelegateManager::DelegateManager()
+NotificationCenter::NotificationCenter()
 {
 
 }
 
-DelegateManager::~DelegateManager()
+NotificationCenter::~NotificationCenter()
 {
 
 }
 
-void DelegateManager::AddObserver(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+void NotificationCenter::AddObserver(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 {
     std::lock_guard<std::mutex> lock(_mutex);
-    DelegateObserver::Pointer observer;
+    NotificationObserver::Pointer observer;
     do 
     {
         BREAK_IF(this->ObserverExisted(name,target));
-        observer = DelegateObserver::Create(name, selector, target, callOnce);
+        observer = NotificationObserver::Create(name, selector, target, callOnce);
         BREAK_IF(!observer);
         _observers.push_back(observer);
     } while (false);
 }
 
-void DelegateManager::RemoveObserver(const std::string& name)
+void NotificationCenter::RemoveObserver(const std::string& name)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     ObserverList::iterator iter = _observers.begin();
     while(iter !=  _observers.end())
     {
-        DelegateObserver::Pointer observer = *iter;
+        NotificationObserver::Pointer observer = *iter;
         if (!observer)
             continue;
         if (observer->GetName() == name)
@@ -119,20 +119,20 @@ void DelegateManager::RemoveObserver(const std::string& name)
     }
 }
 
-void DelegateManager::RemoveObserver(const char* name)
+void NotificationCenter::RemoveObserver(const char* name)
 {
     std::string strName = name;
     RemoveObserver(strName);
 }
 
 
-void DelegateManager::RemoveObserver(void* target)
+void NotificationCenter::RemoveObserver(void* target)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     ObserverList::iterator iter = _observers.begin();
     while(iter !=  _observers.end())
     {
-        DelegateObserver::Pointer observer = *iter;
+        NotificationObserver::Pointer observer = *iter;
         if (!observer)
             continue;
         if (observer->GetTarget() == target)
@@ -146,13 +146,13 @@ void DelegateManager::RemoveObserver(void* target)
     }
 }
 
-void DelegateManager::RemoveObserver(const std::string& name, void* target)
+void NotificationCenter::RemoveObserver(const std::string& name, void* target)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     ObserverList::iterator iter = _observers.begin();
     while(iter !=  _observers.end())
     {
-        DelegateObserver::Pointer observer = *iter;
+        NotificationObserver::Pointer observer = *iter;
         if (!observer)
             continue;
         if (observer->GetName() == name && observer->GetTarget() == target)
@@ -166,7 +166,7 @@ void DelegateManager::RemoveObserver(const std::string& name, void* target)
     }
 }
 
-void DelegateManager::Invoke(const std::string& name, const ArgumentList& args)
+void NotificationCenter::Invoke(const std::string& name, const ArgumentList& args)
 {
     std::unique_lock<std::mutex> lock(_mutex);
     ObserverList observersToCopy(_observers);
@@ -175,7 +175,7 @@ void DelegateManager::Invoke(const std::string& name, const ArgumentList& args)
     ObserverList::iterator iter = observersToCopy.begin();
     while(iter !=  observersToCopy.end())
     {
-        DelegateObserver::Pointer observer = *iter;
+        NotificationObserver::Pointer observer = *iter;
         if (!observer)
             continue;
         if (observer->GetName() == name)
@@ -190,12 +190,12 @@ void DelegateManager::Invoke(const std::string& name, const ArgumentList& args)
     }
 }
 
-bool DelegateManager::ObserverExisted(const std::string& name, void* target /*= nullptr*/)
+bool NotificationCenter::ObserverExisted(const std::string& name, void* target /*= nullptr*/)
 {
     ObserverList::const_iterator iter = _observers.begin();
     for (; iter != _observers.end(); ++iter)
     {
-        DelegateObserver::Pointer observer = *iter;
+        NotificationObserver::Pointer observer = *iter;
         if (!observer)
             continue;
         if (observer->GetTarget() == target && observer->GetName() == name)

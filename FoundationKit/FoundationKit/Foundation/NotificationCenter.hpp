@@ -4,8 +4,9 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FOUNDATIONKIT_DELEGATEMANAGER_HPP
-#define FOUNDATIONKIT_DELEGATEMANAGER_HPP
+#ifndef FOUNDATIONKIT_NOTIFICATIONCENTER_HPP
+#define FOUNDATIONKIT_NOTIFICATIONCENTER_HPP
+
 
 #pragma once
 #include <vector>
@@ -18,21 +19,21 @@
 
 NS_FK_BEGIN
 
-class DelegateObserver
+class NotificationObserver
 {
 public:
-    typedef std::shared_ptr<DelegateObserver> Pointer;
+    typedef std::shared_ptr<NotificationObserver> Pointer;
     static Pointer Create(const std::string& name, FunctionHandlerPointer selector, void* target = nullptr, bool callOnce = false);
-    ~DelegateObserver();
+    ~NotificationObserver();
     void                          Invoke(const ArgumentList& args);
     void*                         GetTarget()const;
     const FunctionHandlerPointer  GetSelector()const;
     const std::string&            GetName()const;
     bool                          IsCallOnce();
-    bool operator ==(const DelegateObserver& other);
-    bool operator != (const DelegateObserver& other);
+    bool operator ==(const NotificationObserver& other);
+    bool operator != (const NotificationObserver& other);
 protected:
-    DelegateObserver(const std::string& name, FunctionHandlerPointer selector, void* target = nullptr, bool callOnce = false);
+    NotificationObserver(const std::string& name, FunctionHandlerPointer selector, void* target = nullptr, bool callOnce = false);
 private:
     std::string             _name;
     FunctionHandlerPointer  _pSelector;
@@ -40,23 +41,23 @@ private:
     bool                    _callOnce;
 };
 
-inline bool operator==(const DelegateObserver& l, const DelegateObserver& r)
+inline bool operator==(const NotificationObserver& l, const NotificationObserver& r)
 {
     return (l.GetTarget() == r.GetTarget() && l.GetName() == r.GetName());
 }
 
-inline bool operator!=(const DelegateObserver& l, const DelegateObserver& r)
+inline bool operator!=(const NotificationObserver& l, const NotificationObserver& r)
 {
     return !(l == r);
 }
 
-class DelegateManager : public Singleton<DelegateManager>
+class NotificationCenter : public Singleton<NotificationCenter>
 {
-    friend Singleton<DelegateManager>;
-    typedef std::vector<DelegateObserver::Pointer>   ObserverList;
+    friend Singleton<NotificationCenter>;
+    typedef std::vector<NotificationObserver::Pointer>   ObserverList;
 
 public:
-    ~DelegateManager();
+    ~NotificationCenter();
     void AddObserver(const std::string& name, FunctionHandlerPointer selector, void* target = nullptr, bool callOnce = false);
     void RemoveObserver( const std::string& name);
     void RemoveObserver( const char* name);
@@ -69,10 +70,11 @@ protected:
     bool ObserverExisted(const std::string& name,void* target = nullptr);
 
 private:
-    DelegateManager();
+    NotificationCenter();
     ObserverList   _observers;
     std::mutex     _mutex;
 };
 
 NS_FK_END
-#endif // FOUNDATIONKIT_DELEGATEMANAGER_HPP
+
+#endif // END OF FOUNDATIONKIT_NOTIFICATIONCENTER_HPP
