@@ -49,7 +49,7 @@
 #include "FoundationKit/Foundation/Vector2.hpp"
 #include "FoundationKit/Foundation/Vector3.hpp"
 #include "FoundationKit/Foundation/Vector4.hpp"
-#include "FoundationKit/Foundation/Value.hpp"
+#include "FoundationKit/Foundation/Version.hpp"
 
 #include "FoundationKit/Platform/Directory.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
@@ -103,7 +103,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
 
-
+    Version ver("3.2.0");
 
 	int im_a_breakpoint = 0;
 	return true;
