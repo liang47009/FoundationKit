@@ -107,13 +107,13 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
     {
         if (sourceFileName == destFileName)
         {
-            ret = true;
+            FKLog("Can not copy self.");
             break;
         }
 
         if (!overwrite && IsExists(destFileName))
         {
-            ret = false;
+            FKLog("Target file is exist.");
             break;
         }
 
@@ -127,27 +127,32 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
         BREAK_IF(!fpDes);
         const size_t BUFF_SIZE = 1024;
         char read_buff[BUFF_SIZE];
-        size_t readedSize = 0;
-        size_t writedSize = 0;
-        size_t fileOriginalSize = static_cast<size_t>(srcFileSize);
-        size_t unreadSize = fileOriginalSize;
-        while (readedSize < fileOriginalSize)
+        size_t TotalReadSize = 0;
+        size_t FileOriginalSize = static_cast<size_t>(srcFileSize);
+        ret = true;
+        while (TotalReadSize < FileOriginalSize)
         {
-            if (unreadSize > BUFF_SIZE)
+            size_t NumRead = fread(read_buff, sizeof(char), BUFF_SIZE, fpSrc);
+            if (NumRead == 0) 
             {
-                readedSize += fread(read_buff, sizeof(char), BUFF_SIZE, fpSrc);
-                writedSize += fwrite(read_buff, 1, readedSize, fpDes);
+                if (feof(fpSrc) == 0) // read file error.
+                {
+                    ret = false;
+                    FKLog("fread file error:%d", errno);
+                }
+                break;
             }
-            else
+            size_t NumWrite = fwrite(read_buff, sizeof(char), NumRead, fpDes);
+            if (NumWrite == 0 || NumWrite != NumRead)
             {
-                readedSize += fread(read_buff, sizeof(char), unreadSize, fpSrc);
-                writedSize += fwrite(read_buff, 1, readedSize, fpDes);
+                ret = false;
+                FKLog("fwrite file error:%d", errno);
             }
-            unreadSize = fileOriginalSize - readedSize;
+            fflush(fpDes);
+            TotalReadSize += NumRead;
         }
         fclose(fpSrc);
         fclose(fpDes);
-        ret = (readedSize == writedSize);
     } while (false);
     return ret;
 }
