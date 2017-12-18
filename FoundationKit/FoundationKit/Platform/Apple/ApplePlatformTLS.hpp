@@ -1,6 +1,11 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
 /*=============================================================================================
-	ApplePlatformTLS.h: Apple platform TLS (Thread local storage and thread ID) functions
+	ApplePlatformTLS.hpp: Apple platform TLS (Thread local storage and thread ID) functions
 ==============================================================================================*/
 #ifndef FOUNDATIONKIT_APPLEPLATFORMTLS_HPP
 #define FOUNDATIONKIT_APPLEPLATFORMTLS_HPP

@@ -1,3 +1,9 @@
+/****************************************************************************
+Copyright (c) 2017 libo All rights reserved.
+
+losemymind.libo@gmail.com
+
+****************************************************************************/
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #if (PLATFORM_WINDOWS)
 #include "FoundationKit/Platform/File.hpp"

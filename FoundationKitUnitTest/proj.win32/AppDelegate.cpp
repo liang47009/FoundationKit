@@ -103,7 +103,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
 
-    Version ver("3.2.0");
+    auto filesize = File::GetSize("F:\\temp\\trace(1).log");
 
 	int im_a_breakpoint = 0;
 	return true;

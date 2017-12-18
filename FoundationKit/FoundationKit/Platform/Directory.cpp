@@ -1,4 +1,9 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
 #include <dirent.h> // for DIR
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Base/locale.hpp"

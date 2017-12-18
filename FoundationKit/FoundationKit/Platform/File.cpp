@@ -1,8 +1,13 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
 #include <fstream>
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/Directory.hpp"
-
 #include "unzip.h"
 
 NS_FK_BEGIN
@@ -150,16 +155,24 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
 int64 File::GetSize(const std::string& path)
 {
     ASSERTED(!path.empty(), "filepath must be not empty.");
+    int64 ResultFileSize = -1;
     struct stat info;
     int result = stat(path.c_str(), &info);
     if (result != 0)
     {
-        return -1;
+        FILE* FileHandle = fopen(path.c_str(), "r");
+        if (FileHandle)
+        {
+            fseek(FileHandle, 0, SEEK_END);
+            ResultFileSize = ftell(FileHandle);
+            fseek(FileHandle, 0, SEEK_SET);
+        }
     }
     else
     {
-        return (int64)(info.st_size);
+        ResultFileSize = (int64)(info.st_size);
     }
+    return ResultFileSize;
 }
 
 bool File::AppendAllLines(const std::string& path, const FileLineType& contents)
@@ -269,5 +282,4 @@ bool File::WriteAllText(const std::string& path, const std::string& contents)
 }
 
 NS_FK_END
-
 

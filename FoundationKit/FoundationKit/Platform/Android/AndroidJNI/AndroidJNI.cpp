@@ -1,7 +1,7 @@
 /****************************************************************************
-Copyright (c) 2016 libo All rights reserved.
+  Copyright (c) 2016 libo All rights reserved.
 
-losemymind.libo@gmail.com
+  losemymind.libo@gmail.com
 
 ****************************************************************************/
 

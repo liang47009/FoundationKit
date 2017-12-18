@@ -1,4 +1,9 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
 #include "FoundationKit/Foundation/ThreadTimer.hpp"
 #include "FoundationKit/Foundation/Timespan.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"

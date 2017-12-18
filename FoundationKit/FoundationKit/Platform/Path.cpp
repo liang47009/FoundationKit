@@ -1,3 +1,9 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+
+  losemymind.libo@gmail.com
+
+****************************************************************************/
 #include <algorithm>
 #include <chrono> // for GetTempFileName create tmp file name.
 #include <cctype>
