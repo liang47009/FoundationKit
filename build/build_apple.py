@@ -18,6 +18,7 @@ os.system("sudo xcode-select -switch "+xcodePath)
 #获取当前目录路径
 workspaceDirPath=os.getcwd()
 buildPath = workspaceDirPath+"/build"
+
 #shutil.rmtree(buildPath)
 # schemeName
 # configuration [Debug|Release] 使用xcodebuild -list查看configuration支持的类型
@@ -35,23 +36,20 @@ def Build(schemeName, configuration, rebuild):
     os.system(xcodebuild_build)
 
 
+headerfilters=["*.hpp", "*.h", "*.inl"]
+libfilters=["*.a"]
+
 Build("FoundationKit_iOS", "Debug", True)
 Build("FoundationKit_iOS", "Release", True)
+xcopy.xcopy(workspaceDirPath+"/../FoundationKit/FoundationKit/", workspaceDirPath+"/../publish/iOS/include/FoundationKit/", headerfilters)
+xcopy.xcopy(buildPath+"/Build/Products/", workspaceDirPath+"/../publish/iOS/libs/", libfilters)
+shutil.rmtree(buildPath)
+
 Build("FoundationKit_Mac", "Debug", True)
 Build("FoundationKit_Mac", "Release", True)
-
-Build("HTTPClient_iOS", "Debug", True)
-Build("HTTPClient_iOS", "Release", True)
-Build("HTTPClient_Mac", "Debug", True)
-Build("HTTPClient_Mac", "Release", True)
-
-headerfilters=["*.hpp", "*.h", "*.inl"]
-xcopy.xcopy(workspaceDirPath+"/../FoundationKit/FoundationKit/", workspaceDirPath+"/../publish/include/FoundationKit/", headerfilters)
-xcopy.xcopy(workspaceDirPath+"/../HTTPClient/HTTPClient/", workspaceDirPath+"/../publish/include/HTTPClient/", headerfilters)
-
-libfilters=["*.a"]
-xcopy.xcopy(buildPath+"/Build/Products/", workspaceDirPath+"/../publish/libs/", libfilters)
-
+xcopy.xcopy(workspaceDirPath+"/../FoundationKit/FoundationKit/", workspaceDirPath+"/../publish/Mac/include/FoundationKit/", headerfilters)
+xcopy.xcopy(buildPath+"/Build/Products/", workspaceDirPath+"/../publish/Mac/libs/", libfilters)
+shutil.rmtree(buildPath)
 
 
 
