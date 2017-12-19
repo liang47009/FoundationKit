@@ -12,6 +12,7 @@
 #include "zlib.h"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 #include "FoundationKit/Foundation/Compression.hpp"
+#include "FoundationKit/Foundation/File.hpp"
 #include "FoundationKit/Base/scope_guard.hpp"
 
 NS_FK_BEGIN
@@ -195,7 +196,7 @@ bool Compression::CompressFile(const std::string& srcFilePath, const std::string
     {
         gzFile gFile = gzopen(desFilePath.c_str(), "wb");
         BREAK_IF(gFile == nullptr);
-        FILE* srcFp = fopen(srcFilePath.c_str(), "rb");
+        FILE* srcFp = File::Open(srcFilePath, "rb");
         BREAK_IF(srcFp == nullptr);
         size_t readsize = 0;
 		size_t totalReadSize = 0;
@@ -223,7 +224,7 @@ bool Compression::UncompressFile(const std::string& srcFilePath, const std::stri
     {
         gzFile gFile = gzopen(srcFilePath.c_str(), "rb");
         BREAK_IF(gFile == nullptr);
-        FILE* desFp = fopen(desFilePath.c_str(), "wb");
+        FILE* desFp = File::Open(desFilePath, "wb");
         BREAK_IF(desFp == nullptr);
         long readsize = 0;
         long totalReadSize = 0;

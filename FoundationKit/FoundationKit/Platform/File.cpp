@@ -28,9 +28,9 @@ namespace detail
         {
             FILE* FileHandle = nullptr;
             if (isText)
-                FileHandle = fopen(path.c_str(), "rt");
+                FileHandle = File::Open(path, "rt");
             else
-                FileHandle = fopen(path.c_str(), "rb");
+                FileHandle = File::Open(path, "rb");
             BREAK_IF(!FileHandle);
             fseek(FileHandle, 0, SEEK_END);
             size_t FileSize = ftell(FileHandle);
@@ -50,9 +50,9 @@ namespace detail
         {
             FILE* FileHandle = nullptr;
             if (bAppend)
-                FileHandle = fopen(path.c_str(), "ab");
+                FileHandle = File::Open(path, "ab");
             else
-                FileHandle = fopen(path.c_str(), "wb");
+                FileHandle = File::Open(path, "wb");
             BREAK_IF(!FileHandle);
             for (auto& line : contents)
             {
@@ -69,9 +69,9 @@ namespace detail
     {
         FILE* FileHandle = nullptr;
         if (isText)
-            FileHandle = fopen(path.c_str(), "wt");
+            FileHandle = File::Open(path, "wt");
         else
-            FileHandle = fopen(path.c_str(), "wb");
+            FileHandle = File::Open(path, "wb");
         if (!FileHandle) return false;
         size_t WriteSize = fwrite(bytes, 1, length, FileHandle);
         fclose(FileHandle);
@@ -121,9 +121,9 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
         Directory::Create(dirPath);
         int64 srcFileSize = GetSize(sourceFileName);
         BREAK_IF(srcFileSize == -1);
-        FILE *fpSrc = fopen(sourceFileName.c_str(), "rb");
+        FILE *fpSrc = Open(sourceFileName, "rb");
         BREAK_IF(!fpSrc);
-        FILE *fpDes = fopen(destFileName.c_str(), "wb");
+        FILE *fpDes = Open(destFileName, "wb");
         BREAK_IF(!fpDes);
         const size_t BUFF_SIZE = 1024;
         char read_buff[BUFF_SIZE];
@@ -165,7 +165,7 @@ int64 File::GetSize(const std::string& path)
     int result = stat(path.c_str(), &info);
     if (result != 0)
     {
-        FILE* FileHandle = fopen(path.c_str(), "r");
+        FILE* FileHandle = Open(path, "r");
         if (FileHandle)
         {
             fseek(FileHandle, 0, SEEK_END);
@@ -190,7 +190,7 @@ bool File::AppendAllText(const std::string& path, const std::string& contents)
     bool result = false;
     do
     {
-        FILE* FileHandle = fopen(path.c_str(), "at");
+        FILE* FileHandle = Open(path.c_str(), "at");
         BREAK_IF(!FileHandle);
         fwrite(contents.c_str(), 1, contents.size(), FileHandle);
         fclose(FileHandle);
