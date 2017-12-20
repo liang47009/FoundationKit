@@ -184,18 +184,6 @@ namespace Math
         return std::pow(f, p);
     }
 
-   /**
-    * Compares two values if they are similar.
-    * Due to floating point imprecision it is not
-    * recommended to compare floats using the equal
-    * operator. eg. 1.0 == 10.0 / 10.0 might not return true.
-    */
-    template< typename T1, typename T2 >
-    FORCEINLINE bool Approximately(const T1 a, const T2 b)
-    {
-        return roughlyEqual(a, b, 0.1f);
-    }
-
     // Linearly interpolate between range_start and range_end, based on percent.
     template <class T, class T2>
     FORCEINLINE T Lerp(const T &range_start, const T &range_end, const T2 &percent) 
@@ -222,6 +210,18 @@ namespace Math
     FORCEINLINE bool RoughlyEqual(const T v1, const U v2, const V threshold = 0.01f)
 	{ 
         return std::abs(v1 - v2) <= threshold;  
+    }
+
+   /**
+    * Compares two values if they are similar.
+    * Due to floating point imprecision it is not
+    * recommended to compare floats using the equal
+    * operator. eg. 1.0 == 10.0 / 10.0 might not return true.
+    */
+    template< typename T1, typename T2 >
+    FORCEINLINE bool Approximately(const T1 a, const T2 b)
+    {
+        return RoughlyEqual(a, b, 0.1f);
     }
 
 	/// Returns f rounded to the nearest integer.
