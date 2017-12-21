@@ -26,7 +26,8 @@ $(SRCROOT)/FoundationKit/Foundation/Rect.cpp \
 $(SRCROOT)/FoundationKit/Foundation/StringUtils.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Time.cpp \
 $(SRCROOT)/FoundationKit/Foundation/ThreadTimer.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Timespan.cpp \
+$(SRCROOT)/FoundationKit/Foundation/TimeSpan.cpp \
+$(SRCROOT)/FoundationKit/Foundation/TimeZone.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Vector2.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Vector3.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Vector4.cpp \
