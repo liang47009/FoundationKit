@@ -120,9 +120,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\Size.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Timespan.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Vector2.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -334,6 +331,12 @@
     <ClInclude Include="..\FoundationKit\Foundation\NotificationCenter.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\TimeZone.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\TimeSpan.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
@@ -371,9 +374,6 @@
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Timespan.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Vector2.cpp">
@@ -461,6 +461,12 @@
       <Filter>experimental</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\NotificationCenter.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\TimeZone.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\TimeSpan.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
   </ItemGroup>

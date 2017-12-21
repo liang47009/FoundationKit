@@ -40,7 +40,7 @@ uint64 Time::GetTimeStamp()
 }
 
 
-Time::TimeDate Time::GetSystemTime()
+Time::TimeDate Time::GetTime()
 {
     TimeDate   td;
 #if PLATFORM_WINDOWS
@@ -74,6 +74,11 @@ Time::TimeDate Time::GetSystemTime()
 #endif
     return td;
 }
+
+//Time::TimeDate Time::GetTime(time_t timeValue)
+//{
+//    tm* tmValue = localtime(&timeValue);
+//}
 
 
 Time::TimeDate Time::GetUTCTime()
@@ -110,6 +115,11 @@ Time::TimeDate Time::GetUTCTime()
 #endif
     return td;
 }
+
+//Time::TimeDate Time::GetUTCTime(time_t timeValue)
+//{
+//struct tm * gmtime(const time_t *timer);   
+//}
 
 
 NS_FK_END

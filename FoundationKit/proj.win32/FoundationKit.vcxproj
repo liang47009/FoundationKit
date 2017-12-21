@@ -238,7 +238,8 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Foundation\StringUtils.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Time.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\ThreadTimer.hpp" />
-    <ClInclude Include="..\FoundationKit\Foundation\Timespan.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\TimeSpan.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\TimeZone.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Utility.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Value.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Vector2.hpp" />
@@ -295,7 +296,8 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Time.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\ThreadTimer.cpp" />
-    <ClCompile Include="..\FoundationKit\Foundation\Timespan.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\TimeSpan.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\TimeZone.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Value.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Vector2.cpp" />
     <ClCompile Include="..\FoundationKit\Foundation\Vector3.cpp" />

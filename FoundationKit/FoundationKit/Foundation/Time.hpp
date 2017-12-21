@@ -11,6 +11,14 @@
 #include "FoundationKit/Base/types.hpp"
 NS_FK_BEGIN
 
+
+enum class ETimeKind
+{
+    Unspecified = 0,
+    Utc = 1,
+    Local = 2,
+};
+
 class Time
 {
 
@@ -50,12 +58,14 @@ public:
     /**
     * Get the local date and time on this computer
     */
-    static TimeDate GetSystemTime();
+    static TimeDate GetTime();
+    //static TimeDate GetTime(time_t timeValue);
 
     /**
     * Get the UTC date and time on this computer
     */
     static TimeDate GetUTCTime();
+    //static TimeDate GetUTCTime(time_t timeValue);
 
 };
 

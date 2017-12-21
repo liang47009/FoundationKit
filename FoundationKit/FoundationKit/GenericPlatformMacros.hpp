@@ -135,6 +135,7 @@ extern void __log__(const char* fmt, ...);
     #define DEBUG_MODE 0
     #define FKDebug(fmt, ...)
 #endif
+#define ASSERT_IF(CHECK, MSG)do{if((CHECK)){__fail__(#MSG,__FILE__, __LINE__);}}while(false)
 
 // IOS,ANDROID,MAC platform must be defined USE_FILE32API
 //#ifndef USE_FILE32API

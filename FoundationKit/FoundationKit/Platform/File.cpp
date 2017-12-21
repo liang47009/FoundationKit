@@ -5,6 +5,8 @@
 
 ****************************************************************************/
 #include <fstream>
+#include <unordered_map>
+#include "FoundationKit/Base/lexical_cast.hpp"
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/Directory.hpp"
@@ -77,6 +79,37 @@ namespace detail
         fclose(FileHandle);
         return (WriteSize == length);
     }
+
+    std::string ErrnoToString(int err)
+    {
+
+        static std::unordered_map<int,std::string> ErrnoTranslationMap =
+        {
+            { EACCES ,"Search permission is denied for one of the directories in the path prefix of file path."},
+            { EBADF ,"Invalid file descriptor."},
+            { EFAULT ,"Bad address."},
+            { ELOOP, "Too many symbolic links encountered while traversing the path." },
+            { ENAMETOOLONG , "File path is too long."},
+            { ENOENT,"A component of file path does not exist, or file path is an empty string and AT_EMPTY_PATH was not specified in flags." },
+            { ENOMEM ,"Out of memory (i.e., kernel memory)."},
+            { ENOTDIR ," A component of the path prefix of file path is not a directory."},
+            { EOVERFLOW ,"Path or file descriptor refers to a file whose size, inode number,\n \
+                          or number of blocks cannot be represented in, respectively, \n \
+                          the types off_t, ino_t, or blkcnt_t.This error can occur when, \n \
+                          for example, an application compiled on a 32 - bit platform without \n \
+                          - D_FILE_OFFSET_BITS = 64 calls stat() on a file whose size \n \
+                          exceeds(1 << 31) - 1 bytes."},
+             { EINVAL ,"Invalid flag specified in flags."},
+             { ENOTDIR ,"pathname is relative and dirfd is a file descriptor referring to a file other than a directory."}
+        };
+        std::unordered_map<int, std::string>::iterator FoundIter = ErrnoTranslationMap.find(err);
+        if (FoundIter != ErrnoTranslationMap.end())
+        {
+            return FoundIter->second;
+        }
+        return lexical_cast<std::string>(err);
+    }
+
 } //namespace detail
 
 #if PLATFORM_ANDROID
@@ -163,8 +196,13 @@ int64 File::GetSize(const std::string& path)
     int64 ResultFileSize = -1;
     struct stat info;
     int result = stat(path.c_str(), &info);
-    if (result != 0)
+    if (result == 0)
     {
+        ResultFileSize = (int64)(info.st_size);
+    }
+    else
+    {
+        FKLog("stat falied:%s,Try use fopen->fseek-ftell-fseek.", detail::ErrnoToString(errno).c_str());
         FILE* FileHandle = Open(path, "r");
         if (FileHandle)
         {
@@ -172,10 +210,6 @@ int64 File::GetSize(const std::string& path)
             ResultFileSize = ftell(FileHandle);
             fseek(FileHandle, 0, SEEK_SET);
         }
-    }
-    else
-    {
-        ResultFileSize = (int64)(info.st_size);
     }
     return ResultFileSize;
 }
@@ -284,6 +318,56 @@ bool File::WriteAllLines(const std::string& path, const FileLineType& contents)
 bool File::WriteAllText(const std::string& path, const std::string& contents)
 {
     return detail::WriteDataToFile(path, contents.c_str(), contents.size(), true);
+}
+
+DateTime File::GetCreationTime(const std::string& path)
+{
+    DateTime dt;
+//#if PLATFORM_WINDOWS
+//    FILETIME CreationTime;
+//    FILETIME LastAccessTime;
+//    FILETIME LastWriteTime;
+//    BOOL RetValue = GetFileTime(NULL  // handle to the file
+//        , &CreationTime               // FILETIME struct for creation time
+//        , &LastAccessTime             // FILETIME struct for last access time
+//        , &LastWriteTime);            // FILETIME struct for last modification time
+//#else
+    struct stat info;
+    int result = stat(path.c_str(), &info);
+    if (result == 0)
+    {
+        dt = DateTime::FromUnixTimestamp(info.st_ctime);
+    }
+    else
+    {
+
+    }
+//#endif
+    return dt;
+}
+
+DateTime File::GetLastAccessTime(const std::string& path)
+{
+    DateTime dt;
+    struct stat info;
+    int result = stat(path.c_str(), &info);
+    if (result == 0)
+    {
+        dt = DateTime::FromUnixTimestamp(info.st_atime);
+    }
+    return dt;
+}
+
+DateTime File::GetLastWriteTime(const std::string& path)
+{
+    DateTime dt;
+    struct stat info;
+    int result = stat(path.c_str(), &info);
+    if (result == 0)
+    {
+        dt = DateTime::FromUnixTimestamp(info.st_mtime);
+    }
+    return dt;
 }
 
 NS_FK_END

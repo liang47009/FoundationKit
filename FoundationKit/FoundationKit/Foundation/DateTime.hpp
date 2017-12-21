@@ -13,7 +13,8 @@
 
 #include <string>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Foundation/Timespan.hpp"
+#include "FoundationKit/Foundation/TimeSpan.hpp"
+#include "FoundationKit/Foundation/Time.hpp"
 #include "FoundationKit/Base/types.hpp"
 
 NS_FK_BEGIN
@@ -66,27 +67,25 @@ enum class EMonthOfYear
  * calculate the number of days in a given month and year, check for leap years and determine the
  * time of day, day of week and month of year of a given date and time.
  *
- * The companion struct Timespan is provided for enabling date and time based arithmetic, such as
+ * The companion struct TimeSpan is provided for enabling date and time based arithmetic, such as
  * calculating the difference between two dates or adding a certain amount of time to a given date.
  *
  *
- * @see Timespan
+ * @see TimeSpan
  */
 class DateTime final
 {
 public:
 
-	/** Default constructor (no initialization). */
-	DateTime() { }
+	/** Default constructor*/
+    DateTime();
 
 	/**
 	 * Creates and initializes a new instance with the specified number of ticks.
 	 *
 	 * @param inTicks The ticks representing the date and time.
 	 */
-	explicit DateTime( int64 inTicks )
-        : _ticks(inTicks)
-	{ }
+    explicit DateTime(int64 inTicks, ETimeKind Kind = ETimeKind::Local);
 
 	/**
 	 * Creates and initializes a new instance with the specified year, month, day, hour, minute, second and millisecond.
@@ -98,8 +97,10 @@ public:
 	 * @param minute The minute (optional).
 	 * @param second The second (optional).
 	 * @param millisecond The millisecond (optional).
+     * @param Kind One of the enumeration values that indicates whether ticks specifies a local
+     *             time, Coordinated Universal Time (UTC), or neither.
 	 */
-	DateTime( int32 year, int32 month, int32 day, int32 hour = 0, int32 minute = 0, int32 second = 0, int32 millisecond = 0 );
+	DateTime( int32 year, int32 month, int32 day, int32 hour = 0, int32 minute = 0, int32 second = 0, int32 millisecond = 0, ETimeKind Kind = ETimeKind::Local);
 
 public:
 
@@ -107,22 +108,22 @@ public:
 	 * Returns result of adding the given time span to this date.
 	 *
 	 * @return A date whose value is the sum of this date and the given time span.
-	 * @see Timespan
+	 * @see TimeSpan
 	 */
-	DateTime operator+( const Timespan& other ) const
+	DateTime operator+( const TimeSpan& other ) const
 	{
-        return DateTime(_ticks + other.GetTicks());
+        return DateTime(Ticks + other.GetTicks());
 	}
 
 	/**
 	 * Adds the given time span to this date.
 	 *
 	 * @return This date.
-	 * @see Timespan
+	 * @see TimeSpan
 	 */
-    DateTime& operator+=(const Timespan& other)
+    DateTime& operator+=(const TimeSpan& other)
 	{
-        _ticks += other.GetTicks();
+        Ticks += other.GetTicks();
 		return *this;
 	}
 
@@ -130,33 +131,33 @@ public:
 	 * Returns time span between this date and the given date.
 	 *
 	 * @return A time span whose value is the difference of this date and the given date.
-	 * @see Timespan
+	 * @see TimeSpan
 	 */
-    Timespan operator-(const DateTime& other) const
+    TimeSpan operator-(const DateTime& other) const
 	{
-        return Timespan(_ticks - other.GetTicks());
+        return TimeSpan(Ticks - other.GetTicks());
 	}
 
 	/**
 	 * Returns result of subtracting the given time span from this date.
 	 *
 	 * @return A date whose value is the difference of this date and the given time span.
-	 * @see Timespan
+	 * @see TimeSpan
 	 */
-    DateTime operator-(const Timespan& other) const
+    DateTime operator-(const TimeSpan& other) const
 	{
-		return DateTime(_ticks - other.GetTicks());
+		return DateTime(Ticks - other.GetTicks());
 	}
 
 	/**
 	 * Subtracts the given time span from this date.
 	 *
 	 * @return This date.
-	 * @see Timespan
+	 * @see TimeSpan
 	 */
-    DateTime& operator-=(const Timespan& other)
+    DateTime& operator-=(const TimeSpan& other)
 	{
-		_ticks -= other.GetTicks();
+		Ticks -= other.GetTicks();
 		return *this;
 	}
 
@@ -168,7 +169,7 @@ public:
 	 */
     bool operator==(const DateTime& other) const
 	{
-        return (_ticks == other._ticks);
+        return (Ticks == other.Ticks);
 	}
 
 	/**
@@ -179,7 +180,7 @@ public:
 	 */
 	bool operator!=( const DateTime& Other ) const
 	{
-		return (_ticks != Other._ticks);
+		return (Ticks != Other.Ticks);
 	}
 
 	/**
@@ -190,7 +191,7 @@ public:
 	 */
 	bool operator>( const DateTime& Other ) const
 	{
-		return (_ticks > Other._ticks);
+		return (Ticks > Other.Ticks);
 	}
 
 	/**
@@ -201,7 +202,7 @@ public:
 	 */
 	bool operator>=( const DateTime& Other ) const
 	{
-		return (_ticks >= Other._ticks);
+		return (Ticks >= Other.Ticks);
 	}
 
 	/**
@@ -212,7 +213,7 @@ public:
 	 */
 	bool operator<( const DateTime& Other ) const
 	{
-		return (_ticks < Other._ticks);
+		return (Ticks < Other.Ticks);
 	}
 
 	/**
@@ -223,10 +224,18 @@ public:
 	 */
 	bool operator<=( const DateTime& Other ) const
 	{
-		return (_ticks <= Other._ticks);
+		return (Ticks <= Other.Ticks);
 	}
 
 public:
+    /**
+     * Gets a value that indicates whether the time represented by this instance is
+     * based on local time, Coordinated Universal Time (UTC), or neither.
+     */
+    ETimeKind GetTimeKind()const
+    {
+        return TimeKind;
+    }
 
 	/**
 	 * Gets the date part of this date.
@@ -237,7 +246,7 @@ public:
 	 */
 	DateTime GetDate() const
 	{
-		return DateTime(_ticks - (_ticks % Time::TicksPerDay));
+		return DateTime(Ticks - (Ticks % Time::TicksPerDay));
 	}
 
 	/**
@@ -281,7 +290,7 @@ public:
 	 */
 	int32 GetHour() const
 	{
-		return (int32)((_ticks / Time::TicksPerHour) % 24);
+		return (int32)((Ticks / Time::TicksPerHour) % 24);
 	}
 
 	/**
@@ -304,7 +313,7 @@ public:
 	 */
 	double GetJulianDay() const
 	{
-		return (double)(1721425.5 + _ticks / Time::TicksPerDay);
+		return (double)(1721425.5 + Ticks / Time::TicksPerDay);
 	}
 
 	/**
@@ -329,7 +338,7 @@ public:
 	 */
 	int32 GetMillisecond() const
 	{
-		return (int32)((_ticks / Time::TicksPerMillisecond) % 1000);
+		return (int32)((Ticks / Time::TicksPerMillisecond) % 1000);
 	}
 
 	/**
@@ -340,7 +349,7 @@ public:
 	 */
 	int32 GetMinute() const
 	{
-		return (int32)((_ticks / Time::TicksPerMinute) % 60);
+		return (int32)((Ticks / Time::TicksPerMinute) % 60);
 	}
 
 	/**
@@ -370,7 +379,7 @@ public:
 	 */
 	int32 GetSecond() const
 	{
-		return (int32)((_ticks / Time::TicksPerSecond) % 60);
+		return (int32)((Ticks / Time::TicksPerSecond) % 60);
 	}
 
 	/**
@@ -380,7 +389,7 @@ public:
 	 */
 	int64 GetTicks() const
 	{
-		return _ticks;
+		return Ticks;
 	}
 
 	/**
@@ -388,9 +397,9 @@ public:
 	 *
 	 * @see getDayOfWeek, getDayOfYear, getMonthOfYear
 	 */
-	Timespan GetTimeOfDay() const
+	TimeSpan GetTimeOfDay() const
 	{
-		return Timespan(_ticks % Time::TicksPerDay);
+		return TimeSpan(Ticks % Time::TicksPerDay);
 	}
 
 	/**
@@ -461,7 +470,7 @@ public:
 	 */
 	int64 ToUnixTimestamp() const
 	{
-		return (_ticks - DateTime(1970, 1, 1)._ticks) / Time::TicksPerSecond;
+		return (Ticks - DateTime(1970, 1, 1).Ticks) / Time::TicksPerSecond;
 	}
 
     /**
@@ -471,7 +480,7 @@ public:
      */
     size_t GetHash()
     {
-        return std::hash<int64>()(this->_ticks);
+        return std::hash<int64>()(this->Ticks);
     }
 public:
 
@@ -515,7 +524,7 @@ public:
 	 */
 	static DateTime FromUnixTimestamp( int64 unixTime )
 	{
-        return DateTime(1970, 1, 1) + Timespan(unixTime * Time::TicksPerSecond);
+        return DateTime(1970, 1, 1) + TimeSpan(unixTime * Time::TicksPerSecond);
 	}
 
 	/**
@@ -537,10 +546,7 @@ public:
 	 *
 	 * @see minValue
 	 */
-	static DateTime MaxValue()
-	{
-		return DateTime(3652059 * Time::TicksPerDay - 1);
-	}
+    static DateTime MaxValue();
 
 	/**
 	 * Returns the minimum date value.
@@ -549,10 +555,7 @@ public:
 	 *
 	 * @see maxValue
 	 */
-	static DateTime MinValue()
-	{
-		return DateTime(0);
-	}
+    static DateTime MinValue();
 
 	/**
 	 * Gets the local date and time on this computer.
@@ -577,17 +580,17 @@ public:
      * @return Current date and time.
      * @see Now
      */
-    static DateTime UtcNow();
+    static DateTime UTCNow();
 
     /**
      * Get the local date and time on this computer
      */
-    static void SystemTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
+    static void LocalTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
 
     /**
      * Get the UTC date and time on this computer
      */
-    static void UtcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
+    static void UTCTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
 
 	/**
 	 * Converts a string to a date and time.
@@ -617,7 +620,7 @@ public:
 	 * The time component is set to 00:00:00
 	 *
 	 * @return Current date.
-	 * @see Now, UtcNow
+	 * @see Now, UTCNow
 	 */
 	static DateTime Today()
 	{
@@ -674,7 +677,8 @@ protected:
 private:
 
 	/** Holds the ticks in 100 nanoseconds resolution since January 1, 0001 A.D. */
-	int64 _ticks;
+	uint64    Ticks;
+    ETimeKind TimeKind;
 };
 
 NS_FK_END

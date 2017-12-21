@@ -44,7 +44,8 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/ThreadTimer.hpp"
 #include "FoundationKit/Foundation/Time.hpp"
-#include "FoundationKit/Foundation/Timespan.hpp"
+#include "FoundationKit/Foundation/TimeSpan.hpp"
+#include "FoundationKit/Foundation/TimeZone.hpp"
 #include "FoundationKit/Foundation/Value.hpp"
 #include "FoundationKit/Foundation/Vector2.hpp"
 #include "FoundationKit/Foundation/Vector3.hpp"
@@ -59,6 +60,7 @@
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/PlatformMemory.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
+
 
 
 
@@ -102,9 +104,22 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::error_code ec;
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
+    DateTime ret = File::GetCreationTime("F:\\temp\\file.txt");
+    FKLog("======== CreationTime:%s", ret.ToString().c_str());
 
-    auto filesize = File::GetSize("F:\\temp\\trace(1).log");
+    ret = File::GetLastAccessTime("F:\\temp\\file.txt");
+    FKLog("======== LastAccessTime:%s", ret.ToString().c_str());
 
+    ret = File::GetLastWriteTime("F:\\temp\\file.txt");
+    FKLog("======== LastWriteTime:%s", ret.ToString().c_str());
+
+    ret = DateTime::Now();
+    FKLog("======== Now:%s", ret.ToString().c_str());
+
+    ret = DateTime::UTCNow();
+    FKLog("======== UTCNow:%s", ret.ToString().c_str());
+
+    FKLog("=========TimeZone:%s", TimeZone::ToDebugString().c_str());
 	int im_a_breakpoint = 0;
 	return true;
 }

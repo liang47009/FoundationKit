@@ -10,14 +10,13 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
-#include "FoundationKit/Foundation/Time.hpp"
 
 NS_FK_BEGIN
 
 /** Returns the system time. */
-void SystemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+void LocalTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
-    Time::TimeDate td = Time::GetSystemTime();
+    Time::TimeDate td = Time::GetTime();
     year              = td.Year;
     month             = td.Month;
     dayOfWeek         = td.DayOfWeek;
@@ -29,7 +28,7 @@ void SystemTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, 
 }
 
 /** Returns the UTC time. */
-void UtcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+void UTCTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
     Time::TimeDate td = Time::GetUTCTime();
     year              = td.Year;
@@ -42,20 +41,33 @@ void UtcTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int
     msec              = td.Milliseconds;
 }
 
+const uint64 MinTicks              = 0;
+const uint64 MaxTicks              = 3652059 * Time::TicksPerDay - 1;
 /* DateTime constants
  *****************************************************************************/
 
 const int32 DateTime::DaysPerMonth[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 const int32 DateTime::DaysToMonth[] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
 
-
 /* DateTime structors
  *****************************************************************************/
 
-DateTime::DateTime( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond )
+DateTime::DateTime()
+    :Ticks(0)
 {
-    ASSERTED(Validate(year, month, day, hour, minute, second, millisecond), "Input date time is invalid.");
+}
 
+DateTime::DateTime(int64 inTicks, ETimeKind Kind)
+    : Ticks(inTicks)
+    , TimeKind(Kind)
+{
+    ASSERT_IF((inTicks < MinTicks || inTicks > MaxTicks), "inTicks must be between MinTicks and MaxTicks");
+}
+
+DateTime::DateTime( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond, ETimeKind Kind)
+    : TimeKind(Kind)
+{
+    ASSERT_IF(!Validate(year, month, day, hour, minute, second, millisecond), "Input date time is invalid.");
 	int32 totalDays = 0;
 
     if ((month > 2) && IsLeapYear(year))
@@ -73,11 +85,11 @@ DateTime::DateTime( int32 year, int32 month, int32 day, int32 hour, int32 minute
     totalDays += DaysToMonth[month];				// days in this year up to last month
     totalDays += day - 1;							// days in this month minus today
 
-    _ticks = totalDays   * Time::TicksPerDay
-           + hour        * Time::TicksPerHour
-           + minute      * Time::TicksPerMinute
-           + second      * Time::TicksPerSecond
-           + millisecond * Time::TicksPerMillisecond;
+    Ticks = totalDays   * Time::TicksPerDay
+          + hour        * Time::TicksPerHour
+          + minute      * Time::TicksPerMinute
+          + second      * Time::TicksPerSecond
+          + millisecond * Time::TicksPerMillisecond;
 }
 
 
@@ -112,7 +124,7 @@ int32 DateTime::GetDay() const
 EDayOfWeek DateTime::GetDayOfWeek() const
 {
 	// January 1, 0001 was a Monday
-	return static_cast<EDayOfWeek>((_ticks / Time::TicksPerDay) % 7);
+	return static_cast<EDayOfWeek>((Ticks / Time::TicksPerDay) % 7);
 }
 
 
@@ -245,31 +257,41 @@ bool DateTime::IsLeapYear( int32 year )
 	return false;
 }
 
+DateTime DateTime::MaxValue()
+{
+    return DateTime(MaxTicks);
+}
+
+
+DateTime DateTime::MinValue()
+{
+    return DateTime(MinTicks);
+}
 
 DateTime DateTime::Now()
 {
 	int32 year, month, day, dayOfWeek;
 	int32 hour, minute, second, millisecond;
-    SystemTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
-    return DateTime(year, month, day, hour, minute, second, millisecond);
+    LocalTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
+    return DateTime(year, month, day, hour, minute, second, millisecond, ETimeKind::Local);
 }
 
-DateTime DateTime::UtcNow()
+DateTime DateTime::UTCNow()
 {
     int32 year, month, day, dayOfWeek;
     int32 hour, minute, second, millisecond;
-    UtcTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
-    return DateTime(year, month, day, hour, minute, second, millisecond);
+    UTCTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
+    return DateTime(year, month, day, hour, minute, second, millisecond, ETimeKind::Utc);
 }
 
-void DateTime::SystemTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+void DateTime::LocalTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
-    SystemTimeForDate(year, month, dayOfWeek, day, hour, min, sec, msec);
+    LocalTimeForDate(year, month, dayOfWeek, day, hour, min, sec, msec);
 }
 
-void DateTime::UtcTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+void DateTime::UTCTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
 {
-    UtcTimeForDate(year, month, dayOfWeek, day, hour, min, sec, msec);
+    UTCTimeForDate(year, month, dayOfWeek, day, hour, min, sec, msec);
 }
 
 bool DateTime::Parse( const std::string& dateTimeString, DateTime& outDateTime )
@@ -304,7 +326,7 @@ bool DateTime::Parse( const std::string& dateTimeString, DateTime& outDateTime )
 	}
 
 	// convert the tokens to numbers
-    outDateTime._ticks = DateTime(year, month, day, hour, minute, second, millisecond)._ticks;
+    outDateTime.Ticks = DateTime(year, month, day, hour, minute, second, millisecond).Ticks;
 
 	return true;
 }
@@ -434,7 +456,7 @@ bool DateTime::ParseIso8601( const char* dateTimeString, DateTime& outDateTime )
 
 	// adjust for the timezone (bringing the DateTime into UTC)
 	int32 TzOffsetMinutes = (tzHour < 0) ? tzHour * 60 - tzMinute : tzHour * 60 + tzMinute;
-	Final -= Timespan(0, TzOffsetMinutes, 0);
+	Final -= TimeSpan(0, TzOffsetMinutes, 0);
 	outDateTime = Final;
 
 	return true;
@@ -461,7 +483,7 @@ std::string DateTime::GetDateString()
     int32 Min;
     int32 Sec;
     int32 MSec;
-    SystemTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
+    LocalTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
     std::string dateStr = StringUtils::Format("%04d-%02d-%02d", Year,Month, Day);
     return dateStr;
 }
@@ -476,7 +498,7 @@ std::string DateTime::GetTimeString()
     int32 Min;
     int32 Sec;
     int32 MSec;
-    SystemTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
+    LocalTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
     std::string timeStr = StringUtils::Format("%02d:%02d:%02d", Hour, Min, Sec);
     return timeStr;
 }
