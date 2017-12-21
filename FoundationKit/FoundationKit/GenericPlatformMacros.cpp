@@ -49,7 +49,6 @@ void __log__(const char* fmt, ...)
     int needed = 0;
     int loopCount = 0;
     va_list arglist;
-    va_start(arglist, fmt);
     do
     {
         // Pass one greater needed size to leave room for NULL terminator
@@ -62,8 +61,10 @@ void __log__(const char* fmt, ...)
         The _vsnprintf behavior is compatible API which always return -1 when buffer isn't
         enough at VS2013/2015/2017 Yes, The vsnprintf is more efficient implemented by MSVC 19.0 or later, AND it's also standard-compliant, see reference: http://www.cplusplus.com/reference/cstdio/vsnprintf/
         */
+        va_start(arglist, fmt);
         // Pass one greater needed size to leave room for NULL terminator
         needed = vsnprintf(result, BufferSize + 1, fmt, arglist);
+        va_end(arglist);
         if (needed >= 0 && needed < BufferSize)
         {
             break;
@@ -73,8 +74,7 @@ void __log__(const char* fmt, ...)
             BufferSize *= 2;
         }
     } while (++loopCount < 10);
-    va_end(arglist);
-
+    
     std::string strPreMsg = result;
     strPreMsg += "\n";
 
