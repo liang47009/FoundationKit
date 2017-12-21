@@ -52,9 +52,9 @@ return result;
 bool TimeZone::IsDaylightSavingTime(DateTime date)
 {
     std::time_t time = date.ToUnixTimestamp();
-    struct std::tm tms;
-    ASSERT_IF(!localtime_r(&time,&tms), "Cannot get local time DST flag");
-    return tms.tm_isdst > 0;
+    struct std::tm* tms = std::localtime(&time);
+    ASSERT_IF(!tms, "Cannot get local time DST flag");
+    return tms->tm_isdst > 0;
 }
 
 TimeSpan TimeZone::GetUTCOffset()
@@ -79,7 +79,7 @@ TimeSpan TimeZone::GetDSTOffset()
 #if PLATFORM_WINDOWS
     TIME_ZONE_INFORMATION tzInfo;
     DWORD dstFlag = GetTimeZoneInformation(&tzInfo);
-    return TimeSpan((dstFlag == TIME_ZONE_ID_DAYLIGHT ? tzInfo.DaylightBias : 0)*Time::TicksPerMinute);
+    return TimeSpan((dstFlag == TIME_ZONE_ID_DAYLIGHT ? -tzInfo.DaylightBias : 0)*Time::TicksPerMinute);
 #else
     std::time_t now = std::time(NULL);
     struct std::tm t;
@@ -88,7 +88,7 @@ TimeSpan TimeZone::GetDSTOffset()
 #endif
 }
 
-DateTime TimeZone::ToLocalTime(DateTime date)
+DateTime TimeZone::ToLocalTime(const DateTime& date)
 {
     if (date.GetTimeKind() == ETimeKind::Local)
     {
@@ -100,7 +100,7 @@ DateTime TimeZone::ToLocalTime(DateTime date)
     return ResultDateTime;
 }
 
-DateTime TimeZone::ToUniversalTime(DateTime date)
+DateTime TimeZone::ToUniversalTime(const DateTime& date)
 {
     if (date.GetTimeKind() == ETimeKind::Utc)
     {

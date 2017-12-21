@@ -79,7 +79,6 @@ std::string StringUtils::Format( const char* format, ... )
             BufferSize *= 2;
         }
     } while (++LoopCount < 10);
-
     return ResultStr;
 }
 

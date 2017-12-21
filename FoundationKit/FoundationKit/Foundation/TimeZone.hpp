@@ -83,13 +83,13 @@ public:
 
     /**
      * Returns the Coordinated Universal Time (UTC) offset for the specified local time.
-     * local time = UTC - UTC Offset + DST Offset
+     * local time = UTC + UTC Offset + DST Offset
      */
     static TimeSpan GetUTCOffset();
 
     /**
      * Returns the Coordinated daylight saving time offset for the specified local time.
-     * local time = UTC - UTC Offset + DST Offset
+     * local time = UTC + UTC Offset + DST Offset
      */
     static TimeSpan GetDSTOffset();
 
@@ -99,7 +99,7 @@ public:
      * @param date A Coordinated Universal Time (UTC) time.
      *
      */
-    static DateTime ToLocalTime(DateTime date);
+    static DateTime ToLocalTime(const DateTime& date);
 
     /**
      * Returns the Coordinated Universal Time (UTC) that corresponds to a specified
@@ -108,7 +108,7 @@ public:
      * @param date A date and time.
      *
      */
-    static DateTime ToUniversalTime(DateTime date);
+    static DateTime ToUniversalTime(const DateTime& date);
 
     /**
      * Get time zone all info string.

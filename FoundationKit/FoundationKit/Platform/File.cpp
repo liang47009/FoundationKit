@@ -7,6 +7,8 @@
 #include <fstream>
 #include <unordered_map>
 #include "FoundationKit/Base/lexical_cast.hpp"
+#include "FoundationKit/Foundation/TimeZone.hpp"
+#include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/Directory.hpp"
@@ -192,7 +194,7 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
 
 int64 File::GetSize(const std::string& path)
 {
-    ASSERTED(!path.empty(), "filepath must be not empty.");
+    ASSERT_IF(path.empty(), "filepath must be not empty.");
     int64 ResultFileSize = -1;
     struct stat info;
     int result = stat(path.c_str(), &info);
@@ -322,50 +324,54 @@ bool File::WriteAllText(const std::string& path, const std::string& contents)
 
 DateTime File::GetCreationTime(const std::string& path)
 {
+    return TimeZone::ToLocalTime(GetCreationTimeUtc(path));
+}
+
+DateTime File::GetCreationTimeUtc(const std::string& path)
+{
     DateTime dt;
-//#if PLATFORM_WINDOWS
-//    FILETIME CreationTime;
-//    FILETIME LastAccessTime;
-//    FILETIME LastWriteTime;
-//    BOOL RetValue = GetFileTime(NULL  // handle to the file
-//        , &CreationTime               // FILETIME struct for creation time
-//        , &LastAccessTime             // FILETIME struct for last access time
-//        , &LastWriteTime);            // FILETIME struct for last modification time
-//#else
     struct stat info;
     int result = stat(path.c_str(), &info);
+    ASSERTED(!result, StringUtils::Format("stat falied:%s", detail::ErrnoToString(errno).c_str()).c_str());
     if (result == 0)
     {
-        dt = DateTime::FromUnixTimestamp(info.st_ctime);
+        dt = DateTime::FromUnixTimestamp(info.st_ctime, ETimeKind::Utc);
     }
-    else
-    {
-
-    }
-//#endif
     return dt;
 }
 
 DateTime File::GetLastAccessTime(const std::string& path)
 {
+    return TimeZone::ToLocalTime(GetLastAccessTimeUtc(path));
+}
+
+DateTime File::GetLastAccessTimeUtc(const std::string& path)
+{
     DateTime dt;
     struct stat info;
     int result = stat(path.c_str(), &info);
+    ASSERTED(!result, StringUtils::Format("stat falied:%s", detail::ErrnoToString(errno).c_str()).c_str());
     if (result == 0)
     {
-        dt = DateTime::FromUnixTimestamp(info.st_atime);
+        dt = TimeZone::ToLocalTime(DateTime::FromUnixTimestamp(info.st_atime, ETimeKind::Utc));
     }
     return dt;
 }
 
 DateTime File::GetLastWriteTime(const std::string& path)
 {
+    return TimeZone::ToLocalTime(GetLastWriteTimeUtc(path));
+}
+
+DateTime File::GetLastWriteTimeUtc(const std::string& path)
+{
     DateTime dt;
     struct stat info;
     int result = stat(path.c_str(), &info);
+    ASSERTED(!result, StringUtils::Format("stat falied:%s", detail::ErrnoToString(errno).c_str()).c_str());
     if (result == 0)
     {
-        dt = DateTime::FromUnixTimestamp(info.st_mtime);
+        dt = TimeZone::ToLocalTime(DateTime::FromUnixTimestamp(info.st_mtime, ETimeKind::Utc));
     }
     return dt;
 }

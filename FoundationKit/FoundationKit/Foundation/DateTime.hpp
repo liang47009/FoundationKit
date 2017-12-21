@@ -112,7 +112,7 @@ public:
 	 */
 	DateTime operator+( const TimeSpan& other ) const
 	{
-        return DateTime(Ticks + other.GetTicks());
+        return DateTime(Ticks + other.GetTicks(),GetTimeKind());
 	}
 
 	/**
@@ -146,7 +146,7 @@ public:
 	 */
     DateTime operator-(const TimeSpan& other) const
 	{
-		return DateTime(Ticks - other.GetTicks());
+		return DateTime(Ticks - other.GetTicks(), GetTimeKind());
 	}
 
 	/**
@@ -246,7 +246,7 @@ public:
 	 */
 	DateTime GetDate() const
 	{
-		return DateTime(Ticks - (Ticks % Time::TicksPerDay));
+		return DateTime(Ticks - (Ticks % Time::TicksPerDay),GetTimeKind());
 	}
 
 	/**
@@ -510,9 +510,9 @@ public:
 	 * @return Gregorian date and time.
 	 * @see getJulianDay
 	 */
-	static DateTime FromJulianDay( double julianDay )
+	static DateTime FromJulianDay( double julianDay, ETimeKind Kind = ETimeKind::Local)
 	{
-        return DateTime((int64)((julianDay - 1721425.5) * Time::TicksPerDay));
+        return DateTime((int64)((julianDay - 1721425.5) * Time::TicksPerDay), Kind);
 	}
 
 	/**
@@ -522,9 +522,9 @@ public:
 	 * @return Gregorian date and time.
 	 * @see toUnixTimestamp
 	 */
-	static DateTime FromUnixTimestamp( int64 unixTime )
+	static DateTime FromUnixTimestamp( int64 unixTime, ETimeKind Kind = ETimeKind::Local)
 	{
-        return DateTime(1970, 1, 1) + TimeSpan(unixTime * Time::TicksPerSecond);
+        return DateTime(1970, 1, 1,0,0,0,0,Kind) + TimeSpan(unixTime * Time::TicksPerSecond);
 	}
 
 	/**

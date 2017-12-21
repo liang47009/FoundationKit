@@ -79,11 +79,12 @@ public:
     static bool WriteAllText(const std::string& path, const std::string& contents);
 
     static DateTime GetCreationTime(const std::string& path);
-    //static DateTime GetCreationTimeUtc(const std::string& path);
+    static DateTime GetCreationTimeUtc(const std::string& path);
     static DateTime GetLastAccessTime(const std::string& path);
-    //static DateTime GetLastAccessTimeUtc(const std::string& path);
+    static DateTime GetLastAccessTimeUtc(const std::string& path);
     static DateTime GetLastWriteTime(const std::string& path);
-    //static DateTime GetLastWriteTimeUtc(const std::string& path);
+    static DateTime GetLastWriteTimeUtc(const std::string& path);
+
     //static void SetCreationTime(const std::string& path, DateTime creationTime);
     //static void SetCreationTimeUtc(const std::string& path, DateTime creationTimeUtc);
     //static void SetLastAccessTime(const std::string& path, DateTime lastAccessTime);
