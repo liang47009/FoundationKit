@@ -45,7 +45,8 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/ThreadTimer.hpp"
 #include "FoundationKit/Foundation/Time.hpp"
-#include "FoundationKit/Foundation/Timespan.hpp"
+#include "FoundationKit/Foundation/TimeSpan.hpp"
+#include "FoundationKit/Foundation/TimeZone.hpp"
 #include "FoundationKit/Foundation/Value.hpp"
 #include "FoundationKit/Foundation/Vector2.hpp"
 #include "FoundationKit/Foundation/Vector3.hpp"
@@ -105,6 +106,26 @@ size_t GetOSIntData(int key, int type)
     PlatformDevice::DumpDeviceInfo();
     auto strValue = GetOSStringData(CTL_HW, HW_MODEL);
     auto intValue = GetOSIntData(CTL_HW, HW_CPU_FREQ);
+    
+    DateTime ret = DateTime::Now();
+    FKLog("======== Now:%s", ret.ToString().c_str());
+    
+    ret = DateTime::UTCNow();
+    FKLog("======== UTCNow:%s", ret.ToString().c_str());
+    
+    FKLog("=========TimeZone:%s", TimeZone::ToDebugString().c_str());
+    
+    DateTime LocalDate = DateTime::Now();
+    DateTime UTCDate = DateTime::UTCNow();
+    
+    FKLog("=========LocalDate:%s", LocalDate.ToString().c_str());
+    FKLog("=========UTCDate:%s", UTCDate.ToString().c_str());
+    
+    DateTime LocalToUTC = TimeZone::ToUniversalTime(LocalDate);
+    DateTime UTCToLocal = TimeZone::ToLocalTime(UTCDate);
+    FKLog("=========LocalToUTC:%s", LocalToUTC.ToString().c_str());
+    FKLog("=========UTCToLocal:%s", UTCToLocal.ToString().c_str());
+    
     return YES;
 }
 

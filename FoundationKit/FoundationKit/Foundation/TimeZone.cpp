@@ -2,10 +2,6 @@
 #include "FoundationKit/Foundation/TimeZone.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 
-#if PLATFORM_WINDOWS
-//#include <timezoneapi.h>
-#endif
-
 NS_FK_BEGIN
 
 std::string FoundationKit::TimeZone::DisplayName()
@@ -18,7 +14,7 @@ std::string FoundationKit::TimeZone::DisplayName()
     result = StringUtils::wstring2UTF8string(ptr);
 #else
     tzset();
-    result = std::string(tzname[GetDSTOffset().GetTicks() > 0 ? 1 : 0]);
+    result = std::string(tzname[daylight ? 1 : 0]);
 #endif
     return result;
 }
@@ -56,24 +52,25 @@ return result;
 bool TimeZone::IsDaylightSavingTime(DateTime date)
 {
     std::time_t time = date.ToUnixTimestamp();
-    struct std::tm* tms = std::localtime(&time);
-    ASSERT_IF(!tms, "cannot get local time DST flag");
-    return tms->tm_isdst > 0;
+    struct std::tm tms;
+    ASSERT_IF(!localtime_r(&time,&tms), "Cannot get local time DST flag");
+    return tms.tm_isdst > 0;
 }
-
 
 TimeSpan TimeZone::GetUTCOffset()
 {
 #if PLATFORM_WINDOWS
     TIME_ZONE_INFORMATION tzInfo;
     GetTimeZoneInformation(&tzInfo);
-    return TimeSpan(tzInfo.Bias * Time::TicksPerMinute);
+    return TimeSpan(-tzInfo.Bias * Time::TicksPerMinute);
 #else
-    std::time_t now = std::time(NULL);
-    struct std::tm t;
-    gmtime_r(&now, &t);
-    std::time_t utc = std::mktime(&t);
-    return now - utc;
+//    std::time_t now = std::time(NULL);
+//    struct std::tm t;
+//    gmtime_r(&now, &t);
+//    std::time_t utc = std::mktime(&t);
+//    return TimeSpan((now - utc)*Time::TicksPerSecond);
+    tzset();
+    return TimeSpan(-timezone*Time::TicksPerSecond);
 #endif
 }
 
@@ -82,15 +79,14 @@ TimeSpan TimeZone::GetDSTOffset()
 #if PLATFORM_WINDOWS
     TIME_ZONE_INFORMATION tzInfo;
     DWORD dstFlag = GetTimeZoneInformation(&tzInfo);
-    return TimeSpan((dstFlag == TIME_ZONE_ID_DAYLIGHT ? -tzInfo.DaylightBias : 0)*Time::TicksPerMinute);
+    return TimeSpan((dstFlag == TIME_ZONE_ID_DAYLIGHT ? tzInfo.DaylightBias : 0)*Time::TicksPerMinute);
 #else
     std::time_t now = std::time(NULL);
     struct std::tm t;
     ASSERT_IF(!localtime_r(&now, &t), "Cannot get local time DST offset");
-    return t.tm_isdst == 1 ? 3600 : 0;
+    return TimeSpan((t.tm_isdst == 1 ? 3600 : 0)*Time::TicksPerHour);
 #endif
 }
-
 
 DateTime TimeZone::ToLocalTime(DateTime date)
 {
@@ -98,7 +94,10 @@ DateTime TimeZone::ToLocalTime(DateTime date)
     {
         return date;
     }
-    return date;
+    DateTime ResultDateTime = date;
+    ResultDateTime += GetUTCOffset();
+    ResultDateTime += GetDSTOffset();
+    return ResultDateTime;
 }
 
 DateTime TimeZone::ToUniversalTime(DateTime date)
@@ -107,7 +106,10 @@ DateTime TimeZone::ToUniversalTime(DateTime date)
     {
         return date;
     }
-    return date;
+    DateTime ResultDateTime = date;
+    ResultDateTime -= GetUTCOffset();
+    ResultDateTime -= GetDSTOffset();
+    return ResultDateTime;
 }
 
 

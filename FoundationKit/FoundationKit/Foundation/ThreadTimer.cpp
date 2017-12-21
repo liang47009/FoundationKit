@@ -5,7 +5,7 @@
 
 ****************************************************************************/
 #include "FoundationKit/Foundation/ThreadTimer.hpp"
-#include "FoundationKit/Foundation/Timespan.hpp"
+#include "FoundationKit/Foundation/TimeSpan.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 NS_FK_BEGIN
 

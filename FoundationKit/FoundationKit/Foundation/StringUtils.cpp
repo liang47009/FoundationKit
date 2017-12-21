@@ -54,7 +54,6 @@ std::string StringUtils::Format( const char* format, ... )
     int Needed = 0;
     int LoopCount = 0;
     va_list ArgList;
-    va_start(ArgList, format);
     do
     {
         // Pass one greater needed size to leave room for NULL terminator
@@ -67,8 +66,10 @@ std::string StringUtils::Format( const char* format, ... )
         The _vsnprintf behavior is compatible API which always return -1 when buffer isn't
         enough at VS2013/2015/2017 Yes, The vsnprintf is more efficient implemented by MSVC 19.0 or later, AND it's also standard-compliant, see reference: http://www.cplusplus.com/reference/cstdio/vsnprintf/
         */
+        va_start(ArgList, format);
         // Pass one greater needed size to leave room for NULL terminator
         Needed = vsnprintf(ResultStr, BufferSize + 1, format, ArgList);
+        va_end(ArgList);
         if (Needed >= 0 && Needed < BufferSize)
         {
             break;
@@ -78,7 +79,7 @@ std::string StringUtils::Format( const char* format, ... )
             BufferSize *= 2;
         }
     } while (++LoopCount < 10);
-    va_end(ArgList);
+
     return ResultStr;
 }
 

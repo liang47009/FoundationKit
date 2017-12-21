@@ -23,7 +23,6 @@
 		093490CB1E7F7BA30034ECF2 /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490251E7F7BA20034ECF2 /* Quaternion.cpp */; };
 		093490CC1E7F7BA30034ECF2 /* Rect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490281E7F7BA20034ECF2 /* Rect.cpp */; };
 		093490CE1E7F7BA30034ECF2 /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934902E1E7F7BA20034ECF2 /* StringUtils.cpp */; };
-		093490D11E7F7BA30034ECF2 /* Timespan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490341E7F7BA20034ECF2 /* Timespan.cpp */; };
 		093490D21E7F7BA30034ECF2 /* Value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490371E7F7BA20034ECF2 /* Value.cpp */; };
 		093490D31E7F7BA30034ECF2 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934903A1E7F7BA20034ECF2 /* Vector2.cpp */; };
 		093490D41E7F7BA30034ECF2 /* Vector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934903D1E7F7BA20034ECF2 /* Vector3.cpp */; };
@@ -65,6 +64,10 @@
 		09410A081F3C094D006D6F80 /* AppleFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B31F3C0787006D6F80 /* AppleFile.mm */; };
 		09410A091F3C094F006D6F80 /* ApplePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B41F3C0787006D6F80 /* ApplePath.mm */; };
 		094A12C81FE0F2DB00B1F8B9 /* NotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094A12C61FE0F2DA00B1F8B9 /* NotificationCenter.cpp */; };
+		094A12CD1FEB57C200B1F8B9 /* TimeZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094A12C91FEB57C100B1F8B9 /* TimeZone.cpp */; };
+		094A12CE1FEB57C200B1F8B9 /* TimeSpan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094A12CA1FEB57C100B1F8B9 /* TimeSpan.cpp */; };
+		094A12CF1FEB587800B1F8B9 /* TimeZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094A12C91FEB57C100B1F8B9 /* TimeZone.cpp */; };
+		094A12D01FEB587B00B1F8B9 /* TimeSpan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094A12CA1FEB57C100B1F8B9 /* TimeSpan.cpp */; };
 		094C50B11EC3FF1B00AB3021 /* StringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934902E1E7F7BA20034ECF2 /* StringUtils.cpp */; };
 		094C50B21EC3FF1B00AB3021 /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490251E7F7BA20034ECF2 /* Quaternion.cpp */; };
 		094C50B31EC3FF1B00AB3021 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490221E7F7BA20034ECF2 /* Matrix.cpp */; };
@@ -84,7 +87,6 @@
 		094C50C91EC3FF1B00AB3021 /* ConvertUTFWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09348F4A1E7F7BA20034ECF2 /* ConvertUTFWrapper.cpp */; };
 		094C50CC1EC3FF1B00AB3021 /* ioapi_mem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09348FDF1E7F7BA20034ECF2 /* ioapi_mem.cpp */; };
 		094C50CF1EC3FF1B00AB3021 /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0934901E1E7F7BA20034ECF2 /* MathUtil.cpp */; };
-		094C50D01EC3FF1B00AB3021 /* Timespan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490341E7F7BA20034ECF2 /* Timespan.cpp */; };
 		094C50D31EC3FF1B00AB3021 /* DateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490101E7F7BA20034ECF2 /* DateTime.cpp */; };
 		094C50D51EC3FF1B00AB3021 /* ioapi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09348FDD1E7F7BA20034ECF2 /* ioapi.cpp */; };
 		094C50D71EC3FF1B00AB3021 /* Value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490371E7F7BA20034ECF2 /* Value.cpp */; };
@@ -175,8 +177,6 @@
 		0934902D1E7F7BA20034ECF2 /* Size.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Size.hpp; sourceTree = "<group>"; };
 		0934902E1E7F7BA20034ECF2 /* StringUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringUtils.cpp; sourceTree = "<group>"; };
 		0934902F1E7F7BA20034ECF2 /* StringUtils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StringUtils.hpp; sourceTree = "<group>"; };
-		093490341E7F7BA20034ECF2 /* Timespan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timespan.cpp; sourceTree = "<group>"; };
-		093490351E7F7BA20034ECF2 /* Timespan.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Timespan.hpp; sourceTree = "<group>"; };
 		093490371E7F7BA20034ECF2 /* Value.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Value.cpp; sourceTree = "<group>"; };
 		093490381E7F7BA20034ECF2 /* Value.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Value.hpp; sourceTree = "<group>"; };
 		093490391E7F7BA20034ECF2 /* Value.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Value.inl; sourceTree = "<group>"; };
@@ -245,6 +245,10 @@
 		094A12C51FE0F2DA00B1F8B9 /* NotificationCenter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NotificationCenter.hpp; sourceTree = "<group>"; };
 		094A12C61FE0F2DA00B1F8B9 /* NotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NotificationCenter.cpp; sourceTree = "<group>"; };
 		094A12C71FE0F2DB00B1F8B9 /* Utility.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Utility.hpp; sourceTree = "<group>"; };
+		094A12C91FEB57C100B1F8B9 /* TimeZone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimeZone.cpp; sourceTree = "<group>"; };
+		094A12CA1FEB57C100B1F8B9 /* TimeSpan.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimeSpan.cpp; sourceTree = "<group>"; };
+		094A12CB1FEB57C200B1F8B9 /* TimeSpan.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TimeSpan.hpp; sourceTree = "<group>"; };
+		094A12CC1FEB57C200B1F8B9 /* TimeZone.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TimeZone.hpp; sourceTree = "<group>"; };
 		094C50DE1EC3FF1B00AB3021 /* libFoundationKit_Mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundationKit_Mac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		095286711ACA31DB00718FA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		095616921F9DE74E00DEDFA7 /* disable_if.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = disable_if.hpp; sourceTree = "<group>"; };
@@ -393,6 +397,10 @@
 		0934900A1E7F7BA20034ECF2 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				094A12CA1FEB57C100B1F8B9 /* TimeSpan.cpp */,
+				094A12CB1FEB57C200B1F8B9 /* TimeSpan.hpp */,
+				094A12C91FEB57C100B1F8B9 /* TimeZone.cpp */,
+				094A12CC1FEB57C200B1F8B9 /* TimeZone.hpp */,
 				094A12C61FE0F2DA00B1F8B9 /* NotificationCenter.cpp */,
 				094A12C51FE0F2DA00B1F8B9 /* NotificationCenter.hpp */,
 				094A12C71FE0F2DB00B1F8B9 /* Utility.hpp */,
@@ -433,8 +441,6 @@
 				0934902D1E7F7BA20034ECF2 /* Size.hpp */,
 				0934902E1E7F7BA20034ECF2 /* StringUtils.cpp */,
 				0934902F1E7F7BA20034ECF2 /* StringUtils.hpp */,
-				093490341E7F7BA20034ECF2 /* Timespan.cpp */,
-				093490351E7F7BA20034ECF2 /* Timespan.hpp */,
 				093490371E7F7BA20034ECF2 /* Value.cpp */,
 				093490381E7F7BA20034ECF2 /* Value.hpp */,
 				093490391E7F7BA20034ECF2 /* Value.inl */,
@@ -668,6 +674,7 @@
 				094C50B41EC3FF1B00AB3021 /* Base64.cpp in Sources */,
 				094C50B51EC3FF1B00AB3021 /* Math.cpp in Sources */,
 				094C50B61EC3FF1B00AB3021 /* GenericPlatformMacros.cpp in Sources */,
+				094A12CF1FEB587800B1F8B9 /* TimeZone.cpp in Sources */,
 				094C50B71EC3FF1B00AB3021 /* Exception.cpp in Sources */,
 				093DF5431ECAAA5E00BA1C7C /* des.cpp in Sources */,
 				09410A001F3C07AB006D6F80 /* MACDevice.mm in Sources */,
@@ -683,12 +690,12 @@
 				09410A061F3C0948006D6F80 /* AppleDirectory.mm in Sources */,
 				094C50C51EC3FF1B00AB3021 /* Vector3.cpp in Sources */,
 				094C50C71EC3FF1B00AB3021 /* Version.cpp in Sources */,
+				094A12D01FEB587B00B1F8B9 /* TimeSpan.cpp in Sources */,
 				094C50C81EC3FF1B00AB3021 /* unzip.cpp in Sources */,
 				094C50C91EC3FF1B00AB3021 /* ConvertUTFWrapper.cpp in Sources */,
 				094C50CC1EC3FF1B00AB3021 /* ioapi_mem.cpp in Sources */,
 				09410A041F3C07D0006D6F80 /* File.cpp in Sources */,
 				094C50CF1EC3FF1B00AB3021 /* MathUtil.cpp in Sources */,
-				094C50D01EC3FF1B00AB3021 /* Timespan.cpp in Sources */,
 				094C50D31EC3FF1B00AB3021 /* DateTime.cpp in Sources */,
 				094C50D51EC3FF1B00AB3021 /* ioapi.cpp in Sources */,
 				09410A071F3C094A006D6F80 /* AppleEnvironment.mm in Sources */,
@@ -705,6 +712,7 @@
 				094109F71F3C0787006D6F80 /* Path.cpp in Sources */,
 				094109E01F3C0787006D6F80 /* AndroidDirectory.cpp in Sources */,
 				094109EB1F3C0787006D6F80 /* ApplePath.mm in Sources */,
+				094A12CD1FEB57C200B1F8B9 /* TimeZone.cpp in Sources */,
 				093490CA1E7F7BA30034ECF2 /* Matrix.cpp in Sources */,
 				094109F11F3C0787006D6F80 /* UICKeyChainStore.m in Sources */,
 				094109FD1F3C0787006D6F80 /* WindowsPath.cpp in Sources */,
@@ -741,11 +749,11 @@
 				094109EE1F3C0787006D6F80 /* File.cpp in Sources */,
 				094109E91F3C0787006D6F80 /* AppleEnvironment.mm in Sources */,
 				093490C91E7F7BA30034ECF2 /* MathUtil.cpp in Sources */,
-				093490D11E7F7BA30034ECF2 /* Timespan.cpp in Sources */,
 				094109FB1F3C0787006D6F80 /* WindowsEnvironment.cpp in Sources */,
 				094109DF1F3C0787006D6F80 /* AndroidDevice.cpp in Sources */,
 				094109ED1F3C0787006D6F80 /* Directory.cpp in Sources */,
 				093490C41E7F7BA30034ECF2 /* DateTime.cpp in Sources */,
+				094A12CE1FEB57C200B1F8B9 /* TimeSpan.cpp in Sources */,
 				093DF5421ECAAA4800BA1C7C /* des.cpp in Sources */,
 				093490B81E7F7BA30034ECF2 /* ioapi.cpp in Sources */,
 				094109FC1F3C0787006D6F80 /* WindowsFile.cpp in Sources */,

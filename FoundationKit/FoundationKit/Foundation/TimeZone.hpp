@@ -9,9 +9,8 @@
 
 #include <string>
 #include "FoundationKit/Foundation/DateTime.hpp"
-#include "FoundationKit/Foundation/Timespan.hpp"
+#include "FoundationKit/Foundation/TimeSpan.hpp"
 NS_FK_BEGIN
-
 
 //Defines the period of daylight saving time.
 struct DaylightTime
@@ -20,15 +19,15 @@ struct DaylightTime
     * Initializes a new instance of the System.Globalization.DaylightTime class with
     * the specified start, end, and time difference information.
     *
-    * @param start:
+    * @param start
     *     The object that represents the date and time when daylight saving time begins.
     *     The value must be in local time.
     *
-    * @param end:
+    * @param end
     *     The object that represents the date and time when daylight saving time ends.
     *     The value must be in local time.
     *
-    * @param delta:
+    * @param delta
     *     The object that represents the difference between standard time and daylight
     *     saving time, in ticks.
     */     
@@ -84,21 +83,19 @@ public:
 
     /**
      * Returns the Coordinated Universal Time (UTC) offset for the specified local time.
-     *
+     * local time = UTC - UTC Offset + DST Offset
      */
     static TimeSpan GetUTCOffset();
 
-
     /**
      * Returns the Coordinated daylight saving time offset for the specified local time.
-     * DaylightSavingTime
+     * local time = UTC - UTC Offset + DST Offset
      */
     static TimeSpan GetDSTOffset();
 
-
     /**
      * Returns the local time that corresponds to a specified date and time value.
-     *
+     * local time = UTC + UTC Offset + DST Offset
      * @param date A Coordinated Universal Time (UTC) time.
      *
      */
@@ -107,7 +104,7 @@ public:
     /**
      * Returns the Coordinated Universal Time (UTC) that corresponds to a specified
      * time.
-     *
+     * utc time = local time - UTC Offset - DST Offset
      * @param date A date and time.
      *
      */
