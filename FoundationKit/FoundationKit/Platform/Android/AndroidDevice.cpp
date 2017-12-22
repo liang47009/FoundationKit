@@ -698,7 +698,7 @@ std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
     return result;
 }
 
-bool PlatformDevice::ScreenShot(std::string& outSavePath)
+bool PlatformDevice::ScreenCapture(std::string& outSavePath)
 {
     return false;
 }

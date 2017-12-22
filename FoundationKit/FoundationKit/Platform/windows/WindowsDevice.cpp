@@ -13,15 +13,6 @@ losemymind.libo@gmail.com
 #include <array>
 #include <sstream>
 
-#include "FoundationKit/Platform/PlatformDevice.hpp"
-#include "FoundationKit/Platform/OpenGL.hpp"
-#include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/Math.hpp"
-#include "FoundationKit/Foundation/Version.hpp"
-#include "FoundationKit/Base/types.hpp"
-#include "FoundationKit/Base/mutablebuf.hpp"
-#include "FoundationKit/Crypto/md5.hpp"
-
 #include <psapi.h>
 #pragma   comment(lib,"Psapi.lib")
 
@@ -33,6 +24,19 @@ losemymind.libo@gmail.com
 
 #include <Powrprof.h>
 #pragma comment(lib, "PowrProf.lib") // for CallNtPowerInformation
+
+#include <gdiplus.h>
+#pragma  comment(lib, "gdiplus.lib") // gdiplus
+
+#include "FoundationKit/Base/types.hpp"
+#include "FoundationKit/Base/mutablebuf.hpp"
+#include "FoundationKit/Crypto/md5.hpp"
+#include "FoundationKit/Foundation/DateTime.hpp"
+#include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Foundation/Math.hpp"
+#include "FoundationKit/Foundation/Path.hpp"
+#include "FoundationKit/Foundation/Version.hpp"
+#include "FoundationKit/Platform/PlatformDevice.hpp"
 
 NS_FK_BEGIN
 
@@ -630,22 +634,103 @@ std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
 #endif
 }
 
-bool PlatformDevice::ScreenShot(std::string& outSavePath)
+
+class ScopeGdiplus
 {
+    ULONG_PTR gdiToken;
+    Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+public:
+    ScopeGdiplus()
+    {
+        // https://msdn.microsoft.com/en-us/library/ms534077
+        Gdiplus::GdiplusStartup(&gdiToken, &gdiplusStartupInput, NULL);
+    }
+    ~ScopeGdiplus()
+    {
+        Gdiplus::GdiplusShutdown(gdiToken);
+    }
+};
+
+int GetEncoderClsid(const WCHAR* format, CLSID* pClsid);
+bool PlatformDevice::ScreenCapture(std::string& outSavePath)
+{
+    ScopeGdiplus sg;
+    bool ShotResult = false;
     int nScreenWidth = GetSystemMetrics(SM_CXSCREEN);
     int nScreenHeight = GetSystemMetrics(SM_CYSCREEN);
     HWND hDesktopWnd = GetDesktopWindow();
     HDC hDesktopDC = GetDC(hDesktopWnd);
     HDC hCaptureDC = CreateCompatibleDC(hDesktopDC);
     HBITMAP hCaptureBitmap = CreateCompatibleBitmap(hDesktopDC, nScreenWidth, nScreenHeight);
-    SelectObject(hCaptureDC, hCaptureBitmap);
-    BitBlt(hCaptureDC, 0, 0, nScreenWidth, nScreenHeight, hDesktopDC, 0, 0, SRCCOPY);
-    //SaveCapturedBitmap(hCaptureBitmap); //Place holder - Put your code
-                                        //here to save the captured image to disk
+    HGDIOBJ OldGdiObj = SelectObject(hCaptureDC, hCaptureBitmap);
+    DWORD bltFlags = SRCCOPY;
+    bltFlags |= CAPTUREBLT;
+    BitBlt(hCaptureDC, 0, 0, nScreenWidth, nScreenHeight, hDesktopDC, 0, 0, bltFlags);
+    SelectObject(hCaptureDC, OldGdiObj);
+    outSavePath = Path::GetDocumentsPath();
+    outSavePath += "ScreenShot_";
+    DateTime  dateNow = DateTime::Now();
+    outSavePath += dateNow.ToString("%Y%m%d%H%M%S");
+    outSavePath += ".jpg";
+    CLSID ImageClsid;
+    GetEncoderClsid(L"image/jpeg", &ImageClsid);
+    Gdiplus::Bitmap bitmap(hCaptureBitmap, NULL);
+    std::wstring wstrPath = StringUtils::string2UTF8wstring(outSavePath);
+    //int quality = 100;
+    //Gdiplus::EncoderParameters encoderParameters;
+    //encoderParameters.Count = 1;
+    //encoderParameters.Parameter[0].Guid = Gdiplus::EncoderQuality;
+    //encoderParameters.Parameter[0].Type = Gdiplus::EncoderParameterValueTypeLong;
+    //encoderParameters.Parameter[0].NumberOfValues = 1;
+    //encoderParameters.Parameter[0].Value = &quality;
+    //bitmap.Save(wstrPath.c_str(), &ImageClsid, &encoderParameters);
+    bitmap.Save(wstrPath.c_str(), &ImageClsid, NULL);
     ReleaseDC(hDesktopWnd, hDesktopDC);
     DeleteDC(hCaptureDC);
     DeleteObject(hCaptureBitmap);
-    return false;
+    return ShotResult;
+}
+
+/**
+ * The function calls GetImageEncoders to get an array of ImageCodecInfo objects.
+ * If one of the ImageCodecInfo objects in that array represents the requested encoder, 
+ * the function returns the index of the ImageCodecInfo object and copies the CLSID into 
+ * the variable pointed to by pClsid.If the function fails, it returns ¨C1.
+ * //https://msdn.microsoft.com/en-us/library/windows/desktop/ms533843(v=vs.85).aspx
+ * @param  format Image format.e.g:
+ *                image/bmp
+ *                image/jpeg
+ *                image/gif
+ *                image/tiff
+ *                image/png
+ * @param pClsid   class identifier (CLSID) of that encoder. 
+ */
+int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
+{
+    UINT  num = 0;          // number of image encoders
+    UINT  size = 0;         // size of the image encoder array in bytes
+
+    Gdiplus::GetImageEncodersSize(&num, &size);
+    if (size == 0)
+        return -1;  // Failure
+
+    Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)(malloc(size));
+    if (pImageCodecInfo == NULL)
+        return -1;  // Failure
+
+    Gdiplus::GetImageEncoders(num, size, pImageCodecInfo);
+
+    for (UINT j = 0; j < num; ++j)
+    {
+        if (wcscmp(pImageCodecInfo[j].MimeType, format) == 0)
+        {
+            *pClsid = pImageCodecInfo[j].Clsid;
+            free(pImageCodecInfo);
+            return j;  // Success
+        }
+    }
+    free(pImageCodecInfo);
+    return -1;  // Failure
 }
 
 NS_FK_END

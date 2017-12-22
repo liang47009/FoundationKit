@@ -129,7 +129,7 @@ public:
 
     static bool IsDebuggerPresent();
     static std::string ExecuteSystemCommand(const std::string& command);
-    static bool ScreenShot(std::string& outSavePath);
+    static bool ScreenCapture(std::string& outSavePath);
 };
 
 

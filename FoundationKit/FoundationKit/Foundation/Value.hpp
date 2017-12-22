@@ -48,7 +48,7 @@ class  Value
 public:
     static const Value Null;
 public:
-    enum class Type
+    enum class EType
     {
         NONE = 0,
         UCHAR,
@@ -117,13 +117,13 @@ public:
     /** == operator overloading */
     bool operator== (const Value& other) const;
 
-    inline bool IsNull()  const { return _type == Type::NONE; }
-    inline Type GetType() const { return _type; };
-    void        Copy(Value&  other);
-    void        Move(Value&& other);
-    void        Swap(Value&  other);
-    void        Clear();
-    std::string ToString();
+    inline bool  IsNull()  const { return _type == EType::NONE; }
+    inline EType GetType() const { return _type; };
+    void         Copy(Value&  other);
+    void         Move(Value&& other);
+    void         Swap(Value&  other);
+    void         Clear();
+    std::string  ToString();
 
 //================= Define Template Method =================
     template< typename T >
@@ -131,9 +131,9 @@ public:
 
 private:
 
-    void Reset(Type valType);
+    void Reset(EType valType);
 
-    Value(Type valType);
+    Value(EType valType);
     union
     {
         uint8              _ucharVal;
@@ -152,7 +152,7 @@ private:
         void*              _pointer;
     }_field;
 
-    Type _type;
+    EType _type;
 };
 
 typedef std::vector<Value>   ValueList;

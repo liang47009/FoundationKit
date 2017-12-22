@@ -14,7 +14,7 @@ NS_FK_BEGIN
 /**
  * Enumerates possible states of slow running tasks.
  */
-enum class AsyncTaskState
+enum class EAsyncTaskState
 {
     /** Task has been canceled. */
     Cancelled,
@@ -40,7 +40,7 @@ class AsyncTask
 public:
     typedef std::shared_ptr<AsyncTask>   Pointer;
 
-    virtual AsyncTaskState GetTaskState()
+    virtual EAsyncTaskState GetTaskState()
     {
         return TaskState;
     }
@@ -55,7 +55,7 @@ public:
 
     }
 protected:
-    AsyncTaskState          TaskState;
+    EAsyncTaskState          TaskState;
 };
 
 

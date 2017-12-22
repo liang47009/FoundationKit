@@ -16,7 +16,7 @@ class Directory
 {
 public:
     typedef std::function<void(const std::string&)> EnumFileCallback;
-    enum class SearchOption
+    enum class ESearchOption
     {
         TopDirectoryOnly = 0,
         AllDirectories = 1
@@ -75,15 +75,15 @@ public:
     *
     *  @param path The path of the directory.
     */
-    static void GetFiles(const std::string& path, std::vector<std::string>& files, SearchOption searchOption = SearchOption::TopDirectoryOnly);
-    static void GetFiles(const std::string& path, const EnumFileCallback& callback, SearchOption searchOption = SearchOption::TopDirectoryOnly);
+    static void GetFiles(const std::string& path, std::vector<std::string>& files, ESearchOption searchOption = ESearchOption::TopDirectoryOnly);
+    static void GetFiles(const std::string& path, const EnumFileCallback& callback, ESearchOption searchOption = ESearchOption::TopDirectoryOnly);
 
    /**
     *  Get all dirs from a directory
     *
     *  @param path The path of the directory.
     */
-    static void GetDirectories(const std::string& path, std::vector<std::string>& dirs, SearchOption searchOption = SearchOption::TopDirectoryOnly);
+    static void GetDirectories(const std::string& path, std::vector<std::string>& dirs, ESearchOption searchOption = ESearchOption::TopDirectoryOnly);
 
 
 protected:

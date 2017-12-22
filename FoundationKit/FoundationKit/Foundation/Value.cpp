@@ -13,7 +13,7 @@ NS_FK_BEGIN
 
 const Value Value::Null;
 
-Value::Value(Type valType)
+Value::Value(EType valType)
     : _type(valType)
 {
     memset(&_field, 0x00, sizeof(_field));
@@ -21,7 +21,7 @@ Value::Value(Type valType)
 
 
 Value::Value()
-    : Value(Type::NONE)
+    : Value(EType::NONE)
 {
     
 }
@@ -45,73 +45,73 @@ Value::Value(Value&& other)
 }
 
 Value::Value(uint8 data)
-    : Value(Type::UCHAR)
+    : Value(EType::UCHAR)
 {
     _field._ucharVal = data;
 }
 
 Value::Value(uint16 data)
-    : Value(Type::USHORT)
+    : Value(EType::USHORT)
 {
     _field._ushortVal = data;
 }
 
 Value::Value(uint32 data)
-    : Value(Type::UINT)
+    : Value(EType::UINT)
 {
     _field._uintVal = data;
 }
 
 Value::Value(uint64 data)
-    : Value(Type::ULONGLONG)
+    : Value(EType::ULONGLONG)
 {
     _field._ulonglongVal = data;
 }
 
 Value::Value(bool data)
-    : Value(Type::BOOL)
+    : Value(EType::BOOL)
 {
     _field._boolVal = data;
 }
 
 Value::Value(char data)
-    : Value(Type::CHAR)
+    : Value(EType::CHAR)
 {
     _field._charVal = data;
 }
 
 Value::Value(int16 data)
-    : Value(Type::SHORT)
+    : Value(EType::SHORT)
 {
     _field._shortVal = data;
 }
 
 Value::Value(int32 data)
-    : Value(Type::INT)
+    : Value(EType::INT)
 {
     _field._intVal = data;
 }
 
 Value::Value(int64 data)
-    : Value(Type::LONGLONG)
+    : Value(EType::LONGLONG)
 {
     _field._longlongVal = data;
 }
 
 Value::Value(float data)
-    : Value(Type::FLOAT)
+    : Value(EType::FLOAT)
 {
     _field._floatVal = data;
 }
 
 Value::Value(double data)
-    : Value(Type::DOUBLE)
+    : Value(EType::DOUBLE)
 {
     _field._doubleVal = data;
 }
 
 Value::Value(const char* data)
-    : Value(Type::PCHAR)
+    : Value(EType::PCHAR)
 {
     size_t len = strlen(data);
     _field._pcharVal = new char[len + 1];
@@ -120,7 +120,7 @@ Value::Value(const char* data)
 }
 
 Value::Value(const std::string& data)
-    : Value(Type::STRING)
+    : Value(EType::STRING)
 {
     _field._stringVal = new char[data.size() + 1];
     memcpy(_field._stringVal, data.c_str(), data.size());
@@ -140,19 +140,19 @@ Value& Value::operator=(Value&& other)
 }
 Value& Value::operator=(uint8 data)
 {
-    Reset(Type::UCHAR);
+    Reset(EType::UCHAR);
     _field._ucharVal = data;
     return *this;
 }
 Value& Value::operator=(uint16 data)
 {
-    Reset(Type::USHORT);
+    Reset(EType::USHORT);
     _field._ushortVal = data;
     return *this;
 }
 Value& Value::operator=(uint32 data)
 {
-    Reset(Type::UINT);
+    Reset(EType::UINT);
     _field._uintVal = data;
     return *this;
 }
@@ -160,56 +160,56 @@ Value& Value::operator=(uint32 data)
 
 Value& Value::operator=(uint64 data)
 {
-    Reset(Type::ULONGLONG);
+    Reset(EType::ULONGLONG);
     _field._ulonglongVal = data;
     return *this;
 }
 Value& Value::operator=(bool data)
 {
-    Reset(Type::BOOL);
+    Reset(EType::BOOL);
     _field._boolVal = data;
     return *this;
 }
 Value& Value::operator=(char data)
 {
-    Reset(Type::CHAR);
+    Reset(EType::CHAR);
     _field._charVal = data;
     return *this;
 }
 Value& Value::operator=(int16 data)
 {
-    Reset(Type::SHORT);
+    Reset(EType::SHORT);
     _field._shortVal = data;
     return *this;
 }
 Value& Value::operator=(int32 data)
 {
-    Reset(Type::INT);
+    Reset(EType::INT);
     _field._intVal = data;
     return *this;
 }
 
 Value& Value::operator=(int64 data)
 {
-    Reset(Type::LONGLONG);
+    Reset(EType::LONGLONG);
     _field._longlongVal = data;
     return *this;
 }
 Value& Value::operator=(float data)
 {
-    Reset(Type::FLOAT);
+    Reset(EType::FLOAT);
     _field._floatVal = data;
     return *this;
 }
 Value& Value::operator=(double data)
 {
-    Reset(Type::DOUBLE);
+    Reset(EType::DOUBLE);
     _field._doubleVal = data;
     return *this;
 }
 Value& Value::operator=(const char* data)
 {
-    Reset(Type::PCHAR);
+    Reset(EType::PCHAR);
     size_t len = strlen(data);
     _field._pcharVal = new char[len + 1];
     memcpy(_field._pcharVal, data, len);
@@ -218,7 +218,7 @@ Value& Value::operator=(const char* data)
 }
 Value& Value::operator=(const std::string& data)
 {
-    Reset(Type::STRING);
+    Reset(EType::STRING);
     _field._stringVal = new char[data.size() + 1];
     memcpy(_field._stringVal, data.c_str(), data.size());
     _field._stringVal[data.size()] = '\0';
@@ -248,22 +248,22 @@ bool Value::operator== (const Value& other) const
     if (this->IsNull()) return true;
     switch (_type)
     {
-    case Value::Type::NONE:
+    case Value::EType::NONE:
         break;
-    case Value::Type::UCHAR: return _field._ucharVal   == other._field._ucharVal;
-    case Value::Type::USHORT: return _field._ushortVal == other._field._ushortVal;
-    case Value::Type::UINT: return _field._uintVal == other._field._uintVal;
-    case Value::Type::ULONGLONG: return _field._ulonglongVal == other._field._ulonglongVal;
-    case Value::Type::BOOL: return _field._boolVal == other._field._boolVal;
-    case Value::Type::CHAR: return _field._charVal == other._field._charVal;
-    case Value::Type::SHORT: return _field._shortVal == other._field._shortVal;
-    case Value::Type::INT: return _field._intVal == other._field._intVal;
-    case Value::Type::LONGLONG: return _field._longlongVal == other._field._longlongVal;
-    case Value::Type::FLOAT: return _field._floatVal == other._field._floatVal;
-    case Value::Type::DOUBLE: return _field._doubleVal == other._field._doubleVal;
-    case Value::Type::PCHAR: return strcmp(_field._pcharVal, other._field._pcharVal) == 0;
-    case Value::Type::STRING: return strcmp(_field._stringVal, other._field._stringVal) == 0;
-    case Value::Type::POINTER: return (_field._pointer == other._field._pointer);
+    case Value::EType::UCHAR: return _field._ucharVal   == other._field._ucharVal;
+    case Value::EType::USHORT: return _field._ushortVal == other._field._ushortVal;
+    case Value::EType::UINT: return _field._uintVal == other._field._uintVal;
+    case Value::EType::ULONGLONG: return _field._ulonglongVal == other._field._ulonglongVal;
+    case Value::EType::BOOL: return _field._boolVal == other._field._boolVal;
+    case Value::EType::CHAR: return _field._charVal == other._field._charVal;
+    case Value::EType::SHORT: return _field._shortVal == other._field._shortVal;
+    case Value::EType::INT: return _field._intVal == other._field._intVal;
+    case Value::EType::LONGLONG: return _field._longlongVal == other._field._longlongVal;
+    case Value::EType::FLOAT: return _field._floatVal == other._field._floatVal;
+    case Value::EType::DOUBLE: return _field._doubleVal == other._field._doubleVal;
+    case Value::EType::PCHAR: return strcmp(_field._pcharVal, other._field._pcharVal) == 0;
+    case Value::EType::STRING: return strcmp(_field._stringVal, other._field._stringVal) == 0;
+    case Value::EType::POINTER: return (_field._pointer == other._field._pointer);
     default:
         break;
     }
@@ -275,43 +275,43 @@ void Value::Copy(Value& other)
     _type = other.GetType();
     switch (_type)
     {
-    case Value::Type::NONE:
+    case Value::EType::NONE:
         memset(&_field, 0, sizeof(_field));
         break;
-    case Value::Type::UCHAR:
+    case Value::EType::UCHAR:
         _field._ucharVal = other.As<unsigned char>();
         break;
-    case Value::Type::USHORT:
+    case Value::EType::USHORT:
         _field._ushortVal = other.As<unsigned short>();
         break;
-    case Value::Type::UINT:
+    case Value::EType::UINT:
         _field._uintVal = other.As<unsigned int>();
         break;
-    case Value::Type::ULONGLONG:
+    case Value::EType::ULONGLONG:
         _field._ulonglongVal = other.As<unsigned long long>();
         break;
-    case Value::Type::BOOL:
+    case Value::EType::BOOL:
         _field._boolVal = other.As<bool>();
         break;
-    case Value::Type::CHAR:
+    case Value::EType::CHAR:
         _field._charVal = other.As<char>();
         break;
-    case Value::Type::SHORT:
+    case Value::EType::SHORT:
         _field._shortVal = other.As<short>();
         break;
-    case Value::Type::INT:
+    case Value::EType::INT:
         _field._intVal = other.As<int>();
         break;
-    case Value::Type::LONGLONG:
+    case Value::EType::LONGLONG:
         _field._longlongVal = other.As<long long>();
         break;
-    case Value::Type::FLOAT:
+    case Value::EType::FLOAT:
         _field._floatVal = other.As<float>();
         break;
-    case Value::Type::DOUBLE:
+    case Value::EType::DOUBLE:
         _field._doubleVal = other.As<double>();
         break;
-    case Value::Type::PCHAR:
+    case Value::EType::PCHAR:
         {
             SAFE_DELETE(_field._pcharVal);
             char* val = other.As<char*>();
@@ -321,7 +321,7 @@ void Value::Copy(Value& other)
             _field._pcharVal[len] = '\0';
         }
         break;
-    case Value::Type::STRING:
+    case Value::EType::STRING:
         {
             SAFE_DELETE(_field._stringVal);
             std::string val = other.As<std::string>();
@@ -330,7 +330,7 @@ void Value::Copy(Value& other)
             _field._stringVal[val.size()] = '\0';
         }
         break;
-    case  Value::Type::POINTER:
+    case  Value::EType::POINTER:
         _field._pointer = other._field._pointer;
         break;
     default:
@@ -343,7 +343,7 @@ void Value::Move(Value&& other)
     _type = std::move(other._type);
     _field = std::move(other._field);
     memset(&other._field, 0, sizeof(other._field));
-    other._type = Type::NONE; 
+    other._type = EType::NONE; 
 }
 
 void Value::Swap(Value& other)
@@ -354,22 +354,22 @@ void Value::Swap(Value& other)
 
 void Value::Clear()
 {
-    if (_type == Type::NONE)
+    if (_type == EType::NONE)
         return;
     
     switch (_type)
     {
-    case Value::Type::PCHAR:
+    case Value::EType::PCHAR:
         SAFE_DELETE_ARRAY(_field._pcharVal);
         break;
-    case Value::Type::STRING:
+    case Value::EType::STRING:
         SAFE_DELETE_ARRAY(_field._stringVal);
         break;
     default:
         break;
     }
     memset(&_field, 0, sizeof(_field));
-    _type = Type::NONE;
+    _type = EType::NONE;
 }
 
 
@@ -378,46 +378,46 @@ std::string FoundationKit::Value::ToString()
     std::string result;
     switch (_type)
     {
-    case Value::Type::UCHAR:
+    case Value::EType::UCHAR:
         result = StringUtils::Format("%c", _field._ucharVal);
         break;
-    case Value::Type::USHORT:
+    case Value::EType::USHORT:
         result = StringUtils::Format("%d", _field._ushortVal);
         break;
-    case Value::Type::UINT:
+    case Value::EType::UINT:
         result = StringUtils::Format("%d", _field._uintVal);
         break;
-    case Value::Type::ULONGLONG:
+    case Value::EType::ULONGLONG:
         result = StringUtils::Format("%lld", _field._ulonglongVal);
         break;
-    case Value::Type::BOOL:
+    case Value::EType::BOOL:
         result = StringUtils::Format("%s", _field._boolVal?"true":"false");
         break;
-    case Value::Type::CHAR:
+    case Value::EType::CHAR:
         result = StringUtils::Format("%c", _field._charVal);
         break;
-    case Value::Type::SHORT:
+    case Value::EType::SHORT:
         result = StringUtils::Format("%d", _field._shortVal);
         break;
-    case Value::Type::INT:
+    case Value::EType::INT:
         result = StringUtils::Format("%d", _field._intVal);
         break;
-    case Value::Type::LONGLONG:
+    case Value::EType::LONGLONG:
         result = StringUtils::Format("%lld", _field._longlongVal);
         break;
-    case Value::Type::FLOAT:
+    case Value::EType::FLOAT:
         result = StringUtils::Format("%f", _field._floatVal);
         break;
-    case Value::Type::DOUBLE:
+    case Value::EType::DOUBLE:
         result = StringUtils::Format("%f", _field._doubleVal);
         break;
-    case Value::Type::PCHAR:
+    case Value::EType::PCHAR:
         result = _field._pcharVal;
         break;
-    case Value::Type::STRING:
+    case Value::EType::STRING:
         result = _field._stringVal;
         break;
-    case  Value::Type::POINTER:
+    case  Value::EType::POINTER:
         result = StringUtils::Format("%p", _field._pointer);
         break;
     default:
@@ -426,15 +426,15 @@ std::string FoundationKit::Value::ToString()
     return result;
 }
 
-void Value::Reset(Type valType)
+void Value::Reset(EType valType)
 {
     if (_type == valType)
         return;
-    if (_type == Type::PCHAR)
+    if (_type == EType::PCHAR)
     {
         SAFE_DELETE_ARRAY(_field._pcharVal);
     }
-    else if (_type == Type::STRING)
+    else if (_type == EType::STRING)
     {
         SAFE_DELETE_ARRAY(_field._stringVal);
     }

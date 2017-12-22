@@ -17,7 +17,7 @@ NS_FK_BEGIN
 
 template<typename _Ty>
 Value::Value(_Ty* data)
-    : Value(Type::POINTER)
+    : Value(EType::POINTER)
 {
     _field._pointer = data;
 }
@@ -25,7 +25,7 @@ Value::Value(_Ty* data)
 template<typename _Ty>
 Value&  Value::operator= (_Ty* data)
 {
-    Reset(Type::POINTER);
+    Reset(EType::POINTER);
     _field._pointer = data;
     return *this;
 }
@@ -33,7 +33,7 @@ Value&  Value::operator= (_Ty* data)
 template< typename T >
 T Value::As()
 {
-    if (_type == Type::POINTER && std::is_pointer<T>::value)
+    if (_type == EType::POINTER && std::is_pointer<T>::value)
         return static_cast<T>(_field._pointer);
     assert(false);
     return T();
@@ -42,85 +42,85 @@ T Value::As()
 template<>
 inline uint8 Value::As<uint8>()
 {
-    assert(_type == Type::UCHAR);
+    assert(_type == EType::UCHAR);
     return _field._ucharVal;
 }
 
 template<>
 inline uint16 Value::As<uint16>()
 {
-    assert(_type == Type::USHORT);
+    assert(_type == EType::USHORT);
     return _field._ushortVal;
 }
 
 template<>
 inline uint32 Value::As<uint32>()
 {
-    assert(_type == Type::UINT);
+    assert(_type == EType::UINT);
     return _field._uintVal;
 }
 
 template<>
 inline uint64 Value::As<uint64>()
 {
-    assert(_type == Type::ULONGLONG);
+    assert(_type == EType::ULONGLONG);
     return _field._ulonglongVal;
 }
 
 template<>
 inline bool Value::As<bool>()
 {
-    assert(_type == Type::BOOL);
+    assert(_type == EType::BOOL);
     return _field._boolVal;
 }
 
 template<>
 inline char Value::As<char>()
 {
-    assert(_type == Type::CHAR);
+    assert(_type == EType::CHAR);
     return _field._charVal;
 }
 
 template<>
 inline short Value::As<int16>()
 {
-    assert(_type == Type::SHORT);
+    assert(_type == EType::SHORT);
     return _field._shortVal;
 }
 
 template<>
 inline int Value::As<int32>()
 {
-    assert(_type == Type::INT);
+    assert(_type == EType::INT);
     return _field._intVal;
 }
 
 template<>
 inline long long Value::As<int64>()
 {
-    assert(_type == Type::LONGLONG);
+    assert(_type == EType::LONGLONG);
     return _field._longlongVal;
 }
 
 template<>
 inline float Value::As<float>()
 {
-    assert(_type == Type::FLOAT);
+    assert(_type == EType::FLOAT);
     return _field._floatVal;
 }
 
 template<>
 inline double Value::As<double>()
 {
-    assert(_type == Type::DOUBLE);
+    assert(_type == EType::DOUBLE);
     return _field._doubleVal;
 }
 
 template<>
 inline char* Value::As<char*>()
 {
-    assert(_type == Type::PCHAR || _type == Type::STRING);
-    if (_type == Type::PCHAR)
+    assert(_type == EType::PCHAR || _type == EType::STRING);
+    if (_type == EType::PCHAR)
         return _field._pcharVal;
     else
         return _field._stringVal;
@@ -129,8 +129,8 @@ inline char* Value::As<char*>()
 template<>
 inline std::string Value::As<std::string>()
 {
-    assert(_type == Type::STRING || _type == Type::PCHAR);
-    if (_type == Type::PCHAR)
+    assert(_type == EType::STRING || _type == EType::PCHAR);
+    if (_type == EType::PCHAR)
         return _field._pcharVal;
     else
         return _field._stringVal;

@@ -661,7 +661,7 @@ std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
 }
 
 
-bool PlatformDevice::ScreenShot(std::string& outSavePath)
+bool PlatformDevice::ScreenCapture(std::string& outSavePath)
 {
     NSMutableArray *windows = [UIApplication sharedApplication].windows.mutableCopy;
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;

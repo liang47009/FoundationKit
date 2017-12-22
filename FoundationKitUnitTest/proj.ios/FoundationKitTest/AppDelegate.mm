@@ -153,7 +153,7 @@ size_t GetOSIntData(int key, int type)
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     std::string path;
-    PlatformDevice::ScreenShot(path);
+    PlatformDevice::ScreenCapture(path);
 }
 
 @end

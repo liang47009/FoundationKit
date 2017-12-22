@@ -13,7 +13,7 @@ NS_FK_BEGIN
 
 std::string Directory::CurrentDirectory;
 
-void InternalGetFiles(const std::string& path, std::vector<std::string>& files, Directory::SearchOption searchOption /*= SearchOption::TopDirectoryOnly*/)
+void InternalGetFiles(const std::string& path, std::vector<std::string>& files, Directory::ESearchOption searchOption /*= ESearchOption::TopDirectoryOnly*/)
 {
     std::string finallyPath = path;
     if (*(finallyPath.end() - 1) != Path::DirectorySeparatorChar && *(finallyPath.end() - 1) != Path::AltDirectorySeparatorChar)
@@ -35,7 +35,7 @@ void InternalGetFiles(const std::string& path, std::vector<std::string>& files, 
         {
             files.push_back(finallyPath + entry->d_name);
         }
-        if (entry->d_type == DT_DIR && searchOption == Directory::SearchOption::AllDirectories)
+        if (entry->d_type == DT_DIR && searchOption == Directory::ESearchOption::AllDirectories)
         {
             std::string strChildDir = finallyPath + entry->d_name;
             InternalGetFiles(strChildDir, files, searchOption);
@@ -46,7 +46,7 @@ void InternalGetFiles(const std::string& path, std::vector<std::string>& files, 
     closedir(dir);
 }
 
-void InternalGetFiles(const std::string& path, const Directory::EnumFileCallback& callback, Directory::SearchOption searchOption /*= SearchOption::TopDirectoryOnly*/)
+void InternalGetFiles(const std::string& path, const Directory::EnumFileCallback& callback, Directory::ESearchOption searchOption /*= ESearchOption::TopDirectoryOnly*/)
 {
     std::string finallyPath = path;
     if (*(finallyPath.end() - 1) != Path::DirectorySeparatorChar && *(finallyPath.end() - 1) != Path::AltDirectorySeparatorChar)
@@ -68,7 +68,7 @@ void InternalGetFiles(const std::string& path, const Directory::EnumFileCallback
         {
             callback(finallyPath + entry->d_name);
         }
-        if (entry->d_type == DT_DIR && searchOption == Directory::SearchOption::AllDirectories)
+        if (entry->d_type == DT_DIR && searchOption == Directory::ESearchOption::AllDirectories)
         {
             std::string strChildDir = finallyPath + entry->d_name;
             InternalGetFiles(strChildDir, callback, searchOption);
@@ -79,7 +79,7 @@ void InternalGetFiles(const std::string& path, const Directory::EnumFileCallback
     closedir(dir);
 }
 
-void InternalGetDirectories(const std::string& path, std::vector<std::string>& dirs, Directory::SearchOption searchOption /*= SearchOption::TopDirectoryOnly*/)
+void InternalGetDirectories(const std::string& path, std::vector<std::string>& dirs, Directory::ESearchOption searchOption /*= ESearchOption::TopDirectoryOnly*/)
 {
     std::string finallyPath = path;
     if (*(finallyPath.end() - 1) != Path::DirectorySeparatorChar && *(finallyPath.end() - 1) != Path::AltDirectorySeparatorChar)
@@ -99,7 +99,7 @@ void InternalGetDirectories(const std::string& path, std::vector<std::string>& d
         if (entry->d_type == DT_DIR)
         {
             dirs.push_back(finallyPath + entry->d_name);
-            if (searchOption == Directory::SearchOption::AllDirectories)
+            if (searchOption == Directory::ESearchOption::AllDirectories)
             {
                 InternalGetDirectories(finallyPath + entry->d_name, dirs, searchOption);
             }
@@ -110,19 +110,19 @@ void InternalGetDirectories(const std::string& path, std::vector<std::string>& d
 }
 
 
-void Directory::GetFiles(const std::string& path, std::vector<std::string>& files, SearchOption searchOption /*= SearchOption::TopDirectoryOnly*/)
+void Directory::GetFiles(const std::string& path, std::vector<std::string>& files, ESearchOption searchOption /*= ESearchOption::TopDirectoryOnly*/)
 {
     scope_locale sl("");//for dirent.h wcstombs_s and mbstowcs_s method.
     InternalGetFiles(path, files, searchOption);
 }
 
-void FoundationKit::Directory::GetFiles(const std::string& path, const EnumFileCallback& callback, SearchOption searchOption /*= SearchOption::TopDirectoryOnly*/)
+void FoundationKit::Directory::GetFiles(const std::string& path, const EnumFileCallback& callback, ESearchOption searchOption /*= ESearchOption::TopDirectoryOnly*/)
 {
     scope_locale sl("");//for dirent.h wcstombs_s and mbstowcs_s method.
     InternalGetFiles(path, callback, searchOption);
 }
 
-void Directory::GetDirectories(const std::string& path, std::vector<std::string>& dirs, SearchOption searchOption /*= SearchOption::TopDirectoryOnly*/)
+void Directory::GetDirectories(const std::string& path, std::vector<std::string>& dirs, ESearchOption searchOption /*= ESearchOption::TopDirectoryOnly*/)
 {
     scope_locale sl("");//for dirent.h wcstombs_s and mbstowcs_s method.
     InternalGetDirectories(path, dirs, searchOption);

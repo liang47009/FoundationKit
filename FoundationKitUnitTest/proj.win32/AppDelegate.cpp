@@ -123,6 +123,8 @@ bool AppDelegate::applicationDidFinishLaunching()
     DateTime UTCToLocal = TimeZone::ToLocalTime(UTCDate);
     FKLog("=========LocalToUTC:%s", LocalToUTC.ToString().c_str());
     FKLog("=========UTCToLocal:%s", UTCToLocal.ToString().c_str());
+    std::string shotPath;
+    PlatformDevice::ScreenCapture(shotPath);
 
 	int im_a_breakpoint = 0;
 	return true;
