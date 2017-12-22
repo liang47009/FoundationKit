@@ -103,28 +103,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
-    PlatformDevice::DumpDeviceInfo();
-    DateTime ret = File::GetCreationTime("F:\\temp\\file.txt");
-    FKLog("======== CreationTime:%s", ret.ToString().c_str());
-    ret = File::GetLastAccessTime("F:\\temp\\file.txt");
-    FKLog("======== LastAccessTime:%s", ret.ToString().c_str());
-    ret = File::GetLastWriteTime("F:\\temp\\file.txt");
-    FKLog("======== LastWriteTime:%s", ret.ToString().c_str());
-    ret = DateTime::Now();
-    FKLog("======== Now:%s", ret.ToString().c_str());
-    ret = DateTime::UTCNow();
-    FKLog("======== UTCNow:%s", ret.ToString().c_str());
-    FKLog("=========TimeZone:%s", TimeZone::ToDebugString().c_str());
-    DateTime LocalDate = DateTime::Now();
-    DateTime UTCDate = DateTime::UTCNow();
-    FKLog("=========LocalDate:%s", LocalDate.ToString().c_str());
-    FKLog("=========UTCDate:%s", UTCDate.ToString().c_str());
-    DateTime LocalToUTC = TimeZone::ToUniversalTime(LocalDate);
-    DateTime UTCToLocal = TimeZone::ToLocalTime(UTCDate);
-    FKLog("=========LocalToUTC:%s", LocalToUTC.ToString().c_str());
-    FKLog("=========UTCToLocal:%s", UTCToLocal.ToString().c_str());
-    std::string shotPath;
-    PlatformDevice::ScreenCapture(shotPath);
+
 
 	int im_a_breakpoint = 0;
 	return true;

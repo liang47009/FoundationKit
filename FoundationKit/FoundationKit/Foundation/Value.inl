@@ -30,10 +30,11 @@ Value&  Value::operator= (_Ty* data)
     return *this;
 }
 
-template< typename T >
+template< typename T>
 T Value::As()
 {
-    if (_type == EType::POINTER && std::is_pointer<T>::value)
+    static_assert(std::is_pointer<T>::value, "T should be is a pointer type");
+    if (_type == EType::POINTER)
         return static_cast<T>(_field._pointer);
     assert(false);
     return T();
