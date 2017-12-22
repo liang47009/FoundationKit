@@ -514,13 +514,14 @@ void PlatformDevice::DumpDeviceInfo()
     FKLog("============ Device Info===============");
     std::ostringstream ss;
     ss << "GetDeviceId:" << GetDeviceId() << "\n";
-    ss << "GetDeviceId:" << GetProduct() << "\n";
+    ss << "GetProduct:" << GetProduct() << "\n";
     ss << "GetHardware:" << GetHardware() << "\n";
     ss << "GetDevice:" << GetDevice() << "\n";
     ss << "GetModel:" << GetModel() << "\n";
     ss << "GetManufacturer:" << GetManufacturer() << "\n";
     ss << "GetSystemVersion:" << GetSystemVersion() << "\n";
     ss << "GetSDKVersion:" << GetSDKVersion() << "\n";
+    ss << "GetCPUArch:" << GetCPUArch() << "\n";
     ss << "GetCPUCoreCount:" << GetCPUCoreCount() << "\n";
     ss << "GetCPUFrequency:" << GetCPUFrequency() << "\n";
     ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
