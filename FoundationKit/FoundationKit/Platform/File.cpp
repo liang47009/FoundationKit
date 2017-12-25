@@ -18,10 +18,13 @@ NS_FK_BEGIN
 #if PLATFORM_WINDOWS
 const char PlatformNewLine[] ={ '\r', '\n' };
 #elif (PLATFORM_ANDROID) ||(PLATFORM_LINUX)
-#include <unistd.h>
 const char PlatformNewLine[] ={'\n'};
 #elif (PLATFORM_MAC)||(PLATFORM_IOS)
 const char PlatformNewLine[] ={ '\r'};
+#endif
+
+#if !PLATFORM_WINDOWS
+#include <unistd.h>
 #endif
 
 namespace detail
