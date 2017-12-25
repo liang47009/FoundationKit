@@ -523,6 +523,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\FoundationKit\Foundation\TimeZone.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Foundation\TimeZone.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\FoundationKit\Foundation\Utility.hpp"
 				>
 			</File>

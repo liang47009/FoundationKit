@@ -8,11 +8,11 @@
 #include <cassert>
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
-#include "FoundationKit/Foundation/Timespan.hpp"
+#include "FoundationKit/Foundation/TimeSpan.hpp"
 
 NS_FK_BEGIN
 
-std::string Timespan::ToString() const
+std::string TimeSpan::ToString() const
 {
 	if (GetDays() == 0)
 	{
@@ -23,7 +23,7 @@ std::string Timespan::ToString() const
 }
 
 
-std::string Timespan::ToString( const char* format ) const
+std::string TimeSpan::ToString( const char* format ) const
 {
 	std::string result;
 
@@ -33,8 +33,8 @@ std::string Timespan::ToString( const char* format ) const
 		{
             switch (*format)
 			{
-            case 'n': if (_ticks < 0) result += '-'; break;
-            case 'N': result += (_ticks < 0) ? '-' : '+'; break;
+            case 'n': if (Ticks < 0) result += '-'; break;
+            case 'N': result += (Ticks < 0) ? '-' : '+'; break;
             case 'd': result += StringUtils::Format("%i",   Math::Abs(GetDays())); break;
             case 'h': result += StringUtils::Format("%02i", Math::Abs(GetHours())); break;
             case 'm': result += StringUtils::Format("%02i", Math::Abs(GetMinutes())); break;
@@ -61,43 +61,43 @@ std::string Timespan::ToString( const char* format ) const
 }
 
 
-/* Timespan static interface
+/* TimeSpan static interface
  *****************************************************************************/
 
-Timespan Timespan::FromDays( double days )
+TimeSpan TimeSpan::FromDays( double days )
 {
     ASSERTED((days >= MinValue().GetTotalDays()) && (days <= MaxValue().GetTotalDays()), "The days param invalid.");
-    return Timespan(static_cast<int64>(days * Time::TicksPerDay));
+    return TimeSpan(static_cast<int64>(days * Time::TicksPerDay));
 }
 
-Timespan Timespan::FromHours( double hours )
+TimeSpan TimeSpan::FromHours( double hours )
 {
     ASSERTED((hours >= MinValue().GetTotalHours()) && (hours <= MaxValue().GetTotalHours()), "The hours param invalid.");
-    return Timespan(static_cast<int64>(hours * Time::TicksPerHour));
+    return TimeSpan(static_cast<int64>(hours * Time::TicksPerHour));
 }
 
-Timespan Timespan::FromMinutes(double minutes)
+TimeSpan TimeSpan::FromMinutes(double minutes)
 {
     ASSERTED((minutes >= MinValue().GetTotalMinutes()) && (minutes <= MaxValue().GetTotalMinutes()), "The minutes param invalid.");
-    return Timespan(static_cast<int64>(minutes * Time::TicksPerMinute));
+    return TimeSpan(static_cast<int64>(minutes * Time::TicksPerMinute));
 }
 
-Timespan Timespan::FromSeconds(double seconds)
+TimeSpan TimeSpan::FromSeconds(double seconds)
 {
     ASSERTED((seconds >= MinValue().GetTotalSeconds()) && (seconds <= MaxValue().GetTotalSeconds()), "The seconds param invalid.");
-    return Timespan(static_cast<int64>(seconds * Time::TicksPerSecond));
+    return TimeSpan(static_cast<int64>(seconds * Time::TicksPerSecond));
 }
 
-Timespan Timespan::FromMilliseconds( double milliseconds )
+TimeSpan TimeSpan::FromMilliseconds( double milliseconds )
 {
     ASSERTED((milliseconds >= MinValue().GetTotalMilliseconds()) && (milliseconds <= MaxValue().GetTotalMilliseconds()), "The milliseconds param invalid.");
-    return Timespan(static_cast<int64>(milliseconds * Time::TicksPerMillisecond));
+    return TimeSpan(static_cast<int64>(milliseconds * Time::TicksPerMillisecond));
 }
 
 
-bool Timespan::Parse( const std::string& timespanString, Timespan& outTimespan )
+bool TimeSpan::Parse( const std::string& timespanString, TimeSpan& outTimespan )
 {
-	// @todo gmp: implement stricter Timespan parsing; this implementation is too forgiving.
+	// @todo gmp: implement stricter TimeSpan parsing; this implementation is too forgiving.
     std::string tokenString = timespanString;
     std::replace(tokenString.begin(), tokenString.end(), '.', ':');
     bool Negative = (tokenString[0] == '-');
@@ -117,7 +117,7 @@ bool Timespan::Parse( const std::string& timespanString, Timespan& outTimespan )
         outTimespan.Assign(std::atoi(tokens[0].c_str()), std::atoi(tokens[1].c_str()), std::atoi(tokens[2].c_str()), std::atoi(tokens[3].c_str()), std::atoi(tokens[4].c_str()));
 		if (Negative)
 		{
-            outTimespan._ticks *= -1;
+            outTimespan.Ticks *= -1;
 		}
 		return true;
 	}
@@ -125,11 +125,11 @@ bool Timespan::Parse( const std::string& timespanString, Timespan& outTimespan )
 }
 
 
-void Timespan::Assign( int32 days, int32 hours, int32 minutes, int32 seconds, int32 milliseconds )
+void TimeSpan::Assign( int32 days, int32 hours, int32 minutes, int32 seconds, int32 milliseconds )
 {
     int64 totalms = 1000 * (60 * 60 * 24 * (int64)days + 60 * 60 * (int64)hours + 60 * (int64)minutes + (int64)seconds) + (int64)milliseconds;
     ASSERTED((totalms >= MinValue().GetTotalMilliseconds()) && (totalms <= MaxValue().GetTotalMilliseconds()), "Total millisecond is invalid.");
-	_ticks = totalms * Time::TicksPerMillisecond;
+	Ticks = totalms * Time::TicksPerMillisecond;
 }
 
 NS_FK_END

@@ -1,7 +1,9 @@
 #include <fstream>
+#include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/Directory.hpp"
+#include "FoundationKit/Foundation/TimeZone.hpp"
 
 #include "unzip.h"
 
@@ -94,6 +96,26 @@ FILE* File::Open(const std::string& path, const char* mode, bool isAsset/* = fal
         FileHandle = fopen(path.c_str(), mode);
     }
     return FileHandle;
+}
+
+FILE* File::Open(const std::string& path, FileMode mode)
+{
+    const char* fileMode = nullptr;
+    switch (mode) {
+    case FileMode::ReadOnly:
+        fileMode = "rb";
+        break;
+    case FileMode::WriteOnly:
+        fileMode = "wb";
+        break;
+    case FileMode::ReadWrite:
+        fileMode = "r+b";
+        break;
+    case FileMode::Append:
+        fileMode = "ab";
+        break;
+    }
+    return fopen(path.c_str(), fileMode);
 }
 
 bool File::Copy(const std::string& sourceFileName, const std::string& destFileName, bool overwrite /*= false*/)
@@ -273,7 +295,111 @@ bool File::WriteAllText(const std::string& path, const std::string& contents)
 {
     return detail::WriteDataToFile(path, contents.c_str(), contents.size(), true);
 }
+DateTime File::GetCreationTime(const std::string& path)
+{
+    return TimeZone::ToLocalTime(GetCreationTimeUtc(path));
+}
 
+DateTime File::GetCreationTimeUtc(const std::string& path)
+{
+    DateTime dt;
+    struct stat info;
+    int result = stat(path.c_str(), &info);
+    ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
+    if (result == 0)
+    {
+        dt = DateTime::FromUnixTimestamp(info.st_ctime, ETimeKind::Utc);
+    }
+    return dt;
+}
+
+DateTime File::GetLastAccessTime(const std::string& path)
+{
+    return TimeZone::ToLocalTime(GetLastAccessTimeUtc(path));
+}
+
+DateTime File::GetLastAccessTimeUtc(const std::string& path)
+{
+    DateTime dt;
+    struct stat info;
+    int result = stat(path.c_str(), &info);
+    ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
+    if (result == 0)
+    {
+        dt = TimeZone::ToLocalTime(DateTime::FromUnixTimestamp(info.st_atime, ETimeKind::Utc));
+    }
+    return dt;
+}
+
+DateTime File::GetLastWriteTime(const std::string& path)
+{
+    return TimeZone::ToLocalTime(GetLastWriteTimeUtc(path));
+}
+
+DateTime File::GetLastWriteTimeUtc(const std::string& path)
+{
+    DateTime dt;
+    struct stat info;
+    int result = stat(path.c_str(), &info);
+    ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
+    if (result == 0)
+    {
+        dt = TimeZone::ToLocalTime(DateTime::FromUnixTimestamp(info.st_mtime, ETimeKind::Utc));
+    }
+    return dt;
+}
+
+std::string File::ErrnoToString(int error, const std::string& operation)
+{
+    const char* opstr = operation.c_str();
+    switch (error)
+    {
+    case ENAMETOOLONG:
+        return StringUtils::Format("%s failed because file path(name) is too long", opstr);
+    case ENOTDIR:
+        return StringUtils::Format("%s failed:  path is not a directory,from directory to non-directory", opstr);
+    case EISDIR:
+        return StringUtils::Format("%s failed: from non-directory to directory", opstr);
+    case EXDEV:
+        return StringUtils::Format("%s failed: to and from are on different file systems", opstr);
+    case EIO:
+        return StringUtils::Format("%s failed: I/O error updating directory", opstr);
+    case EROFS:
+        return StringUtils::Format("%s failed: read only file system", opstr);
+    case EFAULT:
+        return StringUtils::Format("%s failed: segmentation fault(Bad address)", opstr);
+    case EINVAL:
+        return StringUtils::Format("%s failed: from is a parent of to, or rename of . or ..", opstr);
+    case ENOTEMPTY:
+        return StringUtils::Format("%s failed: to is a directory and not empty", opstr);
+    case EPERM:
+        return StringUtils::Format("%s failed because the operation was not permitted", opstr);
+    case ENOENT:
+        return StringUtils::Format("%s failed because the file or directory does not exist", opstr);
+    case ENOMEM:
+        return StringUtils::Format("%s failed because there was not enough memory available", opstr);
+    case EACCES:
+        return StringUtils::Format("%s failed because permission for the file was denied", opstr);
+    case EBADF:
+        return StringUtils::Format("%s failed because file descriptor is invalid.", opstr);
+    case EEXIST:
+        return StringUtils::Format("%s failed because the file already exists", opstr);
+    case ENOSPC:
+        return StringUtils::Format("%s failed because there is no disk space left. Please free some disk space and continue.", opstr);
+    case ELOOP:
+        return StringUtils::Format("%s failed: too many symbolic links encountered while traversing the path.", opstr);
+#if !PLATFORM_WINDOWS
+    case EAUTH:
+        return StringUtils::Format("%s failed because of an authentication failure", opstr);
+    case ENEEDAUTH:
+        return StringUtils::Format("%s failed because you need an authenticator", opstr);
+    case EDQUOT:
+        return StringUtils::Format("%s failed: quota limit reached", opstr);
+#endif
+    default:
+        return StringUtils::Format("%s failed with error: %s", opstr, std::strerror(error));
+    }
+}
 NS_FK_END
 
 

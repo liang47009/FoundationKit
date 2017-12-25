@@ -18,12 +18,21 @@
 
 NS_FK_BEGIN
 
+enum class FileMode
+{
+    ReadOnly = 0,
+    WriteOnly = 1,
+    ReadWrite = 2,
+    Append = 3
+};
+
 class File
 {
 public:
     typedef std::vector<std::string> FileLineType;
 
     static FILE*  Open(const std::string& path, const char* mode, bool isAsset=false);
+    static FILE*  Open(const std::string& path, FileMode mode);
 
    /**
     *  Implement on platform.
@@ -67,6 +76,7 @@ public:
 
     /** Return the size of the file, or -1 if it doesn't exist. **/
     static int64 GetSize(const std::string& path);
+    static bool  SetSize(const std::string& path, size_t size);
 
     static bool AppendAllLines(const std::string& path, const FileLineType& contents);
     static bool AppendAllText(const std::string& path, const std::string& contents);
@@ -91,6 +101,7 @@ public:
     //static void SetLastAccessTimeUtc(const std::string& path, DateTime lastAccessTimeUtc);
     //static void SetLastWriteTime(const std::string& path, DateTime lastWriteTime);
     //static void SetLastWriteTimeUtc(const std::string& path, DateTime lastWriteTimeUtc);
+    static std::string ErrnoToString(int error, const std::string& operation);
 };
 
 

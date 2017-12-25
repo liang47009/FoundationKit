@@ -8,10 +8,10 @@
 #define FOUNDATIONKIT_GENERICPLATFORMMACROS_HPP
 #pragma once
 
-#define FOUNDATIONKIT_VERSION_STRING "3.0.0"
-#define FOUNDATIONKIT_PACKAGE_STRING "FoundationKit 3.0.0"
+#define FOUNDATIONKIT_VERSION_STRING "3.1.0"
+#define FOUNDATIONKIT_PACKAGE_STRING "FoundationKit 3.1.0"
 #define FOUNDATIONKIT_VERSION_MAJOR 3
-#define FOUNDATIONKIT_VERSION_MINOR 0
+#define FOUNDATIONKIT_VERSION_MINOR 1
 #define FOUNDATIONKIT_VERSION_PATCH 0
 
 // Version as a single hex number, e.g. 0x01000300 == 1.0.3
@@ -124,6 +124,8 @@
 extern void __fail__(const char* expr, const char* file, int line);
 extern void __log__(const char* fmt, ...);
 #define FKLog(fmt, ...) __log__(fmt, ##__VA_ARGS__)
+#define ASSERT_IF(CHECK, MSG)do{if((CHECK)){__fail__(MSG,__FILE__, __LINE__);}}while(false)
+
 #if defined(_DEBUG) || defined(DEBUG)
     #define ASSERTED(CHECK, MSG)do{if(!(CHECK)){__fail__(MSG,__FILE__, __LINE__);}}while(false)
     #define ASSERTED_EXPRESSION(COND, EXPR) ((COND) ? (EXPR) : (__fail__(#COND, __FILE__, __LINE__), (EXPR)))
@@ -135,7 +137,7 @@ extern void __log__(const char* fmt, ...);
     #define DEBUG_MODE 0
     #define FKDebug(fmt, ...)
 #endif
-#define ASSERT_IF(CHECK, MSG)do{if((CHECK)){__fail__(MSG,__FILE__, __LINE__);}}while(false)
+
 
 // IOS,ANDROID,MAC platform must be defined USE_FILE32API
 //#ifndef USE_FILE32API

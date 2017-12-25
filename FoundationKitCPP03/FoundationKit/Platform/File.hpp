@@ -17,13 +17,20 @@
 #include "FoundationKit/Base/mutablebuf.hpp"
 
 NS_FK_BEGIN
-
+enum FileMode
+{
+    ReadOnly = 0,
+    WriteOnly = 1,
+    ReadWrite = 2,
+    Append = 3
+};
 class File
 {
 public:
     typedef std::vector<std::string> FileLineType;
 
     static FILE*  Open(const std::string& path, const char* mode, bool isAsset=false);
+    static FILE*  Open(const std::string& path, FileMode mode);
 
    /**
     *  Implement on platform.
@@ -78,18 +85,20 @@ public:
     static bool WriteAllLines(const std::string& path, const FileLineType& contents);
     static bool WriteAllText(const std::string& path, const std::string& contents);
 
-    //static DateTime GetCreationTime(const std::string& path);
-    //static DateTime GetCreationTimeUtc(const std::string& path);
-    //static DateTime GetLastAccessTime(const std::string& path);
-    //static DateTime GetLastAccessTimeUtc(const std::string& path);
-    //static DateTime GetLastWriteTime(const std::string& path);
-    //static DateTime GetLastWriteTimeUtc(const std::string& path);
+    static DateTime GetCreationTime(const std::string& path);
+    static DateTime GetCreationTimeUtc(const std::string& path);
+    static DateTime GetLastAccessTime(const std::string& path);
+    static DateTime GetLastAccessTimeUtc(const std::string& path);
+    static DateTime GetLastWriteTime(const std::string& path);
+    static DateTime GetLastWriteTimeUtc(const std::string& path);
+
     //static void SetCreationTime(const std::string& path, DateTime creationTime);
     //static void SetCreationTimeUtc(const std::string& path, DateTime creationTimeUtc);
     //static void SetLastAccessTime(const std::string& path, DateTime lastAccessTime);
     //static void SetLastAccessTimeUtc(const std::string& path, DateTime lastAccessTimeUtc);
     //static void SetLastWriteTime(const std::string& path, DateTime lastWriteTime);
     //static void SetLastWriteTimeUtc(const std::string& path, DateTime lastWriteTimeUtc);
+    static std::string ErrnoToString(int error, const std::string& operation);
 };
 
 

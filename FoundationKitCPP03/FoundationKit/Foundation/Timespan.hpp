@@ -33,20 +33,20 @@ NS_FK_BEGIN
  *
  * @see DateTime
  */
-class Timespan final
+class TimeSpan final
 {
 public:
 
 	/** Default constructor (no initialization). */
-    Timespan() { }
+    TimeSpan() { }
 
 	/**
 	 * Creates and initializes a new time interval with the specified number of ticks.
 	 *
 	 * @param inTicks The number of ticks.
 	 */
-    explicit Timespan(int64 inTicks)
-        : _ticks(inTicks)
+    explicit TimeSpan(int64 inTicks)
+        : Ticks(inTicks)
 	{ }
 
 	/**
@@ -56,7 +56,7 @@ public:
 	 * @param minutes The minutes component.
 	 * @param seconds The seconds component.
 	 */
-    Timespan(int32 hours, int32 minutes, int32 seconds)
+    TimeSpan(int32 hours, int32 minutes, int32 seconds)
 	{
         Assign(0, hours, minutes, seconds, 0);
 	}
@@ -69,7 +69,7 @@ public:
 	 * @param minutes The minutes component.
 	 * @param seconds The seconds component.
 	 */
-    Timespan(int32 days, int32 hours, int32 minutes, int32 seconds)
+    TimeSpan(int32 days, int32 hours, int32 minutes, int32 seconds)
 	{
         Assign(days, hours, minutes, seconds, 0);
 	}
@@ -83,7 +83,7 @@ public:
 	 * @param seconds      The seconds component.
 	 * @param milliseconds The milliseconds component.
 	 */
-    Timespan(int32 days, int32 hours, int32 minutes, int32 seconds, int32 milliseconds)
+    TimeSpan(int32 days, int32 hours, int32 minutes, int32 seconds, int32 milliseconds)
 	{
         Assign(days, hours, minutes, seconds, milliseconds);
 	}
@@ -95,9 +95,9 @@ public:
 	 *
 	 * @return A time span whose value is the sum of this time span and the given time span.
 	 */
-    Timespan operator+(const Timespan& other) const
+    TimeSpan operator+(const TimeSpan& other) const
 	{
-        return Timespan(_ticks + other._ticks);
+        return TimeSpan(Ticks + other.Ticks);
 	}
 
 	/**
@@ -105,22 +105,22 @@ public:
 	 *
 	 * @return This time span.
 	 */
-    Timespan& operator+=(const Timespan& other)
+    TimeSpan& operator+=(const TimeSpan& other)
 	{
-        _ticks += other._ticks;
+        Ticks += other.Ticks;
 		return *this;
 	}
 
 	/**
 	 * Returns the inverse of this time span.
 	 *
-	 * The value of this time span must be greater than Timespan::MinValue(), or else an overflow will occur.
+	 * The value of this time span must be greater than TimeSpan::MinValue(), or else an overflow will occur.
 	 *
 	 * @return Inverse of this time span.
 	 */
-    Timespan operator-() const
+    TimeSpan operator-() const
 	{
-        return Timespan(-_ticks);
+        return TimeSpan(-Ticks);
 	}
 
 	/**
@@ -129,9 +129,9 @@ public:
 	 * @param other The time span to compare with.
 	 * @return A time span whose value is the difference of this time span and the given time span.
 	 */
-    Timespan operator-(const Timespan& other) const
+    TimeSpan operator-(const TimeSpan& other) const
 	{
-        return Timespan(_ticks - other._ticks);
+        return TimeSpan(Ticks - other.Ticks);
 	}
 
 	/**
@@ -140,9 +140,9 @@ public:
 	 * @param other The time span to subtract.
 	 * @return This time span.
 	 */
-    Timespan& operator-=(const Timespan& other)
+    TimeSpan& operator-=(const TimeSpan& other)
 	{
-        _ticks -= other._ticks;
+        Ticks -= other.Ticks;
 		return *this;
 	}
 
@@ -152,9 +152,9 @@ public:
 	 * @param scalar The scalar to multiply with.
 	 * @return A time span whose value is the product of this time span and the given scalar.
 	 */
-    Timespan operator*(float scalar) const
+    TimeSpan operator*(float scalar) const
 	{
-        return Timespan(static_cast<int64>(_ticks * scalar));
+        return TimeSpan(static_cast<int64>(Ticks * scalar));
 	}
 
 	/**
@@ -163,9 +163,9 @@ public:
 	 * @param scalar The scalar to multiply with.
 	 * @return This time span.
 	 */
-    Timespan& operator*=(float scalar)
+    TimeSpan& operator*=(float scalar)
 	{
-        _ticks = (int64)(_ticks * scalar);
+        Ticks = (int64)(Ticks * scalar);
 		return *this;
 	}
 
@@ -175,9 +175,9 @@ public:
 	 * @param other The time span to compare with.
 	 * @return true if the time spans are equal, false otherwise.
 	 */
-    bool operator==(const Timespan& other) const
+    bool operator==(const TimeSpan& other) const
 	{
-        return (_ticks == other._ticks);
+        return (Ticks == other.Ticks);
 	}
 
 	/**
@@ -186,9 +186,9 @@ public:
 	 * @param other The time span to compare with.
 	 * @return true if the time spans are not equal, false otherwise.
 	 */
-    bool operator!=(const Timespan& other) const
+    bool operator!=(const TimeSpan& other) const
 	{
-        return (_ticks != other._ticks);
+        return (Ticks != other.Ticks);
 	}
 
 	/**
@@ -197,9 +197,9 @@ public:
 	 * @param other The time span to compare with.
 	 * @return true if this time span is greater, false otherwise.
 	 */
-    bool operator>(const Timespan& other) const
+    bool operator>(const TimeSpan& other) const
 	{
-        return (_ticks > other._ticks);
+        return (Ticks > other.Ticks);
 	}
 
 	/**
@@ -208,9 +208,9 @@ public:
 	 * @param other The time span to compare with.
 	 * @return true if this time span is greater or equal, false otherwise.
 	 */
-    bool operator>=(const Timespan& other) const
+    bool operator>=(const TimeSpan& other) const
 	{
-        return (_ticks >= other._ticks);
+        return (Ticks >= other.Ticks);
 	}
 
 	/**
@@ -219,9 +219,9 @@ public:
 	 * @param other The time span to compare with.
 	 * @return true if this time span is less, false otherwise.
 	 */
-    bool operator<(const Timespan& other) const
+    bool operator<(const TimeSpan& other) const
 	{
-        return (_ticks < other._ticks);
+        return (Ticks < other.Ticks);
 	}
 
 	/**
@@ -230,9 +230,9 @@ public:
 	 * @param other The time span to compare with.
 	 * @return true if this time span is less or equal, false otherwise.
 	 */
-	bool operator<=( const Timespan& other ) const
+	bool operator<=( const TimeSpan& other ) const
 	{
-        return (_ticks <= other._ticks);
+        return (Ticks <= other.Ticks);
 	}
 
 public:
@@ -245,9 +245,9 @@ public:
 	 * @return Duration of this time span.
 	 * @see minValue
 	 */
-	Timespan GetDuration()
+	TimeSpan GetDuration()
 	{
-        return Timespan(_ticks >= 0 ? _ticks : -_ticks);
+        return TimeSpan(Ticks >= 0 ? Ticks : -Ticks);
 	}
 
    /**
@@ -257,7 +257,7 @@ public:
     */
     int32 GetDays() const
     {
-        return static_cast<int32>(_ticks / Time::TicksPerDay);
+        return static_cast<int32>(Ticks / Time::TicksPerDay);
     }
 
 	/**
@@ -268,7 +268,7 @@ public:
 	 */
 	int32 GetHours() const
 	{
-        return static_cast<int32>((_ticks / Time::TicksPerHour) % 24);
+        return static_cast<int32>((Ticks / Time::TicksPerHour) % 24);
 	}
 
    /**
@@ -279,7 +279,7 @@ public:
     */
     int32 GetMinutes() const
     {
-        return static_cast<int32>((_ticks / Time::TicksPerMinute) % 60);
+        return static_cast<int32>((Ticks / Time::TicksPerMinute) % 60);
     }
 
    /**
@@ -290,7 +290,7 @@ public:
     */
     int32 GetSeconds() const
     {
-        return static_cast<int32>((_ticks / Time::TicksPerSecond) % 60);
+        return static_cast<int32>((Ticks / Time::TicksPerSecond) % 60);
     }
 
 	/**
@@ -301,7 +301,7 @@ public:
 	 */
 	int32 GetMilliseconds() const
 	{
-        return static_cast<int32>((_ticks / Time::TicksPerMillisecond) % 1000);
+        return static_cast<int32>((Ticks / Time::TicksPerMillisecond) % 1000);
 	}
 
 	/**
@@ -311,7 +311,7 @@ public:
 	 */
 	int64 GetTicks() const
 	{
-		return _ticks;
+		return Ticks;
 	}
 
 	/**
@@ -322,7 +322,7 @@ public:
 	 */
 	double GetTotalDays() const
 	{
-        return static_cast<double>(_ticks / Time::TicksPerDay);
+        return static_cast<double>(Ticks / Time::TicksPerDay);
 	}
 
 	/**
@@ -333,7 +333,7 @@ public:
 	 */
 	double GetTotalHours() const
 	{
-        return static_cast<double>(_ticks / Time::TicksPerHour);
+        return static_cast<double>(Ticks / Time::TicksPerHour);
 	}
 
 	/**
@@ -344,7 +344,7 @@ public:
 	 */
 	double GetTotalMilliseconds() const
 	{
-        return static_cast<double>(_ticks / Time::TicksPerMillisecond);
+        return static_cast<double>(Ticks / Time::TicksPerMillisecond);
 	}
 
 	/**
@@ -355,7 +355,7 @@ public:
 	 */
 	double GetTotalMinutes() const
 	{
-        return static_cast<double>(_ticks / Time::TicksPerMinute);
+        return static_cast<double>(Ticks / Time::TicksPerMinute);
 	}
 
 	/**
@@ -366,7 +366,7 @@ public:
 	 */
 	double GetTotalSeconds() const
 	{
-        return static_cast<double>(_ticks / Time::TicksPerSecond);
+        return static_cast<double>(Ticks / Time::TicksPerSecond);
 	}
 
 	/**
@@ -412,7 +412,7 @@ public:
 	 * @return Time span.
 	 * @see fromHours, fromMilliseconds, fromMinutes, fromSeconds
 	 */
-	static Timespan FromDays( double days );
+	static TimeSpan FromDays( double days );
 
 	/**
 	 * Creates a time span that represents the specified number of hours.
@@ -421,7 +421,7 @@ public:
 	 * @return Time span.
 	 * @see fromDays, fromMilliseconds, fromMinutes, fromSeconds
 	 */
-	static Timespan FromHours( double hours );
+	static TimeSpan FromHours( double hours );
 
    /**
     * Creates a time span that represents the specified number of minutes.
@@ -430,7 +430,7 @@ public:
     * @return Time span.
     * @see fromDays, fromHours, fromMilliseconds, fromSeconds
     */
-    static Timespan FromMinutes(double minutes);
+    static TimeSpan FromMinutes(double minutes);
 
    /**
     * Creates a time span that represents the specified number of seconds.
@@ -439,7 +439,7 @@ public:
     * @return Time span.
     * @see fromDays, fromHours, fromMilliseconds, fromMinutes
     */
-    static Timespan FromSeconds(double seconds);
+    static TimeSpan FromSeconds(double seconds);
 
 	/**
 	 * Creates a time span that represents the specified number of milliseconds.
@@ -448,7 +448,7 @@ public:
 	 * @return Time span.
 	 * @see fromDays, fromHours, fromMinutes, fromSeconds
 	 */
-	static Timespan FromMilliseconds( double milliseconds );
+	static TimeSpan FromMilliseconds( double milliseconds );
 
 	/**
 	 * Returns the maximum time span value.
@@ -458,9 +458,9 @@ public:
 	 * @return Maximum time span.
 	 * @see minValue,Zero
 	 */
-	static Timespan MaxValue()
+	static TimeSpan MaxValue()
 	{
-		return Timespan(9223372036854775807);
+		return TimeSpan(9223372036854775807);
 	}
 
 	/**
@@ -471,15 +471,15 @@ public:
 	 * @return Minimum time span.
 	 * @see maxValue, zeroValue
 	 */
-	static Timespan MinValue()
+	static TimeSpan MinValue()
 	{
-		return Timespan(-9223372036854775807 - 1);
+		return TimeSpan(-9223372036854775807 - 1);
 	}
 
 	/**
 	 * Converts a string to a time span.
 	 *
-	 * Currently, the string must be in the format written by Timespan.ToString().
+	 * Currently, the string must be in the format written by TimeSpan.ToString().
 	 * Other formats are not supported at this time.
 	 *
 	 * @param timespanString The string to convert.
@@ -487,7 +487,7 @@ public:
 	 * @return true if the string was converted successfully, false otherwise.
 	 * @see ToString
 	 */
-	static bool Parse( const std::string& timespanString, Timespan& outTimespan );
+	static bool Parse( const std::string& timespanString, TimeSpan& outTimespan );
 
 	/**
 	 * Returns the zero time span value.
@@ -497,9 +497,9 @@ public:
 	 * @return Zero time span.
 	 * @see MaxValue, MinValue
 	 */
-	static Timespan Zero()
+	static TimeSpan Zero()
 	{
-		return Timespan(0);
+		return TimeSpan(0);
 	}
 
 	/**
@@ -509,7 +509,7 @@ public:
 	 */
 	size_t GetHash()
 	{
-        return std::hash<int64>()(this->_ticks);
+        return std::hash<int64>()(this->Ticks);
 	}
 
 protected:
@@ -528,7 +528,7 @@ protected:
 private:
 
 	/** Holds the time span in 100 nanoseconds resolution. */
-	int64 _ticks;
+	int64 Ticks;
 };
 
 
@@ -538,7 +538,7 @@ private:
  * @param scalar The scalar to pre-multiply with.
  * @param timespan The time span to multiply.
  */
-inline Timespan operator*( float scalar, const Timespan& timespan )
+inline TimeSpan operator*( float scalar, const TimeSpan& timespan )
 {
     return timespan.operator*(scalar);
 }

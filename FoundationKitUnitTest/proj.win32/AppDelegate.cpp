@@ -90,21 +90,19 @@ void AppDelegate::applicationDidLaunching()
 class AAClass
 {
 public:
-    AAClass(int ini, char inc)
-        : i(ini)
-        , c(inc)
-    {}
+	AAClass(int ini, char inc)
+		: i(ini)
+		, c(inc)
+	{}
 
-    int i;
-    char c;
+	int i;
+	char c;
 };
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
-
-
 	int im_a_breakpoint = 0;
 	return true;
 }

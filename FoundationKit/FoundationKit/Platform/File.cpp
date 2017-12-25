@@ -41,7 +41,6 @@ namespace detail
             fseek(FileHandle, 0, SEEK_SET);
             FileAllBytes.allocate(FileSize);
             fread(FileAllBytes.data(), 1, FileSize, FileHandle);
-
             fclose(FileHandle);
         } while (false);
         return FileAllBytes;
@@ -81,37 +80,6 @@ namespace detail
         fclose(FileHandle);
         return (WriteSize == length);
     }
-
-    std::string ErrnoToString(int err)
-    {
-
-        static std::unordered_map<int,std::string> ErrnoTranslationMap =
-        {
-            { EACCES ,"Search permission is denied for one of the directories in the path prefix of file path."},
-            { EBADF ,"Invalid file descriptor."},
-            { EFAULT ,"Bad address."},
-            { ELOOP, "Too many symbolic links encountered while traversing the path." },
-            { ENAMETOOLONG , "File path is too long."},
-            { ENOENT,"A component of file path does not exist, or file path is an empty string and AT_EMPTY_PATH was not specified in flags." },
-            { ENOMEM ,"Out of memory (i.e., kernel memory)."},
-            { ENOTDIR ," A component of the path prefix of file path is not a directory."},
-            { EOVERFLOW ,"Path or file descriptor refers to a file whose size, inode number,\n \
-                          or number of blocks cannot be represented in, respectively, \n \
-                          the types off_t, ino_t, or blkcnt_t.This error can occur when, \n \
-                          for example, an application compiled on a 32 - bit platform without \n \
-                          - D_FILE_OFFSET_BITS = 64 calls stat() on a file whose size \n \
-                          exceeds(1 << 31) - 1 bytes."},
-             { EINVAL ,"Invalid flag specified in flags."},
-             { ENOTDIR ,"pathname is relative and dirfd is a file descriptor referring to a file other than a directory."}
-        };
-        std::unordered_map<int, std::string>::iterator FoundIter = ErrnoTranslationMap.find(err);
-        if (FoundIter != ErrnoTranslationMap.end())
-        {
-            return FoundIter->second;
-        }
-        return lexical_cast<std::string>(err);
-    }
-
 } //namespace detail
 
 #if PLATFORM_ANDROID
@@ -133,6 +101,26 @@ FILE* File::Open(const std::string& path, const char* mode, bool isAsset/* = fal
         FileHandle = fopen(path.c_str(), mode);
     }
     return FileHandle;
+}
+
+FILE* File::Open(const std::string& path, FileMode mode)
+{
+    const char* fileMode = nullptr;
+    switch (mode) {
+    case FileMode::ReadOnly:
+        fileMode = "rb";
+        break;
+    case FileMode::WriteOnly:
+        fileMode = "wb";
+        break;
+    case FileMode::ReadWrite:
+        fileMode = "r+b";
+        break;
+    case FileMode::Append:
+        fileMode = "ab";
+        break;
+    }
+    return fopen(path.c_str(), fileMode);
 }
 
 bool File::Copy(const std::string& sourceFileName, const std::string& destFileName, bool overwrite /*= false*/)
@@ -204,7 +192,7 @@ int64 File::GetSize(const std::string& path)
     }
     else
     {
-        FKLog("stat falied:%s,Try use fopen->fseek-ftell-fseek.", detail::ErrnoToString(errno).c_str());
+        FKLog("%s,Try use fopen->fseek-ftell-fseek.", ErrnoToString(errno,"stat").c_str());
         FILE* FileHandle = Open(path, "r");
         if (FileHandle)
         {
@@ -214,6 +202,35 @@ int64 File::GetSize(const std::string& path)
         }
     }
     return ResultFileSize;
+}
+
+bool File::SetSize(const std::string& path, size_t size)
+{
+#if PLATFORM_WINDOWS
+    std::wstring widePath = StringUtils::string2UTF8wstring(path);
+    HANDLE hFile = CreateFileW(widePath.c_str(), GENERIC_WRITE, 0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+    if (hFile != INVALID_HANDLE_VALUE)
+    {
+        //LONG sizehigh = 0;
+        //LONG sizelow = (size & 0xffffffff);
+        LARGE_INTEGER largeSize;
+        largeSize.QuadPart = size;
+        if (SetFilePointerEx(hFile, largeSize, NULL, FILE_BEGIN))
+        {
+            if (SetEndOfFile(hFile))
+            {
+                CloseHandle(hFile);
+                return true;
+            }
+        }
+        CloseHandle(hFile);
+    }
+#else
+    int error = truncate(path.c_str(), size);
+    if (error == 0)
+        return true;
+#endif
+    return false;
 }
 
 bool File::AppendAllLines(const std::string& path, const FileLineType& contents)
@@ -245,10 +262,8 @@ mutablebuf File::ReadAllBytesFromZip(const std::string& path, const std::string&
     do
     {
         BREAK_IF(path.empty());
-
         file = unzOpen(path.c_str());
         BREAK_IF(!file);
-
         // FIXME: Other platforms should use upstream minizip like mingw-w64
 #ifdef MINIZIP_FROM_SYSTEM
         int ret = unzLocateFile(file, fileName.c_str(), NULL);
@@ -256,12 +271,10 @@ mutablebuf File::ReadAllBytesFromZip(const std::string& path, const std::string&
         int ret = unzLocateFile(file, fileName.c_str(), 1);
 #endif
         BREAK_IF(UNZ_OK != ret);
-
         char filePathA[260];
         unz_file_info fileInfo;
         ret = unzGetCurrentFileInfo(file, &fileInfo, filePathA, sizeof(filePathA), nullptr, 0, nullptr, 0);
         BREAK_IF(UNZ_OK != ret);
-
         ret = unzOpenCurrentFile(file);
         BREAK_IF(UNZ_OK != ret);
         unsigned char * buffer = new unsigned char[fileInfo.uncompressed_size];
@@ -332,7 +345,7 @@ DateTime File::GetCreationTimeUtc(const std::string& path)
     DateTime dt;
     struct stat info;
     int result = stat(path.c_str(), &info);
-    ASSERTED(!result, StringUtils::Format("stat falied:%s", detail::ErrnoToString(errno).c_str()).c_str());
+    ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
     if (result == 0)
     {
         dt = DateTime::FromUnixTimestamp(info.st_ctime, ETimeKind::Utc);
@@ -350,7 +363,7 @@ DateTime File::GetLastAccessTimeUtc(const std::string& path)
     DateTime dt;
     struct stat info;
     int result = stat(path.c_str(), &info);
-    ASSERTED(!result, StringUtils::Format("stat falied:%s", detail::ErrnoToString(errno).c_str()).c_str());
+    ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
     if (result == 0)
     {
         dt = TimeZone::ToLocalTime(DateTime::FromUnixTimestamp(info.st_atime, ETimeKind::Utc));
@@ -368,12 +381,64 @@ DateTime File::GetLastWriteTimeUtc(const std::string& path)
     DateTime dt;
     struct stat info;
     int result = stat(path.c_str(), &info);
-    ASSERTED(!result, StringUtils::Format("stat falied:%s", detail::ErrnoToString(errno).c_str()).c_str());
+    ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
     if (result == 0)
     {
         dt = TimeZone::ToLocalTime(DateTime::FromUnixTimestamp(info.st_mtime, ETimeKind::Utc));
     }
     return dt;
+}
+
+std::string File::ErrnoToString(int error, const std::string& operation)
+{
+    const char* opstr = operation.c_str();
+    switch (error)
+    {
+    case ENAMETOOLONG:
+        return StringUtils::Format("%s failed because file path(name) is too long", opstr);
+    case ENOTDIR:
+        return StringUtils::Format("%s failed:  path is not a directory,from directory to non-directory", opstr);
+    case EISDIR:
+        return StringUtils::Format("%s failed: from non-directory to directory", opstr);
+    case EXDEV:
+        return StringUtils::Format("%s failed: to and from are on different file systems", opstr);
+    case EIO:
+        return StringUtils::Format("%s failed: I/O error updating directory", opstr);
+    case EROFS:
+        return StringUtils::Format("%s failed: read only file system", opstr);
+    case EFAULT:
+        return StringUtils::Format("%s failed: segmentation fault(Bad address)", opstr);
+    case EINVAL:
+        return StringUtils::Format("%s failed: from is a parent of to, or rename of . or ..", opstr);
+    case ENOTEMPTY:
+        return StringUtils::Format("%s failed: to is a directory and not empty", opstr);
+    case EPERM:
+        return StringUtils::Format("%s failed because the operation was not permitted", opstr);
+    case ENOENT:
+        return StringUtils::Format("%s failed because the file or directory does not exist", opstr);
+    case ENOMEM:
+        return StringUtils::Format("%s failed because there was not enough memory available", opstr);
+    case EACCES:
+        return StringUtils::Format("%s failed because permission for the file was denied", opstr);
+    case EBADF:
+        return StringUtils::Format("%s failed because file descriptor is invalid.", opstr);
+    case EEXIST:
+        return StringUtils::Format("%s failed because the file already exists", opstr);
+    case ENOSPC:
+        return StringUtils::Format("%s failed because there is no disk space left. Please free some disk space and continue.", opstr);
+    case ELOOP:
+        return StringUtils::Format("%s failed: too many symbolic links encountered while traversing the path.", opstr);
+#if !PLATFORM_WINDOWS
+    case EAUTH:
+        return StringUtils::Format("%s failed because of an authentication failure", opstr);
+    case ENEEDAUTH:
+        return StringUtils::Format("%s failed because you need an authenticator", opstr);
+    case EDQUOT:
+        return StringUtils::Format("%s failed: quota limit reached", opstr);
+#endif
+    default:
+        return StringUtils::Format("%s failed with error: %s", opstr, std::strerror(error));
+    }
 }
 
 NS_FK_END
