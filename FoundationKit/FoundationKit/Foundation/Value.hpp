@@ -64,14 +64,14 @@ public:
         DOUBLE,
         PCHAR,
         STRING,
-        POINTER
+        OTHER,
     };
 
     Value();
     ~Value();
 
     template<typename _Ty>
-    Value(_Ty* data);
+    Value(_Ty data);
     Value(const Value& other);
     Value(Value&& other);
     Value(uint8 data);
@@ -90,8 +90,7 @@ public:
 
     // assignment operator
     template<typename _Ty>
-    Value& operator= (_Ty* data);
-
+    Value& operator= (_Ty data);
     Value& operator= (const Value& other);
     Value& operator= (Value&& other);
     Value& operator= (uint8 data);
@@ -126,8 +125,8 @@ public:
     std::string  ToString();
 
 //================= Define Template Method =================
-    template< typename T >
-    inline T As();
+    template< typename _Ty >
+    inline _Ty As();
 
 private:
 
@@ -149,7 +148,7 @@ private:
         double             _doubleVal;
         char*              _pcharVal;
         char*              _stringVal; //std::string
-        void*              _pointer;
+        void*              _otherData;
     }_field;
 
     EType _type;

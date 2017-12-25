@@ -16,28 +16,29 @@
 NS_FK_BEGIN
 
 template<typename _Ty>
-Value::Value(_Ty* data)
-    : Value(EType::POINTER)
+Value::Value(_Ty data)
+    : Value(EType::OTHER)
 {
-    _field._pointer = data;
+    _field._otherData = malloc(sizeof(_Ty));
+    memcpy(_field._otherData, &data, sizeof(_Ty));
 }
 
 template<typename _Ty>
-Value&  Value::operator= (_Ty* data)
+Value&  Value::operator= (_Ty data)
 {
-    Reset(EType::POINTER);
-    _field._pointer = data;
+    Reset(EType::OTHER);
+    _field._otherData = malloc(sizeof(_Ty));
+    memcpy(_field._otherData, &data, sizeof(_Ty));
     return *this;
 }
 
-template< typename T>
-T Value::As()
+template< typename _Ty>
+_Ty Value::As()
 {
-    static_assert(std::is_pointer<T>::value, "T should be is a pointer type");
-    if (_type == EType::POINTER)
-        return static_cast<T>(_field._pointer);
-    assert(false);
-    return T();
+    assert(_type == EType::OTHER);
+    _Ty obj;
+    memcpy(&obj, _field._otherData, sizeof(_Ty));
+    return obj;
 }
 
 template<>

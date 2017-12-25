@@ -99,10 +99,12 @@ public:
 	char c;
 };
 
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
+
 	int im_a_breakpoint = 0;
 	return true;
 }
