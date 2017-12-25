@@ -18,6 +18,7 @@ NS_FK_BEGIN
 #if PLATFORM_WINDOWS
 const char PlatformNewLine[] ={ '\r', '\n' };
 #elif (PLATFORM_ANDROID) ||(PLATFORM_LINUX)
+#include <unistd.h>
 const char PlatformNewLine[] ={'\n'};
 #elif (PLATFORM_MAC)||(PLATFORM_IOS)
 const char PlatformNewLine[] ={ '\r'};
@@ -427,7 +428,7 @@ std::string File::ErrnoToString(int error, const std::string& operation)
         return StringUtils::Format("%s failed because there is no disk space left. Please free some disk space and continue.", opstr);
     case ELOOP:
         return StringUtils::Format("%s failed: too many symbolic links encountered while traversing the path.", opstr);
-#if !PLATFORM_WINDOWS
+#if PLATFORM_IOS
     case EAUTH:
         return StringUtils::Format("%s failed because of an authentication failure", opstr);
     case ENEEDAUTH:
@@ -436,7 +437,7 @@ std::string File::ErrnoToString(int error, const std::string& operation)
         return StringUtils::Format("%s failed: quota limit reached", opstr);
 #endif
     default:
-        return StringUtils::Format("%s failed with error: %s", opstr, std::strerror(error));
+        return StringUtils::Format("%s failed with error: %s", opstr, strerror(error));
     }
 }
 

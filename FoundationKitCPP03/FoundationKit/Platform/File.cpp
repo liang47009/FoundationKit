@@ -425,7 +425,7 @@ std::string File::ErrnoToString(int error, const std::string& operation)
         return StringUtils::Format("%s failed: quota limit reached", opstr);
 #endif
     default:
-        return StringUtils::Format("%s failed with error: %s", opstr, std::strerror(error));
+        return StringUtils::Format("%s failed with error: %s", opstr, strerror(error));
     }
 }
 NS_FK_END

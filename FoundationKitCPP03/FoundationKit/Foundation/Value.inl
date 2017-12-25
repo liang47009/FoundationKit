@@ -17,8 +17,8 @@ NS_FK_BEGIN
 
 template<typename _Ty>
 Value::Value(_Ty data)
-    : Value(EType::OTHER)
 {
+    init(EType::OTHER);
     _field._otherData = malloc(sizeof(_Ty));
     memcpy(_field._otherData, &data, sizeof(_Ty));
 }

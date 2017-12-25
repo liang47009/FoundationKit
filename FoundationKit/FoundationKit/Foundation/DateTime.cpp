@@ -61,7 +61,7 @@ DateTime::DateTime(int64 inTicks, ETimeKind Kind)
     : Ticks(inTicks)
     , TimeKind(Kind)
 {
-    ASSERT_IF((inTicks < MinTicks || inTicks > MaxTicks), "inTicks must be between MinTicks and MaxTicks");
+    //ASSERT_IF((inTicks < MinTicks || inTicks > MaxTicks), "inTicks must be between MinTicks and MaxTicks");
 }
 
 DateTime::DateTime( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond, ETimeKind Kind)
