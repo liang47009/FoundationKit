@@ -190,6 +190,34 @@ int64 File::GetSize(const std::string& path)
     }
 }
 
+bool File::SetSize(const std::string& path, size_t size)
+{
+#if PLATFORM_WINDOWS
+    std::wstring widePath = StringUtils::string2UTF8wstring(path);
+    HANDLE hFile = CreateFileW(widePath.c_str(), GENERIC_WRITE, 0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+    if (hFile != INVALID_HANDLE_VALUE)
+    {
+        //LONG sizehigh = 0;
+        //LONG sizelow = (size & 0xffffffff);
+        LARGE_INTEGER largeSize;
+        largeSize.QuadPart = size;
+        if (SetFilePointerEx(hFile, largeSize, NULL, FILE_BEGIN))
+        {
+            if (SetEndOfFile(hFile))
+            {
+                CloseHandle(hFile);
+                return true;
+            }
+        }
+        CloseHandle(hFile);
+    }
+#else
+    if (truncate(path.c_str(), size) == 0)
+        return true;
+#endif
+    return false;
+}
+
 bool File::AppendAllLines(const std::string& path, const FileLineType& contents)
 {
     return detail::WriteLinesToFile(path, contents, true);

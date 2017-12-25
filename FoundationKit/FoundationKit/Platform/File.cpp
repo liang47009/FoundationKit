@@ -226,8 +226,7 @@ bool File::SetSize(const std::string& path, size_t size)
         CloseHandle(hFile);
     }
 #else
-    int error = truncate(path.c_str(), size);
-    if (error == 0)
+    if (truncate(path.c_str(), size) == 0)
         return true;
 #endif
     return false;

@@ -74,6 +74,7 @@ public:
 
     /** Return the size of the file, or -1 if it doesn't exist. **/
     static int64 GetSize(const std::string& path);
+    static bool  SetSize(const std::string& path, size_t size);
 
     static bool AppendAllLines(const std::string& path, const FileLineType& contents);
     static bool AppendAllText(const std::string& path, const std::string& contents);
