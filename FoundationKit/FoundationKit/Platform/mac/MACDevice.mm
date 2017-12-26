@@ -25,7 +25,7 @@
 #include <malloc/malloc.h>
 #include <unordered_map>
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-#include "FoundationKit/Platform/OpenGL.hpp"
+//#include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #import <IOKit/IOKitLib.h>
 #import <AppKit/AppKit.h>

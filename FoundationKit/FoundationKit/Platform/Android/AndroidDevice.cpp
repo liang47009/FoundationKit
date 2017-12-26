@@ -16,7 +16,7 @@
 #include <malloc.h>
 #include <sstream>
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-#include "FoundationKit/Platform/OpenGL.hpp"
+//#include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"

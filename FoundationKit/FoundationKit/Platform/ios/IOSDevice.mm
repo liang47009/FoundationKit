@@ -26,7 +26,7 @@
 #include "detail/UIDeviceHardware.h" //Based on https://github.com/fahrulazmi/UIDeviceHardware
 #include "detail/Reachability_libo.h"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-#include "FoundationKit/Platform/OpenGL.hpp"
+//#include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
 
 NS_FK_BEGIN

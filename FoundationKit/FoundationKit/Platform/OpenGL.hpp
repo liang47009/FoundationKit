@@ -6,9 +6,10 @@
 ****************************************************************************/
 #ifndef FOUNDATIONKIT_OPENGL_HPP
 #define FOUNDATIONKIT_OPENGL_HPP
-
 #pragma once
 #include "FoundationKit/GenericPlatformMacros.hpp"
+
+#pragma message(COMPILE_MSG "This file is deprecated.")
 
 #if (PLATFORM_IOS)
     #define glClearDepth                glClearDepthf
