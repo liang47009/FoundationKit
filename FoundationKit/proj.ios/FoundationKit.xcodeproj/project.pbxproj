@@ -132,7 +132,6 @@
 		09320FC21F385B5900063C11 /* mutablebuf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = mutablebuf.hpp; sourceTree = "<group>"; };
 		09348EC91E7F7BA20034ECF2 /* basic_streambuf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = basic_streambuf.hpp; sourceTree = "<group>"; };
 		09348ECA1E7F7BA20034ECF2 /* byte_swap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = byte_swap.hpp; sourceTree = "<group>"; };
-		09348ECB1E7F7BA20034ECF2 /* error_code.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = error_code.hpp; sourceTree = "<group>"; };
 		09348ECD1E7F7BA20034ECF2 /* noncopyable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = noncopyable.hpp; sourceTree = "<group>"; };
 		09348ECE1E7F7BA20034ECF2 /* nonmovable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = nonmovable.hpp; sourceTree = "<group>"; };
 		09348ED81E7F7BA20034ECF2 /* aes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = aes.cpp; sourceTree = "<group>"; };
@@ -339,7 +338,6 @@
 				09A0B2461F04EC3300572DEB /* scope_guard.hpp */,
 				09348EC91E7F7BA20034ECF2 /* basic_streambuf.hpp */,
 				09348ECA1E7F7BA20034ECF2 /* byte_swap.hpp */,
-				09348ECB1E7F7BA20034ECF2 /* error_code.hpp */,
 				09348ECD1E7F7BA20034ECF2 /* noncopyable.hpp */,
 				09348ECE1E7F7BA20034ECF2 /* nonmovable.hpp */,
 			);
