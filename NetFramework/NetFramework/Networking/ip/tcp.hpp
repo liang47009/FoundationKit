@@ -23,7 +23,7 @@ namespace ip{
 
 /**
  * Encapsulates the flags needed for TCP.
- * The asio::ip::tcp class contains flags necessary for TCP sockets.
+ * The network::ip::tcp class contains flags necessary for TCP sockets.
  *
  * @par Thread Safety
  * @e Distinct @e objects: Safe.@n
@@ -83,18 +83,18 @@ public:
     * @par Examples
     * Setting the option:
     * @code
-    * asio::ip::tcp::socket socket(io_context);
+    * network::ip::tcp::socket socket(io_context);
     * ...
-    * asio::ip::tcp::no_delay option(true);
+    * network::ip::tcp::no_delay option(true);
     * socket.set_option(option);
     * @endcode
     *
     * @par
     * Getting the current option value:
     * @code
-    * asio::ip::tcp::socket socket(io_context);
+    * network::ip::tcp::socket socket(io_context);
     * ...
-    * asio::ip::tcp::no_delay option;
+    * network::ip::tcp::no_delay option;
     * socket.get_option(option);
     * bool is_set = option.value();
     * @endcode

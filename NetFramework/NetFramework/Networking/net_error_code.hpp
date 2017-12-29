@@ -15,7 +15,35 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/noncopyable.hpp"
 
+#if PLATFORM_WINDOWS || PLATFORM_WINRT || defined(__CYGWIN__)
+# include <winerror.h>
+#else
+# include <cerrno>
+# include <netdb.h>
+#endif
+
 NS_FK_BEGIN
+
+#if PLATFORM_WINRT
+# define NET_NATIVE_ERROR(e) __HRESULT_FROM_WIN32(e)
+# define NET_SOCKET_ERROR(e) __HRESULT_FROM_WIN32(WSA ## e)
+# define NET_NETDB_ERROR(e) __HRESULT_FROM_WIN32(WSA ## e)
+# define NET_GETADDRINFO_ERROR(e) __HRESULT_FROM_WIN32(WSA ## e)
+# define NET_WIN_OR_POSIX(e_win, e_posix) e_win
+#elif PLATFORM_WINDOWS || defined(__CYGWIN__)
+# define NET_NATIVE_ERROR(e) e
+# define NET_SOCKET_ERROR(e) WSA ## e
+# define NET_NETDB_ERROR(e) WSA ## e
+# define NET_GETADDRINFO_ERROR(e) WSA ## e
+# define NET_WIN_OR_POSIX(e_win, e_posix) e_win
+#else
+# define NET_NATIVE_ERROR(e) e
+# define NET_SOCKET_ERROR(e) e
+# define NET_NETDB_ERROR(e) e
+# define NET_GETADDRINFO_ERROR(e) e
+# define NET_WIN_OR_POSIX(e_win, e_posix) e_posix
+#endif
+
 
 
 template <typename Exception>

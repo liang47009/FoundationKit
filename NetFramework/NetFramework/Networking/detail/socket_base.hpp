@@ -92,7 +92,7 @@ public:
     static const int max_connections = NET_OS_DEF(SOMAXCONN);
 
 public: 
-    /// socket options,see asio::socket_base
+    /// socket options,see network::socket_base
 
 
     /**
@@ -133,7 +133,7 @@ public:
      * @code
      * network::ip::tcp::socket socket();
      * ...
-     * asio::socket_base::debug option(true);
+     * network::socket_base::debug option(true);
      * socket.set_option(option);
      * @endcode
      *
@@ -285,7 +285,7 @@ public:
      * @code
      * network::ip::tcp::socket socket();
      * ...
-     * asio::socket_base::receive_buffer_size option;
+     * network::socket_base::receive_buffer_size option;
      * socket.get_option(option);
      * int size = option.value();
      * @endcode
@@ -343,7 +343,7 @@ public:
      * @code
      * network::ip::tcp::socket socket();
      * ...
-     * asio::socket_base::reuse_address option;
+     * network::socket_base::reuse_address option;
      * socket.get_option(option);
      * bool is_set = option.value();
      * @endcode
@@ -383,6 +383,35 @@ public:
      * Socket_Option, Linger_Socket_Option.
      */
     typedef network::socket_option::linger  <NET_OS_DEF(SOL_SOCKET), NET_OS_DEF(SO_LINGER)> linger;
+
+    /**
+     * Socket option for determining whether an IPv6 socket supports IPv6
+     * communication only.
+     * Implements the IPPROTO_IPV6/IP_V6ONLY socket option.
+     *
+     * @par Examples
+     * Setting the option:
+     * @code
+     * network::ip::tcp::socket socket(io_context);
+     * ...
+     * network::ip::v6_only option(true);
+     * socket.set_option(option);
+     * @endcode
+     *
+     * @par
+     * Getting the current option value:
+     * @code
+     * network::ip::tcp::socket socket(io_context);
+     * ...
+     * network::ip::v6_only option;
+     * socket.get_option(option);
+     * bool v6_only = option.value();
+     * @endcode
+     *
+     * @par Concepts:
+     * GettableSocketOption, SettableSocketOption.
+     */
+    typedef network::socket_option::boolean< IPPROTO_IPV6, IPV6_V6ONLY> v6_only;
 
 };
 

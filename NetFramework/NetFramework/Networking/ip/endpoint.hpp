@@ -12,7 +12,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include <string>
-#include "FoundationKit/Base/error_code.hpp"
+#include "Networking/net_error_code.hpp"
 #include "Networking/socket_types.hpp"
 #include "Networking/winsock_init.hpp"
 #include "Networking/ip/address.hpp"

@@ -12,7 +12,6 @@
 #include <stdexcept>
 #include <streambuf>
 #include <vector>
-#include "FoundationKit/Base/error_code.hpp"
 #include "FoundationKit/Base/mutablebuf.hpp"
 #include "FoundationKit/Base/noncopyable.hpp"
 
@@ -302,8 +301,7 @@ protected:
             }
             else
             {
-                std::length_error ex("streambuf too long");
-                throw_exception(ex);
+                throw std::length_error("streambuf too long");
             }
         }
 

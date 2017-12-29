@@ -15,7 +15,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Base/error_code.hpp"
+#include "Networking/net_error_code.hpp"
 #include "Networking/socket_types.hpp"
 #include "Networking/ip/address.hpp"
 

@@ -18,7 +18,7 @@ namespace ip {
 
 /**
  * Encapsulates the flags needed for UDP.
- * The asio::ip::udp class contains flags necessary for UDP sockets.
+ * The network::ip::udp class contains flags necessary for UDP sockets.
  *
  * @par Thread Safety
  * @e Distinct @e objects: Safe.@n

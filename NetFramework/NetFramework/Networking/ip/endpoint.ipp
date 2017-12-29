@@ -14,7 +14,7 @@
 #include <cstring>
 #include <sstream>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Base/error_code.hpp"
+#include "Networking/net_error_code.hpp"
 #include "Networking/detail/socket_ops.hpp"
 #include "Networking/ip/endpoint.hpp"
 

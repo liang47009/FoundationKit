@@ -16,7 +16,7 @@
 #include <algorithm>
 #include <memory>
 #include "FoundationKit/FoundationMacros.hpp"
-#include "FoundationKit/Base/error_code.hpp"
+#include "Networking/net_error_code.hpp"
 #include "FoundationKit/Base/noncopyable.hpp"
 #include "FoundationKit/Base/mutablebuf.hpp"
 #include "Networking/socket_types.hpp"
@@ -627,24 +627,20 @@ public:
         , socket_base::message_flags flags
         , std::error_code& ec)
     {
+        std::size_t addr_len = sender_endpoint.capacity();
+        std::size_t bytes_recvd = socket_ops::sync_recvfrom(native_handle()
+            , _state
+            , static_cast<char*>(buffers.data())
+            , buffers.size()
+            , flags
+            , sender_endpoint.data()
+            , &addr_len
+            , ec);
 
+        if (!ec)
+            sender_endpoint.resize(addr_len);
 
-        if ((_state & socket_ops::datagram_oriented))
-        {
-            return socket_ops::recvfrom(native_handle()
-                , static_cast<char*>(buffers.data())
-                , buffers.size()
-                , flags
-                , sender_endpoint.data()
-                , sender_endpoint.size()
-                , ec);
-        }
-        else
-        {
-            std::error_code ec = make_error_code(std::errc::address_family_not_supported);
-            throw_error_if(ec, "receive_from");
-        }
-        return 0;
+        return bytes_recvd;
     }
 
     /**
@@ -749,10 +745,15 @@ public:
     typename Protocol::socket accept(endpoint_type& peer_endpoint, std::error_code& ec)
     {
         int addrLen = static_cast<int>(peer_endpoint.size());
-        native_handle_type native_socket = socket_ops::accept(native_handle()
+        native_handle_type native_socket = socket_ops::sync_accept(native_handle()
+            , _state
             , peer_endpoint.data()
             , &addrLen
             , ec);
+        if (native_socket != invalid_socket)
+        {
+            peer_endpoint->resize(addr_len);
+        }
         typename Protocol::socket new_socket(this->_protocol, native_socket, ec);
         return new_socket;
     }
@@ -1434,18 +1435,7 @@ public:
      */
     std::error_code shutdown(shutdown_type what, std::error_code& ec)
     {
-        if (!is_open())
-        {
-            return std::error_code();
-        }
-        if (native_handle() != invalid_socket)
-        {
-            socket_ops::shutdown(native_handle(), what, ec);
-        }
-        else
-        {
-            ec = make_error_code(std::errc::bad_file_descriptor);
-        }
+        socket_ops::shutdown(native_handle(), what, ec);
         return ec ;
     }
 

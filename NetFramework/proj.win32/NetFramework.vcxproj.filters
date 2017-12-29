@@ -137,6 +137,9 @@
     <ClInclude Include="..\NetFramework\Networking\ip\udp.hpp">
       <Filter>Networking\ip</Filter>
     </ClInclude>
+    <ClInclude Include="..\NetFramework\Networking\net_error_code.hpp">
+      <Filter>Networking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\NetFramework\Networking\readme.txt">

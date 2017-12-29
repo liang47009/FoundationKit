@@ -15,7 +15,7 @@
 #include <string>
 #include <iosfwd>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Base/error_code.hpp"
+#include "Networking/net_error_code.hpp"
 #include "Networking/ip/address_v4.hpp"
 #include "Networking/ip/address_v6.hpp"
 #include "Networking/ip/bad_address_cast.hpp"

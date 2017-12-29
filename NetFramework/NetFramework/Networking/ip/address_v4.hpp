@@ -16,7 +16,7 @@
 #include <array>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/types.hpp"
-#include "FoundationKit/Base/error_code.hpp"
+#include "Networking/net_error_code.hpp"
 #include "Networking/socket_types.hpp"
 #include "Networking/winsock_init.hpp"
 #include "Networking/detail/config.hpp"
@@ -27,7 +27,7 @@ namespace ip{
 
 /**
  * Implements IP version 4 style addresses.
- * The asio::ip::address_v4 class provides the ability to use and
+ * The network::ip::address_v4 class provides the ability to use and
  * manipulate IP version 4 addresses.
  *
  * @par Thread Safety
@@ -266,7 +266,7 @@ NETWORK_API address_v4 make_address_v4(const std::string& str, std::error_code& 
  *
  * @return The output stream.
  *
- * @relates asio::ip::address_v4
+ * @relates network::ip::address_v4
  */
 template <typename Elem, typename Traits>
 std::basic_ostream<Elem, Traits>& operator<<(std::basic_ostream<Elem, Traits>& os, const address_v4& addr)

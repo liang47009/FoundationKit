@@ -36,7 +36,6 @@
 #include <FoundationKit/Base/byte_swap.hpp>
 #include <FoundationKit/Base/contains_of_type.hpp>
 #include <FoundationKit/Base/disable_if.hpp>
-#include <FoundationKit/Base/error_code.hpp>
 #include <FoundationKit/Base/function_cache.hpp>
 #include <FoundationKit/Base/function_traits.hpp>
 #include <FoundationKit/Base/has_member.hpp>

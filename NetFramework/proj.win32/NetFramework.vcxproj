@@ -59,6 +59,7 @@
     <ClInclude Include="..\NetFramework\Networking\ip\tcp.hpp" />
     <ClInclude Include="..\NetFramework\Networking\ip\udp.hpp" />
     <ClInclude Include="..\NetFramework\Networking\network.hpp" />
+    <ClInclude Include="..\NetFramework\Networking\net_error_code.hpp" />
     <ClInclude Include="..\NetFramework\Networking\socket_types.hpp" />
     <ClInclude Include="..\NetFramework\Networking\winsock_init.hpp" />
   </ItemGroup>

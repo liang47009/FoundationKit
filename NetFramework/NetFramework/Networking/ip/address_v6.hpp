@@ -16,7 +16,7 @@
 #include <array>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/types.hpp"
-#include "FoundationKit/Base/error_code.hpp"
+#include "Networking/net_error_code.hpp"
 #include "Networking/socket_types.hpp"
 #include "Networking/winsock_init.hpp"
 #include "Networking/ip/address_v4.hpp"
@@ -30,7 +30,7 @@ template <typename> class basic_address_iterator;
 
 /// Implements IP version 6 style addresses.
 /**
-* The asio::ip::address_v6 class provides the ability to use and
+* The network::ip::address_v6 class provides the ability to use and
 * manipulate IP version 6 addresses.
 *
 * @par Thread Safety
@@ -263,7 +263,7 @@ NETWORK_API address_v6 make_address_v6(v4_mapped_t, const address_v4& v4_addr);
 *
 * @return The output stream.
 *
-* @relates asio::ip::address_v6
+* @relates network::ip::address_v6
 */
 template <typename Elem, typename Traits>
 std::basic_ostream<Elem, Traits>& operator<<(std::basic_ostream<Elem, Traits>& os, const address_v6& addr)

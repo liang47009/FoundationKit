@@ -59,7 +59,7 @@
 #endif // defined(NETWORK_HEADER_ONLY)
 
 
-// If ASIO_DECL isn't defined yet define it now.
+// If NETWORK_API isn't defined yet define it now.
 #if !defined(NETWORK_API)
 # define NETWORK_API
 #endif // !defined(NETWORK_API)
