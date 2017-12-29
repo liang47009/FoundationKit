@@ -180,7 +180,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Base\byte_swap.hpp" />
     <ClInclude Include="..\FoundationKit\Base\contains_of_type.hpp" />
     <ClInclude Include="..\FoundationKit\Base\disable_if.hpp" />
-    <ClInclude Include="..\FoundationKit\Base\error_code.hpp" />
     <ClInclude Include="..\FoundationKit\Base\function_cache.hpp" />
     <ClInclude Include="..\FoundationKit\Base\function_traits.hpp" />
     <ClInclude Include="..\FoundationKit\Base\has_member.hpp" />
