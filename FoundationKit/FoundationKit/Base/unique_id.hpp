@@ -53,7 +53,7 @@ public:
 
     bool SetStartTimeStamp(int64 timestamp)
     {
-        if (StartTimeStamp < 0)
+        if (timestamp < 0)
             return false;
         StartTimeStamp = timestamp;
         return true;

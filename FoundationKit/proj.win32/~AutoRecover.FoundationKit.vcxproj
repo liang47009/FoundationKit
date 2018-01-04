@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{8F5A5344-1249-4C82-BA4D-8B4733161585}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>FoundationKit</RootNamespace>
+    <ProjectName>FoundationKit</ProjectName>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="FoundationKit_headers.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="FoundationKit_headers.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="FoundationKit_headers.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="FoundationKit_headers.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreLinkEvent>
+      <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Command>
+      <Message>拷贝依赖库到输出目录</Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>UNICODE;WIN64;_WINDOWS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(ProjectDir)/../FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../FoundationKit/external/unzip;$(ProjectDir)/../FoundationKit/external/;$(FoundationKitHeaders)FoundationKit/Platform/windows/system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreLinkEvent>
+      <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Command>
+      <Message>拷贝依赖库到输出目录</Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreLinkEvent>
+      <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Command>
+      <Message>拷贝依赖库到输出目录</Message>
+    </PreLinkEvent>
+    <Lib>
+      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>UNICODE;WIN64;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(FoundationKitHeaders);$(ProjectDir)/../FoundationKit/external/win32/i386/include/curl;$(ProjectDir)/../FoundationKit/external/win32/i386/include/luajit;$(ProjectDir)/../FoundationKit/external/win32/i386/include/zlib;$(ProjectDir)/../FoundationKit/external/unzip;$(ProjectDir)/../FoundationKit/external/;$(FoundationKitHeaders)FoundationKit/Platform/windows/system;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PreLinkEvent>
+      <Command>if not exist "$(OutDir)" mkdir "$(OutDir)"
+xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Command>
+      <Message>拷贝依赖库到输出目录</Message>
+    </PreLinkEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\FoundationKit\Base\algorithm.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\apply.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\basic_streambuf.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\byte_swap.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\contains_of_type.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\disable_if.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\function_cache.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\function_traits.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\has_member.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\hex.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\locale.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\max_integer_of.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\memory_aligned.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\mutablebuf.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\noncopyable.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\nonmovable.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\scope_guard.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\string_builder.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\types.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\lexical_cast.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\unique_id.hpp" />
+    <ClInclude Include="..\FoundationKit\Crypto\aes.hpp" />
+    <ClInclude Include="..\FoundationKit\Crypto\Base64.hpp" />
+    <ClInclude Include="..\FoundationKit\Crypto\des.hpp" />
+    <ClInclude Include="..\FoundationKit\Crypto\md5.hpp" />
+    <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp" />
+    <ClInclude Include="..\FoundationKit\Crypto\urlencode.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\AsyncTask.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\BehaviourTree.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\BehaviourTreeTest.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\FileHandle.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\IFileHandle.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\match.hpp" />
+    <ClInclude Include="..\FoundationKit\experimental\threadsafe_stack.hpp" />
+    <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h" />
+    <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
+    <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
+    <ClInclude Include="..\FoundationKit\external\unzip\unzip.h" />
+    <ClInclude Include="..\FoundationKit\forward.hpp" />
+    <ClInclude Include="..\FoundationKit\FoundationMacros.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Compression.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\DateTime.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\NotificationCenter.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Dictionary.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Directory.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\ElapsedTimer.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Exception.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\File.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\FunctionHandler.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\ITickable.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\MathContent.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Math.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\MathUtil.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Matrix.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Path.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Quaternion.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Rect.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Runnable.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Singleton.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Size.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\StringUtils.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Time.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\ThreadTimer.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\TimeSpan.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\TimeZone.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Utility.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Value.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Vector2.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Vector3.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Vector4.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\Version.hpp" />
+    <ClInclude Include="..\FoundationKit\GenericPlatformMacros.hpp" />
+    <ClInclude Include="..\FoundationKit\LanguageFeatures.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJavaBridge.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidFoundation.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaClass.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaObject.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatform.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformMemory.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformTLS.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformMemory.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformTLS.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Directory.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Environment.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\File.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\ios\IOSPlatform.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\linux\LinuxPlatform.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\linux\LinuxPlatformTLS.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\mac\MACPlatform.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\OpenGL.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Path.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\PlatformDevice.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\PlatformMemory.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\sys\dirent.h" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.h" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatform.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformMemory.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\FoundationKit\Crypto\aes.cpp" />
+    <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp" />
+    <ClCompile Include="..\FoundationKit\Crypto\des.cpp" />
+    <ClCompile Include="..\FoundationKit\experimental\FileHandle.cpp" />
+    <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.c" />
+    <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTFWrapper.cpp" />
+    <ClCompile Include="..\FoundationKit\external\unzip\ioapi.cpp" />
+    <ClCompile Include="..\FoundationKit\external\unzip\ioapi_mem.cpp" />
+    <ClCompile Include="..\FoundationKit\external\unzip\unzip.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Compression.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\DateTime.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\NotificationCenter.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Exception.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Math.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\MathUtil.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Matrix.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Quaternion.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Rect.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Time.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\ThreadTimer.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\TimeSpan.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\TimeZone.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Value.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Vector2.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Vector3.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Vector4.cpp" />
+    <ClCompile Include="..\FoundationKit\Foundation\Version.cpp" />
+    <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDevice.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDirectory.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidEnvironment.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidFile.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJavaBridge.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPath.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Directory.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\File.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Path.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsDevice.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsDirectory.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsEnvironment.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsFile.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPath.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\FoundationKit\Foundation\MathUtil.inl" />
+    <None Include="..\FoundationKit\Foundation\MathUtilNeon.inl" />
+    <None Include="..\FoundationKit\Foundation\MathUtilNeon64.inl" />
+    <None Include="..\FoundationKit\Foundation\Matrix.inl" />
+    <None Include="..\FoundationKit\Foundation\Value.inl" />
+    <None Include="..\FoundationKit\Foundation\Vector2.inl" />
+    <None Include="..\FoundationKit\Foundation\Vector3.inl" />
+    <None Include="..\FoundationKit\Foundation\Vector4.inl" />
+    <None Include="..\FoundationKit\Platform\Apple\AppleDirectory.mm" />
+    <None Include="..\FoundationKit\Platform\Apple\AppleEnvironment.mm" />
+    <None Include="..\FoundationKit\Platform\Apple\AppleFile.mm" />
+    <None Include="..\FoundationKit\Platform\Apple\ApplePath.mm" />
+    <None Include="..\FoundationKit\Platform\ios\IOSDevice.mm" />
+    <None Include="..\FoundationKit\Platform\mac\MACDevice.mm" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

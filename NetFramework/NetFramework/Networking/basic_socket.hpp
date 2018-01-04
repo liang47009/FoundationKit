@@ -790,10 +790,10 @@ public:
      * operations. Asynchronous operations will never fail with the error
      * std::errcwould_block.
      */
-    void set_non_blocking(bool mode)
+    void non_blocking(bool mode)
     {
         std::error_code ec;
-        set_non_blocking(mode, ec);
+        non_blocking(mode, ec);
         throw_error_if(ec, "non_blocking");
     }
 
@@ -810,9 +810,9 @@ public:
      * operations. Asynchronous operations will never fail with the error
      * std::errcwould_block.
      */
-    std::error_code set_non_blocking( bool mode, std::error_code& ec)
+    std::error_code non_blocking( bool mode, std::error_code& ec)
     {
-        socket_ops::set_non_blocking(native_handle(), _state, mode, ec);
+        socket_ops::set_user_non_blocking(native_handle(), _state, mode, ec);
         return ec;
     }
 

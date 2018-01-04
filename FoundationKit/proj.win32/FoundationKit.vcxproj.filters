@@ -46,6 +46,9 @@
     <Filter Include="Platform\windows\sys">
       <UniqueIdentifier>{bef2ae3c-6bfc-4e28-9173-943161f875f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform\linux">
+      <UniqueIdentifier>{3ce1ac0c-7dbe-416d-8305-d3b4c0a458d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp">
@@ -333,6 +336,12 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\TimeSpan.hpp">
       <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\linux\LinuxPlatform.hpp">
+      <Filter>Platform\linux</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\linux\LinuxPlatformTLS.hpp">
+      <Filter>Platform\linux</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

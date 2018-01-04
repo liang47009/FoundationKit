@@ -107,9 +107,34 @@
 #error Unknown platform
 #endif
 
-// Enable in C++14
-//#undef DEPRECATED
-//#define DEPRECATED(VERSION, MESSAGE) [[deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")]]
+/**
+ * Macro for marking up deprecated code, functions and types.
+ *
+ * Features that are marked as deprecated are scheduled to be removed from the code base
+ * in a future release. If you are using a deprecated feature in your code, you should
+ * replace it before upgrading to the next release. See the Upgrade Notes in the release
+ * notes for the release in which the feature was marked deprecated.
+ *
+ * Sample usage (note the slightly different syntax for classes and structures):
+ *
+ *		DEPRECATED(4.6, "Message")
+ *		void Function();
+ *
+ *		struct DEPRECATED(4.6, "Message") MODULE_API MyStruct
+ *		{
+ *			// StructImplementation
+ *		};
+ *		class DEPRECATED(4.6, "Message") MODULE_API MyClass
+ *		{
+ *			// ClassImplementation
+ *		};
+ *
+ * @param VERSION The release number in which the feature was marked deprecated.
+ * @param MESSAGE A message containing upgrade notes.
+ */
+ // Enable in C++14
+#undef  DEPRECATED
+#define DEPRECATED(VERSION, MESSAGE) [[deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")]]
 
 #define UNUSED_ARG(arg)          do {(void)(arg);}while(0)
 #define SAFE_DELETE(p)           do { if(p) { delete   (p); (p) = nullptr; } } while(0)
@@ -129,6 +154,8 @@
 
 //#pragma message(COMPILE_MSG "Show compile message")
 #define COMPILE_MSG __FILE__ "(" STRINGIZE(__LINE__) "):Warning:" 
+//#define COMPILE_WARNING(MSG) __pragma(message( __FILE__ "(" STRINGIZE(__LINE__) "):Warning:" ##MSG))
+//#define COMPILE_ERROR(MSG) __pragma(message( __FILE__ "(" STRINGIZE(__LINE__) "):Error:" ##MSG))
 
 extern void __fail__(const char* expr, const char* file, int line);
 extern void __log__(const char* fmt, ...);

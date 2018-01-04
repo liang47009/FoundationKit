@@ -35,7 +35,7 @@
 #define DEPRECATED(VERSION, MESSAGE) __attribute__((deprecated(MESSAGE " Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")))
 // Symbol export and import definitions
 #define DLL_EXPORT		__attribute__((visibility("default")))
-#define DLL_IMPORT		__attribute__((visibility("default")))
+#define DLL_IMPORT		__attribute__((visibility("internal")))
 // Alignment.
 #define ATTRIBUTE_PACK(n) __attribute__((packed,aligned(n)))
 #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))

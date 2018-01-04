@@ -100,6 +100,18 @@ public:
 };
 
 
+struct TextItem
+{
+    TextItem()
+        :Num(0)
+        , Pos(0)
+        , Val('\0')
+    {}
+	int32 Num;
+	int32 Pos;
+	uint8 Val;
+};
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;
