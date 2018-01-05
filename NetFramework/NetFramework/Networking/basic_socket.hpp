@@ -752,7 +752,7 @@ public:
             , ec);
         if (native_socket != invalid_socket)
         {
-            peer_endpoint->resize(addr_len);
+            peer_endpoint->resize(addrLen);
         }
         typename Protocol::socket new_socket(this->_protocol, native_socket, ec);
         return new_socket;
@@ -1376,7 +1376,7 @@ public:
                 SelectStatus = socket_ops::poll_error(native_handle(), _state, ec);
                 break;
             default:
-                ec = std::errc::invalid_argument;
+                ec = make_error_code(std::errc::invalid_argument);
                 break;
             }
             if (SelectStatus < 0 || SelectStatus > 0)

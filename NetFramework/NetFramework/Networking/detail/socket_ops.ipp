@@ -443,7 +443,7 @@ void sync_connect(socket_type s, const socket_addr_type* addr,
     return;
 
   // Return the result of the connect operation.
-  ec = std::error_code(WinErrorCodeToErrc(connect_error), std::generic_category());
+  ec = std::error_code(connect_error, std::generic_category());
 }
 
 bool non_blocking_connect(socket_type s, std::error_code& ec)
@@ -488,7 +488,7 @@ bool non_blocking_connect(socket_type s, std::error_code& ec)
   {
     if (connect_error)
     {
-        ec = std::error_code(WinErrorCodeToErrc(connect_error), std::generic_category());
+        ec = std::error_code(connect_error, std::generic_category());
     }
     else
       ec = std::error_code();

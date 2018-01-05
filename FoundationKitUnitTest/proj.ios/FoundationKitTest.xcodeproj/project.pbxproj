@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0907E8421CE0940900A65A3C /* AdSupport.framework */; };
+		094774781FFF1CBE00A9B955 /* libNetFramework.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 094774791FFF1CBE00A9B955 /* libNetFramework.a */; };
 		0956169D1F9ECE1E00DEDFA7 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0956169C1F9ECE1000DEDFA7 /* CoreTelephony.framework */; };
 		09C19B011BABB760007A8C99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B001BABB760007A8C99 /* main.m */; };
 		09C19B041BABB760007A8C99 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09C19B031BABB760007A8C99 /* AppDelegate.mm */; };
@@ -23,6 +24,7 @@
 		0907E8421CE0940900A65A3C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		093490EB1E7F7D740034ECF2 /* libFoundationKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFoundationKit.a; path = "../../../../../Library/Developer/Xcode/DerivedData/FoundationKitFramework-gqtmmrnbxavaofbusneqnsvkmpwv/Build/Products/Debug-iphoneos/libFoundationKit.a"; sourceTree = "<group>"; };
 		093492DF1E8106FF0034ECF2 /* libHTTPClient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libHTTPClient.a; path = "../../../../../Library/Developer/Xcode/DerivedData/FoundationKitFramework-gqtmmrnbxavaofbusneqnsvkmpwv/Build/Products/Debug-iphoneos/libHTTPClient.a"; sourceTree = "<group>"; };
+		094774791FFF1CBE00A9B955 /* libNetFramework.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libNetFramework.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0956169C1F9ECE1000DEDFA7 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		09C19AFB1BABB760007A8C99 /* FoundationKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoundationKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C19AFF1BABB760007A8C99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -44,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				094774781FFF1CBE00A9B955 /* libNetFramework.a in Frameworks */,
 				09DAF11C1ED449AF00AD585D /* libz.1.2.5.tbd in Frameworks */,
 				09DAF11A1ED4470F00AD585D /* libFoundationKit_iOS.a in Frameworks */,
 				0907E8431CE0940900A65A3C /* AdSupport.framework in Frameworks */,
@@ -57,6 +60,7 @@
 		093490EA1E7F7D740034ECF2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				094774791FFF1CBE00A9B955 /* libNetFramework.a */,
 				0956169C1F9ECE1000DEDFA7 /* CoreTelephony.framework */,
 				09DAF11B1ED449AF00AD585D /* libz.1.2.5.tbd */,
 				09DAF1191ED4470F00AD585D /* libFoundationKit_iOS.a */,
@@ -141,7 +145,7 @@
 					09C19AFA1BABB760007A8C99 = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = WSSN499SLU;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -320,6 +324,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = WSSN499SLU;
 				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
@@ -331,15 +336,27 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../FoundationKit",
 					"$(PROJECT_DIR)/../../ThirdParty/spdlog/include/",
+					"$(PROJECT_DIR)/../../NetFramework/NetFramework",
+					"$(PROJECT_DIR)/../../ThirdParty/curl/include/ios/curl",
+					"$(PROJECT_DIR)/../../ThirdParty/rapidjson/include",
 				);
 				INFOPLIST_FILE = FoundationKitTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../ThirdParty/curl/prebuilt/ios",
+					"$(PROJECT_DIR)/../../ThirdParty/openssl/prebuilt/ios",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lcrypto",
+					"-lssl",
+					"-lcurl",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.snailgames.FoundationKitTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "09502eb0-c087-4b5f-a41f-67fb17086fe9";
+				PROVISIONING_PROFILE_SPECIFIER = UniversalSnailDev;
 			};
 			name = Debug;
 		};
@@ -353,6 +370,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = WSSN499SLU;
 				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = c11;
@@ -364,15 +382,27 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../../FoundationKit",
 					"$(PROJECT_DIR)/../../ThirdParty/spdlog/include/",
+					"$(PROJECT_DIR)/../../NetFramework/NetFramework",
+					"$(PROJECT_DIR)/../../ThirdParty/curl/include/ios/curl",
+					"$(PROJECT_DIR)/../../ThirdParty/rapidjson/include",
 				);
 				INFOPLIST_FILE = FoundationKitTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../../ThirdParty/curl/prebuilt/ios",
+					"$(PROJECT_DIR)/../../ThirdParty/openssl/prebuilt/ios",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lcrypto",
+					"-lssl",
+					"-lcurl",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.snailgames.FoundationKitTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "09502eb0-c087-4b5f-a41f-67fb17086fe9";
+				PROVISIONING_PROFILE_SPECIFIER = UniversalSnailDev;
 			};
 			name = Release;
 		};
