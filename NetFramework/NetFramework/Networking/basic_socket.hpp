@@ -602,7 +602,7 @@ public:
         std::error_code ec;
         std::size_t result = this->receive_from(buffers, sender_endpoint, flags, ec);
         throw_error_if(ec, "receive_from");
-        result;
+        return result;
     }
 
     /**
@@ -1724,7 +1724,7 @@ public:
 
     /**
      * Queries the socket to determine if there is a pending accept
-     * @param bHasPendingConnection out parameter indicating whether a connection is pending or not
+     * @param ec Error code.
      * @return true if successful, false otherwise
      *
      * @par Example

@@ -2088,7 +2088,7 @@ std::error_code getnameinfo(const socket_addr_type* addr,
       host, static_cast<DWORD>(hostlen),
       serv, static_cast<DWORD>(servlen), flags);
 #else
-  int error = ::getnameinfo(addr, addrlen, host, hostlen, serv, servlen, flags);
+  int error = ::getnameinfo(addr, (socklen_t)addrlen, host, (socklen_t)hostlen, serv, (socklen_t)servlen, flags);
 #endif
   return ec = translate_addrinfo_error(error);
 }
