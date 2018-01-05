@@ -55,39 +55,41 @@
 
 
 // WinRT target.
-# if defined(__cplusplus_winrt)
-#  include <winapifamily.h>
-#  if WINAPI_FAMILY_ONE_PARTITION(WINAPI_FAMILY, WINAPI_PARTITION_APP)
-#   undef  PLATFORM_WINRT
+#if defined(__cplusplus_winrt)
+#   include <winapifamily.h>
+#   if WINAPI_FAMILY_ONE_PARTITION(WINAPI_FAMILY, WINAPI_PARTITION_APP)
+#       undef  PLATFORM_WINRT
 #   define PLATFORM_WINRT 1
-#  endif // WINAPI_FAMILY_ONE_PARTITION(WINAPI_FAMILY, WINAPI_PARTITION_APP)
+#   endif // WINAPI_FAMILY_ONE_PARTITION(WINAPI_FAMILY, WINAPI_PARTITION_APP)
+#endif
 
-#elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
+#if defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
 // TARGET_OS_IPHONE inlcudes TARGET_OS_IOS TARGET_OS_TV and TARGET_OS_WATCH. see TargetConditionals.h
-#include <TargetConditionals.h>
-#include <AvailabilityMacros.h>
-#undef  PLATFORM_APPLE
-#define PLATFORM_APPLE 1
+#   include <TargetConditionals.h>
+#   include <AvailabilityMacros.h>
+#   undef  PLATFORM_APPLE
+#   define PLATFORM_APPLE 1
+#endif
 
-#elif defined(TARGET_OS_IOS) && (TARGET_OS_IOS == 1)
-#undef  PLATFORM_IOS
-#define PLATFORM_IOS 1
+#if defined(TARGET_OS_IOS) && (TARGET_OS_IOS == 1)
+#   undef  PLATFORM_IOS
+#   define PLATFORM_IOS 1
 
 #elif defined(__ANDROID__) || defined(ANDROID)
-#undef  PLATFORM_ANDROID
-#define PLATFORM_ANDROID 1
+#   undef  PLATFORM_ANDROID
+#   define PLATFORM_ANDROID 1
 
 #elif defined(_WIN32) || defined(__WIN32__) || defined(WIN32) || defined(WIN64) || defined(_WIN64)
-#undef  PLATFORM_WINDOWS
-#define PLATFORM_WINDOWS 1
+#   undef  PLATFORM_WINDOWS
+#   define PLATFORM_WINDOWS 1
 
 #elif (defined(linux) || defined(__linux) || defined(__linux__) || defined(__GNU__) || defined(__GLIBC__)) && !defined(_CRAYC)
-#undef  PLATFORM_LINUX
-#define PLATFORM_LINUX 0
+#   undef  PLATFORM_LINUX
+#   define PLATFORM_LINUX 1
 
 #elif(TARGET_OS_MAC)
-#undef  PLATFORM_MAC
-#define PLATFORM_MAC 1
+#   undef  PLATFORM_MAC
+#   define PLATFORM_MAC 1
 
 #else
     #error Unknown platform
