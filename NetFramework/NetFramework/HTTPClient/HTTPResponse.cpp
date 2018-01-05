@@ -81,7 +81,7 @@ std::string HTTPResponse::GetContentType()
 
 size_t HTTPResponse::GetContentSize()
 {
-    return ContentSize;
+    return ContentSize > 0 ? ContentSize : ContentData.size();
 }
 
 std::vector<uint8>& HTTPResponse::GetContentData()
