@@ -602,7 +602,7 @@ public:
         std::error_code ec;
         std::size_t result = this->receive_from(buffers, sender_endpoint, flags, ec);
         throw_error_if(ec, "receive_from");
-        result;
+        return result;
     }
 
     /**
@@ -752,7 +752,7 @@ public:
             , ec);
         if (native_socket != invalid_socket)
         {
-            peer_endpoint->resize(addr_len);
+            peer_endpoint->resize(addrLen);
         }
         typename Protocol::socket new_socket(this->_protocol, native_socket, ec);
         return new_socket;
@@ -1376,7 +1376,7 @@ public:
                 SelectStatus = socket_ops::poll_error(native_handle(), _state, ec);
                 break;
             default:
-                ec = std::errc::invalid_argument;
+                ec = make_error_code(std::errc::invalid_argument);
                 break;
             }
             if (SelectStatus < 0 || SelectStatus > 0)
@@ -1724,7 +1724,7 @@ public:
 
     /**
      * Queries the socket to determine if there is a pending accept
-     * @param bHasPendingConnection out parameter indicating whether a connection is pending or not
+     * @param ec Error code.
      * @return true if successful, false otherwise
      *
      * @par Example

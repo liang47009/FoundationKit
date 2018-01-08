@@ -61,7 +61,9 @@
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/PlatformMemory.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
+#include "HTTPClient/HTTPClient.hpp"
 
+//#include "rapidjson/"
 
 USING_NS_FK;
 
@@ -98,33 +100,47 @@ size_t GetOSIntData(int key, int type)
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     FKLog("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());
-    auto lines = Environment::GetCommandLineArgs();
-    auto envs = Environment::GetEnvironmentVariables();
-    auto path = Environment::GetEnvironmentVariable("PATH");
-    auto envs1 = [[NSProcessInfo processInfo]environment];
-    auto appPath = Path::GetApplicationPath();
-    PlatformDevice::DumpDeviceInfo();
-    auto strValue = GetOSStringData(CTL_HW, HW_MODEL);
-    auto intValue = GetOSIntData(CTL_HW, HW_CPU_FREQ);
+    std::string APP_ID = "324d4b61-df14-11e7-b817-e0accb778420";
+    std::string APP_SECURE = "pdjudrmnf9";
+    std::string date = DateTime::Now().ToIso8601();
+    std::string Auth = MD5::md5_hash_hex(APP_ID+APP_SECURE+ date);
+    HTTPClient::GetInstance()->Initialize();
     
-    DateTime ret = DateTime::Now();
-    FKLog("======== Now:%s", ret.ToString().c_str());
-    
-    ret = DateTime::UTCNow();
-    FKLog("======== UTCNow:%s", ret.ToString().c_str());
-    
-    FKLog("=========TimeZone:%s", TimeZone::ToDebugString().c_str());
-    
-    DateTime LocalDate = DateTime::Now();
-    DateTime UTCDate = DateTime::UTCNow();
-    
-    FKLog("=========LocalDate:%s", LocalDate.ToString().c_str());
-    FKLog("=========UTCDate:%s", UTCDate.ToString().c_str());
-    
-    DateTime LocalToUTC = TimeZone::ToUniversalTime(LocalDate);
-    DateTime UTCToLocal = TimeZone::ToLocalTime(UTCDate);
-    FKLog("=========LocalToUTC:%s", LocalToUTC.ToString().c_str());
-    FKLog("=========UTCToLocal:%s", UTCToLocal.ToString().c_str());
+    HTTPRequest::Pointer requestAuth = HTTPRequest::Create(true);
+    requestAuth->SetURL("http://qos.189.cn/t1?appid=324d4b61-df14-11e7-b817-e0accb778420");
+    requestAuth->SetHeader("X-Request-At", date);
+    requestAuth->SetHeader("X-Application-Id", APP_ID);
+    requestAuth->SetHeader("X-Application-Auth", Auth);
+    requestAuth->OnRequestCompleted = [](HTTPRequest::Pointer pRequest, HTTPResponse::Pointer pResponse)
+    {
+        if (pResponse->IsSucceeded())
+        {
+            auto reponseData = pResponse->GetContentData();
+            std::string auth((char*)&reponseData[0], reponseData.size());
+            HTTPRequest::Pointer request = HTTPRequest::Create(true);
+            request->SetMethod(RequestMethodType::POST);
+            request->SetURL("http://qos.189.cn/api/mobile/speeding/");
+            request->SetPostField("Security_token", auth);
+            request->SetPostField("dst_info", "192.168.0.1:80");
+            request->SetPostField("src_info", "172.14.44.80:80");
+            request->SetPostField("user_id", "snailtest;7");
+            request->SetPostField("product_id", "wnts");
+            request->OnRequestCompleted = [](HTTPRequest::Pointer pRequest, HTTPResponse::Pointer pResponse)
+            {
+                pResponse->DumpInfo();
+                auto responseData = pResponse->GetContentData();
+                std::string pdata((char*)&responseData[0], responseData.size());
+                std::u16string ustr;
+                bool ret = StringUtils::UTF8ToUTF16(pdata, ustr);
+                if (pResponse->IsSucceeded())
+                {
+                    
+                }
+            };
+            HTTPClient::GetInstance()->SendRequest(request);
+        }
+    };
+    HTTPClient::GetInstance()->SendRequest(requestAuth);
     
     return YES;
 }

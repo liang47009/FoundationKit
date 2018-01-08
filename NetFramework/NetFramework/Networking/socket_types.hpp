@@ -67,6 +67,7 @@
 #  include <sys/filio.h>
 #  include <sys/sockio.h>
 # endif
+# include <unistd.h>
 #endif
 
 
