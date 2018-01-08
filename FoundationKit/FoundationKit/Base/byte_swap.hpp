@@ -34,7 +34,7 @@ enum endianness
 {
     big_endian,
     little_endian,
-#if (BYTE_ORDER == BYTE_BIG_ENDIAN)
+#if (BYTE_ENDIAN_ORDER == BYTE_BIG_ENDIAN)
     native_endian = big_endian,
 #else
     native_endian = little_endian,

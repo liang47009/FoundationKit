@@ -84,13 +84,13 @@ public:
     template<typename T>
     void SetStatic(std::string fieldName, T fieldValue, std::string sig = "")
     {
-        AndroidFoundation::SetFieldStatic<T>(_class, fieldName, fieldValue, sig);
+        AndroidFoundation::SetStaticField<T>(_class, fieldName, fieldValue, sig);
     }
 
     template<typename T>
     T GetStatic(std::string fieldName, std::string sig = "")
     {
-        return AndroidFoundation::GetFieldStatic<T>(_class, fieldName, sig);
+        return AndroidFoundation::GetStaticField<T>(_class, fieldName, sig);
     }
 
     jclass GetRawClass()const

@@ -1359,6 +1359,14 @@ const char * GetJNISignature(Args...)
     >::Result::value();
 }
 
+/** generic call to static method
+ *  The generic parameter determines the field type.
+ *  @param[in] className  The java class name example: "com/example/foundationkitunittest/MainActivity"
+ *                        or "com.example.foundationkitunittest.MainActivity"
+ *  @param[in] methodName The name of the method
+ *  @param[in] args       Generic arguments
+ *  @return   T type object.
+ */
 template<typename T = void, typename... Args>
 T CallWithSig(jobject instance, const std::string & methodName, const std::string&  methodSignature, Args... args)
 {
@@ -1373,7 +1381,7 @@ T CallWithSig(jobject instance, const std::string & methodName, const std::strin
  *  The generic parameter determines the field type.
  *  @param[in] instance   The java class instance.
  *  @param[in] methodName The name of the method 
- *  @param[in] v          Generic arguments
+ *  @param[in] args       Generic arguments
  *  @return   T type object.
  */
 template<typename T = void, typename... Args>
@@ -1391,12 +1399,21 @@ T CallStaticWithSig(const std::string & className, const std::string & methodNam
     JavaClassMethod javaMethod = AndroidJNI::GetClassMethod(className.c_str(), methodName.c_str(), methodSignature.c_str(), true);
     return JNICaller<T, decltype(CPPToJNI<typename std::decay<Args>::type>::convert(args))...>::callStatic(jniEnv, javaMethod.clazz, javaMethod.method, CPPToJNI<typename std::decay<Args>::type>::convert(args)...);
 }
+
+template<typename T = void, typename... Args>
+T CallStaticWithSig(jclass clazz, const std::string & methodName, const std::string&  methodSignature, Args... args)
+{
+    JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+    JavaClassMethod javaMethod = AndroidJNI::GetClassMethod(clazz, methodName.c_str(), methodSignature.c_str(), true);
+    return JNICaller<T, decltype(CPPToJNI<typename std::decay<Args>::type>::convert(args))...>::callStatic(jniEnv, javaMethod.clazz, javaMethod.method, CPPToJNI<typename std::decay<Args>::type>::convert(args)...);
+}
+
 /** generic call to static method
  *  The generic parameter determines the field type.
  *  @param[in] className  The java class name example: "com/example/foundationkitunittest/MainActivity"
  *                        or "com.example.foundationkitunittest.MainActivity"
  *  @param[in] methodName The name of the method
- *  @param[in] v          Generic arguments
+ *  @param[in] args       Generic arguments
  *  @return   T type object.
  */
 template<typename T = void, typename... Args>
@@ -1406,18 +1423,11 @@ T CallStatic(const std::string & className, const std::string & methodName, Args
     return CallStaticWithSig<T>(className, methodName, methodSignature, std::forward<Args>(args)...);
 }
 
-template<typename T = void, typename... Args>
-T CallStaticWithSig(jclass clazz, const std::string & methodName, const std::string&  methodSignature,Args... args)
-{
-    JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
-    JavaClassMethod javaMethod = AndroidJNI::GetClassMethod(clazz, methodName.c_str(),methodSignature.c_str(), true);
-    return JNICaller<T, decltype(CPPToJNI<typename std::decay<Args>::type>::convert(args))...>::callStatic(jniEnv, javaMethod.clazz, javaMethod.method, CPPToJNI<typename std::decay<Args>::type>::convert(args)...);
-}
 /** generic call to static method
  *  The generic parameter determines the field type.
  *  @param[in] jclass  java class instance
  *  @param[in] methodName The name of the method
- *  @param[in] v          Generic arguments
+ *  @param[in] args       Generic arguments
  *  @return   T type object.
  */
 template<typename T = void, typename... Args>
@@ -1466,7 +1476,7 @@ T GetField(jobject instance, const std::string & fieldName, std::string sig = ""
  *  @return   T type object.
  */
 template<typename T>
-T GetFieldStatic(jclass clazz, const std::string & fieldName, std::string sig = "")
+T GetStaticField(jclass clazz, const std::string & fieldName, std::string sig = "")
 {
     if (std::is_same<T, jobject>::value && sig.empty())
     {
@@ -1494,10 +1504,10 @@ T GetFieldStatic(jclass clazz, const std::string & fieldName, std::string sig = 
  *  @return   T type object.
  */
 template<typename T>
-T GetFieldStatic(const std::string & className, const std::string & fieldName, std::string sig = "")
+T GetStaticField(const std::string & className, const std::string & fieldName, std::string sig = "")
 {
     jclass clazz = AndroidJNI::FindJavaClass(className.c_str());
-    return GetFieldStatic<T>(clazz, fieldName, sig);
+    return GetStaticField<T>(clazz, fieldName, sig);
 }
 
 /** Set the value of a field in an object (non-static).
@@ -1539,7 +1549,7 @@ void SetField(jobject instance, const std::string& fieldName, T fieldValue, std:
  *                 the field sig is: Ljava/lang/String;
  */
 template<typename T>
-void SetFieldStatic(jclass clazz, const std::string& fieldName, T fieldValue, std::string sig = "")
+void SetStaticField(jclass clazz, const std::string& fieldName, T fieldValue, std::string sig = "")
 {
     if (std::is_same<T, jobject>::value && sig.empty())
     {
@@ -1567,10 +1577,10 @@ void SetFieldStatic(jclass clazz, const std::string& fieldName, T fieldValue, st
  *                 the field sig is: Ljava/lang/String;
  */
 template<typename T>
-void SetFieldStatic(const std::string & className, const std::string& fieldName, T fieldValue, std::string sig = "")
+void SetStaticField(const std::string & className, const std::string& fieldName, T fieldValue, std::string sig = "")
 {
     jclass clazz = AndroidJNI::FindJavaClass(className.c_str());
-    SetFieldStatic<T>(clazz, fieldName, fieldValue, sig);
+    SetStaticField<T>(clazz, fieldName, fieldValue, sig);
 }
 
 } // namespace AndroidFoundation 

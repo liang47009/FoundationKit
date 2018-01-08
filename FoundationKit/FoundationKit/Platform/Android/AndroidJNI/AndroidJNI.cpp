@@ -282,6 +282,24 @@ void AndroidJNI::DetachJavaEnv()
     GCurrentJavaVM->DetachCurrentThread();
 }
 
+/*
+ * Register JNI native methods
+ * @code
+ * Defined the method.
+ * JNIEXPORT jstring JNICALL native_hello(JNIEnv *env, jclass clazz)
+ *  {
+ *      printf("hello in c native code./n");
+ *      return (*env)->NewStringUTF(env, "hello world returned.");
+ *  }
+ *
+ *  Defined JNINativeMethod array
+ * static JNINativeMethod gMethods[] =
+ * {
+ *     { "hello", "()Ljava/lang/String;", (void*)native_hello},
+ * };
+ * bool ret = AndroidJNI::registerNativeMethods("com/example/MainActivity", gMethods);
+ * @endcode
+ */
 bool AndroidJNI::RegisterNativeMethods(const char* className, JNINativeMethod* nativeMethods)
 {
 
