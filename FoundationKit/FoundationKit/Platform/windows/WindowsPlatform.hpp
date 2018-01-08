@@ -39,10 +39,10 @@
 #define DLL_IMPORT __declspec(dllimport)
 // Alignment.
 #define ATTRIBUTE_PACK(n)
-#define ATTRIBUTE_ALIGN(n) 
-#define MS_ALIGN(n) __declspec(align(n))
+#define ATTRIBUTE_ALIGN(n) __declspec(align(n)) 
 #define ATTRIBUTE_UNUSED
 #define ATTRIBUTE_USED 
+#define ATTRIBUTE_NORETURN __declspec(noreturn)	  /* Indicate that the function never returns. */
 #define FORCEINLINE __forceinline				  /* Force code to be inline */
 #define FORCENOINLINE __declspec(noinline)        /* Force code to NOT be inline */	
 #define THREAD_LOCAL __declspec(thread)

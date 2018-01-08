@@ -46,6 +46,7 @@
 #define ATTRIBUTE_ALIGN(n) __attribute__((aligned(n)))
 #define ATTRIBUTE_UNUSED __attribute__((unused)) //__attribute__((__unused__)) ?
 #define ATTRIBUTE_USED __attribute__((used))
+#define ATTRIBUTE_NORETURN __attribute__ ((noreturn))	   /* Indicate that the function never returns. */
 #define FORCEINLINE inline __attribute__ ((always_inline))  /* Force code to be inline */
 #define FORCENOINLINE __attribute__((noinline))	            /* Force code to NOT be inline */
 #define THREAD_LOCAL __thread

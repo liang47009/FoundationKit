@@ -101,7 +101,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     std::string date = DateTime::Now().ToIso8601();
     std::string Auth = MD5::md5_hash_hex(APP_ID+APP_SECURE+ date);
     HTTPClient::GetInstance()->Initialize();
-
     HTTPRequest::Pointer requestAuth = HTTPRequest::Create(true);
     requestAuth->SetURL("http://qos.189.cn/t1?appid=324d4b61-df14-11e7-b817-e0accb778420");
     requestAuth->SetHeader("X-Request-At", date);
