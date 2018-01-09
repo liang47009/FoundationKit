@@ -530,15 +530,12 @@ struct JNIToCPP < jstring >
         env->DeleteLocalRef(instanceClass);
         return convert((jstring)jobj);
     }
-
-
 };
 
 // ============== Array implementation=========
 template <>
 struct JNIToCPP <jobjectArray >
 {
-
     using CPPType = std::vector < jobject > ;
     static std::vector<jobject> convert(jobjectArray jniArray)
     {
@@ -556,7 +553,6 @@ struct JNIToCPP <jobjectArray >
         }
         return result;
     }
-
     static std::vector<jobject> convert(jobject jobj){ return convert((jobjectArray)jobj); }
 };
 
@@ -741,7 +737,6 @@ struct JNIToCPP < jdoubleArray >
         }
         return result;
     }
-
     static std::vector<double> convert(jobject jobj){ return convert((jdoubleArray)jobj); }
 };
 
@@ -893,9 +888,9 @@ struct convertToArray < const char* > : public convertToArray < std::string > {}
 template <typename T, typename... Args>
 struct JNICaller 
 {
-    static T call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static T call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        auto obj = env->CallObjectMethod(instance, method, v...);
+        auto obj = env->CallObjectMethod(instance, method, std::forward<Args>(args)...);
         T result = JNIToCPP<decltype(convertToArray<T>::convert(obj))>::convert(convertToArray<T>::convert(obj));
         if (obj)
             env->DeleteLocalRef(obj);
@@ -916,9 +911,9 @@ struct JNICaller
         env->SetObjectField(instance, fid, fieldValue);
     }
 
-    static T callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+    static T callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
     {
-        auto obj = env->CallStaticObjectMethod(clazz, method, v...);
+        auto obj = env->CallStaticObjectMethod(clazz, method, std::forward<Args>(args)...);
         T result = JNIToCPP<decltype(convertToArray<T>::convert(obj))>::convert(convertToArray<T>::convert(obj));
         if (obj)
             env->DeleteLocalRef(obj);
@@ -944,9 +939,9 @@ struct JNICaller
 template <typename T, typename... Args>
 struct JNICaller < T*, Args... >
 {
-    static T* call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static T* call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        return (T*)env->CallLongMethod(instance, method, v...);
+        return (T*)env->CallLongMethod(instance, method, std::forward<Args>(args)...);
     }
 
     static T* getField(JNIEnv * env, jobject instance, jfieldID fid)
@@ -959,9 +954,9 @@ struct JNICaller < T*, Args... >
         env->SetLongField(instance, fid, fieldValue);
     }
 
-    static T* callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+    static T* callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
     {
-        return (T*)env->CallStaticLongMethod(clazz, method, v...);
+        return (T*)env->CallStaticLongMethod(clazz, method, std::forward<Args>(args)...);
     }
 
     static T* getFieldStatic(JNIEnv * env, jclass clazz, jfieldID fid)
@@ -980,13 +975,13 @@ struct JNICaller < T*, Args... >
 template <typename... Args>
 struct JNICaller < void, Args... >
 {
-    static void call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static void call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        env->CallVoidMethod(instance, method, v...);
+        env->CallVoidMethod(instance, method, std::forward<Args>(args)...);
     }
-    static void callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+    static void callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
     {
-        env->CallStaticVoidMethod(clazz, method, v...);
+        env->CallStaticVoidMethod(clazz, method, std::forward<Args>(args)...);
     }
 };
 
@@ -994,14 +989,14 @@ struct JNICaller < void, Args... >
 template <typename... Args>
 struct JNICaller < jobject, Args... >
 {
-    static jobject call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static jobject call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        return env->CallObjectMethod(instance, method, v...);
+        return env->CallObjectMethod(instance, method, std::forward<Args>(args)...);
     }
 
-    static jobject callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+    static jobject callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
     {
-        return env->CallStaticObjectMethod(clazz, method, v...);
+        return env->CallStaticObjectMethod(clazz, method, std::forward<Args>(args)...);
     }
 
     static jobject getField(JNIEnv * env, jobject instance, jfieldID fid)
@@ -1029,14 +1024,14 @@ struct JNICaller < jobject, Args... >
 template <typename... Args>
 struct JNICaller < bool, Args... >
 {
-    static bool call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static bool call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        return env->CallBooleanMethod(instance, method, v...);
+        return env->CallBooleanMethod(instance, method, std::forward<Args>(args)...);
     }
 
-    static bool callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+    static bool callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
     {
-        return env->CallStaticBooleanMethod(clazz, method, v...);
+        return env->CallStaticBooleanMethod(clazz, method, std::forward<Args>(args)...);
     }
 
     static bool getField(JNIEnv * env, jobject instance, jfieldID fid)
@@ -1064,14 +1059,14 @@ template <typename... Args>
 struct JNICaller < char, Args... >
 {
 
-    static char call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static char call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        return env->CallByteMethod(instance, method, v...);
+        return env->CallByteMethod(instance, method, std::forward<Args>(args)...);
     }
 
-    static char callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+    static char callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
     {
-        return env->CallStaticByteMethod(clazz, method, v...);
+        return env->CallStaticByteMethod(clazz, method, std::forward<Args>(args)...);
     }
 
     static char getField(JNIEnv * env, jobject instance, jfieldID fid)
@@ -1098,14 +1093,14 @@ struct JNICaller < char, Args... >
 template <typename... Args>
 struct JNICaller < wchar_t, Args... >
 {
-    static unsigned char call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static unsigned char call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        return env->CallCharMethod(instance, method, v...);
+        return env->CallCharMethod(instance, method, std::forward<Args>(args)...);
     }
 
-    static unsigned char callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+    static unsigned char callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
     {
-        return env->CallStaticCharMethod(clazz, method, v...);
+        return env->CallStaticCharMethod(clazz, method, std::forward<Args>(args)...);
     }
 
     static unsigned char getField(JNIEnv * env, jobject instance, jfieldID fid)
@@ -1132,14 +1127,14 @@ struct JNICaller < wchar_t, Args... >
 template <typename... Args>
 struct JNICaller < short, Args... >
 {
-    static short call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static short call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        return env->CallShortMethod(instance, method, v...);
+        return env->CallShortMethod(instance, method, std::forward<Args>(args)...);
     }
 
-    static short callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+    static short callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
     {
-        return env->CallStaticShortMethod(clazz, method, v...);
+        return env->CallStaticShortMethod(clazz, method, std::forward<Args>(args)...);
     }
 
     static short getField(JNIEnv * env, jobject instance, jfieldID fid)
@@ -1166,14 +1161,14 @@ struct JNICaller < short, Args... >
 template <typename... Args>
 struct JNICaller < int, Args... >
 {
-    static int call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static int call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        return env->CallIntMethod(instance, method, v...);
+        return env->CallIntMethod(instance, method, std::forward<Args>(args)...);
     }
 
-    static int callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+    static int callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
     {
-        return env->CallStaticIntMethod(clazz, method, v...);
+        return env->CallStaticIntMethod(clazz, method, std::forward<Args>(args)...);
     }
 
     static int getField(JNIEnv * env, jobject instance, jfieldID fid)
@@ -1200,14 +1195,14 @@ struct JNICaller < int, Args... >
 template <typename... Args>
 struct JNICaller < long, Args... >
 {
-    static long call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static long call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        return env->CallLongMethod(instance, method, v...);
+        return env->CallLongMethod(instance, method, std::forward<Args>(args)...);
     }
 
-    static long callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+    static long callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
     {
-        return env->CallStaticLongMethod(clazz, method, v...);
+        return env->CallStaticLongMethod(clazz, method, std::forward<Args>(args)...);
     }
 
     static long getField(JNIEnv * env, jobject instance, jfieldID fid)
@@ -1234,14 +1229,14 @@ struct JNICaller < long, Args... >
 template <typename... Args>
 struct JNICaller < float, Args... >
 {
-    static float call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static float call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        return env->CallFloatMethod(instance, method, v...);
+        return env->CallFloatMethod(instance, method, std::forward<Args>(args)...);
     }
 
-    static float callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+    static float callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
     {
-        return env->CallStaticFloatMethod(clazz, method, v...);
+        return env->CallStaticFloatMethod(clazz, method, std::forward<Args>(args)...);
     }
 
     static float getField(JNIEnv * env, jobject instance, jfieldID fid)
@@ -1268,14 +1263,14 @@ struct JNICaller < float, Args... >
 template <typename... Args>
 struct JNICaller < double, Args... >
 {
-    static double call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static double call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        return env->CallDoubleMethod(instance, method, v...);
+        return env->CallDoubleMethod(instance, method, std::forward<Args>(args)...);
     }
 
-    static double callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
+    static double callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
     {
-        return env->CallStaticDoubleMethod(clazz, method, v...);
+        return env->CallStaticDoubleMethod(clazz, method, std::forward<Args>(args)...);
     }
 
     static double getField(JNIEnv * env, jobject instance, jfieldID fid)
@@ -1301,9 +1296,17 @@ struct JNICaller < double, Args... >
 
 template <typename... Args>
 struct JNICaller<std::string, Args...> {
-    static std::string call(JNIEnv *env, jobject instance, jmethodID method, Args... v)
+    static std::string call(JNIEnv *env, jobject instance, jmethodID method, Args&&... args)
     {
-        auto obj = env->CallObjectMethod(instance, method, v...);
+        auto obj = env->CallObjectMethod(instance, method, std::forward<Args>(args)...);
+        std::string result = JNIToCPP<jstring>::convert(obj);
+        env->DeleteLocalRef(obj);
+        return result;
+    }
+
+    static std::string callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args&&... args)
+    {
+        auto obj = env->CallStaticObjectMethod(clazz, method, std::forward<Args>(args)...);
         std::string result = JNIToCPP<jstring>::convert(obj);
         env->DeleteLocalRef(obj);
         return result;
@@ -1322,13 +1325,6 @@ struct JNICaller<std::string, Args...> {
         env->SetObjectField(instance, fid, fieldValue);
     }
 
-    static std::string callStatic(JNIEnv *env, jclass clazz, jmethodID method, Args... v)
-    {
-        auto obj = env->CallStaticObjectMethod(clazz, method, v...);
-        std::string result = JNIToCPP<jstring>::convert(obj);
-        env->DeleteLocalRef(obj);
-        return result;
-    }
     static std::string getFieldStatic(JNIEnv * env, jclass clazz, jfieldID fid)
     {
         auto obj = env->GetStaticObjectField(clazz, fid);
@@ -1368,7 +1364,7 @@ const char * GetJNISignature(Args...)
  *  @return   T type object.
  */
 template<typename T = void, typename... Args>
-T CallWithSig(jobject instance, const std::string & methodName, const std::string&  methodSignature, Args... args)
+T CallWithSig(jobject instance, const std::string & methodName, const std::string&  methodSignature, Args&&... args)
 {
     JNIEnv* env = AndroidJNI::GetJavaEnv();
     jclass  clazz = env->GetObjectClass(instance);
@@ -1385,7 +1381,7 @@ T CallWithSig(jobject instance, const std::string & methodName, const std::strin
  *  @return   T type object.
  */
 template<typename T = void, typename... Args>
-T Call(jobject instance, const std::string & methodName, Args... args)
+T Call(jobject instance, const std::string & methodName, Args&&... args)
 {
     std::string methodSignature = GetJNISignature<T, Args...>(args...);
     return CallWithSig<T>(instance, methodName, methodSignature, std::forward<Args>(args)...);
@@ -1393,7 +1389,7 @@ T Call(jobject instance, const std::string & methodName, Args... args)
 
 
 template<typename T = void, typename... Args>
-T CallStaticWithSig(const std::string & className, const std::string & methodName, const std::string&  methodSignature, Args... args)
+T CallStaticWithSig(const std::string & className, const std::string & methodName, const std::string&  methodSignature, Args&&... args)
 {
     JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
     JavaClassMethod javaMethod = AndroidJNI::GetClassMethod(className.c_str(), methodName.c_str(), methodSignature.c_str(), true);
@@ -1401,7 +1397,7 @@ T CallStaticWithSig(const std::string & className, const std::string & methodNam
 }
 
 template<typename T = void, typename... Args>
-T CallStaticWithSig(jclass clazz, const std::string & methodName, const std::string&  methodSignature, Args... args)
+T CallStaticWithSig(jclass clazz, const std::string & methodName, const std::string&  methodSignature, Args&&... args)
 {
     JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
     JavaClassMethod javaMethod = AndroidJNI::GetClassMethod(clazz, methodName.c_str(), methodSignature.c_str(), true);
@@ -1417,7 +1413,7 @@ T CallStaticWithSig(jclass clazz, const std::string & methodName, const std::str
  *  @return   T type object.
  */
 template<typename T = void, typename... Args>
-T CallStatic(const std::string & className, const std::string & methodName, Args... args)
+T CallStatic(const std::string & className, const std::string & methodName, Args&&... args)
 {
     std::string methodSignature = GetJNISignature<T, Args...>(args...);
     return CallStaticWithSig<T>(className, methodName, methodSignature, std::forward<Args>(args)...);
@@ -1431,7 +1427,7 @@ T CallStatic(const std::string & className, const std::string & methodName, Args
  *  @return   T type object.
  */
 template<typename T = void, typename... Args>
-T CallStatic(jclass clazz, const std::string & methodName, Args... args)
+T CallStatic(jclass clazz, const std::string & methodName, Args&&... args)
 {
     std::string methodSignature = GetJNISignature<T, Args...>(args...);
     return CallStaticWithSig<T>(clazz, methodName, methodSignature, std::forward<Args>(args)...);

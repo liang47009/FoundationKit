@@ -70,13 +70,13 @@ public:
     }
 
     template<typename T = void, typename... Args>
-    T CallStaticWithSig(const std::string& methodName, const std::string& sig, Args... args)
+    T CallStaticWithSig(const std::string& methodName, const std::string& sig, Args&&... args)
     {
         return AndroidFoundation::CallStaticWithSig<T>(_class, methodName, sig, std::forward<Args>(args)...);
     }
 
     template<typename T = void, typename... Args>
-    T CallStatic(std::string methodName, Args... args)
+    T CallStatic(std::string methodName, Args&&... args)
     {
         return AndroidFoundation::CallStatic<T>(_class, methodName, std::forward<Args>(args)...);
     }

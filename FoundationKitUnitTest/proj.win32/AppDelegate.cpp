@@ -95,6 +95,8 @@ enum LinkerInitialized
     kLinkerInitialized = 0,
 };
 
+
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;

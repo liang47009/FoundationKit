@@ -85,7 +85,7 @@ public:
     }
 
     template<typename T = void, typename... Args>
-    T CallWithSig(const std::string& methodName, const std::string& sig, Args... args)
+    T CallWithSig(const std::string& methodName, const std::string& sig, Args&&... args)
     {
       std::string rightSig(sig);
       std::replace(rightSig.begin(), rightSig.end(), '.', '/');
@@ -93,7 +93,7 @@ public:
     }
 
     template<typename T = void, typename... Args>
-    T Call(std::string methodName, Args... args)
+    T Call(std::string methodName, Args&&... args)
     {
         return AndroidFoundation::Call<T>(GetRawObject(), methodName, std::forward<Args>(args)...);
     }
@@ -111,7 +111,7 @@ public:
     }
 
     template<typename T = void, typename... Args>
-    T CallStaticWithSig(const std::string& methodName, const std::string& sig, Args... args)
+    T CallStaticWithSig(const std::string& methodName, const std::string& sig, Args&&... args)
     {
         std::string rightSig(sig);
         std::replace(rightSig.begin(), rightSig.end(), '.', '/');
@@ -119,7 +119,7 @@ public:
     }
 
     template<typename T = void, typename... Args>
-    T CallStatic(std::string methodName, Args... args)
+    T CallStatic(std::string methodName, Args&&... args)
     {
         return AndroidFoundation::CallStatic<T>(GetRawClass(), methodName, std::forward<Args>(args)...);
     }
