@@ -466,7 +466,7 @@ public:
 	 * Returns this date as the number of seconds since the Unix Epoch (January 1st of 1970).
 	 *
 	 * @return Time of day.
-	 * @see fromUnixTimestamp
+	 * @see FromUnixTimestamp
 	 */
 	int64 ToUnixTimestamp() const
 	{

@@ -369,7 +369,7 @@ DateTime File::GetLastAccessTimeUtc(const std::string& path)
     ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
     if (result == 0)
     {
-        dt = TimeZone::ToLocalTime(DateTime::FromUnixTimestamp(info.st_atime, ETimeKind::Utc));
+        dt = DateTime::FromUnixTimestamp(info.st_atime, ETimeKind::Utc);
     }
     return dt;
 }
@@ -387,7 +387,7 @@ DateTime File::GetLastWriteTimeUtc(const std::string& path)
     ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
     if (result == 0)
     {
-        dt = TimeZone::ToLocalTime(DateTime::FromUnixTimestamp(info.st_mtime, ETimeKind::Utc));
+        dt = DateTime::FromUnixTimestamp(info.st_mtime, ETimeKind::Utc);
     }
     return dt;
 }

@@ -96,11 +96,27 @@ enum LinkerInitialized
 };
 
 
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
+
+    std::string strPath = "E:\\tmp\\ÖØÃüÃû.bat";
+    DateTime dt0 = File::GetCreationTime(strPath);
+    DateTime dt1 = File::GetCreationTimeUtc(strPath);
+    DateTime dt2 = File::GetLastAccessTime(strPath);
+    DateTime dt3 = File::GetLastAccessTimeUtc(strPath);
+    DateTime dt4 = File::GetLastWriteTime(strPath);
+    DateTime dt5 = File::GetLastWriteTimeUtc(strPath);
+
+    FKLog("dt0=%s", dt0.ToString().c_str());
+    FKLog("dt1=%s", dt1.ToString().c_str());
+    FKLog("dt2=%s", dt2.ToString().c_str());
+    FKLog("dt3=%s", dt3.ToString().c_str());
+    FKLog("dt4=%s", dt4.ToString().c_str());
+    FKLog("dt5=%s", dt5.ToString().c_str());
+
+
 
 
 	int im_a_breakpoint = 0;
