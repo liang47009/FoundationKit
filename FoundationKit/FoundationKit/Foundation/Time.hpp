@@ -23,6 +23,11 @@ class Time
 {
 
 public:
+
+    /** The number of timespan ticks per nanosecond. */
+    //static const double TicksPerNanosecond = 0.1;
+    /** The number of timespan ticks per microsecond. */
+    static const int64 TicksPerMicrosecond = 10;
     /** The number of timespan ticks per millisecond. */
     static const int64 TicksPerMillisecond = 10'000;
     /** The number of timespan ticks per second. */

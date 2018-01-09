@@ -28,15 +28,14 @@ uint64 Time::GetTimeStamp()
     time /= 10;
     time -= 11644473600000000Ui64;
     time /= 1000;
-    return time;
 #else
     struct timeval tv;
     gettimeofday(&tv, NULL);
     uint64 time = tv.tv_usec;
     time /= 1000;
     time += (tv.tv_sec * 1000);
-    return time;
 #endif
+    return time /1000;
 }
 
 
