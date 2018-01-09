@@ -61,7 +61,7 @@ enum class EMonthOfYear
  * values are stored in ticks of 0.1 microseconds (= 100 nanoseconds) since January 1, 0001.
  *
  * To retrieve the current local date and time, use the DateTime.Now() method. To retrieve the
- * current UTC time, use the DateTime.UtcNow() method instead.
+ * current UTC time, use the DateTime.UTCNow() method instead.
  *
  * This class also provides methods to convert dates and times from and to string representations,
  * calculate the number of days in a given month and year, check for leap years and determine the
@@ -110,7 +110,7 @@ public:
 	 * @return A date whose value is the sum of this date and the given time span.
 	 * @see TimeSpan
 	 */
-	DateTime operator+( const TimeSpan& other ) const
+	DateTime operator+( const TimeSpan& other) const
 	{
         return DateTime(Ticks + other.GetTicks(),GetTimeKind());
 	}
@@ -175,56 +175,56 @@ public:
 	/**
 	 * Compares this date with the given date for inequality.
 	 *
-	 * @param Other The date to compare with.
+	 * @param other The date to compare with.
 	 * @return true if the dates are not equal, false otherwise.
 	 */
-	bool operator!=( const DateTime& Other ) const
+	bool operator!=( const DateTime& other ) const
 	{
-		return (Ticks != Other.Ticks);
+		return (Ticks != other.Ticks);
 	}
 
 	/**
 	 * Checks whether this date is greater than the given date.
 	 *
-	 * @param Other The date to compare with.
+	 * @param other The date to compare with.
 	 * @return true if this date is greater, false otherwise.
 	 */
-	bool operator>( const DateTime& Other ) const
+	bool operator>( const DateTime& other ) const
 	{
-		return (Ticks > Other.Ticks);
+		return (Ticks > other.Ticks);
 	}
 
 	/**
 	 * Checks whether this date is greater than or equal to the date span.
 	 *
-	 * @param Other The date to compare with.
+	 * @param other The date to compare with.
 	 * @return true if this date is greater or equal, false otherwise.
 	 */
-	bool operator>=( const DateTime& Other ) const
+	bool operator>=( const DateTime& other ) const
 	{
-		return (Ticks >= Other.Ticks);
+		return (Ticks >= other.Ticks);
 	}
 
 	/**
 	 * Checks whether this date is less than the given date.
 	 *
-	 * @param Other The date to compare with.
+	 * @param other The date to compare with.
 	 * @return true if this date is less, false otherwise.
 	 */
-	bool operator<( const DateTime& Other ) const
+	bool operator<( const DateTime& other ) const
 	{
-		return (Ticks < Other.Ticks);
+		return (Ticks < other.Ticks);
 	}
 
 	/**
 	 * Checks whether this date is less than or equal to the given date.
 	 *
-	 * @param Other The date to compare with.
+	 * @param other The date to compare with.
 	 * @return true if this date is less or equal, false otherwise.
 	 */
-	bool operator<=( const DateTime& Other ) const
+	bool operator<=( const DateTime& other ) const
 	{
-		return (Ticks <= Other.Ticks);
+		return (Ticks <= other.Ticks);
 	}
 
 public:
@@ -258,11 +258,39 @@ public:
 	 */
 	void GetDate( int32& outYear, int32& outMonth, int32& outDay ) const;
 
+
+    /**
+     * Gets this date's year part.
+     *
+     * @return The year.
+     * @see GetDay, GetHour, GetHour12, GetMillisecond, GetMinute, GetMonth, GetSecond
+     */
+    int32 GetYear() const;
+
+    /**
+     * Gets this date's the month part (1 to 12).
+     *
+     * @return The month.
+     * @see GetDay, GetHour, GetHour12, GetMillisecond, GetMinute, GetSecond, GetYear
+     */
+    int32 GetMonth() const;
+
+    /**
+     * Gets the date's month of the year (January to December).
+     *
+     * @return Month of year.
+     * @see GetDayOfWeek, GetDayOfYear, GetTimeOfDay
+     */
+    EMonthOfYear GetMonthOfYear() const
+    {
+        return static_cast<EMonthOfYear>(GetMonth());
+    }
+
 	/**
 	 * Gets this date's day part (1 to 31).
 	 *
 	 * @return Day of the month.
-	 * @see getHour, getHour12, getMillisecond, getMinute, getMonth, getSecond, getYear
+	 * @see GetHour, GetHour12, GetMillisecond, GetMinute, GetMonth,GetSecond, GetYear
 	 */
 	int32 GetDay() const;
 
@@ -270,7 +298,7 @@ public:
 	 * Calculates this date's day of the week (Sunday - Saturday).
 	 *
 	 * @return The week day.
-	 * @see getDayOfYear, getMonthOfYear, getTimeOfDay
+	 * @see GetDayOfYear, GetMonthOfYear, GetTimeOfDay
 	 */
 	EDayOfWeek GetDayOfWeek() const;
 
@@ -278,15 +306,44 @@ public:
 	 * Gets this date's day of the year.
 	 *
 	 * @return The day of year.
-	 * @see getDayOfWeek, getMonthOfYear, getTimeOfDay
+	 * @see GetDayOfWeek, GetMonthOfYear, GetTimeOfDay
 	 */
 	int32 GetDayOfYear() const;
+
+    /**
+     * Returns the Julian Day for this date.
+     *
+     * The Julian Day is the number of days since the inception of the Julian calendar at noon on
+     * Monday, January 1, 4713 B.C.E. The minimum Julian Day that can be represented in DateTime is
+     * 1721425.5, which corresponds to Monday, January 1, 0001 in the Gregorian calendar.
+     *
+     * @return Julian Day.
+     * @see FromJulianDay, GetModifiedJulianDay
+     */
+    double GetJulianDay() const
+    {
+        return (double)(1721425.5 + Ticks / Time::TicksPerDay);
+    }
+
+    /**
+     * Returns the Modified Julian day.
+     *
+     * The Modified Julian Day is calculated by subtracting 2400000.5, which corresponds to midnight UTC on
+     * November 17, 1858 in the Gregorian calendar.
+     *
+     * @return Modified Julian Day
+     * @see GetJulianDay
+     */
+    double GetModifiedJulianDay() const
+    {
+        return (GetJulianDay() - 2400000.5);
+    }
 
 	/**
 	 * Gets this date's hour part in 24-hour clock format (0 to 23).
 	 *
 	 * @return The hour.
-	 * @see getDay, getDayOfWeek, getDayOfYear, getHour12, getMillisecond, getMinute, getMonth, getSecond, getYear
+	 * @see GetDay, GetDayOfWeek, GetDayOfYear, GetHour12, GetMillisecond, GetMinute, GetMonth, GetSecond, GetYear
 	 */
 	int32 GetHour() const
 	{
@@ -297,89 +354,41 @@ public:
 	 * Gets this date's hour part in 12-hour clock format (1 to 12).
 	 *
 	 * @return The hour in AM/PM format.
-	 * @see getDay, getHour, getMillisecond, getMinute, getMonth, getSecond, getYear
+	 * @see GetDay, GetHour, GetMillisecond, GetMinute, GetMonth, GetSecond, GetYear
 	 */
 	int32 GetHour12() const;
 
-	/**
-	 * Returns the Julian Day for this date.
-	 *
-	 * The Julian Day is the number of days since the inception of the Julian calendar at noon on
-	 * Monday, January 1, 4713 B.C.E. The minimum Julian Day that can be represented in DateTime is
-	 * 1721425.5, which corresponds to Monday, January 1, 0001 in the Gregorian calendar.
-	 *
-	 * @return Julian Day.
-	 * @see fromJulianDay, getModifiedJulianDay
-	 */
-	double GetJulianDay() const
-	{
-		return (double)(1721425.5 + Ticks / Time::TicksPerDay);
-	}
+    /**
+     * Gets this date's minute part (0 to 59).
+     *
+     * @return The minute.
+     * @see GetDay, GetHour, GetHour12, GetMillisecond, GetMonth, GetSecond, GetYear
+     */
+    int32 GetMinute() const
+    {
+        return (int32)((Ticks / Time::TicksPerMinute) % 60);
+    }
 
-	/**
-	 * Returns the Modified Julian day.
-	 *
-	 * The Modified Julian Day is calculated by subtracting 2400000.5, which corresponds to midnight UTC on
-	 * November 17, 1858 in the Gregorian calendar.
-	 *
-	 * @return Modified Julian Day
-	 * @see getJulianDay
-	 */
-	double GetModifiedJulianDay() const
-	{
-		return (GetJulianDay() - 2400000.5);
-	}
+    /**
+     * Gets this date's second part.
+     *
+     * @return The second.
+     * @see GetDay, GetHour, GetHour12, GetMillisecond, GetMinute, GetMonth, GetYear
+     */
+    int32 GetSecond() const
+    {
+        return (int32)((Ticks / Time::TicksPerSecond) % 60);
+    }
 
 	/**
 	 * Gets this date's millisecond part (0 to 999).
 	 *
 	 * @return The millisecond.
-	 * @see getDay, getHour, getHour12, getMinute, getMonth, getSecond, getYear
+	 * @see GetDay, GetHour, GetHour12, GetMinute, GetMonth, GetSecond, GetYear
 	 */
 	int32 GetMillisecond() const
 	{
 		return (int32)((Ticks / Time::TicksPerMillisecond) % 1000);
-	}
-
-	/**
-	 * Gets this date's minute part (0 to 59).
-	 *
-	 * @return The minute.
-	 * @see getDay, getHour, getHour12, getMillisecond, getMonth, getSecond, getYear
-	 */
-	int32 GetMinute() const
-	{
-		return (int32)((Ticks / Time::TicksPerMinute) % 60);
-	}
-
-	/**
-	 * Gets this date's the month part (1 to 12).
-	 *
-	 * @return The month.
-	 * @see getDay, getHour, getHour12, getMillisecond, getMinute, getSecond, getYear
-	 */
-	int32 GetMonth() const;
-
-	/**
-	 * Gets the date's month of the year (January to December).
-	 *
-	 * @return Month of year.
-	 * @see getDayOfWeek, getDayOfYear, getTimeOfDay
-	 */
-	EMonthOfYear GetMonthOfYear() const
-	{
-		return static_cast<EMonthOfYear>(GetMonth());
-	}
-
-	/**
-	 * Gets this date's second part.
-	 *
-	 * @return The second.
-	 * @see getDay, getHour, getHour12, getMillisecond, getMinute, getMonth, getYear
-	 */
-	int32 GetSecond() const
-	{
-		return (int32)((Ticks / Time::TicksPerSecond) % 60);
 	}
 
 	/**
@@ -395,7 +404,7 @@ public:
 	/**
 	 * Gets the time elapsed since midnight of this date.
 	 *
-	 * @see getDayOfWeek, getDayOfYear, getMonthOfYear
+	 * @see GetDayOfWeek, GetDayOfYear, GetMonthOfYear
 	 */
 	TimeSpan GetTimeOfDay() const
 	{
@@ -403,18 +412,10 @@ public:
 	}
 
 	/**
-	 * Gets this date's year part.
-	 *
-	 * @return The year.
-	 * @see GetDay, GetHour, GetHour12, GetMillisecond, GetMinute, GetMonth, GetSecond
-	 */
-	int32 GetYear() const;
-
-	/**
 	 * Gets whether this date's time is in the afternoon.
 	 *
 	 * @return true if it is in the afternoon, false otherwise.
-	 * @see isMorning
+	 * @see IsMorning
 	 */
 	bool IsAfternoon() const
 	{
@@ -425,7 +426,7 @@ public:
 	 * Gets whether this date's time is in the morning.
 	 *
 	 * @return true if it is in the morning, false otherwise.
-	 * @see isAfternoon
+	 * @see IsAfternoon
 	 */
 	bool IsMorning() const
 	{
@@ -438,9 +439,9 @@ public:
 	 * The resulting string assumes that the DateTime is in UTC.
 	 * 
 	 * @return String representation.
-	 * @see parseIso8601, toString
+	 * @see ParseISO8601, ToString
 	 */
-    std::string ToIso8601() const;
+    std::string ToISO8601() const;
 
 	/**
 	 * Returns the string representation of this date using a default format.
@@ -449,7 +450,7 @@ public:
 	 *		yyyy.mm.dd-hh.mm.ss
 	 *
 	 * @return String representation.
-	 * @see parse, toIso8601
+	 * @see Parse, ToIso8601
 	 */
     std::string ToString() const;
 
@@ -458,7 +459,7 @@ public:
 	 *
 	 * @param format The format of the returned string.
 	 * @return String representation.
-	 * @see parse, toIso8601
+	 * @see Parse, ToIso8601
 	 */
 	std::string ToString( const char* format ) const;
 
@@ -490,7 +491,7 @@ public:
 	 * @param year The year.
 	 * @param month The month.
 	 * @return The number of days
-	 * @see daysInYear
+	 * @see DaysInYear
 	 */
 	static int32 DaysInMonth( int32 year, int32 month );
 
@@ -499,7 +500,7 @@ public:
 	 *
 	 * @param year The year.
 	 * @return The number of days.
-	 * @see daysInMonth
+	 * @see DaysInMonth
 	 */
 	static int32 DaysInYear( int32 year );
 
@@ -508,7 +509,7 @@ public:
 	 *
 	 * @param julianDay The Julian Day.
 	 * @return Gregorian date and time.
-	 * @see getJulianDay
+	 * @see GetJulianDay
 	 */
 	static DateTime FromJulianDay( double julianDay, ETimeKind Kind = ETimeKind::Local)
 	{
@@ -520,11 +521,11 @@ public:
 	 *
 	 * @param unixTime Unix time (seconds from midnight 1970-01-01)
 	 * @return Gregorian date and time.
-	 * @see toUnixTimestamp
+	 * @see ToUnixTimestamp
 	 */
-	static DateTime FromUnixTimestamp( int64 unixTime, ETimeKind Kind = ETimeKind::Local)
+	static DateTime FromUnixTimestamp( int64 InUnixTime, ETimeKind Kind = ETimeKind::Local)
 	{
-        return DateTime(1970, 1, 1,0,0,0,0,Kind) + TimeSpan(unixTime * Time::TicksPerSecond);
+        return DateTime(1970, 1, 1,0,0,0,0,Kind) + TimeSpan(InUnixTime * Time::TicksPerSecond);
 	}
 
 	/**
@@ -544,7 +545,7 @@ public:
 	 *
 	 * The maximum date value is December 31, 9999, 23:59:59.9999999.
 	 *
-	 * @see minValue
+	 * @see MinValue
 	 */
     static DateTime MaxValue();
 
@@ -553,7 +554,7 @@ public:
 	 *
 	 * The minimum date value is January 1, 0001, 00:00:00.0.
 	 *
-	 * @see maxValue
+	 * @see MaxValue
 	 */
     static DateTime MinValue();
 
@@ -565,7 +566,7 @@ public:
 	 * between different computers, please use UtcNow() instead.
 	 *
 	 * @return Current date and time.
-	 * @see Today, utcNow
+	 * @see Today, UTCNow
 	 */
 	static DateTime Now();
 
@@ -610,9 +611,9 @@ public:
 	 * @param dateTimeString The string to be parsed
 	 * @param outDateTime DateTime object (in UTC) corresponding to the input string (which may have been in any timezone).
 	 * @return true if the string was converted successfully, false otherwise.
-	 * @see Parse, ToIso8601
+	 * @see Parse, ToISO8601
 	 */
-	static bool ParseIso8601( const char* dateTimeString, DateTime& outDateTime );
+	static bool ParseISO8601( const char* dateTimeString, DateTime& outDateTime );
 
 	/**
 	 * Gets the local date on this computer.

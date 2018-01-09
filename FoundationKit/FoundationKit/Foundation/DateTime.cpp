@@ -112,6 +112,19 @@ void DateTime::GetDate( int32& outYear, int32& outMonth, int32& outDay ) const
 	outDay = k;
 }
 
+int32 DateTime::GetYear() const
+{
+    int32 year, month, day;
+    GetDate(year, month, day);
+    return year;
+}
+
+int32 DateTime::GetMonth() const
+{
+    int32 year, month, day;
+    GetDate(year, month, day);
+    return month;
+}
 
 int32 DateTime::GetDay() const
 {
@@ -139,7 +152,6 @@ int32 DateTime::GetDayOfYear() const
     return day;
 }
 
-
 int32 DateTime::GetHour12() const
 {
 	int32 hour = GetHour();
@@ -154,24 +166,7 @@ int32 DateTime::GetHour12() const
     return hour;
 }
 
-
-int32 DateTime::GetMonth() const
-{
-    int32 year, month, day;
-    GetDate(year, month, day);
-    return month;
-}
-
-
-int32 DateTime::GetYear() const
-{
-    int32 year, month, day;
-    GetDate(year, month, day);
-    return year;
-}
-
-
-std::string DateTime::ToIso8601() const
+std::string DateTime::ToISO8601() const
 {
 	return ToString("%Y-%m-%dT%H:%M:%S.%sZ");
 }
@@ -332,7 +327,7 @@ bool DateTime::Parse( const std::string& dateTimeString, DateTime& outDateTime )
 }
 
 
-bool DateTime::ParseIso8601( const char* dateTimeString, DateTime& outDateTime )
+bool DateTime::ParseISO8601( const char* dateTimeString, DateTime& outDateTime )
 {
 	// DateOnly: YYYY-MM-DD
 	// DateTime: YYYY-mm-ddTHH:MM:SS(.ssss)(Z|+th:tm|-th:tm)
@@ -510,6 +505,8 @@ std::string DateTime::GetTimestampString()
     timestamp += GetTimeString();
     return timestamp;
 }
+
+
 
 NS_FK_END
 
