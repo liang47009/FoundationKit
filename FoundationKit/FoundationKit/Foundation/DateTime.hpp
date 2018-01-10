@@ -519,7 +519,7 @@ public:
 	/**
 	 * Returns the date from Unix time (seconds from midnight 1970-01-01)
 	 *
-	 * @param unixTime Unix time (seconds from midnight 1970-01-01)
+     * @param InUnixTime Unix time (seconds from midnight 1970-01-01)
 	 * @return Gregorian date and time.
 	 * @see ToUnixTimestamp
 	 */
