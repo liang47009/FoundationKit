@@ -469,10 +469,10 @@ public:
 	 * @return Time of day.
 	 * @see FromUnixTimestamp
 	 */
-	int64 ToUnixTimestamp() const
-	{
-		return (Ticks - DateTime(1970, 1, 1).Ticks) / Time::TicksPerSecond;
-	}
+    int64 ToUnixTimestamp() const
+    {
+        return (Ticks - DateTime(1970, 1, 1).Ticks) / Time::TicksPerSecond;
+    }
 
     /**
      * Gets the hash for the specified date and time.

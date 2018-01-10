@@ -23,9 +23,6 @@ class Time
 {
 
 public:
-
-    /** The number of timespan ticks per nanosecond. */
-    //static const double TicksPerNanosecond = 0.1;
     /** The number of timespan ticks per microsecond. */
     static const int64 TicksPerMicrosecond = 10;
     /** The number of timespan ticks per millisecond. */
@@ -53,28 +50,42 @@ public:
         int32 Milliseconds;
     };
 
-    //double TimeValToSecond(timeval & tv)
-    //{
-    //    return static_cast<double>(tv.tv_sec) + static_cast<double>(tv.tv_usec) / 1e6;
-    //}
-
-    static uint64   GetTimeStamp();
-
     /**
-    * Get the local date and time on this computer
-    */
+     * Get the local date and time on this computer
+     * The information is local system format.
+     */
     static TimeDate GetTime();
-    //static TimeDate GetTime(time_t timeValue);
 
     /**
-    * Get the UTC date and time on this computer
-    */
+     * Get the UTC date and time on this computer
+     * The information is in Coordinated Universal Time (UTC) format.
+     */
     static TimeDate GetUTCTime();
-    //static TimeDate GetUTCTime(time_t timeValue);
+
+    /**
+     * Get unix timestamp, unit seconds
+     * The information is local system format.
+     */
+    static uint64   GetUnixTimeStamp();
+
+    /**
+     * Get unix timestamp, unit seconds.
+     * The information is in Coordinated Universal Time (UTC) format.
+     */
+    static uint64   GetUTCUnixTimeStamp();
+
+    /**
+     * Get the local timestamp, unit nanoseconds,But not always accurate
+     * It can be very well support for microseconds of precision.
+     * The information is in Coordinated Universal Time (UTC) format.
+     */
+    static uint64   GetSystemRealTime();
 
 };
 
-
+/* [TSF] Thread safe functions */
+struct tm *localtime_t(const time_t* _Time, struct tm* _Tm);
+struct tm *gmtime_t(const time_t* _Time, struct tm* _Tm);
 NS_FK_END
 
 #endif // END OF FOUNDATIONKIT_FOUNDATIONKIT_TIME_HPP

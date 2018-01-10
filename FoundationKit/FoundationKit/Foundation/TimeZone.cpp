@@ -106,7 +106,7 @@ DateTime TimeZone::ToUniversalTime(const DateTime& date)
     {
         return date;
     }
-    DateTime ResultDateTime = date;
+    DateTime ResultDateTime(date.GetTicks(), ETimeKind::Utc);
     ResultDateTime -= GetUTCOffset();
     ResultDateTime -= GetDSTOffset();
     return ResultDateTime;
