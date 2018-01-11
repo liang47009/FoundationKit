@@ -102,7 +102,7 @@ size_t GetOSIntData(int key, int type)
     FKLog("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());
     std::string APP_ID = "324d4b61-df14-11e7-b817-e0accb778420";
     std::string APP_SECURE = "pdjudrmnf9";
-    std::string date = DateTime::Now().ToIso8601();
+    std::string date = DateTime::Now().ToISO8601();
     std::string Auth = MD5::md5_hash_hex(APP_ID+APP_SECURE+ date);
     HTTPClient::GetInstance()->Initialize();
     

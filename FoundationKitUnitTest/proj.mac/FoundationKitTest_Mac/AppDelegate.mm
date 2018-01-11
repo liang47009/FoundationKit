@@ -141,6 +141,14 @@ size_t GetOSIntData(int key, int type)
     FKLog("=========LocalToUTC:%s", LocalToUTC.ToString().c_str());
     FKLog("=========UTCToLocal:%s", UTCToLocal.ToString().c_str());
     
+    timespec ts;
+    ::clock_gettime(CLOCK_REALTIME, &ts);
+    long long val0 = ts.tv_sec*1000000000LL + ts.tv_nsec;
+    
+    timeval tv;
+    gettimeofday(&tv, 0);
+    
+    long long val1 = tv.tv_sec * 1000000000LL+tv.tv_usec*1000;
     
     
 }

@@ -43,7 +43,7 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/ThreadTimer.hpp"
 #include "FoundationKit/Foundation/Time.hpp"
-#include "FoundationKit/Foundation/Timespan.hpp"
+#include "FoundationKit/Foundation/TimeSpan.hpp"
 #include "FoundationKit/Foundation/Value.hpp"
 #include "FoundationKit/Foundation/Vector2.hpp"
 #include "FoundationKit/Foundation/Vector3.hpp"
