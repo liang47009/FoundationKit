@@ -126,7 +126,7 @@ uint64 Time::GetUTCUnixTimeStamp()
     return time / 1000; // Convert to seconds.
 }
 
-uint64 Time::GetSystemRealTime()
+uint64 Time::GetCurrentTimeNanosFromSystem()
 {
     uint64 clocktime = 0;
 #if PLATFORM_WINDOWS
@@ -134,6 +134,8 @@ uint64 Time::GetSystemRealTime()
     ::GetSystemTimeAsFileTime(&ft);
     clocktime = ((static_cast<int64>(ft.dwHighDateTime) << 32) | ft.dwLowDateTime) - 116444736000000000LL;
     clocktime *= 100;
+    // or
+    //clocktime = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now() - std::chrono::system_clock::from_time_t(0)).count();
 #else
     timespec ts;
     ::clock_gettime(CLOCK_REALTIME, &ts);
@@ -143,6 +145,7 @@ uint64 Time::GetSystemRealTime()
     //gettimeofday(&tv, NULL);
     //clocktime = tv.tv_sec * 1000000000LL + tv.tv_usec * 1000;
 #endif
+    // Other implement see https://github.com/abseil/abseil-cpp/tree/0271cd35577599fa99b59202da17d3136956e4c0/absl/time/internal
     return clocktime;
 }
 

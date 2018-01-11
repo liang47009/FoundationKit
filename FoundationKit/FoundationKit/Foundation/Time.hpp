@@ -79,7 +79,7 @@ public:
      * It can be very well support for microseconds of precision.
      * The information is in Coordinated Universal Time (UTC) format.
      */
-    static uint64   GetSystemRealTime();
+    static uint64   GetCurrentTimeNanosFromSystem();
 
 };
 

@@ -1,5 +1,6 @@
 #include <ctime>
 #include "FoundationKit/Foundation/TimeZone.hpp"
+#include "FoundationKit/Foundation/Time.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 
 NS_FK_BEGIN
@@ -52,9 +53,9 @@ return result;
 bool TimeZone::IsDaylightSavingTime(DateTime date)
 {
     std::time_t time = date.ToUnixTimestamp();
-    struct std::tm* tms = std::localtime(&time);
-    ASSERT_IF(!tms, "Cannot get local time DST flag");
-    return tms->tm_isdst > 0;
+    struct std::tm tms;
+    localtime_t(&time,&tms);
+    return tms.tm_isdst > 0;
 }
 
 TimeSpan TimeZone::GetUTCOffset()
@@ -83,7 +84,7 @@ TimeSpan TimeZone::GetDSTOffset()
 #else
     std::time_t now = std::time(NULL);
     struct std::tm t;
-    ASSERT_IF(!localtime_r(&now, &t), "Cannot get local time DST offset");
+    ASSERT_IF(!localtime_t(&now, &t), "Cannot get local time DST offset");
     return TimeSpan((t.tm_isdst == 1 ? 3600 : 0)*Time::TicksPerHour);
 #endif
 }
