@@ -5,7 +5,7 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
 
 
-class  AppDelegate : private Application
+class AppDelegate : private Application
 {
 public:
 	AppDelegate();

@@ -24,19 +24,21 @@ class Time
 
 public:
     /** The number of timespan ticks per microsecond. */
-    static const int64 TicksPerMicrosecond = 10;
+    static const int64 TicksPerMicrosecond = 10;                      //Represents the number of ticks in 1 microsecond.
     /** The number of timespan ticks per millisecond. */
-    static const int64 TicksPerMillisecond = 10'000;
+    static const int64 TicksPerMillisecond = 10'000;                  //Represents the number of ticks in 1 millisecond.
     /** The number of timespan ticks per second. */
-    static const int64 TicksPerSecond      = 10'000'000;
+    static const int64 TicksPerSecond      = 10'000'000;              //Represents the number of ticks in 1 second.
     /** The number of timespan ticks per minute. */
-    static const int64 TicksPerMinute      = 600'000'000;
+    static const int64 TicksPerMinute      = 600'000'000;             //Represents the number of ticks in 1 minute.
     /** The number of timespan ticks per hour. */
-    static const int64 TicksPerHour        = 36'000'000'000;
+    static const int64 TicksPerHour        = 36'000'000'000;          //Represents the number of ticks in 1 hour.
     /** The number of timespan ticks per day. */
-    static const int64 TicksPerDay         = 864'000'000'000;
+    static const int64 TicksPerDay         = 864'000'000'000;         //Represents the number of ticks in 1 day.
     /** The number of timespan ticks per week. */
-    static const int64 TicksPerWeek        = 6'048'000'000'000;
+    static const int64 TicksPerWeek        = 6'048'000'000'000;       //Represents the number of ticks in 1 week.
+    /** The number of timespan ticks from 0001.1.1 to 1970.1.1 */
+    static const int64 UnixTimeEra         = 621'355'968'000'000'000; // == DateTime(1970, 1, 1).Ticks
 
     struct TimeDate 
     {

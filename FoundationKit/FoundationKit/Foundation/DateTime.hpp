@@ -433,6 +433,13 @@ public:
 		return (GetHour() < 12);
 	}
 
+    /**
+     * Returns a value indicating whether the specified date and time is within a daylight
+     * saving time period.
+     *
+     */
+    bool IsDaylightSavingTime();
+
 	/**
 	 * Returns the ISO-8601 string representation of the DateTime.
 	 *
@@ -459,7 +466,7 @@ public:
 	 *
 	 * @param format The format of the returned string.
 	 * @return String representation.
-	 * @see Parse, ToIso8601
+	 * @see Parse, ToISO8601
 	 */
 	std::string ToString( const char* format ) const;
 
@@ -467,12 +474,40 @@ public:
 	 * Returns this date as the number of seconds since the Unix Epoch (January 1st of 1970).
 	 *
 	 * @return Time of day.
-	 * @see FromUnixTimestamp
+	 * @see FromUnixTimestamp, ToTimestamp
 	 */
     int64 ToUnixTimestamp() const
     {
-        return (Ticks - DateTime(1970, 1, 1).Ticks) / Time::TicksPerSecond;
+        //return (Ticks - DateTime(1970, 1, 1).Ticks) / Time::TicksPerSecond;
+        return (Ticks - Time::UnixTimeEra) / Time::TicksPerSecond;
     }
+
+    /**
+     * Returns this date as the number of seconds since the January 1st of 0001
+     *
+     * @return Time of day.
+     * @see ToUnixTimestamp
+     */
+    int64 ToTimestamp() const
+    {
+        return Ticks / Time::TicksPerSecond;
+    }
+
+    /**
+     * Converts the value of the current DateTime object to local time.
+     * local time = UTC + UTC Offset + DST Offset
+     * @return A Coordinated Universal Time (UTC) time.
+     *
+     */
+    DateTime ToLocalTime();
+
+    /**
+     * Converts the value of the current System.DateTime object to 
+     * Coordinated Universal Time (UTC).
+     * UTC time = local time - UTC Offset - DST Offset
+     * @return A local date time.
+     */
+    DateTime ToUniversalTime();
 
     /**
      * Gets the hash for the specified date and time.
@@ -525,7 +560,8 @@ public:
 	 */
 	static DateTime FromUnixTimestamp( int64 InUnixTime, ETimeKind Kind = ETimeKind::Local)
 	{
-        return DateTime(1970, 1, 1,0,0,0,0,Kind) + TimeSpan(InUnixTime * Time::TicksPerSecond);
+        //return DateTime(1970, 1, 1,0,0,0,0,Kind) + TimeSpan(InUnixTime * Time::TicksPerSecond);
+        return DateTime(InUnixTime * Time::TicksPerSecond + Time::UnixTimeEra, Kind);
 	}
 
 	/**
@@ -584,6 +620,41 @@ public:
     static DateTime UTCNow();
 
     /**
+     * Gets the local date on this computer.
+     *
+     * The time component is set to 00:00:00
+     *
+     * @return Current date.
+     * @see Now, UTCNow
+     */
+    static DateTime Today()
+    {
+        return Now().GetDate();
+    }
+
+    /**
+     * Get the system date
+     *
+     * @return Date string
+     */
+    static std::string GetDateString();
+
+    /**
+     * Get the system time
+     *
+     * @return Time string
+     */
+    static std::string GetTimeString();
+
+    /**
+     * Returns a timestamp string built from the current date and time.
+     * NOTE: Only one return value is valid at a time!
+     *
+     * @return timestamp string
+     */
+    static std::string GetTimestampString();
+
+    /**
      * Get the local date and time on this computer
      */
     static void LocalTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec);
@@ -616,19 +687,6 @@ public:
 	static bool ParseISO8601( const char* dateTimeString, DateTime& outDateTime );
 
 	/**
-	 * Gets the local date on this computer.
-	 *
-	 * The time component is set to 00:00:00
-	 *
-	 * @return Current date.
-	 * @see Now, UTCNow
-	 */
-	static DateTime Today()
-	{
-		return Now().GetDate();
-	}
-
-	/**
 	 * Validates the given components of a date and time value.
 	 *
 	 * The allow ranges for the components are:
@@ -643,30 +701,6 @@ public:
 	 * @return true if the components are valid, false otherwise.
 	 */
 	static bool Validate( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond );
-
-
-    /**
-     * Get the system date
-     *
-     * @return Date string
-     */
-    static std::string GetDateString();
-
-    /**
-     * Get the system time
-     *
-     * @return Time string
-     */
-    static std::string GetTimeString();
-
-    /**
-     * Returns a timestamp string built from the current date and time.
-     * NOTE: Only one return value is valid at a time!
-     *
-     * @return timestamp string
-     */
-    static std::string GetTimestampString();
-
 protected:
 
 	/** Holds the days per month in a non-leap year. */

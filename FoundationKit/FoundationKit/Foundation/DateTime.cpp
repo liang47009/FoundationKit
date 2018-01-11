@@ -10,6 +10,7 @@
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
+#include "FoundationKit/Foundation/TimeZone.hpp"
 
 NS_FK_BEGIN
 
@@ -166,6 +167,14 @@ int32 DateTime::GetHour12() const
     return hour;
 }
 
+bool DateTime::IsDaylightSavingTime()
+{
+    std::time_t time = ToUnixTimestamp();
+    struct std::tm tms;
+    localtime_t(&time, &tms);
+    return tms.tm_isdst > 0;
+}
+
 std::string DateTime::ToISO8601() const
 {
 	return ToString("%Y-%m-%dT%H:%M:%S.%sZ");
@@ -218,6 +227,29 @@ std::string DateTime::ToString( const char* format ) const
     return result;
 }
 
+DateTime DateTime::ToLocalTime()
+{
+    if (this->GetTimeKind() == ETimeKind::Local)
+    {
+        return (*this);
+    }
+    DateTime ResultDateTime(this->GetTicks(), ETimeKind::Local);
+    ResultDateTime += TimeZone::GetUTCOffset();
+    ResultDateTime += TimeZone::GetDSTOffset();
+    return ResultDateTime;
+}
+
+DateTime DateTime::ToUniversalTime()
+{
+    if (this->GetTimeKind() == ETimeKind::Utc)
+    {
+        return (*this);
+    }
+    DateTime ResultDateTime(this->GetTicks(), ETimeKind::Utc);
+    ResultDateTime -= TimeZone::GetUTCOffset();
+    ResultDateTime -= TimeZone::GetDSTOffset();
+    return ResultDateTime;
+}
 
 /* DateTime static interface
  *****************************************************************************/
@@ -277,6 +309,44 @@ DateTime DateTime::UTCNow()
     int32 hour, minute, second, millisecond;
     UTCTime(year, month, dayOfWeek, day, hour, minute, second, millisecond);
     return DateTime(year, month, day, hour, minute, second, millisecond, ETimeKind::Utc);
+}
+
+std::string DateTime::GetDateString()
+{
+    int32 Year;
+    int32 Month;
+    int32 DayOfWeek;
+    int32 Day;
+    int32 Hour;
+    int32 Min;
+    int32 Sec;
+    int32 MSec;
+    LocalTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
+    std::string dateStr = StringUtils::Format("%04d-%02d-%02d", Year, Month, Day);
+    return dateStr;
+}
+
+std::string DateTime::GetTimeString()
+{
+    int32 Year;
+    int32 Month;
+    int32 DayOfWeek;
+    int32 Day;
+    int32 Hour;
+    int32 Min;
+    int32 Sec;
+    int32 MSec;
+    LocalTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
+    std::string timeStr = StringUtils::Format("%02d:%02d:%02d", Hour, Min, Sec);
+    return timeStr;
+}
+
+std::string DateTime::GetTimestampString()
+{
+    std::string timestamp = GetDateString();
+    timestamp += " ";
+    timestamp += GetTimeString();
+    return timestamp;
 }
 
 void DateTime::LocalTime(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
@@ -467,46 +537,5 @@ bool DateTime::Validate( int32 year, int32 month, int32 day, int32 hour, int32 m
         (second      >= 0) && (second      <= 59) &&
         (millisecond >= 0) && (millisecond <= 999);
 }
-
-std::string DateTime::GetDateString()
-{
-    int32 Year;
-    int32 Month;
-    int32 DayOfWeek;
-    int32 Day;
-    int32 Hour;
-    int32 Min;
-    int32 Sec;
-    int32 MSec;
-    LocalTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
-    std::string dateStr = StringUtils::Format("%04d-%02d-%02d", Year,Month, Day);
-    return dateStr;
-}
-
-std::string DateTime::GetTimeString()
-{
-    int32 Year;
-    int32 Month;
-    int32 DayOfWeek;
-    int32 Day;
-    int32 Hour;
-    int32 Min;
-    int32 Sec;
-    int32 MSec;
-    LocalTimeForDate(Year, Month, DayOfWeek, Day, Hour, Min, Sec, MSec);
-    std::string timeStr = StringUtils::Format("%02d:%02d:%02d", Hour, Min, Sec);
-    return timeStr;
-}
-
-std::string DateTime::GetTimestampString()
-{
-    std::string timestamp = GetDateString();
-    timestamp += " ";
-    timestamp += GetTimeString();
-    return timestamp;
-}
-
-
-
 NS_FK_END
 

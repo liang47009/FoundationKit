@@ -340,7 +340,7 @@ bool File::WriteAllText(const std::string& path, const std::string& contents)
 
 DateTime File::GetCreationTime(const std::string& path)
 {
-    return TimeZone::ToLocalTime(GetCreationTimeUtc(path));
+    return GetCreationTimeUtc(path).ToLocalTime();
 }
 
 DateTime File::GetCreationTimeUtc(const std::string& path)
@@ -358,7 +358,7 @@ DateTime File::GetCreationTimeUtc(const std::string& path)
 
 DateTime File::GetLastAccessTime(const std::string& path)
 {
-    return TimeZone::ToLocalTime(GetLastAccessTimeUtc(path));
+    return GetLastAccessTimeUtc(path).ToLocalTime();
 }
 
 DateTime File::GetLastAccessTimeUtc(const std::string& path)
@@ -376,7 +376,7 @@ DateTime File::GetLastAccessTimeUtc(const std::string& path)
 
 DateTime File::GetLastWriteTime(const std::string& path)
 {
-    return TimeZone::ToLocalTime(GetLastWriteTimeUtc(path));
+    return GetLastWriteTimeUtc(path).ToLocalTime();
 }
 
 DateTime File::GetLastWriteTimeUtc(const std::string& path)
