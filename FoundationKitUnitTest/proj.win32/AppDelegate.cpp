@@ -102,11 +102,13 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     auto val0 = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now() -std::chrono::system_clock::from_time_t(0)).count();
     auto val1 = Time::GetCurrentTimeNanosFromSystem();
+    auto datet = DateTime(val1/100 + Time::UnixTimeEra).ToString();
     auto val2 = DateTime::Now().GetTicks()- 621355968000000000;
     auto val3 = DateTime::Now().ToUnixTimestamp();
     auto xval = DateTime::FromUnixTimestamp(val3).ToString();
     auto val4 = DateTime::Now().ToUniversalTime().ToString();
     auto val5 = DateTime::UTCNow().ToLocalTime().ToString();
+
 
 	return true;
 }

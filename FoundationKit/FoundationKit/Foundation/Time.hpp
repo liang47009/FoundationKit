@@ -39,6 +39,8 @@ public:
     static const int64 TicksPerWeek        = 6'048'000'000'000;       //Represents the number of ticks in 1 week.
     /** The number of timespan ticks from 0001.1.1 to 1970.1.1 */
     static const int64 UnixTimeEra         = 621'355'968'000'000'000; // == DateTime(1970, 1, 1).Ticks
+    /** The number of nanoseconds per tick. */
+    static const int64 NanosecondsPerTick  = 100;
 
     struct TimeDate 
     {
@@ -77,7 +79,7 @@ public:
     static uint64   GetUTCUnixTimeStamp();
 
     /**
-     * Get the local timestamp, unit nanoseconds,But not always accurate
+     * Get current unix time(from 1970.1.1 to now), unit nanoseconds,But not always accurate
      * It can be very well support for microseconds of precision.
      * The information is in Coordinated Universal Time (UTC) format.
      */
