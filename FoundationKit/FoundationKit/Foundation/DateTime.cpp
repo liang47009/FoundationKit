@@ -42,8 +42,8 @@ void UTCTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int
     msec              = td.Milliseconds;
 }
 
-const uint64 MinTicks              = 0;
-const uint64 MaxTicks              = 3652059 * Time::TicksPerDay - 1;
+const int64 MinTicks              = 0;
+const int64 MaxTicks              = 3652059 * Time::TicksPerDay - 1;
 /* DateTime constants
  *****************************************************************************/
 

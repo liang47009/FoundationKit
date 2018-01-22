@@ -70,20 +70,20 @@ public:
      * Get unix timestamp, unit seconds
      * The information is local system format.
      */
-    static uint64   GetUnixTimeStamp();
+    static int64   GetUnixTimeStamp();
 
     /**
      * Get unix timestamp, unit seconds.
      * The information is in Coordinated Universal Time (UTC) format.
      */
-    static uint64   GetUTCUnixTimeStamp();
+    static int64   GetUTCUnixTimeStamp();
 
     /**
      * Get current unix time(from 1970.1.1 to now), unit nanoseconds,But not always accurate
      * It can be very well support for microseconds of precision.
      * The information is in Coordinated Universal Time (UTC) format.
      */
-    static uint64   GetCurrentTimeNanosFromSystem();
+    static int64   GetCurrentTimeNanosFromSystem();
 
 };
 

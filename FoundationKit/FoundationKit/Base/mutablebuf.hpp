@@ -43,13 +43,13 @@ NS_FK_BEGIN
 class basic_mutablebuf
 {
 public:
-	using value_type = uint8;
-	using size_type = size_t;
-	using pointer = value_type *;
-	using const_pointer = const value_type *;
-	using reference = value_type&;
+	using value_type      = uint8;
+	using size_type       = size_t;
+	using pointer         = value_type *;
+	using const_pointer   = const value_type *;
+	using reference       = value_type&;
 	using const_reference = const value_type&;
-	using _Myt      = basic_mutablebuf;
+	using _Myt            = basic_mutablebuf;
 
     /// Construct an empty buffer.
     basic_mutablebuf()

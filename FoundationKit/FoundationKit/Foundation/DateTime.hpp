@@ -712,7 +712,7 @@ protected:
 private:
 
 	/** Holds the ticks in 100 nanoseconds resolution since January 1, 0001 A.D. */
-	uint64    Ticks;
+    int64     Ticks;
     ETimeKind TimeKind;
 };
 

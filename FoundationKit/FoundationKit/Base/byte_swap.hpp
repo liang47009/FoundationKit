@@ -145,6 +145,12 @@ static inline void bswap_128(const void *src, void *dst)
         d[15 - i] = s[i];
 }
 
+static inline void bswap_buf(uint8_t* inbytes, uint8_t* outbytes, uint32_t length)
+{
+    for (uint32_t i = 0; i < length; i++)
+        outbytes[i] = inbytes[length - i - 1];
+}
+
 static inline int8_t   endian_reverse(int8_t x) noexcept
 {
     return x;

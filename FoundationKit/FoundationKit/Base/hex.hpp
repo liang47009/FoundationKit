@@ -31,7 +31,7 @@ namespace detail
         char res[num_hex_digits];
         char  *p = res + num_hex_digits;
         for (std::size_t i = 0; i < num_hex_digits; ++i, val >>= 4)
-            *--p = "0123456789ABCDEF"[val & 0x0F];
+            *--p = "0123456789abcdef"[val & 0x0F];
         return std::copy(res, res + num_hex_digits, out);
     }
 
@@ -265,7 +265,13 @@ void hexTest()
     std::string strMac("36f25d7b6d8a");
     std::string strHex = std::hex(strMac);
 
+    char* buf = "sfdsfsdf";
+    strHex = std::hex<std::string>(buf);
+
     std::string strUnHex = std::unhex(strHex);
+
+
+    strUnHex = std::unhex<std::string>(strHex.c_str());
 
 }
 

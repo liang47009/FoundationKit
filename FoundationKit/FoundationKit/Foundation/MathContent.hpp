@@ -14,6 +14,7 @@
 #include <limits>
 #include <cmath>
 #include "FoundationKit/GenericPlatformMacros.hpp"
+#include "FoundationKit/Base/types.hpp"
 
 #define MATH_PIOVER2                1.57079632679489661923f
 #define MATH_PIOVER4                0.785398163397448309616f
@@ -24,7 +25,10 @@ NS_FK_BEGIN
 namespace Math
 {
     /// A few useful constants
-    const int     MaxInt    = (std::numeric_limits<int>::max)();
+    const int32   MaxInt    = (std::numeric_limits<int32>::max)();
+    const uint32  MaxUInt   = (std::numeric_limits<uint32>::max)();
+    const int64   MaxInt64  = (std::numeric_limits<int64>::max)();
+    const uint64  MaxUInt64 = (std::numeric_limits<uint64>::max)();
     const double  MaxDouble = (std::numeric_limits<double>::max)();
     const double  MinDouble = (std::numeric_limits<double>::min)();
     const float   MaxFloat  = (std::numeric_limits<float>::max)();

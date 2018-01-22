@@ -92,19 +92,19 @@ Time::TimeDate Time::GetUTCTime()
     return td;
 }
 
-uint64 Time::GetUnixTimeStamp()
+int64 Time::GetUnixTimeStamp()
 {
-    uint64 time = GetUTCUnixTimeStamp();
-    time += TimeZone::GetUTCOffset().GetTotalSeconds();
-    time += TimeZone::GetDSTOffset().GetTotalSeconds();
+    int64 time = GetUTCUnixTimeStamp();
+    time += static_cast<int64>(TimeZone::GetUTCOffset().GetTotalSeconds());
+    time += static_cast<int64>(TimeZone::GetDSTOffset().GetTotalSeconds());
     return time;
 }
 
-uint64 Time::GetUTCUnixTimeStamp()
+int64 Time::GetUTCUnixTimeStamp()
 {
 #if PLATFORM_WINDOWS
     FILETIME ft;
-    uint64 time = 0;
+    int64 time = 0;
     GetSystemTimeAsFileTime(&ft);
     time |= ft.dwHighDateTime;
     time <<= 32;
@@ -112,23 +112,23 @@ uint64 Time::GetUTCUnixTimeStamp()
     time -= 116444736000000000LL;
     time /= TicksPerMillisecond;
     // or
-    //uint64 time = 0;
+    //int64 time = 0;
     //GetSystemTimeAsFileTime((FILETIME*)&time);
     //time -= 116444736000000000LL;
     //time /= TicksPerMillisecond;
 #else
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    uint64 time = tv.tv_usec;
+    int64 time = tv.tv_usec;
     time /= 1000;
     time += (tv.tv_sec * 1000);
 #endif
     return time / 1000; // Convert to seconds.
 }
 
-uint64 Time::GetCurrentTimeNanosFromSystem()
+int64 Time::GetCurrentTimeNanosFromSystem()
 {
-    uint64 clocktime = 0;
+    int64 clocktime = 0;
 #if PLATFORM_WINDOWS
     FILETIME ft;
     ::GetSystemTimeAsFileTime(&ft);

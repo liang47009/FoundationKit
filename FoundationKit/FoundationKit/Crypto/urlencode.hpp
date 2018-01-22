@@ -12,7 +12,7 @@
 NS_FK_BEGIN
 namespace URL
 {
-inline std::string encode(const std::string& source)
+static inline std::string encode(const std::string& source)
 {
     std::string result;
     result.reserve(3 * source.size());
@@ -49,7 +49,7 @@ inline std::string encode(const std::string& source)
     return result;
 }
 
-inline std::string decode(const std::string& source)
+static inline std::string decode(const std::string& source)
 {
     std::string result;
     result.reserve(source.size());

@@ -26,6 +26,8 @@ public:
 public:
     Version();
 
+    Version(const Version& other);
+
     Version(const std::string& version);
 
     Version(int major, int minor);
@@ -36,9 +38,9 @@ public:
 
     Version Clone();
 
-    int CompareTo(Version other);
+    int CompareTo(const Version& other);
 
-    bool Equals(Version other);
+    bool Equals(const Version& other);
 
     int GetHashCode();
    
@@ -50,34 +52,36 @@ public:
 
     static bool TryParse(const std::string& input, Version& result);
 
-    inline bool operator !=(Version& other)
+    Version& operator=(const Version& other);
+
+    inline bool operator !=(const Version& other)
     {
         return !(*this == other);
     }
 
-    inline bool operator <(Version& other)
+    inline bool operator <(const Version& other)
     {
         return this->CompareTo(other) < 0;
     }
 
-    inline bool operator <=(Version& other)
+    inline bool operator <=(const Version& other)
     {
         return this->CompareTo(other) <= 0;
     }
 
-    inline bool operator ==(Version& other)
+    inline bool operator ==(const Version& other)
     {
         return this->Equals(other);
     }
 
-    inline bool operator >(Version& other)
+    inline bool operator >(const Version& other)
     {
-        return other < *this;
+        return (Version&)other < *this;
     }
 
-    inline bool operator >=(Version& other)
+    inline bool operator >=(const Version& other)
     {
-        return other <= *this;
+        return (Version&)other <= *this;
     }
 private:
     bool Init(int major, int minor, int build, int revision);

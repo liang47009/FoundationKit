@@ -14,6 +14,7 @@ $(SRCROOT)/FoundationKit/external/ConvertUTF/ConvertUTF.c \
 $(SRCROOT)/FoundationKit/external/unzip/ioapi.cpp \
 $(SRCROOT)/FoundationKit/external/unzip/ioapi_mem.cpp \
 $(SRCROOT)/FoundationKit/external/unzip/unzip.cpp \
+$(SRCROOT)/FoundationKit/Foundation/BitStream.cpp \
 $(SRCROOT)/FoundationKit/Foundation/Compression.cpp \
 $(SRCROOT)/FoundationKit/Foundation/DateTime.cpp \
 $(SRCROOT)/FoundationKit/Foundation/NotificationCenter.cpp \

@@ -1805,7 +1805,7 @@ protected:
         // the socket had the state, 
         // 0 means didn't have it, 
         // and negative is API error condition (not socket's error state)
-        return SelectStatus > 0 ? state_return::Yes :SelectStatus == 0 ? state_return::No : state_return::EncounteredError;
+        return SelectStatus > 0 ? state_return::Yes :(SelectStatus == 0 ? state_return::No : state_return::EncounteredError);
     }
 private:
 

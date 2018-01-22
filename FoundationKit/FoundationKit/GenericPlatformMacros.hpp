@@ -156,6 +156,7 @@
 
 //#pragma message(COMPILE_MSG "Show compile message")
 #define COMPILE_MSG __FILE__ "(" STRINGIZE(__LINE__) "):Warning:" 
+#define _FILE_AND_LINE_ __FILE__ "(" STRINGIZE(__LINE__) ")"
 //#define COMPILE_WARNING(MSG) __pragma(message( __FILE__ "(" STRINGIZE(__LINE__) "):Warning:" ##MSG))
 //#define COMPILE_ERROR(MSG) __pragma(message( __FILE__ "(" STRINGIZE(__LINE__) "):Error:" ##MSG))
 

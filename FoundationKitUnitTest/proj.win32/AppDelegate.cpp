@@ -15,12 +15,14 @@
 #include "FoundationKit/LanguageFeatures.hpp"
 
 #include "FoundationKit/Crypto/aes.hpp"
+#include "FoundationKit/Crypto/Base58.hpp"
 #include "FoundationKit/Crypto/Base64.hpp"
 #include "FoundationKit/Crypto/des.hpp"
 #include "FoundationKit/Crypto/md5.hpp"
 #include "FoundationKit/Crypto/sha1.hpp"
 #include "FoundationKit/Crypto/urlencode.hpp"
 
+#include "FoundationKit/Foundation/BitStream.hpp"
 #include "FoundationKit/Foundation/Compression.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
 #include "FoundationKit/Foundation/NotificationCenter.hpp"
@@ -89,10 +91,9 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-
-enum LinkerInitialized 
+enum LinkerInitialized
 {
-    kLinkerInitialized = 0,
+	kLinkerInitialized = 0,
 };
 
 bool AppDelegate::applicationDidFinishLaunching() 
@@ -100,16 +101,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::error_code ec;
 	std::string strErr = ec.message();
 
-    auto val0 = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now() -std::chrono::system_clock::from_time_t(0)).count();
-    auto val1 = Time::GetCurrentTimeNanosFromSystem();
-    auto datet = DateTime(val1/100 + Time::UnixTimeEra).ToString();
-    auto val2 = DateTime::Now().GetTicks()- 621355968000000000;
-    auto val3 = DateTime::Now().ToUnixTimestamp();
-    auto xval = DateTime::FromUnixTimestamp(val3).ToString();
-    auto val4 = DateTime::Now().ToUniversalTime().ToString();
-    auto val5 = DateTime::UTCNow().ToLocalTime().ToString();
-
-
+    TestBlock();
 	return true;
 }
 
@@ -132,7 +124,8 @@ void AppDelegate::applicationWillTerminate()
 
 void AppDelegate::mainLoop()
 {
-    HTTPClient::GetInstance()->Tick(0.016);
+	HTTPClient::GetInstance()->Tick(0.016);
+
 }
 
 void AppDelegate::TestTupleArgs(int a, const std::string & str, const char * str1)

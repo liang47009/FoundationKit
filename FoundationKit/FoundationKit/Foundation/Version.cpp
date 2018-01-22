@@ -20,6 +20,17 @@ Version::Version()
 {
 }
 
+FoundationKit::Version::Version(const Version& other)
+    : Major(other.Major)
+    , Minor(other.Minor)
+    , Build(other.Build)
+    , Revision(other.Revision)
+    , MajorRevision(other.MajorRevision)
+    , MinorRevision(other.MinorRevision)
+{
+
+}
+
 Version::Version(const std::string& version)
     : Major(0)
     , Minor(0)
@@ -64,6 +75,20 @@ Version::Version(int major, int minor, int build, int revision)
     Init(major, minor, build, revision);
 }
 
+
+
+Version& Version::operator=(const Version& other)
+{
+    this->Major         = other.Major;
+    this->Minor         = other.Minor;
+    this->Build         = other.Build;
+    this->Revision      = other.Revision;
+    this->MajorRevision = other.MajorRevision;
+    this->MinorRevision = other.MinorRevision;
+    return (*this);
+}
+
+
 bool Version::Init(int major, int minor, int build, int revision)
 {
     if (major < 0)
@@ -88,7 +113,7 @@ FoundationKit::Version Version::Clone()
     return Version(this->Major, this->Minor, this->Build, this->Revision);
 }
 
-int Version::CompareTo(Version other)
+int Version::CompareTo(const Version& other)
 {
     if (this->Major != other.Major)
     {
@@ -121,7 +146,7 @@ int Version::CompareTo(Version other)
     return 0;
 }
 
-bool Version::Equals(Version other)
+bool Version::Equals(const Version& other)
 {
     if (this->Major    != other.Major ||
         this->Minor    != other.Minor ||

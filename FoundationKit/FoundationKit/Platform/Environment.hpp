@@ -25,7 +25,8 @@ public:
     static stringvec   GetCommandLineArgs();
 };
 
-
 NS_FK_END
 
 #endif // FOUNDATIONKIT_ENVIRONMENT_HPP
+
+
