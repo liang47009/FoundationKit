@@ -118,37 +118,9 @@ size_t GetOSIntData(int key, int type)
     auto path = Environment::GetEnvironmentVariable("PATH");
     NSDictionary<NSString *, NSString *>* envs1 = [[NSProcessInfo processInfo]environment];
     PlatformDevice::DumpDeviceInfo();
-    
     auto strValue = GetOSStringData(CTL_HW, HW_MACHINE);
     auto intValue = GetOSIntData(CTL_KERN, KERN_HOSTID);
     
-    DateTime ret = DateTime::Now();
-    FKLog("======== Now:%s", ret.ToString().c_str());
-    
-    ret = DateTime::UTCNow();
-    FKLog("======== UTCNow:%s", ret.ToString().c_str());
-    
-    FKLog("=========TimeZone:%s", TimeZone::ToDebugString().c_str());
-
-    DateTime LocalDate = DateTime::Now();
-    DateTime UTCDate = DateTime::UTCNow();
-    
-    FKLog("=========LocalDate:%s", LocalDate.ToString().c_str());
-    FKLog("=========UTCDate:%s", UTCDate.ToString().c_str());
-    
-    DateTime LocalToUTC = TimeZone::ToUniversalTime(LocalDate);
-    DateTime UTCToLocal = TimeZone::ToLocalTime(UTCDate);
-    FKLog("=========LocalToUTC:%s", LocalToUTC.ToString().c_str());
-    FKLog("=========UTCToLocal:%s", UTCToLocal.ToString().c_str());
-    
-    timespec ts;
-    ::clock_gettime(CLOCK_REALTIME, &ts);
-    long long val0 = ts.tv_sec*1000000000LL + ts.tv_nsec;
-    
-    timeval tv;
-    gettimeofday(&tv, 0);
-    
-    long long val1 = tv.tv_sec * 1000000000LL+tv.tv_usec*1000;
     
     
 }
