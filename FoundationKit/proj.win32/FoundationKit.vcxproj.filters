@@ -349,6 +349,9 @@
     <ClInclude Include="..\FoundationKit\Crypto\Base58.hpp">
       <Filter>Crypto</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Crypto\crc.hpp">
+      <Filter>Crypto</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

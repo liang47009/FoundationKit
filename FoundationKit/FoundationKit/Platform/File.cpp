@@ -152,8 +152,8 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
         BREAK_IF(!fpSrc);
         FILE *fpDes = Open(destFileName, "wb");
         BREAK_IF(!fpDes);
-        const size_t BUFF_SIZE = 1024;
-        char read_buff[BUFF_SIZE];
+        const size_t BUFF_SIZE = 1024*1024*10; //10M
+        char* read_buff = new char[BUFF_SIZE];
         size_t TotalReadSize = 0;
         size_t FileOriginalSize = static_cast<size_t>(srcFileSize);
         ret = true;
@@ -178,6 +178,7 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
             fflush(fpDes);
             TotalReadSize += NumRead;
         }
+        delete read_buff;
         fclose(fpSrc);
         fclose(fpDes);
     } while (false);

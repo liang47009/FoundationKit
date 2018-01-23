@@ -1,9 +1,11 @@
 /****************************************************************************
-  Copyright (c) 2013-2014 libo.
+  Copyright (c) 2017 libo All rights reserved.
  
   losemymind.libo@gmail.com
 
 ****************************************************************************/
+#ifndef FOUNDATIONKIT_MD5_HPP
+#define FOUNDATIONKIT_MD5_HPP
 #pragma once
 
 /*
@@ -26,10 +28,11 @@ NS_FK_BEGIN
 namespace MD5{
 
 typedef unsigned char md5_byte_t; /* 8-bit byte */
-typedef unsigned int md5_word_t; /* 32-bit word */
+typedef unsigned int  md5_word_t; /* 32-bit word */
 
 /* Define the state of the MD5 Algorithm. */
-typedef struct md5_state_s {
+typedef struct md5_state_s 
+{
     md5_word_t count[2];    /* message length in bits, lsw first */
     md5_word_t abcd[4];     /* digest buffer */
     md5_byte_t buf[64];     /* accumulate block */
@@ -52,15 +55,15 @@ inline void md5_finish(md5_state_t *pms, md5_byte_t digest[16]);
 #endif
 
 #define ZSW_MD5_T_MASK ((md5_word_t)~0)
-#define ZSW_MD5_T1 /* 0xd76aa478 */ (ZSW_MD5_T_MASK ^ 0x28955b87)
-#define ZSW_MD5_T2 /* 0xe8c7b756 */ (ZSW_MD5_T_MASK ^ 0x173848a9)
-#define ZSW_MD5_T3    0x242070db
-#define ZSW_MD5_T4 /* 0xc1bdceee */ (ZSW_MD5_T_MASK ^ 0x3e423111)
-#define ZSW_MD5_T5 /* 0xf57c0faf */ (ZSW_MD5_T_MASK ^ 0x0a83f050)
-#define ZSW_MD5_T6    0x4787c62a
-#define ZSW_MD5_T7 /* 0xa8304613 */ (ZSW_MD5_T_MASK ^ 0x57cfb9ec)
-#define ZSW_MD5_T8 /* 0xfd469501 */ (ZSW_MD5_T_MASK ^ 0x02b96afe)
-#define ZSW_MD5_T9    0x698098d8
+#define ZSW_MD5_T1 /*  0xd76aa478 */ (ZSW_MD5_T_MASK ^ 0x28955b87)
+#define ZSW_MD5_T2 /*  0xe8c7b756 */ (ZSW_MD5_T_MASK ^ 0x173848a9)
+#define ZSW_MD5_T3     0x242070db
+#define ZSW_MD5_T4 /*  0xc1bdceee */ (ZSW_MD5_T_MASK ^ 0x3e423111)
+#define ZSW_MD5_T5 /*  0xf57c0faf */ (ZSW_MD5_T_MASK ^ 0x0a83f050)
+#define ZSW_MD5_T6     0x4787c62a
+#define ZSW_MD5_T7 /*  0xa8304613 */ (ZSW_MD5_T_MASK ^ 0x57cfb9ec)
+#define ZSW_MD5_T8 /*  0xfd469501 */ (ZSW_MD5_T_MASK ^ 0x02b96afe)
+#define ZSW_MD5_T9     0x698098d8
 #define ZSW_MD5_T10 /* 0x8b44f7af */ (ZSW_MD5_T_MASK ^ 0x74bb0850)
 #define ZSW_MD5_T11 /* 0xffff5bb1 */ (ZSW_MD5_T_MASK ^ 0x0000a44e)
 #define ZSW_MD5_T12 /* 0x895cd7be */ (ZSW_MD5_T_MASK ^ 0x76a32841)
@@ -186,7 +189,7 @@ static void md5_process(md5_state_t *pms, md5_byte_t const * data /*[64]*/)
 
     /* Round 1. */
     /* Let [abcd k s i] denote the operation
-       a = b + ((a + F(b,c,d) + X[k] + T[i]) <<< s). */
+    a = b + ((a + F(b,c,d) + X[k] + T[i]) <<< s). */
 #define ZSW_MD5_F(x, y, z) (((x) & (y)) | (~(x) & (z)))
 #define SET(a, b, c, d, k, s, Ti)\
   t = a + ZSW_MD5_F(b,c,d) + X[k] + Ti;\
@@ -210,9 +213,9 @@ static void md5_process(md5_state_t *pms, md5_byte_t const * data /*[64]*/)
     SET(b, c, d, a, 15, 22, ZSW_MD5_T16);
 #undef SET
 
-     /* Round 2. */
-     /* Let [abcd k s i] denote the operation
-          a = b + ((a + G(b,c,d) + X[k] + T[i]) <<< s). */
+    /* Round 2. */
+    /* Let [abcd k s i] denote the operation
+    a = b + ((a + G(b,c,d) + X[k] + T[i]) <<< s). */
 #define ZSW_MD5_G(x, y, z) (((x) & (z)) | ((y) & ~(z)))
 #define SET(a, b, c, d, k, s, Ti)\
   t = a + ZSW_MD5_G(b,c,d) + X[k] + Ti;\
@@ -236,9 +239,9 @@ static void md5_process(md5_state_t *pms, md5_byte_t const * data /*[64]*/)
     SET(b, c, d, a, 12, 20, ZSW_MD5_T32);
 #undef SET
 
-     /* Round 3. */
-     /* Let [abcd k s t] denote the operation
-          a = b + ((a + H(b,c,d) + X[k] + T[i]) <<< s). */
+    /* Round 3. */
+    /* Let [abcd k s t] denote the operation
+    a = b + ((a + H(b,c,d) + X[k] + T[i]) <<< s). */
 #define ZSW_MD5_H(x, y, z) ((x) ^ (y) ^ (z))
 #define SET(a, b, c, d, k, s, Ti)\
   t = a + ZSW_MD5_H(b,c,d) + X[k] + Ti;\
@@ -262,9 +265,9 @@ static void md5_process(md5_state_t *pms, md5_byte_t const * data /*[64]*/)
     SET(b, c, d, a,  2, 23, ZSW_MD5_T48);
 #undef SET
 
-     /* Round 4. */
-     /* Let [abcd k s t] denote the operation
-          a = b + ((a + I(b,c,d) + X[k] + T[i]) <<< s). */
+    /* Round 4. */
+    /* Let [abcd k s t] denote the operation
+    a = b + ((a + I(b,c,d) + X[k] + T[i]) <<< s). */
 #define ZSW_MD5_I(x, y, z) ((y) ^ ((x) | ~(z)))
 #define SET(a, b, c, d, k, s, Ti)\
   t = a + ZSW_MD5_I(b,c,d) + X[k] + Ti;\
@@ -288,9 +291,9 @@ static void md5_process(md5_state_t *pms, md5_byte_t const * data /*[64]*/)
     SET(b, c, d, a,  9, 21, ZSW_MD5_T64);
 #undef SET
 
-     /* Then perform the following additions. (That is increment each
-        of the four registers by the value it had before this block
-        was started.) */
+    /* Then perform the following additions. (That is increment each
+    of the four registers by the value it had before this block
+    was started.) */
     pms->abcd[0] += a;
     pms->abcd[1] += b;
     pms->abcd[2] += c;
@@ -314,88 +317,116 @@ void md5_append(md5_state_t *pms, md5_byte_t const * data, size_t nbytes)
     md5_word_t nbits = (md5_word_t)(nbytes << 3);
 
     if (nbytes <= 0)
-    return;
+        return;
 
     /* Update the message length. */
     pms->count[1] += static_cast<md5_word_t>(nbytes) >> 29;
     pms->count[0] += nbits;
     if (pms->count[0] < nbits)
-    pms->count[1]++;
+        pms->count[1]++;
 
     /* Process an initial partial block. */
-    if (offset) {
-    int copy = (offset + nbytes > 64 ? 64 - offset : static_cast<int>(nbytes));
-
-    std::memcpy(pms->buf + offset, p, copy);
-    if (offset + copy < 64)
-        return;
-    p += copy;
-    left -= copy;
-    md5_process(pms, pms->buf);
+    if (offset) 
+    {
+        int copy = (offset + nbytes > 64 ? 64 - offset : static_cast<int>(nbytes));
+        std::memcpy(pms->buf + offset, p, copy);
+        if (offset + copy < 64)
+            return;
+        p += copy;
+        left -= copy;
+        md5_process(pms, pms->buf);
     }
 
     /* Process full blocks. */
     for (; left >= 64; p += 64, left -= 64)
-    md5_process(pms, p);
+        md5_process(pms, p);
 
     /* Process a final partial block. */
     if (left)
-    std::memcpy(pms->buf, p, left);
+        std::memcpy(pms->buf, p, left);
 }
-
-void md5_finish(md5_state_t *pms, md5_byte_t digest[16]) 
+#define MD5_DIGEST_SIZE 16
+void md5_finish(md5_state_t *pms, md5_byte_t digest[MD5_DIGEST_SIZE])
 {
-    static md5_byte_t const pad[64] = {
-    0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    static md5_byte_t const pad[64] = 
+    {
+        0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
     md5_byte_t data[8];
-    int i;
-
     /* Save the length before padding. */
-    for (i = 0; i < 8; ++i)
-    data[i] = (md5_byte_t)(pms->count[i >> 2] >> ((i & 3) << 3));
+    for (int i = 0; i < 8; ++i)
+        data[i] = (md5_byte_t)(pms->count[i >> 2] >> ((i & 3) << 3));
     /* Pad to 56 bytes mod 64. */
     md5_append(pms, pad, ((55 - (pms->count[0] >> 3)) & 63) + 1);
     /* Append the length. */
     md5_append(pms, data, 8);
-    for (i = 0; i < 16; ++i)
-    digest[i] = (md5_byte_t)(pms->abcd[i >> 2] >> ((i & 3) << 3));
+    for (int i = 0; i < MD5_DIGEST_SIZE; ++i)
+        digest[i] = (md5_byte_t)(pms->abcd[i >> 2] >> ((i & 3) << 3));
 }
 
 // some convenience c++ functions
-inline std::string md5_hash_string(std::string const & s)
+static inline std::string md5_hash_string(std::string const & s)
 {
-    char digest[16];
-
+    char digest[MD5_DIGEST_SIZE];
     md5_state_t state;
-
     md5_init(&state);
     md5_append(&state, (md5_byte_t const *)s.c_str(), s.size());
     md5_finish(&state, (md5_byte_t *)digest);
-
     std::string ret;
-    ret.resize(16);
-    std::copy(digest,digest+16,ret.begin());
-
+    ret.resize(MD5_DIGEST_SIZE);
+    std::copy(digest,digest+ MD5_DIGEST_SIZE,ret.begin());
     return ret;
 }
 
-
-
-inline std::string md5_hash_hex(std::string const & input) 
+static const char hexval[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+static inline std::string md5_hash_hex(std::string const & input)
 {
-    static const char hexval[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     std::string hash = md5_hash_string(input);
     std::string hex;
-    for (size_t i = 0; i < hash.size(); i++) {
+    for (size_t i = 0; i < hash.size(); i++) 
+    {
         hex.push_back(hexval[((hash[i] >> 4) & 0xF)]);
         hex.push_back(hexval[(hash[i]) & 0x0F]);
     }
-
     return hex;
 }
+
+static inline std::string md5_hash_file(const std::string& filename)
+{
+    FILE* fp = fopen(filename.c_str(), "rb");
+    if (!fp) return "";
+    char digest[MD5_DIGEST_SIZE];
+    md5_state_t state;
+    md5_init(&state);
+    uint64 total_readed = 0;
+    size_t readed = 0;
+    static const size_t BUFFER_SIZE = 1024 * 1024 * 5; //10M
+    char* chunk_buf = new char[BUFFER_SIZE];
+    while (!feof(fp))
+    {
+        readed = fread(chunk_buf, 1, BUFFER_SIZE, fp);
+        if (readed == 0) break;
+        total_readed += readed;
+        md5_append(&state, (md5_byte_t const *)chunk_buf, readed);
+    }
+    fclose(fp);
+    delete chunk_buf;
+    md5_finish(&state, (md5_byte_t *)digest);
+    std::string hex;
+    for (size_t i = 0; i < MD5_DIGEST_SIZE; i++)
+    {
+        hex.push_back(hexval[((digest[i] >> 4) & 0xF)]);
+        hex.push_back(hexval[(digest[i]) & 0x0F]);
+    }
+    return hex;
+}
+
 } // namespace MD5
 NS_FK_END
+
+#endif // END OF FOUNDATIONKIT_MD5_HPP
+
+

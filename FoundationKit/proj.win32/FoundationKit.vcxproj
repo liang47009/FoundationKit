@@ -198,6 +198,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Crypto\aes.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\Base58.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\Base64.hpp" />
+    <ClInclude Include="..\FoundationKit\Crypto\crc.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\des.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp" />
