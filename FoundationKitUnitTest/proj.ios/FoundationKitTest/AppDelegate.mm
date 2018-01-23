@@ -100,47 +100,8 @@ size_t GetOSIntData(int key, int type)
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     FKLog("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());
-    std::string APP_ID = "324d4b61-df14-11e7-b817-e0accb778420";
-    std::string APP_SECURE = "pdjudrmnf9";
-    std::string date = DateTime::Now().ToISO8601();
-    std::string Auth = MD5::md5_hash_hex(APP_ID+APP_SECURE+ date);
-    HTTPClient::GetInstance()->Initialize();
-    
-    HTTPRequest::Pointer requestAuth = HTTPRequest::Create(true);
-    requestAuth->SetURL("http://qos.189.cn/t1?appid=324d4b61-df14-11e7-b817-e0accb778420");
-    requestAuth->SetHeader("X-Request-At", date);
-    requestAuth->SetHeader("X-Application-Id", APP_ID);
-    requestAuth->SetHeader("X-Application-Auth", Auth);
-    requestAuth->OnRequestCompleted = [](HTTPRequest::Pointer pRequest, HTTPResponse::Pointer pResponse)
-    {
-        if (pResponse->IsSucceeded())
-        {
-            auto reponseData = pResponse->GetContentData();
-            std::string auth((char*)&reponseData[0], reponseData.size());
-            HTTPRequest::Pointer request = HTTPRequest::Create(true);
-            request->SetMethod(RequestMethodType::POST);
-            request->SetURL("http://qos.189.cn/api/mobile/speeding/");
-            request->SetPostField("Security_token", auth);
-            request->SetPostField("dst_info", "192.168.0.1:80");
-            request->SetPostField("src_info", "172.14.44.80:80");
-            request->SetPostField("user_id", "snailtest;7");
-            request->SetPostField("product_id", "wnts");
-            request->OnRequestCompleted = [](HTTPRequest::Pointer pRequest, HTTPResponse::Pointer pResponse)
-            {
-                pResponse->DumpInfo();
-                auto responseData = pResponse->GetContentData();
-                std::string pdata((char*)&responseData[0], responseData.size());
-                std::u16string ustr;
-                bool ret = StringUtils::UTF8ToUTF16(pdata, ustr);
-                if (pResponse->IsSucceeded())
-                {
-                    
-                }
-            };
-            HTTPClient::GetInstance()->SendRequest(request);
-        }
-    };
-    HTTPClient::GetInstance()->SendRequest(requestAuth);
+    auto ipv4 = PlatformDevice::GetIpAddressV4();
+    auto ipv6 = PlatformDevice::GetIpAddressV6();
     
     return YES;
 }

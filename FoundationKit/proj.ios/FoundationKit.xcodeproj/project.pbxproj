@@ -95,6 +95,7 @@
 		098D2A641F66261B0092E166 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 098D2A621F66261B0092E166 /* Time.cpp */; };
 		098D2A651F6626230092E166 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 098D2A621F66261B0092E166 /* Time.cpp */; };
 		098D2A731F692BDC0092E166 /* ThreadTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 098D2A711F692BDC0092E166 /* ThreadTimer.cpp */; };
+		09BC2A042015CD30007106D2 /* BitStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09BC2A022015CD30007106D2 /* BitStream.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -276,6 +277,8 @@
 		09B006CA1FA9794F0027702E /* IOSPlatform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IOSPlatform.hpp; sourceTree = "<group>"; };
 		09B006CB1FA979650027702E /* AndroidPlatform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidPlatform.hpp; sourceTree = "<group>"; };
 		09B006CC1FA979F20027702E /* WindowsPlatform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowsPlatform.hpp; sourceTree = "<group>"; };
+		09BC2A022015CD30007106D2 /* BitStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BitStream.cpp; sourceTree = "<group>"; };
+		09BC2A032015CD30007106D2 /* BitStream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BitStream.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -395,6 +398,8 @@
 		0934900A1E7F7BA20034ECF2 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				09BC2A022015CD30007106D2 /* BitStream.cpp */,
+				09BC2A032015CD30007106D2 /* BitStream.hpp */,
 				094A12CA1FEB57C100B1F8B9 /* TimeSpan.cpp */,
 				094A12CB1FEB57C200B1F8B9 /* TimeSpan.hpp */,
 				094A12C91FEB57C100B1F8B9 /* TimeZone.cpp */,
@@ -740,6 +745,7 @@
 				093490A51E7F7BA20034ECF2 /* ConvertUTFWrapper.cpp in Sources */,
 				094109E81F3C0787006D6F80 /* AppleDirectory.mm in Sources */,
 				094109E31F3C0787006D6F80 /* AndroidJavaBridge.cpp in Sources */,
+				09BC2A042015CD30007106D2 /* BitStream.cpp in Sources */,
 				094109F31F3C0787006D6F80 /* IOSDevice.mm in Sources */,
 				094109F01F3C0787006D6F80 /* Reachability_libo.m in Sources */,
 				094109EA1F3C0787006D6F80 /* AppleFile.mm in Sources */,
