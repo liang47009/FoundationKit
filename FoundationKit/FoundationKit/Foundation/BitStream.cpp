@@ -20,56 +20,60 @@ BitStream::BitStream()
     numberOfBitsUsed = 0;
     numberOfBitsAllocated = BITSTREAM_STACK_ALLOCATION_SIZE * 8;
     readOffset = 0;
-    data = (unsigned char*)stackData;
+    data = (uint8*)stackData;
     copyData = true;
 }
 
-BitStream::BitStream( const unsigned int initialBytesToAllocate )
+BitStream::BitStream( const uint32 InitialBytesToAllocate)
 {
 	numberOfBitsUsed = 0;
 	readOffset = 0;
-	if (initialBytesToAllocate <= BITSTREAM_STACK_ALLOCATION_SIZE)
+	if (InitialBytesToAllocate <= BITSTREAM_STACK_ALLOCATION_SIZE)
 	{
-		data = ( unsigned char* ) stackData;
+		data = ( uint8* ) stackData;
 		numberOfBitsAllocated = BITSTREAM_STACK_ALLOCATION_SIZE * 8;
 	}
 	else
 	{
-		data = ( unsigned char* ) malloc( (size_t) initialBytesToAllocate);
-		numberOfBitsAllocated = initialBytesToAllocate << 3;
+		data = ( uint8* ) malloc( (size_t)InitialBytesToAllocate);
+		numberOfBitsAllocated = InitialBytesToAllocate << 3;
 	}
 	ASSERTED( data, _FILE_AND_LINE_ );
 	copyData = true;
 }
 
-BitStream::BitStream( unsigned char* _data, const unsigned int lengthInBytes, bool _copyData )
+BitStream::BitStream(uint8* InData, const uint32 DataSize, bool bCopyData)
 {
-	numberOfBitsUsed = lengthInBytes << 3;
+	numberOfBitsUsed = DataSize << 3;
 	readOffset = 0;
-	copyData = _copyData;
-	numberOfBitsAllocated = lengthInBytes << 3;
-
+	copyData = bCopyData;
+	numberOfBitsAllocated = DataSize << 3;
 	if ( copyData )
 	{
-		if ( lengthInBytes > 0 )
+		if (DataSize > 0 )
 		{
-			if (lengthInBytes < BITSTREAM_STACK_ALLOCATION_SIZE)
+			if (DataSize < BITSTREAM_STACK_ALLOCATION_SIZE)
 			{
-				data = ( unsigned char* ) stackData;
+				data = ( uint8* ) stackData;
 				numberOfBitsAllocated = BITSTREAM_STACK_ALLOCATION_SIZE << 3;
 			}
 			else
 			{
-				data = ( unsigned char* ) malloc( (size_t) lengthInBytes);
+				data = ( uint8* ) malloc( (size_t)DataSize);
 			}
 			ASSERTED( data , _FILE_AND_LINE_);
-			memcpy( data, _data, (size_t) lengthInBytes );
+			memcpy( data, InData, (size_t)DataSize);
 		}
-		else
-			data = 0;
+        else
+        {
+            data = 0;
+        }
 	}
-	else
-		data = ( unsigned char* ) _data;
+    else
+    {
+        data = (uint8*)InData;
+    }
+		
 }
 
 // Use this if you pass a pointer copy to the constructor (_copyData==false) and want to overallocate to prevent reallocation
@@ -103,13 +107,13 @@ void BitStream::Reset( void )
 	//numberOfBitsAllocated=8;
 	readOffset = 0;
 
-	//data=(unsigned char*)rakMalloc_Ex(1, _FILE_AND_LINE_);
+	//data=(uint8*)rakMalloc_Ex(1, _FILE_AND_LINE_);
 	// if (numberOfBitsAllocated>0)
 	//  memset(data, 0, BITS_TO_BYTES(numberOfBitsAllocated));
 }
 
 // Write an array or casted stream
-void BitStream::Write( const char* inputByteArray, const unsigned int numberOfBytes )
+void BitStream::Write( const char* inputByteArray, const uint32 numberOfBytes )
 {
 	if (numberOfBytes==0)
 		return;
@@ -123,7 +127,7 @@ void BitStream::Write( const char* inputByteArray, const unsigned int numberOfBy
 	}
 	else
 	{
-		WriteBits( ( unsigned char* ) inputByteArray, numberOfBytes * 8, true );
+		WriteBits( ( uint8* ) inputByteArray, numberOfBytes * 8, true );
 	}
 
 }
@@ -210,7 +214,7 @@ bool BitStream::Read( BitStream &bitStream )
 }
 
 // Read an array or casted stream
-bool BitStream::Read( char* outByteArray, const unsigned int numberOfBytes )
+bool BitStream::Read( char* outByteArray, const uint32 numberOfBytes )
 {
 	// Optimization:
 	if ((readOffset & 7) == 0)
@@ -226,7 +230,7 @@ bool BitStream::Read( char* outByteArray, const unsigned int numberOfBytes )
 	}
 	else
 	{
-		return ReadBits( ( unsigned char* ) outByteArray, numberOfBytes * 8 );
+		return ReadBits( ( uint8* ) outByteArray, numberOfBytes * 8 );
 	}
 }
 
@@ -280,7 +284,7 @@ bool BitStream::ReadBit( void )
 // Align the bitstream to the byte boundary and then write the specified number of bits.
 // This is faster than WriteBits but wastes the bits to do the alignment and requires you to call
 // SetReadToByteAlignment at the corresponding read position
-void BitStream::WriteAlignedBytes( const unsigned char* inByteArray, const unsigned int numberOfBytesToWrite )
+void BitStream::WriteAlignedBytes( const uint8* inByteArray, const uint32 numberOfBytesToWrite )
 {
 	AlignWriteToByteBoundary();
 	Write((const char*) inByteArray, numberOfBytesToWrite);
@@ -293,21 +297,21 @@ void BitStream::EndianSwapBytes( int byteOffset, int length )
 	}
 }
 /// Aligns the bitstream, writes inputLength, and writes input. Won't write beyond maxBytesToWrite
-void BitStream::WriteAlignedBytesSafe( const char *inByteArray, const unsigned int inputLength, const unsigned int maxBytesToWrite )
+void BitStream::WriteAlignedBytesSafe( const char *inByteArray, const uint32 inputLength, const uint32 maxBytesToWrite )
 {
 	if (inByteArray==0 || inputLength==0)
 	{
-		WriteCompressed((unsigned int)0);
+		WriteCompressed((uint32)0);
 		return;
 	}
 	WriteCompressed(inputLength);
-	WriteAlignedBytes((const unsigned char*) inByteArray, inputLength < maxBytesToWrite ? inputLength : maxBytesToWrite);
+	WriteAlignedBytes((const uint8*) inByteArray, inputLength < maxBytesToWrite ? inputLength : maxBytesToWrite);
 }
 
 // Read bits, starting at the next aligned bits. Note that the modulus 8 starting offset of the
 // sequence must be the same as was used with WriteBits. This will be a problem with packet coalescence
 // unless you byte align the coalesced packets.
-bool BitStream::ReadAlignedBytes( unsigned char* inOutByteArray, const unsigned int numberOfBytesToRead )
+bool BitStream::ReadAlignedBytes( uint8* inOutByteArray, const uint32 numberOfBytesToRead )
 {
 	ASSERTED( numberOfBytesToRead > 0,_FILE_AND_LINE_ );
 
@@ -329,9 +333,9 @@ bool BitStream::ReadAlignedBytes( unsigned char* inOutByteArray, const unsigned 
 }
 bool BitStream::ReadAlignedBytesSafe( char *inOutByteArray, int &inputLength, const int maxBytesToRead )
 {
-	return ReadAlignedBytesSafe(inOutByteArray,(unsigned int&) inputLength,(unsigned int)maxBytesToRead);
+	return ReadAlignedBytesSafe(inOutByteArray,(uint32&) inputLength,(uint32)maxBytesToRead);
 }
-bool BitStream::ReadAlignedBytesSafe( char *inOutByteArray, unsigned int &inputLength, const unsigned int maxBytesToRead )
+bool BitStream::ReadAlignedBytesSafe( char *inOutByteArray, uint32 &inputLength, const uint32 maxBytesToRead )
 {
 	if (ReadCompressed(inputLength)==false)
 		return false;
@@ -339,13 +343,13 @@ bool BitStream::ReadAlignedBytesSafe( char *inOutByteArray, unsigned int &inputL
 		inputLength=maxBytesToRead;
 	if (inputLength==0)
 		return true;
-	return ReadAlignedBytes((unsigned char*) inOutByteArray, inputLength);
+	return ReadAlignedBytes((uint8*) inOutByteArray, inputLength);
 }
-bool BitStream::ReadAlignedBytesSafeAlloc( char **outByteArray, int &inputLength, const unsigned int maxBytesToRead )
+bool BitStream::ReadAlignedBytesSafeAlloc( char **outByteArray, int &inputLength, const uint32 maxBytesToRead )
 {
-	return ReadAlignedBytesSafeAlloc(outByteArray,(unsigned int&) inputLength, maxBytesToRead);
+	return ReadAlignedBytesSafeAlloc(outByteArray,(uint32&) inputLength, maxBytesToRead);
 }
-bool BitStream::ReadAlignedBytesSafeAlloc( char ** outByteArray, unsigned int &inputLength, const unsigned int maxBytesToRead )
+bool BitStream::ReadAlignedBytesSafeAlloc( char ** outByteArray, uint32 &inputLength, const uint32 maxBytesToRead )
 {
 	free(*outByteArray);
 	*outByteArray=0;
@@ -356,11 +360,11 @@ bool BitStream::ReadAlignedBytesSafeAlloc( char ** outByteArray, unsigned int &i
 	if (inputLength==0)
 		return true;
 	*outByteArray = (char*) malloc( (size_t) inputLength);
-	return ReadAlignedBytes((unsigned char*) *outByteArray, inputLength);
+	return ReadAlignedBytes((uint8*) *outByteArray, inputLength);
 }
 
 // Write numberToWrite bits from the input source
-void BitStream::WriteBits( const unsigned char* inByteArray, uint32_t numberOfBitsToWrite, const bool rightAlignedBits )
+void BitStream::WriteBits( const uint8* inByteArray, uint32_t numberOfBitsToWrite, const bool rightAlignedBits )
 {
 //	if (numberOfBitsToWrite<=0)
 //		return;
@@ -377,8 +381,8 @@ void BitStream::WriteBits( const unsigned char* inByteArray, uint32_t numberOfBi
 		return;
 	}
 
-	unsigned char dataByte;
-	const unsigned char* inputPtr=inByteArray;
+	uint8 dataByte;
+	const uint8* inputPtr=inByteArray;
 
 	// Faster to put the while at the top surprisingly enough
 	while ( numberOfBitsToWrite > 0 )
@@ -399,7 +403,7 @@ void BitStream::WriteBits( const unsigned char* inByteArray, uint32_t numberOfBi
 
 			if ( 8 - ( numberOfBitsUsedMod8 ) < 8 && 8 - ( numberOfBitsUsedMod8 ) < numberOfBitsToWrite )   // If we didn't write it all out in the first half (8 - (numberOfBitsUsed%8) is the number we wrote in the first half)
 			{
-				*( data + ( numberOfBitsUsed >> 3 ) + 1 ) = (unsigned char) ( dataByte << ( 8 - ( numberOfBitsUsedMod8 ) ) ); // Second half (overlaps byte boundary)
+				*( data + ( numberOfBitsUsed >> 3 ) + 1 ) = (uint8) ( dataByte << ( 8 - ( numberOfBitsUsedMod8 ) ) ); // Second half (overlaps byte boundary)
 			}
 		}
 
@@ -418,19 +422,19 @@ void BitStream::WriteBits( const unsigned char* inByteArray, uint32_t numberOfBi
 }
 
 // Set the stream to some initial data.  For internal use
-void BitStream::SetData( unsigned char *inByteArray )
+void BitStream::SetData( uint8 *inByteArray )
 {
 	data=inByteArray;
 	copyData=false;
 }
 
 // Assume the input source points to a native type, compress and write it
-void BitStream::WriteCompressed( const unsigned char* inByteArray,
-								const unsigned int size, const bool unsignedData )
+void BitStream::WriteCompressed( const uint8* inByteArray,
+								const uint32 size, const bool unsignedData )
 {
 	uint32_t currentByte = ( size >> 3 ) - 1; // PCs
 
-	unsigned char byteMatch;
+	uint8 byteMatch;
 
 	if ( unsignedData )
 	{
@@ -487,7 +491,7 @@ void BitStream::WriteCompressed( const unsigned char* inByteArray,
 // Read numberOfBitsToRead bits to the output source
 // alignBitsToRight should be set to true to convert internal bitstream data to userdata
 // It should be false if you used WriteBits with rightAlignedBits false
-bool BitStream::ReadBits( unsigned char *inOutByteArray, uint32_t numberOfBitsToRead, const bool alignBitsToRight )
+bool BitStream::ReadBits( uint8 *inOutByteArray, uint32_t numberOfBitsToRead, const bool alignBitsToRight )
 {
 #ifdef _DEBUG
 	//	RakAssert( numberOfBitsToRead > 0 );
@@ -553,13 +557,13 @@ bool BitStream::ReadBits( unsigned char *inOutByteArray, uint32_t numberOfBitsTo
 }
 
 // Assume the input source points to a compressed native type. Decompress and read it
-bool BitStream::ReadCompressed( unsigned char* inOutByteArray,
-							   const unsigned int size, const bool unsignedData )
+bool BitStream::ReadCompressed( uint8* inOutByteArray,
+							   const uint32 size, const bool unsignedData )
 {
-	unsigned int currentByte = ( size >> 3 ) - 1;
+	uint32 currentByte = ( size >> 3 ) - 1;
 
 
-	unsigned char byteMatch, halfByteMatch;
+	uint8 byteMatch, halfByteMatch;
 
 	if ( unsignedData )
 	{
@@ -633,53 +637,53 @@ void BitStream::AddBitsAndReallocate( const uint32_t numberOfBitsToWrite )
 {
 	uint32_t newNumberOfBitsAllocated = numberOfBitsToWrite + numberOfBitsUsed;
 
-	if ( numberOfBitsToWrite + numberOfBitsUsed > 0 && ( ( numberOfBitsAllocated - 1 ) >> 3 ) < ( ( newNumberOfBitsAllocated - 1 ) >> 3 ) )   // If we need to allocate 1 or more new bytes
+	if (newNumberOfBitsAllocated > 0 && ( ( numberOfBitsAllocated - 1 ) >> 3 ) < ( ( newNumberOfBitsAllocated - 1 ) >> 3 ) )   // If we need to allocate 1 or more new bytes
 	{
 		// If this assert hits then we need to specify true for the third parameter in the constructor
 		// It needs to reallocate to hold all the data and can't do it unless we allocated to begin with
 		// Often hits if you call Write or Serialize on a read-only bitstream
 		ASSERTED( copyData == true,_FILE_AND_LINE_ );
 		// Less memory efficient but saves on news and deletes
-		/// Cap to 1 meg buffer to save on huge allocations
+		// Cap to 1 meg buffer to save on huge allocations
 		newNumberOfBitsAllocated = ( numberOfBitsToWrite + numberOfBitsUsed ) * 2;
 		if (newNumberOfBitsAllocated - ( numberOfBitsToWrite + numberOfBitsUsed ) > 1048576 )
 			newNumberOfBitsAllocated = numberOfBitsToWrite + numberOfBitsUsed + 1048576;
 
-		//		uint32_t newByteOffset = BITS_TO_BYTES( numberOfBitsAllocated );
+		// uint32_t newByteOffset = BITS_TO_BYTES( numberOfBitsAllocated );
 		// Use realloc and free so we are more efficient than delete and new for resizing
 		uint32_t amountToAllocate = BITS_TO_BYTES( newNumberOfBitsAllocated );
-		if (data==(unsigned char*)stackData)
+		if (data==(uint8*)stackData)
 		{
 			if (amountToAllocate > BITSTREAM_STACK_ALLOCATION_SIZE)
 			{
-				data = ( unsigned char* ) malloc( (size_t) amountToAllocate);
+				data = ( uint8* ) malloc( (size_t) amountToAllocate);
 				ASSERTED(data,_FILE_AND_LINE_);
-
 				// need to copy the stack data over to our new memory area too
 				memcpy ((void *)data, (void *)stackData, (size_t) BITS_TO_BYTES( numberOfBitsAllocated )); 
 			}
 		}
 		else
 		{
-			data = ( unsigned char* ) realloc( data, (size_t) amountToAllocate);
+			data = ( uint8* ) realloc( data, (size_t) amountToAllocate);
 		}
 		ASSERTED( data, _FILE_AND_LINE_); // Make sure realloc succeeded
-		//  memset(data+newByteOffset, 0,  ((newNumberOfBitsAllocated-1)>>3) - ((numberOfBitsAllocated-1)>>3)); // Set the new data block to 0
 	}
 
 	if ( newNumberOfBitsAllocated > numberOfBitsAllocated )
 		numberOfBitsAllocated = newNumberOfBitsAllocated;
 }
+
 uint32_t BitStream::GetNumberOfBitsAllocated(void) const
 {
 	return numberOfBitsAllocated;
 }
-void BitStream::PadWithZeroToByteLength( unsigned int bytes )
+
+void BitStream::PadWithZeroToByteLength( uint32 bytes )
 {
 	if (GetNumberOfBytesUsed() < bytes)
 	{
 		AlignWriteToByteBoundary();
-		unsigned int numToWrite = bytes - GetNumberOfBytesUsed();
+		uint32 numToWrite = bytes - GetNumberOfBytesUsed();
 		AddBitsAndReallocate( BYTES_TO_BITS(numToWrite) );
 		memset(data+BITS_TO_BYTES(numberOfBitsUsed), 0, (size_t) numToWrite);
 		numberOfBitsUsed+=BYTES_TO_BITS(numToWrite);
@@ -780,7 +784,7 @@ void BitStream::PrintBits( char *out ) const
 		return;
 	}
 
-	unsigned int strIndex=0;
+	uint8 strIndex=0;
 	for ( uint32_t counter = 0; counter < BITS_TO_BYTES( numberOfBitsUsed ) && strIndex < 2000 ; counter++ )
 	{
 		uint32_t stop;
@@ -831,12 +835,12 @@ void BitStream::PrintHex( void ) const
 
 // Exposes the data for you to look at, like PrintBits does.
 // Data will point to the stream.  Returns the length in bits of the stream.
-uint32_t BitStream::CopyData( unsigned char** _data ) const
+uint32_t BitStream::CopyData( uint8** _data ) const
 {
 	ASSERTED( numberOfBitsUsed > 0, _FILE_AND_LINE_);
 
-	*_data = (unsigned char*) malloc( (size_t) BITS_TO_BYTES( numberOfBitsUsed ));
-	memcpy( *_data, data, sizeof(unsigned char) * (size_t) ( BITS_TO_BYTES( numberOfBitsUsed ) ) );
+	*_data = (uint8*) malloc( (size_t) BITS_TO_BYTES( numberOfBitsUsed ));
+	memcpy( *_data, data, sizeof(uint8) * (size_t) ( BITS_TO_BYTES( numberOfBitsUsed ) ) );
 	return numberOfBitsUsed;
 }
 
@@ -846,7 +850,7 @@ void BitStream::IgnoreBits( const uint32_t numberOfBits )
 	readOffset += numberOfBits;
 }
 
-void BitStream::IgnoreBytes( const unsigned int numberOfBytes )
+void BitStream::IgnoreBytes( const uint32 numberOfBytes )
 {
 	IgnoreBits(BYTES_TO_BITS(numberOfBytes));
 }
@@ -895,7 +899,7 @@ uint32_t BitStream::GetNumberOfUnreadBits( void ) const
 return numberOfBitsUsed - readOffset;
 }
 // Exposes the internal data
-unsigned char* BitStream::GetData( void ) const
+uint8* BitStream::GetData( void ) const
 {
 return data;
 }
@@ -910,7 +914,7 @@ void BitStream::AssertCopyData( void )
 
 		if ( numberOfBitsAllocated > 0 )
 		{
-			unsigned char * newdata = ( unsigned char* ) malloc( (size_t) BITS_TO_BYTES( numberOfBitsAllocated ));
+			uint8 * newdata = ( uint8* ) malloc( (size_t) BITS_TO_BYTES( numberOfBitsAllocated ));
 			ASSERTED( data, _FILE_AND_LINE_ );
 			memcpy( newdata, data, (size_t) BITS_TO_BYTES( numberOfBitsAllocated ) );
 			data = newdata;
@@ -926,14 +930,14 @@ bool BitStream::IsNetworkOrderInternal(void)
 	return htonlValue == 12345;
 
 }
-void BitStream::ReverseBytes(unsigned char *inByteArray, unsigned char *inOutByteArray, const unsigned int length)
+void BitStream::ReverseBytes(uint8 *inByteArray, uint8 *inOutByteArray, const uint32 length)
 {
 	for (uint32_t i=0; i < length; i++)
 		inOutByteArray[i]=inByteArray[length-i-1];
 }
-void BitStream::ReverseBytesInPlace(unsigned char *inOutData,const unsigned int length)
+void BitStream::ReverseBytesInPlace(uint8 *inOutData,const uint32 length)
 {
-	unsigned char temp;
+	uint8 temp;
 	uint32_t i;
 	for (i=0; i < (length>>1); i++)
 	{
@@ -945,10 +949,10 @@ void BitStream::ReverseBytesInPlace(unsigned char *inOutData,const unsigned int 
 
 bool BitStream::Read(char *varString)
 {
-    return Read((unsigned char *)varString);
+    return Read((uint8 *)varString);
 }
 
-bool BitStream::Read(unsigned char *varString)
+bool BitStream::Read(uint8 *varString)
 {
     bool b;
     unsigned short l;
@@ -985,7 +989,7 @@ void BitStream::WriteAlignedVar16(const char *inByteArray)
 {
     ASSERTED((numberOfBitsUsed&7)==0, _FILE_AND_LINE_);
 	AddBitsAndReallocate(2*8);
-#ifndef __BITSTREAM_NATIVE_END
+#ifndef BITSTREAM_NATIVE_ENDIAN
 	if (DoEndianSwap())
 	{
 		data[( numberOfBitsUsed >> 3 ) + 0] = inByteArray[1];
@@ -1005,7 +1009,7 @@ bool BitStream::ReadAlignedVar16(char *inOutByteArray)
     ASSERTED((readOffset&7)==0, _FILE_AND_LINE_);
 	if ( readOffset + 2*8 > numberOfBitsUsed )
 		return false;
-#ifndef __BITSTREAM_NATIVE_END
+#ifndef BITSTREAM_NATIVE_ENDIAN
 	if (DoEndianSwap())
 	{
 		inOutByteArray[0] = data[( readOffset >> 3 ) + 1];
@@ -1025,7 +1029,7 @@ void BitStream::WriteAlignedVar32(const char *inByteArray)
 {
     ASSERTED((numberOfBitsUsed&7)==0, _FILE_AND_LINE_);
 	AddBitsAndReallocate(4*8);
-#ifndef __BITSTREAM_NATIVE_END
+#ifndef BITSTREAM_NATIVE_ENDIAN
 	if (DoEndianSwap())
 	{
 		data[( numberOfBitsUsed >> 3 ) + 0] = inByteArray[3];
@@ -1049,7 +1053,7 @@ bool BitStream::ReadAlignedVar32(char *inOutByteArray)
     ASSERTED((readOffset&7)==0, _FILE_AND_LINE_);
 	if ( readOffset + 4*8 > numberOfBitsUsed )
 		return false;
-#ifndef __BITSTREAM_NATIVE_END
+#ifndef BITSTREAM_NATIVE_ENDIAN
 	if (DoEndianSwap())
 	{
 		inOutByteArray[0] = data[( readOffset >> 3 ) + 3];

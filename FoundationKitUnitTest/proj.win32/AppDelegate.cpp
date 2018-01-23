@@ -100,8 +100,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
-
-    TestBlock();
+#
 	return true;
 }
 
