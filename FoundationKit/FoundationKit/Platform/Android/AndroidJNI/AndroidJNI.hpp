@@ -57,6 +57,21 @@ private:
     AndroidJNI();
 };
 
+
+class Scope_JObject
+{
+public:
+    jobject  jobject_ref;
+    Scope_JObject(jobject obj) :jobject_ref(obj) {}
+    Scope_JObject& operator= (jobject obj) { jobject_ref = obj; return (*this); };
+    ~Scope_JObject() { AndroidJNI::GetJavaEnv()->DeleteLocalRef(jobject_ref); }
+    explicit operator bool() const// _NOEXCEPT
+    {
+        return (!!jobject_ref);
+    }
+};
+
+
 NS_FK_END
 
 #endif //#if PLATFORM_ANDROID

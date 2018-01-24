@@ -54,14 +54,12 @@ $(PROJECT_DIR)/../ThirdParty/spdlog/include
 LOCAL_CFLAGS := \
 -fsigned-char \
 -DANDROID \
--DNDEBUG \
 -DUSE_FILE32API
 
 LOCAL_CPPFLAGS := \
 -fsigned-char \
 -std=c++14 \
 -DANDROID \
--DNDEBUG \
 -DUSE_FILE32API
 
 #-ffunction-sections 和 -fdata-sections 将每个函数或符号创建为一个sections，
@@ -71,10 +69,34 @@ LOCAL_CPPFLAGS := \
 LOCAL_CFLAGS += -ffunction-sections -fdata-sections
 LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
 
-LOCAL_CPPFLAGS += -Os
+#优化等级
+LOCAL_CPPFLAGS += -O2
 
 #编译警告
 LOCAL_CPPFLAGS += -Wall
+
+#这是个用来削减代码尺寸的常用标记。在所有不影响除错（例如x86-64）的构架上，
+#所有的-O等级（除了-O0）中都启用了它，但是也可能需要手动添加到你的标记中。
+#尽管GNU gcc手册没有明确指出-O会启用这个标记的所有构架，你需要在x86上手动
+#启用它。使用这个标记会使除错难以进行。特别的，它会使排查Java程序的故障变
+#得困难，尽管Java代码并不是唯一受此选项影响的代码。所以此标记虽然有用，但
+#也会使除错变得困难，特别是backtrace将变得毫无用处。然而，你不准备做软件除
+#错并且没有在CFLAGS中加入-ggdb之类与除错相关的标记的话，那就可以试试
+#-fomit-frame-pointer。 
+#重要: 请勿联合使用-fomit-frame-pointer和与之相似的-momit-leaf-frame-pointer。
+#开启后者并无多大用处，因为-fomit-frame-pointer已经把事情搞定了。此外，
+#-momit-leaf-frame-pointer还将降低代码性能。
+LOCAL_CFLAGS += -fomit-frame-pointer
+LOCAL_CPPFLAGS += -fomit-frame-pointer
+
+#-pipe是个安全而有趣的标记。它对代码生成毫无影响，但是可以加快编译过程。
+#此标记指示编译器在不同编译时期使用pipe而不是临时文件。
+LOCAL_CFLAGS += -pipe 
+LOCAL_CPPFLAGS += -pipe 
+
+ifeq ($(strip $(NDK_DEBUG)),1)
+
+endif
 
 LOCAL_SHORT_COMMANDS := true
 LOCAL_CPP_FEATURES := rtti exceptions

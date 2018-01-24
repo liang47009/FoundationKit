@@ -20,14 +20,15 @@
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
+#include "FoundationKit/Platform/Android/AndroidInternal/ConnectivityManager.hpp"
+#include "FoundationKit/Platform/Android/AndroidInternal/TelephonyManager.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
 
-
-
 NS_FK_BEGIN
 
-
+using namespace android::net;
+using namespace android::telephony;
 namespace detail
 {
     const int MEMKEY_BUF_SIZE = 32;
@@ -127,17 +128,6 @@ namespace detail
         return result;
     }
 
-
-    enum NetworkState
-    {
-        CONNECTING,
-        CONNECTED,
-        SUSPENDED,
-        DISCONNECTING,
-        DISCONNECTED,
-        UNKNOWN
-    };
-
     enum NetworkType
     {
         NONE,
@@ -145,50 +135,6 @@ namespace detail
         N2G,
         N3G,
         N4G
-    };
-
-    struct TelephonyManager
-    {
-        /** Network type is unknown */
-        static const int NETWORK_TYPE_UNKNOWN = 0;
-        /** Current network is GPRS */
-        static const int NETWORK_TYPE_GPRS = 1;
-        /** Current network is EDGE */
-        static const int NETWORK_TYPE_EDGE = 2;
-        /** Current network is UMTS */
-        static const int NETWORK_TYPE_UMTS = 3;
-        /** Current network is CDMA: Either IS95A or IS95B*/
-        static const int NETWORK_TYPE_CDMA = 4;
-        /** Current network is EVDO revision 0*/
-        static const int NETWORK_TYPE_EVDO_0 = 5;
-        /** Current network is EVDO revision A*/
-        static const int NETWORK_TYPE_EVDO_A = 6;
-        /** Current network is 1xRTT*/
-        static const int NETWORK_TYPE_1xRTT = 7;
-        /** Current network is HSDPA */
-        static const int NETWORK_TYPE_HSDPA = 8;
-        /** Current network is HSUPA */
-        static const int NETWORK_TYPE_HSUPA = 9;
-        /** Current network is HSPA */
-        static const int NETWORK_TYPE_HSPA = 10;
-        /** Current network is iDen */
-        static const int NETWORK_TYPE_IDEN = 11;
-        /** Current network is EVDO revision B*/
-        static const int NETWORK_TYPE_EVDO_B = 12;
-        /** Current network is LTE */
-        static const int NETWORK_TYPE_LTE = 13;
-        /** Current network is eHRPD */
-        static const int NETWORK_TYPE_EHRPD = 14;
-        /** Current network is HSPA+ */
-        static const int NETWORK_TYPE_HSPAP = 15;
-        /** Current network is GSM */
-        static const int NETWORK_TYPE_GSM = 16;
-        /** Current network is TD_SCDMA */
-        static const int NETWORK_TYPE_TD_SCDMA = 17;
-        /** Current network is IWLAN */
-        static const int NETWORK_TYPE_IWLAN = 18;
-        /** Current network is LTE_CA {@hide} */
-        static const int NETWORK_TYPE_LTE_CA = 19;
     };
 
 }//namespace
@@ -203,6 +149,8 @@ std::string PlatformDevice::GetDeviceId()
         strDeviceId = detail::GetSystemProperty("ro.boot.serialno");
         BREAK_IF(!strDeviceId.empty());
         strDeviceId = detail::GetSystemProperty("gsm.sim.imei");
+        BREAK_IF(!strDeviceId.empty());
+        strDeviceId = TelephonyManager().getDeviceId();
     } while (false);
 
     return strDeviceId;
@@ -272,70 +220,51 @@ int PlatformDevice::GetCPUFrequency()
 
 int PlatformDevice::GetNetworkType()
 {
-    static const std::string CONNECTIVITY_SERVICE = "connectivity";
-    static const int TYPE_MOBILE = 0;
-    static const int TYPE_WIFI = 1;
-
-    JNIEnv* env = AndroidJNI::GetJavaEnv();
-    jobject mainActivity = AndroidJNI::GetMainActivity();
-    AndroidJavaObject  ajoMainActivity(mainActivity);
-    jobject ConnectivityManager = ajoMainActivity.Call<jobject>("getSystemService", CONNECTIVITY_SERVICE);
-    AndroidJavaObject ajoConnectivityManager(ConnectivityManager);
-    jobject NetworkInfo = ajoConnectivityManager.CallWithSig<jobject>("getNetworkInfo", "(I)Landroid/net/NetworkInfo;", TYPE_WIFI);
-    if (NetworkInfo != nullptr)
+    ConnectivityManager  cm;
+    NetworkInfo networkInfo = cm.getNetworkInfo(ConnectivityManager::TYPE_WIFI);
+    if (networkInfo)
     {
-        AndroidJavaObject ajoNetworkInfo(NetworkInfo);
-        jobject State = ajoNetworkInfo.CallWithSig<jobject>("getState", "()Landroid.net.NetworkInfo$State;");
-        int stateValue = AndroidFoundation::Call<int>(State, "ordinal");
-        env->DeleteLocalRef(State);
-        if (stateValue == detail::NetworkState::CONNECTED)
+        if (networkInfo.getState() == NetworkInfo::State::CONNECTED)
         {
-            env->DeleteLocalRef(NetworkInfo);
-            env->DeleteLocalRef(ConnectivityManager);
             return detail::NetworkType::NWIFI;
         }
-        env->DeleteLocalRef(NetworkInfo);
     }
-    NetworkInfo = ajoConnectivityManager.CallWithSig<jobject>("getNetworkInfo", "(I)Landroid/net/NetworkInfo;", TYPE_MOBILE);
+    networkInfo = cm.getNetworkInfo(ConnectivityManager::TYPE_MOBILE);
     detail::NetworkType netType = detail::NetworkType::NONE;
-    if (NetworkInfo != nullptr)
+    if (networkInfo)
     {
-        AndroidJavaObject ajoNetworkInfo(NetworkInfo);
-        int subType = ajoNetworkInfo.Call<int>("getSubtype");
+        int subType = networkInfo.getSubtype();
         switch (subType)
         {
-        case detail::TelephonyManager::NETWORK_TYPE_GPRS:
-        case detail::TelephonyManager::NETWORK_TYPE_EDGE:
-        case detail::TelephonyManager::NETWORK_TYPE_CDMA:
-        case detail::TelephonyManager::NETWORK_TYPE_1xRTT:
-        case detail::TelephonyManager::NETWORK_TYPE_IDEN:
+        case TelephonyManager::NETWORK_TYPE_GPRS:
+        case TelephonyManager::NETWORK_TYPE_EDGE:
+        case TelephonyManager::NETWORK_TYPE_CDMA:
+        case TelephonyManager::NETWORK_TYPE_1xRTT:
+        case TelephonyManager::NETWORK_TYPE_IDEN:
             netType = detail::NetworkType::N2G;
             break;
 
-        case detail::TelephonyManager::NETWORK_TYPE_UMTS:
-        case detail::TelephonyManager::NETWORK_TYPE_EVDO_0:
-        case detail::TelephonyManager::NETWORK_TYPE_EVDO_A:
-        case detail::TelephonyManager::NETWORK_TYPE_HSDPA:
-        case detail::TelephonyManager::NETWORK_TYPE_HSUPA:
-        case detail::TelephonyManager::NETWORK_TYPE_HSPA:
-        case detail::TelephonyManager::NETWORK_TYPE_EVDO_B:
-        case detail::TelephonyManager::NETWORK_TYPE_EHRPD:
-        case detail::TelephonyManager::NETWORK_TYPE_HSPAP:
+        case TelephonyManager::NETWORK_TYPE_UMTS:
+        case TelephonyManager::NETWORK_TYPE_EVDO_0:
+        case TelephonyManager::NETWORK_TYPE_EVDO_A:
+        case TelephonyManager::NETWORK_TYPE_HSDPA:
+        case TelephonyManager::NETWORK_TYPE_HSUPA:
+        case TelephonyManager::NETWORK_TYPE_HSPA:
+        case TelephonyManager::NETWORK_TYPE_EVDO_B:
+        case TelephonyManager::NETWORK_TYPE_EHRPD:
+        case TelephonyManager::NETWORK_TYPE_HSPAP:
             netType = detail::NetworkType::N3G;
             break;
-        case detail::TelephonyManager::NETWORK_TYPE_LTE:
+        case TelephonyManager::NETWORK_TYPE_LTE:
             netType = detail::NetworkType::N4G;
             break;
-        case detail::TelephonyManager::NETWORK_TYPE_UNKNOWN:
+        case TelephonyManager::NETWORK_TYPE_UNKNOWN:
             netType = detail::NetworkType::NONE;
             break;
         default:
             netType = detail::NetworkType::N3G;
-
         }
-        env->DeleteLocalRef(NetworkInfo);
     }
-    env->DeleteLocalRef(ConnectivityManager);
     return netType;
 }
 

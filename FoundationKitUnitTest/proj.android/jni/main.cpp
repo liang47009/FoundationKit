@@ -150,11 +150,21 @@ int TestGlobalBufferOverflow(int argc)
     return global_array[argc + 100];  // BOOM
 }
 
+char *chararray =nullptr;
+void Teststackprotector()
+{
+    chararray = new char[2];
+    memcpy(chararray, "ssss", 4);
+    char array[2];
+    memcpy(array, "ssss", 4);
+}
+
 JNIEXPORT void JNICALL Java_com_example_test_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
 {
     ANDROID_LOGE("============== >>>>> foundationInit");
     AndroidJNI::InitializeJavaEnv(g_vm, JNI_VERSION_1_6, context);
     AndroidJavaObject  mainActive(context);
+    PlatformDevice::DumpDeviceInfo();
     mainActive.Call("debug_Print", 100,"======", "========");
 
     AndroidJavaClass  mainActiveClass("com.example.test.MainActivity");
@@ -167,7 +177,7 @@ JNIEXPORT void JNICALL Java_com_example_test_MainActivity_foundationInit( JNIEnv
     ret = TestHeapBufferOverflow(10);
     ret = TestStackBufferOverflow(10);
     ret = TestGlobalBufferOverflow(10);
-    ANDROID_LOGE(" CPU Core count:%d", PlatformDevice::GetCPUCoreCount());
+    Teststackprotector();
     ANDROID_LOGE("========== Java_com_example_test_MainActivity_foundationInit End");
     //testFunctionCache();
 }

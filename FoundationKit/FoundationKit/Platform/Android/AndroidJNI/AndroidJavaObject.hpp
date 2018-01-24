@@ -51,12 +51,12 @@ public:
     *  @param[in] args      An array of parameters passed to the constructor.
     */
     template<typename... Args>
-    AndroidJavaObject(std::string className, Args... args)
+    AndroidJavaObject(const std::string& className, Args... args)
     {
         JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
         std::string methodSignature = AndroidFoundation::GetJNISignature<void, Args...>(args...);
         JavaClassMethod method = AndroidJNI::GetClassMethod(className.c_str(), "<init>", methodSignature.c_str());
-        jobject object = jniEnv->NewObject(method.clazz, method.method, AndroidFoundation::CPPToJNI<Args>::convert(args)...);
+        jobject object = jniEnv->NewObject(method.clazz, method.method, AndroidFoundation::CPPToJNI<typename std::decay<Args>::type>::convert(args)...);
         ANDROID_CHECKF(object, "*** Create %s failed.", className.c_str());
         // Promote local references to global
         _object = std::shared_ptr<_jobject>(jniEnv->NewGlobalRef(object), jobjectDeleter);
