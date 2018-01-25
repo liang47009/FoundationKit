@@ -14,6 +14,8 @@ losemymind.libo@gmail.com
 
 #include <windows.h>
 #include <WindowsX.h>
+#include <WinSock2.h>
+#include <WS2tcpip.h> 
 #include <vector>
 #include <memory>
 #include <array>
@@ -48,47 +50,112 @@ NS_FK_BEGIN
 
 namespace detail
 {
-    std::vector<uint8> GetMacAddressRaw()
+    enum class AddressType
     {
-        std::vector<uint8> result;
-        result.resize(6);
-        IP_ADAPTER_INFO IpAddresses[16];
-        ULONG OutBufferLength = sizeof(IP_ADAPTER_INFO) * 16;
+        IPV4,
+        IPV6,
+        MAC,
+        DNS
+    };
+
+    std::vector<std::string> GetAdaptersAddressesByType(AddressType addType)
+    {
+        std::vector<std::string> AddressList;
+        // Set the flags to pass to GetAdaptersAddresses
+        ULONG flags = GAA_FLAG_INCLUDE_PREFIX;
+        IP_ADAPTER_ADDRESSES  IpAddresses[16];
+        static const DWORD bufflen = 64;
+        char buff[bufflen] = { 0 };
+        ULONG OutBufferLength = sizeof(IP_ADAPTER_ADDRESSES) * 16;
+        ULONG family = AF_UNSPEC;
+
+        switch (addType)
+        {
+        case FoundationKit::detail::AddressType::IPV4:
+            family = AF_INET;
+            break;
+        case FoundationKit::detail::AddressType::IPV6:
+            family = AF_INET6;
+            break;
+        case FoundationKit::detail::AddressType::MAC:
+        case FoundationKit::detail::AddressType::DNS:
+            family = AF_INET;
+            break;
+        default:
+            break;
+        }
         // Read the adapters
-        uint32 RetVal = GetAdaptersInfo(IpAddresses, &OutBufferLength);
+        uint32 RetVal = GetAdaptersAddresses(family, flags, NULL, IpAddresses, &OutBufferLength);
         if (RetVal == NO_ERROR)
         {
-            PIP_ADAPTER_INFO AdapterList = IpAddresses;
+            PIP_ADAPTER_ADDRESSES IpAddressesPointer = IpAddresses;
             // Walk the set of addresses copying each one
-            while (AdapterList)
+            while (IpAddressesPointer)
             {
-                // If there is an address to read
-                if (AdapterList->AddressLength > 0)
+                if (addType == AddressType::IPV4)
                 {
-                    //result.resize(AdapterList->AddressLength);
-                    std::memcpy(result.data(), AdapterList->Address, result.size());
-                    break;
+                    PIP_ADAPTER_UNICAST_ADDRESS pUnicast = IpAddressesPointer->FirstUnicastAddress;
+                    while(pUnicast)
+                    {
+                        sockaddr_in *sa_in = (sockaddr_in *)pUnicast->Address.lpSockaddr;
+                        AddressList.push_back(inet_ntop(family, &(sa_in->sin_addr), buff, bufflen));
+                        pUnicast = pUnicast->Next;
+                    }
                 }
-                AdapterList = AdapterList->Next;
+
+                if (addType == AddressType::IPV6)
+                {
+                    PIP_ADAPTER_UNICAST_ADDRESS pUnicast = IpAddressesPointer->FirstUnicastAddress;
+                    while (pUnicast)
+                    {
+                        sockaddr_in6 *sa_in6 = (sockaddr_in6 *)pUnicast->Address.lpSockaddr;
+                        AddressList.push_back(inet_ntop(family, &(sa_in6->sin6_addr), buff, bufflen));
+                        pUnicast = pUnicast->Next;
+                    }
+                }
+
+                if (addType == AddressType::MAC && IpAddressesPointer->PhysicalAddressLength > 0)
+                {
+                    std::string MacAddress;
+                    MacAddress.resize(IpAddressesPointer->PhysicalAddressLength);
+                    memcpy(&MacAddress[0], IpAddressesPointer->PhysicalAddress, IpAddressesPointer->PhysicalAddressLength);
+                    AddressList.push_back(MacAddress);
+
+                }
+
+                if (addType == AddressType::DNS)
+                {
+                    IP_ADAPTER_DNS_SERVER_ADDRESS *pDnServer = IpAddressesPointer->FirstDnsServerAddress;
+                    if (pDnServer)
+                    {
+                        sockaddr_in *sa_in = (sockaddr_in *)pDnServer->Address.lpSockaddr;
+                        AddressList.push_back(inet_ntop(family, &(sa_in->sin_addr), buff, bufflen));
+                    }
+                }
+                IpAddressesPointer = IpAddressesPointer->Next;
             }
         }
-        return result;
+        return AddressList;
     }
 
     std::string GetMacAddress()
     {
-        std::vector<uint8> macVec = GetMacAddressRaw();
+        std::vector<std::string> macVec = GetAdaptersAddressesByType(AddressType::MAC);
         std::string result;
-        // Copy the data and say we did
-        result = StringUtils::Format("%02X%02X%02X%02X%02X%02X"
-            , macVec[0]
-            , macVec[1]
-            , macVec[2]
-            , macVec[3]
-            , macVec[4]
-            , macVec[5]);
+        if (macVec.size() > 0)
+        {
+            // Copy the data and say we did
+            result = StringUtils::Format("%02X%02X%02X%02X%02X%02X"
+                , (unsigned char)macVec[0][0]
+                , (unsigned char)macVec[0][1]
+                , (unsigned char)macVec[0][2]
+                , (unsigned char)macVec[0][3]
+                , (unsigned char)macVec[0][4]
+                , (unsigned char)macVec[0][5]);
+        }
         return result;
     }
+
 } // namespace detail
 
 
@@ -341,23 +408,20 @@ int PlatformDevice::GetNetworkType()
 
 std::string PlatformDevice::GetIpAddressV4()
 {
-    std::string ipaddressv4;
-
-    return StringUtils::Trim(ipaddressv4);
+    std::vector<std::string> AddressList = detail::GetAdaptersAddressesByType(detail::AddressType::IPV4);
+    return AddressList.size() > 0 ? AddressList[0] : "0.0.0.0";
 }
 
 std::string PlatformDevice::GetIpAddressV6()
 {
-    std::string ipaddressv6;
-
-    return StringUtils::Trim(ipaddressv6);
+    std::vector<std::string> AddressList = detail::GetAdaptersAddressesByType(detail::AddressType::IPV6);
+    return AddressList.size() > 0 ? AddressList[0]:"0.0.0.0";
 }
 
 PlatformDevice::string_list PlatformDevice::GetDNS()
 {
-    std::vector<std::string> dnslist;
-
-    return dnslist;
+    std::vector<std::string> AddressList = detail::GetAdaptersAddressesByType(detail::AddressType::DNS);
+    return AddressList;
 }
 
 long long PlatformDevice::GetTotalMemory()
@@ -518,6 +582,7 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
 void PlatformDevice::DumpDeviceInfo()
 {
     FKLog("============ Device Info===============");
+    auto bb = detail::GetMacAddress();
     std::ostringstream ss;
     ss << "GetDeviceId:" << GetDeviceId() << "\n";
     ss << "GetProduct:" << GetProduct() << "\n";
@@ -531,6 +596,7 @@ void PlatformDevice::DumpDeviceInfo()
     ss << "GetCPUCoreCount:" << GetCPUCoreCount() << "\n";
     ss << "GetCPUFrequency:" << GetCPUFrequency() << "\n";
     ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
+    ss << "GetMacAddress:" << detail::GetMacAddress() << "\n";
     ss << "GetIpAddressV4:" << GetIpAddressV4() << "\n";
     ss << "GetIpAddressV6:" << GetIpAddressV6() << "\n";
     auto dnss = GetDNS();
