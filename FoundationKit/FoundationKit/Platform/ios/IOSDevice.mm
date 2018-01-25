@@ -582,7 +582,7 @@ void PlatformDevice::DumpDeviceInfo()
     FKLog("============ Device Info===============");
     std::ostringstream ss;
     ss << "GetDeviceId:" << GetDeviceId() << "\n";
-    ss << "GetDeviceId:" << GetProduct() << "\n";
+    ss << "GetProduct:" << GetProduct() << "\n";
     ss << "GetHardware:" << GetHardware() << "\n";
     ss << "GetDevice:" << GetDevice() << "\n";
     ss << "GetModel:" << GetModel() << "\n";
