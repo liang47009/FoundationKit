@@ -62,18 +62,18 @@ LOCAL_CPPFLAGS := \
 -DANDROID \
 -DUSE_FILE32API
 
+#优化等级
+LOCAL_CPPFLAGS += -O2
+
+#编译警告
+LOCAL_CPPFLAGS += -Wall
+
 #-ffunction-sections 和 -fdata-sections 将每个函数或符号创建为一个sections，
 #其中每个sections名与function或data名保持一致。而在链接阶段， -Wl,–gc-sections 
 #指示链接器去掉不用的section（其中-wl, 表示后面的参数 -gc-sections 传递给链接器），
 #这样就能减少最终的可执行程序的大小了。
 LOCAL_CFLAGS += -ffunction-sections -fdata-sections
 LOCAL_CPPFLAGS += -ffunction-sections -fdata-sections
-
-#优化等级
-LOCAL_CPPFLAGS += -O2
-
-#编译警告
-LOCAL_CPPFLAGS += -Wall
 
 #这是个用来削减代码尺寸的常用标记。在所有不影响除错（例如x86-64）的构架上，
 #所有的-O等级（除了-O0）中都启用了它，但是也可能需要手动添加到你的标记中。
@@ -89,22 +89,16 @@ LOCAL_CPPFLAGS += -Wall
 LOCAL_CFLAGS += -fomit-frame-pointer
 LOCAL_CPPFLAGS += -fomit-frame-pointer
 
-#-pipe是个安全而有趣的标记。它对代码生成毫无影响，但是可以加快编译过程。
-#此标记指示编译器在不同编译时期使用pipe而不是临时文件。
-LOCAL_CFLAGS += -pipe 
-LOCAL_CPPFLAGS += -pipe 
-
-ifeq ($(strip $(NDK_DEBUG)),1)
-
-endif
-
 LOCAL_SHORT_COMMANDS := true
 LOCAL_CPP_FEATURES := rtti exceptions
+
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
 LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
 LOCAL_EXPORT_LDLIBS := -latomic -landroid -llog -lz -lGLESv2
 LOCAL_EXPORT_C_INCLUDES :=$(LOCAL_C_INCLUDES)
-LOCAL_STATIC_LIBRARIES := cpufeatures
+
+#LOCAL_STATIC_LIBRARIES := cpufeatures
+LOCAL_WHOLE_STATIC_LIBRARIES :=cpufeatures
 include $(BUILD_STATIC_LIBRARY)
 #==============================================================
 $(call import-add-path,$(LOCAL_PATH)/../../FoundationKit)

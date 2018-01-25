@@ -44,7 +44,7 @@ namespace detail
         uint64  value = 0;
         if (sscanf(Line, "%[^:]%*s %llu kB", key_buf, &value) == 2)
         {
-            return value;
+            return value * 1024;
         }
         return 0;
     }
@@ -143,13 +143,15 @@ namespace detail
 std::string PlatformDevice::GetDeviceId()
 {
     std::string strDeviceId = detail::GetSystemProperty("ro.serialno");
-    do
-    {
+    do{
         BREAK_IF(!strDeviceId.empty());
+        FKLog("Try get system property [ro.boot.serialno]");
         strDeviceId = detail::GetSystemProperty("ro.boot.serialno");
         BREAK_IF(!strDeviceId.empty());
+        FKLog("Try get system property [gsm.sim.imei]");
         strDeviceId = detail::GetSystemProperty("gsm.sim.imei");
         BREAK_IF(!strDeviceId.empty());
+        FKLog("Try use TelephonyManager.getDeviceId");
         strDeviceId = TelephonyManager().getDeviceId();
     } while (false);
 
@@ -430,6 +432,7 @@ float PlatformDevice::GetScreenYDPI()
 
 float PlatformDevice::GetNativeScale()
 {
+    lazyGetScreenResolution();
     return GLOBAL_DisplayInfo.nativeScale;
 }
 
@@ -551,7 +554,7 @@ void PlatformDevice::DumpDeviceInfo()
     FKLog("============ Device Info===============");
     std::ostringstream ss;
     ss << "GetDeviceId:" << GetDeviceId() << "\n";
-    ss << "GetDeviceId:" << GetProduct() << "\n";
+    ss << "GetProduct:" << GetProduct() << "\n";
     ss << "GetHardware:" << GetHardware() << "\n";
     ss << "GetDevice:" << GetDevice() << "\n";
     ss << "GetModel:" << GetModel() << "\n";

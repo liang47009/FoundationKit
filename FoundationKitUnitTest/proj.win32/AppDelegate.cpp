@@ -17,6 +17,7 @@
 #include "FoundationKit/Crypto/aes.hpp"
 #include "FoundationKit/Crypto/Base58.hpp"
 #include "FoundationKit/Crypto/Base64.hpp"
+#include "FoundationKit/Crypto/crc.hpp"
 #include "FoundationKit/Crypto/des.hpp"
 #include "FoundationKit/Crypto/md5.hpp"
 #include "FoundationKit/Crypto/sha1.hpp"
@@ -100,7 +101,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
-#
+
+
+
 	return true;
 }
 

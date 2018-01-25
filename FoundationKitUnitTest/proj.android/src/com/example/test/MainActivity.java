@@ -3,8 +3,9 @@ import com.losemymind.foundationkit.AndroidJavaBridge;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 public class MainActivity extends Activity {
@@ -25,21 +26,22 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		instanceState = savedInstanceState;
 		activity = this;
-		
-		@SuppressWarnings("deprecation")
-		String version_sdk = Build.VERSION.SDK; // 璁惧SDK鐗堟湰  
-		String version_release = Build.VERSION.RELEASE; // 璁惧鐨勭郴缁熺増鏈? 
-		Log.e("TAG","===== version_sdk " + version_sdk);
-		Log.e("TAG","===== version_release" + version_release);
-		
-		final int version_code = android.os.Build.VERSION.SDK_INT;
-		if(version_code >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-		
-		foundationInit((Context)this);
-		char[] arr = {'a','b','c','d','e'};
-		//AndroidJavaBridge.getInstance().invoke("CallAndroidJavaBridge", 10, "This is test");
-	}
 	
+	     TelephonyManager manager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+	     Log.e("getDeviceId",manager.getDeviceId());//deviceID
+	     Log.e("getNetworkOperatorName",manager.getNetworkOperatorName());//运营商名称
+	     Log.e("isNetworkRoaming",manager.isNetworkRoaming()+"");//是否漫游
+	     Log.e("getNetworkCountryIso",manager.getNetworkCountryIso());//国家代码
+	     Log.e("getNetworkType",manager.getNetworkType()+"");//当前网络类型，2G\3G\4G
+	     Log.e("getSimState",manager.getSimState()+"");//默认SIM卡状态
+	     Log.e("getSimOperator",manager.getSimOperator());//SIM卡经营者
+	     Log.e("getSimOperatorName",manager.getSimOperatorName());//SIM卡经营者名称
+	     Log.e("getSimCountryIso",manager.getSimCountryIso());//SIM卡经营者所在国家代码
+	     Log.e("getSimSerialNumber",manager.getSimSerialNumber());//SIM卡序列号
+	     Log.e("getLine1Number",manager.getLine1Number());//手机号
+		foundationInit((Context)this);
+	}
+
    @Override  
     public void onBackPressed() {  
         super.onBackPressed();  
