@@ -102,7 +102,7 @@ size_t GetOSIntData(int key, int type)
     FKLog("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());
     auto ipv4 = PlatformDevice::GetIpAddressV4();
     auto ipv6 = PlatformDevice::GetIpAddressV6();
-    
+    PlatformDevice::DumpDeviceInfo();
     return YES;
 }
 

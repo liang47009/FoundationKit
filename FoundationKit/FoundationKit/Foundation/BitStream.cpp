@@ -784,7 +784,7 @@ void BitStream::PrintBits( char *out ) const
 		return;
 	}
 
-	uint8 strIndex=0;
+	uint32 strIndex=0;
 	for ( uint32_t counter = 0; counter < BITS_TO_BYTES( numberOfBitsUsed ) && strIndex < 2000 ; counter++ )
 	{
 		uint32_t stop;

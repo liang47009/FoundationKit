@@ -178,7 +178,7 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
             fflush(fpDes);
             TotalReadSize += NumRead;
         }
-        delete read_buff;
+        delete[] read_buff;
         fclose(fpSrc);
         fclose(fpDes);
     } while (false);

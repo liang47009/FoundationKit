@@ -279,6 +279,10 @@
 		09B006CC1FA979F20027702E /* WindowsPlatform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowsPlatform.hpp; sourceTree = "<group>"; };
 		09BC2A022015CD30007106D2 /* BitStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BitStream.cpp; sourceTree = "<group>"; };
 		09BC2A032015CD30007106D2 /* BitStream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BitStream.hpp; sourceTree = "<group>"; };
+		09BC2A0820197405007106D2 /* ConnectivityManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConnectivityManager.hpp; sourceTree = "<group>"; };
+		09BC2A0920197405007106D2 /* Context.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Context.hpp; sourceTree = "<group>"; };
+		09BC2A0A20197405007106D2 /* NetworkInfo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetworkInfo.hpp; sourceTree = "<group>"; };
+		09BC2A0B20197405007106D2 /* TelephonyManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TelephonyManager.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -488,6 +492,7 @@
 		0941099F1F3C0787006D6F80 /* Android */ = {
 			isa = PBXGroup;
 			children = (
+				09BC2A0720197405007106D2 /* AndroidInternal */,
 				09B006CB1FA979650027702E /* AndroidPlatform.hpp */,
 				09785AD31F7116A5005F3149 /* AndroidPlatformMemory.hpp */,
 				094109A01F3C0787006D6F80 /* AndroidDevice.cpp */,
@@ -593,6 +598,17 @@
 				094C50DE1EC3FF1B00AB3021 /* libFoundationKit_Mac.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		09BC2A0720197405007106D2 /* AndroidInternal */ = {
+			isa = PBXGroup;
+			children = (
+				09BC2A0820197405007106D2 /* ConnectivityManager.hpp */,
+				09BC2A0920197405007106D2 /* Context.hpp */,
+				09BC2A0A20197405007106D2 /* NetworkInfo.hpp */,
+				09BC2A0B20197405007106D2 /* TelephonyManager.hpp */,
+			);
+			path = AndroidInternal;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
