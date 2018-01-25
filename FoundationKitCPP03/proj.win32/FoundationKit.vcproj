@@ -359,6 +359,14 @@
 			Name="Foundation"
 			>
 			<File
+				RelativePath="..\FoundationKit\Foundation\BitStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Foundation\BitStream.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\FoundationKit\Foundation\Compression.cpp"
 				>
 			</File>

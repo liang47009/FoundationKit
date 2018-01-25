@@ -31,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\NetFramework\HTTPClient\HTTPClient.hpp" />
+    <ClInclude Include="..\NetFramework\HTTPClient\HTTPClientOptions.hpp" />
     <ClInclude Include="..\NetFramework\HTTPClient\HTTPCode.hpp" />
     <ClInclude Include="..\NetFramework\HTTPClient\HTTPDownloader.hpp" />
     <ClInclude Include="..\NetFramework\HTTPClient\HTTPRequest.hpp" />

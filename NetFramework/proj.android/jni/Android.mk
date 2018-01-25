@@ -4,51 +4,23 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 SRCROOT := ../..
 PROJECT_DIR:=$(LOCAL_PATH)/../..
-LOCAL_MODULE := foundationkit
-LOCAL_MODULE_FILENAME := libfoundationkit
+LOCAL_MODULE := netframework
+LOCAL_MODULE_FILENAME := libnetframework
 LOCAL_SRC_FILES := \
-$(SRCROOT)/FoundationKit/Crypto/aes.cpp \
-$(SRCROOT)/FoundationKit/Crypto/Base64.cpp \
-$(SRCROOT)/FoundationKit/external/ConvertUTF/ConvertUTFWrapper.cpp \
-$(SRCROOT)/FoundationKit/external/ConvertUTF/ConvertUTF.c \
-$(SRCROOT)/FoundationKit/external/unzip/ioapi.cpp \
-$(SRCROOT)/FoundationKit/external/unzip/ioapi_mem.cpp \
-$(SRCROOT)/FoundationKit/external/unzip/unzip.cpp \
-$(SRCROOT)/FoundationKit/Foundation/BitStream.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Compression.cpp \
-$(SRCROOT)/FoundationKit/Foundation/DateTime.cpp \
-$(SRCROOT)/FoundationKit/Foundation/NotificationCenter.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Exception.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Math.cpp \
-$(SRCROOT)/FoundationKit/Foundation/MathUtil.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Matrix.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Quaternion.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Rect.cpp \
-$(SRCROOT)/FoundationKit/Foundation/StringUtils.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Time.cpp \
-$(SRCROOT)/FoundationKit/Foundation/ThreadTimer.cpp \
-$(SRCROOT)/FoundationKit/Foundation/TimeSpan.cpp \
-$(SRCROOT)/FoundationKit/Foundation/TimeZone.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Vector2.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Vector3.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Vector4.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Version.cpp \
-$(SRCROOT)/FoundationKit/Foundation/Value.cpp \
-$(SRCROOT)/FoundationKit/GenericPlatformMacros.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidJavaBridge.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidDirectory.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidEnvironment.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidFile.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidPath.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidDevice.cpp \
-$(SRCROOT)/FoundationKit/Platform/Directory.cpp \
-$(SRCROOT)/FoundationKit/Platform/File.cpp \
-$(SRCROOT)/FoundationKit/Platform/Path.cpp 
+$(SRCROOT)/NetFramework/HTTPClient/HTTPClient.cpp \
+$(SRCROOT)/NetFramework/HTTPClient/HTTPCode.cpp \
+$(SRCROOT)/NetFramework/HTTPClient/HTTPDownloader.cpp \
+$(SRCROOT)/NetFramework/HTTPClient/HTTPRequest.cpp \
+$(SRCROOT)/NetFramework/HTTPClient/HTTPResponse.cpp \
+$(SRCROOT)/NetFramework/HTTPClient/HTTPUploader.cpp \
+$(SRCROOT)/NetFramework/HTTPClient/libcurl_init.cpp \
+$(SRCROOT)/NetFramework/HTTPClient/MimeTypes.cpp
 
 LOCAL_C_INCLUDES := \
 $(PROJECT_DIR)/ \
-$(PROJECT_DIR)/FoundationKit/external/unzip
+$(PROJECT_DIR)/NetFramework \
+$(PROJECT_DIR)/../FoundationKit/ \
+$(PROJECT_DIR)/../ThirdParty/curl/include/android/curl
 
 LOCAL_CFLAGS := \
 -fsigned-char \
@@ -93,17 +65,14 @@ LOCAL_CPP_FEATURES := rtti exceptions
 
 LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
 LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS)
-LOCAL_EXPORT_LDLIBS := -latomic -landroid -llog -lz
+LOCAL_EXPORT_LDLIBS := -latomic
 LOCAL_EXPORT_C_INCLUDES :=$(LOCAL_C_INCLUDES)
 
-#LOCAL_STATIC_LIBRARIES := cpufeatures
-LOCAL_WHOLE_STATIC_LIBRARIES :=cpufeatures
 include $(BUILD_STATIC_LIBRARY)
 #==============================================================
-$(call import-add-path,$(LOCAL_PATH)/../../FoundationKit)
-$(call import-module,android/cpufeatures)
+$(call import-add-path,$(LOCAL_PATH)/../../NetFramework)
 
-$(info ----------------- Compile libfoundationkit infomation -------------------)
+$(info ----------------- Compile libnetframework infomation -------------------)
 $(info TARGET_PLATFORM = $(TARGET_PLATFORM))
 $(info TARGET_ARCH     = $(TARGET_ARCH))
 $(info TARGET_ARCH_ABI = $(TARGET_ARCH_ABI))

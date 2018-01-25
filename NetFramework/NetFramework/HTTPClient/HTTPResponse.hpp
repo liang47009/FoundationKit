@@ -4,15 +4,17 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FOUNDATIONKIT_HTTPRESPONSE_HPP
-#define FOUNDATIONKIT_HTTPRESPONSE_HPP
-
+#ifndef NETFRAMEWORK_HTTPRESPONSE_HPP
+#define NETFRAMEWORK_HTTPRESPONSE_HPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include <vector>
 #include <unordered_map>
 #include <memory>
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/Base/types.hpp"
-#include "HTTPCode.hpp"
+#include "HTTPClient/HTTPCode.hpp"
 
 NS_FK_BEGIN
 class HTTPRequest;
@@ -79,5 +81,6 @@ private:
 };
 
 NS_FK_END
+//#include "HTTPClient/HTTPResponse.ipp"
 
-#endif // FOUNDATIONKIT_HTTPRESPONSE_HPP
+#endif // END OF NETFRAMEWORK_HTTPRESPONSE_HPP

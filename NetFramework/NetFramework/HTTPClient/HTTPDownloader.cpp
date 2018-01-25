@@ -1,18 +1,30 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef NETFRAMEWORK_HTTPDOWNLOADER_CPP
+#define NETFRAMEWORK_HTTPDOWNLOADER_CPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
-#include "HTTPDownloader.hpp"
-#include "HTTPResponse.hpp"
-#include "HTTPClient.hpp"
+#include "HTTPClient/HTTPDownloader.hpp"
+#include "HTTPClient/HTTPResponse.hpp"
+#include "HTTPClient/HTTPClient.hpp"
 #include <thread>
 NS_FK_BEGIN
 
 HTTPDownloadRequest::HTTPDownloadRequest(bool enableDebug /*= false*/)
 : HTTPRequest(enableDebug)
-, DownladedSize(0)
-, EnableRange(false)
 , Offset(0)
 , Size(0)
 , WriteOffset(0)
+, FileHandle(nullptr)
+, DownladedSize(0)
+, EnableRange(false)
 {
 
 }
@@ -98,11 +110,15 @@ size_t HTTPDownloadRequest::ReceiveResponseBodyCallback(void* buffer, size_t siz
 
 
 HTTPDownloader::HTTPDownloader()
-	: FileHandle(nullptr)
+    : OnErrorHandler(nullptr)
+    , OnProgressHandler(nullptr)
+    , OnCompletedHandler(nullptr)
+    , URL()
+    , FilePath()
+    , FileHandle(nullptr)
 	, ContentSize(0)
-	, OnErrorHandler(nullptr)
-	, OnProgressHandler(nullptr)
-	, OnCompletedHandler(nullptr)
+    , DownloadedSize(0)
+    , Requests()
 	, RetryCount(-1)
 	, bCompleted(true)
 {
@@ -306,10 +322,4 @@ void HTTPDownloader::Clear()
 
 NS_FK_END
 
-
-
-
-
-
-
-
+#endif // END OF NETFRAMEWORK_HTTPDOWNLOADER_CPP

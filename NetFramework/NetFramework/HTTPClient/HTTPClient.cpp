@@ -1,44 +1,55 @@
-#include "HTTPClient.hpp"
-#include "libcurl_init.hpp"
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef NETFRAMEWORK_HTTPCLIENT_IPP
+#define NETFRAMEWORK_HTTPCLIENT_IPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Platform/Directory.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
-NS_FK_BEGIN
+#include "HTTPClient/HTTPClient.hpp"
+#include "HTTPClient/libcurl_init.hpp"
 
+NS_FK_BEGIN
 #define MAX_WAIT_MSECS 30*1000 /* Wait max. 30 seconds */
 
 extern std::string GExternalFilePath;
-HTTPClient::RequestOptions HTTPClient::HTTPRequestOptions;
+HTTPClientOptions HTTPClient::G_HTTPClientOptions;
 CURLM*  HTTPClient::G_multiHandle = nullptr;
 CURLSH* HTTPClient::G_shareHandle = nullptr;
 
-void HTTPClient::RequestOptions::DumpOptions()
+void HTTPClient::DumpOptions()
 {
     FKLog(" CurlRequestOptions (configurable via config and command line):");
     FKLog(" - bVerifyPeer = %s  - Libcurl will %sverify peer certificate",
-        EnableVerifyPeer ? ("true") : ("false"),
-        EnableVerifyPeer ? ("") : ("NOT ")
+        G_HTTPClientOptions.EnableVerifyPeer ? ("true") : ("false"),
+        G_HTTPClientOptions.EnableVerifyPeer ? ("") : ("NOT ")
         );
 
     FKLog(" - CertBundlePath = %s  - Libcurl will %s",
-        CertBundlePath.empty() ? "nullptr" : CertBundlePath.c_str(),
-        CertBundlePath.empty() ? "use whatever was configured at build time." : "set CURLOPT_CAINFO to it"
+        G_HTTPClientOptions.CertBundlePath.empty() ? "nullptr" : G_HTTPClientOptions.CertBundlePath.c_str(),
+        G_HTTPClientOptions.CertBundlePath.empty() ? "use whatever was configured at build time." : "set CURLOPT_CAINFO to it"
         );
 
     FKLog(" - IsUseHttpProxy = %s  - Libcurl will %suse HTTP proxy",
-        IsUseHttpProxy ? ("true") : ("false"),
-        IsUseHttpProxy ? ("") : ("NOT ")
+        G_HTTPClientOptions.IsUseHttpProxy ? ("true") : ("false"),
+        G_HTTPClientOptions.IsUseHttpProxy ? ("") : ("NOT ")
         );
-    if (IsUseHttpProxy)
+    if (G_HTTPClientOptions.IsUseHttpProxy)
     {
-        FKLog(" - HttpProxyAddress = '%s'", HttpProxyAddress.c_str());
-        FKLog(" - HttpProxyAcount = '%s'", HttpProxyAcount.c_str());
+        FKLog(" - HttpProxyAddress = '%s'", G_HTTPClientOptions.HttpProxyAddress.c_str());
+        FKLog(" - HttpProxyAcount = '%s'", G_HTTPClientOptions.HttpProxyAcount.c_str());
     }
 
     FKLog(" - IsDontReuseConnections = %s  - Libcurl will %sreuse connections",
-        IsDontReuseConnections ? ("true") : ("false"),
-        IsDontReuseConnections ? ("NOT ") : ("")
+        G_HTTPClientOptions.IsDontReuseConnections ? ("true") : ("false"),
+        G_HTTPClientOptions.IsDontReuseConnections ? ("NOT ") : ("")
         );
 
 
@@ -155,11 +166,11 @@ void HTTPClient::Initialize()
 
             if (File::IsExists(fileName))
             {
-                HTTPRequestOptions.CertBundlePath = *currentBundle;
+                G_HTTPClientOptions.CertBundlePath = *currentBundle;
                 break;
             }
         }
-        if (HTTPRequestOptions.CertBundlePath.empty())
+        if (G_HTTPClientOptions.CertBundlePath.empty())
         {
             FKLog(" Libcurl: did not find a cert bundle in any of known locations, TLS may not work");
         }
@@ -167,9 +178,6 @@ void HTTPClient::Initialize()
 #elif PLATFORM_ANDROID
     // used #if here to protect against GExternalFilePath only available on Android
     {
-        const int32 PathLength = 200;
-        static char capath[PathLength] = { 0 };
-
         // if file does not already exist, create local PEM file with system trusted certificates
         std::string PEMFilename = GExternalFilePath + "/ca-bundle.pem";
         if (!File::IsExists(PEMFilename))
@@ -206,23 +214,23 @@ void HTTPClient::Initialize()
                 }
             }
 
-            HTTPRequestOptions.CertBundlePath = PEMFilename;
+            G_HTTPClientOptions.CertBundlePath = PEMFilename;
             FKLog(" Libcurl: using generated PEM file: '%s'", PEMFilename.c_str());
         }
         else
         {
-            HTTPRequestOptions.CertBundlePath = PEMFilename;
+            G_HTTPClientOptions.CertBundlePath = PEMFilename;
             FKLog(" Libcurl: using existing PEM file: '%s'", PEMFilename.c_str());
         }
 
-        if (HTTPRequestOptions.CertBundlePath.empty())
+        if (G_HTTPClientOptions.CertBundlePath.empty())
         {
             FKLog(" Libcurl: failed to generate a PEM cert bundle, TLS may not work");
         }
     }
 #endif
     // print for visibility
-    HTTPRequestOptions.DumpOptions();
+    DumpOptions();
 }
 
 HTTPClient::HTTPClient()
@@ -480,3 +488,5 @@ void HTTPClient::UnlockCallback(CURL *handle, curl_lock_data data)
 }
 
 NS_FK_END
+
+#endif // END OF NETFRAMEWORK_HTTPCLIENT_IPP

@@ -17,6 +17,7 @@
 #include "FoundationKit/Base/mutablebuf.hpp"
 
 NS_FK_BEGIN
+
 enum FileMode
 {
     ReadOnly = 0,
@@ -24,6 +25,7 @@ enum FileMode
     ReadWrite = 2,
     Append = 3
 };
+
 class File
 {
 public:

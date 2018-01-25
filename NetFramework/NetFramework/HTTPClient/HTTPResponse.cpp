@@ -1,7 +1,18 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
-#include "HTTPRequest.hpp"
-#include "HTTPResponse.hpp"
+****************************************************************************/
+#ifndef NETFRAMEWORK_HTTPRESPONSE_CPP
+#define NETFRAMEWORK_HTTPRESPONSE_CPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include "FoundationKit/Foundation/StringUtils.hpp"
+#include "HTTPClient/HTTPRequest.hpp"
+#include "HTTPClient/HTTPResponse.hpp"
+
 NS_FK_BEGIN
 
 HTTPResponse::HTTPResponse(RequestWeakPtr pRequest)
@@ -214,6 +225,4 @@ HTTPResponse& HTTPResponse::SetEffectiveURL(const std::string& effectiveUrl)
 
 NS_FK_END
 
-
-
-
+#endif // END OF NETFRAMEWORK_HTTPRESPONSE_CPP

@@ -1,4 +1,16 @@
-#include "HTTPCode.hpp"
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef NETFRAMEWORK_HTTPCODE_IPP
+#define NETFRAMEWORK_HTTPCODE_IPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+#include "FoundationKit/Base/lexical_cast.hpp"
+#include "HTTPClient/HTTPCode.hpp"
 NS_FK_BEGIN
 extern const HTTPCode* HTTPCodeList[];
 
@@ -81,7 +93,7 @@ void HTTPCode::Assign(long httpcode)
 
 std::string HTTPCode::ToString()
 {
-    std::string result = std::to_string(code);
+    std::string result = lexical_cast<std::string>(code);
     result += ":";
     result += message ? message : "Unknown";
     return result;
@@ -133,3 +145,5 @@ const HTTPCode* HTTPCodeList[] =
 	nullptr
 };
 NS_FK_END
+
+#endif // END OF NETFRAMEWORK_HTTPCODE_IPP

@@ -4,11 +4,11 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FOUNDATIONKIT_LIBCURL_INIT_HPP
-#define FOUNDATIONKIT_LIBCURL_INIT_HPP
-
+#ifndef NETFRAMEWORK_LIBCURL_INIT_HPP
+#define NETFRAMEWORK_LIBCURL_INIT_HPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
-
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include "curl.h"
 #include "FoundationKit/GenericPlatformMacros.hpp"
 NS_FK_BEGIN
@@ -50,5 +50,7 @@ private:
 static const libcurl_init& libcurl_init_instance = libcurl_init();
 NS_FK_END
 
-#endif // FOUNDATIONKIT_LIBCURL_INIT_HPP
 
+//#include "HTTPClient/libcurl_init.ipp"
+
+#endif // END OF NETFRAMEWORK_LIBCURL_INIT_HPP

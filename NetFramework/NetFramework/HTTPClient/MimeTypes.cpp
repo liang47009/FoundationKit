@@ -1,11 +1,15 @@
 /****************************************************************************
-Copyright (c) 2015 libo.
-
-losemymind.libo@gmail.com
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
 
 ****************************************************************************/
-
-#include "MimeTypes.hpp"
+#ifndef NETFRAMEWORK_MIMETYPES_IPP
+#define NETFRAMEWORK_MIMETYPES_IPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+#include "HTTPClient/MimeTypes.hpp"
 NS_FK_BEGIN
 namespace MimeTypes
 {
@@ -596,3 +600,5 @@ namespace MimeTypes
 
 NS_FK_END
 
+
+#endif // END OF NETFRAMEWORK_MIMETYPES_IPP

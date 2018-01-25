@@ -1,9 +1,17 @@
-//#ifndef LOSEMYMIND_LIBCURL_INIT_IPP
-//#define LOSEMYMIND_LIBCURL_INIT_IPP
-//# pragma once
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef NETFRAMEWORK_LIBCURL_INIT_IPP
+#define NETFRAMEWORK_LIBCURL_INIT_IPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include <string>
 #include <cassert>
-#include "libcurl_init.hpp"
+#include "HTTPClient/libcurl_init.hpp"
 
 namespace
 {
@@ -105,4 +113,4 @@ void libcurl_init_base::Cleanup()
 NS_FK_END
 
 
-//#endif // LOSEMYMIND_LIBCURL_INIT_IPP
+#endif // END OF NETFRAMEWORK_LIBCURL_INIT_IPP

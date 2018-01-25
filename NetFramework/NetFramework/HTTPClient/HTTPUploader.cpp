@@ -1,4 +1,15 @@
-#include "HTTPUploader.hpp"
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef NETFRAMEWORK_HTTPUPLOADER_IPP
+#define NETFRAMEWORK_HTTPUPLOADER_IPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
+#include "HTTPClient/HTTPUploader.hpp"
 
 NS_FK_BEGIN
 
@@ -88,4 +99,4 @@ int HTTPUploadRequest::ProgressCallback(curl_off_t totalDownload, curl_off_t now
 
 NS_FK_END
 
-
+#endif // END OF NETFRAMEWORK_HTTPUPLOADER_IPP

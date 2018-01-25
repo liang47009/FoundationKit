@@ -4,10 +4,11 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FOUNDATIONKIT_MIMETYPES_HPP
-#define FOUNDATIONKIT_MIMETYPES_HPP
-
-#pragma once
+#ifndef NETFRAMEWORK_MIMETYPES_HPP
+#define NETFRAMEWORK_MIMETYPES_HPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include <string>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 NS_FK_BEGIN
@@ -16,4 +17,6 @@ namespace MimeTypes
     std::string GetMimeType(std::string fileName);
 };
 NS_FK_END
-#endif // FOUNDATIONKIT_MIMETYPES_HPP
+//#include "HTTPClient/MimeTypes.ipp"
+
+#endif // END OF NETFRAMEWORK_MIMETYPES_HPP

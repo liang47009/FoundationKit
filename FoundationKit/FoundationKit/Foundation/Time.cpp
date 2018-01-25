@@ -6,11 +6,9 @@
 ****************************************************************************/
 #include "FoundationKit/Foundation/Time.hpp"
 #include "FoundationKit/Foundation/TimeZone.hpp"
-
-#if PLATFORM_WINDOWS
-
-#else
 #include <time.h>
+
+#if !PLATFORM_WINDOWS
 #include <sys/time.h>
 #endif
 

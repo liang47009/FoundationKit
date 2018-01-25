@@ -1,9 +1,20 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef NETFRAMEWORK_HTTPREQUEST_IPP
+#define NETFRAMEWORK_HTTPREQUEST_IPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include <algorithm>
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "HTTPRequest.hpp"
-#include "HTTPResponse.hpp"
-#include "HTTPClient.hpp"
-#include "MimeTypes.hpp"
+#include "HTTPClient/HTTPRequest.hpp"
+#include "HTTPClient/HTTPResponse.hpp"
+#include "HTTPClient/HTTPClient.hpp"
+#include "HTTPClient/MimeTypes.hpp"
 
 NS_FK_BEGIN
 
@@ -60,7 +71,7 @@ HTTPRequest::HTTPRequest(bool enableDebug/* = false*/)
 
     curl_easy_setopt(EasyHandle, CURLOPT_USE_SSL, CURLUSESSL_ALL);
     // set certificate verification (disable to allow self-signed certificates)
-    if (HTTPClient::HTTPRequestOptions.EnableVerifyPeer)
+    if (HTTPClient::G_HTTPClientOptions.EnableVerifyPeer)
     {
         curl_easy_setopt(EasyHandle, CURLOPT_SSL_VERIFYPEER, 1L);
         curl_easy_setopt(EasyHandle, CURLOPT_SSL_VERIFYHOST, 1L);
@@ -71,20 +82,20 @@ HTTPRequest::HTTPRequest(bool enableDebug/* = false*/)
         curl_easy_setopt(EasyHandle, CURLOPT_SSL_VERIFYHOST, 0L);
     }
 
-    if (HTTPClient::HTTPRequestOptions.IsUseHttpProxy)
+    if (HTTPClient::G_HTTPClientOptions.IsUseHttpProxy)
     {
         // guaranteed to be valid at this point
-        curl_easy_setopt(EasyHandle, CURLOPT_PROXY, HTTPClient::HTTPRequestOptions.HttpProxyAddress.c_str());
+        curl_easy_setopt(EasyHandle, CURLOPT_PROXY, HTTPClient::G_HTTPClientOptions.HttpProxyAddress.c_str());
     }
 
-    if (HTTPClient::HTTPRequestOptions.IsDontReuseConnections)
+    if (HTTPClient::G_HTTPClientOptions.IsDontReuseConnections)
     {
         curl_easy_setopt(EasyHandle, CURLOPT_FORBID_REUSE, 1L);
     }
 
-    if (!HTTPClient::HTTPRequestOptions.CertBundlePath.empty())
+    if (!HTTPClient::G_HTTPClientOptions.CertBundlePath.empty())
     {
-        curl_easy_setopt(EasyHandle, CURLOPT_CAINFO, HTTPClient::HTTPRequestOptions.CertBundlePath.c_str());
+        curl_easy_setopt(EasyHandle, CURLOPT_CAINFO, HTTPClient::G_HTTPClientOptions.CertBundlePath.c_str());
     }
 
     if (EnableDebug)
@@ -762,7 +773,4 @@ size_t HTTPRequest::DebugCallback(CURL * handle, curl_infotype debugInfoType, ch
 
 NS_FK_END
 
-
-
-
-
+#endif // END OF NETFRAMEWORK_HTTPREQUEST_IPP

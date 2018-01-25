@@ -4,9 +4,11 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FOUNDATIONKIT_HTTPCODE_HPP
-#define FOUNDATIONKIT_HTTPCODE_HPP
-
+#ifndef NETFRAMEWORK_HTTPCODE_HPP
+#define NETFRAMEWORK_HTTPCODE_HPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include <string>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 NS_FK_BEGIN
@@ -119,5 +121,5 @@ inline bool operator!=(const HTTPCode& hcp, long httpCode)
 }
 
 NS_FK_END
-
-#endif // END OF FOUNDATIONKIT_HTTPCODE_HPP
+//#include "HTTPClient/HTTPCode.ipp"
+#endif // END OF NETFRAMEWORK_HTTPCODE_HPP

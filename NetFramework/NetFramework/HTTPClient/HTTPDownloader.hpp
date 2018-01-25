@@ -1,9 +1,20 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
+#ifndef NETFRAMEWORK_HTTPDOWNLOADER_HPP
+#define NETFRAMEWORK_HTTPDOWNLOADER_HPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include <vector>
 #include <atomic>
 #include <unordered_map>
 #include <functional>
-#include "HTTPRequest.hpp"
-#include "HTTPResponse.hpp"
+#include "HTTPClient/HTTPRequest.hpp"
+#include "HTTPClient/HTTPResponse.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"
 #include "FoundationKit/Base/mutablebuf.hpp"
 NS_FK_BEGIN
@@ -49,6 +60,8 @@ protected:
     bool            EnableRange;
 };
 
+
+// Experimental HTTPDownloader
 class HTTPDownloader :public std::enable_shared_from_this<HTTPDownloader>
 {
 
@@ -84,8 +97,6 @@ private:
     bool                     bCompleted;
 };
 
-
-
 NS_FK_END
-
-
+//#include "HTTPClient/HTTPDownloader.ipp"
+#endif // END OF NETFRAMEWORK_HTTPDOWNLOADER_HPP

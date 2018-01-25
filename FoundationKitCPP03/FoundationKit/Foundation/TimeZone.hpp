@@ -73,15 +73,6 @@ public:
     static std::string StandardName();
 
     /**
-     * Returns a value indicating whether the specified date and time is within a daylight
-     * saving time period.
-     *
-     * @param date  A date and time.
-     *
-     */
-    static bool IsDaylightSavingTime(DateTime date);
-
-    /**
      * Returns the Coordinated Universal Time (UTC) offset for the specified local time.
      * local time = UTC + UTC Offset + DST Offset
      */
@@ -92,23 +83,6 @@ public:
      * local time = UTC + UTC Offset + DST Offset
      */
     static TimeSpan GetDSTOffset();
-
-    /**
-     * Returns the local time that corresponds to a specified date and time value.
-     * local time = UTC + UTC Offset + DST Offset
-     * @param date A Coordinated Universal Time (UTC) time.
-     *
-     */
-    static DateTime ToLocalTime(const DateTime& date);
-
-    /**
-     * Returns the Coordinated Universal Time (UTC) that corresponds to a specified
-     * time.
-     * utc time = local time - UTC Offset - DST Offset
-     * @param date A date and time.
-     *
-     */
-    static DateTime ToUniversalTime(const DateTime& date);
 
     /**
      * Get time zone all info string.

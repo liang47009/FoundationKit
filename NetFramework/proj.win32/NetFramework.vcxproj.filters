@@ -15,6 +15,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\NetFramework\Networking\IProtocol.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
     <ClCompile Include="..\NetFramework\HTTPClient\HTTPClient.cpp">
       <Filter>HTTPClient</Filter>
     </ClCompile>
@@ -38,9 +41,6 @@
     </ClCompile>
     <ClCompile Include="..\NetFramework\HTTPClient\MimeTypes.cpp">
       <Filter>HTTPClient</Filter>
-    </ClCompile>
-    <ClCompile Include="..\NetFramework\Networking\IProtocol.cpp">
-      <Filter>Networking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="..\NetFramework\Networking\net_error_code.hpp">
       <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NetFramework\HTTPClient\HTTPClientOptions.hpp">
+      <Filter>HTTPClient</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

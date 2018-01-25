@@ -1,10 +1,17 @@
+/****************************************************************************
+  Copyright (c) 2017 libo All rights reserved.
+ 
+  losemymind.libo@gmail.com
+
+****************************************************************************/
 #include <fstream>
+#include <map>
+#include "FoundationKit/Base/lexical_cast.hpp"
+#include "FoundationKit/Foundation/TimeZone.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/Directory.hpp"
-#include "FoundationKit/Foundation/TimeZone.hpp"
-
 #include "unzip.h"
 
 NS_FK_BEGIN
@@ -16,6 +23,10 @@ const char PlatformNewLine[] ={'\n'};
 const char PlatformNewLine[] ={ '\r'};
 #endif
 
+#if !PLATFORM_WINDOWS
+#include <unistd.h>
+#endif
+
 namespace detail
 {
     mutablebuf ReadDataFromFile(const std::string& path, bool isText = false)
@@ -25,16 +36,15 @@ namespace detail
         {
             FILE* FileHandle = nullptr;
             if (isText)
-                FileHandle = fopen(path.c_str(), "rt");
+                FileHandle = File::Open(path, "rt");
             else
-                FileHandle = fopen(path.c_str(), "rb");
+                FileHandle = File::Open(path, "rb");
             BREAK_IF(!FileHandle);
             fseek(FileHandle, 0, SEEK_END);
             size_t FileSize = ftell(FileHandle);
             fseek(FileHandle, 0, SEEK_SET);
             FileAllBytes.allocate(FileSize);
             fread(FileAllBytes.data(), 1, FileSize, FileHandle);
-
             fclose(FileHandle);
         } while (false);
         return FileAllBytes;
@@ -47,9 +57,9 @@ namespace detail
         {
             FILE* FileHandle = nullptr;
             if (bAppend)
-                FileHandle = fopen(path.c_str(), "ab");
+                FileHandle = File::Open(path, "ab");
             else
-                FileHandle = fopen(path.c_str(), "wb");
+                FileHandle = File::Open(path, "wb");
             BREAK_IF(!FileHandle);
             File::FileLineType::const_iterator line = contents.begin();
             for (line; line != contents.end(); ++line)
@@ -67,9 +77,9 @@ namespace detail
     {
         FILE* FileHandle = nullptr;
         if (isText)
-            FileHandle = fopen(path.c_str(), "wt");
+            FileHandle = File::Open(path, "wt");
         else
-            FileHandle = fopen(path.c_str(), "wb");
+            FileHandle = File::Open(path, "wb");
         if (!FileHandle) return false;
         size_t WriteSize = fwrite(bytes, 1, length, FileHandle);
         fclose(FileHandle);
@@ -139,19 +149,19 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
         Directory::Create(dirPath);
         int64 srcFileSize = GetSize(sourceFileName);
         BREAK_IF(srcFileSize == -1);
-        FILE *fpSrc = fopen(sourceFileName.c_str(), "rb");
+        FILE *fpSrc = Open(sourceFileName, "rb");
         BREAK_IF(!fpSrc);
-        FILE *fpDes = fopen(destFileName.c_str(), "wb");
+        FILE *fpDes = Open(destFileName, "wb");
         BREAK_IF(!fpDes);
-        const size_t BUFF_SIZE = 1024;
-        char read_buff[BUFF_SIZE];
+        const size_t BUFF_SIZE = 1024*1024*10; //10M
+        char* read_buff = new char[BUFF_SIZE];
         size_t TotalReadSize = 0;
         size_t FileOriginalSize = static_cast<size_t>(srcFileSize);
         ret = true;
         while (TotalReadSize < FileOriginalSize)
         {
             size_t NumRead = fread(read_buff, sizeof(char), BUFF_SIZE, fpSrc);
-            if (NumRead == 0)
+            if (NumRead == 0) 
             {
                 if (feof(fpSrc) == 0) // read file error.
                 {
@@ -169,6 +179,7 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
             fflush(fpDes);
             TotalReadSize += NumRead;
         }
+        delete[] read_buff;
         fclose(fpSrc);
         fclose(fpDes);
     } while (false);
@@ -177,17 +188,26 @@ bool File::Copy(const std::string& sourceFileName, const std::string& destFileNa
 
 int64 File::GetSize(const std::string& path)
 {
-    ASSERTED(!path.empty(), "filepath must be not empty.");
+    ASSERT_IF(path.empty(), "filepath must be not empty.");
+    int64 ResultFileSize = -1;
     struct stat info;
     int result = stat(path.c_str(), &info);
-    if (result != 0)
+    if (result == 0)
     {
-        return -1;
+        ResultFileSize = (int64)(info.st_size);
     }
     else
     {
-        return (int64)(info.st_size);
+        FKLog("%s,Try use fopen->fseek-ftell-fseek.", ErrnoToString(errno,"stat").c_str());
+        FILE* FileHandle = Open(path, "r");
+        if (FileHandle)
+        {
+            fseek(FileHandle, 0, SEEK_END);
+            ResultFileSize = ftell(FileHandle);
+            fseek(FileHandle, 0, SEEK_SET);
+        }
     }
+    return ResultFileSize;
 }
 
 bool File::SetSize(const std::string& path, size_t size)
@@ -228,7 +248,7 @@ bool File::AppendAllText(const std::string& path, const std::string& contents)
     bool result = false;
     do
     {
-        FILE* FileHandle = fopen(path.c_str(), "at");
+        FILE* FileHandle = Open(path.c_str(), "at");
         BREAK_IF(!FileHandle);
         fwrite(contents.c_str(), 1, contents.size(), FileHandle);
         fclose(FileHandle);
@@ -247,10 +267,8 @@ mutablebuf File::ReadAllBytesFromZip(const std::string& path, const std::string&
     do
     {
         BREAK_IF(path.empty());
-
         file = unzOpen(path.c_str());
         BREAK_IF(!file);
-
         // FIXME: Other platforms should use upstream minizip like mingw-w64
 #ifdef MINIZIP_FROM_SYSTEM
         int ret = unzLocateFile(file, fileName.c_str(), NULL);
@@ -258,12 +276,10 @@ mutablebuf File::ReadAllBytesFromZip(const std::string& path, const std::string&
         int ret = unzLocateFile(file, fileName.c_str(), 1);
 #endif
         BREAK_IF(UNZ_OK != ret);
-
         char filePathA[260];
         unz_file_info fileInfo;
         ret = unzGetCurrentFileInfo(file, &fileInfo, filePathA, sizeof(filePathA), nullptr, 0, nullptr, 0);
         BREAK_IF(UNZ_OK != ret);
-
         ret = unzOpenCurrentFile(file);
         BREAK_IF(UNZ_OK != ret);
         unsigned char * buffer = new unsigned char[fileInfo.uncompressed_size];
@@ -323,9 +339,10 @@ bool File::WriteAllText(const std::string& path, const std::string& contents)
 {
     return detail::WriteDataToFile(path, contents.c_str(), contents.size(), true);
 }
+
 DateTime File::GetCreationTime(const std::string& path)
 {
-    return TimeZone::ToLocalTime(GetCreationTimeUtc(path));
+    return GetCreationTimeUtc(path).ToLocalTime();
 }
 
 DateTime File::GetCreationTimeUtc(const std::string& path)
@@ -343,7 +360,7 @@ DateTime File::GetCreationTimeUtc(const std::string& path)
 
 DateTime File::GetLastAccessTime(const std::string& path)
 {
-    return TimeZone::ToLocalTime(GetLastAccessTimeUtc(path));
+    return GetLastAccessTimeUtc(path).ToLocalTime();
 }
 
 DateTime File::GetLastAccessTimeUtc(const std::string& path)
@@ -354,14 +371,14 @@ DateTime File::GetLastAccessTimeUtc(const std::string& path)
     ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
     if (result == 0)
     {
-        dt = TimeZone::ToLocalTime(DateTime::FromUnixTimestamp(info.st_atime, ETimeKind::Utc));
+        dt = DateTime::FromUnixTimestamp(info.st_atime, ETimeKind::Utc);
     }
     return dt;
 }
 
 DateTime File::GetLastWriteTime(const std::string& path)
 {
-    return TimeZone::ToLocalTime(GetLastWriteTimeUtc(path));
+    return GetLastWriteTimeUtc(path).ToLocalTime();
 }
 
 DateTime File::GetLastWriteTimeUtc(const std::string& path)
@@ -372,7 +389,7 @@ DateTime File::GetLastWriteTimeUtc(const std::string& path)
     ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
     if (result == 0)
     {
-        dt = TimeZone::ToLocalTime(DateTime::FromUnixTimestamp(info.st_mtime, ETimeKind::Utc));
+        dt = DateTime::FromUnixTimestamp(info.st_mtime, ETimeKind::Utc);
     }
     return dt;
 }
@@ -416,7 +433,7 @@ std::string File::ErrnoToString(int error, const std::string& operation)
         return StringUtils::Format("%s failed because there is no disk space left. Please free some disk space and continue.", opstr);
     case ELOOP:
         return StringUtils::Format("%s failed: too many symbolic links encountered while traversing the path.", opstr);
-#if !PLATFORM_WINDOWS
+#if PLATFORM_IOS
     case EAUTH:
         return StringUtils::Format("%s failed because of an authentication failure", opstr);
     case ENEEDAUTH:
@@ -428,6 +445,6 @@ std::string File::ErrnoToString(int error, const std::string& operation)
         return StringUtils::Format("%s failed with error: %s", opstr, strerror(error));
     }
 }
-NS_FK_END
 
+NS_FK_END
 

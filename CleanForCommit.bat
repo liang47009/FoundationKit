@@ -92,4 +92,8 @@ IF EXIST "FoundationKitCPP03\proj.win32\Release" (
     rmdir "FoundationKitCPP03\proj.win32\Release" /s /q
 )
 
+IF EXIST "NetFramework\proj.android\obj" (
+    rmdir "NetFramework\proj.android\obj" /s /q
+)
+
 pause

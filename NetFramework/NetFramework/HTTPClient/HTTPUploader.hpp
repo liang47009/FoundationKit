@@ -4,12 +4,14 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FOUNDATIONKIT_HTTPUPLOADER_HPP
-#define FOUNDATIONKIT_HTTPUPLOADER_HPP
-
+#ifndef NETFRAMEWORK_HTTPUPLOADER_HPP
+#define NETFRAMEWORK_HTTPUPLOADER_HPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include <functional>
 #include <memory>
-#include "HTTPRequest.hpp"
+#include "HTTPClient/HTTPRequest.hpp"
 
 NS_FK_BEGIN
 /**
@@ -46,5 +48,6 @@ protected:
 };
 
 NS_FK_END
+//#include "HTTPClient/HTTPUploader.ipp"
 
-#endif // FOUNDATIONKIT_HTTPUPLOADER_HPP
+#endif // END OF NETFRAMEWORK_HTTPUPLOADER_HPP

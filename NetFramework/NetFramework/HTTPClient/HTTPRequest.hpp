@@ -4,9 +4,11 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FOUNDATIONKIT_HTTPREQUEST_HPP
-#define FOUNDATIONKIT_HTTPREQUEST_HPP
-
+#ifndef NETFRAMEWORK_HTTPREQUEST_HPP
+#define NETFRAMEWORK_HTTPREQUEST_HPP
+#if defined(_MSC_VER) && (_MSC_VER >= 1200)
+# pragma once
+#endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include <string>
 #include <vector>
 #include <functional>
@@ -268,15 +270,5 @@ protected:
 };
 
 NS_FK_END
-
-
-#endif // FOUNDATIONKIT_HTTPREQUEST_HPP
-
-
-
-
-
-
-
-
-
+//#include "HTTPClient/HTTPRequest.ipp"
+#endif // END OF NETFRAMEWORK_HTTPREQUEST_HPP
