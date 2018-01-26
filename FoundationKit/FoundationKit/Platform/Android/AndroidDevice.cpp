@@ -151,8 +151,8 @@ std::string PlatformDevice::GetDeviceId()
         FKLog("Try get system property [gsm.sim.imei]");
         strDeviceId = detail::GetSystemProperty("gsm.sim.imei");
         BREAK_IF(!strDeviceId.empty());
-        FKLog("Try use TelephonyManager.getDeviceId");
-        strDeviceId = TelephonyManager().getDeviceId();
+        FKLog("Try use GetMacAddress");
+        strDeviceId = GetMacAddress()；
     } while (false);
 
     return strDeviceId;
@@ -274,13 +274,18 @@ std::string PlatformDevice::GetIpAddressV4()
 {
     std::string ipaddressv4;
     std::string result = ExecuteSystemCommand("ip addr show wlan0 |grep \"inet \"");
-    size_t inetPos = result.find("inet");
-    if (inetPos != std::string::npos)
+    if (result.empty()) // WIFI is not connected.
     {
-        std::size_t chPos = result.find('/', inetPos);
+        result = ExecuteSystemCommand("ip addr show rmnet_data0 |grep \"inet \"");
+    }
+    size_t inetPosBegin = result.find("inet ");
+    if (inetPosBegin != std::string::npos)
+    {
+        size_t inetPosEnd = inetPosBegin + strlen("inet ");
+        std::size_t chPos = result.find('/', inetPosEnd);
         if (chPos != std::string::npos)
         {
-            ipaddressv4 = result.substr(inetPos + strlen("inet"), chPos - inetPos - strlen("inet"));
+            ipaddressv4 = result.substr(inetPosEnd, chPos - inetPosEnd);
         }
     }
     return StringUtils::Trim(ipaddressv4);
@@ -290,16 +295,47 @@ std::string PlatformDevice::GetIpAddressV6()
 {
     std::string ipaddressv6;
     std::string result = ExecuteSystemCommand("ip addr show wlan0 |grep \"inet6 \"");
-    size_t inet6Pos = result.find("inet6");
-    if (inet6Pos != std::string::npos)
+    if (result.empty()) // WIFI is not connected.
     {
-        std::size_t chPos = result.find('/', inet6Pos);
+        result = ExecuteSystemCommand("ip addr show rmnet_data0 |grep \"inet6 \"");
+    }
+    size_t inet6PosBegin = result.find("inet6 ");
+    if (inet6PosBegin != std::string::npos)
+    {
+        size_t inet6PosEnd = inet6PosBegin + strlen("inet6 ");
+        std::size_t chPos = result.find('/', inet6PosEnd);
         if (chPos != std::string::npos)
         {
-            ipaddressv6 = result.substr(inet6Pos + strlen("inet6"), chPos - inet6Pos - strlen("inet6"));
+            ipaddressv6 = result.substr(inet6PosEnd, chPos - inet6PosEnd);
         }
     }
     return StringUtils::Trim(ipaddressv6);
+}
+
+std::string PlatformDevice::GetMacAddress()
+{
+    std::string strMacAddress = "";
+    std::string result = ExecuteSystemCommand("ip addr show wlan0 |grep \"link/ether \"");
+    size_t etherFlagBegin = result.find("link/ether ");
+    if (etherFlagBegin != std::string::npos)
+    {
+        size_t etherFlagEnd = etherFlagBegin + strlen("link/ether ");
+        std::size_t chPos = result.find(' ', etherFlagEnd);
+        if (chPos != std::string::npos)
+        {
+            strMacAddress = result.substr(etherFlagEnd, chPos - etherFlagEnd);
+        }
+    }
+    std::string MacAddressResult;
+    for (auto ch : strMacAddress)
+    {
+        if (ch != ':')
+        {
+            MacAddressResult += ch;
+        }
+    }
+    MacAddressResult = StringUtils::Toupper(MacAddressResult);
+    return MacAddressResult;
 }
 
 PlatformDevice::string_list PlatformDevice::GetDNS()
@@ -566,6 +602,7 @@ void PlatformDevice::DumpDeviceInfo()
     ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
     ss << "GetIpAddressV4:" << GetIpAddressV4() << "\n";
     ss << "GetIpAddressV6:" << GetIpAddressV6() << "\n";
+    ss << "GetMacAddress:" << GetMacAddress() << "\n";
     auto dnss = GetDNS();
     for (auto dns : dnss)
     {
@@ -637,3 +674,4 @@ bool PlatformDevice::ScreenCapture(std::string& outSavePath)
 NS_FK_END
 
 #endif //#if PLATFORM_ANDROID
+

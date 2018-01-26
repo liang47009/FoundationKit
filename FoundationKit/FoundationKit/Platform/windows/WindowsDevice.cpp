@@ -409,13 +409,18 @@ int PlatformDevice::GetNetworkType()
 std::string PlatformDevice::GetIpAddressV4()
 {
     std::vector<std::string> AddressList = detail::GetAdaptersAddressesByType(detail::AddressType::IPV4);
-    return AddressList.size() > 0 ? AddressList[0] : "0.0.0.0";
+    return AddressList.size() > 0 ? AddressList[0] : "";
 }
 
 std::string PlatformDevice::GetIpAddressV6()
 {
     std::vector<std::string> AddressList = detail::GetAdaptersAddressesByType(detail::AddressType::IPV6);
-    return AddressList.size() > 0 ? AddressList[0]:"0.0.0.0";
+    return AddressList.size() > 0 ? AddressList[0]:"";
+}
+
+std::string PlatformDevice::GetMacAddress()
+{
+    return detail::GetMacAddress();
 }
 
 PlatformDevice::string_list PlatformDevice::GetDNS()
@@ -596,9 +601,9 @@ void PlatformDevice::DumpDeviceInfo()
     ss << "GetCPUCoreCount:" << GetCPUCoreCount() << "\n";
     ss << "GetCPUFrequency:" << GetCPUFrequency() << "\n";
     ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
-    ss << "GetMacAddress:" << detail::GetMacAddress() << "\n";
     ss << "GetIpAddressV4:" << GetIpAddressV4() << "\n";
     ss << "GetIpAddressV6:" << GetIpAddressV6() << "\n";
+    ss << "GetMacAddress:" << GetMacAddress() << "\n";
     auto dnss = GetDNS();
     for (auto dns : dnss)
     {

@@ -103,9 +103,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
 
-
-
-
 	return true;
 }
 

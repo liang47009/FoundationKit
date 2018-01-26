@@ -49,7 +49,7 @@ AppDelegate::~AppDelegate()
 
 void AppDelegate::applicationDidLaunching()
 {
-
+    
 }
 void TupleTest(const ArgumentList& args)
 {

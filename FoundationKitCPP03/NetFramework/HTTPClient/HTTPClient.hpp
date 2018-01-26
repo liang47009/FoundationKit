@@ -10,7 +10,7 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include <string>
-#include <unordered_map>
+#include <map>
 #include <vector>
 #include <mutex>
 #include <thread>
@@ -55,9 +55,9 @@ private:
     void        LockCallback(CURL *handle, curl_lock_data data, curl_lock_access access);
     void        UnlockCallback(CURL *handle, curl_lock_data data);
 
-    typedef std::unordered_map < HTTPRequest::Pointer, bool > RequestTempMap;
-	typedef std::unordered_map<CURL*, HTTPRequest::Pointer>   RequestMap;
-    typedef std::vector<HTTPRequest::Pointer>                 RequestVector;
+    typedef std::map < HTTPRequest::Pointer, bool > RequestTempMap;
+	typedef std::map<CURL*, HTTPRequest::Pointer>   RequestMap;
+    typedef std::vector<HTTPRequest::Pointer>       RequestVector;
 	/** multi handle that groups all the requests - not owned by this class */
 	CURLM*                       MultiHandle;
     std::mutex                   CURLDataShareMutex;

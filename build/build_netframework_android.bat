@@ -17,17 +17,16 @@ rem ***************************************************************************
 
 %~d0
 cd %~dp0
-cd ../FoundationKit/proj.android
+cd ../NetFramework/proj.android
 call ndk-build -j8
 
-set PUBLISH_DIR="..\..\publish\Android\"
+set PUBLISH_DIR="..\..\publish\Android\NetFramework\"
 
 if exist %PUBLISH_DIR% rmdir %PUBLISH_DIR% /s /q
 
-xcopy /Y /Q /S "..\FoundationKit\*.h" "%PUBLISH_DIR%include\FoundationKit\"
-xcopy /Y /Q /S "..\FoundationKit\*.hpp" "%PUBLISH_DIR%include\FoundationKit\"
-xcopy /Y /Q /S "..\FoundationKit\*.inl" "%PUBLISH_DIR%include\FoundationKit\"
-xcopy /Y /Q /S ".\obj\local\*.a" "%PUBLISH_DIR%libs\"
-
-
+xcopy /Y /Q /S "..\NetFramework\*.h" "%PUBLISH_DIR%include\NetFramework\"
+xcopy /Y /Q /S "..\NetFramework\*.hpp" "%PUBLISH_DIR%include\NetFramework\"
+xcopy /Y /Q /S "..\NetFramework\*.inl" "%PUBLISH_DIR%include\NetFramework\"
+xcopy /Y /Q /S "..\NetFramework\*.ipp" "%PUBLISH_DIR%include\NetFramework\"
+xcopy /Y /Q /S ".\obj\local\*.a" "%PUBLISH_DIR%prebuilt\"
 pause

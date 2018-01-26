@@ -12,8 +12,6 @@
 #include "FoundationKit/Base/lexical_cast.hpp"
 #include "HTTPClient/HTTPCode.hpp"
 NS_FK_BEGIN
-extern const HTTPCode* HTTPCodeList[];
-
 const HTTPCode HTTPCode::SHUTDOWN = { 0, "Shutdown requested" };
 const HTTPCode HTTPCode::CONTINUE = { 100, "The request can be continued." };
 const HTTPCode HTTPCode::SWITCH_PROTOCOLS = { 101, "The server has switched protocols in an upgrade header." };
@@ -55,6 +53,52 @@ const HTTPCode HTTPCode::BAD_GATEWAY = { 502, "The server, while acting as a gat
 const HTTPCode HTTPCode::SERVICE_UNAVAIL = { 503, "The service is temporarily overloaded." };
 const HTTPCode HTTPCode::GATEWAY_TIMEOUT = { 504, "The request was timed out waiting for a gateway." };
 const HTTPCode HTTPCode::VERSION_NOT_SUP = { 505, "The server does not support the HTTP protocol version that was used in the request message." };
+
+const HTTPCode* HTTPCodeList[] =
+{
+    &HTTPCode::SHUTDOWN,
+    &HTTPCode::CONTINUE,
+    &HTTPCode::SWITCH_PROTOCOLS,
+    &HTTPCode::OK,
+    &HTTPCode::CREATED,
+    &HTTPCode::ACCEPTED,
+    &HTTPCode::PARTIAL,
+    &HTTPCode::NO_CONTENT,
+    &HTTPCode::RESET_CONTENT,
+    &HTTPCode::PARTIAL_CONTENT,
+    &HTTPCode::WEBDAV_MULTI_STATUS,
+    &HTTPCode::AMBIGUOUS,
+    &HTTPCode::MOVED,
+    &HTTPCode::REDIRECT,
+    &HTTPCode::REDIRECT_METHOD,
+    &HTTPCode::NOT_MODIFIED,
+    &HTTPCode::USE_PROXY,
+    &HTTPCode::REDIRECT_KEEP_VERB,
+    &HTTPCode::BAD_REQUEST,
+    &HTTPCode::DENIED,
+    &HTTPCode::PAYMENT_REQ,
+    &HTTPCode::FORBIDDEN,
+    &HTTPCode::NOT_FOUND,
+    &HTTPCode::BAD_METHOD,
+    &HTTPCode::NONE_ACCEPTABLE,
+    &HTTPCode::PROXY_AUTH_REQ,
+    &HTTPCode::REQUEST_TIMEOUT,
+    &HTTPCode::CONFLICT,
+    &HTTPCode::GONE,
+    &HTTPCode::LENGTH_REQUIRED,
+    &HTTPCode::PRECOND_FAILED,
+    &HTTPCode::REQUEST_TOO_LARGE,
+    &HTTPCode::URI_TOO_LONG,
+    &HTTPCode::UNSUPPORTED_MEDIA,
+    &HTTPCode::RETRY_WITH,
+    &HTTPCode::SERVER_ERROR,
+    &HTTPCode::NOT_SUPPORTED,
+    &HTTPCode::BAD_GATEWAY,
+    &HTTPCode::SERVICE_UNAVAIL,
+    &HTTPCode::GATEWAY_TIMEOUT,
+    &HTTPCode::VERSION_NOT_SUP,
+    nullptr
+};
 
 HTTPCode::HTTPCode()
 	: code(200)
@@ -99,51 +143,6 @@ std::string HTTPCode::ToString()
     return result;
 }
 
-const HTTPCode* HTTPCodeList[] =
-{
-	&HTTPCode::SHUTDOWN,
-	&HTTPCode::CONTINUE,
-	&HTTPCode::SWITCH_PROTOCOLS,
-	&HTTPCode::OK,
-	&HTTPCode::CREATED,
-	&HTTPCode::ACCEPTED,
-	&HTTPCode::PARTIAL,
-	&HTTPCode::NO_CONTENT,
-	&HTTPCode::RESET_CONTENT,
-	&HTTPCode::PARTIAL_CONTENT,
-	&HTTPCode::WEBDAV_MULTI_STATUS,
-	&HTTPCode::AMBIGUOUS,
-	&HTTPCode::MOVED,
-	&HTTPCode::REDIRECT,
-	&HTTPCode::REDIRECT_METHOD,
-	&HTTPCode::NOT_MODIFIED,
-	&HTTPCode::USE_PROXY,
-	&HTTPCode::REDIRECT_KEEP_VERB,
-	&HTTPCode::BAD_REQUEST,
-	&HTTPCode::DENIED,
-	&HTTPCode::PAYMENT_REQ,
-	&HTTPCode::FORBIDDEN,
-	&HTTPCode::NOT_FOUND,
-	&HTTPCode::BAD_METHOD,
-	&HTTPCode::NONE_ACCEPTABLE,
-	&HTTPCode::PROXY_AUTH_REQ,
-	&HTTPCode::REQUEST_TIMEOUT,
-	&HTTPCode::CONFLICT,
-	&HTTPCode::GONE,
-	&HTTPCode::LENGTH_REQUIRED,
-	&HTTPCode::PRECOND_FAILED,
-	&HTTPCode::REQUEST_TOO_LARGE,
-	&HTTPCode::URI_TOO_LONG,
-	&HTTPCode::UNSUPPORTED_MEDIA,
-	&HTTPCode::RETRY_WITH,
-	&HTTPCode::SERVER_ERROR,
-	&HTTPCode::NOT_SUPPORTED,
-	&HTTPCode::BAD_GATEWAY,
-	&HTTPCode::SERVICE_UNAVAIL,
-	&HTTPCode::GATEWAY_TIMEOUT,
-	&HTTPCode::VERSION_NOT_SUP,
-	nullptr
-};
 NS_FK_END
 
 #endif // END OF NETFRAMEWORK_HTTPCODE_IPP

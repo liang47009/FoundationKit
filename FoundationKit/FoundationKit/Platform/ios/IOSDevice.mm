@@ -415,6 +415,11 @@ std::string PlatformDevice::GetIpAddressV6()
     return detail::GetIPAddressByType(AF_INET6);
 }
 
+std::string PlatformDevice::GetMacAddress()
+{
+    return "";
+}
+
 PlatformDevice::string_list PlatformDevice::GetDNS()
 {
     return PlatformDevice::string_list();
