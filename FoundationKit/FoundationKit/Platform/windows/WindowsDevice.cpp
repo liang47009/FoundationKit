@@ -58,7 +58,7 @@ namespace detail
         DNS
     };
 
-    std::vector<std::string> GetAdaptersAddressesByType(AddressType addType)
+    std::vector<std::string> GetAddressesByType(AddressType addrType)
     {
         std::vector<std::string> AddressList;
         // Set the flags to pass to GetAdaptersAddresses
@@ -69,7 +69,7 @@ namespace detail
         ULONG OutBufferLength = sizeof(IP_ADAPTER_ADDRESSES) * 16;
         ULONG family = AF_UNSPEC;
 
-        switch (addType)
+        switch (addrType)
         {
         case FoundationKit::detail::AddressType::IPV4:
             family = AF_INET;
@@ -92,7 +92,7 @@ namespace detail
             // Walk the set of addresses copying each one
             while (IpAddressesPointer)
             {
-                if (addType == AddressType::IPV4)
+                if (addrType == AddressType::IPV4)
                 {
                     PIP_ADAPTER_UNICAST_ADDRESS pUnicast = IpAddressesPointer->FirstUnicastAddress;
                     while(pUnicast)
@@ -103,7 +103,7 @@ namespace detail
                     }
                 }
 
-                if (addType == AddressType::IPV6)
+                if (addrType == AddressType::IPV6)
                 {
                     PIP_ADAPTER_UNICAST_ADDRESS pUnicast = IpAddressesPointer->FirstUnicastAddress;
                     while (pUnicast)
@@ -114,7 +114,7 @@ namespace detail
                     }
                 }
 
-                if (addType == AddressType::MAC && IpAddressesPointer->PhysicalAddressLength > 0)
+                if (addrType == AddressType::MAC && IpAddressesPointer->PhysicalAddressLength > 0)
                 {
                     std::string MacAddress;
                     MacAddress.resize(IpAddressesPointer->PhysicalAddressLength);
@@ -123,7 +123,7 @@ namespace detail
 
                 }
 
-                if (addType == AddressType::DNS)
+                if (addrType == AddressType::DNS)
                 {
                     IP_ADAPTER_DNS_SERVER_ADDRESS *pDnServer = IpAddressesPointer->FirstDnsServerAddress;
                     if (pDnServer)
@@ -140,7 +140,7 @@ namespace detail
 
     std::string GetMacAddress()
     {
-        std::vector<std::string> macVec = GetAdaptersAddressesByType(AddressType::MAC);
+        std::vector<std::string> macVec = GetAddressesByType(AddressType::MAC);
         std::string result;
         if (macVec.size() > 0)
         {
@@ -161,7 +161,7 @@ namespace detail
 
 std::string PlatformDevice::GetDeviceId()
 {
-    return MD5::md5_hash_hex(detail::GetMacAddress().c_str());
+    return MD5::md5_hash_hex(detail::GetMacAddress());
 }
 
 typedef LONG(NTAPI* fnRtlGetVersion)(PRTL_OSVERSIONINFOW lpVersionInformation);
@@ -408,13 +408,13 @@ int PlatformDevice::GetNetworkType()
 
 std::string PlatformDevice::GetIpAddressV4()
 {
-    std::vector<std::string> AddressList = detail::GetAdaptersAddressesByType(detail::AddressType::IPV4);
+    std::vector<std::string> AddressList = detail::GetAddressesByType(detail::AddressType::IPV4);
     return AddressList.size() > 0 ? AddressList[0] : "";
 }
 
 std::string PlatformDevice::GetIpAddressV6()
 {
-    std::vector<std::string> AddressList = detail::GetAdaptersAddressesByType(detail::AddressType::IPV6);
+    std::vector<std::string> AddressList = detail::GetAddressesByType(detail::AddressType::IPV6);
     return AddressList.size() > 0 ? AddressList[0]:"";
 }
 
@@ -425,7 +425,7 @@ std::string PlatformDevice::GetMacAddress()
 
 PlatformDevice::string_list PlatformDevice::GetDNS()
 {
-    std::vector<std::string> AddressList = detail::GetAdaptersAddressesByType(detail::AddressType::DNS);
+    std::vector<std::string> AddressList = detail::GetAddressesByType(detail::AddressType::DNS);
     return AddressList;
 }
 

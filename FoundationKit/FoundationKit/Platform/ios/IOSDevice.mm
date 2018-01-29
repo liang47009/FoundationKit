@@ -215,8 +215,8 @@ namespace detail
 
 std::string PlatformDevice::GetDeviceId()
 {
+    std::string strDeviceId;
     NSString* nsDeviceId = [FCUUID uuidForDevice];
-    std::string strDeviceId ="N/A";
     if(nsDeviceId)
         strDeviceId = [nsDeviceId UTF8String];
     return strDeviceId;
