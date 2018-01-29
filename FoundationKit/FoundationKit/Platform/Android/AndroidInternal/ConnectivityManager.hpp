@@ -181,10 +181,10 @@ public:
      * {@link android.Manifest.permission#ACCESS_NETWORK_STATE}.
      */
     NetworkInfo getActiveNetworkInfo() {
-        jobject NetworkInfoObject = ConnectivityManagerInstance.CallWithSig<jobject>("getActiveNetworkInfo", "()Landroid/net/NetworkInfo;");
+        Scope_JObject NetworkInfoObject = ConnectivityManagerInstance.CallWithSig<jobject>("getActiveNetworkInfo", "()Landroid/net/NetworkInfo;");
         if (NetworkInfoObject == nullptr)
             return NetworkInfo();
-        return NetworkInfo(NetworkInfoObject);
+        return NetworkInfo(NetworkInfoObject.jobject_ref);
     }
 
     /**
@@ -223,6 +223,7 @@ public:
         for (auto obj : NetworkInfoVec)
         {
             NetworkInfoArray.push_back(obj);
+            AndroidJNI::GetJavaEnv()->DeleteLocalRef(obj);
         }
         return NetworkInfoArray;
     }
