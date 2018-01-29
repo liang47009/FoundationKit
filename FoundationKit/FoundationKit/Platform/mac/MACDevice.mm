@@ -25,113 +25,20 @@
 #include <malloc/malloc.h>
 #include <unordered_map>
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-//#include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Foundation/Math.hpp"
 #import <IOKit/IOKitLib.h>
 #import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
-
-
+#import <CoreFoundation/CoreFoundation.h>
+#import <IOKit/network/IOEthernetInterface.h>
+#import <IOKit/network/IONetworkInterface.h>
+#import <IOKit/network/IOEthernetController.h>
 
 NS_FK_BEGIN
 
 namespace detail
 {
-#define IOS_CELLULAR    @"pdp_ip0"
-#define IOS_WIFI        @"en0"
-#define IOS_VPN         @"utun0"
-#define IP_ADDR_IPv4    @"ipv4"
-#define IP_ADDR_IPv6    @"ipv6"
-    
-    bool isValidatIP(const std::string& strIpaddress,bool ipv4)
-    {
-        if (strIpaddress.size() == 0)
-        {
-            return NO;
-        }
-        NSString *IPV4RegEx = @"^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-        "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
-        
-//        NSString* IPV6RegEx = @"^\s*((([0-9A-Fa-f]{1,4}:){7}(([0-9A-Fa-f]{1,4})|:))|(([0-9A-Fa-f]{1,4}:){6}(:|((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})|(:[0-9A-Fa-f]{1,4})))|(([0-9A-Fa-f]{1,4}:){5}((:((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}){0,1}((:((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){0,2}((:((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){0,3}((:((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}:)(:[0-9A-Fa-f]{1,4}){0,4}((:((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(:(:[0-9A-Fa-f]{1,4}){0,5}((:((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})))(%.+)?\s*$";
-        
-        NSString* IPV6RegEx = @"^\\s*((([0-9A-Fa-f]{1,4}:){7}(([0-9A-Fa-f]{1,4})|:))|(([0-9A-Fa-f]{1,4}:){6}(:|((25[0-5]|2[0-4]\\d|[01]?\\d{1,2})(\\.(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})){3})|(:[0-9A-Fa-f]{1,4})))|(([0-9A-Fa-f]{1,4}:){5}((:((25[0-5]|2[0-4]\\d|[01]?\\d{1,2})(\\.(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}){0,1}((:((25[0-5]|2[0-4]\\d|[01]?\\d{1,2})(\\.(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){0,2}((:((25[0-5]|2[0-4]\\d|[01]?\\d{1,2})(\\.(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){0,3}((:((25[0-5]|2[0-4]\\d|[01]?\\d{1,2})(\\.(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}:)(:[0-9A-Fa-f]{1,4}){0,4}((:((25[0-5]|2[0-4]\\d|[01]?\\d{1,2})(\\.(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(:(:[0-9A-Fa-f]{1,4}){0,5}((:((25[0-5]|2[0-4]\\d|[01]?\\d{1,2})(\\.(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(((25[0-5]|2[0-4]\\d|[01]?\\d{1,2})(\\.(25[0-5]|2[0-4]\\d|[01]?\\d{1,2})){3})))(%.+)?\\s*$";
-        
-        NSError *error;
-        NSString* ipAddress = [NSString stringWithUTF8String:strIpaddress.c_str()];
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:ipv4?IPV4RegEx:IPV6RegEx options:0 error:&error];
-        if (regex != nil)
-        {
-            NSTextCheckingResult *firstMatch=[regex firstMatchInString:ipAddress options:0 range:NSMakeRange(0, [ipAddress length])];
-            if (firstMatch)
-            {
-//                NSRange resultRange = [firstMatch rangeAtIndex:0];
-//                NSString *result=[ipAddress substringWithRange:resultRange];
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    NSDictionary* getIPAddresses()
-    {
-        NSMutableDictionary *addresses = [NSMutableDictionary dictionaryWithCapacity:8];
-        // retrieve the current interfaces - returns 0 on success
-        struct ifaddrs *interfaces;
-        if(!getifaddrs(&interfaces)) {
-            // Loop through linked list of interfaces
-            struct ifaddrs *interface;
-            for(interface=interfaces; interface; interface=interface->ifa_next) {
-                if(!(interface->ifa_flags & IFF_UP) /* || (interface->ifa_flags & IFF_LOOPBACK) */ ) {
-                    continue; // deeply nested code harder to read
-                }
-                const struct sockaddr_in *addr = (const struct sockaddr_in*)interface->ifa_addr;
-                char addrBuf[ MAX(INET_ADDRSTRLEN, INET6_ADDRSTRLEN) ];
-                if(addr && (addr->sin_family==AF_INET || addr->sin_family==AF_INET6)) {
-                    NSString *name = [NSString stringWithUTF8String:interface->ifa_name];
-                    NSString *type = nil;
-                    if(addr->sin_family == AF_INET) {
-                        if(inet_ntop(AF_INET, &addr->sin_addr, addrBuf, INET_ADDRSTRLEN)) {
-                            type = IP_ADDR_IPv4;
-                        }
-                    } else {
-                        const struct sockaddr_in6 *addr6 = (const struct sockaddr_in6*)interface->ifa_addr;
-                        if(inet_ntop(AF_INET6, &addr6->sin6_addr, addrBuf, INET6_ADDRSTRLEN))
-                        {
-                            type = IP_ADDR_IPv6;
-                        }
-                    }
-                    if(type) {
-                        NSString *key = [NSString stringWithFormat:@"%@/%@", name, type];
-                        addresses[key] = [NSString stringWithUTF8String:addrBuf];
-                    }
-                }
-            }
-            // Free memory
-            freeifaddrs(interfaces);
-        }
-        return [addresses count] ? addresses : nil;
-    }
-    
-    std::string GetIPAddressByType(int iptype)
-    {
-        NSArray *searchArray = iptype == AF_INET ?
-        @[ IOS_VPN @"/" IP_ADDR_IPv4, IOS_VPN @"/" IP_ADDR_IPv6, IOS_WIFI @"/" IP_ADDR_IPv4, IOS_WIFI @"/" IP_ADDR_IPv6, IOS_CELLULAR @"/" IP_ADDR_IPv4, IOS_CELLULAR @"/" IP_ADDR_IPv6 ] :
-        @[ IOS_VPN @"/" IP_ADDR_IPv6, IOS_VPN @"/" IP_ADDR_IPv4, IOS_WIFI @"/" IP_ADDR_IPv6, IOS_WIFI @"/" IP_ADDR_IPv4, IOS_CELLULAR @"/" IP_ADDR_IPv6, IOS_CELLULAR @"/" IP_ADDR_IPv4 ] ;
-        
-        NSDictionary *addresses = getIPAddresses();
-        
-        __block NSString *address;
-        [searchArray enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop)
-         {
-             address = addresses[key];
-             //筛选出IP地址格式
-             if(address != nil && isValidatIP([address UTF8String], iptype == AF_INET)) *stop = YES;
-         } ];
-        return address ? [address UTF8String] : "0.0.0.0";
-    }
-    
     std::string getHardwareProperty(const char* name)
     {
         size_t size;
@@ -181,6 +88,79 @@ namespace detail
         return propertyValue;
     }
     
+    struct NetworkAdaptersInfo
+    {
+        std::string IPAddressV4;
+        std::string IPAddressV6;
+        std::string MacAddress;
+    };
+    
+    std::unordered_map<std::string, NetworkAdaptersInfo> GetNetworkAdapters()
+    {
+        static std::unordered_map<std::string, NetworkAdaptersInfo> NetworkAdaptersInfoList;
+        NetworkAdaptersInfoList.clear();
+        // retrieve the current interfaces - returns 0 on success
+        struct ifaddrs *interfaces;
+        if(!getifaddrs(&interfaces))
+        {
+            // Loop through linked list of interfaces
+            struct ifaddrs *interface;
+            for(interface=interfaces; interface; interface=interface->ifa_next)
+            {
+                if(!(interface->ifa_flags & IFF_UP) /* || (interface->ifa_flags & IFF_LOOPBACK) */ )
+                {
+                    continue; // deeply nested code harder to read
+                }
+                NetworkAdaptersInfo&  NetworkAdaptersInfoItem = NetworkAdaptersInfoList[interface->ifa_name];
+                const struct sockaddr_in *addr = (const struct sockaddr_in*)interface->ifa_addr;
+                char addrBuf[ MAX(INET_ADDRSTRLEN, INET6_ADDRSTRLEN) ];
+                switch(addr->sin_family)
+                {
+                    case AF_INET:
+                        {
+                            if(inet_ntop(AF_INET, &addr->sin_addr, addrBuf, INET_ADDRSTRLEN))
+                            {
+                                NetworkAdaptersInfoItem.IPAddressV4 =addrBuf;
+                            }
+                        }
+                        break;
+                    case AF_INET6:
+                        {
+                            const struct sockaddr_in6 *addr6 = (const struct sockaddr_in6*)interface->ifa_addr;
+                            if(inet_ntop(AF_INET6, &addr6->sin6_addr, addrBuf, INET6_ADDRSTRLEN))
+                            {
+                                NetworkAdaptersInfoItem.IPAddressV6 = addrBuf;
+                            }
+                        }
+                        break;
+                    case AF_LINK:
+                    {
+                        const struct sockaddr_dl *addrMac = (struct sockaddr_dl*)interface->ifa_addr;
+                        if(addrMac->sdl_alen == 6)
+                        {
+                            unsigned char macBuf[6];
+                            size_t aab = addrMac->sdl_alen;
+                            memcpy(macBuf, LLADDR(addrMac), addrMac->sdl_alen);
+                            NetworkAdaptersInfoItem.MacAddress = StringUtils::Format("%02X%02X%02X%02X%02X%02X"
+                                                                                     ,macBuf[0]
+                                                                                     ,macBuf[1]
+                                                                                     ,macBuf[2]
+                                                                                     ,macBuf[3]
+                                                                                     ,macBuf[4]
+                                                                                     ,macBuf[5]);
+                        }
+                    }
+                        break;
+                    case AF_UNSPEC:
+                    default:
+                        break;
+                }
+            }
+            // Free memory
+            freeifaddrs(interfaces);
+        }
+        return NetworkAdaptersInfoList;
+    }
 } // namespace detail
 
 std::string PlatformDevice::GetDeviceId()
@@ -304,16 +284,46 @@ int PlatformDevice::GetNetworkType()
 
 std::string PlatformDevice::GetIpAddressV4()
 {
-    return detail::GetIPAddressByType(AF_INET);
+    auto EthernetList = detail::GetNetworkAdapters();
+    auto iter = EthernetList.find("en1");
+    if (iter == EthernetList.end())
+    {
+        iter = EthernetList.find("en0");
+    }
+    if (iter != EthernetList.end())
+    {
+        return iter->second.IPAddressV4;
+    }
+    return "";
 }
 
 std::string PlatformDevice::GetIpAddressV6()
 {
-    return detail::GetIPAddressByType(AF_INET6);
+    auto EthernetList = detail::GetNetworkAdapters();
+    auto iter = EthernetList.find("en1");
+    if (iter == EthernetList.end())
+    {
+        iter = EthernetList.find("en0");
+    }
+    if (iter != EthernetList.end())
+    {
+        return iter->second.IPAddressV6;
+    }
+    return "";
 }
 
 std::string PlatformDevice::GetMacAddress()
 {
+    auto EthernetList = detail::GetNetworkAdapters();
+    auto iter = EthernetList.find("en1");
+    if (iter == EthernetList.end())
+    {
+        iter = EthernetList.find("en0");
+    }
+    if (iter != EthernetList.end())
+    {
+        return iter->second.MacAddress;
+    }
     return "";
 }
 
@@ -475,6 +485,7 @@ void PlatformDevice::DumpDeviceInfo()
     ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
     ss << "GetIpAddressV4:" << GetIpAddressV4() << "\n";
     ss << "GetIpAddressV6:" << GetIpAddressV6() << "\n";
+    ss << "GetMacAddress:" << GetMacAddress() << "\n";
     auto dnss = GetDNS();
     for(auto dns : dnss)
     {

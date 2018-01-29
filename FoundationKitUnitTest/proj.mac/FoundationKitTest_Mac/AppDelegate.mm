@@ -79,6 +79,7 @@
 #include "FoundationKit/Platform/PlatformMemory.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 
+
 USING_NS_FK;
 
 std::string GetOSStringData(int key, int type)
@@ -112,17 +113,8 @@ size_t GetOSIntData(int key, int type)
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
-    static PlatformMemoryConstants MemoryConstants = PlatformDevice::GetMemoryConstants();
-    auto lines = Environment::GetCommandLineArgs();
-    auto envs = Environment::GetEnvironmentVariables();
-    auto path = Environment::GetEnvironmentVariable("PATH");
-    NSDictionary<NSString *, NSString *>* envs1 = [[NSProcessInfo processInfo]environment];
     PlatformDevice::DumpDeviceInfo();
-    auto strValue = GetOSStringData(CTL_HW, HW_MACHINE);
-    auto intValue = GetOSIntData(CTL_KERN, KERN_HOSTID);
-    
-    
-    
+
 }
 
 
