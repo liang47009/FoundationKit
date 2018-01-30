@@ -114,7 +114,6 @@ size_t GetOSIntData(int key, int type)
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
     PlatformDevice::DumpDeviceInfo();
-
 }
 
 

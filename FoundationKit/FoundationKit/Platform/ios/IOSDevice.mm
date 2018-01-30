@@ -175,7 +175,6 @@ namespace detail
                         if(addrMac->sdl_alen == 6)
                         {
                             unsigned char macBuf[6];
-                            size_t aab = addrMac->sdl_alen;
                             memcpy(macBuf, LLADDR(addrMac), addrMac->sdl_alen);
                             NetworkAdaptersInfoItem.MacAddress = StringUtils::Format("%02X%02X%02X%02X%02X%02X"
                                                                                      ,macBuf[0]
