@@ -20,6 +20,8 @@
 #define stat64 _stati64
 #define ftell64 _ftelli64
 #define fseek64 _fseeki64
+#elif PLATFORM_IOS || PLATFORM_MAC
+#define stat64 stat
 #else
 #include <unistd.h>
 #define ftell64 ftello
