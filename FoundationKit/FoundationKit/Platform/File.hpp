@@ -11,8 +11,11 @@
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
 #include "FoundationKit/Foundation/DateTime.hpp"
 #include "FoundationKit/Base/mutablebuf.hpp"
 
@@ -31,8 +34,28 @@ class File
 public:
     typedef std::vector<std::string> FileLineType;
 
-    static FILE*  Open(const std::string& path, const char* mode, bool isAsset=false);
-    static FILE*  Open(const std::string& path, FileMode mode);
+    static FILE*  Open(const std::string& path, const char* mode="r", bool isAsset=false);
+    static FILE*  Open(const std::string& path, FileMode mode = FileMode::ReadOnly);
+
+    /**
+     * mode value:
+     * O_RDONLY
+     * O_WRONLY
+     * O_RDWR
+     * O_APPEND
+     * O_CREAT
+     * O_TRUNC
+     * O_EXCL
+     * O_TEXT
+     * O_BINARY
+     * O_RAW
+     * O_TEMPORARY
+     * O_NOINHERIT
+     * O_SEQUENTIAL
+     * O_RANDOM
+     * e.g. Open("c:/aa.txt", O_RDONLY | O_BINARY);
+     */
+    static int Open(const std::string& path, int mode);
 
    /**
     *  Implement on platform.

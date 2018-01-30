@@ -4,6 +4,7 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
+
 #include <fstream>
 #include <unordered_map>
 #include "FoundationKit/Base/lexical_cast.hpp"
@@ -14,6 +15,17 @@
 #include "FoundationKit/Platform/Directory.hpp"
 #include "unzip.h"
 
+#if PLATFORM_WINDOWS
+#include <io.h>
+#define stat64 _stati64
+#define ftell64 _ftelli64
+#define fseek64 _fseeki64
+#else
+#include <unistd.h>
+#define ftell64 ftello
+#define fseek64 fseeko
+#endif
+
 NS_FK_BEGIN
 #if PLATFORM_WINDOWS
 const char PlatformNewLine[] ={ '\r', '\n' };
@@ -23,9 +35,6 @@ const char PlatformNewLine[] ={'\n'};
 const char PlatformNewLine[] ={ '\r'};
 #endif
 
-#if !PLATFORM_WINDOWS
-#include <unistd.h>
-#endif
 
 namespace detail
 {
@@ -90,7 +99,7 @@ namespace detail
 extern FILE* AndroidOpenAsset(const char * path, const char * mode);
 #endif
 
-FILE* File::Open(const std::string& path, const char* mode, bool isAsset/* = false*/)
+FILE* File::Open(const std::string& path, const char* mode/* = "r"*/, bool isAsset/* = false*/)
 {
     FILE* FileHandle = nullptr;
 #if PLATFORM_ANDROID
@@ -107,7 +116,7 @@ FILE* File::Open(const std::string& path, const char* mode, bool isAsset/* = fal
     return FileHandle;
 }
 
-FILE* File::Open(const std::string& path, FileMode mode)
+FILE* File::Open(const std::string& path, FileMode mode/* = FileMode::ReadOnly*/)
 {
     const char* fileMode = nullptr;
     switch (mode) {
@@ -125,6 +134,15 @@ FILE* File::Open(const std::string& path, FileMode mode)
         break;
     }
     return fopen(path.c_str(), fileMode);
+}
+
+int File::Open(const std::string& path, int mode)
+{
+#if _WIN32
+    return _open(path.c_str(), mode);
+#else
+    return open(path.c_str(), mode);
+#endif
 }
 
 bool File::Copy(const std::string& sourceFileName, const std::string& destFileName, bool overwrite /*= false*/)
@@ -189,21 +207,21 @@ int64 File::GetSize(const std::string& path)
 {
     ASSERT_IF(path.empty(), "filepath must be not empty.");
     int64 ResultFileSize = -1;
-    struct stat info;
-    int result = stat(path.c_str(), &info);
+    struct stat64 info;
+    int result = stat64(path.c_str(), &info);
     if (result == 0)
     {
-        ResultFileSize = (int64)(info.st_size);
+        ResultFileSize = info.st_size;
     }
     else
     {
-        FKLog("%s,Try use fopen->fseek-ftell-fseek.", ErrnoToString(errno,"stat").c_str());
+        FKLog("%s,Try use fopen->fseek64-ftell64-fseek64.", ErrnoToString(errno,"stat").c_str());
         FILE* FileHandle = Open(path, "r");
         if (FileHandle)
         {
-            fseek(FileHandle, 0, SEEK_END);
-            ResultFileSize = ftell(FileHandle);
-            fseek(FileHandle, 0, SEEK_SET);
+            fseek64(FileHandle, 0, SEEK_END);
+            ResultFileSize = ftell64(FileHandle);
+            fseek64(FileHandle, 0, SEEK_SET);
         }
     }
     return ResultFileSize;
@@ -347,8 +365,8 @@ DateTime File::GetCreationTime(const std::string& path)
 DateTime File::GetCreationTimeUtc(const std::string& path)
 {
     DateTime dt;
-    struct stat info;
-    int result = stat(path.c_str(), &info);
+    struct stat64 info;
+    int result = stat64(path.c_str(), &info);
     ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
     if (result == 0)
     {
@@ -365,8 +383,8 @@ DateTime File::GetLastAccessTime(const std::string& path)
 DateTime File::GetLastAccessTimeUtc(const std::string& path)
 {
     DateTime dt;
-    struct stat info;
-    int result = stat(path.c_str(), &info);
+    struct stat64 info;
+    int result = stat64(path.c_str(), &info);
     ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
     if (result == 0)
     {
@@ -383,8 +401,8 @@ DateTime File::GetLastWriteTime(const std::string& path)
 DateTime File::GetLastWriteTimeUtc(const std::string& path)
 {
     DateTime dt;
-    struct stat info;
-    int result = stat(path.c_str(), &info);
+    struct stat64 info;
+    int result = stat64(path.c_str(), &info);
     ASSERTED(!result, ErrnoToString(errno, "stat").c_str());
     if (result == 0)
     {
