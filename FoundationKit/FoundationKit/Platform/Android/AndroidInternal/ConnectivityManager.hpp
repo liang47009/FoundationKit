@@ -182,7 +182,7 @@ public:
      */
     NetworkInfo getActiveNetworkInfo() {
         Scope_JObject NetworkInfoObject = ConnectivityManagerInstance.CallWithSig<jobject>("getActiveNetworkInfo", "()Landroid/net/NetworkInfo;");
-        if (NetworkInfoObject == nullptr)
+        if (NetworkInfoObject.jobject_ref == nullptr)
             return NetworkInfo();
         return NetworkInfo(NetworkInfoObject.jobject_ref);
     }

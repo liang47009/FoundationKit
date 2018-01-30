@@ -152,7 +152,7 @@ std::string PlatformDevice::GetDeviceId()
         strDeviceId = detail::GetSystemProperty("gsm.sim.imei");
         BREAK_IF(!strDeviceId.empty());
         FKLog("Try use GetMacAddress");
-        strDeviceId = GetMacAddress()；
+        strDeviceId = GetMacAddress();
     } while (false);
 
     return strDeviceId;
