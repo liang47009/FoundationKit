@@ -401,19 +401,30 @@ static inline std::string md5_hash_file(const std::string& filename)
     char digest[MD5_DIGEST_SIZE];
     md5_state_t state;
     md5_init(&state);
-    uint64 total_readed = 0;
     size_t readed = 0;
     static const size_t BUFFER_SIZE = 1024 * 1024 * 5; //10M
     char* chunk_buf = new char[BUFFER_SIZE];
     while (!feof(fp))
     {
         readed = fread(chunk_buf, 1, BUFFER_SIZE, fp);
-        if (readed == 0) break;
-        total_readed += readed;
+        if (readed <= 0) break;
         md5_append(&state, (md5_byte_t const *)chunk_buf, readed);
     }
+    /**
+    int64 FileSize = File::GetSize(filename);
+    while (FileSize > 0) {
+        if (FileSize > BUFFER_SIZE)
+            readed = fread(chunk_buf, 1, BUFFER_SIZE, fp);
+        else
+            readed = fread(chunk_buf, 1, FileSize, fp);
+        if (readed < 0)
+            break;
+        md5_append(&state, (md5_byte_t const *)chunk_buf, readed);
+        FileSize -= readed;
+    }
+    */
     fclose(fp);
-    delete chunk_buf;
+    delete[] chunk_buf;
     md5_finish(&state, (md5_byte_t *)digest);
     std::string hex;
     for (size_t i = 0; i < MD5_DIGEST_SIZE; i++)
