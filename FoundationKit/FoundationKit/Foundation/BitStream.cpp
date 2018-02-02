@@ -115,7 +115,7 @@ void BitStream::Reset( void )
 // Write an array or casted stream
 void BitStream::Write( const char* inputByteArray, const uint32 numberOfBytes )
 {
-	if (numberOfBytes==0)
+	if (inputByteArray == nullptr || numberOfBytes==0)
 		return;
 
 	// Optimization:
@@ -839,7 +839,7 @@ uint32_t BitStream::CopyData( uint8** _data ) const
 {
 	ASSERTED( numberOfBitsUsed > 0, _FILE_AND_LINE_);
 
-	*_data = (uint8*) malloc( (size_t) BITS_TO_BYTES( numberOfBitsUsed ));
+	*_data = (uint8*) malloc( (size_t)BITS_TO_BYTES( numberOfBitsUsed ));
 	memcpy( *_data, data, sizeof(uint8) * (size_t) ( BITS_TO_BYTES( numberOfBitsUsed ) ) );
 	return numberOfBitsUsed;
 }
