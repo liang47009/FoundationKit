@@ -15,7 +15,11 @@ NS_FK_BEGIN
 class Directory
 {
 public:
-    typedef std::function<void(const std::string&)> EnumFileCallback;
+    /**
+     * @param[in] FilePath  File full path.
+     * @return If true break.
+     */
+    typedef std::function<bool(const std::string&)> EnumFileCallback;
     enum class ESearchOption
     {
         TopDirectoryOnly = 0,

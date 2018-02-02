@@ -47,7 +47,7 @@ class scope_locale
 public:
     scope_locale(const char *_Locname)
     {
-        if(_Locname == nullptr)
+        if (_Locname == nullptr || _Locname[0] == '\0')
             old_loc = std::locale::global(default_locale());
         else
             old_loc = std::locale::global(std::locale(_Locname));
