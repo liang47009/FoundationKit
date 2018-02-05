@@ -21,8 +21,10 @@ NS_FK_BEGIN
 
 inline std::locale default_locale()
 {
+    return std::locale("");
+/**
 # if PLATFORM_WINDOWS
-    std::locale global_loc = std::locale();
+    std::locale global_loc = std::locale("");
     return std::locale(global_loc, new std::codecvt_utf8<wchar_t>);
 # elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__) \
 || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__HAIKU__)
@@ -33,6 +35,7 @@ inline std::locale default_locale()
     // locale is the default for many POSIX-based operating systems such as Linux.
     return std::locale("");
 # endif
+*/
 }
 
 inline std::locale& process_locale()
@@ -40,7 +43,6 @@ inline std::locale& process_locale()
     static std::locale loc(default_locale());
     return loc;
 }
-
 
 class scope_locale
 {

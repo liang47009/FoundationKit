@@ -56,7 +56,7 @@ std::string Base58::encode(const std::string& source)
     return encode(reinterpret_cast<const uint8*>(source.c_str()), static_cast<uint32>(source.size()));
 }
 
-std::string Base58::encode(const ustring& source)
+std::string Base58::encode(const u8string& source)
 {
     return encode(source.c_str(), static_cast<uint32>(source.size()));
 }
@@ -138,7 +138,7 @@ bool Base58::decode(const char* source, uint32 length, std::vector<uint8>& dest)
     return bDecodeSuccess;
 }
 
-bool Base58::decode(const std::string& source, ustring& dest)
+bool Base58::decode(const std::string& source, u8string& dest)
 {
     std::vector<uint8> decodeData;
     bool bWasSuccessful = decode(source.c_str(), source.size(), decodeData);

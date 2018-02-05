@@ -83,16 +83,9 @@ static std::string Tostring(bool val)
 
 static bool IsNumber(const std::string& val);
 
-/** 
- * Convert std::wstring to std::string, the string code page is UTF-8.
- */
 static std::string wstring2UTF8string(const std::wstring &input);
 
-/** 
- * Convert std::string to std::wstring, the string code page is UTF-8.
- */
 static std::wstring string2UTF8wstring(const std::string &input);
-
 
 static std::wstring string2wstring(std::string s)
 {

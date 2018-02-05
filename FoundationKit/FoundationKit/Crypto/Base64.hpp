@@ -55,7 +55,7 @@ public:
      *
      * @return a string that encodes the binary data in a way that can be safely transmitted via various Internet protocols
      */
-    static std::string encode(const ustring& source);
+    static std::string encode(const u8string& source);
 
     /**
      * Decodes a Base64 string into an array of bytes
@@ -63,7 +63,7 @@ public:
      * @param source the stringified data to convert
      * @param dest the out buffer that will be filled with the decoded data
      */
-    static bool decode(const std::string& source, ustring& dest);
+    static bool decode(const std::string& source, u8string& dest);
 
     /**
      * Encodes a std::string into a Base64 string

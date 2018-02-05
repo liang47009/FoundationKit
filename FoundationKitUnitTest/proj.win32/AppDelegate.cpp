@@ -103,6 +103,34 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
 
+
+
+    auto LaunchArgs = Environment::GetCommandLineArgs();
+    if (LaunchArgs.size() < 3)return false;
+    std::string SrcPath = LaunchArgs[1];
+    std::string DesPath = LaunchArgs[2];
+    Directory::GetFiles(SrcPath, [&](const std::string& fileFullPath)
+    {
+        std::string FileExtension = Path::GetExtension(fileFullPath);
+        if (FileExtension.compare(".jpg") == 0 ||
+            FileExtension.compare(".jpeg") == 0 ||
+            FileExtension.compare(".png") == 0)
+        {
+            std::string RelativePath = Path::GetRelativePath(SrcPath, fileFullPath);
+            std::string DesFullPath = DesPath + RelativePath;
+            std::string DesDir = Path::GetDirectoryPath(DesFullPath);
+            Directory::Create(DesDir);
+            std::string command = "cd E:\\GitHub\\FoundationKit\\Win32\\Release\\ && .\\guetzli.exe --cuda --quality 80 ";
+            command += fileFullPath;
+            command += " ";
+            command += DesFullPath;
+            auto result = PlatformDevice::ExecuteSystemCommand(command.c_str());
+            FKLog("%s", result.c_str());
+        }
+        return false;
+    }, Directory::ESearchOption::AllDirectories);
+
+    FKLog(">>> applicationDidFinishLaunching end.");
 	return true;
 }
 
