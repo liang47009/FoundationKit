@@ -85,25 +85,16 @@ AppDelegate::~AppDelegate()
 
 }
 
-
-
 void AppDelegate::applicationDidLaunching()
 {
 
 }
-
-enum LinkerInitialized
-{
-	kLinkerInitialized = 0,
-};
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
-
-
 
     auto LaunchArgs = Environment::GetCommandLineArgs();
     if (LaunchArgs.size() < 3)return false;

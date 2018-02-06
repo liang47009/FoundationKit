@@ -114,10 +114,11 @@ public:
         bs << BlockVersion;
         bs << BlockIndex;
         bs << Timestamp;
+        bs << BlockNonce.first << BlockNonce.second;
         bs << BlockHash;
         bs << PreviousBlockHash;
         bs << MerkleRootHash;
-        bs << BlockNonce.first << BlockNonce.second;
+
     }
 
     void Load(BitStream& bs)
@@ -125,21 +126,22 @@ public:
         bs >> BlockVersion;
         bs >> BlockIndex;
         bs >> Timestamp;
+        bs >> BlockNonce.first >> BlockNonce.second;
         bs >> BlockHash;
         bs >> PreviousBlockHash;
         bs >> MerkleRootHash;
-        bs >> BlockNonce.first >> BlockNonce.second;
+
     }
 
     bool operator==(const BlockHeader& other)
     {
         return (BlockVersion == other.GetBlockVersion() &&
-            BlockIndex == other.GetBlockIndex() &&
-            Timestamp  == other.GetTimestamp() &&
+            BlockIndex       == other.GetBlockIndex() &&
+            Timestamp        == other.GetTimestamp() &&
+            BlockNonce       == other.GetBlockNonce() &&
             memcmp(BlockHash, other.GetBlockHash(), BlockHashSize) == 0 &&
             memcmp(PreviousBlockHash, other.GetPreviousBlockHash(), BlockHashSize) == 0 &&
-            memcmp(MerkleRootHash, other.GetMerkleRootHash(), BlockHashSize) == 0 &&
-            BlockNonce == other.GetBlockNonce());
+            memcmp(MerkleRootHash, other.GetMerkleRootHash(), BlockHashSize) == 0);
     }
 
     bool operator!=(const BlockHeader& other)
@@ -151,10 +153,10 @@ protected:
     Version     BlockVersion;
     int64       BlockIndex;
     int64       Timestamp;
+    paire       BlockNonce;
     char        BlockHash[BlockHashSize+1];
     char        PreviousBlockHash[BlockHashSize+1];
     char        MerkleRootHash[BlockHashSize + 1];
-    paire       BlockNonce;
 };
 
 NS_FK_END
