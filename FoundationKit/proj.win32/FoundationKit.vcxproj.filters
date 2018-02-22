@@ -55,6 +55,9 @@
     <Filter Include="ReserveClass">
       <UniqueIdentifier>{4e8076e7-005a-4b78-90eb-ba467b37326a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{f16b61bc-6327-41ef-8a4f-9a0ae2813627}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp">
@@ -87,57 +90,6 @@
     <ClInclude Include="..\FoundationKit\GenericPlatformMacros.hpp" />
     <ClInclude Include="..\FoundationKit\LanguageFeatures.hpp" />
     <ClInclude Include="..\FoundationKit\FoundationMacros.hpp" />
-    <ClInclude Include="..\FoundationKit\Foundation\Compression.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\DateTime.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Singleton.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\StringUtils.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\ElapsedTimer.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Exception.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\MathContent.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Math.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\MathUtil.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Matrix.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Quaternion.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Rect.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Size.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Vector2.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Vector3.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Vector4.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Version.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\Environment.hpp">
       <Filter>Platform</Filter>
     </ClInclude>
@@ -156,12 +108,6 @@
     <ClInclude Include="..\FoundationKit\Base\types.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Runnable.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Value.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\byte_swap.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -175,9 +121,6 @@
     <ClInclude Include="..\FoundationKit\Crypto\urlencode.hpp">
       <Filter>Crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Dictionary.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\scope_guard.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -186,9 +129,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\BehaviourTreeTest.hpp">
       <Filter>experimental</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\FunctionHandler.hpp">
-      <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\string_builder.hpp">
       <Filter>Base</Filter>
@@ -204,15 +144,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\unique_id.hpp">
       <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Directory.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\File.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Path.hpp">
-      <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\locale.hpp">
       <Filter>Base</Filter>
@@ -253,9 +184,6 @@
     <ClInclude Include="..\FoundationKit\experimental\AsyncTask.hpp">
       <Filter>experimental</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Time.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\dirent.h">
       <Filter>Platform\windows\sys</Filter>
     </ClInclude>
@@ -264,9 +192,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\threadsafe_stack.hpp">
       <Filter>experimental</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\ThreadTimer.hpp">
-      <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformMemory.hpp">
       <Filter>Platform\windows</Filter>
@@ -328,26 +253,11 @@
     <ClInclude Include="..\FoundationKit\experimental\match.hpp">
       <Filter>experimental</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\Utility.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\NotificationCenter.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\TimeZone.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\TimeSpan.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\linux\LinuxPlatform.hpp">
       <Filter>Platform\linux</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\linux\LinuxPlatformTLS.hpp">
       <Filter>Platform\linux</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\BitStream.hpp">
-      <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Crypto\Base58.hpp">
       <Filter>Crypto</Filter>
@@ -373,6 +283,96 @@
     <ClInclude Include="..\FoundationKit\ReserveClass\ITickable.hpp">
       <Filter>ReserveClass</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\ReserveClass\Runnable.hpp">
+      <Filter>ReserveClass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Math.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\MathContent.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\MathUtil.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Matrix.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Quaternion.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Rect.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Size.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Vector2.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Vector3.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Math\Vector4.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\BitStream.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Compression.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\DateTime.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Dictionary.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Directory.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\ElapsedTimer.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Exception.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\File.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\FunctionHandler.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\NotificationCenter.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Path.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Singleton.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\StringUtils.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Time.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\TimeSpan.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\TimeZone.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Utility.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Value.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\Version.hpp">
+      <Filter>Foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
@@ -397,36 +397,6 @@
       <Filter>Crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\GenericPlatformMacros.cpp" />
-    <ClCompile Include="..\FoundationKit\Foundation\Exception.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\MathUtil.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Matrix.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Quaternion.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Vector2.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Vector3.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Vector4.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Math.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Value.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Crypto\des.cpp">
       <Filter>Crypto</Filter>
     </ClCompile>
@@ -438,12 +408,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Path.cpp">
       <Filter>Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Rect.cpp">
-      <Filter>Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Version.cpp">
-      <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.cpp">
       <Filter>Platform\Android\AndroidJNI</Filter>
@@ -481,59 +445,71 @@
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPath.cpp">
       <Filter>Platform\Android</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\Time.cpp">
-      <Filter>Foundation</Filter>
+    <ClCompile Include="..\FoundationKit\experimental\FileHandle.cpp">
+      <Filter>experimental</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\ThreadTimer.cpp">
-      <Filter>Foundation</Filter>
+    <ClCompile Include="..\FoundationKit\Crypto\Base58.cpp">
+      <Filter>Crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\DateTime.cpp">
+    <ClCompile Include="..\FoundationKit\Math\Math.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\MathUtil.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Matrix.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Quaternion.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Rect.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Vector2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Vector3.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Math\Vector4.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\BitStream.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Compression.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\experimental\FileHandle.cpp">
-      <Filter>experimental</Filter>
+    <ClCompile Include="..\FoundationKit\Foundation\DateTime.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Exception.cpp">
+      <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\NotificationCenter.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\TimeZone.cpp">
+    <ClCompile Include="..\FoundationKit\Foundation\StringUtils.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Time.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\TimeSpan.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Foundation\BitStream.cpp">
+    <ClCompile Include="..\FoundationKit\Foundation\TimeZone.cpp">
       <Filter>Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\Crypto\Base58.cpp">
-      <Filter>Crypto</Filter>
+    <ClCompile Include="..\FoundationKit\Foundation\Value.cpp">
+      <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Foundation\Version.cpp">
+      <Filter>Foundation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\FoundationKit\Foundation\MathUtil.inl">
-      <Filter>Foundation</Filter>
-    </None>
-    <None Include="..\FoundationKit\Foundation\MathUtilNeon.inl">
-      <Filter>Foundation</Filter>
-    </None>
-    <None Include="..\FoundationKit\Foundation\Matrix.inl">
-      <Filter>Foundation</Filter>
-    </None>
-    <None Include="..\FoundationKit\Foundation\Vector2.inl">
-      <Filter>Foundation</Filter>
-    </None>
-    <None Include="..\FoundationKit\Foundation\Vector3.inl">
-      <Filter>Foundation</Filter>
-    </None>
-    <None Include="..\FoundationKit\Foundation\Vector4.inl">
-      <Filter>Foundation</Filter>
-    </None>
-    <None Include="..\FoundationKit\Foundation\Value.inl">
-      <Filter>Foundation</Filter>
-    </None>
     <None Include="..\FoundationKit\Platform\Apple\AppleDirectory.mm">
       <Filter>Platform\Apple</Filter>
     </None>
@@ -552,7 +528,28 @@
     <None Include="..\FoundationKit\Platform\mac\MACDevice.mm">
       <Filter>Platform\mac</Filter>
     </None>
-    <None Include="..\FoundationKit\Foundation\MathUtilNeon64.inl">
+    <None Include="..\FoundationKit\Math\MathUtil.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Math\MathUtilNeon.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Math\MathUtilNeon64.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Math\Matrix.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Math\Vector2.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Math\Vector3.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Math\Vector4.inl">
+      <Filter>Math</Filter>
+    </None>
+    <None Include="..\FoundationKit\Foundation\Value.inl">
       <Filter>Foundation</Filter>
     </None>
   </ItemGroup>

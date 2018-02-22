@@ -481,7 +481,7 @@ inline const Vector4 operator*(float x, const Vector4& v);
 NS_FK_END
 #endif // FOUNDATIONKIT_VECTOR4_HPP
 
-#include "FoundationKit/Foundation/Vector4.inl"
+#include "FoundationKit/Math/Vector4.inl"
 
 
 

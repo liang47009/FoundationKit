@@ -25,7 +25,7 @@
 
 #include <string>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Foundation/Vector3.hpp"
+#include "FoundationKit/Math/Vector3.hpp"
 NS_FK_BEGIN
 
 class Matrix;

@@ -14,8 +14,8 @@
 #include <math.h>
 #include <functional>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Foundation/Vector2.hpp"
-#include "FoundationKit/Foundation/Size.hpp"
+#include "FoundationKit/Math/Vector2.hpp"
+#include "FoundationKit/Math/Size.hpp"
 
 NS_FK_BEGIN
 

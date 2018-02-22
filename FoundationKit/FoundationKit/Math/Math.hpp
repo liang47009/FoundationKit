@@ -19,7 +19,7 @@
 #include <algorithm>
 #include <type_traits>
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Foundation/MathContent.hpp"
+#include "FoundationKit/Math/MathContent.hpp"
 
 NS_FK_BEGIN
 

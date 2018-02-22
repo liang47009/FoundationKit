@@ -33,25 +33,13 @@
 #include "FoundationKit/Foundation/Exception.hpp"
 #include "FoundationKit/Foundation/File.hpp"
 #include "FoundationKit/Foundation/FunctionHandler.hpp"
-#include "FoundationKit/Foundation/Math.hpp"
-#include "FoundationKit/Foundation/MathContent.hpp"
-#include "FoundationKit/Foundation/MathUtil.hpp"
-#include "FoundationKit/Foundation/Matrix.hpp"
 #include "FoundationKit/Foundation/Path.hpp"
-#include "FoundationKit/Foundation/Quaternion.hpp"
-#include "FoundationKit/Foundation/Rect.hpp"
-#include "FoundationKit/Foundation/Runnable.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"
-#include "FoundationKit/Foundation/Size.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/ThreadTimer.hpp"
 #include "FoundationKit/Foundation/Time.hpp"
 #include "FoundationKit/Foundation/TimeSpan.hpp"
 #include "FoundationKit/Foundation/TimeZone.hpp"
 #include "FoundationKit/Foundation/Value.hpp"
-#include "FoundationKit/Foundation/Vector2.hpp"
-#include "FoundationKit/Foundation/Vector3.hpp"
-#include "FoundationKit/Foundation/Vector4.hpp"
 #include "FoundationKit/Foundation/Version.hpp"
 
 #include "FoundationKit/Platform/Directory.hpp"
@@ -63,10 +51,18 @@
 #include "FoundationKit/Platform/PlatformMemory.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 
+#include "FoundationKit/Math/Math.hpp"
+#include "FoundationKit/Math/MathContent.hpp"
+#include "FoundationKit/Math/MathUtil.hpp"
+#include "FoundationKit/Math/Matrix.hpp"
+#include "FoundationKit/Math/Quaternion.hpp"
+#include "FoundationKit/Math/Rect.hpp"
+#include "FoundationKit/Math/Size.hpp"
+#include "FoundationKit/Math/Vector2.hpp"
+#include "FoundationKit/Math/Vector3.hpp"
+#include "FoundationKit/Math/Vector4.hpp"
 
 #include "HTTPClient/HTTPClient.hpp"
-
-
 
 using namespace std;
 USING_NS_FK;

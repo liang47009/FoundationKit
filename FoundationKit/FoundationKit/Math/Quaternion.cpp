@@ -18,8 +18,8 @@
 
 #include <cassert>
 #include <cmath>
-#include "FoundationKit/Foundation/Matrix.hpp"
-#include "FoundationKit/Foundation/Quaternion.hpp"
+#include "FoundationKit/Math/Matrix.hpp"
+#include "FoundationKit/Math/Quaternion.hpp"
 
 NS_FK_BEGIN
 

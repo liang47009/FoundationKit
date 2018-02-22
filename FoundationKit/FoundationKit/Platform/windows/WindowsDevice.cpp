@@ -41,11 +41,10 @@ losemymind.libo@gmail.com
 #include "FoundationKit/Crypto/md5.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Foundation/Path.hpp"
 #include "FoundationKit/Foundation/Version.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-
+#include "FoundationKit/Math/Rect.hpp"
 NS_FK_BEGIN
 
 namespace detail

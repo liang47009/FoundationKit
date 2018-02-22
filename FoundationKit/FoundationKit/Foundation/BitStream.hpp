@@ -127,11 +127,11 @@ public:
     void Write(BitStream &bitStream, uint32_t numberOfBits);
     void Write(BitStream &bitStream);\
 
-        /// \brief Write a float into 2 bytes, spanning the range between \a floatMin and \a floatMax
-        /// \param[in] x The float to write
-        /// \param[in] floatMin Predetermined minimum value of f
-        /// \param[in] floatMax Predetermined maximum value of f
-        void WriteFloat16(float x, float floatMin, float floatMax);
+    /// \brief Write a float into 2 bytes, spanning the range between \a floatMin and \a floatMax
+    /// \param[in] x The float to write
+    /// \param[in] floatMin Predetermined minimum value of f
+    /// \param[in] floatMax Predetermined maximum value of f
+    void WriteFloat16(float x, float floatMin, float floatMax);
 
     /// Write one type serialized as another (smaller) type, to save bandwidth
     /// serializationType should be uint8_t, uint16_t, uint24_t, or uint32_t
@@ -139,19 +139,6 @@ public:
     /// \param[in] value The value to write
     template <class serializationType, class sourceType >
     void WriteCasted(const sourceType &value);
-
-    /// Given the minimum and maximum values for an integer type, figure out the minimum number of bits to represent the range
-    /// Then write only those bits
-    /// \note A static is used so that the required number of bits for (maximum-minimum) is only calculated once. This does require that \a minimum and \maximum are fixed values for a given line of code for the life of the program
-    /// \param[in] value Integer value to write, which should be between \a minimum and \a maximum
-    /// \param[in] minimum Minimum value of \a value
-    /// \param[in] maximum Maximum value of \a value
-    /// \param[in] allowOutsideRange If true, all sends will take an extra bit, however value can deviate from outside \a minimum and \a maximum. If false, will assert if the value deviates. This should match the corresponding value passed to Read().
-    template <class _Ty>
-    void WriteBitsFromIntegerRange(const _Ty value, const _Ty minimum, const _Ty maximum, bool allowOutsideRange = false);
-    /// \param[in] requiredBits Primarily for internal use, called from above function() after calculating number of bits needed to represent maximum-minimum
-    template <class _Ty>
-    void WriteBitsFromIntegerRange(const _Ty value, const _Ty minimum, const _Ty maximum, const int requiredBits, bool allowOutsideRange = false);
 
     /// \brief Write a normalized 3D vector, using (at most) 4 bytes + 3 bits instead of 12-24 bytes.  
     /// \details Will further compress y or z axis aligned vectors.
@@ -207,19 +194,6 @@ public:
     /// \param[in] value The value to write
     template <class serializationType, class sourceType >
     bool ReadCasted(sourceType &value);
-
-    /// Given the minimum and maximum values for an integer type, figure out the minimum number of bits to represent the range
-    /// Then read only those bits
-    /// \note A static is used so that the required number of bits for (maximum-minimum) is only calculated once. This does require that \a minimum and \maximum are fixed values for a given line of code for the life of the program
-    /// \param[in] value Integer value to read, which should be between \a minimum and \a maximum
-    /// \param[in] minimum Minimum value of \a value
-    /// \param[in] maximum Maximum value of \a value
-    /// \param[in] allowOutsideRange If true, all sends will take an extra bit, however value can deviate from outside \a minimum and \a maximum. If false, will assert if the value deviates. This should match the corresponding value passed to Write().
-    template <class _Ty>
-    bool ReadBitsFromIntegerRange(_Ty &value, const _Ty minimum, const _Ty maximum, bool allowOutsideRange = false);
-    /// \param[in] requiredBits Primarily for internal use, called from above function() after calculating number of bits needed to represent maximum-minimum
-    template <class _Ty>
-    bool ReadBitsFromIntegerRange(_Ty &value, const _Ty minimum, const _Ty maximum, const int requiredBits, bool allowOutsideRange = false);
 
     /// \brief Read a normalized 3D vector, using (at most) 4 bytes + 3 bits instead of 12-24 bytes.  
     /// \details Will further compress y or z axis aligned vectors.
@@ -428,17 +402,6 @@ public:
 
     /// Write zeros until the bitstream is filled up to \a bytes
     void PadWithZeroToByteLength(uint32 bytes);
-
-    /// Get the number of leading zeros for a number
-    /// \param[in] x Number to test
-    static int NumberOfLeadingZeroes(uint8_t x);
-    static int NumberOfLeadingZeroes(uint16_t x);
-    static int NumberOfLeadingZeroes(uint32_t x);
-    static int NumberOfLeadingZeroes(uint64_t x);
-    static int NumberOfLeadingZeroes(int8_t x);
-    static int NumberOfLeadingZeroes(int16_t x);
-    static int NumberOfLeadingZeroes(int32_t x);
-    static int NumberOfLeadingZeroes(int64_t x);
 
     /// \internal Unrolled inner loop, for when performance is critical
     void WriteAlignedVar8(const char *inByteArray);
@@ -1041,41 +1004,6 @@ void BitStream::WriteCasted(const sourceType &value)
     Write(val);
 }
 
-template <class _Ty>
-void BitStream::WriteBitsFromIntegerRange(const _Ty value, const _Ty minimum, const _Ty maximum, bool allowOutsideRange)
-{
-    int requiredBits = BYTES_TO_BITS(sizeof(_Ty)) - NumberOfLeadingZeroes(_Ty(maximum - minimum));
-    WriteBitsFromIntegerRange(value, minimum, maximum, requiredBits, allowOutsideRange);
-}
-
-template <class _Ty>
-void BitStream::WriteBitsFromIntegerRange(const _Ty value, const _Ty minimum, const _Ty maximum, const int requiredBits, bool allowOutsideRange)
-{
-    ASSERTED(maximum >= minimum,_FILE_AND_LINE_);
-    ASSERTED(allowOutsideRange == true || (value >= minimum && value <= maximum), _FILE_AND_LINE_);
-    if (allowOutsideRange)
-    {
-        if (value<minimum || value>maximum)
-        {
-            Write(true);
-            Write(value);
-            return;
-        }
-        Write(false);
-    }
-    _Ty valueOffMin = value - minimum;
-    if (IsBigEndian() == true)
-    {
-        uint8 output[sizeof(_Ty)];
-        ReverseBytes((uint8*)&valueOffMin, output, sizeof(_Ty));
-        WriteBits(output, requiredBits);
-    }
-    else
-    {
-        WriteBits((uint8*)&valueOffMin, requiredBits);
-    }
-}
-
 template <class _Ty> // _Ty for this function must be a float or double
 void BitStream::WriteNormVector(_Ty x, _Ty y, _Ty z)
 {
@@ -1155,39 +1083,6 @@ bool BitStream::ReadCasted(sourceType &value)
     serializationType val;
     bool success = Read(val);
     value = (sourceType)val;
-    return success;
-}
-
-template <class _Ty>
-bool BitStream::ReadBitsFromIntegerRange(_Ty &value, const _Ty minimum, const _Ty maximum, bool allowOutsideRange)
-{
-    int requiredBits = BYTES_TO_BITS(sizeof(_Ty)) - NumberOfLeadingZeroes(_Ty(maximum - minimum));
-    return ReadBitsFromIntegerRange(value, minimum, maximum, requiredBits, allowOutsideRange);
-}
-
-template <class _Ty>
-bool BitStream::ReadBitsFromIntegerRange(_Ty &value, const _Ty minimum, const _Ty maximum, const int requiredBits, bool allowOutsideRange)
-{
-    ASSERTED(maximum >= minimum, _FILE_AND_LINE_);
-    if (allowOutsideRange)
-    {
-        bool isOutsideRange;
-        Read(isOutsideRange);
-        if (isOutsideRange)
-            return Read(value);
-    }
-    uint8 output[sizeof(_Ty)];
-    memset(output, 0, sizeof(output));
-    bool success = ReadBits(output, requiredBits);
-    if (success)
-    {
-        if (IsBigEndian() == true)
-            ReverseBytesInPlace(output, sizeof(output));
-        memcpy(&value, output, sizeof(output));
-
-        value += minimum;
-    }
-
     return success;
 }
 

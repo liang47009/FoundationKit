@@ -7,9 +7,8 @@
 #include <vector>
 #include <cassert>
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Foundation/TimeSpan.hpp"
-
+#include "FoundationKit/Math/Math.hpp"
 NS_FK_BEGIN
 
 std::string TimeSpan::ToString() const

@@ -7,8 +7,8 @@
 #include <algorithm>
 #include <assert.h>
 #include <float.h>
-#include "FoundationKit/Foundation/Rect.hpp"
-#include "FoundationKit/Foundation/Math.hpp"
+#include "FoundationKit/Math/Rect.hpp"
+#include "FoundationKit/Math/Math.hpp"
 
 NS_FK_BEGIN
 

@@ -9,8 +9,8 @@
 
 #include <string>
 #include <vector>
-#include "FoundationKit/Foundation/Rect.hpp"
 #include "FoundationKit/Base/types.hpp"
+#include "FoundationKit/Math/Rect.hpp"
 NS_FK_BEGIN
 
 struct PlatformMemoryConstants

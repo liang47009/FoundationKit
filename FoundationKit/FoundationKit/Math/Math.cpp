@@ -4,7 +4,7 @@
   losemymind.libo@gmail.com
  
  ****************************************************************************/
-#include "FoundationKit/Foundation/Math.hpp"
+#include "FoundationKit/Math/Math.hpp"
 NS_FK_BEGIN
 
 namespace Math

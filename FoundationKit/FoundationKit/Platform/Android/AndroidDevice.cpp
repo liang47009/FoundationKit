@@ -23,7 +23,7 @@
 #include "FoundationKit/Platform/Android/AndroidInternal/ConnectivityManager.hpp"
 #include "FoundationKit/Platform/Android/AndroidInternal/TelephonyManager.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/Math.hpp"
+#include "FoundationKit/Math/Math.hpp"
 
 NS_FK_BEGIN
 

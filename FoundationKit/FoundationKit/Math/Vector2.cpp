@@ -17,8 +17,8 @@
  */
 
 #include <cassert>
-#include "FoundationKit/Foundation/MathContent.hpp"
-#include "FoundationKit/Foundation/Vector2.hpp"
+#include "FoundationKit/Math/MathContent.hpp"
+#include "FoundationKit/Math/Vector2.hpp"
 
 NS_FK_BEGIN
 

@@ -23,7 +23,7 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
-#include "FoundationKit/Foundation/Vector3.hpp"
+#include "FoundationKit/Math/Vector3.hpp"
 
 NS_FK_BEGIN
 

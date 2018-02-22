@@ -17,7 +17,7 @@
  */
 #include <cassert>
 #include <memory>
-#include "FoundationKit/Foundation/MathUtil.hpp"
+#include "FoundationKit/Math/MathUtil.hpp"
 
 NS_FK_BEGIN
 

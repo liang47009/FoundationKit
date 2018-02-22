@@ -16,8 +16,8 @@
  This file was modified to fit the FoundationKit project
  */
 #include <cassert>
-#include "FoundationKit/Foundation/MathContent.hpp"
-#include "FoundationKit/Foundation/Vector4.hpp"
+#include "FoundationKit/Math/MathContent.hpp"
+#include "FoundationKit/Math/Vector4.hpp"
 
 NS_FK_BEGIN
 

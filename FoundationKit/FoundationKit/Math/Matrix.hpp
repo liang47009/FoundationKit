@@ -28,9 +28,9 @@
 # pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/Foundation/Vector3.hpp"
-#include "FoundationKit/Foundation/Vector4.hpp"
-#include "FoundationKit/Foundation/Quaternion.hpp"
+#include "FoundationKit/Math/Vector3.hpp"
+#include "FoundationKit/Math/Vector4.hpp"
+#include "FoundationKit/Math/Quaternion.hpp"
 
 NS_FK_BEGIN
 
