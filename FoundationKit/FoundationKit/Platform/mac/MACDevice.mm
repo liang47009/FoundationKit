@@ -26,7 +26,7 @@
 #include <unordered_map>
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Foundation/Math.hpp"
+#include "FoundationKit/Math/Math.hpp"
 #import <IOKit/IOKitLib.h>
 #import <AppKit/AppKit.h>
 #import <Foundation/Foundation.h>
@@ -139,7 +139,6 @@ namespace detail
                         if(addrMac->sdl_alen == 6)
                         {
                             unsigned char macBuf[6];
-                            size_t aab = addrMac->sdl_alen;
                             memcpy(macBuf, LLADDR(addrMac), addrMac->sdl_alen);
                             NetworkAdaptersInfoItem.MacAddress = StringUtils::Format("%02X%02X%02X%02X%02X%02X"
                                                                                      ,macBuf[0]

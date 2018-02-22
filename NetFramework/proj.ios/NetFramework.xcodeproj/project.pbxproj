@@ -14,7 +14,6 @@
 		094774731FFF163700A9B955 /* HTTPResponse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094774441FFF163700A9B955 /* HTTPResponse.cpp */; };
 		094774741FFF163700A9B955 /* HTTPUploader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094774461FFF163700A9B955 /* HTTPUploader.cpp */; };
 		094774751FFF163700A9B955 /* libcurl_init.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094774481FFF163700A9B955 /* libcurl_init.cpp */; };
-		094774761FFF163700A9B955 /* MimeTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0947744A1FFF163700A9B955 /* MimeTypes.cpp */; };
 		094774771FFF163700A9B955 /* IProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094774671FFF163700A9B955 /* IProtocol.cpp */; };
 /* End PBXBuildFile section */
 
@@ -46,7 +45,6 @@
 		094774471FFF163700A9B955 /* HTTPUploader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HTTPUploader.hpp; sourceTree = "<group>"; };
 		094774481FFF163700A9B955 /* libcurl_init.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libcurl_init.cpp; sourceTree = "<group>"; };
 		094774491FFF163700A9B955 /* libcurl_init.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = libcurl_init.hpp; sourceTree = "<group>"; };
-		0947744A1FFF163700A9B955 /* MimeTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MimeTypes.cpp; sourceTree = "<group>"; };
 		0947744B1FFF163700A9B955 /* MimeTypes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MimeTypes.hpp; sourceTree = "<group>"; };
 		0947744D1FFF163700A9B955 /* basic_endpoint.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = basic_endpoint.hpp; sourceTree = "<group>"; };
 		0947744E1FFF163700A9B955 /* basic_socket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = basic_socket.hpp; sourceTree = "<group>"; };
@@ -136,7 +134,6 @@
 				094774471FFF163700A9B955 /* HTTPUploader.hpp */,
 				094774481FFF163700A9B955 /* libcurl_init.cpp */,
 				094774491FFF163700A9B955 /* libcurl_init.hpp */,
-				0947744A1FFF163700A9B955 /* MimeTypes.cpp */,
 				0947744B1FFF163700A9B955 /* MimeTypes.hpp */,
 			);
 			path = HTTPClient;
@@ -258,7 +255,6 @@
 				094774731FFF163700A9B955 /* HTTPResponse.cpp in Sources */,
 				094774721FFF163700A9B955 /* HTTPRequest.cpp in Sources */,
 				094774771FFF163700A9B955 /* IProtocol.cpp in Sources */,
-				094774761FFF163700A9B955 /* MimeTypes.cpp in Sources */,
 				094774711FFF163700A9B955 /* HTTPDownloader.cpp in Sources */,
 				0947746F1FFF163700A9B955 /* HTTPClient.cpp in Sources */,
 				094774751FFF163700A9B955 /* libcurl_init.cpp in Sources */,

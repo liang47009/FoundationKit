@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
   Copyright (c) 2017 libo All rights reserved.
  
   losemymind.libo@gmail.com
@@ -169,7 +169,7 @@ int32 DateTime::GetHour12() const
 
 bool DateTime::IsDaylightSavingTime()
 {
-    std::time_t time = ToUnixTimestamp();
+    std::time_t time = static_cast<std::time_t>(ToUnixTimestamp());
     struct std::tm tms;
     localtime_t(&time, &tms);
     return tms.tm_isdst > 0;

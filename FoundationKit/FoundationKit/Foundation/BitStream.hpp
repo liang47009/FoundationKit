@@ -41,7 +41,7 @@ public:
      * @details There is no benefit to calling this, unless you know exactly how 
      *          many bytes you need and it is greater than BITSTREAM_STACK_ALLOCATION_SIZE.
      *          In that case all it does is save you one or more realloc calls.
-     * @param[in] initialBytesToAllocate The number of bytes to pre-allocate.
+     * @param[in] InitialBytesToAllocate The number of bytes to pre-allocate.
      */
     BitStream(const uint32 InitialBytesToAllocate);
 
@@ -67,7 +67,7 @@ public:
     /**
      * Write any integral type to a BitStream.  
      * @details Undefine BITSTREAM_NATIVE_ENDIAN if you need endian swapping.
-     * @param[in] InData The value to write
+     * @param[in] InValue The value to write
      */
     template <class _Ty>
     void Write(const _Ty &InValue);
@@ -255,12 +255,11 @@ public:
     void IgnoreBits(const uint32_t numberOfBits);
 
     /// \brief Ignore data we don't intend to read
-    /// \param[in] numberOfBits The number of bytes to ignore
+    /// \param[in]numberOfBytes The number of bytes to ignore
     void IgnoreBytes(const uint32 numberOfBytes);
 
     /// \brief Move the write pointer to a position on the array.
     /// \param[in] offset the offset from the start of the array.
-    /// \attention
     /// \details Dangerous if you don't know what you are doing!
     /// For efficiency reasons you can only write mid-stream if your data is byte aligned.
     void SetWriteOffset(const uint32_t offset);
@@ -586,7 +585,7 @@ inline void BitStream::Write(const uint24_t &inTemplateVar)
 
 
 /// \brief Write a string to a bitstream.
-/// \param[in] var The value to write
+/// \param[in]inTemplateVar The value to write
 template <>
 inline void BitStream::Write(const std::string &inTemplateVar)
 {

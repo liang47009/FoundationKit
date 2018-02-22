@@ -19,7 +19,7 @@ public:
      * @param[in] FilePath  File full path.
      * @return If true break.
      */
-    typedef std::function<bool(const std::string&)> EnumFileCallback;
+    typedef std::function<bool(const std::string& FilePath)> EnumFileCallback;
     enum class ESearchOption
     {
         TopDirectoryOnly = 0,
