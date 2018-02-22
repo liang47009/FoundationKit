@@ -13,8 +13,7 @@ $(SRCROOT)/NetFramework/HTTPClient/HTTPDownloader.cpp \
 $(SRCROOT)/NetFramework/HTTPClient/HTTPRequest.cpp \
 $(SRCROOT)/NetFramework/HTTPClient/HTTPResponse.cpp \
 $(SRCROOT)/NetFramework/HTTPClient/HTTPUploader.cpp \
-$(SRCROOT)/NetFramework/HTTPClient/libcurl_init.cpp \
-$(SRCROOT)/NetFramework/HTTPClient/MimeTypes.cpp
+$(SRCROOT)/NetFramework/HTTPClient/libcurl_init.cpp 
 
 LOCAL_C_INCLUDES := \
 $(PROJECT_DIR)/ \

@@ -104,6 +104,7 @@ public:
     static int         GetNetworkType();
     static std::string GetIpAddressV4();
     static std::string GetIpAddressV6();
+    static std::string GetMacAddress();
     static string_list GetDNS();
     // byte
     static long long   GetTotalMemory();
@@ -129,7 +130,7 @@ public:
 
     static bool IsDebuggerPresent();
     static std::string ExecuteSystemCommand(const std::string& command);
-    static bool ScreenShot(std::string& outSavePath);
+    static bool ScreenCapture(std::string& outSavePath);
 };
 
 

@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <float.h>
 #include "FoundationKit/Foundation/Rect.hpp"
+#include "FoundationKit/Foundation/Math.hpp"
 
 NS_FK_BEGIN
 
@@ -131,10 +132,10 @@ Rect Rect::UnionWithRect(const Rect & rect) const
         std::swap(otherTopY, otherBottomY);   // Other rect has negative height
     }
     
-    float combinedLeftX   = std::min(thisLeftX, otherLeftX);
-    float combinedRightX  = std::max(thisRightX, otherRightX);
-    float combinedTopY    = std::max(thisTopY, otherTopY);
-    float combinedBottomY = std::min(thisBottomY, otherBottomY);
+    float combinedLeftX   = Math::Min(thisLeftX, otherLeftX);
+    float combinedRightX  = Math::Max(thisRightX, otherRightX);
+    float combinedTopY    = Math::Max(thisTopY, otherTopY);
+    float combinedBottomY = Math::Min(thisBottomY, otherBottomY);
     
     return Rect(combinedLeftX, combinedBottomY, combinedRightX - combinedLeftX, combinedTopY - combinedBottomY);
 }

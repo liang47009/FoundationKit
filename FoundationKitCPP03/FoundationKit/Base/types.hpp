@@ -68,7 +68,7 @@ struct SelectIntPointerType<T32BITS, T64BITS, 4>
 typedef SelectIntPointerType<uint32, uint64, sizeof(void*)>::type UPTRINT;	// unsigned int the same size as a pointer
 typedef SelectIntPointerType<int32, int64, sizeof(void*)>::type PTRINT;   // signed int the same size as a pointer
 
-typedef std::basic_string<uint8, std::char_traits<uint8>, std::allocator<uint8> > ustring;
+typedef std::basic_string<uint8, std::char_traits<uint8>, std::allocator<uint8> > u8string;
 typedef std::vector<uint8> byte_array;
 
 struct uint24_t

@@ -19,67 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\NetFramework\HTTPClient\HTTPClient.cpp" />
-    <ClCompile Include="..\NetFramework\HTTPClient\HTTPCode.cpp" />
-    <ClCompile Include="..\NetFramework\HTTPClient\HTTPDownloader.cpp" />
-    <ClCompile Include="..\NetFramework\HTTPClient\HTTPRequest.cpp" />
-    <ClCompile Include="..\NetFramework\HTTPClient\HTTPResponse.cpp" />
-    <ClCompile Include="..\NetFramework\HTTPClient\HTTPUploader.cpp" />
-    <ClCompile Include="..\NetFramework\HTTPClient\libcurl_init.cpp" />
-    <ClCompile Include="..\NetFramework\Networking\IProtocol.cpp" />
+    <ClInclude Include="..\EventKit\detail\dev_poll_service.hpp" />
+    <ClInclude Include="..\EventKit\detail\epoll_service.hpp" />
+    <ClInclude Include="..\EventKit\detail\iocp_serveice.hpp" />
+    <ClInclude Include="..\EventKit\detail\kqueue_service.hpp" />
+    <ClInclude Include="..\EventKit\detail\poll_service.hpp" />
+    <ClInclude Include="..\EventKit\detail\select_service.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPClient.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPClientOptions.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPCode.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPDownloader.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPRequest.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPResponse.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPUploader.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\libcurl_init.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\MimeTypes.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\basic_endpoint.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\basic_socket.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\detail\config.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\detail\socket_base.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\detail\socket_ops.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\detail\socket_option.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\detail\src.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\IProtocol.h" />
-    <ClInclude Include="..\NetFramework\Networking\ip\address.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\ip\address_v4.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\ip\address_v4_iterator.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\ip\address_v4_range.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\ip\address_v6.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\ip\address_v6_iterator.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\ip\address_v6_range.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\ip\bad_address_cast.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\ip\endpoint.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\ip\multicast.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\ip\tcp.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\ip\udp.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\network.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\net_error_code.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\socket_types.hpp" />
-    <ClInclude Include="..\NetFramework\Networking\winsock_init.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\NetFramework\Networking\readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\NetFramework\Networking\detail\socket_ops.ipp" />
-    <None Include="..\NetFramework\Networking\ip\address.ipp" />
-    <None Include="..\NetFramework\Networking\ip\address_v4.ipp" />
-    <None Include="..\NetFramework\Networking\ip\address_v6.ipp" />
-    <None Include="..\NetFramework\Networking\ip\endpoint.ipp" />
-    <None Include="..\NetFramework\Networking\winsock_init.ipp" />
+    <ProjectReference Include="..\..\FoundationKit\proj.win32\FoundationKit.vcxproj">
+      <Project>{8f5a5344-1249-4c82-ba4d-8b4733161585}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{FBFCEA90-A2E0-4580-9848-65A3B73973D2}</ProjectGuid>
+    <ProjectGuid>{34C6844D-B26F-4754-8FBA-9392C8932908}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>NetFramework</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
-    <ProjectName>NetFramework</ProjectName>
+    <RootNamespace>EventKit</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -115,19 +71,19 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="NetFramework.props" />
+    <Import Project="EventKit.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="NetFramework.props" />
+    <Import Project="EventKit.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="NetFramework.props" />
+    <Import Project="EventKit.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="NetFramework.props" />
+    <Import Project="EventKit.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />

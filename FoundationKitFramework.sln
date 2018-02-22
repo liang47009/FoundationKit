@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKitUnitTest", "Fo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetFramework", "NetFramework\proj.win32\NetFramework.vcxproj", "{FBFCEA90-A2E0-4580-9848-65A3B73973D2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EventKit", "EventKit\proj.win32\EventKit.vcxproj", "{34C6844D-B26F-4754-8FBA-9392C8932908}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -49,6 +51,16 @@ Global
 		{FBFCEA90-A2E0-4580-9848-65A3B73973D2}.Release|Win32.Build.0 = Release|Win32
 		{FBFCEA90-A2E0-4580-9848-65A3B73973D2}.Release|x64.ActiveCfg = Release|x64
 		{FBFCEA90-A2E0-4580-9848-65A3B73973D2}.Release|x64.Build.0 = Release|x64
+		{34C6844D-B26F-4754-8FBA-9392C8932908}.Debug|ARM.ActiveCfg = Debug|Win32
+		{34C6844D-B26F-4754-8FBA-9392C8932908}.Debug|Win32.ActiveCfg = Debug|Win32
+		{34C6844D-B26F-4754-8FBA-9392C8932908}.Debug|Win32.Build.0 = Debug|Win32
+		{34C6844D-B26F-4754-8FBA-9392C8932908}.Debug|x64.ActiveCfg = Debug|x64
+		{34C6844D-B26F-4754-8FBA-9392C8932908}.Debug|x64.Build.0 = Debug|x64
+		{34C6844D-B26F-4754-8FBA-9392C8932908}.Release|ARM.ActiveCfg = Release|Win32
+		{34C6844D-B26F-4754-8FBA-9392C8932908}.Release|Win32.ActiveCfg = Release|Win32
+		{34C6844D-B26F-4754-8FBA-9392C8932908}.Release|Win32.Build.0 = Release|Win32
+		{34C6844D-B26F-4754-8FBA-9392C8932908}.Release|x64.ActiveCfg = Release|x64
+		{34C6844D-B26F-4754-8FBA-9392C8932908}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -73,8 +73,11 @@ bool NotificationObserver::operator!=(const NotificationObserver& other)
 
 
 /************************************************************************/
-/*                  NotificationCenter                                     */
+/*                  NotificationCenter                                  */
 /************************************************************************/
+
+NotificationCenter NotificationCenter::DefaultCenter;
+
 NotificationCenter::NotificationCenter()
 {
 

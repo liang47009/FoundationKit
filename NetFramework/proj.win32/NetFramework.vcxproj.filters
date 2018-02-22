@@ -39,9 +39,6 @@
     <ClCompile Include="..\NetFramework\HTTPClient\libcurl_init.cpp">
       <Filter>HTTPClient</Filter>
     </ClCompile>
-    <ClCompile Include="..\NetFramework\HTTPClient\MimeTypes.cpp">
-      <Filter>HTTPClient</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\NetFramework\HTTPClient\HTTPClient.hpp">

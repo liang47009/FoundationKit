@@ -180,6 +180,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Base\byte_swap.hpp" />
     <ClInclude Include="..\FoundationKit\Base\contains_of_type.hpp" />
     <ClInclude Include="..\FoundationKit\Base\disable_if.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\error.hpp" />
     <ClInclude Include="..\FoundationKit\Base\function_cache.hpp" />
     <ClInclude Include="..\FoundationKit\Base\function_traits.hpp" />
     <ClInclude Include="..\FoundationKit\Base\has_member.hpp" />
@@ -226,7 +227,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Foundation\Exception.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\File.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\FunctionHandler.hpp" />
-    <ClInclude Include="..\FoundationKit\Foundation\ITickable.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\MathContent.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Math.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\MathUtil.hpp" />
@@ -281,6 +281,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatform.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp" />
+    <ClInclude Include="..\FoundationKit\ReserveClass\ITickable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp" />

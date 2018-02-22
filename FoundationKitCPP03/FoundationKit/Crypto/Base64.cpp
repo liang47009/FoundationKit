@@ -167,7 +167,7 @@ bool Base64::decode(const char* source, uint32 length, uint8* dest, uint32& padC
  *
  * @return a string that encodes the binary data in a way that can be safely transmitted via various Internet protocols
  */
-std::string Base64::encode(const ustring& source)
+std::string Base64::encode(const u8string& source)
 {
     return encode(source.c_str(), static_cast<uint32>(source.size()));
 }
@@ -180,7 +180,7 @@ std::string Base64::encode(const ustring& source)
  *
  * @return true if the buffer was decoded, false if it failed to decode
  */
-bool Base64::decode(const std::string& source, ustring& dest)
+bool Base64::decode(const std::string& source, u8string& dest)
 {
     uint32 length = static_cast<uint32>(source.length());
     // Size must be a multiple of 4

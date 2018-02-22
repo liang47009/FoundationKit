@@ -12,7 +12,7 @@
 #include <stdexcept>
 #include <streambuf>
 #include <vector>
-#include "FoundationKit/Base/error_code.hpp"
+#include "FoundationKit/Base/error.hpp"
 #include "FoundationKit/Base/mutablebuf.hpp"
 #include "FoundationKit/Base/noncopyable.hpp"
 #include <limits>

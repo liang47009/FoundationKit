@@ -12,8 +12,8 @@
 #include <string>
 #include <functional>
 #include <memory>
+#include <mutex>
 #include "FoundationKit/FoundationMacros.hpp"
-#include "FoundationKit/Foundation/Singleton.hpp"
 #include "FoundationKit/Foundation/FunctionHandler.hpp"
 
 NS_FK_BEGIN
@@ -50,9 +50,8 @@ inline bool operator!=(const NotificationObserver& l, const NotificationObserver
     return !(l == r);
 }
 
-class NotificationCenter : public Singleton<NotificationCenter>
+class NotificationCenter
 {
-    friend Singleton<NotificationCenter>;
     typedef std::vector<NotificationObserver::Pointer>   ObserverList;
 
 public:
@@ -63,7 +62,7 @@ public:
     void RemoveObserver( void* target);
     void RemoveObserver(const std::string& name, void* target);
     void Invoke(const std::string& name, const ArgumentList& args);
-
+    static NotificationCenter DefaultCenter;
 protected:
     // Check whether the observer exists by the specified target and name.
     bool ObserverExisted(const std::string& name,void* target = nullptr);

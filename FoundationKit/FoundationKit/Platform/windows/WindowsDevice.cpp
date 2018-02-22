@@ -355,7 +355,7 @@ std::string PlatformDevice::GetCPUArch()
     if (procArch == PROCESSOR_ARCHITECTURE_AMD64)         return "amd64";
     if (procArch == PROCESSOR_ARCHITECTURE_IA32_ON_WIN64) return "wow64";
     if (procArch == PROCESSOR_ARCHITECTURE_UNKNOWN)       return "Intel x86";
-    return "Unknown";
+    return  StringUtils::Format("Unknown:ProcessorArchitecture is %d", procArch);
 }
 
 int PlatformDevice::GetCPUCoreCount()

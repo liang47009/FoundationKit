@@ -52,6 +52,9 @@
     <Filter Include="Platform\Android\AndroidInternal">
       <UniqueIdentifier>{d7ad321c-1c9f-48e9-9d63-1ca19ce83245}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ReserveClass">
+      <UniqueIdentifier>{4e8076e7-005a-4b78-90eb-ba467b37326a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp">
@@ -206,9 +209,6 @@
       <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\File.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\ITickable.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\Path.hpp">
@@ -366,6 +366,12 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidInternal\NetworkInfo.hpp">
       <Filter>Platform\Android\AndroidInternal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\error.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\ReserveClass\ITickable.hpp">
+      <Filter>ReserveClass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

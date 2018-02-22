@@ -175,7 +175,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\FoundationKit\Base\error_code.hpp"
+				RelativePath="..\FoundationKit\Base\error.hpp"
 				>
 			</File>
 			<File
@@ -240,34 +240,6 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Cache"
-			>
-			<File
-				RelativePath="..\FoundationKit\Cache\AbstractCache.h"
-				>
-			</File>
-			<File
-				RelativePath="..\FoundationKit\Cache\AbstractStrategy.h"
-				>
-			</File>
-			<File
-				RelativePath="..\FoundationKit\Cache\KeyValueArgs.h"
-				>
-			</File>
-			<File
-				RelativePath="..\FoundationKit\Cache\LRUCache.h"
-				>
-			</File>
-			<File
-				RelativePath="..\FoundationKit\Cache\LRUCacheTest.h"
-				>
-			</File>
-			<File
-				RelativePath="..\FoundationKit\Cache\LRUStrategy.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Crypto"
 			>
 			<File
@@ -279,11 +251,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\FoundationKit\Crypto\Base58.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Crypto\Base58.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\FoundationKit\Crypto\Base64.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\FoundationKit\Crypto\Base64.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FoundationKit\Crypto\crc.hpp"
 				>
 			</File>
 			<File
@@ -408,10 +392,6 @@
 			</File>
 			<File
 				RelativePath="..\FoundationKit\Foundation\FunctionHandler.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\FoundationKit\Foundation\ITickable.hpp"
 				>
 			</File>
 			<File

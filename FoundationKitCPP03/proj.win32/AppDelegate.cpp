@@ -69,16 +69,16 @@ void AppDelegate::TestTupleArgs(const ArgumentList& args)
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 
-    NotificationCenter::GetInstance()->AddObserver("TupleTest", BindFunctionHandler(&TupleTest));
-    NotificationCenter::GetInstance()->Invoke("TupleTest", ArgumentList());
+    NotificationCenter::DefaultCenter.AddObserver("TupleTest", BindFunctionHandler(&TupleTest));
+    NotificationCenter::DefaultCenter.Invoke("TupleTest", ArgumentList());
     ArgumentList args;
     args.push_back(Value(10));
     args.push_back(Value("Fuck you"));
     args.push_back(Value("Fuck you again"));
-    NotificationCenter::GetInstance()->AddObserver("TupleTestArgs", BindFunctionHandler(&TupleTestArgs));
-    NotificationCenter::GetInstance()->AddObserver("TestTupleArgs", BindFunctionHandler(&AppDelegate::TestTupleArgs, this));
-    NotificationCenter::GetInstance()->Invoke("TupleTestArgs", args);
-    NotificationCenter::GetInstance()->Invoke("TestTupleArgs", args);
+    NotificationCenter::DefaultCenter.AddObserver("TupleTestArgs", BindFunctionHandler(&TupleTestArgs));
+    NotificationCenter::DefaultCenter.AddObserver("TestTupleArgs", BindFunctionHandler(&AppDelegate::TestTupleArgs, this));
+    NotificationCenter::DefaultCenter.Invoke("TupleTestArgs", args);
+    NotificationCenter::DefaultCenter.Invoke("TestTupleArgs", args);
 
 	return true;
 }

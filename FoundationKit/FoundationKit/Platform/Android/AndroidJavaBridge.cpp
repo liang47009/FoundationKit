@@ -53,7 +53,6 @@ extern "C"
         {
             arguments.emplace_back(env->GetObjectArrayElement(args, i));
         }
-        //FoundationKit::DelegateManager::GetInstance()->InvokeDelegate(strFunName, &arguments);
         ArgumentList arglist;
         size_t argIndex = 0;
         while (argIndex < count)
@@ -119,7 +118,7 @@ extern "C"
             }
             ++argIndex;
         }
-        FoundationKit::NotificationCenter::GetInstance()->Invoke(strFunName, arglist);
+        FoundationKit::NotificationCenter::DefaultCenter.Invoke(strFunName, arglist);
     }
 }//extern "C"
 

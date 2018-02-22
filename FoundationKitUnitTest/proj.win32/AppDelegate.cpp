@@ -33,7 +33,6 @@
 #include "FoundationKit/Foundation/Exception.hpp"
 #include "FoundationKit/Foundation/File.hpp"
 #include "FoundationKit/Foundation/FunctionHandler.hpp"
-#include "FoundationKit/Foundation/ITickable.hpp"
 #include "FoundationKit/Foundation/Math.hpp"
 #include "FoundationKit/Foundation/MathContent.hpp"
 #include "FoundationKit/Foundation/MathUtil.hpp"
@@ -103,9 +102,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     Directory::GetFiles(SrcPath, [&](const std::string& fileFullPath)
     {
         std::string FileExtension = Path::GetExtension(fileFullPath);
-        if (FileExtension.compare(".jpg") == 0 ||
+        if (FileExtension.compare(".jpg")  == 0 ||
             FileExtension.compare(".jpeg") == 0 ||
-            FileExtension.compare(".png") == 0)
+            FileExtension.compare(".png")  == 0)
         {
             std::string RelativePath = Path::GetRelativePath(SrcPath, fileFullPath);
             std::string DesFullPath = DesPath + RelativePath;

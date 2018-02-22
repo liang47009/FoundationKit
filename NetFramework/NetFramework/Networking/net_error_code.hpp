@@ -14,7 +14,7 @@
 #include <system_error>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/noncopyable.hpp"
-
+#include "FoundationKit/Base/error.hpp"
 #if PLATFORM_WINDOWS || PLATFORM_WINRT || defined(__CYGWIN__)
 # include <winerror.h>
 #else
@@ -43,34 +43,6 @@ NS_FK_BEGIN
 # define NET_GETADDRINFO_ERROR(e) e
 # define NET_WIN_OR_POSIX(e_win, e_posix) e_posix
 #endif
-
-
-
-template <typename Exception>
-inline void throw_exception(const Exception& e)
-{
-    throw e;
-}
-
-static inline void throw_error_if(const std::error_code& err, const char* location = nullptr)
-{
-    if (err)
-    {
-        if (location != nullptr)
-        {
-            std::string what_msg = location;
-            what_msg += ": ";
-            what_msg += err.message();
-            std::system_error e(err, what_msg);
-            throw_exception(e);
-        }
-        else
-        {
-            std::system_error e(err, err.message());
-            throw_exception(e);
-        } 
-    }
-}
 
 #if PLATFORM_WINDOWS
 struct _Map_errtab_t

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="detail">
+      <UniqueIdentifier>{9e637e50-9a62-41f2-9232-2f0dec1dfe4c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\EventKit\detail\dev_poll_service.hpp">
+      <Filter>detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EventKit\detail\epoll_service.hpp">
+      <Filter>detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EventKit\detail\iocp_serveice.hpp">
+      <Filter>detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EventKit\detail\kqueue_service.hpp">
+      <Filter>detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EventKit\detail\poll_service.hpp">
+      <Filter>detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EventKit\detail\select_service.hpp">
+      <Filter>detail</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
