@@ -38,21 +38,22 @@
 // or boost\config\select_platform_config.hpp
 // define supported target platform macro which to uses.
 #define PLATFORM_WINDOWS 0
-#define PLATFORM_XBOXONE 0
-#define PLATFORM_APPLE 0
+#define PLATFORM_LINUX 0
+#define PLATFORM_ANDROID 0
 #define PLATFORM_MAC 0
 #define PLATFORM_IOS 0
+#define PLATFORM_APPLE 0
 #define PLATFORM_TVOS 0
-#define PLATFORM_ANDROID 0
+#define PLATFORM_XBOXONE 0
 #define PLATFORM_PS4 0
 #define PLATFORM_HTML5 0
 #define PLATFORM_HTML5_BROWSER 0
 #define PLATFORM_HTML5_WIN32 0
-#define PLATFORM_LINUX 0
 #define PLATFORM_SWITCH 0
 #define PLATFORM_FREEBSD 0
 #define PLATFORM_WINRT 0
 
+enum class EPlatform { Windows, Linux, Android, Mac, iOS, Apple,TVOS, XBoxOne,PS4,HTML5,Switch,FreeBSD, Unknow };
 
 // WinRT target.
 #if defined(__cplusplus_winrt)
@@ -96,18 +97,36 @@
 #endif
 
 #if   PLATFORM_WINDOWS
+constexpr EPlatform TargetPlatform = EPlatform::Windows;
 #include "FoundationKit/Platform/windows/WindowsPlatform.hpp"
+
 #elif PLATFORM_ANDROID
+constexpr EPlatform TargetPlatform = EPlatform::Android;
 #include "FoundationKit/Platform/Android/AndroidPlatform.hpp"
+
 #elif PLATFORM_IOS
+constexpr EPlatform TargetPlatform = EPlatform::iOS;
 #include "FoundationKit/Platform/ios/IOSPlatform.hpp"
+
 #elif PLATFORM_MAC
+constexpr EPlatform TargetPlatform = EPlatform::Mac;
 #include "FoundationKit/Platform/mac/MACPlatform.hpp"
+
 #elif PLATFORM_LINUX
+constexpr EPlatform TargetPlatform = EPlatform::Linux;
 #include "FoundationKit/Platform/linux/LinuxPlatform.hpp"
 #else
+constexpr EPlatform TargetPlatform = EPlatform::Unknow;
 #error Unknown platform
 #endif
+
+//if constexpr (TargetPlatform == EPlatform::Android)
+//{
+//}
+//else if constexpr (TargetPlatform == EPlatform::iOS)
+//{
+//
+//}
 
 /**
  * Macro for marking up deprecated code, functions and types.

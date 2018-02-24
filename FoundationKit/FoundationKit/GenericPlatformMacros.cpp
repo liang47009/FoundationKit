@@ -78,6 +78,7 @@ void __log__(const char* fmt, ...)
     std::string strPreMsg = result;
     strPreMsg += "\n";
 
+
 #if (PLATFORM_ANDROID)
     __android_log_print(ANDROID_LOG_INFO, "FoundationKit", "%s", strPreMsg.c_str());
 #elif  PLATFORM_WINDOWS

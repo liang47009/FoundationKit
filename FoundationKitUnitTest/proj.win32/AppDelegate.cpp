@@ -90,6 +90,23 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::error_code ec;
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
+    uint64 MaxLoopSize = 1000 *1000 ;
+    std::unordered_map<uint64, uint64> CRCValue;
+    ElapsedTimer et;
+    for (uint64 i = 0; i < MaxLoopSize; i++)
+    {
+        std::string value = MD5::md5_hash_hex(std::to_string(i));
+        CRCValue[crc32::crc_buffer(value.c_str(), value.size())] = i;
+    }
+    FKLog("CRC32 run time:%f", et.Millisecondsf());
+    CRCValue.clear();
+    et.Reset();
+    for (uint64 i = 0; i < MaxLoopSize; i++)
+    {
+        std::string value = MD5::md5_hash_hex(std::to_string(i));
+        CRCValue[crc64::crc_buffer(value.c_str(), value.size())] = i;
+    }
+    FKLog("CRC64 run time:%f", et.Millisecondsf());
 
     auto LaunchArgs = Environment::GetCommandLineArgs();
     if (LaunchArgs.size() < 3)return false;

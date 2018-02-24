@@ -410,19 +410,6 @@ static inline std::string md5_hash_file(const std::string& filename)
         if (readed <= 0) break;
         md5_append(&state, (md5_byte_t const *)chunk_buf, readed);
     }
-    /**
-    int64 FileSize = File::GetSize(filename);
-    while (FileSize > 0) {
-        if (FileSize > BUFFER_SIZE)
-            readed = fread(chunk_buf, 1, BUFFER_SIZE, fp);
-        else
-            readed = fread(chunk_buf, 1, FileSize, fp);
-        if (readed < 0)
-            break;
-        md5_append(&state, (md5_byte_t const *)chunk_buf, readed);
-        FileSize -= readed;
-    }
-    */
     fclose(fp);
     delete[] chunk_buf;
     md5_finish(&state, (md5_byte_t *)digest);

@@ -104,10 +104,4 @@
 #endif
 #endif
 
-#if TARGET_LANGUAGE_FEATURES < LANGUAGE_FEATURES_CPP2011
-#	define noexcept
-#	define constexpr
-#endif
-
-
 #endif // END OF FOUNDATIONKIT_LANGUAGEFEATURES_HPP
