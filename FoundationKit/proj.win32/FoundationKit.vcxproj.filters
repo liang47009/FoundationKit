@@ -93,9 +93,6 @@
     <ClInclude Include="..\FoundationKit\Platform\Environment.hpp">
       <Filter>Platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\OpenGL.hpp">
-      <Filter>Platform</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.hpp">
       <Filter>Platform</Filter>
     </ClInclude>

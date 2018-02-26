@@ -269,7 +269,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\linux\LinuxPlatform.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\linux\LinuxPlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\mac\MACPlatform.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\OpenGL.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Path.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformDevice.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformMemory.hpp" />

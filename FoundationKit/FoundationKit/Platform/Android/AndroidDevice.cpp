@@ -198,12 +198,10 @@ std::string PlatformDevice::GetSDKVersion()
     return detail::GetSystemProperty("ro.build.version.sdk");
 }
 
-//std::string PlatformDevice::GetRendererVersion()
-//{
-//    //return detail::GetSystemProperty("ro.opengles.version");
-//    char* szOpenGLVersionString = (char*)glGetString(GL_VERSION);
-//    return szOpenGLVersionString ? szOpenGLVersionString : "";
-//}
+std::string PlatformDevice::GetCPUModel()
+{
+
+}
 
 std::string PlatformDevice::GetCPUArch()
 {

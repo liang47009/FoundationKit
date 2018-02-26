@@ -89,16 +89,10 @@ public:
     static std::string GetManufacturer();
     static std::string GetSystemVersion();
     static std::string GetSDKVersion();
-    //static std::string GetRendererVersion();
+    static std::string GetCPUModel();
     static std::string GetCPUArch();
     static int         GetCPUCoreCount();
-
-    /** 
-     * If cpuIndex is equal to - 1, then the function will return 
-     * the largest of the maximum frequency of all CPUs.
-     * @return Unit: KHz
-     */
-    static int         GetCPUFrequency();
+    static int         GetCPUFrequency(); //Unit: KHz
 
     //1 WIFI,2 2G,3 3G,4 4G,0 other.
     static int         GetNetworkType();
@@ -110,11 +104,9 @@ public:
     static long long   GetTotalMemory();
     // byte
     static long long   GetAvailableMemory();
-    //static std::string GetGPURenderer();
-    //static std::string GetGPUVendor();
-    /// Get the screen resolution, not including the virtual button area
+    // Get the screen resolution, not including the virtual button area
     static Rect GetScreenResolution();
-    /// Get the screen resolution, including the virtual button area
+    // Get the screen resolution, including the virtual button area
     static Rect GetScreenNativeResolution();
 
     //px = dp * (dpi / 160)

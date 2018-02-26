@@ -279,27 +279,22 @@ std::string PlatformDevice::GetModel()
 
 std::string PlatformDevice::GetManufacturer()
 {
-#ifdef _M_ARM
-	return "Windows";
-#else
 	// https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
 	// https://en.wikipedia.org/wiki/CPUID
 	std::array<int, 4> cpui;
+    std::vector<std::array<int, 4>> extdata;
 	__cpuidex(cpui.data(), 0, 0);
-	int nIds = cpui[0];
-	std::vector<std::array<int, 4>> data;
+    int nIds = cpui[0];
 	for (int i = 0; i <= nIds; ++i)
 	{
 		__cpuidex(cpui.data(), i, 0);
-		data.push_back(cpui);
+        extdata.push_back(cpui);
 	}
 	char vendor[32] = { 0 };
-	*reinterpret_cast<int*>(vendor) = data[0][1];
-	*reinterpret_cast<int*>(vendor + 4) = data[0][3];
-	*reinterpret_cast<int*>(vendor + 8) = data[0][2];
+	*reinterpret_cast<int*>(&vendor[0]) = extdata[0][1];
+	*reinterpret_cast<int*>(&vendor[4]) = extdata[0][3];
+	*reinterpret_cast<int*>(&vendor[8]) = extdata[0][2];
 	return vendor;
-#endif // ARM
-
 }
 
 typedef LONG(NTAPI* fnRtlGetVersion)(PRTL_OSVERSIONINFOW lpVersionInformation);
@@ -310,10 +305,6 @@ std::string PlatformDevice::GetSystemVersion()
     static auto RtlGetVersion = (fnRtlGetVersion)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
     if (RtlGetVersion != 0 && RtlGetVersion((PRTL_OSVERSIONINFOW)&verInfo) == 0)
     {
-        //std::ostringstream str;
-        //str << verInfo.dwMajorVersion << "." << verInfo.dwMinorVersion << " (Build " << (verInfo.dwBuildNumber & 0xFFFF);
-        //if (verInfo.szCSDVersion[0]) str << ": " << verInfo.szCSDVersion;
-        //str << ")";
 		Version version(verInfo.dwMajorVersion, verInfo.dwMinorVersion, (verInfo.dwBuildNumber & 0xFFFF));
         return version.ToString();
     }
@@ -329,12 +320,23 @@ std::string PlatformDevice::GetSDKVersion()
 {
     return "";
 }
-//
-//std::string PlatformDevice::GetRendererVersion()
-//{
-//    char* szOpenGLVersionString = (char*)glGetString(GL_VERSION);
-//    return szOpenGLVersionString ? szOpenGLVersionString : "";
-//}
+
+
+std::string PlatformDevice::GetCPUModel()
+{
+    // https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+    // https://en.wikipedia.org/wiki/CPUID
+    std::array<int, 4> cpui;
+    std::vector<std::array<int, 4>> extdata;
+    __cpuidex(cpui.data(), 0x80000000, 0);
+    if (cpui[0] < 0x80000004) return "";
+    char brand[64] = {0};
+    // Interpret CPU brand string if reported  
+    __cpuidex((int*)&brand[0],  0x80000002, 0); 
+    __cpuidex((int*)&brand[16], 0x80000003, 0);
+    __cpuidex((int*)&brand[32], 0x80000004, 0);
+    return brand;
+}
 
 std::string PlatformDevice::GetCPUArch()
 {
@@ -446,56 +448,6 @@ long long PlatformDevice::GetAvailableMemory()
     return free_memory;
 }
 
-/**
-
-std::string PlatformDevice::GetGPURenderer()
-{
-    std::string gpuname = "N/A";
-    IDirect3D9* pHandle = Direct3DCreate9(D3D_SDK_VERSION);
-    if (NULL == pHandle)
-    {
-        return gpuname;
-    }
-    gpuname = "";
-    size_t GPUCount = pHandle->GetAdapterCount();
-    for (unsigned int i = 0; i < GPUCount; ++i)
-    {
-        D3DADAPTER_IDENTIFIER9 ident;
-        if (SUCCEEDED(pHandle->GetAdapterIdentifier(i, 0, &ident)))
-        {
-            if (!gpuname.empty())
-            {
-                gpuname += "|";
-            }
-            gpuname += ident.Description;
-        }
-    }
-    pHandle->Release();
-    return gpuname;
-}
-
-static std::string vendor_from_name(const std::string& v)
-{
-    if (v.find("NVidia") != std::string::npos || v.find("NVIDIA") != std::string::npos)
-        return "NVIDIA";
-    else if (v.find("AMD") != std::string::npos || v.find("ATi") != std::string::npos || v.find("Advanced Micro Devices") != std::string::npos)
-        return "AMD";
-    else if (v.find("Intel") != std::string::npos)
-        return "Intel";
-    else if (v.find("Microsoft") != std::string::npos)
-        return "Microsoft";
-    else if (v.find("Qualcomm") != std::string::npos)
-        return "Qualcomm";
-    else
-        return "unknown";
-}
-
-std::string PlatformDevice::GetGPUVendor()
-{
-    return vendor_from_name(GetGPURenderer());
-}
-*/
-
 Rect PlatformDevice::GetScreenResolution()
 {
     int width = GetSystemMetrics(SM_CXFULLSCREEN);
@@ -596,6 +548,7 @@ void PlatformDevice::DumpDeviceInfo()
     ss << "GetManufacturer:" << GetManufacturer() << "\n";
     ss << "GetSystemVersion:" << GetSystemVersion() << "\n";
     ss << "GetSDKVersion:" << GetSDKVersion() << "\n";
+    ss << "GetCPUModel:" << GetCPUModel() << "\n";
     ss << "GetCPUArch:" << GetCPUArch() << "\n";
     ss << "GetCPUCoreCount:" << GetCPUCoreCount() << "\n";
     ss << "GetCPUFrequency:" << GetCPUFrequency() << "\n";
