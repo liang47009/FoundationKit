@@ -111,7 +111,6 @@ Polynom            : x^64 + x^62 + x^57 + x^55 + x^54 + x^63 + x^52 +
 typedef basic_crc<uint32, 0xEDB88320, 0xFFFFFFFFU, 0xFFFFFFFFU> crc32;
 typedef basic_crc<uint64, 0x42F0E1EBA9EA3693, 0xFFFFFFFFFFFFFFFFULL, 0xFFFFFFFFFFFFFFFFULL> crc64;
 
-
 NS_FK_END
 
 #endif // END OF FOUNDATIONKIT_CRC_HPP

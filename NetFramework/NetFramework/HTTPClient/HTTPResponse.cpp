@@ -156,8 +156,9 @@ void HTTPResponse::DumpInfo()
     {
         responseInfo += (char*)(&ContentData[0]);
     }
-
+    responseInfo += "\n";
     FKLog("---------------------Dump Response-----------------------\n");
+    responseInfo += "\n";
     FKLog(responseInfo.c_str());
     FKLog("---------------------Dump Response End-----------------------\n");
 }

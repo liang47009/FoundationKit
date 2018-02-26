@@ -15,15 +15,17 @@
 #include <errno.h>
 #include <malloc.h>
 #include <sstream>
+#include "FoundationKit/Base/mutablebuf.hpp"
+#include "FoundationKit/Foundation/File.hpp"
+#include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Math/Math.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-//#include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
 #include "FoundationKit/Platform/Android/AndroidInternal/ConnectivityManager.hpp"
 #include "FoundationKit/Platform/Android/AndroidInternal/TelephonyManager.hpp"
-#include "FoundationKit/Foundation/StringUtils.hpp"
-#include "FoundationKit/Math/Math.hpp"
+
 
 NS_FK_BEGIN
 
@@ -128,6 +130,58 @@ namespace detail
         return result;
     }
 
+    /* Extract the content of a the first occurence of a given field in
+    * the content of /proc/cpuinfo and return it as a heap-allocated
+    * string that must be freed by the caller.
+    *
+    * Return NULL if not found
+    */
+    static char* extract_cpuinfo_field(const char* buffer, int buflen, const char* field)
+    {
+        int  fieldlen = strlen(field);
+        const char* bufend = buffer + buflen;
+        char* result = NULL;
+        int len;
+        const char *p, *q;
+
+        /* Look for first field occurence, and ensures it starts the line. */
+        p = buffer;
+        for (;;) {
+            p = (const char*)memmem(p, bufend - p, field, fieldlen);
+            if (p == NULL)
+                goto EXIT;
+
+            if (p == buffer || p[-1] == '\n')
+                break;
+
+            p += fieldlen;
+        }
+
+        /* Skip to the first column followed by a space */
+        p += fieldlen;
+        p = (const char*)memchr(p, ':', bufend - p);
+        if (p == NULL || p[1] != ' ')
+            goto EXIT;
+
+        /* Find the end of the line */
+        p += 2;
+        q = (const char*)memchr(p, '\n', bufend - p);
+        if (q == NULL)
+            q = bufend;
+
+        /* Copy the line into a heap-allocated buffer */
+        len = q - p;
+        result = (char*)malloc(len + 1);
+        if (result == NULL)
+            goto EXIT;
+
+        memcpy(result, p, len);
+        result[len] = '\0';
+
+    EXIT: 
+        return result;
+    }
+
     enum NetworkType
     {
         NONE,
@@ -200,7 +254,11 @@ std::string PlatformDevice::GetSDKVersion()
 
 std::string PlatformDevice::GetCPUModel()
 {
-
+    mutablebuf mb = File::ReadAllBytes("/proc/cpuinfo");
+    char* CPUHardware = detail::extract_cpuinfo_field(mb.c_str(), mb.size(), "Hardware");
+    if (CPUHardware)
+        return CPUHardware;
+    return detail::GetSystemProperty("ro.board.platform");
 }
 
 std::string PlatformDevice::GetCPUArch()

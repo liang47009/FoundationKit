@@ -273,11 +273,10 @@ std::string PlatformDevice::GetSDKVersion()
     return [systemVersion UTF8String];
 }
 
-//std::string PlatformDevice::GetRendererVersion()
-//{
-//    char* szOpenGLVersionString = (char*)glGetString(GL_VERSION);
-//    return szOpenGLVersionString?szOpenGLVersionString:"";
-//}
+std::string PlatformDevice::GetCPUModel()
+{
+    return "";
+}
 
 std::string PlatformDevice::GetCPUArch()
 {
