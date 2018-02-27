@@ -256,9 +256,17 @@ std::string PlatformDevice::GetCPUModel()
 {
     mutablebuf mb = File::ReadAllBytes("/proc/cpuinfo");
     char* CPUHardware = detail::extract_cpuinfo_field(mb.c_str(), mb.size(), "Hardware");
+    std::string CPUHardwareStr;;
     if (CPUHardware)
-        return CPUHardware;
-    return detail::GetSystemProperty("ro.board.platform");
+    {
+        CPUHardwareStr = CPUHardware;
+        free(CPUHardware);
+    }
+    else
+    {
+        CPUHardwareStr = detail::GetSystemProperty("ro.board.platform");
+    }
+    return CPUHardwareStr;
 }
 
 std::string PlatformDevice::GetCPUArch()

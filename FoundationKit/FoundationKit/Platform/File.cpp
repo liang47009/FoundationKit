@@ -24,9 +24,6 @@
 #include <unistd.h>
 #define ftell64 ftello
 #define fseek64 fseeko
-#endif
-
-#if PLATFORM_IOS || PLATFORM_MAC
 #define stat64 stat
 #endif
 
@@ -211,7 +208,6 @@ int64 File::GetSize(const std::string& path)
 {
     ASSERT_IF(path.empty(), "filepath must be not empty.");
     int64 ResultFileSize = -1;
-#if !PLATFORM_IOS && !PLATFORM_MAC // IOS and Mac not support stat64
     struct stat64 info;
     int result = stat64(path.c_str(), &info);
     if (result == 0)
@@ -219,7 +215,6 @@ int64 File::GetSize(const std::string& path)
         ResultFileSize = info.st_size;
     }
     else
-#endif
     {
         FILE* FileHandle = Open(path, "r");
         if (FileHandle)
