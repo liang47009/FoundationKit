@@ -229,7 +229,6 @@
 		094109C51F3C0787006D6F80 /* UIDeviceHardware.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIDeviceHardware.mm; sourceTree = "<group>"; };
 		094109C61F3C0787006D6F80 /* IOSDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IOSDevice.mm; sourceTree = "<group>"; };
 		094109C91F3C0787006D6F80 /* MACDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MACDevice.mm; sourceTree = "<group>"; };
-		094109CB1F3C0787006D6F80 /* OpenGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenGL.hpp; sourceTree = "<group>"; };
 		094109CC1F3C0787006D6F80 /* Path.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Path.cpp; sourceTree = "<group>"; };
 		094109CD1F3C0787006D6F80 /* Path.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Path.hpp; sourceTree = "<group>"; };
 		094109D01F3C0787006D6F80 /* PlatformDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlatformDevice.hpp; sourceTree = "<group>"; };
@@ -478,7 +477,6 @@
 				094109BB1F3C0787006D6F80 /* File.hpp */,
 				094109BC1F3C0787006D6F80 /* ios */,
 				094109C81F3C0787006D6F80 /* mac */,
-				094109CB1F3C0787006D6F80 /* OpenGL.hpp */,
 				094109CC1F3C0787006D6F80 /* Path.cpp */,
 				094109CD1F3C0787006D6F80 /* Path.hpp */,
 				094109D01F3C0787006D6F80 /* PlatformDevice.hpp */,

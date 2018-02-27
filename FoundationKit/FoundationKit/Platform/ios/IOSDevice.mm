@@ -392,31 +392,37 @@ int PlatformDevice::GetNetworkType()
 std::string PlatformDevice::GetIpAddressV4()
 {
     auto EthernetList = detail::GetNetworkAdapters();
-    auto iter = EthernetList.find("en1");
-    if (iter == EthernetList.end())
+    std::string IPAddressV4;
+    for (int i = 0; i <5; ++i)
     {
-        iter = EthernetList.find("en0");
+        std::string ethernetName = "en";
+        ethernetName += std::to_string(i);
+        auto iter = EthernetList.find(ethernetName);
+        if (iter != EthernetList.end() && !iter->second.IPAddressV4.empty())
+        {
+            IPAddressV4 = iter->second.IPAddressV4;
+            break;
+        }
     }
-    if (iter != EthernetList.end())
-    {
-        return iter->second.IPAddressV4;
-    }
-    return "";
+    return IPAddressV4;
 }
 
 std::string PlatformDevice::GetIpAddressV6()
 {
     auto EthernetList = detail::GetNetworkAdapters();
-    auto iter = EthernetList.find("en1");
-    if (iter == EthernetList.end())
+    std::string IPAddressV6;
+    for (int i = 0; i <5; ++i)
     {
-        iter = EthernetList.find("en0");
+        std::string ethernetName = "en";
+        ethernetName += std::to_string(i);
+        auto iter = EthernetList.find(ethernetName);
+        if (iter != EthernetList.end() && !iter->second.IPAddressV6.empty())
+        {
+            IPAddressV6 = iter->second.IPAddressV6;
+            break;
+        }
     }
-    if (iter != EthernetList.end())
-    {
-        return iter->second.IPAddressV6;
-    }
-    return "";
+    return IPAddressV6;
 }
 
 std::string PlatformDevice::GetMacAddress()
@@ -462,19 +468,6 @@ long long PlatformDevice::GetAvailableMemory()
     //natural_t mem_total = mem_used +vm_stat.free_count*pagesize;
     return vm_stat.free_count * pagesize;
 }
-
-//std::string PlatformDevice::GetGPURenderer()
-//{
-//    char* szRenderer = (char*)glGetString(GL_RENDERER);
-//    return szRenderer?szRenderer:"";
-//}
-//
-//std::string PlatformDevice::GetGPUVendor()
-//{
-//    char* szVendor = (char*)glGetString(GL_VENDOR);
-//    return szVendor?szVendor:"";
-//}
-
 
 Rect PlatformDevice::GetScreenResolution()
 {
@@ -554,27 +547,23 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
     sysctlbyname("vm.swapusage", &SwapUsage, &Size, NULL, 0);
     
     // Get memory.
-    vm_statistics64 Stats;
-    mach_msg_type_number_t StatsCount = HOST_VM_INFO64_COUNT;
-    host_statistics64(mach_host_self(), HOST_VM_INFO64, (host_info64_t)&Stats, &StatsCount);
+    vm_statistics Stats;
+    mach_msg_type_number_t StatsCount = sizeof(Stats);
+    host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&Stats, &StatsCount);
+    uint64_t FreeMem = Stats.free_count * PageSize;
     
-//    int64 TotalPhysical = 0;
-//    size_t Length = sizeof(int64);
-//    int Mib[] = {CTL_HW, HW_MEMSIZE};
-//    sysctl(Mib, 2, &TotalPhysical, &Length, NULL, 0);
-//    sysctlbyname("hw.memsize", NULL, &Length, NULL, 0);
-//    sysctlbyname("hw.memsize", &TotalPhysical, &Length, NULL, 0);
+    int64 TotalPhysical = 0;
+    size_t Length = sizeof(int64);
+    int Mib[] = {CTL_HW, HW_MEMSIZE};
+    sysctl(Mib, 2, &TotalPhysical, &Length, NULL, 0);
+
+    static mach_vm_size_t PeakUsedPhysical = 0;
+    static mach_vm_size_t PeakUsedVirtual = 0;
     
     mach_task_basic_info_data_t TaskInfo;
     mach_msg_type_number_t TaskInfoCount = MACH_TASK_BASIC_INFO_COUNT;
     task_info( mach_task_self(), MACH_TASK_BASIC_INFO, (task_info_t)&TaskInfo, &TaskInfoCount );
     
-    uint64_t FreeMem = Stats.free_count * PageSize;
-    uint64_t UsedMem = (Stats.active_count + Stats.inactive_count + Stats.wire_count) * PageSize;
-    uint64_t TotalPhys = FreeMem + UsedMem;
-
-    static mach_vm_size_t PeakUsedPhysical = 0;
-    static mach_vm_size_t PeakUsedVirtual = 0;
     if (TaskInfo.resident_size > PeakUsedPhysical)
     {
         PeakUsedPhysical = TaskInfo.resident_size;
@@ -584,8 +573,8 @@ PlatformMemoryConstants& PlatformDevice::GetMemoryConstants()
         PeakUsedVirtual = TaskInfo.virtual_size;
     }
     
-    MemoryConstants.TotalPhysical     = TotalPhys;
-    MemoryConstants.TotalVirtual      = TotalPhys + SwapUsage.xsu_total;
+    MemoryConstants.TotalPhysical     = TotalPhysical;
+    MemoryConstants.TotalVirtual      = TotalPhysical;
     MemoryConstants.PageSize          = PageSize;
     MemoryConstants.AvailablePhysical = FreeMem;
     MemoryConstants.AvailableVirtual  = FreeMem + SwapUsage.xsu_avail;
