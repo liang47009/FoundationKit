@@ -279,6 +279,11 @@ int PlatformDevice::GetCPUFrequency()
     return 0;
 }
 
+std::string PlatformDevice::GetGPUBrand()
+{
+    return "";
+}
+
 int PlatformDevice::GetNetworkType()
 {
     int result = 0;
