@@ -89,10 +89,12 @@ public:
     static std::string GetManufacturer();
     static std::string GetSystemVersion();
     static std::string GetSDKVersion();
-    static std::string GetCPUModel();
+    static std::string GetCPUBrand();
+    static std::string GetCPUVendor();
     static std::string GetCPUArch();
     static int         GetCPUCoreCount();
     static int         GetCPUFrequency(); //Unit: KHz
+    static std::string GetGPUBrand();
 
     //1 WIFI,2 2G,3 3G,4 4G,0 other.
     static int         GetNetworkType();

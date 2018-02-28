@@ -40,6 +40,7 @@ NS_FK_BEGIN
  * it in application code should be carefully considered.
  */
 
+struct copy_data_to_mutablebuf {};
 class basic_mutablebuf
 {
 public:
@@ -107,6 +108,22 @@ public:
     {
     }
 
+    basic_mutablebuf(uint8* data, std::size_t size, copy_data_to_mutablebuf)
+        : _Ptr(nullptr)
+        , _Mysize(0)
+        , _bAlloced(false)
+    {
+        copy(data, size);
+    }
+
+    basic_mutablebuf(char* data, std::size_t size, copy_data_to_mutablebuf)
+        : _Ptr(nullptr)
+        , _Mysize(0)
+        , _bAlloced(false)
+    {
+        copy(data, size);
+    }
+
     /// Assignment operator
     basic_mutablebuf& operator= (const _Myt& other)
     {
@@ -141,6 +158,11 @@ public:
     const char* c_str()const
     {
         return reinterpret_cast<const char*>(_Ptr);
+    }
+
+    char* str()const
+    {
+        return reinterpret_cast<char*>(_Ptr);
     }
 
 	const_pointer uc_str()
@@ -227,26 +249,28 @@ private:
 
 typedef basic_mutablebuf mutablebuf;
 
-inline mutablebuf make_mutablebuf(std::vector<char>& buffers)
+inline mutablebuf make_mutablebuf(std::vector<char>& buffers, bool bCopy = true)
 {
-    //return mutablebuf(&(buffers[0]), buffers.size());
-	return mutablebuf(buffers.data(), buffers.size());
+	return bCopy? mutablebuf(buffers.data(), buffers.size(), copy_data_to_mutablebuf())
+                : mutablebuf(buffers.data(), buffers.size());
 }
 
-inline mutablebuf make_mutablebuf(std::vector<unsigned char>& buffers)
+inline mutablebuf make_mutablebuf(std::vector<unsigned char>& buffers, bool bCopy = true)
 {
-    //return mutablebuf(&(buffers[0]), buffers.size());
-	return mutablebuf(buffers.data(), buffers.size());
+    return bCopy ? mutablebuf(buffers.data(), buffers.size(), copy_data_to_mutablebuf()) 
+                 : mutablebuf(buffers.data(), buffers.size());
 }
 
-inline mutablebuf make_mutablebuf(std::basic_string<char>& buffers)
+inline mutablebuf make_mutablebuf(std::basic_string<char>& buffers, bool bCopy = true)
 {
-    return mutablebuf(&(buffers[0]), buffers.size());
+    return bCopy ? mutablebuf(&(buffers[0]), buffers.size(), copy_data_to_mutablebuf())
+                 : mutablebuf(&(buffers[0]), buffers.size());
 }
 
-inline mutablebuf make_mutablebuf(std::basic_string<unsigned char>& buffers)
+inline mutablebuf make_mutablebuf(std::basic_string<unsigned char>& buffers, bool bCopy = true)
 {
-    return mutablebuf(&(buffers[0]), buffers.size());
+    return bCopy ? mutablebuf(&(buffers[0]), buffers.size(), copy_data_to_mutablebuf())
+                 : mutablebuf(&(buffers[0]), buffers.size());
 }
 
 

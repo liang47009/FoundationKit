@@ -41,7 +41,7 @@ namespace detail
 {
     mutablebuf ReadDataFromFile(const std::string& path, bool isText = false)
     {
-        mutablebuf  FileAllBytes;
+        mutablebuf FileAllBytes;
         do
         {
             FILE* FileHandle = nullptr;
@@ -49,12 +49,32 @@ namespace detail
                 FileHandle = File::Open(path, "rt");
             else
                 FileHandle = File::Open(path, "rb");
+
+            FKLog("FileHandle:%p", FileHandle);
             BREAK_IF(!FileHandle);
-            fseek(FileHandle, 0, SEEK_END);
-            size_t FileSize = ftell(FileHandle);
-            fseek(FileHandle, 0, SEEK_SET);
+            size_t FileSize = File::GetSize(path);
             FileAllBytes.allocate(FileSize);
-            fread(FileAllBytes.data(), 1, FileSize, FileHandle);
+            size_t ReadCount = 0;
+            while(ReadCount < FileSize)
+            {
+                size_t NumRead = fread((FileAllBytes.str()+ ReadCount), sizeof(uint8), 1024, FileHandle);
+                if (NumRead == 0)
+                {
+                    if (feof(FileHandle) == 0) // read file error.
+                    {
+                        FKLog("fread file error:%d", errno);
+                    }
+                    break;
+                }
+                if (NumRead < 0)
+                {
+                    if (errno == EINTR)
+                        continue;
+                    FKLog("Error while reading %s: %s\n", path.c_str(), strerror(errno));
+                    break;
+                }
+                ReadCount += NumRead;
+            }
             fclose(FileHandle);
         } while (false);
         return FileAllBytes;
@@ -209,8 +229,7 @@ int64 File::GetSize(const std::string& path)
     ASSERT_IF(path.empty(), "filepath must be not empty.");
     int64 ResultFileSize = -1;
     struct stat64 info;
-    int result = stat64(path.c_str(), &info);
-    if (result == 0)
+    if (stat64(path.c_str(), &info) == 0)
     {
         ResultFileSize = info.st_size;
     }
@@ -222,6 +241,34 @@ int64 File::GetSize(const std::string& path)
             fseek64(FileHandle, 0, SEEK_END);
             ResultFileSize = ftell64(FileHandle);
             fseek64(FileHandle, 0, SEEK_SET);
+        }
+    }
+    if (ResultFileSize == 0)
+    {
+        //Get the size of a file by reading it until the end. This is needed
+        //because files under /proc do not always return a valid size when
+        //using fseek(0, SEEK_END) + ftell(). Nor can they be mmap()-ed.
+        for (;;) 
+        {
+            char buff[256];
+            FILE* FileHandle = Open(path, "r");
+            size_t NumRead = fread(buff,1, sizeof(buff), FileHandle);
+            if (NumRead == 0)
+            {
+                if (feof(FileHandle) == 0) // read file error.
+                {
+                    FKLog("fread file error:%d", errno);
+                }
+                break;
+            }
+            if (NumRead < 0) 
+            {
+                if (errno == EINTR)
+                    continue;
+                FKLog("Error while reading %s: %s\n", path.c_str(), strerror(errno));
+                break;
+            }
+            ResultFileSize += NumRead;
         }
     }
     return ResultFileSize;

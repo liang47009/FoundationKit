@@ -46,7 +46,7 @@ public:
     *         The path of a file or directory.
     * @return The converted path.
     */
-    static std::string ConvertPathFormatToUnixStyle(const std::string& path);
+    static std::string NormalizeFilePath(const std::string& path);
 
    /**
     * Convert directory separator to current platform style.
@@ -55,7 +55,7 @@ public:
     *         The path of a file or directory.
     * @return The converted path.
     */
-    static std::string ConvertPathFormatToPlatformStyle(const std::string& path);
+    static std::string NativeFilePath(const std::string& path);
 
    /**
     * Changes the extension of a path string.

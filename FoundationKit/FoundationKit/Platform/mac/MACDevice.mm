@@ -209,7 +209,12 @@ std::string PlatformDevice::GetSDKVersion()
     return GetSystemVersion();
 }
 
-std::string PlatformDevice::GetCPUModel()
+std::string PlatformDevice::GetCPUBrand()
+{
+    return "";
+}
+
+std::string PlatformDevice::GetCPUVendor()
 {
     return "";
 }
@@ -530,15 +535,35 @@ bool PlatformDevice::IsDebuggerPresent()
 
 std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
 {
-    char buffer[256+1]={0};
     std::string result = "";
     FILE* pipe = popen(command.c_str(), "r");
     if (!pipe) throw std::runtime_error("popen() failed!");
     try {
-        while (!feof(pipe))
+        char buffer[256] = { 0 };
+        //while (!feof(pipe))
+        //{
+        //    if (fgets(buffer, 256, pipe) != NULL)
+        //        result += buffer;
+        //}
+        for(;;)
         {
-            if (fgets(buffer, 256, pipe) != NULL)
-                result += buffer;
+            size_t NumRead = fread(buffer, sizeof(char), sizeof(buffer), pipe);
+            if (NumRead == 0)
+            {
+                if (feof(pipe) == 0) // read file error.
+                {
+                    FKLog("fread file error:%d", errno);
+                }
+                break;
+            }
+            if (NumRead < 0)
+            {
+                if (errno == EINTR)
+                    continue;
+                FKLog("Error while execute command %s: %s\n", command.c_str(), strerror(errno));
+                break;
+            }
+            result += buffer;
         }
     }
     catch (...)

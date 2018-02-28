@@ -42,7 +42,7 @@ const char Path::VolumeSeparatorChar = ':';
 std::string Path::DocumentsPath = "";
 std::string Path::TemporaryPath = "";
 
-std::string Path::ConvertPathFormatToUnixStyle(const std::string& path)
+std::string Path::NormalizeFilePath(const std::string& path)
 {
     std::string ret = path;
     size_t len = ret.length();
@@ -56,7 +56,7 @@ std::string Path::ConvertPathFormatToUnixStyle(const std::string& path)
     return ret;
 }
 
-std::string Path::ConvertPathFormatToPlatformStyle(const std::string& path)
+std::string Path::NativeFilePath(const std::string& path)
 {
     std::string ret = path;
     size_t len = ret.length();
@@ -244,8 +244,8 @@ bool Path::IsPathRooted(std::string path)
 
 std::string Path::GetRelativePath(const std::string& workPath, const std::string& fullPath)
 {
-    std::string finalWorkPath = ConvertPathFormatToUnixStyle(workPath);
-    std::string finalFullPath = ConvertPathFormatToUnixStyle(fullPath);
+    std::string finalWorkPath = NormalizeFilePath(workPath);
+    std::string finalFullPath = NormalizeFilePath(fullPath);
     std::vector<std::string> workPathDirectories = StringUtils::Split(finalWorkPath, "/");
     std::vector<std::string> fullPathDirectories = StringUtils::Split(finalFullPath, "/");
     size_t dirCount = workPathDirectories.size() < fullPathDirectories.size() ? workPathDirectories.size() : fullPathDirectories.size();

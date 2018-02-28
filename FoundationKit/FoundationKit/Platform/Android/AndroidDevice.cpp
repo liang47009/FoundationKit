@@ -18,6 +18,7 @@
 #include "FoundationKit/Base/mutablebuf.hpp"
 #include "FoundationKit/Foundation/File.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Foundation/Version.hpp"
 #include "FoundationKit/Math/Math.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
@@ -196,19 +197,28 @@ namespace detail
 
 std::string PlatformDevice::GetDeviceId()
 {
-    std::string strDeviceId = detail::GetSystemProperty("ro.serialno");
-    do{
-        BREAK_IF(!strDeviceId.empty());
-        FKLog("Try get system property [ro.boot.serialno]");
-        strDeviceId = detail::GetSystemProperty("ro.boot.serialno");
-        BREAK_IF(!strDeviceId.empty());
-        FKLog("Try get system property [gsm.sim.imei]");
-        strDeviceId = detail::GetSystemProperty("gsm.sim.imei");
-        BREAK_IF(!strDeviceId.empty());
-        FKLog("Try use GetMacAddress");
-        strDeviceId = GetMacAddress();
-    } while (false);
-
+    std::string strDeviceId;
+    Version SystemVersion(GetSystemVersion());
+    if (SystemVersion < Version("8.0.0"))
+    {
+        strDeviceId = detail::GetSystemProperty("ro.serialno");
+        do {
+            BREAK_IF(!strDeviceId.empty());
+            FKLog("Try get system property [ro.boot.serialno]");
+            strDeviceId = detail::GetSystemProperty("ro.boot.serialno");
+            BREAK_IF(!strDeviceId.empty());
+            FKLog("Try get system property [gsm.sim.imei]");
+            strDeviceId = detail::GetSystemProperty("gsm.sim.imei");
+            BREAK_IF(!strDeviceId.empty());
+            FKLog("Try use GetMacAddress");
+            strDeviceId = GetMacAddress();
+        } while (false);
+    }
+    else
+    {
+        AndroidJavaClass android_os_build("android.os.Build");
+        strDeviceId = android_os_build.CallStatic<std::string>("getSerial");
+    }
     return strDeviceId;
 }
 
@@ -252,21 +262,29 @@ std::string PlatformDevice::GetSDKVersion()
     return detail::GetSystemProperty("ro.build.version.sdk");
 }
 
-std::string PlatformDevice::GetCPUModel()
+std::string PlatformDevice::GetCPUBrand()
 {
-    mutablebuf mb = File::ReadAllBytes("/proc/cpuinfo");
-    char* CPUHardware = detail::extract_cpuinfo_field(mb.c_str(), mb.size(), "Hardware");
-    std::string CPUHardwareStr;;
-    if (CPUHardware)
+    static std::string CPUHardwareStr;
+    if (CPUHardwareStr.empty())
     {
-        CPUHardwareStr = CPUHardware;
-        free(CPUHardware);
-    }
-    else
-    {
-        CPUHardwareStr = detail::GetSystemProperty("ro.board.platform");
+        mutablebuf CpuInfo = File::ReadAllBytes("/proc/cpuinfo");
+        char* CPUHardware = detail::extract_cpuinfo_field(CpuInfo.c_str(), CpuInfo.size(), "Hardware");
+        if (CPUHardware)
+        {
+            CPUHardwareStr = CPUHardware;
+            free(CPUHardware);
+        }
+        else
+        {
+            CPUHardwareStr = detail::GetSystemProperty("ro.board.platform");
+        }
     }
     return CPUHardwareStr;
+}
+
+std::string PlatformDevice::GetCPUVendor()
+{
+    return "";
 }
 
 std::string PlatformDevice::GetCPUArch()
@@ -282,6 +300,11 @@ int PlatformDevice::GetCPUCoreCount()
 int PlatformDevice::GetCPUFrequency()
 {
     return detail::ReadCPUsFreq("max", 0);
+}
+
+std::string PlatformDevice::GetGPUBrand()
+{
+    return "";
 }
 
 int PlatformDevice::GetNetworkType()
@@ -432,19 +455,6 @@ long long PlatformDevice::GetAvailableMemory()
     long long physical_memory = detail::getMemoryForKey("MemFree");
     return physical_memory * 1024;
 }
-
-//std::string PlatformDevice::GetGPURenderer()
-//{
-//    char* szRenderer = (char*)glGetString(GL_RENDERER);
-//    return szRenderer ? szRenderer : "";
-//}
-//
-//std::string PlatformDevice::GetGPUVendor()
-//{
-//    char* szVendor = (char*)glGetString(GL_VENDOR);
-//    return szVendor ? szVendor : "";
-//}
-
 
 struct DisplayInfo
 {
@@ -661,6 +671,8 @@ void PlatformDevice::DumpDeviceInfo()
     ss << "GetManufacturer:" << GetManufacturer() << "\n";
     ss << "GetSystemVersion:" << GetSystemVersion() << "\n";
     ss << "GetSDKVersion:" << GetSDKVersion() << "\n";
+    ss << "GetCPUBrand:" << GetCPUBrand() << "\n";
+    ss << "GetCPUVendor:" << GetCPUVendor() << "\n";
     ss << "GetCPUCoreCount:" << GetCPUCoreCount() << "\n";
     ss << "GetCPUFrequency:" << GetCPUFrequency() << "\n";
     ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
@@ -710,22 +722,39 @@ std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
 {
     std::string result = "";
     FILE* pipe = popen(command.c_str(), "r");
-    if (!pipe)
-    {
-        FKLog("****** popen() failed!");
-    }
+    if (!pipe) throw std::runtime_error("popen() failed!");
     try {
-        char buffer[256 + 1] = { 0 };
-        while (!feof(pipe))
+        char buffer[256] = { 0 };
+        //while (!feof(pipe))
+        //{
+        //    if (fgets(buffer, 256, pipe) != NULL)
+        //        result += buffer;
+        //}
+        for(;;)
         {
-            if (fgets(buffer, 256, pipe) != NULL)
-                result += buffer;
+            size_t NumRead = fread(buffer, sizeof(char), sizeof(buffer), pipe);
+            if (NumRead == 0)
+            {
+                if (feof(pipe) == 0) // read file error.
+                {
+                    FKLog("fread file error:%d", errno);
+                }
+                break;
+            }
+            if (NumRead < 0)
+            {
+                if (errno == EINTR)
+                    continue;
+                FKLog("Error while execute command %s: %s\n", command.c_str(), strerror(errno));
+                break;
+            }
+            result += buffer;
         }
     }
     catch (...)
     {
         pclose(pipe);
-        FKLog("****** Cannot execute command:%s with errno:%d", command.c_str(), errno);
+        throw;
     }
     pclose(pipe);
     return result;

@@ -279,22 +279,7 @@ std::string PlatformDevice::GetModel()
 
 std::string PlatformDevice::GetManufacturer()
 {
-	// https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
-	// https://en.wikipedia.org/wiki/CPUID
-	std::array<int, 4> cpui;
-    std::vector<std::array<int, 4>> extdata;
-	__cpuidex(cpui.data(), 0, 0);
-    int nIds = cpui[0];
-	for (int i = 0; i <= nIds; ++i)
-	{
-		__cpuidex(cpui.data(), i, 0);
-        extdata.push_back(cpui);
-	}
-	char vendor[32] = { 0 };
-	*reinterpret_cast<int*>(&vendor[0]) = extdata[0][1];
-	*reinterpret_cast<int*>(&vendor[4]) = extdata[0][3];
-	*reinterpret_cast<int*>(&vendor[8]) = extdata[0][2];
-	return vendor;
+    return GetCPUVendor();
 }
 
 typedef LONG(NTAPI* fnRtlGetVersion)(PRTL_OSVERSIONINFOW lpVersionInformation);
@@ -322,7 +307,7 @@ std::string PlatformDevice::GetSDKVersion()
 }
 
 
-std::string PlatformDevice::GetCPUModel()
+std::string PlatformDevice::GetCPUBrand()
 {
     // https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
     // https://en.wikipedia.org/wiki/CPUID
@@ -336,6 +321,47 @@ std::string PlatformDevice::GetCPUModel()
     __cpuidex((int*)&brand[16], 0x80000003, 0);
     __cpuidex((int*)&brand[32], 0x80000004, 0);
     return brand;
+}
+
+std::string PlatformDevice::GetCPUVendor()
+{
+    union
+    {
+        char Buffer[12 + 1];
+        struct
+        {
+            int dw0;
+            int dw1;
+            int dw2;
+        } Dw;
+    } VendorResult;
+    int CPUInfo[4];
+    __cpuid(CPUInfo, 0);
+    VendorResult.Dw.dw0 = CPUInfo[1];
+    VendorResult.Dw.dw1 = CPUInfo[3];
+    VendorResult.Dw.dw2 = CPUInfo[2];
+    VendorResult.Buffer[12] = 0;
+    return VendorResult.Buffer;
+
+    // or
+    /**
+    // https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
+    // https://en.wikipedia.org/wiki/CPUID
+    std::array<int, 4> cpui;
+    std::vector<std::array<int, 4>> extdata;
+    __cpuidex(cpui.data(), 0, 0);
+    int nIds = cpui[0];
+    for (int i = 0; i <= nIds; ++i)
+    {
+        __cpuidex(cpui.data(), i, 0);
+        extdata.push_back(cpui);
+    }
+    char vendor[32] = { 0 };
+    *reinterpret_cast<int*>(&vendor[0]) = extdata[0][1];
+    *reinterpret_cast<int*>(&vendor[4]) = extdata[0][3];
+    *reinterpret_cast<int*>(&vendor[8]) = extdata[0][2];
+    return vendor;
+    */
 }
 
 std::string PlatformDevice::GetCPUArch()
@@ -400,6 +426,34 @@ int PlatformDevice::GetCPUFrequency()
 		}
 	}
     return ProcessorFrequencyKHz;
+}
+
+
+
+std::string PlatformDevice::GetGPUBrand()
+{
+    static std::string PrimaryGPUBrand;
+    if (PrimaryGPUBrand.empty())
+    {
+        PrimaryGPUBrand = "GenericGPUBrand";
+        DISPLAY_DEVICEA DisplayDevice;
+        DisplayDevice.cb = sizeof(DisplayDevice);
+        DWORD DeviceIndex = 0;
+
+        while (EnumDisplayDevicesA(0, DeviceIndex, &DisplayDevice, 0))
+        {
+            if ((DisplayDevice.StateFlags & (DISPLAY_DEVICE_ATTACHED_TO_DESKTOP | DISPLAY_DEVICE_PRIMARY_DEVICE)) > 0)
+            {
+                PrimaryGPUBrand = DisplayDevice.DeviceString;
+                break;
+            }
+
+            memset(&DisplayDevice, 0, sizeof(DISPLAY_DEVICE));
+            DisplayDevice.cb = sizeof(DisplayDevice);
+            DeviceIndex++;
+        }
+    }
+    return PrimaryGPUBrand;
 }
 
 int PlatformDevice::GetNetworkType()
@@ -548,10 +602,12 @@ void PlatformDevice::DumpDeviceInfo()
     ss << "GetManufacturer:" << GetManufacturer() << "\n";
     ss << "GetSystemVersion:" << GetSystemVersion() << "\n";
     ss << "GetSDKVersion:" << GetSDKVersion() << "\n";
-    ss << "GetCPUModel:" << GetCPUModel() << "\n";
+    ss << "GetCPUBrand:" << GetCPUBrand() << "\n";
+    ss << "GetCPUVendor:" << GetCPUVendor() << "\n";
     ss << "GetCPUArch:" << GetCPUArch() << "\n";
     ss << "GetCPUCoreCount:" << GetCPUCoreCount() << "\n";
     ss << "GetCPUFrequency:" << GetCPUFrequency() << "\n";
+    ss << "GetGPUBrand:" << GetGPUBrand() << "\n";
     ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
     ss << "GetIpAddressV4:" << GetIpAddressV4() << "\n";
     ss << "GetIpAddressV6:" << GetIpAddressV6() << "\n";
@@ -595,30 +651,8 @@ bool PlatformDevice::IsDebuggerPresent()
     return ::IsDebuggerPresent() == TRUE;
 }
 
-
-#define USER_POPEN 0
 std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
 {
-#if USER_POPEN
-    char buffer[128] = { 0 };
-    std::string result = "";
-    FILE* pipe = _popen(command.c_str(), "r");
-    if (!pipe) throw std::runtime_error("popen() failed!");
-    try {
-        while (!feof(pipe))
-        {
-            if (fgets(buffer, 128, pipe) != NULL)
-                result += buffer;
-        }
-    }
-    catch (...)
-    {
-        _pclose(pipe);
-        throw;
-    }
-    _pclose(pipe);
-    return result;
-#else
     SECURITY_ATTRIBUTES sa;
     HANDLE hRead, hWrite;
     sa.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -661,7 +695,6 @@ std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
     }
     CloseHandle(hRead);
     return result;
-#endif
 }
 
 
