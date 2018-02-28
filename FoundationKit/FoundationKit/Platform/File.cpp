@@ -250,17 +250,12 @@ int64 File::GetSize(const std::string& path)
             size_t NumRead = fread(buff,1, sizeof(buff), FileHandle);
             if (NumRead == 0)
             {
-                if (feof(FileHandle) == 0) // read file error.
-                {
-                    FKLog("fread file error:%d", errno);
-                }
-                break;
-            }
-            if (NumRead < 0) 
-            {
                 if (errno == EINTR)
                     continue;
-                FKLog("Error while reading %s: %s\n", path.c_str(), strerror(errno));
+                if (feof(FileHandle) == 0) // read file error.
+                {
+                    FKLog("Error while reading %s: %s\n", path.c_str(), strerror(errno));
+                }
                 break;
             }
             ResultFileSize += NumRead;
