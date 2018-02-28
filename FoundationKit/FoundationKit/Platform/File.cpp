@@ -60,17 +60,12 @@ namespace detail
                 size_t NumRead = fread((FileAllBytes.str()+ ReadCount), sizeof(uint8), 1024, FileHandle);
                 if (NumRead == 0)
                 {
-                    if (feof(FileHandle) == 0) // read file error.
-                    {
-                        FKLog("fread file error:%d", errno);
-                    }
-                    break;
-                }
-                if (NumRead < 0)
-                {
                     if (errno == EINTR)
                         continue;
-                    FKLog("Error while reading %s: %s\n", path.c_str(), strerror(errno));
+                    if (feof(FileHandle) == 0) // read file error.
+                    {
+                        FKLog("Error while read %s: %s\n", path.c_str(), strerror(errno));
+                    }
                     break;
                 }
                 ReadCount += NumRead;

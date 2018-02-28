@@ -735,17 +735,12 @@ std::string PlatformDevice::ExecuteSystemCommand(const std::string& command)
             size_t NumRead = fread(buffer, sizeof(char), sizeof(buffer), pipe);
             if (NumRead == 0)
             {
-                if (feof(pipe) == 0) // read file error.
-                {
-                    FKLog("fread file error:%d", errno);
-                }
-                break;
-            }
-            if (NumRead < 0)
-            {
                 if (errno == EINTR)
                     continue;
-                FKLog("Error while execute command %s: %s\n", command.c_str(), strerror(errno));
+                if (feof(pipe) == 0) // read file error.
+                {
+                    FKLog("Error while execute command %s: %s\n", command.c_str(), strerror(errno));
+                }
                 break;
             }
             result += buffer;
