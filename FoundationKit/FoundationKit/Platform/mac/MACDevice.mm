@@ -209,14 +209,22 @@ std::string PlatformDevice::GetSDKVersion()
     return GetSystemVersion();
 }
 
+// sysctl -a | grep machdep.cpu
 std::string PlatformDevice::GetCPUBrand()
 {
-    return "";
+    char CpuBrand[64] = {0};
+    size_t Size = sizeof(CpuBrand);
+    sysctlbyname("machdep.cpu.brand_string", CpuBrand, &Size, NULL, 0);
+    return CpuBrand;
 }
 
+// sysctl -a | grep machdep.cpu
 std::string PlatformDevice::GetCPUVendor()
 {
-    return "";
+    char CpuBrand[64] = {0};
+    size_t Size = sizeof(CpuBrand);
+    sysctlbyname("machdep.cpu.vendor", CpuBrand, &Size, NULL, 0);
+    return CpuBrand;
 }
 
 std::string PlatformDevice::GetCPUArch()
@@ -488,6 +496,9 @@ void PlatformDevice::DumpDeviceInfo()
     ss << "GetManufacturer:" << GetManufacturer() << "\n";
     ss << "GetSystemVersion:" << GetSystemVersion() << "\n";
     ss << "GetSDKVersion:" << GetSDKVersion() << "\n";
+    ss << "GetCPUBrand:" << GetCPUBrand() << "\n";
+    ss << "GetCPUVendor:" << GetCPUVendor() << "\n";
+    ss << "GetCPUArch:" << GetCPUArch() << "\n";
     ss << "GetCPUCoreCount:" << GetCPUCoreCount() << "\n";
     ss << "GetCPUFrequency:" << GetCPUFrequency() << "\n";
     ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
