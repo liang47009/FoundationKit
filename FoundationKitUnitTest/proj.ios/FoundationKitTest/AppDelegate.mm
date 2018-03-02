@@ -55,7 +55,6 @@
 #include "FoundationKit/Platform/Directory.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/Platform/File.hpp"
-#include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/PlatformMemory.hpp"
@@ -95,13 +94,61 @@ size_t GetOSIntData(int key, int type)
 
 @implementation AppDelegate
 
-
+//#define    HW_MACHINE     1        /* string: machine class */
+//#define    HW_MODEL     2        /* string: specific machine model */
+//#define    HW_NCPU         3        /* int: number of cpus */
+//#define    HW_BYTEORDER     4        /* int: machine byte order */
+//#define    HW_PHYSMEM     5        /* int: total memory */
+//#define    HW_USERMEM     6        /* int: non-kernel memory */
+//#define    HW_PAGESIZE     7        /* int: software page size */
+//#define    HW_DISKNAMES     8        /* strings: disk drive names */
+//#define    HW_DISKSTATS     9        /* struct: diskstats[] */
+//#define    HW_EPOCH      10        /* int: 0 for Legacy, else NewWorld */
+//#define HW_FLOATINGPT    11        /* int: has HW floating point? */
+//#define HW_MACHINE_ARCH    12        /* string: machine architecture */
+//#define HW_VECTORUNIT    13        /* int: has HW vector unit? */
+//#define HW_BUS_FREQ    14        /* int: Bus Frequency */
+//#define HW_CPU_FREQ    15        /* int: CPU Frequency */
+//#define HW_CACHELINE    16        /* int: Cache Line Size in Bytes */
+//#define HW_L1ICACHESIZE    17        /* int: L1 I Cache Size in Bytes */
+//#define HW_L1DCACHESIZE    18        /* int: L1 D Cache Size in Bytes */
+//#define HW_L2SETTINGS    19        /* int: L2 Cache Settings */
+//#define HW_L2CACHESIZE    20        /* int: L2 Cache Size in Bytes */
+//#define HW_L3SETTINGS    21        /* int: L3 Cache Settings */
+//#define HW_L3CACHESIZE    22        /* int: L3 Cache Size in Bytes */
+//#define HW_TB_FREQ    23        /* int: Bus Frequency */
+//#define HW_MEMSIZE    24        /* uint64_t: physical ram size */
+//#define HW_AVAILCPU    25        /* int: number of available CPUs */
+//#define    HW_MAXID    26        /* number of valid hw ids */
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     FKLog("==== Thread id:%d", PlatformTLS::GetCurrentThreadId());
     auto ipv4 = PlatformDevice::GetIpAddressV4();
     auto ipv6 = PlatformDevice::GetIpAddressV6();
     PlatformDevice::DumpDeviceInfo();
+    FKLog("HW_MACHINE:%s", GetOSStringData(CTL_HW, HW_MACHINE).c_str());
+    FKLog("HW_MODEL:%s", GetOSStringData(CTL_HW, HW_MODEL).c_str());
+    FKLog("HW_AVAILCPU:%d", GetOSIntData(CTL_HW, HW_AVAILCPU));
+    FKLog("HW_NCPU:%d", GetOSIntData(CTL_HW, HW_NCPU));
+    FKLog("HW_PHYSMEM:%lld", GetOSIntData(CTL_HW, HW_PHYSMEM));
+    FKLog("HW_DISKNAMES:%s", GetOSStringData(CTL_HW, HW_DISKNAMES).c_str());
+    FKLog("HW_MACHINE_ARCH:%s", GetOSStringData(CTL_HW, HW_MACHINE_ARCH).c_str());
+    FKLog("HW_CPU_FREQ:%d", GetOSIntData(CTL_HW, HW_CPU_FREQ));
+    FKLog("HW_CACHELINE:%d", GetOSIntData(CTL_HW, HW_CACHELINE));
+    FKLog("HW_L1ICACHESIZE:%d", GetOSIntData(CTL_HW, HW_L1ICACHESIZE));
+    FKLog("HW_L1DCACHESIZE:%d", GetOSIntData(CTL_HW, HW_L1DCACHESIZE));
+    FKLog("HW_L2SETTINGS:%d", GetOSIntData(CTL_HW, HW_L2SETTINGS));
+    FKLog("HW_L2CACHESIZE:%d", GetOSIntData(CTL_HW, HW_L2CACHESIZE));
+    FKLog("HW_L3SETTINGS:%d", GetOSIntData(CTL_HW, HW_L3SETTINGS));
+    FKLog("HW_L3CACHESIZE:%d", GetOSIntData(CTL_HW, HW_L3CACHESIZE));
+    FKLog("HW_MEMSIZE:%lld", GetOSIntData(CTL_HW, HW_MEMSIZE));
+    
+    size_t DeviceIDLen;
+    sysctlbyname("hw.machine", NULL, &DeviceIDLen, NULL, 0);
+    char* DeviceID = (char*)malloc(DeviceIDLen);
+    sysctlbyname("hw.machine", DeviceID, &DeviceIDLen, NULL, 0);
+    
+    
     return YES;
 }
 

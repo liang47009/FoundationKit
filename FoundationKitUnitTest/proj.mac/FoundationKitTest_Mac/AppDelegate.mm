@@ -71,7 +71,6 @@
 #include "FoundationKit/Platform/Directory.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/Platform/File.hpp"
-#include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/PlatformMemory.hpp"
@@ -112,6 +111,12 @@ size_t GetOSIntData(int key, int type)
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
     PlatformDevice::DumpDeviceInfo();
+    char SwapUsage[1024] = {0};
+    size_t Size = sizeof(SwapUsage);
+    sysctlbyname("machdep.cpu.brand_string", SwapUsage, &Size, NULL, 0);
+
+    
+    
 }
 
 
