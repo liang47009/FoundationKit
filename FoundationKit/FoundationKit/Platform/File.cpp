@@ -39,9 +39,9 @@ const char PlatformNewLine[] ={ '\r'};
 
 namespace detail
 {
-    mutablebuf ReadDataFromFile(const std::string& path, bool isText = false)
+    std::vector<uint8> ReadDataFromFile(const std::string& path, bool isText = false)
     {
-        mutablebuf FileAllBytes;
+        std::vector<uint8> FileAllBytes;
         do
         {
             FILE* FileHandle = nullptr;
@@ -52,12 +52,12 @@ namespace detail
 
             FKLog("FileHandle:%p", FileHandle);
             BREAK_IF(!FileHandle);
-            size_t FileSize = File::GetSize(path);
-            FileAllBytes.allocate(FileSize);
+            size_t FileSize = static_cast<size_t>(File::GetSize(path));
+            FileAllBytes.resize(FileSize);
             size_t ReadCount = 0;
             while(ReadCount < FileSize)
             {
-                size_t NumRead = fread((FileAllBytes.str()+ ReadCount), sizeof(uint8), 1024, FileHandle);
+                size_t NumRead = fread((FileAllBytes.data()+ ReadCount), sizeof(uint8), 1024, FileHandle);
                 if (NumRead == 0)
                 {
                     if (errno == EINTR)
@@ -314,9 +314,9 @@ bool File::AppendAllText(const std::string& path, const std::string& contents)
 #if (PLATFORM_IOS)
 #define MINIZIP_FROM_SYSTEM
 #endif
-mutablebuf File::ReadAllBytesFromZip(const std::string& path, const std::string& fileName)
+byte_array File::ReadAllBytesFromZip(const std::string& path, const std::string& fileName)
 {
-    mutablebuf retData;
+    byte_array retData;
     unzFile file = nullptr;
     do
     {
@@ -341,8 +341,8 @@ mutablebuf File::ReadAllBytesFromZip(const std::string& path, const std::string&
         ASSERTED(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
         UNUSED_ARG(readedSize);
         unzCloseCurrentFile(file);
-        retData.assign(buffer, fileInfo.uncompressed_size, true);
-
+        retData.resize(fileInfo.uncompressed_size);
+        memcpy(retData.data(), buffer, fileInfo.uncompressed_size);
     } while (0);
 
     if (file)
@@ -352,7 +352,7 @@ mutablebuf File::ReadAllBytesFromZip(const std::string& path, const std::string&
     return retData;
 }
 
-mutablebuf FoundationKit::File::ReadAllBytes(const std::string& path)
+byte_array FoundationKit::File::ReadAllBytes(const std::string& path)
 {
     return detail::ReadDataFromFile(path);
 }
@@ -375,8 +375,8 @@ File::FileLineType File::ReadAllLines(const std::string& path)
 
 std::string File::ReadAllText(const std::string& path)
 {
-    mutablebuf FileTexts = detail::ReadDataFromFile(path, true);
-    return std::string(FileTexts.c_str(), FileTexts.size());
+    std::vector<uint8> FileTexts = detail::ReadDataFromFile(path, true);
+    return std::string(reinterpret_cast<char*>(FileTexts.data()), FileTexts.size());
 }
 
 bool File::WriteAllBytes(const std::string& path, const char* bytes, size_t length)

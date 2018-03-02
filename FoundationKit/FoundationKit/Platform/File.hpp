@@ -103,8 +103,8 @@ public:
 
     static bool AppendAllLines(const std::string& path, const FileLineType& contents);
     static bool AppendAllText(const std::string& path, const std::string& contents);
-    static mutablebuf ReadAllBytesFromZip(const std::string& path, const std::string& fileName);
-    static mutablebuf ReadAllBytes(const std::string& path);
+    static byte_array ReadAllBytesFromZip(const std::string& path, const std::string& fileName);
+    static byte_array ReadAllBytes(const std::string& path);
     static FileLineType ReadAllLines(const std::string& path);
     static std::string ReadAllText(const std::string& path);
     static bool WriteAllBytes(const std::string& path, const char* bytes, size_t length);

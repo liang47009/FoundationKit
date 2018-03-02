@@ -1,8 +1,12 @@
 package com.example.test;
+import java.util.List;
+
 import com.losemymind.foundationkit.AndroidJavaBridge;
 
 import android.app.Activity;
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -44,6 +48,17 @@ public class MainActivity extends Activity {
 		Log.e("Android model is ",android.os.Build.MODEL );
 		//Log.e("Build.SERIAL", android.os.Build.getSerial());
 		foundationInit((Context)this);
+		
+//		SensorManager mSensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);  
+//		  
+//        if (mSensorManager == null) {  
+//            throw new UnsupportedOperationException();  
+//        }  
+//  
+//        List<Sensor> sensorsList = mSensorManager.getSensorList(Sensor.TYPE_ALL);  
+//        for (Sensor sensor : sensorsList) {  
+//            Log.d("支持的传感器", sensor.getName().toString());  
+//        } 
 	}
 
    @Override  

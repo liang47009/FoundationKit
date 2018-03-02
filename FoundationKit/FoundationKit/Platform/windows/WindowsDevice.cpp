@@ -411,7 +411,7 @@ int PlatformDevice::GetCPUFrequency()
 	::GetSystemInfo(&si);
 	// allocate buffer to get info for each processor
 	const int size = si.dwNumberOfProcessors * sizeof(PROCESSOR_POWER_INFORMATION);
-	mutablebuf buffer(size);
+	byte_array buffer(size);
 	auto status = ::CallNtPowerInformation(ProcessorInformation, NULL, 0, buffer.data(), size);
 	if (0 == status)
 	{

@@ -44,233 +44,138 @@ struct copy_data_to_mutablebuf {};
 class basic_mutablebuf
 {
 public:
-	using value_type      = uint8;
-	using size_type       = size_t;
-	using pointer         = value_type *;
-	using const_pointer   = const value_type *;
-	using reference       = value_type&;
-	using const_reference = const value_type&;
-	using _Myt            = basic_mutablebuf;
+    using _Ty = uint8;
+    using _Myt = basic_mutablebuf;
+    using _Ptr = std::shared_ptr<_Ty>;
 
     /// Construct an empty buffer.
     basic_mutablebuf()
-		: _Ptr()
-		, _Mysize()
-        , _bAlloced(false)
+        : memory_holder(nullptr)
+        , memory_length(0)
     {
     }
 
     basic_mutablebuf(const _Myt& other)
-		: _Ptr()
-		, _Mysize()
-		, _bAlloced(false)
+        : memory_holder(other.memory_holder)
+        , memory_length(other.memory_length)
     {
-        copy(other);
+
     }
 
     basic_mutablebuf(_Myt&& other)
-		: _Ptr()
-		, _Mysize()
-		, _bAlloced(false)
+        : memory_holder(std::move(other.memory_holder))
+        , memory_length(other.memory_length)
     {
-        move(std::forward<_Myt&&>(other));
+        other.memory_length = 0;
     }
-
-	basic_mutablebuf(std::size_t size)
-		: _Ptr()
-		, _Mysize()
-		, _bAlloced(false)
-	{
-		allocate(size);
-	}
 
     /// Construct a buffer to represent a given memory range.
     basic_mutablebuf(uint8* data, std::size_t size, bool need_del = false)
-		: _Ptr(data)
-		, _Mysize(size)
-		, _bAlloced(need_del)
     {
+        assign(data, size, need_del);
     }
 
     /// Construct a buffer to represent a given memory range.
     basic_mutablebuf(char* data, std::size_t size, bool need_del = false)
-        : _Ptr(reinterpret_cast<uint8*>(data))
-        , _Mysize(size)
-        , _bAlloced(need_del)
     {
+        assign(reinterpret_cast<uint8*>(data), size, need_del);
     }
 
     /// Construct a buffer to represent a given memory range.
     basic_mutablebuf(void* data, std::size_t size, bool need_del = false)
-        : _Ptr(reinterpret_cast<uint8*>(data))
-        , _Mysize(size)
-        , _bAlloced(need_del)
     {
-    }
-
-    basic_mutablebuf(uint8* data, std::size_t size, copy_data_to_mutablebuf)
-        : _Ptr(nullptr)
-        , _Mysize(0)
-        , _bAlloced(false)
-    {
-        copy(data, size);
-    }
-
-    basic_mutablebuf(char* data, std::size_t size, copy_data_to_mutablebuf)
-        : _Ptr(nullptr)
-        , _Mysize(0)
-        , _bAlloced(false)
-    {
-        copy(data, size);
+        assign(reinterpret_cast<uint8*>(data), size, need_del);
     }
 
     /// Assignment operator
     basic_mutablebuf& operator= (const _Myt& other)
     {
-        if (this != &other)
-        {
-            copy(other);
-        }
-        return *this;
+        memory_length = other.memory_length;
+        memory_holder = other.memory_holder;
     }
 
     basic_mutablebuf& operator= (_Myt&& other)
     {
-        if (this != &other)
-        {
-            move(std::forward<_Myt&&>(other));
-        }
-        return *this;
+        memory_length = other.memory_length;
+        memory_holder = std::move(other.memory_holder);
+        other.memory_length = 0;
     }
 
-    /// Get a pointer to the beginning of the memory range.
-    void* data() const
+    _Ty* data() _NOEXCEPT
     {
-        return reinterpret_cast<void*>(_Ptr);;
+        return memory_holder.get();
+    }
+
+    const _Ty * data() const _NOEXCEPT
+    {
+        return memory_holder.get();
     }
 
     /// Get the size of the memory range.
-	size_type size() const
+    size_t size() const
     {
-        return _Mysize;
+        return memory_length;
     }
 
     const char* c_str()const
     {
-        return reinterpret_cast<const char*>(_Ptr);
+        return reinterpret_cast<const char*>(data());
     }
 
-    char* str()const
+    char* str()
     {
-        return reinterpret_cast<char*>(_Ptr);
+        return reinterpret_cast<char*>(data());
     }
-
-	const_pointer uc_str()
-    {
-        return _Ptr;
-    }
-
-	void allocate(const size_type size)
-	{
-        deallocate();
-		_Ptr      = new value_type[size];
-		_Mysize   = size;
-		_bAlloced = true;
-		memset(_Ptr, 0, _Mysize);
-	}
-
-	void deallocate()
-	{
-		if (_bAlloced && _Ptr != nullptr)
-			delete[] _Ptr;
-		_Ptr      = pointer();
-		_Mysize   = 0;
-		_bAlloced = false;
-	}
-
-    void assign(void* data, std::size_t size, bool need_del = false)
-    {
-		deallocate();
-		_Ptr      = reinterpret_cast<uint8*>(data);
-		_Mysize   = size;
-		_bAlloced = need_del;
-    }
-
-	void clear()
-	{
-		memset(_Ptr, 0, _Mysize);
-	}
 
     bool empty()
     {
-        return (_Ptr == nullptr || _Mysize == 0);
+        return !memory_holder || memory_length == 0;
+    }
+
+
+    void assign(uint8* data, std::size_t size, bool need_del = false)
+    {
+        if (need_del)
+        {
+            memory_holder = _Ptr(data);
+        }
+        else
+        {
+            memory_holder = _Ptr(data, [&](_Ty* ptr) {/*do nothing...*/});
+        }
+        memory_length = size;
     }
 
     ~basic_mutablebuf()
     {
-		deallocate();
+
     }
-
-	void copy(const _Myt& other)
-	{
-		if (!other._bAlloced)
-		{
-			assign(other._Ptr, other._Mysize);
-		}
-		else
-		{
-			copy(other._Ptr, other._Mysize);
-		}
-	}
-
-	void copy(void* data, std::size_t size)
-	{
-		deallocate();
-		allocate(size);
-		memcpy(this->data(), data, size);
-	}
-private:
-    void move(_Myt&& other)
-    {
-		deallocate();
-        this->_Ptr      = other._Ptr;
-		this->_Mysize   = other._Mysize;
-        this->_bAlloced = other._bAlloced;
-		other._Ptr      = pointer();
-		other._Mysize   = 0;
-        other._bAlloced = false;
-    }
-
-private:
-	pointer   _Ptr;
-	size_type _Mysize;	// current length of string
-	bool      _bAlloced;
+protected:
+    size_t          memory_length;
+    _Ptr            memory_holder;
 };
 
 typedef basic_mutablebuf mutablebuf;
 
-inline mutablebuf make_mutablebuf(std::vector<char>& buffers, bool bCopy = true)
+
+inline mutablebuf make_mutablebuf(std::vector<char>& buffers)
 {
-	return bCopy? mutablebuf(buffers.data(), buffers.size(), copy_data_to_mutablebuf())
-                : mutablebuf(buffers.data(), buffers.size());
+	return mutablebuf(buffers.data(), buffers.size());
 }
 
 inline mutablebuf make_mutablebuf(std::vector<unsigned char>& buffers, bool bCopy = true)
 {
-    return bCopy ? mutablebuf(buffers.data(), buffers.size(), copy_data_to_mutablebuf()) 
-                 : mutablebuf(buffers.data(), buffers.size());
+    return mutablebuf(buffers.data(), buffers.size());
 }
 
 inline mutablebuf make_mutablebuf(std::basic_string<char>& buffers, bool bCopy = true)
 {
-    return bCopy ? mutablebuf(&(buffers[0]), buffers.size(), copy_data_to_mutablebuf())
-                 : mutablebuf(&(buffers[0]), buffers.size());
+    return mutablebuf(&(buffers[0]), buffers.size());
 }
 
 inline mutablebuf make_mutablebuf(std::basic_string<unsigned char>& buffers, bool bCopy = true)
 {
-    return bCopy ? mutablebuf(&(buffers[0]), buffers.size(), copy_data_to_mutablebuf())
-                 : mutablebuf(&(buffers[0]), buffers.size());
+    return mutablebuf(&(buffers[0]), buffers.size());
 }
 
 

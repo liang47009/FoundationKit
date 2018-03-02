@@ -52,7 +52,7 @@ struct Compression
      * @param	UncompressedBuffer			Buffer containing uncompressed data
      * @return true if compression succeeds, false if it fails because CompressedBuffer was too small or other reasons
      */
-    static bool CompressMemory(CompressionFlags Flags, mutablebuf& CompressedBuffer, const mutablebuf& UncompressedBuffer);
+    static bool CompressMemory(CompressionFlags Flags, std::vector<uint8>& CompressedBuffer, const mutablebuf& UncompressedBuffer);
 
     /**
      * Thread-safe abstract decompression routine. Uncompresses memory from compressed buffer and writes it to uncompressed
@@ -63,7 +63,7 @@ struct Compression
      * @param	CompressedBuffer			Buffer compressed data is going to be read from
      * @return true if compression succeeds, false if it fails because CompressedBuffer was too small or other reasons
      */
-    static bool UncompressMemory(CompressionFlags Flags, mutablebuf& UncompressedBuffer, const mutablebuf& CompressedBuffer);
+    static bool UncompressMemory(CompressionFlags Flags, std::vector<uint8>& UncompressedBuffer, const mutablebuf& CompressedBuffer);
 
     // compress file to a .gz file
     static bool CompressFile(const std::string& srcFilePath, const std::string& desFilePath);
