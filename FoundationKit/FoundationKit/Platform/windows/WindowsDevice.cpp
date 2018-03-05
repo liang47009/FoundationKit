@@ -36,6 +36,8 @@ losemymind.libo@gmail.com
 #include <gdiplus.h>
 #pragma  comment(lib, "gdiplus.lib") // gdiplus
 
+#pragma comment(lib,"ws2_32.lib")
+
 #include "FoundationKit/Base/types.hpp"
 #include "FoundationKit/Base/mutablebuf.hpp"
 #include "FoundationKit/Crypto/md5.hpp"
