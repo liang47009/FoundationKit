@@ -19,25 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\NetFramework\HTTPClient\HTTPClient.cpp" />
-    <ClCompile Include="..\NetFramework\HTTPClient\HTTPCode.cpp" />
-    <ClCompile Include="..\NetFramework\HTTPClient\HTTPDownloader.cpp" />
-    <ClCompile Include="..\NetFramework\HTTPClient\HTTPRequest.cpp" />
-    <ClCompile Include="..\NetFramework\HTTPClient\HTTPResponse.cpp" />
-    <ClCompile Include="..\NetFramework\HTTPClient\HTTPUploader.cpp" />
-    <ClCompile Include="..\NetFramework\HTTPClient\libcurl_init.cpp" />
     <ClCompile Include="..\NetFramework\Networking\IProtocol.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPClient.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPClientOptions.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPCode.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPDownloader.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPRequest.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPResponse.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\HTTPUploader.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\libcurl_init.hpp" />
-    <ClInclude Include="..\NetFramework\HTTPClient\MimeTypes.hpp" />
     <ClInclude Include="..\NetFramework\Networking\basic_endpoint.hpp" />
     <ClInclude Include="..\NetFramework\Networking\basic_socket.hpp" />
     <ClInclude Include="..\NetFramework\Networking\detail\config.hpp" />

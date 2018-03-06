@@ -92,6 +92,7 @@ public:
     {
         memory_length = other.memory_length;
         memory_holder = other.memory_holder;
+        return (*this);
     }
 
     basic_mutablebuf& operator= (_Myt&& other)
@@ -99,14 +100,15 @@ public:
         memory_length = other.memory_length;
         memory_holder = std::move(other.memory_holder);
         other.memory_length = 0;
+        return (*this);
     }
 
-    _Ty* data() _NOEXCEPT
+    _Ty* data()
     {
         return memory_holder.get();
     }
 
-    const _Ty * data() const _NOEXCEPT
+    const _Ty * data() const
     {
         return memory_holder.get();
     }
@@ -141,7 +143,7 @@ public:
         }
         else
         {
-            memory_holder = _Ptr(data, [&](_Ty* ptr) {/*do nothing...*/});
+            memory_holder = _Ptr(data, [&](_Ty* /*ptr*/) {/*do nothing...*/});
         }
         memory_length = size;
     }
@@ -151,8 +153,8 @@ public:
 
     }
 protected:
-    size_t          memory_length;
     _Ptr            memory_holder;
+    size_t          memory_length;
 };
 
 typedef basic_mutablebuf mutablebuf;
@@ -163,17 +165,17 @@ inline mutablebuf make_mutablebuf(std::vector<char>& buffers)
 	return mutablebuf(buffers.data(), buffers.size());
 }
 
-inline mutablebuf make_mutablebuf(std::vector<unsigned char>& buffers, bool bCopy = true)
+inline mutablebuf make_mutablebuf(std::vector<unsigned char>& buffers)
 {
     return mutablebuf(buffers.data(), buffers.size());
 }
 
-inline mutablebuf make_mutablebuf(std::basic_string<char>& buffers, bool bCopy = true)
+inline mutablebuf make_mutablebuf(std::basic_string<char>& buffers)
 {
     return mutablebuf(&(buffers[0]), buffers.size());
 }
 
-inline mutablebuf make_mutablebuf(std::basic_string<unsigned char>& buffers, bool bCopy = true)
+inline mutablebuf make_mutablebuf(std::basic_string<unsigned char>& buffers)
 {
     return mutablebuf(&(buffers[0]), buffers.size());
 }

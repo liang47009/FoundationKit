@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKitUnitTest", "Fo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetFramework", "NetFramework\proj.win32\NetFramework.vcxproj", "{FBFCEA90-A2E0-4580-9848-65A3B73973D2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTTPClient", "Programs\HTTPClient\HTTPClient.vcxproj", "{D53B31A0-9B84-43B5-8E5F-5FA6236F6167}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -49,6 +51,16 @@ Global
 		{FBFCEA90-A2E0-4580-9848-65A3B73973D2}.Release|Win32.Build.0 = Release|Win32
 		{FBFCEA90-A2E0-4580-9848-65A3B73973D2}.Release|x64.ActiveCfg = Release|x64
 		{FBFCEA90-A2E0-4580-9848-65A3B73973D2}.Release|x64.Build.0 = Release|x64
+		{D53B31A0-9B84-43B5-8E5F-5FA6236F6167}.Debug|ARM.ActiveCfg = Debug|Win32
+		{D53B31A0-9B84-43B5-8E5F-5FA6236F6167}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D53B31A0-9B84-43B5-8E5F-5FA6236F6167}.Debug|Win32.Build.0 = Debug|Win32
+		{D53B31A0-9B84-43B5-8E5F-5FA6236F6167}.Debug|x64.ActiveCfg = Debug|x64
+		{D53B31A0-9B84-43B5-8E5F-5FA6236F6167}.Debug|x64.Build.0 = Debug|x64
+		{D53B31A0-9B84-43B5-8E5F-5FA6236F6167}.Release|ARM.ActiveCfg = Release|Win32
+		{D53B31A0-9B84-43B5-8E5F-5FA6236F6167}.Release|Win32.ActiveCfg = Release|Win32
+		{D53B31A0-9B84-43B5-8E5F-5FA6236F6167}.Release|Win32.Build.0 = Release|Win32
+		{D53B31A0-9B84-43B5-8E5F-5FA6236F6167}.Release|x64.ActiveCfg = Release|x64
+		{D53B31A0-9B84-43B5-8E5F-5FA6236F6167}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
