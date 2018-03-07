@@ -190,7 +190,7 @@ extern void __log__(const char* fmt, ...);
     #define DEBUG_MODE 1
     #define FKDebug(fmt, ...) __log__(fmt, ##__VA_ARGS__)
 #else
-    #define ASSERTED(CHECK, MSG)
+    #define ASSERTED(CHECK, MSG) (CHECK)
     #define ASSERTED_EXPRESSION(COND, EXPR) (EXPR)
     #define DEBUG_MODE 0
     #define FKDebug(fmt, ...)
