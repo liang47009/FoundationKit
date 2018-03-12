@@ -13,8 +13,10 @@
 #include "FoundationKit/Platform/Directory.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
+#include "HTTPClient/HTTPClientVersion.hpp"
 #include "HTTPClient/HTTPClient.hpp"
 #include "HTTPClient/libcurl_init.hpp"
+
 
 NS_FK_BEGIN
 #define MAX_WAIT_MSECS 30*1000 /* Wait max. 30 seconds */

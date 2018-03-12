@@ -7,19 +7,7 @@
 #ifndef FOUNDATIONKIT_GENERICPLATFORMMACROS_HPP
 #define FOUNDATIONKIT_GENERICPLATFORMMACROS_HPP
 #pragma once
-
-#define FOUNDATIONKIT_VERSION_STRING "3.1.0"
-#define FOUNDATIONKIT_PACKAGE_STRING "FoundationKit 3.1.0"
-#define FOUNDATIONKIT_VERSION_MAJOR 3
-#define FOUNDATIONKIT_VERSION_MINOR 1
-#define FOUNDATIONKIT_VERSION_PATCH 0
-
-// Version as a single hex number, e.g. 0x01000300 == 1.0.3
-#define FOUNDATIONKIT_VERSION_HEX ((FOUNDATIONKIT_VERSION_MAJOR << 24) | \
-                                   (FOUNDATIONKIT_VERSION_MINOR << 16) | \
-                                   (FOUNDATIONKIT_VERSION_PATCH <<  8))
-
-#include "LanguageFeatures.hpp"
+#include "FoundationKitVersion.hpp"
 // namespace FoundationKit {}
 #ifdef __cplusplus
     #define NS_FK_BEGIN                     namespace FoundationKit {
@@ -176,8 +164,6 @@ constexpr EPlatform TargetPlatform = EPlatform::Unknow;
 //#pragma message(COMPILE_MSG "Show compile message")
 #define COMPILE_MSG __FILE__ "(" STRINGIZE(__LINE__) "):Warning:" 
 #define _FILE_AND_LINE_ __FILE__ "(" STRINGIZE(__LINE__) ")"
-//#define COMPILE_WARNING(MSG) __pragma(message( __FILE__ "(" STRINGIZE(__LINE__) "):Warning:" ##MSG))
-//#define COMPILE_ERROR(MSG) __pragma(message( __FILE__ "(" STRINGIZE(__LINE__) "):Error:" ##MSG))
 
 extern void __fail__(const char* expr, const char* file, int line);
 extern void __log__(const char* fmt, ...);
@@ -202,5 +188,4 @@ extern void __log__(const char* fmt, ...);
 //#define USE_FILE32API 1
 //#endif
 
-#endif // #ifndef LOSEMYMIND_GENERICPLATFORMMACROS_H
-
+#endif // END OF FOUNDATIONKIT_GENERICPLATFORMMACROS_HPP

@@ -88,7 +88,6 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\GenericPlatformMacros.hpp" />
-    <ClInclude Include="..\FoundationKit\LanguageFeatures.hpp" />
     <ClInclude Include="..\FoundationKit\FoundationMacros.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Environment.hpp">
       <Filter>Platform</Filter>
@@ -370,6 +369,7 @@
     <ClInclude Include="..\FoundationKit\Foundation\Version.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\FoundationKitVersion.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
@@ -549,5 +549,6 @@
     <None Include="..\FoundationKit\Foundation\Value.inl">
       <Filter>Foundation</Filter>
     </None>
+    <None Include="..\FoundationKit\FoundationKitVersion.hpp.in" />
   </ItemGroup>
 </Project>

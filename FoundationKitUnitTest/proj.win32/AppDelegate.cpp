@@ -12,7 +12,6 @@
 #include "FoundationKit/forward.hpp"
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/LanguageFeatures.hpp"
 
 #include "FoundationKit/Crypto/aes.hpp"
 #include "FoundationKit/Crypto/Base58.hpp"
@@ -45,7 +44,6 @@
 #include "FoundationKit/Platform/Directory.hpp"
 #include "FoundationKit/Platform/Environment.hpp"
 #include "FoundationKit/Platform/File.hpp"
-#include "FoundationKit/Platform/OpenGL.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/PlatformMemory.hpp"
@@ -61,8 +59,6 @@
 #include "FoundationKit/Math/Vector2.hpp"
 #include "FoundationKit/Math/Vector3.hpp"
 #include "FoundationKit/Math/Vector4.hpp"
-
-#include "HTTPClient/HTTPClient.hpp"
 
 using namespace std;
 USING_NS_FK;
@@ -90,48 +86,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::error_code ec;
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
-    uint64 MaxLoopSize = 1000 *1000 ;
-    std::unordered_map<uint64, uint64> CRCValue;
-    ElapsedTimer et;
-    for (uint64 i = 0; i < MaxLoopSize; i++)
-    {
-        std::string value = MD5::md5_hash_hex(std::to_string(i));
-        CRCValue[crc32::crc_buffer(value.c_str(), value.size())] = i;
-    }
-    FKLog("CRC32 run time:%f", et.Millisecondsf());
-    CRCValue.clear();
-    et.Reset();
-    for (uint64 i = 0; i < MaxLoopSize; i++)
-    {
-        std::string value = MD5::md5_hash_hex(std::to_string(i));
-        CRCValue[crc64::crc_buffer(value.c_str(), value.size())] = i;
-    }
-    FKLog("CRC64 run time:%f", et.Millisecondsf());
-
-    auto LaunchArgs = Environment::GetCommandLineArgs();
-    if (LaunchArgs.size() < 3)return false;
-    std::string SrcPath = LaunchArgs[1];
-    std::string DesPath = LaunchArgs[2];
-    Directory::GetFiles(SrcPath, [&](const std::string& fileFullPath)
-    {
-        std::string FileExtension = Path::GetExtension(fileFullPath);
-        if (FileExtension.compare(".jpg")  == 0 ||
-            FileExtension.compare(".jpeg") == 0 ||
-            FileExtension.compare(".png")  == 0)
-        {
-            std::string RelativePath = Path::GetRelativePath(SrcPath, fileFullPath);
-            std::string DesFullPath = DesPath + RelativePath;
-            std::string DesDir = Path::GetDirectoryPath(DesFullPath);
-            Directory::Create(DesDir);
-            std::string command = "cd E:\\GitHub\\FoundationKit\\Win32\\Release\\ && .\\guetzli.exe --cuda --quality 80 ";
-            command += fileFullPath;
-            command += " ";
-            command += DesFullPath;
-            auto result = PlatformDevice::ExecuteSystemCommand(command.c_str());
-            FKLog("%s", result.c_str());
-        }
-        return false;
-    }, Directory::ESearchOption::AllDirectories);
 
     FKLog(">>> applicationDidFinishLaunching end.");
 	return true;
@@ -156,10 +110,39 @@ void AppDelegate::applicationWillTerminate()
 
 void AppDelegate::mainLoop()
 {
-	HTTPClient::GetInstance()->Tick(0.016);
 
 }
 
 void AppDelegate::TestTupleArgs(int a, const std::string & str, const char * str1)
 {
+}
+
+
+
+void RunGuetzli()
+{
+    auto LaunchArgs = Environment::GetCommandLineArgs();
+    if (LaunchArgs.size() < 3)return;
+    std::string SrcPath = LaunchArgs[1];
+    std::string DesPath = LaunchArgs[2];
+    Directory::GetFiles(SrcPath, [&](const std::string& fileFullPath)
+    {
+        std::string FileExtension = Path::GetExtension(fileFullPath);
+        if (FileExtension.compare(".jpg") == 0 ||
+            FileExtension.compare(".jpeg") == 0 ||
+            FileExtension.compare(".png") == 0)
+        {
+            std::string RelativePath = Path::GetRelativePath(SrcPath, fileFullPath);
+            std::string DesFullPath = DesPath + RelativePath;
+            std::string DesDir = Path::GetDirectoryPath(DesFullPath);
+            Directory::Create(DesDir);
+            std::string command = "cd E:\\GitHub\\FoundationKit\\Win32\\Release\\ && .\\guetzli.exe --cuda --quality 80 ";
+            command += fileFullPath;
+            command += " ";
+            command += DesFullPath;
+            auto result = PlatformDevice::ExecuteSystemCommand(command.c_str());
+            FKLog("%s", result.c_str());
+        }
+        return false;
+    }, Directory::ESearchOption::AllDirectories);
 }

@@ -44,7 +44,4 @@ macro(BuildSet)
     # set compiler options
     include(SetCompilerOptions)
     SetCompilerOptions()
-
-    include(BuildModules)
-    BuildModules()
 endmacro(BuildSet)
