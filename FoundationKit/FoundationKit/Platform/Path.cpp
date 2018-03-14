@@ -274,8 +274,9 @@ std::string Path::GetRelativePath(const std::string& workPath, const std::string
 
 std::string Path::GetAbsolutePath(const std::string& path)
 {
-    std::string fileName = GetFileName(path);
-    std::string finalPath = GetDirectoryPath(path);
+    std::string normalizePath = NormalizeFilePath(path);
+    std::string fileName = GetFileName(normalizePath);
+    std::string finalPath = GetDirectoryPath(normalizePath);
     std::vector<std::string> pathNodes = StringUtils::Split(finalPath, "/");
     std::vector<std::string> absolutePaths;
     for (auto& pathNode : pathNodes)
