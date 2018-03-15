@@ -86,18 +86,6 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::error_code ec;
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
-    
-    //auto exedir = Path::GetDirectoryPath(Path::GetApplicationPath());
-    //auto recordFilePath = exedir + "20170927-20180312.txt";
-    //auto filelist = File::ReadAllLines(recordFilePath);
-   
-    //for (auto filePath : filelist)
-    //{
-    //    std::string fileAbsolutePath = Path::GetAbsolutePath(exedir + "..\\" + filePath);
-    //    std::string fileTargetPath = Path::GetAbsolutePath(exedir + "..\\tmp\\" + filePath);
-    //    File::Copy(fileAbsolutePath, fileTargetPath);
-    //    FKLog("Copy %s to %s", fileAbsolutePath.c_str(), fileTargetPath.c_str());
-    //}
 
     FKLog(">>> applicationDidFinishLaunching end.");
 	return true;
