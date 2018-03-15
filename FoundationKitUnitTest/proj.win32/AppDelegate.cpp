@@ -81,7 +81,6 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;

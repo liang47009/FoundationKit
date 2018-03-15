@@ -75,7 +75,7 @@ namespace detail
         return FileAllBytes;
     }
 
-    bool WriteLinesToFile(const std::string& path, const File::FileLineType& contents, bool bAppend = false)
+    bool WriteLinesToFile(const std::string& path, const std::vector<std::string>& contents, bool bAppend = false)
     {
         bool result = false;
         do
@@ -111,28 +111,12 @@ namespace detail
     }
 } //namespace detail
 
-#if PLATFORM_ANDROID
-extern FILE* AndroidOpenAsset(const char * path, const char * mode);
-#endif
-
-FILE* File::Open(const std::string& path, const char* mode/* = "r"*/, bool isAsset/* = false*/)
+FILE* File::Open(const std::string& path, const char* mode/* = "r"*/)
 {
-    FILE* FileHandle = nullptr;
-#if PLATFORM_ANDROID
-    if (isAsset)
-    {
-        FileHandle = AndroidOpenAsset(path.c_str(), mode);
-    }
-    else
-#endif
-    {
-        UNUSED_ARG(isAsset);
-        FileHandle = fopen(path.c_str(), mode);
-    }
-    return FileHandle;
+    return fopen(path.c_str(), mode);
 }
 
-FILE* File::Open(const std::string& path, FileMode mode/* = FileMode::ReadOnly*/)
+FILE* File::Open(const std::string& path, FileMode mode)
 {
     const char* fileMode = nullptr;
     switch (mode) {
@@ -159,6 +143,116 @@ int File::Open(const std::string& path, int mode)
 #else
     return open(path.c_str(), mode);
 #endif
+}
+
+#if PLATFORM_ANDROID
+extern FILE* AndroidOpenAsset(const char * path);
+FILE* File::OpenAsset(const std::string& path)
+{
+    return AndroidOpenAsset(path.c_str());
+}
+#endif
+
+bool File::AppendAllLines(const std::string& path, const std::vector<std::string>& contents)
+{
+    return detail::WriteLinesToFile(path, contents, true);
+}
+
+bool File::AppendAllText(const std::string& path, const std::string& contents)
+{
+    bool result = false;
+    do
+    {
+        FILE* FileHandle = Open(path.c_str(), "at");
+        BREAK_IF(!FileHandle);
+        fwrite(contents.c_str(), 1, contents.size(), FileHandle);
+        fclose(FileHandle);
+        result = true;
+    } while (false);
+    return result;
+}
+
+#if (PLATFORM_IOS)
+#define MINIZIP_FROM_SYSTEM
+#endif
+std::vector<uint8> File::ReadAllBytesFromZip(const std::string& path, const std::string& fileName)
+{
+    std::vector<uint8> retData;
+    unzFile file = nullptr;
+    do
+    {
+        BREAK_IF(path.empty());
+        file = unzOpen(path.c_str());
+        BREAK_IF(!file);
+        // FIXME: Other platforms should use upstream minizip like mingw-w64
+#ifdef MINIZIP_FROM_SYSTEM
+        int ret = unzLocateFile(file, fileName.c_str(), NULL);
+#else
+        int ret = unzLocateFile(file, fileName.c_str(), 1);
+#endif
+        BREAK_IF(UNZ_OK != ret);
+        char filePathA[260];
+        unz_file_info fileInfo;
+        ret = unzGetCurrentFileInfo(file, &fileInfo, filePathA, sizeof(filePathA), nullptr, 0, nullptr, 0);
+        BREAK_IF(UNZ_OK != ret);
+        ret = unzOpenCurrentFile(file);
+        BREAK_IF(UNZ_OK != ret);
+        unsigned char * buffer = new unsigned char[fileInfo.uncompressed_size];
+        int readedSize = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
+        ASSERTED(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
+        UNUSED_ARG(readedSize);
+        unzCloseCurrentFile(file);
+        retData.resize(fileInfo.uncompressed_size);
+        memcpy(retData.data(), buffer, fileInfo.uncompressed_size);
+    } while (0);
+
+    if (file)
+    {
+        unzClose(file);
+    }
+    return retData;
+}
+
+std::vector<uint8> FoundationKit::File::ReadAllBytes(const std::string& path)
+{
+    return detail::ReadDataFromFile(path);
+}
+
+std::vector<std::string> File::ReadAllLines(const std::string& path)
+{
+    std::vector<std::string> lines;
+    std::string line;
+    std::ifstream infile;
+    infile.open(path);
+    if (!infile.good()) return lines;
+    while (!infile.eof()) // To get you all the lines.
+    {
+        std::getline(infile, line); // Saves the line in STRING.
+        lines.push_back(line);
+    }
+    infile.close();
+    return lines;
+}
+
+std::string File::ReadAllText(const std::string& path)
+{
+    std::vector<uint8> FileTexts = detail::ReadDataFromFile(path, true);
+    return std::string(reinterpret_cast<char*>(FileTexts.data()), FileTexts.size());
+}
+
+bool File::WriteAllBytes(const std::string& path, const char* bytes, size_t length)
+{
+    return detail::WriteDataToFile(path, bytes, length);
+}
+
+bool File::WriteAllLines(const std::string& path, const std::vector<std::string>& contents)
+{
+    return detail::WriteLinesToFile(path, contents);
+}
+
+bool File::WriteAllText(const std::string& path, const std::string& contents)
+{
+    return detail::WriteDataToFile(path, contents.c_str(), contents.size(), true);
 }
 
 bool File::Copy(const std::string& sourceFileName, const std::string& destFileName, bool overwrite /*= false*/)
@@ -290,108 +384,6 @@ bool File::SetSize(const std::string& path, size_t size)
         return true;
 #endif
     return false;
-}
-
-bool File::AppendAllLines(const std::string& path, const FileLineType& contents)
-{
-    return detail::WriteLinesToFile(path, contents, true);
-}
-
-bool File::AppendAllText(const std::string& path, const std::string& contents)
-{
-    bool result = false;
-    do
-    {
-        FILE* FileHandle = Open(path.c_str(), "at");
-        BREAK_IF(!FileHandle);
-        fwrite(contents.c_str(), 1, contents.size(), FileHandle);
-        fclose(FileHandle);
-        result = true;
-    } while (false);
-    return result;
-}
-
-#if (PLATFORM_IOS)
-#define MINIZIP_FROM_SYSTEM
-#endif
-byte_array File::ReadAllBytesFromZip(const std::string& path, const std::string& fileName)
-{
-    byte_array retData;
-    unzFile file = nullptr;
-    do
-    {
-        BREAK_IF(path.empty());
-        file = unzOpen(path.c_str());
-        BREAK_IF(!file);
-        // FIXME: Other platforms should use upstream minizip like mingw-w64
-#ifdef MINIZIP_FROM_SYSTEM
-        int ret = unzLocateFile(file, fileName.c_str(), NULL);
-#else
-        int ret = unzLocateFile(file, fileName.c_str(), 1);
-#endif
-        BREAK_IF(UNZ_OK != ret);
-        char filePathA[260];
-        unz_file_info fileInfo;
-        ret = unzGetCurrentFileInfo(file, &fileInfo, filePathA, sizeof(filePathA), nullptr, 0, nullptr, 0);
-        BREAK_IF(UNZ_OK != ret);
-        ret = unzOpenCurrentFile(file);
-        BREAK_IF(UNZ_OK != ret);
-        unsigned char * buffer = new unsigned char[fileInfo.uncompressed_size];
-        int readedSize = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
-        ASSERTED(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
-        UNUSED_ARG(readedSize);
-        unzCloseCurrentFile(file);
-        retData.resize(fileInfo.uncompressed_size);
-        memcpy(retData.data(), buffer, fileInfo.uncompressed_size);
-    } while (0);
-
-    if (file)
-    {
-        unzClose(file);
-    }
-    return retData;
-}
-
-byte_array FoundationKit::File::ReadAllBytes(const std::string& path)
-{
-    return detail::ReadDataFromFile(path);
-}
-
-File::FileLineType File::ReadAllLines(const std::string& path)
-{
-    FileLineType lines;
-    std::string line;
-    std::ifstream infile;
-    infile.open(path);
-    if (!infile.good()) return lines;
-    while (!infile.eof()) // To get you all the lines.
-    {
-        std::getline(infile, line); // Saves the line in STRING.
-        lines.push_back(line);
-    }
-    infile.close();
-    return lines;
-}
-
-std::string File::ReadAllText(const std::string& path)
-{
-    std::vector<uint8> FileTexts = detail::ReadDataFromFile(path, true);
-    return std::string(reinterpret_cast<char*>(FileTexts.data()), FileTexts.size());
-}
-
-bool File::WriteAllBytes(const std::string& path, const char* bytes, size_t length)
-{
-    return detail::WriteDataToFile(path, bytes, length);
-}
-
-bool File::WriteAllLines(const std::string& path, const FileLineType& contents)
-{
-    return detail::WriteLinesToFile(path, contents);
-}
-
-bool File::WriteAllText(const std::string& path, const std::string& contents)
-{
-    return detail::WriteDataToFile(path, contents.c_str(), contents.size(), true);
 }
 
 DateTime File::GetCreationTime(const std::string& path)

@@ -52,9 +52,6 @@
     <Filter Include="Platform\Android\AndroidInternal">
       <UniqueIdentifier>{d7ad321c-1c9f-48e9-9d63-1ca19ce83245}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ReserveClass">
-      <UniqueIdentifier>{4e8076e7-005a-4b78-90eb-ba467b37326a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{f16b61bc-6327-41ef-8a4f-9a0ae2813627}</UniqueIdentifier>
     </Filter>
@@ -275,12 +272,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\error.hpp">
       <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\ReserveClass\ITickable.hpp">
-      <Filter>ReserveClass</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\ReserveClass\Runnable.hpp">
-      <Filter>ReserveClass</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Math\Math.hpp">
       <Filter>Math</Filter>

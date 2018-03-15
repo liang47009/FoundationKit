@@ -13,26 +13,25 @@
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
 NS_FK_BEGIN
 
-static int AndroidReadAsset(void* cookie, char* buf, int size) {
-    return AAsset_read((AAsset*)cookie, buf, size);
+static int AndroidReadAsset(void* asset, char* buf, int size) {
+    return AAsset_read((AAsset*)asset, buf, size);
 }
 
-static int AndroidWriteAsset(void* cookie, const char* buf, int size) {
+static int AndroidWriteAsset(void* asset, const char* buf, int size) {
     return EACCES; // can't provide write access to the apk
 }
 
-static fpos_t AndroidSeekAsset(void* cookie, fpos_t offset, int whence) {
-    return AAsset_seek((AAsset*)cookie, offset, whence);
+static fpos_t AndroidSeekAsset(void* asset, fpos_t offset, int whence) {
+    return AAsset_seek((AAsset*)asset, offset, whence);
 }
 
-static int AndroidCloseAsset(void* cookie) {
-    AAsset_close((AAsset*)cookie);
+static int AndroidCloseAsset(void* asset) {
+    AAsset_close((AAsset*)asset);
     return 0;
 }
 
-FILE* AndroidOpenAsset(const char * path, const char * mode)
+FILE* AndroidOpenAsset(const char * path)
 {
-    if (mode[0] == 'w') return nullptr;
     AAssetManager* AndroidAssetManager = AndroidJNI::GetAAssetManager();
     AAsset* asset = AAssetManager_open(AndroidAssetManager, path, AASSET_MODE_UNKNOWN);
     if (!asset) return nullptr;

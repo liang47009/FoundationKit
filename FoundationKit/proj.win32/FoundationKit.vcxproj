@@ -278,8 +278,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatform.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp" />
-    <ClInclude Include="..\FoundationKit\ReserveClass\ITickable.hpp" />
-    <ClInclude Include="..\FoundationKit\ReserveClass\Runnable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp" />

@@ -128,6 +128,12 @@ public:
     template< typename _Ty >
     inline _Ty As();
 
+    template< typename _Ty >
+    inline operator _Ty()
+    {
+        return As<_Ty>();
+    }
+
 private:
 
     void Reset(EType valType);

@@ -267,7 +267,7 @@ std::string PlatformDevice::GetCPUBrand()
     static std::string CPUHardwareStr;
     if (CPUHardwareStr.empty())
     {
-        byte_array CpuInfo = File::ReadAllBytes("/proc/cpuinfo");
+        std::vector<uint8> CpuInfo = File::ReadAllBytes("/proc/cpuinfo");
         char* CPUHardware = detail::extract_cpuinfo_field((const char*)CpuInfo.data(), CpuInfo.size(), "Hardware");
         if (CPUHardware)
         {

@@ -32,30 +32,22 @@ enum class FileMode
 class File
 {
 public:
-    typedef std::vector<std::string> FileLineType;
-
-    static FILE*  Open(const std::string& path, const char* mode="r", bool isAsset=false);
-    static FILE*  Open(const std::string& path, FileMode mode = FileMode::ReadOnly);
-
-    /**
-     * mode value:
-     * O_RDONLY
-     * O_WRONLY
-     * O_RDWR
-     * O_APPEND
-     * O_CREAT
-     * O_TRUNC
-     * O_EXCL
-     * O_TEXT
-     * O_BINARY
-     * O_RAW
-     * O_TEMPORARY
-     * O_NOINHERIT
-     * O_SEQUENTIAL
-     * O_RANDOM
-     * e.g. Open("c:/aa.txt", O_RDONLY | O_BINARY);
-     */
-    static int Open(const std::string& path, int mode);
+    static FILE* Open(const std::string& path, const char* mode="r");
+    static FILE* Open(const std::string& path, FileMode mode/* = FileMode::ReadOnly*/);
+    static int Open(const std::string& path, int mode/* = O_RDONLY | O_BINARY*/);
+#if PLATFORM_ANDROID
+    // OpenAsset returned file handle only support fread fseek and fclose.
+    static FILE* OpenAsset(const std::string& path);
+#endif
+    static bool AppendAllLines(const std::string& path, const std::vector<std::string>& contents);
+    static bool AppendAllText(const std::string& path, const std::string& contents);
+    static std::vector<uint8> ReadAllBytesFromZip(const std::string& path, const std::string& fileName);
+    static std::vector<uint8> ReadAllBytes(const std::string& path);
+    static std::vector<std::string> ReadAllLines(const std::string& path);
+    static std::string ReadAllText(const std::string& path);
+    static bool WriteAllBytes(const std::string& path, const char* bytes, size_t length);
+    static bool WriteAllLines(const std::string& path, const std::vector<std::string>& contents);
+    static bool WriteAllText(const std::string& path, const std::string& contents);
 
    /**
     *  Implement on platform.
@@ -100,17 +92,6 @@ public:
     /** Return the size of the file, or -1 if it doesn't exist. **/
     static int64 GetSize(const std::string& path);
     static bool  SetSize(const std::string& path, size_t size);
-
-    static bool AppendAllLines(const std::string& path, const FileLineType& contents);
-    static bool AppendAllText(const std::string& path, const std::string& contents);
-    static byte_array ReadAllBytesFromZip(const std::string& path, const std::string& fileName);
-    static byte_array ReadAllBytes(const std::string& path);
-    static FileLineType ReadAllLines(const std::string& path);
-    static std::string ReadAllText(const std::string& path);
-    static bool WriteAllBytes(const std::string& path, const char* bytes, size_t length);
-    static bool WriteAllLines(const std::string& path, const FileLineType& contents);
-    static bool WriteAllText(const std::string& path, const std::string& contents);
-
     static DateTime GetCreationTime(const std::string& path);
     static DateTime GetCreationTimeUtc(const std::string& path);
     static DateTime GetLastAccessTime(const std::string& path);
@@ -127,11 +108,6 @@ public:
     static std::string ErrnoToString(int error, const std::string& operation);
 };
 
-
 NS_FK_END
-
-
-
-
 
 #endif // END OF FOUNDATIONKIT_PLATFORM_FILE_HPP
