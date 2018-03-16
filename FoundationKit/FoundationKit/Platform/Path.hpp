@@ -43,10 +43,10 @@ public:
     * path is windows style.The path cannot contain any of the characters
     * defined in Path::GetInvalidPathChars.
     * @param path
-    *         The path of a file or directory.
+    *         The path of a file path.
     * @return The converted path.
     */
-    static std::string NormalizeFilePath(const std::string& path);
+    static std::string NormalizePath(const std::string& path);
 
    /**
     * Convert directory separator to current platform style.
@@ -55,24 +55,7 @@ public:
     *         The path of a file or directory.
     * @return The converted path.
     */
-    static std::string NativeFilePath(const std::string& path);
-
-   /**
-    * Changes the extension of a path string.
-    * @param path
-    *         The path information to modify. The path cannot contain any of the characters
-    *         defined in Path::GetInvalidPathChars.
-    * @param extension
-    *         The new extension (with or without a leading period). Specify an empty string ("") to remove
-    *         an existing extension from path.
-    * @return The modified path information.On Windows-based desktop platforms, if path is
-    *         an empty string (""), the path information is returned unmodified. If
-    *         extension is an empty string (""), the returned string contains the specified
-    *         path with its extension removed. If path has no extension, and extension is
-    *         not an empty string (""), the returned path string contains extension
-    *         appended to the end of path.
-    */
-    static std::string ChangeExtension(const std::string& path, const std::string& extension);
+    static std::string PlatformPath(const std::string& path);
 
    /**
     * Combines an array of strings into a path.The path cannot contain any of the characters
@@ -124,24 +107,8 @@ public:
     */
     static std::string Combine(const std::string& path1, const std::string& path2, const std::string& path3, const std::string& path4);
 
-   /**
-    * Returns the directory information for the specified path string.
-    * @param path
-    *         The path of a file or directory.
-    * @return The string returned by this method consists of all characters
-    *         between the first and last DirectorySeparatorChar or AltDirectorySeparatorChar
-    *         character in the path. The first separator character is included, but the last
-    *         separator character is not included in the returned string.
-    */
-    static std::string GetDirectoryPath(const std::string& path);
-
-   /** 
-    * Returns the extension of the specified path string.
-    * @param path
-    *         The path string from which to get the extension.
-    * @return The extension of the specified path (including the period "."), or "".
-    */
-    static std::string GetExtension(const std::string& path);
+    // Returns the path in front of the filename
+    static std::string GetPath(const std::string& InPath);
 
    /** 
     * Returns the file name and extension of the specified path string.
@@ -153,14 +120,49 @@ public:
     */
     static std::string GetFileName(const std::string& path);
 
-   /** 
+   /**
     * Returns the file name of the specified path string without the extension.
     * @param path
     *         The path of the file.
-    * @return The string returned by Path::GetFileName(System.String), minus the last
+    * @return The string returned by Path::GetFileName(std::string), minus the last
     *         period (.) and all characters following it.
     */
-    static std::string GetFileNameWithoutExtension(const std::string& path);
+    static std::string GetBaseFilename(const std::string& path);
+
+   /**
+    * Determines whether a path includes a file name extension.
+    * @param path
+    *         The path to search for an extension.
+    * @return true if the characters that follow the last directory separator (\\ or /) or
+    *         volume separator (:) in the path include a period (.) followed by one or more
+    *         characters; otherwise, false.
+    */
+    static bool HasExtension(const std::string& path);
+
+   /**
+    * Returns the extension of the specified path string.
+    * @param path
+    *         The path string from which to get the extension.
+    * @return The extension of the specified path (including the period "."), or "".
+    */
+    static std::string GetExtension(const std::string& path);
+
+   /**
+    * Changes the extension of a path string.
+    * @param path
+    *         The path information to modify. The path cannot contain any of the characters
+    *         defined in Path::GetInvalidPathChars.
+    * @param extension
+    *         The new extension (with or without a leading period). Specify an empty string ("") to remove
+    *         an existing extension from path.
+    * @return The modified path information. if path is an empty string (""), the path information 
+    *         is returned unmodified. If extension is an empty string (""), the returned string 
+    *         contains the specified path with its extension removed. If path has no extension,
+    *         and extension is not an empty string (""), the returned path string contains extension
+    *         appended to the end of path. If path has extension and extension is not an empty 
+    *         string(""), changes the extension of the given path to extension.
+    */
+    static std::string ChangeExtension(const std::string& path, const std::string& extension);
 
    /** 
     * Returns the absolute path for the specified path string.
@@ -182,6 +184,8 @@ public:
     */
     static const char* GetInvalidPathChars();
 
+    static const char  GetDefaultPathSeparator();
+
    /** 
     * Gets the root directory information of the specified path.
     * @param path:
@@ -197,7 +201,7 @@ public:
     * @return
     *         The full path of the temporary file.
     */
-    static std::string GetTempFileName();
+    static std::string GetTempFile();
 
    /** 
     * Implement on platform.
@@ -212,16 +216,6 @@ public:
     static std::string GetApplicationPath();
 
    /** 
-    * Determines whether a path includes a file name extension.
-    * @param path
-    *         The path to search for an extension.
-    * @return true if the characters that follow the last directory separator (\\ or /) or
-    *         volume separator (:) in the path include a period (.) followed by one or more
-    *         characters; otherwise, false.
-    */
-    static bool HasExtension(const std::string& path);
-
-   /** 
     * Gets a value indicating whether the specified path string contains a root.
     * @param path
     *         The path to test.
@@ -229,7 +223,7 @@ public:
     */
     static bool IsPathRooted(std::string path);
 
-    static std::string GetRelativePath(const std::string& workPath, const std::string& fullPath);
+    static std::string GetRelativePath(const std::string& basePath, const std::string& fullPath);
     static std::string GetAbsolutePath(const std::string& path);
 
 #if PLATFORM_ANDROID

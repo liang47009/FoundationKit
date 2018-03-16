@@ -7,14 +7,18 @@ losemymind.libo@gmail.com
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #if (PLATFORM_WINDOWS)
 #include <Windows.h>
+#include <Shlobj.h>
 #include "FoundationKit/Platform/Directory.hpp"
+#include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 
 NS_FK_BEGIN
 bool Directory::Create(const std::string& path)
 {
-    if (Exists(path))
-        return true;
+    std::wstring DirPath = StringUtils::string2UTF8wstring(Path::PlatformPath(path));
+    int ReturnValue = SHCreateDirectoryEx(nullptr, DirPath.c_str(), nullptr);
+    return (ReturnValue == ERROR_SUCCESS || ReturnValue == ERROR_ALREADY_EXISTS);
+    /**
     std::wstring wpath = StringUtils::string2UTF8wstring(path);
     // Split the path
     size_t start = 0;
@@ -61,6 +65,7 @@ bool Directory::Create(const std::string& path)
         }
     }
     return true;
+    */
 }
 
 bool Directory::Remove(const std::string& path)

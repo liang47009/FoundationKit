@@ -86,6 +86,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::error_code ec;
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
+    auto value = Path::ChangeExtension("F:\\Software\\cudnn-8.0-windows10-x64-v6.0.zip", ".rar");
+    auto value1 = Path::ChangeExtension("F:\\Software\\cudnn-8.0-windows10-x64-v6.0.rar", "zip");
+    auto value2 = Path::ChangeExtension("F:\\Software\\cudnn-8.0-windows10-x64-v6", "zip");
 
     FKLog(">>> applicationDidFinishLaunching end.");
 	return true;
@@ -134,7 +137,7 @@ void RunGuetzli()
         {
             std::string RelativePath = Path::GetRelativePath(SrcPath, fileFullPath);
             std::string DesFullPath = DesPath + RelativePath;
-            std::string DesDir = Path::GetDirectoryPath(DesFullPath);
+            std::string DesDir = Path::GetPath(DesFullPath);
             Directory::Create(DesDir);
             std::string command = "cd E:\\GitHub\\FoundationKit\\Win32\\Release\\ && .\\guetzli.exe --cuda --quality 80 ";
             command += fileFullPath;

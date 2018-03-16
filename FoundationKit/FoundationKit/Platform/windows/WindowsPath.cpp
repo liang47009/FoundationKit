@@ -55,7 +55,7 @@ std::string Path::GetDocumentsPath()
     {
         WCHAR app_data_path[MAX_PATH + 1];
         // Get local app data directory, e.g. C:\Documents and Settings\username\Local Settings\Application Data
-        if (SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_COMMON_DOCUMENTS, nullptr, SHGFP_TYPE_CURRENT, app_data_path)))
+        if (SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_PERSONAL /*CSIDL_COMMON_DOCUMENTS*/, nullptr, SHGFP_TYPE_CURRENT, app_data_path)))
         {
             std::wstring ret(app_data_path);
             // Adding executable filename, e.g. C:\Documents and Settings\username\Local Settings\Application Data\MyGame.exe

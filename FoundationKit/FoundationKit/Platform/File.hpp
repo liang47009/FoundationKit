@@ -35,6 +35,8 @@ public:
     static FILE* Open(const std::string& path, const char* mode="r");
     static FILE* Open(const std::string& path, FileMode mode/* = FileMode::ReadOnly*/);
     static int Open(const std::string& path, int mode/* = O_RDONLY | O_BINARY*/);
+    static bool Close(FILE* file);
+    static bool Close(int file);
 #if PLATFORM_ANDROID
     // OpenAsset returned file handle only support fread fseek and fclose.
     static FILE* OpenAsset(const std::string& path);
@@ -98,13 +100,6 @@ public:
     static DateTime GetLastAccessTimeUtc(const std::string& path);
     static DateTime GetLastWriteTime(const std::string& path);
     static DateTime GetLastWriteTimeUtc(const std::string& path);
-
-    //static void SetCreationTime(const std::string& path, DateTime creationTime);
-    //static void SetCreationTimeUtc(const std::string& path, DateTime creationTimeUtc);
-    //static void SetLastAccessTime(const std::string& path, DateTime lastAccessTime);
-    //static void SetLastAccessTimeUtc(const std::string& path, DateTime lastAccessTimeUtc);
-    //static void SetLastWriteTime(const std::string& path, DateTime lastWriteTime);
-    //static void SetLastWriteTimeUtc(const std::string& path, DateTime lastWriteTimeUtc);
     static std::string ErrnoToString(int error, const std::string& operation);
 };
 

@@ -10,6 +10,7 @@
 #include "FoundationKit/Base/lexical_cast.hpp"
 #include "FoundationKit/Foundation/TimeZone.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
+#include "FoundationKit/Math/Math.hpp"
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/Directory.hpp"
@@ -145,6 +146,20 @@ int File::Open(const std::string& path, int mode)
 #endif
 }
 
+bool File::Close(FILE* file)
+{
+    return (fclose(file) == 0);
+}
+
+bool File::Close(int file)
+{
+#if PLATFORM_WINDOWS
+    return (_close(file) == 0);
+#else
+    return (close(file) == 0);
+#endif
+}
+
 #if PLATFORM_ANDROID
 extern FILE* AndroidOpenAsset(const char * path);
 FILE* File::OpenAsset(const std::string& path)
@@ -257,60 +272,62 @@ bool File::WriteAllText(const std::string& path, const std::string& contents)
 
 bool File::Copy(const std::string& sourceFileName, const std::string& destFileName, bool overwrite /*= false*/)
 {
-    bool ret = false;
-    do
+    const int64 MaxBufferSize = 1024 * 1024;
+
+    if (!overwrite && IsExists(destFileName))
     {
-        if (sourceFileName == destFileName)
+        FKLog("Target file is exist.");
+        return false;
+    }
+
+    std::string dirPath = Path::GetPath(destFileName);
+    Directory::Create(dirPath);
+
+    FILE* FromFile = File::Open(sourceFileName, "rb");
+    if (!FromFile)
+    {
+        return false;
+    }
+    FILE* ToFile = File::Open(destFileName, "wb");
+    if (!ToFile)
+    {
+        return false;
+    }
+    int64 Size = File::GetSize(sourceFileName);
+    if (Size < 1)
+    {
+        ASSERT_IF(Size != 0,"Get file size error.");
+        return true;
+    }
+    size_t AllocSize = static_cast<size_t>(Math::Min<int64>(MaxBufferSize, Size));
+    uint8* Buffer = new uint8[AllocSize];
+    ASSERT_IF(Buffer == nullptr, "Out of memory.");
+    bool OperationSucceeded = false;
+    while (Size > 0)
+    {
+        size_t NumRead = fread(Buffer, sizeof(char), AllocSize, FromFile);
+        if (NumRead == 0)
         {
-            FKLog("Can not copy self.");
+            if (feof(FromFile) == 0) // read file error.
+            {
+                OperationSucceeded = false;
+                FKLog("fread file error:%d", errno);
+            }
             break;
         }
-
-        if (!overwrite && IsExists(destFileName))
+        size_t NumWrite = fwrite(Buffer, sizeof(char), NumRead, ToFile);
+        if (NumWrite == 0 || NumWrite != NumRead)
         {
-            FKLog("Target file is exist.");
+            OperationSucceeded = false;
+            FKLog("fwrite file error:%d", errno);
             break;
         }
-
-        std::string dirPath = Path::GetDirectoryPath(destFileName);
-        Directory::Create(dirPath);
-        int64 srcFileSize = GetSize(sourceFileName);
-        BREAK_IF(srcFileSize == -1);
-        FILE *fpSrc = Open(sourceFileName, "rb");
-        BREAK_IF(!fpSrc);
-        FILE *fpDes = Open(destFileName, "wb");
-        BREAK_IF(!fpDes);
-        const size_t BUFF_SIZE = 1024*1024*10; //10M
-        char* read_buff = new char[BUFF_SIZE];
-        size_t TotalReadSize = 0;
-        size_t FileOriginalSize = static_cast<size_t>(srcFileSize);
-        ret = true;
-        while (TotalReadSize < FileOriginalSize)
-        {
-            size_t NumRead = fread(read_buff, sizeof(char), BUFF_SIZE, fpSrc);
-            if (NumRead == 0) 
-            {
-                if (feof(fpSrc) == 0) // read file error.
-                {
-                    ret = false;
-                    FKLog("fread file error:%d", errno);
-                }
-                break;
-            }
-            size_t NumWrite = fwrite(read_buff, sizeof(char), NumRead, fpDes);
-            if (NumWrite == 0 || NumWrite != NumRead)
-            {
-                ret = false;
-                FKLog("fwrite file error:%d", errno);
-            }
-            fflush(fpDes);
-            TotalReadSize += NumRead;
-        }
-        delete[] read_buff;
-        fclose(fpSrc);
-        fclose(fpDes);
-    } while (false);
-    return ret;
+        Size -= NumRead;
+    }
+    delete[] Buffer;
+    File::Close(FromFile);
+    File::Close(ToFile);
+    return OperationSucceeded;
 }
 
 int64 File::GetSize(const std::string& path)

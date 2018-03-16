@@ -42,7 +42,7 @@ const char Path::VolumeSeparatorChar = ':';
 std::string Path::DocumentsPath = "";
 std::string Path::TemporaryPath = "";
 
-std::string Path::NormalizeFilePath(const std::string& path)
+std::string Path::NormalizePath(const std::string& path)
 {
     std::string ret = path;
     size_t len = ret.length();
@@ -56,7 +56,8 @@ std::string Path::NormalizeFilePath(const std::string& path)
     return ret;
 }
 
-std::string Path::NativeFilePath(const std::string& path)
+
+std::string Path::PlatformPath(const std::string& path)
 {
     std::string ret = path;
     size_t len = ret.length();
@@ -68,33 +69,6 @@ std::string Path::NativeFilePath(const std::string& path)
         }
     }
     return ret;
-}
-
-std::string Path::ChangeExtension(const std::string& path, const std::string& extension)
-{
-    std::string resultPath = path;
-    if (!resultPath.empty())
-    {
-        for (int i = static_cast<int>(path.size()); --i >= 0;)
-        {
-            char ch = path[i];
-            if (ch == '.') 
-            {
-                resultPath = path.substr(0, i);
-                break;
-            }
-            if (ch == DirectorySeparatorChar || ch == AltDirectorySeparatorChar || ch == VolumeSeparatorChar) break;
-        }
-        if (!extension.empty() && path.size() != 0) 
-        {
-            if (extension[0] != '.')
-            {
-                resultPath += ".";
-            }
-            resultPath += extension;
-        }
-    }
-    return resultPath;
 }
 
 std::string Path::Combine(const std::vector<std::string>& paths)
@@ -146,24 +120,13 @@ std::string Path::Combine(const std::string& path1, const std::string& path2, co
     return result;
 }
 
-std::string Path::GetDirectoryPath(const std::string& path)
+std::string Path::GetPath(const std::string& InPath)
 {
-    std::string result = GetFileName(path);
-    result = path.substr(0, path.size() - result.size());
+    std::string result = GetFileName(InPath);
+    result = InPath.substr(0, InPath.size() - result.size());
     return result;
 }
 
-std::string Path::GetExtension(const std::string& path)
-{
-    std::string fileExtension;
-    size_t pos = path.find_last_of('.');
-    if (pos != std::string::npos)
-    {
-        fileExtension = path.substr(pos, path.size());
-        std::transform(fileExtension.begin(), fileExtension.end(), fileExtension.begin(), [](unsigned char c) { return static_cast<unsigned char>(std::tolower(c)); });
-    }
-    return fileExtension;
-}
 
 std::string Path::GetFileName(const std::string& path)
 {
@@ -180,9 +143,9 @@ std::string Path::GetFileName(const std::string& path)
     return path;
 }
 
-std::string Path::GetFileNameWithoutExtension(const std::string& path)
+std::string Path::GetBaseFilename(const std::string& InPath)
 {
-    std::string result = GetFileName(path);
+    std::string result = GetFileName(InPath);
     if (!result.empty())
     {
         size_t i;
@@ -190,6 +153,60 @@ std::string Path::GetFileNameWithoutExtension(const std::string& path)
             result = result.substr(0, i);
     }
     return result;
+}
+
+bool Path::HasExtension(const std::string& path)
+{
+    if (!path.empty()) {
+        for (int i = static_cast<int>(path.size()); --i >= 0;)
+        {
+            char ch = path[i];
+            if (ch == '.')
+            {
+                if (i != static_cast<int>(path.size()) - 1)
+                    return true;
+                else
+                    return false;
+            }
+            if (ch == DirectorySeparatorChar || ch == AltDirectorySeparatorChar || ch == VolumeSeparatorChar) break;
+        }
+    }
+    return false;
+}
+
+std::string Path::GetExtension(const std::string& path)
+{
+    std::string fileExtension;
+    size_t pos = path.find_last_of('.');
+    if (pos != std::string::npos)
+    {
+        fileExtension = path.substr(pos, path.size());
+        std::transform(fileExtension.begin(), fileExtension.end(), fileExtension.begin(), [](unsigned char c) { return static_cast<unsigned char>(std::tolower(c)); });
+    }
+    return fileExtension;
+}
+
+std::string Path::ChangeExtension(const std::string& path, const std::string& extension)
+{
+    std::string resultPath = path;
+    if (!resultPath.empty())
+    {
+        size_t DotPos = resultPath.find_last_of('.');
+        if (DotPos != std::string::npos)
+        {
+            resultPath = resultPath.substr(0, DotPos);
+        }
+
+        if (!extension.empty())
+        {
+            if (extension[0] != '.')
+            {
+                resultPath += ".";
+            }
+            resultPath += extension;
+        }
+    }
+    return resultPath;
 }
 
 const char* Path::GetInvalidFileNameChars()
@@ -202,7 +219,12 @@ const char* Path::GetInvalidPathChars()
     return InvalidPathChars;
 }
 
-std::string Path::GetTempFileName()
+const char Path::GetDefaultPathSeparator()
+{
+    return DirectorySeparatorChar;
+}
+
+std::string Path::GetTempFile()
 {
     std::string result = GetTempPath();
     auto timepoint = std::chrono::high_resolution_clock::now();
@@ -211,24 +233,6 @@ std::string Path::GetTempFileName()
     return result;
 }
 
-bool Path::HasExtension(const std::string& path)
-{
-    if (!path.empty()) {
-        for (int i = static_cast<int>(path.size()); --i >= 0;)
-        {
-            char ch = path[i];
-            if (ch == '.') 
-            {
-                if (i != static_cast<int>(path.size()) - 1)
-                    return true;
-                else
-                    return false;
-            }
-            if (ch == DirectorySeparatorChar || ch == AltDirectorySeparatorChar || ch == VolumeSeparatorChar) break;
-        }
-    }
-    return false;
-}
 
 bool Path::IsPathRooted(std::string path)
 {
@@ -242,17 +246,17 @@ bool Path::IsPathRooted(std::string path)
 }
 
 
-std::string Path::GetRelativePath(const std::string& workPath, const std::string& fullPath)
+std::string Path::GetRelativePath(const std::string& basePath, const std::string& fullPath)
 {
-    std::string finalWorkPath = NormalizeFilePath(workPath);
-    std::string finalFullPath = NormalizeFilePath(fullPath);
-    std::vector<std::string> workPathDirectories = StringUtils::Split(finalWorkPath, "/");
+    std::string finalBasePath = NormalizePath(basePath);
+    std::string finalFullPath = NormalizePath(fullPath);
+    std::vector<std::string> basePathDirectories = StringUtils::Split(finalBasePath, "/");
     std::vector<std::string> fullPathDirectories = StringUtils::Split(finalFullPath, "/");
-    size_t dirCount = workPathDirectories.size() < fullPathDirectories.size() ? workPathDirectories.size() : fullPathDirectories.size();
+    size_t dirCount = basePathDirectories.size() < fullPathDirectories.size() ? basePathDirectories.size() : fullPathDirectories.size();
     size_t lastCommonDirIndex = 0;
     for (size_t index = 0; index < dirCount; ++index)
     {
-        if (workPathDirectories[index] == fullPathDirectories[index])
+        if (basePathDirectories[index] == fullPathDirectories[index])
             lastCommonDirIndex = index;
         else
             break;
@@ -262,7 +266,7 @@ std::string Path::GetRelativePath(const std::string& workPath, const std::string
         return fullPath;
 
     std::string RelativePath;
-    for (size_t index = lastCommonDirIndex + 1; index < workPathDirectories.size(); ++index)
+    for (size_t index = lastCommonDirIndex + 1; index < basePathDirectories.size(); ++index)
         RelativePath += "../";
 
     for (size_t index = lastCommonDirIndex + 1; index < fullPathDirectories.size()-1; ++index)
@@ -274,9 +278,9 @@ std::string Path::GetRelativePath(const std::string& workPath, const std::string
 
 std::string Path::GetAbsolutePath(const std::string& path)
 {
-    std::string normalizePath = NormalizeFilePath(path);
+    std::string normalizePath = NormalizePath(path);
     std::string fileName = GetFileName(normalizePath);
-    std::string finalPath = GetDirectoryPath(normalizePath);
+    std::string finalPath = GetPath(normalizePath);
     std::vector<std::string> pathNodes = StringUtils::Split(finalPath, "/");
     std::vector<std::string> absolutePaths;
     for (auto& pathNode : pathNodes)
