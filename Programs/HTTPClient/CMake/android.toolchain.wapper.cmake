@@ -13,12 +13,14 @@ if(${ANDROID_NDK} STREQUAL " ")
 endif()
 
 #检查NDK中是否有 android.toolchain.cmake 该文件从NDK-R13开始支持。
-if(EXISTS ${ANDROID_NDK}/build/cmake/android.toolchain.cmake)
-	set(ANDROID_TOOLCHAIN_FILE ${ANDROID_NDK}/build/cmake/android.toolchain.cmake)
-else()
-    message(FATAL_ERROR "${ANDROID_NDK}/build/cmake/android.toolchain.cmake no such file.")
-    return()
-endif()
+#if(EXISTS ${ANDROID_NDK}/build/cmake/android.toolchain.cmake)
+#	set(ANDROID_TOOLCHAIN_FILE ${ANDROID_NDK}/build/cmake/android.toolchain.cmake)
+#else()
+#    message(FATAL_ERROR "${ANDROID_NDK}/build/cmake/android.toolchain.cmake no such file.")
+#    return()
+#endif()
+
+set(ANDROID_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/CMake/ToolChains/android.toolchain.cmake)
 
 #获取各个平台下NDK make.exe的路径
 if(WIN32)
