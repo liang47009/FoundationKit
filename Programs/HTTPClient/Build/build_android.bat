@@ -3,6 +3,11 @@ REM
 REM
 %~d0
 cd %~dp0
+cd ../
+mkdir projects
+cd projects
+mkdir proj.android
+cd proj.android
 
 mkdir objs
 cd objs

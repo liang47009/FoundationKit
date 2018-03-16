@@ -13,7 +13,6 @@
 #include "FoundationKit/forward.hpp"
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/LanguageFeatures.hpp"
 
 #include "FoundationKit/Crypto/aes.hpp"
 #include "FoundationKit/Crypto/Base64.hpp"
@@ -59,7 +58,6 @@
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/PlatformMemory.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
-#include "HTTPClient/HTTPClient.hpp"
 
 //#include "rapidjson/"
 
