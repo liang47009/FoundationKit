@@ -34,9 +34,9 @@ class File
 public:
     static FILE* Open(const std::string& path, const char* mode="r");
     static FILE* Open(const std::string& path, FileMode mode/* = FileMode::ReadOnly*/);
-    static int Open(const std::string& path, int mode/* = O_RDONLY | O_BINARY*/);
-    static bool Close(FILE* file);
-    static bool Close(int file);
+    static int   Open(const std::string& path, int mode/* = O_RDONLY | O_BINARY*/);
+    static bool  Close(FILE* file);
+    static bool  Close(int file);
 #if PLATFORM_ANDROID
     // OpenAsset returned file handle only support fread fseek and fclose.
     static FILE* OpenAsset(const std::string& path);
