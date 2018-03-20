@@ -70,21 +70,21 @@ public:
     }
 
     /// Construct a buffer to represent a given memory range.
-    basic_mutablebuf(uint8* data, std::size_t size, bool need_del = false)
+    basic_mutablebuf(uint8* inData, std::size_t length, bool need_del = false)
     {
-        assign(data, size, need_del);
+        assign(inData, length, need_del);
     }
 
     /// Construct a buffer to represent a given memory range.
-    basic_mutablebuf(char* data, std::size_t size, bool need_del = false)
+    basic_mutablebuf(char* inData, std::size_t length, bool need_del = false)
     {
-        assign(reinterpret_cast<uint8*>(data), size, need_del);
+        assign(reinterpret_cast<uint8*>(inData), length, need_del);
     }
 
     /// Construct a buffer to represent a given memory range.
-    basic_mutablebuf(void* data, std::size_t size, bool need_del = false)
+    basic_mutablebuf(void* inData, std::size_t length, bool need_del = false)
     {
-        assign(reinterpret_cast<uint8*>(data), size, need_del);
+        assign(reinterpret_cast<uint8*>(inData), length, need_del);
     }
 
     /// Assignment operator
@@ -135,17 +135,17 @@ public:
     }
 
 
-    void assign(uint8* data, std::size_t size, bool need_del = false)
+    void assign(uint8* inData, std::size_t length, bool need_del = false)
     {
         if (need_del)
         {
-            memory_holder = _Ptr(data);
+            memory_holder = _Ptr(inData);
         }
         else
         {
-            memory_holder = _Ptr(data, [&](_Ty* /*ptr*/) {/*do nothing...*/});
+            memory_holder = _Ptr(inData, [&](_Ty* /*ptr*/) {/*do nothing...*/});
         }
-        memory_length = size;
+        memory_length = length;
     }
 
     ~basic_mutablebuf()
@@ -224,23 +224,23 @@ public:
     }
 
     /// Construct a buffer to represent a given memory range.
-    constbuf(const uint8* data, std::size_t size)
-        : _data(data)
-        , _size(size)
+    constbuf(const uint8* inData, std::size_t length)
+        : _data(inData)
+        , _size(length)
     {
     }
 
     /// Construct a buffer to represent a given memory range.
-    constbuf(const char* data, std::size_t size)
-        : _data(data)
-        , _size(size)
+    constbuf(const char* inData, std::size_t length)
+        : _data(inData)
+        , _size(length)
     {
     }
 
     /// Construct a buffer to represent a given memory range.
-    constbuf(const void* data, std::size_t size)
-        : _data(data)
-        , _size(size)
+    constbuf(const void* inData, std::size_t length)
+        : _data(inData)
+        , _size(length)
     {
     }
 
@@ -285,11 +285,11 @@ public:
         return reinterpret_cast<const uint8*>(_data);
     }
 
-    void assign(void* data, std::size_t size)
+    void assign(void* inData, std::size_t length)
     {
         clear();
-        _data = data;
-        _size = size;
+        _data = inData;
+        _size = length;
     }
 
     void clear()

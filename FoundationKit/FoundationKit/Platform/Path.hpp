@@ -184,7 +184,7 @@ public:
     */
     static const char* GetInvalidPathChars();
 
-    static const char  GetDefaultPathSeparator();
+    static char  GetDefaultPathSeparator();
 
    /** 
     * Gets the root directory information of the specified path.

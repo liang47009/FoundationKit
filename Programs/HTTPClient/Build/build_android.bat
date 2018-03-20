@@ -22,7 +22,7 @@ cmake -G "Unix Makefiles" ^
 -DCMAKE_BUILD_TYPE=Release ^
 -DANDROID_ABI="armeabi" ^
 ../../../../
-cmake --build . --target install 
+cmake --build . --target install -- -j8
 
 
 cd ..\..\objs\armeabi-v7a
@@ -31,7 +31,7 @@ cmake -G "Unix Makefiles" ^
 -DCMAKE_BUILD_TYPE=Release ^
 -DANDROID_ABI="armeabi-v7a" ^
 ../../../../
-cmake --build . --target install 
+cmake --build . --target install -- -j8
 
 cd ..\..\objs\x86
 cmake -G "Unix Makefiles" ^
@@ -39,6 +39,6 @@ cmake -G "Unix Makefiles" ^
 -DCMAKE_BUILD_TYPE=Release ^
 -DANDROID_ABI="x86" ^
 ../../../../
-cmake --build . --target install 
+cmake --build . --target install -- -j8
 
 pause

@@ -219,7 +219,7 @@ const char* Path::GetInvalidPathChars()
     return InvalidPathChars;
 }
 
-const char Path::GetDefaultPathSeparator()
+char Path::GetDefaultPathSeparator()
 {
     return DirectorySeparatorChar;
 }

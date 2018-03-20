@@ -6,9 +6,18 @@ cd %~dp0
 cd ../
 mkdir projects
 cd projects
-mkdir proj.win32
-cd proj.win32
-cmake -G "Visual Studio 14 2015" ../../
-cmake --build . --target INSTALL --config Debug
-cmake --build . --target INSTALL --config Release
+mkdir proj.nmake
+cd proj.nmake
+
+mkdir Debug
+mkdir Release
+
+cd Debug
+cmake -G "NMake Makefiles"  -DCMAKE_BUILD_TYPE=Debug ../../../
+:nmake
+
+cd ../Release
+cmake -G "NMake Makefiles"  -DCMAKE_BUILD_TYPE=Debug ../../../
+:nmake
+
 pause
