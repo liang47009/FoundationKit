@@ -13,11 +13,11 @@
 #   The STLport runtime (shared).	C++ Exceptions and RTTI; Standard Library
 #APP_STL :=stlport_shared
 #	The GNU STL (static).	C++ Exceptions and RTTI; Standard Library
-#APP_STL :=gnustl_static
+APP_STL :=gnustl_static
 #   The GNU STL (shared).	C++ Exceptions and RTTI; Standard Library
 #APP_STL :=gnustl_shared
 #   The LLVM libc++ runtime (static).	C++ Exceptions and RTTI; Standard Library
-APP_STL :=c++_static
+#APP_STL :=c++_static
 #   The LLVM libc++ runtime (shared).	C++ Exceptions and RTTI; Standard Library
 #APP_STL :=c++_shared
 
@@ -27,8 +27,8 @@ APP_STL :=c++_static
 APP_ABI := armeabi armeabi-v7a x86
 #APP_ABI := armeabi-v7a x86
 
-#NDK_TOOLCHAIN_VERSION := 4.9
-NDK_TOOLCHAIN_VERSION := clang
+NDK_TOOLCHAIN_VERSION := 4.9
+#NDK_TOOLCHAIN_VERSION := clang
 
 APP_PLATFORM=android-15
 
