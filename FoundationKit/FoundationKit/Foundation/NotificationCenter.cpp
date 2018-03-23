@@ -94,8 +94,13 @@ void NotificationCenter::AddObserver(const std::string& name, FunctionHandlerPoi
     NotificationObserver::Pointer observer;
     do 
     {
-        BREAK_IF(this->ObserverExisted(name,target));
-        observer = NotificationObserver::Create(name, selector, target, callOnce);
+        void* InternalTarget = target;
+        if (InternalTarget == nullptr)
+        {
+            InternalTarget = selector.get();
+        }
+        BREAK_IF(this->ObserverExisted(name, InternalTarget));
+        observer = NotificationObserver::Create(name, selector, InternalTarget, callOnce);
         BREAK_IF(!observer);
         _observers.push_back(observer);
     } while (false);
@@ -120,13 +125,6 @@ void NotificationCenter::RemoveObserver(const std::string& name)
         }
     }
 }
-
-void NotificationCenter::RemoveObserver(const char* name)
-{
-    std::string strName = name;
-    RemoveObserver(strName);
-}
-
 
 void NotificationCenter::RemoveObserver(void* target)
 {

@@ -62,7 +62,6 @@ public:
         LONGLONG,
         FLOAT,
         DOUBLE,
-        PCHAR,
         STRING,
         OTHER,
     };
@@ -152,8 +151,7 @@ private:
         int64              _longlongVal;
         float              _floatVal;
         double             _doubleVal;
-        char*              _pcharVal;
-        char*              _stringVal; //std::string
+        char*              _stringVal; // char*/std::string
         void*              _otherData;
     }_field;
 

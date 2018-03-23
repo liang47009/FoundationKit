@@ -57,9 +57,8 @@ class NotificationCenter
 public:
     ~NotificationCenter();
     void AddObserver(const std::string& name, FunctionHandlerPointer selector, void* target = nullptr, bool callOnce = false);
-    void RemoveObserver( const std::string& name);
-    void RemoveObserver( const char* name);
-    void RemoveObserver( void* target);
+    void RemoveObserver(const std::string& name);
+    void RemoveObserver(void* target);
     void RemoveObserver(const std::string& name, void* target);
     void Invoke(const std::string& name, const ArgumentList& args);
     static NotificationCenter DefaultCenter;

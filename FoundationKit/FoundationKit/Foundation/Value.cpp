@@ -109,12 +109,12 @@ Value::Value(double data)
 }
 
 Value::Value(const char* data)
-    : Value(EType::PCHAR)
+    : Value(EType::STRING)
 {
     size_t len = strlen(data);
-    _field._pcharVal = new char[len + 1];
-    memcpy(_field._pcharVal, data, len);
-    _field._pcharVal[len] = '\0';
+    _field._stringVal = new char[len + 1];
+    memcpy(_field._stringVal, data, len);
+    _field._stringVal[len] = '\0';
 }
 
 Value::Value(const std::string& data)
@@ -216,11 +216,11 @@ Value& Value::operator=(double data)
 
 Value& Value::operator=(const char* data)
 {
-    Reset(EType::PCHAR);
+    Reset(EType::STRING);
     size_t len = strlen(data);
-    _field._pcharVal = new char[len + 1];
-    memcpy(_field._pcharVal, data, len);
-    _field._pcharVal[len] = '\0';
+    _field._stringVal = new char[len + 1];
+    memcpy(_field._stringVal, data, len);
+    _field._stringVal[len] = '\0';
     return *this;
 }
 
@@ -269,7 +269,6 @@ bool Value::operator== (const Value& other) const
     case Value::EType::LONGLONG: return _field._longlongVal == other._field._longlongVal;
     case Value::EType::FLOAT: return _field._floatVal == other._field._floatVal;
     case Value::EType::DOUBLE: return _field._doubleVal == other._field._doubleVal;
-    case Value::EType::PCHAR: return strcmp(_field._pcharVal, other._field._pcharVal) == 0;
     case Value::EType::STRING: return strcmp(_field._stringVal, other._field._stringVal) == 0;
     case Value::EType::OTHER: return (_field._otherData == other._field._otherData);
     default:
@@ -319,16 +318,6 @@ void Value::Copy(Value& other)
     case Value::EType::DOUBLE:
         _field._doubleVal = other.As<double>();
         break;
-    case Value::EType::PCHAR:
-        {
-            SAFE_DELETE(_field._pcharVal);
-            char* val = other.As<char*>();
-            size_t len = strlen(val);
-            _field._pcharVal = new char[len + 1];
-            memcpy(_field._pcharVal, val, len);
-            _field._pcharVal[len] = '\0';
-        }
-        break;
     case Value::EType::STRING:
         {
             SAFE_DELETE(_field._stringVal);
@@ -367,9 +356,6 @@ void Value::Clear()
     
     switch (_type)
     {
-    case Value::EType::PCHAR:
-        SAFE_DELETE_ARRAY(_field._pcharVal);
-        break;
     case Value::EType::STRING:
         SAFE_DELETE_ARRAY(_field._stringVal);
         break;
@@ -419,9 +405,6 @@ std::string FoundationKit::Value::ToString()
     case Value::EType::DOUBLE:
         result = StringUtils::Format("%f", _field._doubleVal);
         break;
-    case Value::EType::PCHAR:
-        result = _field._pcharVal;
-        break;
     case Value::EType::STRING:
         result = _field._stringVal;
         break;
@@ -438,11 +421,7 @@ void Value::Reset(EType valType)
 {
     if (_type == valType)
         return;
-    if (_type == EType::PCHAR)
-    {
-        SAFE_DELETE_ARRAY(_field._pcharVal);
-    }
-    else if (_type == EType::STRING)
+    if (_type == EType::STRING)
     {
         SAFE_DELETE_ARRAY(_field._stringVal);
     }

@@ -182,10 +182,10 @@ extern void __log__(const char* fmt, ...);
     #define FKDebug(fmt, ...)
 #endif
 
-
 // IOS,ANDROID,MAC platform must be defined USE_FILE32API
 //#ifndef USE_FILE32API
 //#define USE_FILE32API 1
 //#endif
 
 #endif // END OF FOUNDATIONKIT_GENERICPLATFORMMACROS_HPP
+

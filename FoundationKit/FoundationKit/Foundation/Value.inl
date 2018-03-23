@@ -121,23 +121,23 @@ inline double Value::As<double>()
 template<>
 inline char* Value::As<char*>()
 {
-    assert(_type == EType::PCHAR || _type == EType::STRING);
-    if (_type == EType::PCHAR)
-        return _field._pcharVal;
-    else
-        return _field._stringVal;
+    assert(_type == EType::STRING);
+    return _field._stringVal;
+}
+
+template<>
+inline const char* Value::As<const char*>()
+{
+    assert(_type == EType::STRING);
+    return _field._stringVal;
 }
 
 template<>
 inline std::string Value::As<std::string>()
 {
-    assert(_type == EType::STRING || _type == EType::PCHAR);
-    if (_type == EType::PCHAR)
-        return _field._pcharVal;
-    else
-        return _field._stringVal;
+    assert( _type == EType::STRING);
+    return _field._stringVal;
 }
-
 
 NS_FK_END
 
