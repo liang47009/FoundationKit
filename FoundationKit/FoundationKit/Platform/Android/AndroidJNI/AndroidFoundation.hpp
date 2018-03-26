@@ -568,10 +568,8 @@ struct JNIToCPP < jbooleanArray >
         {
             jboolean* elems = env->GetBooleanArrayElements(jniArray, NULL);
             jint length = env->GetArrayLength(jniArray);
-            for (int i = 0; i < length; i++)
-            {
-                result.push_back(elems[i]);
-            }
+            result.resize(length);
+            memcpy(result.data(), elems, sizeof(jboolean)*length);
             env->ReleaseBooleanArrayElements(jniArray, elems, 0);
         }
         return result;
@@ -591,10 +589,8 @@ struct JNIToCPP <jbyteArray>
         {
             jbyte* elems = env->GetByteArrayElements(jniArray, NULL);
             jint length = env->GetArrayLength(jniArray);
-            for (int i = 0; i < length; i++)
-            {
-                result.push_back(elems[i]);
-            }
+            result.resize(length);
+            memcpy(result.data(), elems, sizeof(jbyte)*length);
             env->ReleaseByteArrayElements(jniArray, elems, 0);
         }
         return result;
@@ -614,10 +610,8 @@ struct JNIToCPP < jcharArray >
         {
             jchar* elems = env->GetCharArrayElements(jniArray, NULL);
             jint length = env->GetArrayLength(jniArray);
-            for (int i = 0; i < length; i++)
-            {
-                result.push_back(elems[i]);
-            }
+            result.resize(length);
+            memcpy(result.data(), elems, sizeof(jchar)*length);
             env->ReleaseCharArrayElements(jniArray, elems, 0);
         }
         return result;
@@ -637,10 +631,8 @@ struct JNIToCPP < jshortArray >
         {
             jshort* elems = env->GetShortArrayElements(jniArray, NULL);
             jint length = env->GetArrayLength(jniArray);
-            for (int i = 0; i < length; i++)
-            {
-                result.push_back(elems[i]);
-            }
+            result.resize(length);
+            memcpy(result.data(), elems, sizeof(jshort)*length);
             env->ReleaseShortArrayElements(jniArray, elems, 0);
         }
         return result;
@@ -660,10 +652,8 @@ struct JNIToCPP < jintArray >
         {
             jint* elems = env->GetIntArrayElements(jniArray, NULL);
             jint length = env->GetArrayLength(jniArray);
-            for (int i = 0; i < length; i++)
-            {
-                result.push_back(elems[i]);
-            }
+            result.resize(length);
+            memcpy(result.data(), elems, sizeof(jint)*length);
             env->ReleaseIntArrayElements(jniArray, elems, 0);
         }
         return result;
@@ -683,10 +673,8 @@ struct JNIToCPP < jlongArray >
         {
             jlong* elems = env->GetLongArrayElements(jniArray, NULL);
             jint length = env->GetArrayLength(jniArray);
-            for (int i = 0; i < length; i++)
-            {
-                result.push_back(elems[i]);
-            }
+            result.resize(length);
+            memcpy(result.data(), elems, sizeof(jlong)*length);
             env->ReleaseLongArrayElements(jniArray, elems, 0);
         }
         return result;
@@ -706,10 +694,8 @@ struct JNIToCPP < jfloatArray >
         {
             jfloat* elems = env->GetFloatArrayElements(jniArray, NULL);
             jint length = env->GetArrayLength(jniArray);
-            for (int i = 0; i < length; i++)
-            {
-                result.push_back(elems[i]);
-            }
+            result.resize(length);
+            memcpy(result.data(), elems, sizeof(jfloat)*length);
             env->ReleaseFloatArrayElements(jniArray, elems, 0);
         }
         return result;
@@ -729,10 +715,8 @@ struct JNIToCPP < jdoubleArray >
         {
             jdouble* elems = env->GetDoubleArrayElements(jniArray, NULL);
             jint length = env->GetArrayLength(jniArray);
-            for (int i = 0; i < length; i++)
-            {
-                result.push_back(elems[i]);
-            }
+            result.resize(length);
+            memcpy(result.data(), elems, sizeof(jdouble)*length);
             env->ReleaseDoubleArrayElements(jniArray, elems, 0);
         }
         return result;
