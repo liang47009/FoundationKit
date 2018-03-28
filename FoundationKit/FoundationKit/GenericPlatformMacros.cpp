@@ -1,5 +1,3 @@
-
-
 #include <cstdarg>
 #include <cstdio>
 #include <cassert>
@@ -16,17 +14,17 @@ USING_NS_FK;
 
 void __fail__(const char* expr, const char* file, int line)
 {
-# if defined(EMSCRIPTEN) && EMSCRIPTEN
+# if(EMSCRIPTEN)
     __assert_fail(expr, file, line, "");
-# elif defined __native_client__
+# elif defined(__native_client__)
     __assert(expr, line, file); // WHY.
-# elif defined __ANDROID__
+# elif defined(__ANDROID__)
     __assert(file, line, expr);
-# elif defined __clang__ || defined __GNU_LIBRARY__ || (defined __GNUC__ && defined __APPLE__)
+# elif defined(__clang__) || defined(__GNU_LIBRARY__) || (defined(__GNUC__) && defined(__APPLE__))
     __assert(expr, file, line);
-# elif defined __GNUC__
+# elif defined(__GNUC__)
     _assert(expr, file, line);
-# elif defined _MSC_VER
+# elif defined(_MSC_VER)
     #if DEBUG_MODE
     _CrtDbgReport(_CRT_ASSERT, file, line, file, expr);
     #else
@@ -46,7 +44,6 @@ void __log__(const char* fmt, ...)
     std::vector<char> dynamicBuffer;
     char* result = nullptr;
     int BufferSize = DEFAULT_LOG_LENGTH;
-    int needed = 0;
     int loopCount = 0;
     va_list arglist;
     do
@@ -63,7 +60,7 @@ void __log__(const char* fmt, ...)
         */
         va_start(arglist, fmt);
         // Pass one greater needed size to leave room for NULL terminator
-        needed = vsnprintf(result, BufferSize + 1, fmt, arglist);
+        int needed = vsnprintf(result, BufferSize + 1, fmt, arglist);
         va_end(arglist);
         if (needed >= 0 && needed < BufferSize)
         {

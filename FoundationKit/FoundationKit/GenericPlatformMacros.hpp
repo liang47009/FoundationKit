@@ -60,7 +60,7 @@ enum class EPlatform { Windows, Linux, Android, Mac, iOS, Apple,TVOS, XBoxOne,PS
 #   define PLATFORM_APPLE 1
 #endif
 
-#if defined(TARGET_OS_IOS) && (TARGET_OS_IOS == 1)
+#if (TARGET_OS_IOS)
 #   undef  PLATFORM_IOS
 #   define PLATFORM_IOS 1
 

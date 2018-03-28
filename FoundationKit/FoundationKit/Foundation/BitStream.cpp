@@ -138,8 +138,6 @@ void BitStream::Write( BitStream *bitStream)
 void BitStream::Write( BitStream *bitStream, uint32_t numberOfBits )
 {
 	AddBitsAndReallocate( numberOfBits );
-	uint32_t numberOfBitsMod8;
-
 	if ((bitStream->GetReadOffset()&7)==0 && (numberOfBitsUsed&7)==0)
 	{
 		int readOffsetBytes=bitStream->GetReadOffset()/8;
@@ -152,7 +150,7 @@ void BitStream::Write( BitStream *bitStream, uint32_t numberOfBits )
 
 	while (numberOfBits-->0 && bitStream->readOffset + 1 <= bitStream->numberOfBitsUsed)
 	{
-		numberOfBitsMod8 = numberOfBitsUsed & 7;
+        uint32_t numberOfBitsMod8 = numberOfBitsUsed & 7;
 		if ( numberOfBitsMod8 == 0 )
 		{
 			// New byte

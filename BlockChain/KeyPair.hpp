@@ -38,8 +38,8 @@ public:
 
     virtual std::string Encrypt(const std::string& message) = 0;
     virtual std::string Decrypt(const std::string& cipher) = 0;
-    virtual bool Verify(const byte_array& InData, const byte_array& InSignature) = 0;
-    virtual byte_array Sign(const byte_array& InData) = 0;
+    virtual bool Verify(const std::vector<uint8>& InData, const std::vector<uint8>& InSignature) = 0;
+    virtual std::vector<uint8> Sign(const std::vector<uint8>& InData) = 0;
     virtual bool SavePublicKey(const std::string& InFileName) = 0;
     virtual bool SavePrivateKey(const std::string& InFileName) = 0;
     virtual bool LoadPublicKey(const std::string& InFileName) = 0;

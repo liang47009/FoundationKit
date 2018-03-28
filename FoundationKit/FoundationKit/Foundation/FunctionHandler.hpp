@@ -24,7 +24,7 @@ struct BuildTuple
 	template<typename Tuple>
 	static void Build(Tuple& tp, ArgumentList& args)
 	{
-		std::get<N - 1>(tp) = args[N - 1].As<std::decay<decltype(std::get<N - 1>(tp))>::type>();
+		std::get<N - 1>(tp) = args[N - 1].As<typename std::decay<decltype(std::get<N - 1>(tp))>::type>();
 		BuildTuple<N - 1>::Build(tp, args);
 	}
 };
@@ -35,7 +35,7 @@ struct BuildTuple<0>
 	template<typename Tuple>
 	static void Build(Tuple& tp, ArgumentList& args)
 	{
-		std::get<0>(tp) = args[0].As<std::decay<decltype(std::get<0>(tp))>::type>();
+		std::get<0>(tp) = args[0].As<typename std::decay<decltype(std::get<0>(tp))>::type>();
 	}
 };
 

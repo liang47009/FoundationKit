@@ -83,6 +83,7 @@ Environment::stringvec Environment::GetCommandLineArgs()
     {
         commandArgs.push_back(line_buf);
     }
+    fclose(fp);
     return commandArgs;
 }
 

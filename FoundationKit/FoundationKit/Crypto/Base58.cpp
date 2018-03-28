@@ -29,7 +29,7 @@ std::string Base58::encode(const uint8* source, uint32 length)
         int carry = *source;
         int i = 0;
         std::vector<uint8>::reverse_iterator it = Base58Data.rbegin();
-        for (it;(carry != 0 || i < index)&&(it != Base58Data.rend()); it++, i++)
+        for (it;(carry != 0 || i < index)&&(it != Base58Data.rend()); ++it, ++i)
         {
             carry += 256 * (*it);
             *it = carry % 58;
@@ -41,7 +41,7 @@ std::string Base58::encode(const uint8* source, uint32 length)
     }
     std::vector<uint8>::iterator it = Base58Data.begin() + (b58Size - index);
     while (it != Base58Data.end() && *it == 0)
-        it++;
+        ++it;
     // Translate the result into a string;
     std::string Base58String;
     Base58String.reserve(zeroes + (Base58Data.end() - it));
@@ -128,7 +128,7 @@ bool Base58::decode(const char* source, uint32 length, std::vector<uint8>& dest)
     // Skip leading zeroes in Base256Data.
     std::vector<unsigned char>::iterator it = Base256Data.begin() + (Base256Size - index);
     while (it != Base256Data.end() && *it == 0)
-        it++;
+        ++it;
     // Copy result into output vector.
     dest.reserve(zeroes + (Base256Data.end() - it));
     dest.assign(zeroes, 0x00);

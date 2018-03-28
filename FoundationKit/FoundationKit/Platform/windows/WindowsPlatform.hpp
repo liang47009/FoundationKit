@@ -8,6 +8,9 @@
 #define FOUNDATIONKIT_WINDOWSPLATFORM_HPP
 #if defined(_WIN32) || defined(__WIN32__) || defined(WIN32) || defined(WIN64) || defined(_WIN64)
 
+// WINVER _WIN32_WINNT 
+// https://msdn.microsoft.com/en-us/library/6sehtctf.aspx
+
 /**
  * Macro for marking up deprecated code, functions and types.
  *

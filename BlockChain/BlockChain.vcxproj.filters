@@ -6,6 +6,8 @@
     <ClInclude Include="RSAKeyPair.hpp" />
     <ClInclude Include="KeyPair.hpp" />
     <ClInclude Include="SHA256.hpp" />
+    <ClInclude Include="BlockChain.hpp" />
+    <ClInclude Include="Transaction.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

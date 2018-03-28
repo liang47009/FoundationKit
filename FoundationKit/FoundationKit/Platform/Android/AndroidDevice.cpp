@@ -110,6 +110,7 @@ namespace detail
             {
                 sscanf(buffer, "%d", &value);
             }
+            fclose(fp);
         }
         else
         {

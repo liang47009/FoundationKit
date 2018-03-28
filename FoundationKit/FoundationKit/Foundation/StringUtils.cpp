@@ -51,7 +51,6 @@ std::string StringUtils::Format( const char* format, ... )
     std::vector<char> DynamicBuffer;
     char* ResultStr = nullptr;
     int BufferSize = MAX_LENGTH;
-    int Needed = 0;
     int LoopCount = 0;
     va_list ArgList;
     do
@@ -68,7 +67,7 @@ std::string StringUtils::Format( const char* format, ... )
         */
         va_start(ArgList, format);
         // Pass one greater needed size to leave room for NULL terminator
-        Needed = vsnprintf(ResultStr, BufferSize + 1, format, ArgList);
+        int Needed = vsnprintf(ResultStr, BufferSize + 1, format, ArgList);
         va_end(ArgList);
         if (Needed >= 0 && Needed < BufferSize)
         {

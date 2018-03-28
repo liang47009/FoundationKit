@@ -568,8 +568,13 @@ struct JNIToCPP < jbooleanArray >
         {
             jboolean* elems = env->GetBooleanArrayElements(jniArray, NULL);
             jint length = env->GetArrayLength(jniArray);
-            result.resize(length);
-            memcpy(result.data(), elems, sizeof(jboolean)*length);
+            for (int i = 0; i < length; i++)
+            {
+                result.push_back(elems[i]);
+            }
+            //result.resize(length);
+            // std::vector<bool> is no member [data] function.
+            //memcpy(result.data(), elems, sizeof(jboolean)*length );
             env->ReleaseBooleanArrayElements(jniArray, elems, 0);
         }
         return result;

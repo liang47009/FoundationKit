@@ -66,7 +66,6 @@ namespace detail
         ULONG flags = GAA_FLAG_INCLUDE_PREFIX;
         IP_ADAPTER_ADDRESSES  IpAddresses[16];
         static const DWORD bufflen = 64;
-        char buff[bufflen] = { 0 };
         ULONG OutBufferLength = sizeof(IP_ADAPTER_ADDRESSES) * 16;
         ULONG family = AF_UNSPEC;
 
@@ -89,6 +88,7 @@ namespace detail
         uint32 RetVal = GetAdaptersAddresses(family, flags, NULL, IpAddresses, &OutBufferLength);
         if (RetVal == NO_ERROR)
         {
+            char buff[bufflen] = { 0 };
             PIP_ADAPTER_ADDRESSES IpAddressesPointer = IpAddresses;
             // Walk the set of addresses copying each one
             while (IpAddressesPointer)
@@ -314,7 +314,6 @@ std::string PlatformDevice::GetCPUBrand()
     // https://msdn.microsoft.com/en-us/library/hskdteyh.aspx
     // https://en.wikipedia.org/wiki/CPUID
     std::array<int, 4> cpui;
-    std::vector<std::array<int, 4>> extdata;
     __cpuidex(cpui.data(), 0x80000000, 0);
     if (cpui[0] < 0x80000004) return "";
     char brand[64] = {0};

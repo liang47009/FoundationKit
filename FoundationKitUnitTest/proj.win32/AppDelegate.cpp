@@ -86,10 +86,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 	std::error_code ec;
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
-    auto value = Path::ChangeExtension("F:\\Software\\cudnn-8.0-windows10-x64-v6.0.zip", ".rar");
-    auto value1 = Path::ChangeExtension("F:\\Software\\cudnn-8.0-windows10-x64-v6.0.rar", "zip");
-    auto value2 = Path::ChangeExtension("F:\\Software\\cudnn-8.0-windows10-x64-v6", "zip");
-
+    std::string DocumentsPath = Path::GetDocumentsPath();
+    FKLog("windows 平台支持OpenGL 和OpenGL ES,如果使用OpenGL，请链接opengl32.lib，如果使用OpenGL ES，请链接 libGLESv2.lib");
     FKLog(">>> applicationDidFinishLaunching end.");
 	return true;
 }

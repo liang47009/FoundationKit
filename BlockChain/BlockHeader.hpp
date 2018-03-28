@@ -7,7 +7,6 @@
 #ifndef BLOCKCHAIN_BLOCKHEADER_HPP
 #define BLOCKCHAIN_BLOCKHEADER_HPP
 
-
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Base/types.hpp"
 #include "FoundationKit/Foundation/Version.hpp"

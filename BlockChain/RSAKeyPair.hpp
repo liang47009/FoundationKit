@@ -75,20 +75,20 @@ public:
         return pl_text;
     }
 
-    virtual bool Verify(const byte_array& InData, const byte_array& InSignature)override
+    virtual bool Verify(const std::vector<uint8>& InData, const std::vector<uint8>& InSignature)override
     {
         CryptoPP::RSASSA_PKCS1v15_SHA_Verifier verifier(PublicKey);
         CryptoPP::SecByteBlock   signature(InSignature.data(), InSignature.size());
         return verifier.VerifyMessage(InData.data(), InData.size(), signature, signature.size());
     }
 
-    virtual byte_array Sign(const byte_array& InData) override
+    virtual std::vector<uint8> Sign(const std::vector<uint8>& InData) override
     {
         CryptoPP::AutoSeededRandomPool rng;
         CryptoPP::RSASSA_PKCS1v15_SHA_Signer signer(PrivateKey);
         CryptoPP::SecByteBlock localSignature(signer.MaxSignatureLength());
         size_t length = signer.SignMessage(rng, InData.data(), InData.size(), localSignature);
-        byte_array ba;
+        std::vector<uint8> ba;
         ba.resize(localSignature.size());
         memcpy(&ba[0], localSignature.data(), localSignature.size());
         return ba;
