@@ -723,7 +723,7 @@ bool PlatformDevice::ScreenCapture(std::string& outSavePath)
         
         if ([window respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)])
         {
-            [window drawViewHierarchyInRect:window.bounds afterScreenUpdates:YES];
+            [window drawViewHierarchyInRect:window.bounds afterScreenUpdates:NO];
         }
         else
         {

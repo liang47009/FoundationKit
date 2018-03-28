@@ -30,7 +30,6 @@
 #include "FoundationKit/forward.hpp"
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/LanguageFeatures.hpp"
 
 #include "FoundationKit/Crypto/aes.hpp"
 #include "FoundationKit/Crypto/Base64.hpp"
@@ -115,7 +114,8 @@ size_t GetOSIntData(int key, int type)
     size_t Size = sizeof(SwapUsage);
     sysctlbyname("machdep.cpu.brand_string", SwapUsage, &Size, NULL, 0);
 
-    
+    std::string BundleID = [[[[NSBundle mainBundle] infoDictionary]objectForKey:@"CFBundleIdentifier"] UTF8String];
+
     
 }
 

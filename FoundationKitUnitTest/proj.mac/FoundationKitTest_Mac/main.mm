@@ -11,7 +11,6 @@
 #include "FoundationKit/forward.hpp"
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/LanguageFeatures.hpp"
 
 #include "FoundationKit/Crypto/aes.hpp"
 #include "FoundationKit/Crypto/Base64.hpp"
