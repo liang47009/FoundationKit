@@ -22,7 +22,7 @@ NS_FK_BEGIN
 /**
  * Enumerates the days of the week in 7-day calendars.
  */
-enum class EDayOfWeek
+enum EDayOfWeek
 {
 	Monday = 0,
 	Tuesday,
@@ -36,7 +36,7 @@ enum class EDayOfWeek
 /**
  * Enumerates the months of the year in 12-month calendars.
  */
-enum class EMonthOfYear
+enum EMonthOfYear
 {
 	January = 1,
 	February,
@@ -75,6 +75,77 @@ enum class EMonthOfYear
  */
 class DateTime final
 {
+public:
+    // The date/time format defined in the ISO 8601 standard.
+    //
+    // Examples: 
+    //   2005-01-01T12:00:00+01:00
+    //   2005-01-01T11:00:00Z
+    static const std::string FORMAT_ISO8601;
+
+    // The date/time format defined in the ISO 8601 standard,
+    // with fractional seconds.
+    //
+    // Examples: 
+    //   2005-01-01T12:00:00.000+01:00
+    //   2005-01-01T11:00:00.000Z
+    static const std::string FORMAT_ISO8601_FRAC;
+
+    // The date/time format defined in RFC 822 (obsoleted by RFC 1123).
+    //
+    // Examples: 
+    //   Sat, 1 Jan 05 12:00:00 +0100
+    //   Sat, 1 Jan 05 11:00:00 GMT
+    static const std::string FORMAT_RFC822;
+
+    // The date/time format defined in RFC 1123 (obsoletes RFC 822).
+    //
+    // Examples: 
+    //   Sat, 1 Jan 2005 12:00:00 +0100
+    //   Sat, 1 Jan 2005 11:00:00 GMT
+    static const std::string FORMAT_RFC1123;
+
+    // The date/time format defined in the HTTP specification (RFC 2616),
+    // which is basically a variant of RFC 1036 with a zero-padded day field.
+    //
+    // Examples: 
+    //   Sat, 01 Jan 2005 12:00:00 +0100
+    //   Sat, 01 Jan 2005 11:00:00 GMT
+    static const std::string FORMAT_HTTP;
+
+    // The date/time format defined in RFC 850 (obsoleted by RFC 1036).
+    //
+    // Examples: 
+    //   Saturday, 1-Jan-05 12:00:00 +0100
+    //   Saturday, 1-Jan-05 11:00:00 GMT
+    static const std::string FORMAT_RFC850;
+
+    // The date/time format defined in RFC 1036 (obsoletes RFC 850).
+    //
+    // Examples: 
+    //   Saturday, 1 Jan 05 12:00:00 +0100
+    //   Saturday, 1 Jan 05 11:00:00 GMT
+    static const std::string FORMAT_RFC1036;
+
+    // The date/time format produced by the ANSI C asctime() function.
+    //
+    // Example: 
+    //   Sat Jan  1 12:00:00 2005
+    static const std::string FORMAT_ASCTIME;
+
+    // A simple, sortable date/time format.
+    //
+    // Example:
+    //   2005-01-01 12:00:00
+    static const std::string FORMAT_SORTABLE;
+
+    // names used by formatter and parser
+    // English names of week days (Monday, Tuesday, ..., Sunday).
+    static const std::string WEEKDAY_NAMES[7];
+
+    // English names of months (January, February, ..., December).	
+    static const std::string MONTH_NAMES[12];
+    
 public:
 
 	/** Default constructor*/
@@ -441,34 +512,47 @@ public:
     bool IsDaylightSavingTime();
 
 	/**
-	 * Returns the ISO-8601 string representation of the DateTime.
-	 *
-	 * The resulting string assumes that the DateTime is in UTC.
-	 * 
-	 * @return String representation.
-	 * @see ParseISO8601, ToString
-	 */
-    std::string ToISO8601() const;
-
-	/**
 	 * Returns the string representation of this date using a default format.
 	 *
 	 * The returned string has the following format:
 	 *		yyyy.mm.dd-hh.mm.ss
 	 *
 	 * @return String representation.
-	 * @see Parse, ToIso8601
 	 */
     std::string ToString() const;
 
 	/**
 	 * Returns the string representation of this date.
 	 *
-	 * @param format The format of the returned string.
-	 * @return String representation.
-	 * @see Parse, ToISO8601
-	 */
-	std::string ToString( const char* format ) const;
+     * The format string is used as a template to format the date and
+     * is copied character by character except for the following special characters,
+     * which are replaced by the corresponding value.
+     *
+     * %w - abbreviated weekday (Mon, Tue, ...)
+     * %b - abbreviated month (Jan, Feb, ...)
+     * %B - full month (January, February, ...)
+     * %d - zero-padded day of month (01 .. 31)
+     * %e - day of month (1 .. 31)
+     * %f - space-padded day of month ( 1 .. 31)
+     * %m - zero-padded month (01 .. 12)
+     * %n - month (1 .. 12)
+     * %o - space-padded month ( 1 .. 12)
+     * %y - year without century (70)
+     * %Y - year with century (1970)
+     * %H - hour (00 .. 23)
+     * %h - hour (00 .. 12)
+     * %a - am/pm
+     * %A - AM/PM
+     * %M - minute (00 .. 59)
+     * %S - second (00 .. 59)
+     * %s - millisecond (000 .. 999)
+     * %z - time zone differential in ISO 8601 format (Z or +NN.NN)
+     * %Z - time zone differential in RFC format (GMT or +NNNN)
+     * %% - percent sign
+     * @param format The format of the returned string.
+     * @return String representation.
+     */
+	std::string ToString( const std::string& InFormat ) const;
 
 	/**
 	 * Returns this date as the number of seconds since the Unix Epoch (January 1st of 1970).
@@ -496,7 +580,7 @@ public:
     /**
      * Converts the value of the current DateTime object to local time.
      * local time = UTC + UTC Offset + DST Offset
-     * @return A Coordinated Universal Time (UTC) time.
+     * @return A local date time.
      *
      */
     DateTime ToLocalTime();
@@ -505,9 +589,9 @@ public:
      * Converts the value of the current System.DateTime object to 
      * Coordinated Universal Time (UTC).
      * UTC time = local time - UTC Offset - DST Offset
-     * @return A local date time.
+     * @return A Coordinated Universal Time (UTC) time.
      */
-    DateTime ToUniversalTime();
+    DateTime ToUTCTime();
 
     /**
      * Gets the hash for the specified date and time.
@@ -674,7 +758,7 @@ public:
 	 * @param outDateTime Will contain the parsed date and time.
 	 * @return true if the string was converted successfully, false otherwise.
 	 */
-	static bool Parse( const std::string& dateTimeString, DateTime& outDateTime );
+	static bool Parse( const std::string& dateTimeString, DateTime& outDateTime, ETimeKind Kind);
 
 	/**
 	 * Parses a date string in ISO-8601 format.
@@ -684,7 +768,7 @@ public:
 	 * @return true if the string was converted successfully, false otherwise.
 	 * @see Parse, ToISO8601
 	 */
-	static bool ParseISO8601( const char* dateTimeString, DateTime& outDateTime );
+	static bool ParseISO8601( const std::string& dateTimeString, DateTime& outDateTime);
 
 	/**
 	 * Validates the given components of a date and time value.
@@ -703,6 +787,8 @@ public:
 	static bool Validate( int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second, int32 millisecond );
 protected:
 
+    void TZDISO(std::string& OutputStr, int TimeZoneDifferential)const;
+    void TZDRFC(std::string& OutputStr, int TimeZoneDifferential)const;
 	/** Holds the days per month in a non-leap year. */
 	static const int32 DaysPerMonth[];
 

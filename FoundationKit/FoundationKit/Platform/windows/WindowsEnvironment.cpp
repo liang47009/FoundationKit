@@ -19,7 +19,7 @@ Environment::stringvec Environment::GetEnvironmentVariables()
     stringvec  Variables;
     while (*lpszVariable)
     {
-        Variables.push_back(StringUtils::wstring2UTF8string(lpszVariable));
+        Variables.push_back(StringUtils::wstring2string(lpszVariable));
         lpszVariable += lstrlen(lpszVariable) + 1;
     }
     FreeEnvironmentStringsW(lpvEnv);
@@ -78,7 +78,7 @@ Environment::stringvec Environment::GetCommandLineArgs()
         // Copy each argument into new Strings.
         for (unsigned int i = 0; i < numArgs; i++)
         {
-            commandLineArgs.push_back(StringUtils::wstring2UTF8string(argv[i]));
+            commandLineArgs.push_back(StringUtils::wstring2string(argv[i]));
         }
         delete[] argv;
 

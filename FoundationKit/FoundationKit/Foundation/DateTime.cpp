@@ -7,6 +7,7 @@
 #include <vector>
 #include <cstdlib>
 #include <cassert>
+#include "FoundationKit/Base/lexical_cast.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 #include "FoundationKit/Foundation/DateTime.hpp"
 #include "FoundationKit/Foundation/TimeZone.hpp"
@@ -14,38 +15,127 @@
 
 NS_FK_BEGIN
 
-/** Returns the system time. */
-void LocalTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+
+
+namespace
 {
-    Time::TimeDate td = Time::GetTime();
-    year              = td.Year;
-    month             = td.Month;
-    dayOfWeek         = td.DayOfWeek;
-    day               = td.Day;
-    hour              = td.Hour;
-    min               = td.Minute;
-    sec               = td.Second;
-    msec              = td.Milliseconds;
+
+    /** Returns the system time. */
+    void LocalTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+    {
+        Time::TimeDate td = Time::GetTime();
+        year = td.Year;
+        month = td.Month;
+        dayOfWeek = td.DayOfWeek;
+        day = td.Day;
+        hour = td.Hour;
+        min = td.Minute;
+        sec = td.Second;
+        msec = td.Milliseconds;
+    }
+
+    /** Returns the UTC time. */
+    void UTCTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
+    {
+        Time::TimeDate td = Time::GetUTCTime();
+        year = td.Year;
+        month = td.Month;
+        dayOfWeek = td.DayOfWeek;
+        day = td.Day;
+        hour = td.Hour;
+        min = td.Minute;
+        sec = td.Second;
+        msec = td.Milliseconds;
+    }
+
+
+    struct Zone
+    {
+        const char* Designator;
+        int         TimeZoneDifferential;
+    };
+
+    static Zone zones[] =
+    {
+        { "Z",             0 },
+        { "UT",            0 },
+        { "GMT",           0 },
+        { "BST",    1 * 3600 },
+        { "IST",    1 * 3600 },
+        { "WET",           0 },
+        { "WEST",   1 * 3600 },
+        { "CET",    1 * 3600 },
+        { "CEST",   2 * 3600 },
+        { "EET",    2 * 3600 },
+        { "EEST",   3 * 3600 },
+        { "MSK",    3 * 3600 },
+        { "MSD",    4 * 3600 },
+        { "NST",   -3 * 3600 - 1800 },
+        { "NDT",   -2 * 3600 - 1800 },
+        { "AST",   -4 * 3600 },
+        { "ADT",   -3 * 3600 },
+        { "EST",   -5 * 3600 },
+        { "EDT",   -4 * 3600 },
+        { "CST",   -6 * 3600 },
+        { "CDT",   -5 * 3600 },
+        { "MST",   -7 * 3600 },
+        { "MDT",   -6 * 3600 },
+        { "PST",   -8 * 3600 },
+        { "PDT",   -7 * 3600 },
+        { "AKST",  -9 * 3600 },
+        { "AKDT",  -8 * 3600 },
+        { "HST",  -10 * 3600 },
+        { "AEST",  10 * 3600 },
+        { "AEDT",  11 * 3600 },
+        { "ACST",   9 * 3600 + 1800 },
+        { "ACDT",  10 * 3600 + 1800 },
+        { "AWST",   8 * 3600 },
+        { "AWDT",   9 * 3600 }
+    };
+    const int64 MinTicks = 0;
+    const int64 MaxTicks = 3652059 * Time::TicksPerDay - 1;
 }
 
-/** Returns the UTC time. */
-void UTCTimeForDate(int32& year, int32& month, int32& dayOfWeek, int32& day, int32& hour, int32& min, int32& sec, int32& msec)
-{
-    Time::TimeDate td = Time::GetUTCTime();
-    year              = td.Year;
-    month             = td.Month;
-    dayOfWeek         = td.DayOfWeek;
-    day               = td.Day;
-    hour              = td.Hour;
-    min               = td.Minute;
-    sec               = td.Second;
-    msec              = td.Milliseconds;
-}
 
-const int64 MinTicks              = 0;
-const int64 MaxTicks              = 3652059 * Time::TicksPerDay - 1;
 /* DateTime constants
  *****************************************************************************/
+
+const std::string DateTime::FORMAT_ISO8601("%Y-%m-%dT%H:%M:%S%z");
+const std::string DateTime::FORMAT_ISO8601_FRAC("%Y-%m-%dT%H:%M:%S.%s%z");
+const std::string DateTime::FORMAT_RFC822("%w, %e %b %y %H:%M:%S %Z");
+const std::string DateTime::FORMAT_RFC1123("%w, %e %b %Y %H:%M:%S %Z");
+const std::string DateTime::FORMAT_HTTP("%w, %d %b %Y %H:%M:%S %Z");
+const std::string DateTime::FORMAT_RFC850("%W, %e-%b-%y %H:%M:%S %Z");
+const std::string DateTime::FORMAT_RFC1036("%W, %e %b %y %H:%M:%S %Z");
+const std::string DateTime::FORMAT_ASCTIME("%w %b %f %H:%M:%S %Y");
+const std::string DateTime::FORMAT_SORTABLE("%Y-%m-%d %H:%M:%S");
+
+const std::string DateTime::WEEKDAY_NAMES[] =
+{
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+};
+
+const std::string DateTime::MONTH_NAMES[] =
+{
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+};
 
 const int32 DateTime::DaysPerMonth[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 const int32 DateTime::DaysToMonth[] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
@@ -175,22 +265,16 @@ bool DateTime::IsDaylightSavingTime()
     return tms.tm_isdst > 0;
 }
 
-std::string DateTime::ToISO8601() const
-{
-	return ToString("%Y-%m-%dT%H:%M:%S.%sZ");
-}
-
-
 std::string DateTime::ToString() const
 {
 	return ToString("%Y.%m.%d-%H.%M.%S");
 }
 
 
-std::string DateTime::ToString( const char* format ) const
+std::string DateTime::ToString(const std::string& InFormat) const
 {
     std::string result;
-
+    const char* format = InFormat.c_str();
     if (format != nullptr)
 	{
         while (*format != '\0')
@@ -199,19 +283,29 @@ std::string DateTime::ToString( const char* format ) const
 			{
                 switch (*format)
 				{
-                case 'a': result += IsMorning() ? "am" : "pm"; break;
-                case 'A': result += IsMorning() ? "AM" : "PM"; break;
-                case 'd': result += StringUtils::Format("%02i", GetDay()); break;
-                case 'D': result += StringUtils::Format("%03i", GetDayOfYear()); break;
-                case 'm': result += StringUtils::Format("%02i", GetMonth()); break;
                 case 'y': result += StringUtils::Format("%02i", GetYear() % 100); break;
                 case 'Y': result += StringUtils::Format("%04i", GetYear()); break;
+                case 'm': result += StringUtils::Format("%02i", GetMonth()); break;
+                case 'n': result += StringUtils::Format("%00i", GetMonth()); break;
+                case 'o': result += StringUtils::Format("%03s", lexical_cast<std::string>(GetMonth()).c_str()); break;
+                case 'd': result += StringUtils::Format("%02i", GetDay()); break;
+                case 'D': result += StringUtils::Format("%03i", GetDayOfYear()); break;
+                case 'e': result += StringUtils::Format("%00i", GetDay()); break;
+                case 'f': result += StringUtils::Format("%03s", lexical_cast<std::string>(GetDay()).c_str()); break;
                 case 'h': result += StringUtils::Format("%02i", GetHour12()); break;
                 case 'H': result += StringUtils::Format("%02i", GetHour()); break;
                 case 'M': result += StringUtils::Format("%02i", GetMinute()); break;
                 case 'S': result += StringUtils::Format("%02i", GetSecond()); break;
                 case 's': result += StringUtils::Format("%03i", GetMillisecond()); break;
-                default:		 result += *format;
+                case 'w': result += StringUtils::Format("%03s", WEEKDAY_NAMES[GetDayOfWeek()].c_str());break;
+                case 'b': result += StringUtils::Format("%03s", MONTH_NAMES[GetMonth() - 1].c_str());break;
+                case 'W': result += WEEKDAY_NAMES[GetDayOfWeek()];break;
+                case 'B': result += MONTH_NAMES[GetMonth() - 1];break;
+                case 'a': result += IsMorning() ? "am" : "pm"; break;
+                case 'A': result += IsMorning() ? "AM" : "PM"; break;
+                case 'z': TZDISO(result, static_cast<int>(TimeZone::GetUTCOffset().GetTotalSeconds()));break;
+                case 'Z': TZDRFC(result, static_cast<int>(TimeZone::GetUTCOffset().GetTotalSeconds()));break;
+                default : result += *format;
 				}
 			}
 			else
@@ -239,7 +333,7 @@ DateTime DateTime::ToLocalTime()
     return ResultDateTime;
 }
 
-DateTime DateTime::ToUniversalTime()
+DateTime DateTime::ToUTCTime()
 {
     if (this->GetTimeKind() == ETimeKind::Utc)
     {
@@ -359,7 +453,7 @@ void DateTime::UTCTime(int32& year, int32& month, int32& dayOfWeek, int32& day, 
     UTCTimeForDate(year, month, dayOfWeek, day, hour, min, sec, msec);
 }
 
-bool DateTime::Parse( const std::string& dateTimeString, DateTime& outDateTime )
+bool DateTime::Parse( const std::string& dateTimeString, DateTime& outDateTime, ETimeKind Kind)
 {
 	// first replace -, : and . with space
     std::string fixedString = dateTimeString;
@@ -391,18 +485,18 @@ bool DateTime::Parse( const std::string& dateTimeString, DateTime& outDateTime )
 	}
 
 	// convert the tokens to numbers
-    outDateTime.Ticks = DateTime(year, month, day, hour, minute, second, millisecond).Ticks;
+    outDateTime.Ticks = DateTime(year, month, day, hour, minute, second, millisecond, Kind).Ticks;
 
 	return true;
 }
 
 
-bool DateTime::ParseISO8601( const char* dateTimeString, DateTime& outDateTime )
+bool DateTime::ParseISO8601( const std::string& dateTimeString, DateTime& outDateTime)
 {
 	// DateOnly: YYYY-MM-DD
 	// DateTime: YYYY-mm-ddTHH:MM:SS(.ssss)(Z|+th:tm|-th:tm)
 
-    const char* dtPtr = dateTimeString;
+    const char* dtPtr = dateTimeString.c_str();
 	char* next = nullptr;
 
 	int32 year   = 0, month = 0, day = 0;
@@ -517,13 +611,12 @@ bool DateTime::ParseISO8601( const char* dateTimeString, DateTime& outDateTime )
 		return false;
 	}
 
-	DateTime Final(year, month, day, hour, minute, second, millisecond);
+	DateTime Final(year, month, day, hour, minute, second, millisecond, ETimeKind::Utc);
 
 	// adjust for the timezone (bringing the DateTime into UTC)
 	int32 TzOffsetMinutes = (tzHour < 0) ? tzHour * 60 - tzMinute : tzHour * 60 + tzMinute;
 	Final -= TimeSpan(0, TzOffsetMinutes, 0);
 	outDateTime = Final;
-
 	return true;
 }
 
@@ -537,5 +630,49 @@ bool DateTime::Validate( int32 year, int32 month, int32 day, int32 hour, int32 m
         (second      >= 0) && (second      <= 59) &&
         (millisecond >= 0) && (millisecond <= 999);
 }
+
+void DateTime::TZDISO(std::string& OutputStr, int TimeZoneDifferential)const
+{
+    if (TimeKind != ETimeKind::Utc)
+    {
+        if (TimeZoneDifferential >= 0)
+        {
+            OutputStr += '+';
+            OutputStr += StringUtils::Format("%02i", TimeZoneDifferential / 3600);
+            OutputStr += ':';
+            OutputStr += StringUtils::Format("%02i", (TimeZoneDifferential % 3600) / 60);
+        }
+        else
+        {
+            OutputStr += '-';
+            OutputStr += StringUtils::Format("%02i", -TimeZoneDifferential / 3600);
+            OutputStr += ':';
+            OutputStr += StringUtils::Format("%02i", (-TimeZoneDifferential % 3600) / 60);
+        }
+    }
+    else OutputStr += 'Z';
+}
+
+void DateTime::TZDRFC(std::string& OutputStr, int TimeZoneDifferential)const
+{
+    if (TimeKind != ETimeKind::Utc)
+    {
+        if (TimeZoneDifferential >= 0)
+        {
+            OutputStr += '+';
+            OutputStr += StringUtils::Format("%02i", TimeZoneDifferential / 3600);
+            OutputStr += StringUtils::Format("%02i", (TimeZoneDifferential % 3600) / 60);
+        }
+        else
+        {
+            OutputStr += '-';
+            OutputStr += StringUtils::Format("%02i", -TimeZoneDifferential / 3600);
+            OutputStr += StringUtils::Format("%02i", (-TimeZoneDifferential % 3600) / 60);
+        }
+    }
+    else OutputStr += "GMT";
+}
+
+
 NS_FK_END
 

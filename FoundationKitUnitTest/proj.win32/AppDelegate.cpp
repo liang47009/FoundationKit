@@ -81,12 +81,31 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+#include <codecvt>
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
     std::string DocumentsPath = Path::GetDocumentsPath();
+
+    DateTime dt = DateTime::Now();
+    FKLog("FORMAT_ISO8601     :%s", dt.ToString(DateTime::FORMAT_ISO8601).c_str());
+    FKLog("FORMAT_ISO8601_FRAC:%s", dt.ToString(DateTime::FORMAT_ISO8601_FRAC).c_str());
+    FKLog("FORMAT_RFC822      :%s", dt.ToString(DateTime::FORMAT_RFC822).c_str());
+    FKLog("FORMAT_RFC1123     :%s", dt.ToString(DateTime::FORMAT_RFC1123).c_str());
+    FKLog("FORMAT_HTTP        :%s", dt.ToString(DateTime::FORMAT_HTTP).c_str());
+    FKLog("FORMAT_RFC850      :%s", dt.ToString(DateTime::FORMAT_RFC850).c_str());
+    FKLog("FORMAT_RFC1036     :%s", dt.ToString(DateTime::FORMAT_RFC1036).c_str());
+    FKLog("FORMAT_ASCTIME     :%s", dt.ToString(DateTime::FORMAT_ASCTIME).c_str());
+    FKLog("FORMAT_SORTABLE    :%s", dt.ToString(DateTime::FORMAT_SORTABLE).c_str());
+
+    DateTime dt1;
+    DateTime::ParseISO8601(dt.ToString(DateTime::FORMAT_ISO8601), dt1);
+
+    auto aab = dt1.ToString();
+    auto aab1 = dt1.ToLocalTime().ToString(DateTime::FORMAT_ISO8601);
+
     FKLog("windows 平台支持OpenGL 和OpenGL ES,如果使用OpenGL，请链接opengl32.lib，如果使用OpenGL ES，请链接 libGLESv2.lib");
     FKLog(">>> applicationDidFinishLaunching end.");
 	return true;
@@ -116,9 +135,8 @@ void AppDelegate::mainLoop()
 
 void AppDelegate::TestTupleArgs(int a, const std::string & str, const char * str1)
 {
+
 }
-
-
 
 void RunGuetzli()
 {

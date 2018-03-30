@@ -15,11 +15,11 @@ losemymind.libo@gmail.com
 NS_FK_BEGIN
 bool Directory::Create(const std::string& path)
 {
-    std::wstring DirPath = StringUtils::string2UTF8wstring(Path::PlatformPath(path));
+    std::wstring DirPath = StringUtils::string2wstring(Path::PlatformPath(path));
     int ReturnValue = SHCreateDirectoryEx(nullptr, DirPath.c_str(), nullptr);
     return (ReturnValue == ERROR_SUCCESS || ReturnValue == ERROR_ALREADY_EXISTS);
     /**
-    std::wstring wpath = StringUtils::string2UTF8wstring(path);
+    std::wstring wpath = StringUtils::string2wstring(path);
     // Split the path
     size_t start = 0;
     size_t found = wpath.find_first_of(L"/\\", start);
@@ -52,7 +52,7 @@ bool Directory::Create(const std::string& path)
         {
             subpath += dirs[i];
 
-            std::string utf8Path = StringUtils::wstring2UTF8string(subpath);
+            std::string utf8Path = StringUtils::wstring2string(subpath);
             if (!Exists(utf8Path))
             {
                 BOOL ret = ::CreateDirectory(subpath.c_str(), NULL);
@@ -70,7 +70,7 @@ bool Directory::Create(const std::string& path)
 
 bool Directory::Remove(const std::string& path)
 {
-    std::wstring wpath = StringUtils::string2UTF8wstring(path);
+    std::wstring wpath = StringUtils::string2wstring(path);
     std::wstring files = wpath + L"*.*";
     WIN32_FIND_DATA wfd;
     HANDLE  search = FindFirstFileExW(files.c_str(), FindExInfoStandard, &wfd, FindExSearchNameMatch, NULL, 0);
@@ -87,7 +87,7 @@ bool Directory::Remove(const std::string& path)
                 if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
                 {
                     temp += '/';
-                    ret = ret && Remove(StringUtils::wstring2UTF8string(temp));
+                    ret = ret && Remove(StringUtils::wstring2string(temp));
                 }
                 else
                 {
@@ -124,7 +124,7 @@ bool Directory::Move(const std::string& sourceDirName, const std::string& destDi
 
 bool Directory::Exists(const std::string& path)
 {
-    std::wstring utf16Str = StringUtils::string2UTF8wstring(path);
+    std::wstring utf16Str = StringUtils::string2wstring(path);
     unsigned long fAttrib = GetFileAttributesW(reinterpret_cast<LPCWSTR>(utf16Str.c_str()));
     if (fAttrib != INVALID_FILE_ATTRIBUTES && (fAttrib & FILE_ATTRIBUTE_DIRECTORY))
     {

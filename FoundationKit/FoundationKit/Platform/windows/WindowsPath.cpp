@@ -32,7 +32,7 @@ std::string Path::GetTempPath()
     // Create directory
     if (SUCCEEDED(SHCreateDirectoryEx(nullptr, result.c_str(), nullptr)))
     {
-        TemporaryPath = StringUtils::wstring2UTF8string(app_data_path);
+        TemporaryPath = StringUtils::wstring2string(app_data_path);
     }
     return TemporaryPath;
 }
@@ -77,7 +77,7 @@ std::string Path::GetDocumentsPath()
         // remove xxx.exe
         retPath = retPath.substr(0, retPath.rfind(L"\\") + 1);
     }
-    DocumentsPath = StringUtils::wstring2UTF8string(retPath);
+    DocumentsPath = StringUtils::wstring2string(retPath);
     return DocumentsPath;
 }
 

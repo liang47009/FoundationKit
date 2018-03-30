@@ -128,10 +128,6 @@ typedef enum {
   lenientConversion
 } ConversionFlags;
 
-/* This is for C++ and does no harm in C */
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 ConversionResult ConvertUTF8toUTF16 (
   const UTF8** sourceStart, const UTF8* sourceEnd,
@@ -165,8 +161,6 @@ unsigned getNumBytesForUTF8(UTF8 firstByte);
     
 int getUTF8StringLength(const UTF8* utf8);
 
-#ifdef __cplusplus
-}
 
 /*************************************************************************/
 /* Below are LLVM-specific wrappers of the functions above. */
@@ -245,8 +239,6 @@ bool hasUTF16ByteOrderMark(const char* SrcBytes, size_t len);
 bool convertUTF16ToUTF8String(const std::u16string& utf16, std::string &Out);
 
 } /* end namespace llvm */
-
-#endif
 
 /* --------------------------------------------------------------------- */
 

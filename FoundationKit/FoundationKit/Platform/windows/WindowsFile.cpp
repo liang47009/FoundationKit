@@ -32,7 +32,7 @@ bool File::Delete(const std::string& path)
 
 bool File::IsExists(const std::string& path)
 {
-    std::wstring utf16Str = StringUtils::string2UTF8wstring(path);
+    std::wstring utf16Str = StringUtils::string2wstring(path);
     unsigned long fAttrib = GetFileAttributesW(reinterpret_cast<LPCWSTR>(utf16Str.c_str()));
     if (fAttrib != INVALID_FILE_ATTRIBUTES)
     {

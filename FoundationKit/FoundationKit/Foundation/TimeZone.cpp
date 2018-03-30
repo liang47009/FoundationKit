@@ -12,7 +12,7 @@ std::string FoundationKit::TimeZone::DisplayName()
     TIME_ZONE_INFORMATION tzInfo;
     DWORD dstFlag = GetTimeZoneInformation(&tzInfo);
     WCHAR* ptr = (dstFlag == TIME_ZONE_ID_DAYLIGHT) ? tzInfo.DaylightName : tzInfo.StandardName;
-    result = StringUtils::wstring2UTF8string(ptr);
+    result = StringUtils::wstring2string(ptr);
 #else
     tzset();
     result = std::string(tzname[daylight ? 1 : 0]);
@@ -27,7 +27,7 @@ std::string TimeZone::DaylightName()
     TIME_ZONE_INFORMATION tzInfo;
     GetTimeZoneInformation(&tzInfo);
     WCHAR* ptr = tzInfo.DaylightName;
-    result = StringUtils::wstring2UTF8string(ptr);
+    result = StringUtils::wstring2string(ptr);
 #else
     tzset();
     result = std::string(tzname[1]);
@@ -42,7 +42,7 @@ std::string TimeZone::StandardName()
     TIME_ZONE_INFORMATION tzInfo;
     GetTimeZoneInformation(&tzInfo);
     WCHAR* ptr = tzInfo.StandardName;
-    result = StringUtils::wstring2UTF8string(ptr);
+    result = StringUtils::wstring2string(ptr);
 #else
     tzset();
     result = std::string(tzname[0]);

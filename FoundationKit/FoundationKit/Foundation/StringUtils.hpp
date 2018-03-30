@@ -83,23 +83,9 @@ static std::string Tostring(bool val)
 
 static bool IsNumber(const std::string& val);
 
-static std::string wstring2UTF8string(const std::wstring &input);
+static std::string wstring2string(const std::wstring &input);
 
-static std::wstring string2UTF8wstring(const std::string &input);
-
-static std::wstring string2wstring(std::string s)
-{
-	std::wstring ws;
-	ws.assign(s.begin(), s.end());
-	return ws;
-}
-
-static std::string wstring2string(std::wstring ws)
-{
-	std::string s;
-	s.assign(ws.begin(), ws.end());
-	return s;
-}
+static std::wstring string2wstring(const std::string &input);
 
 static unsigned char* ToUnsigned(char* p)
 {

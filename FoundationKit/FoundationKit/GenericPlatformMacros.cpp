@@ -79,8 +79,18 @@ void __log__(const char* fmt, ...)
 #if (PLATFORM_ANDROID)
     __android_log_print(ANDROID_LOG_INFO, "FoundationKit", "%s", strPreMsg.c_str());
 #elif  PLATFORM_WINDOWS
-    std::wstring wstr = StringUtils::string2UTF8wstring(strPreMsg);
-    OutputDebugStringW(wstr.c_str());
+    std::u16string utf16;
+    bool ret = StringUtils::UTF8ToUTF16(strPreMsg, utf16);
+    if (ret)
+    {
+        const wchar_t* wcstr = reinterpret_cast<const wchar_t*>(utf16.c_str());
+        OutputDebugStringW(wcstr);
+    }
+    else
+    {
+        std::wstring wstr = StringUtils::string2wstring(strPreMsg);
+        OutputDebugStringW(wstr.c_str());
+    }
     printf("%s", strPreMsg.c_str());
     fflush(stdout);
 #else

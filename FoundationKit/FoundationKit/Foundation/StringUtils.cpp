@@ -179,7 +179,7 @@ bool StringUtils::IsNumber( const std::string& val )
 
 
 // Other impl see:http://blog.poxiao.me/p/unicode-character-encoding-conversion-in-cpp11/
-std::string StringUtils::wstring2UTF8string(const std::wstring &input)
+std::string StringUtils::wstring2string(const std::wstring &input)
 {
     scope_locale  sl("");
     std::string result;
@@ -199,7 +199,7 @@ std::string StringUtils::wstring2UTF8string(const std::wstring &input)
     return result;
 }
 
-std::wstring StringUtils::string2UTF8wstring(const std::string &input)
+std::wstring StringUtils::string2wstring(const std::string &input)
 {
     scope_locale  sl("");
     std::wstring result;
@@ -219,6 +219,7 @@ std::wstring StringUtils::string2UTF8wstring(const std::string &input)
     return result;
 }
 
+using namespace llvm;
 namespace detail
 {
     template <typename T>
@@ -329,7 +330,6 @@ std::u16string StringUtils::UTF8ToUTF16(const std::string &s)
     std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> conv;
     return conv.from_bytes(s);
 }
-
 std::u32string StringUtils::UTF8ToUTF32(const std::string &s)
 {
     std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;

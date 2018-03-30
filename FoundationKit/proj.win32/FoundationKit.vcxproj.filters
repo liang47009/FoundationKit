@@ -375,9 +375,6 @@
     <ClCompile Include="..\FoundationKit\external\unzip\unzip.cpp">
       <Filter>external\unzip</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.c">
-      <Filter>external\ConvertUTF</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTFWrapper.cpp">
       <Filter>external\ConvertUTF</Filter>
     </ClCompile>
@@ -495,6 +492,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Foundation\Version.cpp">
       <Filter>Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.cpp">
+      <Filter>external\ConvertUTF</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

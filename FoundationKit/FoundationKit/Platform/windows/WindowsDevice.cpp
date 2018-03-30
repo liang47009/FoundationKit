@@ -228,7 +228,7 @@ std::string PlatformDevice::GetDevice()
     {
         FKLog("ERROR: GetComputerName failed with %d!\n", GetLastError());
     }
-    std::string strComputerName = StringUtils::wstring2UTF8string(wzComputerName);
+    std::string strComputerName = StringUtils::wstring2string(wzComputerName);
     // dwNameLenght is the length of wzComputerName without NULL 
     if (dwNameLenght < 0 || dwNameLenght >(sizeof(wzComputerName) / sizeof(wzComputerName[0]) - 1))
     {
@@ -241,7 +241,7 @@ std::string PlatformDevice::GetDevice()
         FKLog("ERROR: GetComputerName returned %s of length %d which is not equal to dwSize = %u!\n", strComputerName.c_str(), wcslen(wzComputerName), dwNameLenght);
         return "";
     }
-    return StringUtils::wstring2UTF8string(wzComputerName);
+    return StringUtils::wstring2string(wzComputerName);
 }
 
 std::string PlatformDevice::GetBrandName()
@@ -739,7 +739,7 @@ bool PlatformDevice::ScreenCapture(std::string& outSavePath)
     CLSID ImageClsid;
     GetEncoderClsid(L"image/jpeg", &ImageClsid);
     Gdiplus::Bitmap bitmap(hCaptureBitmap, NULL);
-    std::wstring wstrPath = StringUtils::string2UTF8wstring(outSavePath);
+    std::wstring wstrPath = StringUtils::string2wstring(outSavePath);
     //int quality = 100;
     //Gdiplus::EncoderParameters encoderParameters;
     //encoderParameters.Count = 1;
