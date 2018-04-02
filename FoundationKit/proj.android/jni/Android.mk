@@ -10,7 +10,7 @@ LOCAL_SRC_FILES := \
 $(SRCROOT)/FoundationKit/Crypto/aes.cpp \
 $(SRCROOT)/FoundationKit/Crypto/Base64.cpp \
 $(SRCROOT)/FoundationKit/external/ConvertUTF/ConvertUTFWrapper.cpp \
-$(SRCROOT)/FoundationKit/external/ConvertUTF/ConvertUTF.c \
+$(SRCROOT)/FoundationKit/external/ConvertUTF/ConvertUTF.cpp \
 $(SRCROOT)/FoundationKit/external/unzip/ioapi.cpp \
 $(SRCROOT)/FoundationKit/external/unzip/ioapi_mem.cpp \
 $(SRCROOT)/FoundationKit/external/unzip/unzip.cpp \
