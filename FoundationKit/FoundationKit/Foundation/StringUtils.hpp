@@ -97,7 +97,6 @@ static unsigned char* ToUnsigned(std::string& str)
 	return reinterpret_cast<unsigned char*>(&*str.begin());
 }
 
-
 /**
  *  @brief Converts from UTF8 string to UTF16 string.
  *
@@ -156,14 +155,11 @@ static bool UTF32ToUTF8(const std::u32string& inUtf32, std::string& outUtf8);
 static bool UTF32ToUTF16(const std::u32string& inUtf32, std::u16string& outUtf16);
 
 /**
-static std::u16string UTF8ToUTF16(const std::string &s);
-static std::u32string UTF8ToUTF32(const std::string &s);
-static std::string    UTF16ToUTF8(const std::u16string &s);
-static std::u32string UTF16ToUTF32(const std::u16string &s);
-static std::string    UTF32ToUTF8(const std::u32string &s);
-static std::u16string UTF32ToUTF16(const std::u32string &s);
+static std::wstring UTF8ToUTF16(const std::string& input);
+static std::string  UTF16ToUTF8(const std::wstring& input);
+static std::string  UTF32ToUTF8(const std::u32string& input);
+static std::u32string UTF8ToUTF32(const std::string& input);
 */
-
 };
 
 NS_FK_END

@@ -439,7 +439,7 @@ extern "C" {
     * this function include regular files, sub-directories, pseudo-directories
     * "." and ".." as well as volume labels, hidden files and system files.
     */
-    static struct _wdirent*
+    static inline struct _wdirent*
         _wreaddir(
         _WDIR *dirp)
     {
@@ -812,7 +812,7 @@ extern "C" {
     /*
     * Rewind directory stream to beginning.
     */
-    static void
+    static inline void
         rewinddir(
         DIR* dirp)
     {
