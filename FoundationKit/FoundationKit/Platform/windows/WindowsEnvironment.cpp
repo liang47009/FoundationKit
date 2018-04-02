@@ -47,12 +47,7 @@ bool Environment::HasEnvironmentVariable(const std::string& variable)
 
 bool Environment::SetEnvironmentVariable(const std::string& variable, const std::string& value)
 {
-    const char* szValue = nullptr;
-    if (!value.empty())
-    {
-        szValue = value.c_str();
-    }
-    if (SetEnvironmentVariableA(variable.c_str(), szValue) == 0)
+    if (SetEnvironmentVariableA(variable.c_str(), value.c_str()) == 0)
     {
         std::string msg = "cannot set environment variable: ";
         msg.append(variable);

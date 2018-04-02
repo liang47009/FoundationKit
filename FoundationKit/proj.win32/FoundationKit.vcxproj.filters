@@ -361,6 +361,7 @@
       <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\FoundationKitVersion.hpp" />
+    <ClInclude Include="..\FoundationKit\FoundationKitConfig.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">

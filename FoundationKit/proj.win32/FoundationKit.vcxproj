@@ -216,6 +216,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\unzip.h" />
     <ClInclude Include="..\FoundationKit\forward.hpp" />
+    <ClInclude Include="..\FoundationKit\FoundationKitConfig.hpp" />
     <ClInclude Include="..\FoundationKit\FoundationKitVersion.hpp" />
     <ClInclude Include="..\FoundationKit\FoundationMacros.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\BitStream.hpp" />
