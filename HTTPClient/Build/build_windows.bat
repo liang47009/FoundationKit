@@ -10,6 +10,8 @@ mkdir proj.win32
 cd proj.win32
 cmake -G "Visual Studio 14 2015" ../../
 :cmake -G "Visual Studio 14 2015 Win64" ../../
+:cmake -G "Visual Studio 14 2015 ARM" ../../
+
 cmake --build . --config Debug
 cmake --build . --config Release
 
