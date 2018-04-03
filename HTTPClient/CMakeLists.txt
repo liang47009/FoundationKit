@@ -41,12 +41,13 @@ endif()
 #C/C++ 标准库版本
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -std=c++14")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 
 add_definitions(-DUNICODE -D_UNICODE)
 
 if(MSVC)
   message(STATUS "======== COMPILER IS MSVC")
+  set(PLATFORM_FOLDER "windows")
   # Force to always compile with W4
   if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
     string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
@@ -136,7 +137,7 @@ else()
 endif()
 
 if(ANDROID)
-  set(PLATFORM_FOLDER "ios")
+  set(PLATFORM_FOLDER "android")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__GXX_EXPERIMENTAL_CXX0X__ -D_FILE_OFFSET_BITS=64")
   if(NOT CMAKE_ANDROID_ARCH_ABI)
     set(CMAKE_ANDROID_ARCH_ABI ${ANDROID_ABI})
@@ -151,8 +152,8 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS OFF)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}
-                    ${CMAKE_CURRENT_SOURCE_DIR}/../../FoundationKit
-                    ${CMAKE_CURRENT_SOURCE_DIR}/../../ThirdParty/curl/include/win32/curl)
+                    ${CMAKE_CURRENT_SOURCE_DIR}/../FoundationKit
+                    ${CMAKE_CURRENT_SOURCE_DIR}/../ThirdParty/curl/include/win32/curl)
 
 
 file(GLOB_RECURSE HEADER_LIST "${CMAKE_CURRENT_SOURCE_DIR}/HTTPClient/*.hpp")
@@ -165,11 +166,20 @@ set_target_properties(HTTPClient
     PROPERTIES
     PUBLIC_HEADER "${HEADER_LIST}")
 
+if(ANDROID)
+
 install(TARGETS HTTPClient
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION prebuilt/
+        ARCHIVE DESTINATION prebuilt/${PLATFORM_FOLDER}/${ANDROID_ABI}
   PUBLIC_HEADER DESTINATION include/${PLATFORM_FOLDER}/HTTPClient/)
+elseif()
+  install(TARGETS HTTPClient
+          RUNTIME DESTINATION bin
+          LIBRARY DESTINATION lib
+          ARCHIVE DESTINATION prebuilt/${PLATFORM_FOLDER}/
+    PUBLIC_HEADER DESTINATION include/${PLATFORM_FOLDER}/HTTPClient/)
+endif()
 
 #install (FILES ${HEADER_LIST} DESTINATION include)
 
@@ -180,7 +190,5 @@ message(STATUS "Project directory : ${PROJECT_SOURCE_DIR}")
 message(STATUS "Build called from : ${PROJECT_BINARY_DIR}")
 message(STATUS "Executables in    : ${EXECUTABLE_OUTPUT_PATH}")
 message(STATUS "Libraries in      : ${LIBRARY_OUTPUT_DIRECTORY}")
-
-message(STATUS "CMAKE_GENERATOR_TOOLSET=${CMAKE_GENERATOR_TOOLSET}")
 
 
