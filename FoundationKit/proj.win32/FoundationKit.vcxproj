@@ -187,6 +187,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Base\hex.hpp" />
     <ClInclude Include="..\FoundationKit\Base\locale.hpp" />
     <ClInclude Include="..\FoundationKit\Base\max_integer_of.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\memory.hpp" />
     <ClInclude Include="..\FoundationKit\Base\memory_aligned.hpp" />
     <ClInclude Include="..\FoundationKit\Base\mutablebuf.hpp" />
     <ClInclude Include="..\FoundationKit\Base\noncopyable.hpp" />

@@ -362,6 +362,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\FoundationKitVersion.hpp" />
     <ClInclude Include="..\FoundationKit\FoundationKitConfig.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\memory.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
