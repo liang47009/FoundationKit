@@ -7,8 +7,6 @@
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #if PLATFORM_ANDROID
-
-#include <pthread.h>
 #include <algorithm>
 #include <android/asset_manager_jni.h>
 #include "AndroidJNI.hpp"
@@ -18,12 +16,12 @@ NS_FK_BEGIN
 std::string GExternalFilePath;
 std::string GFilePathBase;
 
-static jint      GCurrentJavaVersion = JNI_VERSION_1_6;
-static JavaVM*   GCurrentJavaVM      = nullptr;
-static jobject   GMainActivityRef    = nullptr;
-static jobject   GClassLoader        = nullptr;
-static jmethodID GFindClassMethod    = nullptr;
-static pthread_key_t GTlsSlot;
+jint          AndroidJNI::CurrentJavaVersion = JNI_VERSION_1_6;
+JavaVM*       AndroidJNI::CurrentJavaVM      = nullptr;
+jobject       AndroidJNI::MainActivityRef    = nullptr;
+jobject       AndroidJNI::ClassLoader        = nullptr;
+jmethodID     AndroidJNI::FindClassMethod    = nullptr;
+pthread_key_t AndroidJNI::TlsSlot;
 
 /************************************************************************
 Memory Manage:
@@ -49,14 +47,14 @@ AndroidJNI::AndroidJNI()
 AndroidJNI::~AndroidJNI()
 {
     JNIEnv* env = AndroidJNI::GetJavaEnv();
-    if (GMainActivityRef)
+    if (MainActivityRef)
     {
-        env->DeleteGlobalRef(GMainActivityRef);
+        env->DeleteGlobalRef(MainActivityRef);
     }
 
-    if (GClassLoader)
+    if (ClassLoader)
     {
-        env->DeleteGlobalRef(GClassLoader);
+        env->DeleteGlobalRef(ClassLoader);
     }
 }
 
@@ -68,28 +66,28 @@ static void JavaEnvDestructor(void*)
 
 void AndroidJNI::InitializeJavaEnv(JavaVM* vm, jint version, jobject activityInstance/* = nullptr*/)
 {
-    ANDROID_LOGI("InitializeJavaEnv GCurrentJavaVM:%p, vm:%p, version:%d, activityInstance:%p", GCurrentJavaVM, vm, version, activityInstance);
-    if (GCurrentJavaVM == nullptr)
+    ANDROID_LOGI("InitializeJavaEnv CurrentJavaVM:%p, vm:%p, version:%d, activityInstance:%p", CurrentJavaVM, vm, version, activityInstance);
+    if (CurrentJavaVM == nullptr)
     {
-        GCurrentJavaVM = vm;
-        GCurrentJavaVersion = version;
-        pthread_key_create(&GTlsSlot, &JavaEnvDestructor);
+        CurrentJavaVM = vm;
+        CurrentJavaVersion = version;
+        pthread_key_create(&TlsSlot, &JavaEnvDestructor);
         JNIEnv* env = AndroidJNI::GetJavaEnv();
         if (activityInstance)
         {
-            GMainActivityRef = env->NewGlobalRef(activityInstance);
+            MainActivityRef = env->NewGlobalRef(activityInstance);
             jclass classLoaderClass = env->FindClass("java/lang/ClassLoader");
             jclass classClass = env->FindClass("java/lang/Class");
             jmethodID classLoaderMethod = env->GetMethodID(classClass, "getClassLoader", "()Ljava/lang/ClassLoader;");
             jclass MainClass = env->GetObjectClass(activityInstance);
             jobject classLoader = env->CallObjectMethod(MainClass, classLoaderMethod);
-            GClassLoader = env->NewGlobalRef(classLoader);
+            ClassLoader = env->NewGlobalRef(classLoader);
             // The old version of the DexClassLoader SDK has the findClass method, 
             // the new version of SDK is the loadClass method
-            GFindClassMethod = env->GetMethodID(classLoaderClass, "loadClass", "(Ljava/lang/String;)Ljava/lang/Class;");
-            if (GFindClassMethod == nullptr)
+            FindClassMethod = env->GetMethodID(classLoaderClass, "loadClass", "(Ljava/lang/String;)Ljava/lang/Class;");
+            if (FindClassMethod == nullptr)
             {
-                GFindClassMethod = env->GetMethodID(classLoaderClass, "findClass", "(Ljava/lang/String;)Ljava/lang/Class;");
+                FindClassMethod = env->GetMethodID(classLoaderClass, "findClass", "(Ljava/lang/String;)Ljava/lang/Class;");
             }
 
             // Cache path to external files directory
@@ -135,36 +133,36 @@ void AndroidJNI::InitializeJavaEnv(JavaVM* vm, jint version, jobject activityIns
 
 jobject AndroidJNI::GetMainActivity()
 {
-    return GMainActivityRef;
+    return MainActivityRef;
 }
 
 JNIEnv* AndroidJNI::GetJavaEnv()
 {
     // register a destructor to detach this thread
-    JNIEnv* Env = (JNIEnv*)pthread_getspecific(GTlsSlot);
+    JNIEnv* Env = (JNIEnv*)pthread_getspecific(TlsSlot);
     if (Env == nullptr)
     {
-        jint GetEnvResult = GCurrentJavaVM->GetEnv((void**)&Env, GCurrentJavaVersion);
+        jint GetEnvResult = CurrentJavaVM->GetEnv((void**)&Env, CurrentJavaVersion);
         switch (GetEnvResult)
         {
         case JNI_OK:
-            pthread_setspecific(GTlsSlot, (void*)Env);
+            pthread_setspecific(TlsSlot, (void*)Env);
             break;
         case JNI_EDETACHED:
             {
                 // attach to this thread
-                jint AttachResult = GCurrentJavaVM->AttachCurrentThread(&Env, NULL);
+                jint AttachResult = CurrentJavaVM->AttachCurrentThread(&Env, NULL);
                 if (AttachResult == JNI_ERR)
                 {
                     ANDROID_CHECKF(false, "*** Failed to attach thread to get the JNI environment!");
                     return nullptr;
                 }
-                pthread_setspecific(GTlsSlot, (void*)Env);
+                pthread_setspecific(TlsSlot, (void*)Env);
             }
             break;
         case JNI_EVERSION:
             // Cannot recover from this error
-            ANDROID_CHECKF(false, "*** JNI interface version %d not supported", GCurrentJavaVersion);
+            ANDROID_CHECKF(false, "*** JNI interface version %d not supported", CurrentJavaVersion);
         default:
             ANDROID_CHECKF(false, "*** Failed to get the JNI environment! Result = %d", GetEnvResult);
             return nullptr;
@@ -181,15 +179,15 @@ jclass AndroidJNI::FindJavaClass(const char* name)
         ANDROID_CHECKF(false, "*** Unable to find Java class %s, Env:%p", name, env);
         return nullptr;
     }
-    ANDROID_CHECKF(GClassLoader, "*** GClassLoader:%p", GClassLoader);
-    ANDROID_CHECKF(GFindClassMethod, "*** GFindClassMethod:%p", GFindClassMethod);
+    ANDROID_CHECKF(ClassLoader, "*** ClassLoader:%p", ClassLoader);
+    ANDROID_CHECKF(FindClassMethod, "*** FindClassMethod:%p", FindClassMethod);
     std::string className(name);
     std::replace(className.begin(), className.end(), '.', '/');
     jclass foundClass = nullptr;
-    if (GClassLoader != nullptr && GFindClassMethod != nullptr)
+    if (ClassLoader != nullptr && FindClassMethod != nullptr)
     {
         jstring jclassName = env->NewStringUTF(className.c_str());
-        foundClass = static_cast<jclass>(env->CallObjectMethod(GClassLoader, GFindClassMethod, jclassName));
+        foundClass = static_cast<jclass>(env->CallObjectMethod(ClassLoader, FindClassMethod, jclassName));
         env->DeleteLocalRef(jclassName);
     }
     else
@@ -267,56 +265,21 @@ jstring AndroidJNI::string2jstring(const std::string& str)
 AAssetManager* AndroidJNI::GetAAssetManager()
 {
     JNIEnv *env = AndroidJNI::GetJavaEnv();
-    if (!env || !GMainActivityRef)
+    if (!env || !MainActivityRef)
     {
         return nullptr;
     }
-    jclass activity_class = env->GetObjectClass(GMainActivityRef);
+    jclass activity_class = env->GetObjectClass(MainActivityRef);
     jmethodID getAssets = env->GetMethodID(activity_class, "getAssets", "()Landroid/content/res/AssetManager;");
-    jobject assetManager = env->CallObjectMethod(GMainActivityRef, getAssets);
+    jobject assetManager = env->CallObjectMethod(MainActivityRef, getAssets);
+    env->DeleteLocalRef(activity_class);
     return AAssetManager_fromJava(env, assetManager);
 }
 
 void AndroidJNI::DetachJavaEnv()
 {
-    GCurrentJavaVM->DetachCurrentThread();
+    CurrentJavaVM->DetachCurrentThread();
 }
-
-/*
- * Register JNI native methods
- * @code
- * Defined the method.
- * JNIEXPORT jstring JNICALL native_hello(JNIEnv *env, jclass clazz)
- *  {
- *      printf("hello in c native code./n");
- *      return (*env)->NewStringUTF(env, "hello world returned.");
- *  }
- *
- *  Defined JNINativeMethod array
- * static JNINativeMethod gMethods[] =
- * {
- *     { "hello", "()Ljava/lang/String;", (void*)native_hello},
- * };
- * bool ret = AndroidJNI::registerNativeMethods("com/example/MainActivity", gMethods);
- * @endcode
- */
-bool AndroidJNI::RegisterNativeMethods(const char* className, JNINativeMethod* nativeMethods)
-{
-
-    if (!className)
-        return false;
-
-    JNIEnv*	env = AndroidJNI::GetJavaEnv();
-    jclass foundClass = AndroidJNI::FindJavaClass(className);
-    if (!foundClass)
-        return false;
-    if (env->RegisterNatives(foundClass, nativeMethods, sizeof(nativeMethods) / sizeof(nativeMethods[0])) < 0)
-    {
-        return false;
-    }
-    return true;
-}
-
 
 NS_FK_END
 

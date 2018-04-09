@@ -106,6 +106,18 @@ namespace Math
 		return static_cast<int>(std::floor(val));
 	}
 
+    /// Returns f rounded to the nearest integer.
+    template <typename T>
+    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
+        Round(T val)
+    {
+#if PLATFORM_ANDROID
+        return (val > T(0)) ? std::floor(val + T(0.5)) : std::ceil(val - T(0.5));
+#else
+        return std::round(val);
+#endif
+    }
+
 	/// Clamps val value between a minimum and maximum value.
 	template< typename T>
     FORCEINLINE T Clamp(T val, T minVal, T maxVal)
@@ -222,18 +234,6 @@ namespace Math
     FORCEINLINE bool Approximately(const T1 a, const T2 b)
     {
         return RoughlyEqual(a, b, 0.1f);
-    }
-
-	/// Returns f rounded to the nearest integer.
-    template <typename T>
-    FORCEINLINE typename std::enable_if< std::is_arithmetic<T>::value, T >::type
-    Round(T val)
-    {
-#if PLATFORM_ANDROID
-        return (val > T(0)) ? std::floor(val + T(0.5)) : std::ceil(val - T(0.5));
-#else
-        return std::round(val);
-#endif
     }
 
     FORCEINLINE bool Equal(const float& v1, const float& v2)

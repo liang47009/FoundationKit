@@ -11,7 +11,7 @@ losemymind.libo@gmail.com
 #include "FoundationKit/Foundation/StringUtils.hpp"
 
 NS_FK_BEGIN
-
+#define VARIABLE_SIZE	1024
 Environment::stringvec Environment::GetEnvironmentVariables()
 {
     LPWCH lpvEnv = GetEnvironmentStringsW();
@@ -29,32 +29,48 @@ Environment::stringvec Environment::GetEnvironmentVariables()
 
 std::string Environment::GetEnvironmentVariable(const std::string& variable)
 {
-    DWORD len = GetEnvironmentVariableA(variable.c_str(), 0, 0);
-    if (len == 0) return ""; //throw NotFoundException(variable);
-    char* buffer = new char[len + 1];
-    memset(buffer, 0, len + 1);
-    GetEnvironmentVariableA(variable.c_str(), buffer, len);
-    std::string result(buffer);
-    delete[] buffer;
-    return result;
+    std::wstring VariableName = StringUtils::string2wstring(variable);
+    wchar_t VariableValue[VARIABLE_SIZE] = { 0 };
+    DWORD VariableLength = ::GetEnvironmentVariableW(VariableName.c_str(), VariableValue, VARIABLE_SIZE);
+    if (VariableLength == 0)
+        return std::string(); //throw NotFoundException(VariableName);
+    if (VariableLength < VARIABLE_SIZE)
+        return StringUtils::wstring2string(VariableValue);
+    wchar_t* BigVariableValue = new wchar_t[VariableLength + 1];
+    memset(BigVariableValue, 0, VariableLength + 1);
+    ::GetEnvironmentVariableW(VariableName.c_str(), BigVariableValue, VariableLength);
+    std::wstring result = BigVariableValue;
+    delete[] BigVariableValue;
+    return StringUtils::wstring2string(result);
 }
 
 bool Environment::HasEnvironmentVariable(const std::string& variable)
 {
-    DWORD len = GetEnvironmentVariableA(variable.c_str(), 0, 0);
-    return len > 0;
+    std::wstring VariableName = StringUtils::string2wstring(variable);
+    DWORD VariableLength = ::GetEnvironmentVariableW(VariableName.c_str(), 0, 0);
+    return VariableLength > 0;
 }
 
 bool Environment::SetEnvironmentVariable(const std::string& variable, const std::string& value)
 {
-    if (SetEnvironmentVariableA(variable.c_str(), value.c_str()) == 0)
+    bool ChangeVariableResult = false;
+    std::wstring VariableName = StringUtils::string2wstring(variable);
+    if (value.empty())
     {
-        std::string msg = "cannot set environment variable: ";
-        msg.append(variable);
-        ASSERTED(false, msg.c_str());
-        return false;
+        ChangeVariableResult = (::SetEnvironmentVariableW(VariableName.c_str(), NULL) == TRUE);
     }
-    return true;
+    else 
+    {
+        std::wstring VariableValue = StringUtils::string2wstring(value);
+        ChangeVariableResult = (::SetEnvironmentVariableW(VariableName.c_str(), VariableValue.c_str()) == TRUE);
+        if (!ChangeVariableResult)
+        {
+            std::string msg = "cannot set environment variable: ";
+            msg.append(variable);
+            ASSERTED(false, msg.c_str());
+        }
+    }
+    return ChangeVariableResult;
 }
 
 LPWSTR *SegmentCommandLine(LPCWSTR lpCmdLine, DWORD *pNumArgs);

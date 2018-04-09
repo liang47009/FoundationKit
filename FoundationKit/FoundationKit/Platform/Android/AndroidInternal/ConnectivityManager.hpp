@@ -181,10 +181,10 @@ public:
      * {@link android.Manifest.permission#ACCESS_NETWORK_STATE}.
      */
     NetworkInfo getActiveNetworkInfo() {
-        Scope_JObject NetworkInfoObject = ConnectivityManagerInstance.CallWithSig<jobject>("getActiveNetworkInfo", "()Landroid/net/NetworkInfo;");
-        if (NetworkInfoObject.jobject_ref == nullptr)
+        ScopeJavaObjectRef NetworkInfoObject = ConnectivityManagerInstance.CallWithSig<jobject>("getActiveNetworkInfo", "()Landroid/net/NetworkInfo;");
+        if (!NetworkInfoObject)
             return NetworkInfo();
-        return NetworkInfo(NetworkInfoObject.jobject_ref);
+        return NetworkInfo(NetworkInfoObject.Get());
     }
 
     /**
@@ -201,10 +201,10 @@ public:
      * {@link android.Manifest.permission#ACCESS_NETWORK_STATE}.
      */
     NetworkInfo getNetworkInfo(int networkType) {
-        Scope_JObject NetworkInfoObject = ConnectivityManagerInstance.CallWithSig<jobject>("getNetworkInfo", "(I)Landroid/net/NetworkInfo;",networkType);
+        ScopeJavaObjectRef NetworkInfoObject = ConnectivityManagerInstance.CallWithSig<jobject>("getNetworkInfo", "(I)Landroid/net/NetworkInfo;",networkType);
         if (!NetworkInfoObject)
             return NetworkInfo();
-        return NetworkInfo(NetworkInfoObject.jobject_ref);
+        return NetworkInfo(NetworkInfoObject.Get());
     }
 
     /**

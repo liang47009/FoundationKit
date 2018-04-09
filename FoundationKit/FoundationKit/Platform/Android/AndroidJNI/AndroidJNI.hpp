@@ -11,9 +11,11 @@
 #if PLATFORM_ANDROID
 
 #include <jni.h>
+#include <pthread.h>
 #include <android/log.h>
 #include <android/asset_manager.h>
 #include <string>
+#include <memory>
 
 #if defined(_DEBUG) || defined(DEBUG)
 #define ANDROID_LOGD(...) ((void)__android_log_print(ANDROID_LOG_DEBUG,"AndroidJNI", __VA_ARGS__))
@@ -51,26 +53,119 @@ public:
     static jstring         string2jstring(const std::string& str);
     static AAssetManager*  GetAAssetManager();
     static void            DetachJavaEnv();
-    static bool            RegisterNativeMethods(const char* className, JNINativeMethod* nativeMethods);
     ~AndroidJNI();
 private:
     AndroidJNI();
+    static jint          CurrentJavaVersion;
+    static JavaVM*       CurrentJavaVM;
+    static jobject       MainActivityRef;
+    static jobject       ClassLoader;
+    static jmethodID     FindClassMethod;
+    static pthread_key_t TlsSlot;
 };
 
 
-class Scope_JObject
+class ScopeJavaObjectRef
 {
-public:
     jobject  jobject_ref;
-    Scope_JObject(jobject obj) :jobject_ref(obj) {}
-    Scope_JObject& operator= (jobject obj) { jobject_ref = obj; return (*this); };
-    ~Scope_JObject() { AndroidJNI::GetJavaEnv()->DeleteLocalRef(jobject_ref); }
+public:
+    
+    ScopeJavaObjectRef(jobject obj) :jobject_ref(obj) {}
+    ScopeJavaObjectRef& operator= (jobject obj) { jobject_ref = obj; return (*this); };
+    ~ScopeJavaObjectRef() { AndroidJNI::GetJavaEnv()->DeleteLocalRef(jobject_ref); }
     explicit operator bool() const// _NOEXCEPT
     {
         return (!!jobject_ref);
     }
+
+    jobject Get()
+    {
+        return jobject_ref;
+    }
 };
 
+class GlobalJavaObjectRef
+{
+public:
+    GlobalJavaObjectRef():jobject_pointer(nullptr)
+    {
+
+    }
+    GlobalJavaObjectRef(jobject InJobject)
+    {
+        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+        if (InJobject)
+        {
+            jobject_pointer = std::shared_ptr<_jobject>(jniEnv->NewGlobalRef(InJobject), jobjectDeleter);
+        }
+        else
+        {
+            jobject_pointer = nullptr;
+        }
+    }
+
+    ~GlobalJavaObjectRef()
+    {
+       
+    }
+
+    GlobalJavaObjectRef& operator= (jobject InJobject)
+    {
+        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+        if (InJobject)
+        {
+            jobject_pointer = std::shared_ptr<_jobject>(jniEnv->NewGlobalRef(InJobject), jobjectDeleter);
+        }
+        else
+        {
+            jobject_pointer = nullptr;
+        }
+        return *(this);
+    }
+
+    GlobalJavaObjectRef(const GlobalJavaObjectRef& Other)
+    {
+        jobject_pointer = Other.jobject_pointer;
+    }
+
+    GlobalJavaObjectRef(GlobalJavaObjectRef&& Other)
+    {
+        jobject_pointer = std::move(Other.jobject_pointer);
+    }
+
+    GlobalJavaObjectRef& operator= (const GlobalJavaObjectRef& Other)
+    {
+        jobject_pointer = Other.jobject_pointer;
+        return *(this);
+    }
+
+    GlobalJavaObjectRef& operator= (GlobalJavaObjectRef&& Other)
+    {
+        jobject_pointer = std::move(Other.jobject_pointer);
+        return *(this);
+    }
+
+    operator jobject()
+    {
+        return jobject_pointer.get();
+    }
+
+    operator bool() const
+    {
+        return (jobject_pointer != nullptr);
+    }
+
+    static void jobjectDeleter(jobject jobj)
+    {
+        if (jobj)
+        {
+            JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+            jniEnv->DeleteGlobalRef(jobj);
+        }
+    }
+protected:
+    std::shared_ptr<_jobject> jobject_pointer;
+};
 
 NS_FK_END
 
