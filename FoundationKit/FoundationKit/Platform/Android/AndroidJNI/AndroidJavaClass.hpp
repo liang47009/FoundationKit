@@ -9,7 +9,7 @@
 
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #if PLATFORM_ANDROID
-
+#include <memory>
 #include "AndroidJNI.hpp"
 #include "AndroidFoundation.hpp"
 
@@ -18,24 +18,29 @@ NS_FK_BEGIN
 class AndroidJavaClass
 {
 public:
-    AndroidJavaClass() :_class(nullptr)
+    AndroidJavaClass() :JavaClass(nullptr)
     {
 
     }
 
-    AndroidJavaClass(AndroidJavaClass&& right)
+    AndroidJavaClass(AndroidJavaClass&& InOther)
     {
-        _Assign_rv(std::forward<AndroidJavaClass>(right));
+        JavaClass = std::move(InOther.JavaClass);
     }
 
-    AndroidJavaClass(const AndroidJavaClass& other)
+    AndroidJavaClass(const AndroidJavaClass& InOther)
     {
-        _class = other._class;
+        JavaClass = InOther.JavaClass;
     }
 
-    AndroidJavaClass(jclass jclazz)
+    AndroidJavaClass(jclass InJavaClass)
     {
-        _class = jclazz;
+        JavaClass = InJavaClass;
+    }
+
+    AndroidJavaClass(GlobalJavaObjectRef InJavaClassRef)
+    {
+        JavaClass = InJavaClassRef;
     }
 
    /** Construct an AndroidJavaClass based on the name of the java class.
@@ -44,19 +49,41 @@ public:
     */
     AndroidJavaClass(const std::string& className)
     {
-        _class = AndroidJNI::FindJavaClass(className.c_str());
+        jclass ObjectClass = AndroidJNI::FindJavaClass(className.c_str());
+        JavaClass = ObjectClass;
+        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+        jniEnv->DeleteLocalRef(ObjectClass);
     }
 
-    AndroidJavaClass& operator=(AndroidJavaClass&& right)
+    AndroidJavaClass& operator=(AndroidJavaClass&& InOther)
     {
-        AndroidJavaClass(std::move(right)).Swap(*this);
+        JavaClass = std::move(InOther.JavaClass);
         return (*this);
     }
 
-    AndroidJavaClass& operator=(const AndroidJavaClass& right)
+    AndroidJavaClass& operator=(const AndroidJavaClass& InOther)
     {
-        AndroidJavaClass(right).Swap(*this);
+        JavaClass = InOther.JavaClass;
         return (*this);
+    }
+
+    AndroidJavaClass& operator=(const GlobalJavaObjectRef& InJavaClassRef)
+    {
+        JavaClass = InJavaClassRef;
+        return (*this);
+    }
+
+    
+
+    AndroidJavaClass& operator= (jclass InClazz)
+    {
+        JavaClass = InClazz;
+        return *(this);
+    }
+
+    inline operator jclass()
+    {
+        return (jclass)JavaClass.Get();
     }
 
     explicit operator bool() const// _NOEXCEPT
@@ -64,48 +91,36 @@ public:
         return (GetRawClass() != nullptr);
     }
 
-    void Swap(AndroidJavaClass& right)
-    {
-        std::swap(_class, right._class);
-    }
-
     template<typename T = void, typename... Args>
     T CallStaticWithSig(const std::string& methodName, const std::string& sig, Args&&... args)
     {
-        return AndroidFoundation::CallStaticWithSig<T>(_class, methodName, sig, std::forward<Args>(args)...);
+        return AndroidFoundation::CallStaticWithSig<T>(GetRawClass(), methodName, sig, std::forward<Args>(args)...);
     }
 
     template<typename T = void, typename... Args>
     T CallStatic(std::string methodName, Args&&... args)
     {
-        return AndroidFoundation::CallStatic<T>(_class, methodName, std::forward<Args>(args)...);
+        return AndroidFoundation::CallStatic<T>(GetRawClass(), methodName, std::forward<Args>(args)...);
     }
 
     template<typename T>
     void SetStatic(std::string fieldName, T fieldValue, std::string sig = "")
     {
-        AndroidFoundation::SetStaticField<T>(_class, fieldName, fieldValue, sig);
+        AndroidFoundation::SetStaticField<T>(GetRawClass(), fieldName, fieldValue, sig);
     }
 
     template<typename T>
     T GetStatic(std::string fieldName, std::string sig = "")
     {
-        return AndroidFoundation::GetStaticField<T>(_class, fieldName, sig);
+        return AndroidFoundation::GetStaticField<T>(GetRawClass(), fieldName, sig);
     }
 
-    jclass GetRawClass()const
+    inline jclass GetRawClass()const
     {
-        return _class;
-    }
-
-private:
-    void _Assign_rv(AndroidJavaClass&& right)
-    {	// assign by moving _Right
-        if (this != &right)
-            Swap(right);
+        return (jclass)JavaClass.Get();
     }
 protected:
-    jclass _class;
+    GlobalJavaObjectRef JavaClass;
 };
 
 NS_FK_END

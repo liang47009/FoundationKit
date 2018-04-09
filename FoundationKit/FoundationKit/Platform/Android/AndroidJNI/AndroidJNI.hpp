@@ -78,7 +78,7 @@ public:
         return (!!jobject_ref);
     }
 
-    jobject Get()
+    jobject Get()const
     {
         return jobject_ref;
     }
@@ -145,7 +145,12 @@ public:
         return *(this);
     }
 
-    operator jobject()
+    jobject Get()const
+    {
+        return jobject_pointer.get();
+    }
+
+    operator jobject()const
     {
         return jobject_pointer.get();
     }

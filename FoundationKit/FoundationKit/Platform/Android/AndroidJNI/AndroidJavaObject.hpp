@@ -13,6 +13,7 @@
 #include <memory>
 #include "AndroidJNI.hpp"
 #include "AndroidFoundation.hpp"
+#include "AndroidJavaClass.hpp"
 
 NS_FK_BEGIN
 
@@ -24,25 +25,39 @@ class AndroidJavaObject
 public:
 
     AndroidJavaObject()
-    : _object(nullptr)
+    : JavaObject(nullptr)
+    , JavaClass(nullptr)
     {
 
     }
     AndroidJavaObject(AndroidJavaObject&& right)
     {
-        _Assign_rv(std::forward<AndroidJavaObject>(right));
+        JavaObject = std::move(right.JavaObject);
+        JavaClass = std::move(right.JavaClass);
     }
 
     AndroidJavaObject(const AndroidJavaObject& other)
-    : _object(other._object)
+    : JavaObject(other.JavaObject)
+    , JavaClass(other.JavaClass)
     {
 
     }
 
-    explicit AndroidJavaObject(jobject jobj)
+    explicit AndroidJavaObject(jobject InJavaObject)
     {
-        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
-        _object = std::shared_ptr<_jobject>(jniEnv->NewGlobalRef(jobj), jobjectDeleter);
+        if (InJavaObject)
+        {
+            JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+            JavaObject = InJavaObject;
+            jclass ObjectClass = jniEnv->GetObjectClass(InJavaObject);
+            JavaClass = ObjectClass;
+            jniEnv->DeleteLocalRef(ObjectClass);
+        }
+        else
+        {
+            JavaObject = nullptr;
+            JavaClass = nullptr;
+        }
     }
 
     /** Construct an AndroidJavaObject based on the name of the java class.
@@ -58,30 +73,63 @@ public:
         JavaClassMethod method = AndroidJNI::GetClassMethod(className.c_str(), "<init>", methodSignature.c_str());
         jobject object = jniEnv->NewObject(method.clazz, method.method, AndroidFoundation::CPPToJNI<typename std::decay<Args>::type>::convert(args)...);
         ANDROID_CHECKF(object, "*** Create %s failed.", className.c_str());
-        // Promote local references to global
-        _object = std::shared_ptr<_jobject>(jniEnv->NewGlobalRef(object), jobjectDeleter);
+        jclass ObjectClass = jniEnv->GetObjectClass(object);
+        JavaObject = object;
+        JavaClass = ObjectClass;
         jniEnv->DeleteLocalRef(object);
+        jniEnv->DeleteLocalRef(ObjectClass);
     }
 
     AndroidJavaObject& operator=(AndroidJavaObject&& right)
     {
-        AndroidJavaObject(std::move(right)).Swap(*this);
+        JavaObject = std::move(right.JavaObject);
+        JavaClass = std::move(right.JavaClass);
         return (*this);
     }
+
     AndroidJavaObject& operator=(const AndroidJavaObject& right)
     {
-        AndroidJavaObject(right).Swap(*this);
+        JavaObject = right.JavaObject;
+        JavaClass = right.JavaClass;
         return (*this);
     }
 
-    explicit operator bool() const// _NOEXCEPT
+    AndroidJavaObject& operator= (jobject InJavaObject)
     {
-        return (GetRawObject() != nullptr);
+        if (InJavaObject)
+        {
+            JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+            JavaObject = InJavaObject;
+            jclass ObjectClass = jniEnv->GetObjectClass(InJavaObject);
+            JavaClass = ObjectClass;
+            jniEnv->DeleteLocalRef(ObjectClass);
+        }
+        else
+        {
+            JavaObject = nullptr;
+            JavaClass = nullptr;
+        }
+        return *(this);
     }
 
-    void Swap(AndroidJavaObject& right)
+    inline operator jobject()
     {
-        _object.swap(right._object);
+        return JavaObject;
+    }
+
+    inline operator jclass()
+    {
+        return (jclass)JavaClass.Get();
+    }
+
+    inline operator AndroidJavaClass()
+    {
+        return AndroidJavaClass(JavaClass);
+    }
+
+    inline operator bool() const// _NOEXCEPT
+    {
+        return (GetRawObject() != nullptr);
     }
 
     template<typename T = void, typename... Args>
@@ -136,38 +184,23 @@ public:
         return AndroidFoundation::GetStaticField<T>(GetRawClass(), fieldName, sig);
     }
 
-    jclass GetRawClass()const
-    {
-        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
-        return jniEnv->GetObjectClass(GetRawObject());
-    }
-
     jobject GetRawObject()const
     {
-        return _object.get();
+        return JavaObject;
+    }
+
+    jclass GetRawClass()const
+    {
+        return (jclass)JavaClass.Get();
     }
 
     virtual ~AndroidJavaObject()
     {
         ANDROID_LOGD("*** refcount %ld", _object.use_count());
     }
-
-    // don't call this.
-    static void jobjectDeleter(jobject jobj)
-    {
-        ANDROID_LOGD("*** jobjectDeleter:%p", jobj);
-        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
-        jniEnv->DeleteGlobalRef(jobj);
-    }
-
-private:
-    void _Assign_rv(AndroidJavaObject&& right)
-    {	// assign by moving _Right
-        if (this != &right)
-            Swap(right);
-    }
 protected:
-    std::shared_ptr<_jobject> _object;
+    GlobalJavaObjectRef JavaObject;
+    GlobalJavaObjectRef JavaClass;
 };
 
 
