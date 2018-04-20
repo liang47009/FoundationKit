@@ -24,7 +24,6 @@
 #include "FoundationKit/forward.hpp"
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include "FoundationKit/LanguageFeatures.hpp"
 
 #include "FoundationKit/Crypto/aes.hpp"
 #include "FoundationKit/Crypto/Base58.hpp"
@@ -73,11 +72,13 @@
 #include "FoundationKit/Math/Vector3.hpp"
 #include "FoundationKit/Math/Vector4.hpp"
 
-#include "FoundationKit/Platform/Android/AndroidJNI/AndroidFoundation.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaProxy.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidLexicalCast.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNIOperation.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaCore.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
-
 
 using namespace FoundationKit;
 
@@ -160,25 +161,37 @@ void Teststackprotector()
     memcpy(array, "ssss", 4);
 }
 
+
+void JNIBridgeTest(char B
+    , short S
+    , int I
+    , long J
+    , float F
+    , double D
+    , char C
+    , bool Z)
+{
+
+}
+
+
 JNIEXPORT void JNICALL Java_com_example_test_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
 {
     ANDROID_LOGE("============== >>>>> foundationInit");
     AndroidJNI::InitializeJavaEnv(g_vm, JNI_VERSION_1_6, context);
-    AndroidJavaObject  mainActive(context);
     PlatformDevice::DumpDeviceInfo();
+    android::AndroidJavaObject  mainActive(context);
     mainActive.Call("debug_Print", 100,"======", "========");
-
-    AndroidJavaClass  mainActiveClass("com.example.test.MainActivity");
-
+    android::AndroidJavaClass  mainActiveClass("com.example.test.MainActivity");
     std::string mainClassName = mainActiveClass.CallStatic<std::string>("getClassName");
     ANDROID_LOGE("========== mainClassName: %s", mainClassName.c_str());
      
-    char* leak = new char[1024];
-    int ret = TestHeapUseAfterFree(10);
-    ret = TestHeapBufferOverflow(10);
-    ret = TestStackBufferOverflow(10);
-    ret = TestGlobalBufferOverflow(10);
-    Teststackprotector();
+    //char* leak = new char[1024];
+    //int ret = TestHeapUseAfterFree(10);
+    //ret = TestHeapBufferOverflow(10);
+    //ret = TestStackBufferOverflow(10);
+    //ret = TestGlobalBufferOverflow(10);
+    //Teststackprotector();
     ANDROID_LOGE("========== Java_com_example_test_MainActivity_foundationInit End");
     //testFunctionCache();
 }

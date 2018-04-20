@@ -185,6 +185,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Base\function_traits.hpp" />
     <ClInclude Include="..\FoundationKit\Base\has_member.hpp" />
     <ClInclude Include="..\FoundationKit\Base\hex.hpp" />
+    <ClInclude Include="..\FoundationKit\Base\identity_type.hpp" />
     <ClInclude Include="..\FoundationKit\Base\locale.hpp" />
     <ClInclude Include="..\FoundationKit\Base\max_integer_of.hpp" />
     <ClInclude Include="..\FoundationKit\Base\memory.hpp" />
@@ -254,11 +255,14 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidInternal\Context.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidInternal\NetworkInfo.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidInternal\TelephonyManager.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJavaBridge.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidFoundation.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaClass.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaCore.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaObject.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaProxy.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNIBridge.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidLexicalCast.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNIOperation.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatform.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformTLS.hpp" />
@@ -316,8 +320,8 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDirectory.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidEnvironment.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidFile.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJavaBridge.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNIBridge.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPath.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Directory.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\File.cpp" />

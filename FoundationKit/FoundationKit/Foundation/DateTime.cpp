@@ -12,11 +12,7 @@
 #include "FoundationKit/Foundation/DateTime.hpp"
 #include "FoundationKit/Foundation/TimeZone.hpp"
 #include "FoundationKit/Math/Math.hpp"
-
 NS_FK_BEGIN
-
-
-
 namespace
 {
 
@@ -48,7 +44,7 @@ namespace
         msec = td.Milliseconds;
     }
 
-
+    /**
     struct Zone
     {
         const char* Designator;
@@ -92,6 +88,7 @@ namespace
         { "AWST",   8 * 3600 },
         { "AWDT",   9 * 3600 }
     };
+    */
     const int64 MinTicks = 0;
     const int64 MaxTicks = 3652059 * Time::TicksPerDay - 1;
 }

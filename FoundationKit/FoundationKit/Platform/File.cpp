@@ -45,15 +45,17 @@ namespace detail
         std::vector<uint8> FileAllBytes;
         do
         {
+            size_t FileSize = static_cast<size_t>(File::GetSize(path));
+            //FKLog("FileSize:%d", FileSize);
+            BREAK_IF(FileSize <= 0);
             FILE* FileHandle = nullptr;
             if (isText)
                 FileHandle = File::Open(path, "rt");
             else
                 FileHandle = File::Open(path, "rb");
 
-            FKLog("FileHandle:%p", FileHandle);
+            //FKLog("FileHandle:%p", FileHandle);
             BREAK_IF(!FileHandle);
-            size_t FileSize = static_cast<size_t>(File::GetSize(path));
             FileAllBytes.resize(FileSize);
             size_t ReadCount = 0;
             while(ReadCount < FileSize)
@@ -349,15 +351,16 @@ int64 File::GetSize(const std::string& path)
             fseek64(FileHandle, 0, SEEK_SET);
         }
     }
-    if (ResultFileSize == 0)
+
+    if (ResultFileSize == 0 || ResultFileSize == -1)
     {
         //Get the size of a file by reading it until the end. This is needed
         //because files under /proc do not always return a valid size when
         //using fseek(0, SEEK_END) + ftell(). Nor can they be mmap()-ed.
+        FILE* FileHandle = Open(path, "r");
         for (;;) 
         {
             char buff[256];
-            FILE* FileHandle = Open(path, "r");
             size_t NumRead = fread(buff,1, sizeof(buff), FileHandle);
             if (NumRead == 0)
             {

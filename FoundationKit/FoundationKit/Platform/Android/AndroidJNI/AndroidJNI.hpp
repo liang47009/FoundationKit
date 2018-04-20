@@ -44,17 +44,17 @@ public:
     static void            InitializeJavaEnv(JavaVM* vm, jint version, jobject activityInstance = nullptr);
     static jobject         GetMainActivity();
     // Returns the java environment
-    static JNIEnv*         GetJavaEnv();
+    static JNIEnv*         GetJNIEnv();
     static jclass          FindJavaClass(const char* name);
     static JavaClassMethod GetClassMethod(jclass clazz, const char* methodName, const char* funcSig, bool isStatic = false);
     static JavaClassMethod GetClassMethod(const char* className, const char* methodName, const char* funcSig, bool isStatic = false);
-    static bool            CheckJavaException();
+    static bool            CheckException();
     static std::string     jstring2string(jstring jstr);
     static jstring         string2jstring(const std::string& str);
     static AAssetManager*  GetAAssetManager();
-    static void            DetachJavaEnv();
     ~AndroidJNI();
 private:
+    static void            DetachJNIEnv(void*);
     AndroidJNI();
     static jint          CurrentJavaVersion;
     static JavaVM*       CurrentJavaVM;
@@ -72,7 +72,7 @@ public:
     
     ScopeJavaObjectRef(jobject obj) :jobject_ref(obj) {}
     ScopeJavaObjectRef& operator= (jobject obj) { jobject_ref = obj; return (*this); };
-    ~ScopeJavaObjectRef() { AndroidJNI::GetJavaEnv()->DeleteLocalRef(jobject_ref); }
+    ~ScopeJavaObjectRef() { AndroidJNI::GetJNIEnv()->DeleteLocalRef(jobject_ref); }
     explicit operator bool() const// _NOEXCEPT
     {
         return (!!jobject_ref);
@@ -93,10 +93,10 @@ public:
     }
     GlobalJavaObjectRef(jobject InJobject)
     {
-        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+        JNIEnv* jniEnv = AndroidJNI::GetJNIEnv();
         if (InJobject)
         {
-            jobject_pointer = std::shared_ptr<_jobject>(jniEnv->NewGlobalRef(InJobject), jobjectDeleter);
+            jobject_pointer = std::shared_ptr<_jobject>(jniEnv->NewGlobalRef(InJobject), DeleteGlobalReference);
         }
         else
         {
@@ -111,10 +111,10 @@ public:
 
     GlobalJavaObjectRef& operator= (jobject InJobject)
     {
-        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+        JNIEnv* jniEnv = AndroidJNI::GetJNIEnv();
         if (InJobject)
         {
-            jobject_pointer = std::shared_ptr<_jobject>(jniEnv->NewGlobalRef(InJobject), jobjectDeleter);
+            jobject_pointer = std::shared_ptr<_jobject>(jniEnv->NewGlobalRef(InJobject), DeleteGlobalReference);
         }
         else
         {
@@ -160,17 +160,20 @@ public:
         return (jobject_pointer != nullptr);
     }
 
-    static void jobjectDeleter(jobject jobj)
+    static void DeleteGlobalReference(jobject jobj)
     {
         if (jobj)
         {
-            JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
+            JNIEnv* jniEnv = AndroidJNI::GetJNIEnv();
+            FKLog("***************** DeleteGlobalReference jobj:%p", jobj);
             jniEnv->DeleteGlobalRef(jobj);
         }
     }
 protected:
     std::shared_ptr<_jobject> jobject_pointer;
 };
+
+typedef GlobalJavaObjectRef  JNIGlobalReference; // I like this name.
 
 NS_FK_END
 

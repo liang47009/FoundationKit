@@ -12,197 +12,195 @@
 
 #include <memory>
 #include "AndroidJNI.hpp"
-#include "AndroidFoundation.hpp"
-#include "AndroidJavaClass.hpp"
+#include "AndroidJavaCore.hpp"
 
 NS_FK_BEGIN
 
-
 //java class:android/net/NetworkInfo
 //java enum:android.net.NetworkInfo$State
-class AndroidJavaObject
+namespace android
 {
-public:
-
-    AndroidJavaObject()
-    : JavaObject(nullptr)
-    , JavaClass(nullptr)
+    class AndroidJavaObject
     {
-
-    }
-    AndroidJavaObject(AndroidJavaObject&& right)
-    {
-        JavaObject = std::move(right.JavaObject);
-        JavaClass = std::move(right.JavaClass);
-    }
-
-    AndroidJavaObject(const AndroidJavaObject& other)
-    : JavaObject(other.JavaObject)
-    , JavaClass(other.JavaClass)
-    {
-
-    }
-
-    explicit AndroidJavaObject(jobject InJavaObject)
-    {
-        if (InJavaObject)
+    public:
+        typedef std::shared_ptr<_jobject> shared_jobject;
+        AndroidJavaObject()
+            : ObjectHolder(nullptr)
         {
-            JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
-            JavaObject = InJavaObject;
-            jclass ObjectClass = jniEnv->GetObjectClass(InJavaObject);
-            JavaClass = ObjectClass;
-            jniEnv->DeleteLocalRef(ObjectClass);
+
         }
-        else
+
+        AndroidJavaObject(const AndroidJavaObject& InOther)
+            : ObjectHolder(InOther.ObjectHolder)
         {
-            JavaObject = nullptr;
-            JavaClass = nullptr;
+
         }
-    }
 
-    /** Construct an AndroidJavaObject based on the name of the java class.
-    *  This essentially means locate the class type, allocate an object and run the specified constructor.
-    *  @param[in] className Specifies the Java class name (e.g. "java.lang.String" or "java/lang/String")
-    *  @param[in] args      An array of parameters passed to the constructor.
-    */
-    template<typename... Args>
-    AndroidJavaObject(const std::string& className, Args... args)
-    {
-        JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
-        std::string methodSignature = AndroidFoundation::GetJNISignature<void, Args...>(args...);
-        JavaClassMethod method = AndroidJNI::GetClassMethod(className.c_str(), "<init>", methodSignature.c_str());
-        jobject object = jniEnv->NewObject(method.clazz, method.method, AndroidFoundation::CPPToJNI<typename std::decay<Args>::type>::convert(args)...);
-        ANDROID_CHECKF(object, "*** Create %s failed.", className.c_str());
-        jclass ObjectClass = jniEnv->GetObjectClass(object);
-        JavaObject = object;
-        JavaClass = ObjectClass;
-        jniEnv->DeleteLocalRef(object);
-        jniEnv->DeleteLocalRef(ObjectClass);
-    }
-
-    AndroidJavaObject& operator=(AndroidJavaObject&& right)
-    {
-        JavaObject = std::move(right.JavaObject);
-        JavaClass = std::move(right.JavaClass);
-        return (*this);
-    }
-
-    AndroidJavaObject& operator=(const AndroidJavaObject& right)
-    {
-        JavaObject = right.JavaObject;
-        JavaClass = right.JavaClass;
-        return (*this);
-    }
-
-    AndroidJavaObject& operator= (jobject InJavaObject)
-    {
-        if (InJavaObject)
+        AndroidJavaObject(AndroidJavaObject&& InOther)
         {
-            JNIEnv* jniEnv = AndroidJNI::GetJavaEnv();
-            JavaObject = InJavaObject;
-            jclass ObjectClass = jniEnv->GetObjectClass(InJavaObject);
-            JavaClass = ObjectClass;
-            jniEnv->DeleteLocalRef(ObjectClass);
+            ObjectHolder = std::move(InOther.ObjectHolder);
         }
-        else
+
+        AndroidJavaObject(jobject InObject)
         {
-            JavaObject = nullptr;
-            JavaClass = nullptr;
+            ObjectHolder = NewGlobalReference(InObject);
         }
-        return *(this);
-    }
 
-    inline operator jobject()
-    {
-        return JavaObject;
-    }
+       /** Construct an android::AndroidJavaObject based on the name of the java class.
+        *  This essentially means locate the class type, allocate an object and run the specified constructor.
+        *  @param[in] className Specifies the Java class name (e.g. "java.lang.String" or "java/lang/String")
+        *  @param[in] args      An array of parameters passed to the constructor.
+        */
+        template<typename... Args>
+        AndroidJavaObject(const std::string& InClassName, Args... InArgs)
+        {
+            JNIEnv* Env = AndroidJNI::GetJNIEnv();
+            std::string methodSignature = GetJNISignature<void, Args...>(InArgs...);
+            JavaClassMethod method = AndroidJNI::GetClassMethod(InClassName.c_str(), "<init>", methodSignature.c_str());
+            jobject object = Env->NewObject(method.clazz, method.method, CPPTypeCast<typename std::decay<Args>::type>::Converter::convert(InArgs)...);
+            ANDROID_CHECKF(object, "*** Create %s failed.", InClassName.c_str());
+            ObjectHolder = NewGlobalReference(object);
+            Env->DeleteLocalRef(object);
+        }
 
-    inline operator jclass()
-    {
-        return (jclass)JavaClass.Get();
-    }
+        AndroidJavaObject& operator= (const AndroidJavaObject& InOther)
+        {
+            ObjectHolder = InOther.ObjectHolder;
+            return *(this);
+        }
 
-    inline operator AndroidJavaClass()
-    {
-        return AndroidJavaClass(JavaClass);
-    }
+        AndroidJavaObject& operator= (AndroidJavaObject&& InOther)
+        {
+            ObjectHolder = std::move(InOther.ObjectHolder);
+            return *(this);
+        }
 
-    inline operator bool() const// _NOEXCEPT
-    {
-        return (GetRawObject() != nullptr);
-    }
+        AndroidJavaObject& operator= (jobject InObject)
+        {
+            ObjectHolder = NewGlobalReference(InObject);
+            return *(this);
+        }
 
-    template<typename T = void, typename... Args>
-    T CallWithSig(const std::string& methodName, const std::string& sig, Args&&... args)
-    {
-      std::string rightSig(sig);
-      std::replace(rightSig.begin(), rightSig.end(), '.', '/');
-      return AndroidFoundation::CallWithSig<T>(GetRawObject(), methodName, rightSig, std::forward<Args>(args)...);
-    }
+        virtual bool operator== (const AndroidJavaObject& InOther)
+        {
+            //JNIEnv* Env = AndroidJNI::GetJNIEnv();
+            //return Env->IsSameObject(ObjectHolder.get(), InOther.ObjectHolder.get()) == JNI_TRUE;
+            return ObjectHolder.get() == InOther.ObjectHolder.get();
+        }
 
-    template<typename T = void, typename... Args>
-    T Call(std::string methodName, Args&&... args)
-    {
-        return AndroidFoundation::Call<T>(GetRawObject(), methodName, std::forward<Args>(args)...);
-    }
+        virtual bool operator== (const AndroidJavaObject& InOther) const
+        {
+            //JNIEnv* Env = AndroidJNI::GetJNIEnv();
+            //return Env->IsSameObject(ObjectHolder.get(), InOther.ObjectHolder.get()) == JNI_TRUE;
+            return ObjectHolder.get() == InOther.ObjectHolder.get();
+        }
 
-    template<typename T>
-    void Set(std::string fieldName, T fieldValue, std::string sig = "")
-    {
-        AndroidFoundation::SetField<T>(GetRawObject(), fieldName, fieldValue, sig);
-    }
+        virtual bool operator!= (const AndroidJavaObject& InOther)
+        {
+            return !(*this == InOther);
+        }
 
-    template<typename T>
-    T Get(std::string fieldName, std::string sig = "")
-    {
-        return AndroidFoundation::GetField<T>(GetRawObject(), fieldName, sig);
-    }
+        virtual bool operator!= (const AndroidJavaObject& InOther) const
+        {
+            return !(*this == InOther);
+        }
 
-    template<typename T = void, typename... Args>
-    T CallStaticWithSig(const std::string& methodName, const std::string& sig, Args&&... args)
-    {
-        std::string rightSig(sig);
-        std::replace(rightSig.begin(), rightSig.end(), '.', '/');
-        return AndroidFoundation::CallStaticWithSig<T>(GetRawClass(), methodName, rightSig, std::forward<Args>(args)...);
-    }
+        inline operator jobject()
+        {
+            return ObjectHolder.get();
+        }
 
-    template<typename T = void, typename... Args>
-    T CallStatic(std::string methodName, Args&&... args)
-    {
-        return AndroidFoundation::CallStatic<T>(GetRawClass(), methodName, std::forward<Args>(args)...);
-    }
+        explicit operator bool() const// _NOEXCEPT
+        {
+            return (ObjectHolder != nullptr);
+        }
 
-    template<typename T>
-    void SetStatic(std::string fieldName, T fieldValue, std::string sig = "")
-    {
-        AndroidFoundation::SetStaticField<T>(GetRawClass(), fieldName, fieldValue, sig);
-    }
+        jobject Get()
+        {
+            return ObjectHolder.get();
+        }
 
-    template<typename T>
-    T GetStatic(std::string fieldName, std::string sig = "")
-    {
-        return AndroidFoundation::GetStaticField<T>(GetRawClass(), fieldName, sig);
-    }
+        jclass Class()
+        {
+            JNIEnv* jniEnv = AndroidJNI::GetJNIEnv();
+            return jniEnv->GetObjectClass(*this);
+        }
 
-    jobject GetRawObject()const
-    {
-        return JavaObject;
-    }
+        template<typename T = void, typename... Args>
+        T CallWithSig(const std::string& methodName, const std::string& sig, Args&&... args)
+        {
+            std::string rightSig(sig);
+            std::replace(rightSig.begin(), rightSig.end(), '.', '/');
+            return android::CallWithSig<T>(*this, methodName, rightSig, std::forward<Args>(args)...);
+        }
 
-    jclass GetRawClass()const
-    {
-        return (jclass)JavaClass.Get();
-    }
+        template<typename T = void, typename... Args>
+        T Call(std::string methodName, Args&&... args)
+        {
+            return android::Call<T>(*this, methodName, std::forward<Args>(args)...);
+        }
 
-    virtual ~AndroidJavaObject()
-    {
-        ANDROID_LOGD("*** refcount %ld", _object.use_count());
-    }
-protected:
-    GlobalJavaObjectRef JavaObject;
-    GlobalJavaObjectRef JavaClass;
-};
+        template<typename T>
+        void Set(std::string fieldName, T fieldValue, std::string sig = "")
+        {
+            android::SetField<T>(*this, fieldName, fieldValue, sig);
+        }
 
+        template<typename T>
+        T Get(std::string fieldName, std::string sig = "")
+        {
+            return android::GetField<T>(*this, fieldName, sig);
+        }
+
+        template<typename T = void, typename... Args>
+        T CallStaticWithSig(const std::string& methodName, const std::string& sig, Args&&... args)
+        {
+            std::string rightSig(sig);
+            std::replace(rightSig.begin(), rightSig.end(), '.', '/');
+            return android::CallStaticWithSig<T>(this->Class(), methodName, rightSig, std::forward<Args>(args)...);
+        }
+
+        template<typename T = void, typename... Args>
+        T CallStatic(std::string methodName, Args&&... args)
+        {
+            return android::CallStatic<T>(this->Class(), methodName, std::forward<Args>(args)...);
+        }
+
+        template<typename T>
+        void SetStatic(std::string fieldName, T fieldValue, std::string sig = "")
+        {
+            android::SetStaticField<T>(this->Class(), fieldName, fieldValue, sig);
+        }
+
+        template<typename T>
+        T GetStatic(std::string fieldName, std::string sig = "")
+        {
+            return android::GetStaticField<T>(this->Class(), fieldName, sig);
+        }
+
+    private:
+        static shared_jobject NewGlobalReference(jobject InObject)
+        {
+            if (InObject)
+            {
+                JNIEnv* Env = AndroidJNI::GetJNIEnv();
+                return shared_jobject(Env->NewGlobalRef(InObject), DeleteGlobalReference);
+            }
+            return shared_jobject();
+        }
+
+        static void DeleteGlobalReference(jobject InObject)
+        {
+            if (InObject)
+            {
+                JNIEnv* Env = AndroidJNI::GetJNIEnv();
+                Env->DeleteGlobalRef(InObject);
+            }
+        }
+    protected:
+        shared_jobject ObjectHolder;
+    };
+} // namespace android
 
 NS_FK_END
 

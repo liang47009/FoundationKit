@@ -52,7 +52,7 @@ template<typename T, typename... Args>\
 struct has_member_##member\
 {\
 private:\
-		template<typename U> static auto check(int) -> decltype(std::declval<U>().member(std::declval<Args>()...), std::true_type()); \
+	template<typename U> static auto check(int) -> decltype(std::declval<U>().member(std::declval<Args>()...), std::true_type()); \
 	template<typename U> static std::false_type check(...);\
 public:\
 	enum{value = std::is_same<decltype(check<T>(0)), std::true_type>::value};\

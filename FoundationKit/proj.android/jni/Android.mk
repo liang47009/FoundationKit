@@ -34,7 +34,7 @@ $(SRCROOT)/FoundationKit/Math/Rect.cpp \
 $(SRCROOT)/FoundationKit/Math/Vector2.cpp \
 $(SRCROOT)/FoundationKit/Math/Vector3.cpp \
 $(SRCROOT)/FoundationKit/Math/Vector4.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidJavaBridge.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidJNI/AndroidJNIBridge.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidDirectory.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidEnvironment.cpp \

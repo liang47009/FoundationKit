@@ -465,8 +465,7 @@ namespace detail
 
     template<unsigned N>
     struct converter < bool, const char[N] > :public converter < bool, std::string > {};
-
-}
+} // namespace detail
 
 template<typename To, typename From>
 typename std::enable_if<!std::is_same<To, From>::value, To>::type 

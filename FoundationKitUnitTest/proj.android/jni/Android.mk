@@ -22,8 +22,8 @@ LOCAL_LDLIBS := -latomic -landroid -llog -lz
 # LOCAL_CPPFLAGS += -g -fno-omit-frame-pointer -O0
 # LOCAL_CFLAGS   += -g -fno-omit-frame-pointer -O0
 
-LOCAL_STATIC_LIBRARIES += foundationkit
-#LOCAL_WHOLE_STATIC_LIBRARIES+= foundationkit
+#LOCAL_STATIC_LIBRARIES += foundationkit
+LOCAL_WHOLE_STATIC_LIBRARIES+= foundationkit
 include $(BUILD_SHARED_LIBRARY)
 $(call import-add-path,$(LOCAL_PATH)/../../..)
 $(call import-module,FoundationKit/proj.android/jni)

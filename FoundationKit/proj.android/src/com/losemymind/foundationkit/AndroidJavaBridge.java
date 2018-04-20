@@ -43,8 +43,8 @@ public class AndroidJavaBridge {
 		_foundationTypeMap.put(String.class, 'T');
 		//_foundationTypeMap.put(null, 'N');
 		
-		//对象默认就是 Object 和Object数组，在getArgumentSignature中
-		//做处理，这里不必保存。
+		//瀵硅薄榛樿灏辨槸 Object 鍜孫bject鏁扮粍锛屽湪getArgumentSignature涓�
+		//鍋氬鐞嗭紝杩欓噷涓嶅繀淇濆瓨銆�
 		//_foundationTypeMap.put(Object.class, 'l');
 		//_foundationTypeMap.put(Object[].class, 'L');
     }
@@ -63,8 +63,6 @@ public class AndroidJavaBridge {
 				szSig = 'L';
 			strSignature += szSig;
 		}
-		
-
 		return strSignature;
 	}
   

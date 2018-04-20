@@ -56,7 +56,7 @@ class FunctionHandlerBase
 public:
 	FunctionHandlerBase(){}
 	virtual~FunctionHandlerBase(){}
-	virtual void Invoke(const ArgumentList& args) = 0;
+	virtual Value Invoke(const ArgumentList& args) = 0;
 };
 typedef std::shared_ptr<FunctionHandlerBase>   FunctionHandlerPointer;
 
@@ -76,10 +76,10 @@ public:
 		Invoker = fun;
 	}
 
-	virtual void Invoke(const ArgumentList& args)
+	virtual Value Invoke(const ArgumentList& args)
 	{
 		ApplyBuildTuple(ArgsTuple, args);
-		apply(Invoker, ArgsTuple);
+		return apply(Invoker, ArgsTuple);
 	}
 };
 

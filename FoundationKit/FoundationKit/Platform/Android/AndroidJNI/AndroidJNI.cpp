@@ -46,7 +46,7 @@ AndroidJNI::AndroidJNI()
 
 AndroidJNI::~AndroidJNI()
 {
-    JNIEnv* env = AndroidJNI::GetJavaEnv();
+    JNIEnv* env = AndroidJNI::GetJNIEnv();
     if (MainActivityRef)
     {
         env->DeleteGlobalRef(MainActivityRef);
@@ -58,12 +58,6 @@ AndroidJNI::~AndroidJNI()
     }
 }
 
-static void JavaEnvDestructor(void*)
-{
-    ANDROID_LOGI("*** JavaEnvDestructor: %ld", pthread_self());
-    AndroidJNI::DetachJavaEnv();
-}
-
 void AndroidJNI::InitializeJavaEnv(JavaVM* vm, jint version, jobject activityInstance/* = nullptr*/)
 {
     ANDROID_LOGI("InitializeJavaEnv CurrentJavaVM:%p, vm:%p, version:%d, activityInstance:%p", CurrentJavaVM, vm, version, activityInstance);
@@ -71,8 +65,8 @@ void AndroidJNI::InitializeJavaEnv(JavaVM* vm, jint version, jobject activityIns
     {
         CurrentJavaVM = vm;
         CurrentJavaVersion = version;
-        pthread_key_create(&TlsSlot, &JavaEnvDestructor);
-        JNIEnv* env = AndroidJNI::GetJavaEnv();
+        pthread_key_create(&TlsSlot, &AndroidJNI::DetachJNIEnv);
+        JNIEnv* env = AndroidJNI::GetJNIEnv();
         if (activityInstance)
         {
             MainActivityRef = env->NewGlobalRef(activityInstance);
@@ -136,7 +130,7 @@ jobject AndroidJNI::GetMainActivity()
     return MainActivityRef;
 }
 
-JNIEnv* AndroidJNI::GetJavaEnv()
+JNIEnv* AndroidJNI::GetJNIEnv()
 {
     // register a destructor to detach this thread
     JNIEnv* Env = (JNIEnv*)pthread_getspecific(TlsSlot);
@@ -173,7 +167,7 @@ JNIEnv* AndroidJNI::GetJavaEnv()
 
 jclass AndroidJNI::FindJavaClass(const char* name)
 {
-    JNIEnv* env = AndroidJNI::GetJavaEnv();
+    JNIEnv* env = AndroidJNI::GetJNIEnv();
     if (!env || !name)
     {
         ANDROID_CHECKF(false, "*** Unable to find Java class %s, Env:%p", name, env);
@@ -195,13 +189,13 @@ jclass AndroidJNI::FindJavaClass(const char* name)
         foundClass = env->FindClass(className.c_str());
     }
     ANDROID_CHECKF(foundClass, "*** Failed to find java class:%s", name);
-    AndroidJNI::CheckJavaException();
+    AndroidJNI::CheckException();
     return foundClass;
 } 
 
 JavaClassMethod AndroidJNI::GetClassMethod(jclass clazz, const char* methodName, const char* funcSig, bool isStatic/* = false*/)
 {
-    JNIEnv*	env = AndroidJNI::GetJavaEnv();
+    JNIEnv*	env = AndroidJNI::GetJNIEnv();
     JavaClassMethod javaMethod;
     if (isStatic)
         javaMethod.method = env->GetStaticMethodID(clazz, methodName, funcSig);
@@ -220,9 +214,9 @@ JavaClassMethod AndroidJNI::GetClassMethod(const char* className, const char* me
     return AndroidJNI::GetClassMethod(foundClass, methodName, funcSig, isStatic);
 }
 
-bool AndroidJNI::CheckJavaException()
+bool AndroidJNI::CheckException()
 {
-    JNIEnv* env = AndroidJNI::GetJavaEnv();
+    JNIEnv* env = AndroidJNI::GetJNIEnv();
     if (!env)
     {
         return true;
@@ -232,12 +226,6 @@ bool AndroidJNI::CheckJavaException()
         env->ExceptionDescribe();
         env->ExceptionClear();
         ANDROID_CHECKF(false,"*** Java JNI call failed with an exception.");
-        //jthrowable jthrowable = env->ExceptionOccurred();
-        //JavaClassMethod method = AndroidJNI::getClassMethod("java/lang/Throwable", "getMessage", "()Ljava/lang/String;");
-        //jstring exceptionMessage = static_cast<jstring>(env->CallObjectMethod(jthrowable, method.method) );
-        //const char * UTFString = env->GetStringUTFChars(exceptionMessage, nullptr);
-        //ANDROID_LOGE("*** Exception:%s",UTFString);
-        //env->ReleaseStringUTFChars(exceptionMessage, UTFString);
         return true;
     }
     return false;
@@ -245,7 +233,7 @@ bool AndroidJNI::CheckJavaException()
 
 std::string AndroidJNI::jstring2string(jstring jstr)
 {
-    JNIEnv *env = AndroidJNI::GetJavaEnv();
+    JNIEnv *env = AndroidJNI::GetJNIEnv();
     const char* chars = env->GetStringUTFChars(jstr, nullptr);
     std::string ret(chars);
     env->ReleaseStringUTFChars(jstr, chars);
@@ -255,7 +243,7 @@ std::string AndroidJNI::jstring2string(jstring jstr)
 
 jstring AndroidJNI::string2jstring(const std::string& str)
 {
-    JNIEnv*	env = AndroidJNI::GetJavaEnv();
+    JNIEnv*	env = AndroidJNI::GetJNIEnv();
     jstring local = env->NewStringUTF(str.c_str());
     jstring result = (jstring)env->NewGlobalRef(local);
     env->DeleteLocalRef(local);
@@ -264,7 +252,7 @@ jstring AndroidJNI::string2jstring(const std::string& str)
 
 AAssetManager* AndroidJNI::GetAAssetManager()
 {
-    JNIEnv *env = AndroidJNI::GetJavaEnv();
+    JNIEnv *env = AndroidJNI::GetJNIEnv();
     if (!env || !MainActivityRef)
     {
         return nullptr;
@@ -276,8 +264,9 @@ AAssetManager* AndroidJNI::GetAAssetManager()
     return AAssetManager_fromJava(env, assetManager);
 }
 
-void AndroidJNI::DetachJavaEnv()
+void AndroidJNI::DetachJNIEnv(void*)
 {
+    ANDROID_LOGI("*** AndroidJNI::DetachJNIEnv: %ld", pthread_self());
     CurrentJavaVM->DetachCurrentThread();
 }
 

@@ -217,7 +217,7 @@ std::string PlatformDevice::GetDeviceId()
     }
     else
     {
-        AndroidJavaClass android_os_build("android.os.Build");
+        android::AndroidJavaClass android_os_build("android.os.Build");
         strDeviceId = android_os_build.CallStatic<std::string>("getSerial");
     }
     return strDeviceId;
@@ -474,25 +474,25 @@ static void lazyGetScreenResolution()
     if (!GLOBAL_DisplayInfo.bInit)
     {
         jobject mainActivity = AndroidJNI::GetMainActivity();
-        AndroidJavaObject  ajoMainActivity(mainActivity);
+        android::AndroidJavaObject  ajoMainActivity(mainActivity);
         jobject WindowManager = ajoMainActivity.CallWithSig<jobject>("getWindowManager", "()Landroid/view/WindowManager;");
-        AndroidJavaObject ajoWindowManager(WindowManager);
+        android::AndroidJavaObject ajoWindowManager(WindowManager);
         jobject Display = ajoWindowManager.CallWithSig<jobject>("getDefaultDisplay", "()Landroid/view/Display;");
-        AndroidJavaObject ajoDisplay(Display);
-        AndroidJavaObject ajoPoint("android.graphics.Point");
-        AndroidJavaObject ajoPointReal("android.graphics.Point");
-        ajoDisplay.CallWithSig("getSize", "(Landroid/graphics/Point;)V", ajoPoint.GetRawObject());
-        ajoDisplay.CallWithSig("getRealSize", "(Landroid/graphics/Point;)V", ajoPointReal.GetRawObject());
+        android::AndroidJavaObject ajoDisplay(Display);
+        android::AndroidJavaObject ajoPoint("android.graphics.Point");
+        android::AndroidJavaObject ajoPointReal("android.graphics.Point");
+        ajoDisplay.CallWithSig("getSize", "(Landroid/graphics/Point;)V", ajoPoint.Get());
+        ajoDisplay.CallWithSig("getRealSize", "(Landroid/graphics/Point;)V", ajoPointReal.Get());
         GLOBAL_DisplayInfo.appSize = Size(ajoPoint.Get<int>("x"), ajoPoint.Get<int>("y") );
         GLOBAL_DisplayInfo.realSize = Size(ajoPointReal.Get<int>("x"), ajoPointReal.Get<int>("y"));
-        AndroidJavaObject ajoDisplayMetrics("android.util.DisplayMetrics");
-        ajoDisplay.CallWithSig("getRealMetrics", "(Landroid.util.DisplayMetrics;)V", ajoDisplayMetrics.GetRawObject());
+        android::AndroidJavaObject ajoDisplayMetrics("android.util.DisplayMetrics");
+        ajoDisplay.CallWithSig("getRealMetrics", "(Landroid.util.DisplayMetrics;)V", ajoDisplayMetrics.Get());
         GLOBAL_DisplayInfo.fps = ajoDisplay.Call<float>("getRefreshRate");
         GLOBAL_DisplayInfo.densityDpi = ajoDisplayMetrics.Get<int>("densityDpi");
         GLOBAL_DisplayInfo.nativeScale = ajoDisplayMetrics.Get<float>("density");
         GLOBAL_DisplayInfo.xdpi = ajoDisplayMetrics.Get<float>("xdpi");
         GLOBAL_DisplayInfo.ydpi = ajoDisplayMetrics.Get<float>("ydpi");
-        JNIEnv* env = AndroidJNI::GetJavaEnv();
+        JNIEnv* env = AndroidJNI::GetJNIEnv();
         env->DeleteLocalRef(Display);
         env->DeleteLocalRef(WindowManager);
         GLOBAL_DisplayInfo.bInit = true;
@@ -665,21 +665,37 @@ void PlatformDevice::DumpDeviceInfo()
     FKLog("============ Device Info===============");
     std::ostringstream ss;
     ss << "GetDeviceId:" << GetDeviceId() << "\n";
+    //FKLog("============ GetDeviceId===============");
     ss << "GetProduct:" << GetProduct() << "\n";
+    //FKLog("============ GetProduct===============");
     ss << "GetHardware:" << GetHardware() << "\n";
+    //FKLog("============ GetHardware===============");
     ss << "GetDevice:" << GetDevice() << "\n";
+    //FKLog("============ GetDevice===============");
     ss << "GetModel:" << GetModel() << "\n";
+    //FKLog("============ GetModel===============");
     ss << "GetManufacturer:" << GetManufacturer() << "\n";
+    //FKLog("============ GetManufacturer===============");
     ss << "GetSystemVersion:" << GetSystemVersion() << "\n";
+    //FKLog("============ GetSystemVersion===============");
     ss << "GetSDKVersion:" << GetSDKVersion() << "\n";
+    //FKLog("============ GetSDKVersion===============");
     ss << "GetCPUBrand:" << GetCPUBrand() << "\n";
+    //FKLog("============ GetCPUBrand===============");
     ss << "GetCPUVendor:" << GetCPUVendor() << "\n";
+    //FKLog("============ GetCPUVendor===============");
     ss << "GetCPUCoreCount:" << GetCPUCoreCount() << "\n";
+    //FKLog("============ GetCPUCoreCount===============");
     ss << "GetCPUFrequency:" << GetCPUFrequency() << "\n";
+    //FKLog("============ GetCPUFrequency===============");
     ss << "GetNetworkType:" << GetNetworkType() << " 1 WIFI,2 2G,3 3G,4 4G,0 other. \n";
+    //FKLog("============ GetNetworkType===============");
     ss << "GetIpAddressV4:" << GetIpAddressV4() << "\n";
+    //FKLog("============ GetIpAddressV4===============");
     ss << "GetIpAddressV6:" << GetIpAddressV6() << "\n";
+    //FKLog("============ GetIpAddressV6===============");
     ss << "GetMacAddress:" << GetMacAddress() << "\n";
+    //FKLog("============ GetMacAddress===============");
     auto dnss = GetDNS();
     for (auto dns : dnss)
     {

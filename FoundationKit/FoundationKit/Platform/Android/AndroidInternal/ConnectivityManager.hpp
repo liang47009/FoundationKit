@@ -223,7 +223,7 @@ public:
         for (auto obj : NetworkInfoVec)
         {
             NetworkInfoArray.push_back(obj);
-            AndroidJNI::GetJavaEnv()->DeleteLocalRef(obj);
+            AndroidJNI::GetJNIEnv()->DeleteLocalRef(obj);
         }
         return NetworkInfoArray;
     }

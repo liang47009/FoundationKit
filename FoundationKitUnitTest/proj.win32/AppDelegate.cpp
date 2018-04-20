@@ -81,29 +81,14 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
-#include <codecvt>
-std::wstring ConvertUTF8StringToUTF16String(const std::string& input)
-{
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    std::wstring result = converter.from_bytes(input);
-    return result;
-}
-
-std::string ConvertUTF16StringToUTF8String(const std::wstring& input)
-{
-    std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
-    std::string result = converter.to_bytes(input);
-    return result;
-}
-
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
     std::string DocumentsPath = Path::GetDocumentsPath();
+    
 
-    FKLog("windows 平台支持OpenGL 和OpenGL ES,如果使用OpenGL，请链接opengl32.lib，如果使用OpenGL ES，请链接 libGLESv2.lib");
     FKLog(">>> applicationDidFinishLaunching end.");
 	return true;
 }

@@ -205,8 +205,8 @@ public:
      */
     State getState() {
         jobject StateObject = NetworkInfoInstance.CallWithSig<jobject>("getState","()Landroid/net/NetworkInfo$State;");
-        int ordinal = AndroidFoundation::Call<int>(StateObject, "ordinal");
-        AndroidJNI::GetJavaEnv()->DeleteLocalRef(StateObject);
+        int ordinal = android::Call<int>(StateObject, "ordinal");
+        AndroidJNI::GetJNIEnv()->DeleteLocalRef(StateObject);
         return (State)ordinal;
     }
 

@@ -150,9 +150,6 @@
     <ClInclude Include="..\FoundationKit\Base\algorithm.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidFoundation.hpp">
-      <Filter>Platform\Android\AndroidJNI</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaClass.hpp">
       <Filter>Platform\Android\AndroidJNI</Filter>
     </ClInclude>
@@ -164,9 +161,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp">
       <Filter>Platform\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJavaBridge.hpp">
-      <Filter>Platform\Android</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformTLS.hpp">
       <Filter>Platform\Android</Filter>
@@ -365,6 +359,24 @@
     <ClInclude Include="..\FoundationKit\Base\memory.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNIBridge.hpp">
+      <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaProxy.hpp">
+      <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidLexicalCast.hpp">
+      <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNIOperation.hpp">
+      <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Base\identity_type.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaCore.hpp">
+      <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
@@ -426,9 +438,6 @@
       <Filter>Platform\Android</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidFile.cpp">
-      <Filter>Platform\Android</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJavaBridge.cpp">
       <Filter>Platform\Android</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPath.cpp">
@@ -499,6 +508,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.cpp">
       <Filter>external\ConvertUTF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNIBridge.cpp">
+      <Filter>Platform\Android\AndroidJNI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

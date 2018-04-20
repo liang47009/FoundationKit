@@ -1,15 +1,13 @@
 package com.example.test;
 import java.util.List;
 
+import com.losemymind.foundationkit.AndroidJNIBridge;
+import com.losemymind.foundationkit.AndroidJNIProxy;
 import com.losemymind.foundationkit.AndroidJavaBridge;
 
 import android.app.Activity;
 import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 
 public class MainActivity extends Activity {
@@ -17,50 +15,44 @@ public class MainActivity extends Activity {
 	public static String TAG = MainActivity.class.getSimpleName();
 	public static MainActivity activity = null;
 	
-	public boolean isEnable = true;
+	public static AndroidJNIProxy JNIProxy = null;
 	
-	public int     value = 10000;
-	
-	public Bundle   instanceState = null;
 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		instanceState = savedInstanceState;
 		activity = this;
-	
-		TelephonyManager manager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-		Log.e("getDeviceId",manager.getDeviceId());//deviceID
-		Log.e("getNetworkOperatorName",manager.getNetworkOperatorName());//运营商名称
-		Log.e("isNetworkRoaming",manager.isNetworkRoaming()+"");//是否漫游
-		Log.e("getNetworkCountryIso",manager.getNetworkCountryIso());//国家代码
-		Log.e("getNetworkType",manager.getNetworkType()+"");//当前网络类型，2G\3G\4G
-		Log.e("getSimState",manager.getSimState()+"");//默认SIM卡状态
-		Log.e("getSimOperator",manager.getSimOperator());//SIM卡经营者
-		Log.e("getSimOperatorName",manager.getSimOperatorName());//SIM卡经营者名称
-		Log.e("getSimCountryIso",manager.getSimCountryIso());//SIM卡经营者所在国家代码
-		Log.e("getSimSerialNumber",manager.getSimSerialNumber());//SIM卡序列号
-		Log.e("getLine1Number",manager.getLine1Number());//手机号
-		Log.e("Android version is ",android.os.Build.VERSION.RELEASE );
-		Log.e("Android manufacturer is ",android.os.Build.MANUFACTURER );
-		Log.e("Android model is ",android.os.Build.MODEL );
-		//Log.e("Build.SERIAL", android.os.Build.getSerial());
 		foundationInit((Context)this);
 		
-//		SensorManager mSensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);  
-//		  
-//        if (mSensorManager == null) {  
-//            throw new UnsupportedOperationException();  
-//        }  
-//  
-//        List<Sensor> sensorsList = mSensorManager.getSensorList(Sensor.TYPE_ALL);  
-//        for (Sensor sensor : sensorsList) {  
-//            Log.d("支持的传感器", sensor.getName().toString());  
-//        } 
+		byte B= 'B';
+		short S = 10;
+		int   I =10;
+		long  J = 10;
+		float F = 10.1f;
+		double D = 10.1;
+		char   C = 'C';
+		boolean Z = true;
+		
+		Byte    b = 'b';
+		Short   s = 10;
+		Integer i = 10;
+		Long    j = 10l;
+		Float   f = 10.0f;
+		Double  d = 10.1;
+		Character c = 'c';
+		Boolean   z = false;
+		AndroidJNIBridge.sendMessage("JNIBridgeTest", B,S,I,J,F,D,C,Z, b,s,i,j,f,d,c,z);
+		Log.e("TAG", "===== JNIProxy " + JNIProxy);
+		JNIProxy.OnMethodInvoke("OnMethodInvoke", I, D);
+		JNIProxy.OnMethodInvoke1("OnMethodInvoke1", C, Z);
 	}
 
+	public void setProxy(Object proxy){
+		Log.e("TAG", "===== setProxy " + proxy);
+		JNIProxy = (AndroidJNIProxy)proxy;
+	}
    @Override  
     public void onBackPressed() {  
         super.onBackPressed();  
