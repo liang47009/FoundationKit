@@ -172,7 +172,6 @@ public final class AndroidJNIBridge {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Log.e(AndroidJavaBridge.class.getSimpleName(), strSignature);
 		NativeSendMeeage(name, strSignature, args);
 	}
 	static native void NativeSendMeeage(final String funName, final String sig, final Object[] args);

@@ -12,7 +12,6 @@ extern "C"
 {
     JNIEXPORT jobject JNICALL Java_com_losemymind_foundationkit_AndroidJNIBridge_InvokeProxy(JNIEnv* env, jobject thiz, jlong ptr, jclass clazz, jobject method, jobjectArray args)
     {
-        FKLog("====== Java_com_losemymind_foundationkit_AndroidJNIBridge_InvokeProxy");
         jmethodID methodID = env->FromReflectedMethod(method);
         android::AndroidJavaProxy* proxy = (android::AndroidJavaProxy*)ptr;
         return proxy->__OnInvoke(clazz, methodID, args);

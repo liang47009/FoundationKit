@@ -1,9 +1,7 @@
 package com.example.test;
-import java.util.List;
 
 import com.losemymind.foundationkit.AndroidJNIBridge;
-import com.losemymind.foundationkit.AndroidJNIProxy;
-import com.losemymind.foundationkit.AndroidJavaBridge;
+import com.losemymind.foundationkit.AndroidJNIProxyTest;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,7 +13,7 @@ public class MainActivity extends Activity {
 	public static String TAG = MainActivity.class.getSimpleName();
 	public static MainActivity activity = null;
 	
-	public static AndroidJNIProxy JNIProxy = null;
+	public static AndroidJNIProxyTest JNIProxy = null;
 	
 
 	
@@ -51,7 +49,7 @@ public class MainActivity extends Activity {
 
 	public void setProxy(Object proxy){
 		Log.e("TAG", "===== setProxy " + proxy);
-		JNIProxy = (AndroidJNIProxy)proxy;
+		JNIProxy = (AndroidJNIProxyTest)proxy;
 	}
    @Override  
     public void onBackPressed() {  

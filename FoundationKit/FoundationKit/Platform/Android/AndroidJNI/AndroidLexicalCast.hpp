@@ -383,9 +383,9 @@ namespace android
     CPP_TYPE_CAST(jobjectArray,  std::vector<std::string>, (FixedChars< '[', 'L', 'j', 'a', 'v', 'a', '/', 'l', 'a', 'n', 'g', '/', 'S', 't', 'r', 'i', 'n', 'g', ';' >));
     CPP_TYPE_CAST(jobjectArray,  std::vector<jobject>,     (FixedChars< '[', 'L', 'j', 'a', 'v', 'a', '/', 'l', 'a', 'n', 'g', '/', 'S', 't', 'r', 'i', 'n', 'g', ';' >));
 #undef  CPP_TYPE_CAST
+
     template<>
     struct CPPTypeCast<const char*> : public CPPTypeCast<std::string> {};
-
 
     template<typename To, typename From>
     typename std::enable_if<!std::is_same<To, From>::value, To>::type
@@ -401,6 +401,33 @@ namespace android
         return from;
     }
 
+    template<size_t N>
+    struct PaddingTuple
+    {
+        template<typename Tuple>
+        static void Padding(Tuple& tp, jobjectArray& args, JNIEnv* env)
+        {
+            std::get<N - 1>(tp) = lexical_cast<typename std::decay<decltype(std::get<N - 1>(tp))>::type>(env->GetObjectArrayElement(args, N - 1));
+            PaddingTuple<N - 1>::Padding(tp, args);
+        }
+    };
+
+    template<>
+    struct PaddingTuple<0>
+    {
+        template<typename Tuple>
+        static void Padding(Tuple& tp, jobjectArray& args, JNIEnv* env)
+        {
+            std::get<0>(tp) = lexical_cast<typename std::decay<decltype(std::get<0>(tp))>::type>(env->GetObjectArrayElement(args, 0));
+        }
+    };
+
+    template<typename Tuple>
+    inline void ApplyPaddingTuple(Tuple& tp, const jobjectArray& args)
+    {
+        JNIEnv* env = AndroidJNI::GetJNIEnv();
+        PaddingTuple<std::tuple_size<Tuple>::value>::Padding(tp, const_cast<jobjectArray&>(args), env);
+    }
 
 }// namespace android
 NS_FK_END
@@ -408,3 +435,4 @@ NS_FK_END
 #endif //#if PLATFORM_ANDROID
 
 #endif // END OF FOUNDATIONKIT_ANDROIDLEXICALCAST_HPP
+

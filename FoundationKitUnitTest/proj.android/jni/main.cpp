@@ -174,7 +174,26 @@ void JNIBridgeTest(char B
 
 }
 
+class AndroidJNIProxyTest : public android::AndroidJavaProxy
+{
+public:
+    AndroidJNIProxyTest() : android::AndroidJavaProxy("com.losemymind.foundationkit.AndroidJNIProxyTest")
+    {
 
+    }
+
+    virtual void OnMethodInvoke(std::string MethodName, int a, double b)
+    {
+
+    }
+
+    virtual void OnMethodInvoke1(std::string MethodName, char a, bool b)
+    {
+
+    }
+};
+
+static android::AndroidJavaProxy* AndroidJavaProxyInstance = nullptr;
 JNIEXPORT void JNICALL Java_com_example_test_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
 {
     ANDROID_LOGE("============== >>>>> foundationInit");
@@ -185,6 +204,8 @@ JNIEXPORT void JNICALL Java_com_example_test_MainActivity_foundationInit( JNIEnv
     android::AndroidJavaClass  mainActiveClass("com.example.test.MainActivity");
     std::string mainClassName = mainActiveClass.CallStatic<std::string>("getClassName");
     ANDROID_LOGE("========== mainClassName: %s", mainClassName.c_str());
+    AndroidJavaProxyInstance = new android::AndroidJavaProxy("com.losemymind.foundationkit.AndroidJNIProxyTest");
+    mainActive.Call("setProxy", (jobject)(*AndroidJavaProxyInstance));
      
     //char* leak = new char[1024];
     //int ret = TestHeapUseAfterFree(10);

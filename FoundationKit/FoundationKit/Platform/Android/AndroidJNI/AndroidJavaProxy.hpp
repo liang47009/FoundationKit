@@ -17,6 +17,7 @@
 NS_FK_BEGIN
 namespace android 
 {
+    //template<typename TX>
     class AndroidJavaProxy
     {
     public:
@@ -38,20 +39,17 @@ namespace android
             return ProxyObject.Get();
         }
 
-        jobject __OnInvoke(jclass InClass, jmethodID InMethod, jobjectArray InArgs)
+        inline operator jobject()
         {
-            jobject result = nullptr;
-            bool success = false;
-            __OnTryInvoke(InClass, InMethod, InArgs, &success, &result);
-            return result;
+            return ProxyObject.Get();
         }
 
-        virtual bool __OnTryInvoke(jclass clazz, jmethodID methodID, jobjectArray args, bool* success, jobject* result)
+        jobject __OnInvoke(jclass InClass, jmethodID InMethod, jobjectArray InArgs)
         {
             static android::AndroidJavaClass ObjectClass("java/lang/Object");
             JNIEnv* env = AndroidJNI::GetJNIEnv();
-            if (!env->IsSameObject(clazz, ObjectClass))
-                return false;
+            if (!env->IsSameObject(InClass, ObjectClass))
+                return nullptr;
 
             static jmethodID methodIDs[] =
             {
@@ -59,16 +57,12 @@ namespace android
                 env->GetMethodID(ObjectClass, "equals", "(Ljava/lang/Object;)Z"),
                 env->GetMethodID(ObjectClass, "toString", "()Ljava/lang/String;")
             };
-
-            if (methodIDs[0] == methodID) { *result = env->NewLocalRef(android::lexical_cast<jobject>(__HashCode())); *success = true; return true; }
-            if (methodIDs[1] == methodID) { *result = env->NewLocalRef(android::lexical_cast<jobject>(__Equals(env->GetObjectArrayElement(args, 0)))); *success = true; return true; }
-            if (methodIDs[2] == methodID) { *result = env->NewLocalRef(__ToString()); *success = true;	return true; }
-
-            return false;
+            jobject result = nullptr;
+            if (methodIDs[0] == InMethod) { result = env->NewLocalRef(android::lexical_cast<jobject>(__HashCode()));}
+            if (methodIDs[1] == InMethod) { result = env->NewLocalRef(android::lexical_cast<jobject>(__Equals(env->GetObjectArrayElement(InArgs, 0))));}
+            if (methodIDs[2] == InMethod) { result = env->NewLocalRef(__ToString());}
+            return result;
         }
-
-
-
     private:
         int __HashCode()
         {
