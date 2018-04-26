@@ -549,7 +549,7 @@ public:
      * %z - time zone differential in ISO 8601 format (Z or +NN.NN)
      * %Z - time zone differential in RFC format (GMT or +NNNN)
      * %% - percent sign
-     * @param format The format of the returned string.
+     * @param InFormat The format of the returned string.
      * @return String representation.
      */
 	std::string ToString( const std::string& InFormat ) const;
