@@ -21,36 +21,35 @@ NS_FK_BEGIN
 namespace android 
 {
 
-    /**
-        bool                <--> jboolean
-        char                <--> jbyte
-        wchar_t             <--> jchar
-        short               <--> jshort
-        int                 <--> jint
-        long long           <--> jlong
-        float               <--> jfloat
-        double              <--> jdouble
-        bool                <--> java/lang/Boolean
-        char                <--> java/lang/Byte
-        wchar_t             <--> java/lang/Character
-        short               <--> java/lang/Short
-        int                 <--> java/lang/Integer
-        long long           <--> java/lang/Long
-        float               <--> java/lang/Float
-        double              <--> java/lang/Double
-        std::string         <--> jstring
-        std::vector<bool>       <--> jbooleanArray
-        std::vector<char>,      <--> jbyteArray
-        std::vector<wchar_t>,   <--> jcharArray
-        std::vector<short>,     <--> jshortArray
-        std::vector<int>,       <--> jintArray
-        std::vector<long long>, <--> jlongArray 
-        std::vector<float>,     <--> jfloatArray
-        std::vector<double>,    <--> jdoubleArray
-        std::vector<std::string><--> jobjectArray
-        std::vector<jobject>,   <--> jobjectArray
-        */
-
+   /**
+    bool                <--> jboolean
+    char                <--> jbyte
+    wchar_t             <--> jchar
+    short               <--> jshort
+    int                 <--> jint
+    long long           <--> jlong
+    float               <--> jfloat
+    double              <--> jdouble
+    bool                <--> java/lang/Boolean
+    char                <--> java/lang/Byte
+    wchar_t             <--> java/lang/Character
+    short               <--> java/lang/Short
+    int                 <--> java/lang/Integer
+    long long           <--> java/lang/Long
+    float               <--> java/lang/Float
+    double              <--> java/lang/Double
+    std::string         <--> jstring
+    std::vector<bool>       <--> jbooleanArray
+    std::vector<char>,      <--> jbyteArray
+    std::vector<wchar_t>,   <--> jcharArray
+    std::vector<short>,     <--> jshortArray
+    std::vector<int>,       <--> jintArray
+    std::vector<long long>, <--> jlongArray 
+    std::vector<float>,     <--> jfloatArray
+    std::vector<double>,    <--> jdoubleArray
+    std::vector<std::string><--> jobjectArray
+    std::vector<jobject>,   <--> jobjectArray
+    */
 
     template<typename To, typename From>
     struct converter
@@ -201,7 +200,6 @@ namespace android
     JNI_TO_CPP_ARRAY_CONVERTER(std::vector<int64>,     jlongArray,   jlong);
     JNI_TO_CPP_ARRAY_CONVERTER(std::vector<float>,     jfloatArray,  jfloat);
     JNI_TO_CPP_ARRAY_CONVERTER(std::vector<double>,    jdoubleArray, jdouble);
-
 #undef JNI_TO_CPP_ARRAY_CONVERTER
 
     template<>
@@ -401,34 +399,33 @@ namespace android
         return from;
     }
 
-    template<size_t N>
-    struct PaddingTuple
-    {
-        template<typename Tuple>
-        static void Padding(Tuple& tp, jobjectArray& args, JNIEnv* env)
-        {
-            std::get<N - 1>(tp) = lexical_cast<typename std::decay<decltype(std::get<N - 1>(tp))>::type>(env->GetObjectArrayElement(args, N - 1));
-            PaddingTuple<N - 1>::Padding(tp, args);
-        }
-    };
+    //template<size_t N>
+    //struct PaddingTuple
+    //{
+    //    template<typename Tuple>
+    //    static void Padding(Tuple& tp, jobjectArray& args, JNIEnv* env)
+    //    {
+    //        std::get<N - 1>(tp) = lexical_cast<typename std::decay<decltype(std::get<N - 1>(tp))>::type>(env->GetObjectArrayElement(args, N - 1));
+    //        PaddingTuple<N - 1>::Padding(tp, args);
+    //    }
+    //};
 
-    template<>
-    struct PaddingTuple<0>
-    {
-        template<typename Tuple>
-        static void Padding(Tuple& tp, jobjectArray& args, JNIEnv* env)
-        {
-            std::get<0>(tp) = lexical_cast<typename std::decay<decltype(std::get<0>(tp))>::type>(env->GetObjectArrayElement(args, 0));
-        }
-    };
+    //template<>
+    //struct PaddingTuple<0>
+    //{
+    //    template<typename Tuple>
+    //    static void Padding(Tuple& tp, jobjectArray& args, JNIEnv* env)
+    //    {
+    //        std::get<0>(tp) = lexical_cast<typename std::decay<decltype(std::get<0>(tp))>::type>(env->GetObjectArrayElement(args, 0));
+    //    }
+    //};
 
-    template<typename Tuple>
-    inline void ApplyPaddingTuple(Tuple& tp, const jobjectArray& args)
-    {
-        JNIEnv* env = AndroidJNI::GetJNIEnv();
-        PaddingTuple<std::tuple_size<Tuple>::value>::Padding(tp, const_cast<jobjectArray&>(args), env);
-    }
-
+    //template<typename Tuple>
+    //inline void ApplyPaddingTuple(Tuple& tp, const jobjectArray& args)
+    //{
+    //    JNIEnv* env = AndroidJNI::GetJNIEnv();
+    //    PaddingTuple<std::tuple_size<Tuple>::value>::Padding(tp, const_cast<jobjectArray&>(args), env);
+    //}
 }// namespace android
 NS_FK_END
 

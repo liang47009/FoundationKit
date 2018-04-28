@@ -27,7 +27,7 @@ namespace android
             Interfaces.push_back(AndroidJNI::FindJavaClass(InInterfaceClass.c_str()));
             ProxyObject = NewInstance(this, Interfaces);
             ClassName = InInterfaceClass;
-    }
+        }
 
         virtual ~AndroidJavaProxy()
         {
@@ -94,7 +94,7 @@ namespace android
 
         }
     private:
-        std::unordered_map<std::string, FunctionHandlerPointer> MethodsMap;
+        std::unordered_map<jmethodID, FunctionHandlerPointer> MethodsMap;
         android::AndroidJavaObject  ProxyObject;
         std::string                 ClassName;
     };

@@ -44,7 +44,8 @@ struct max_aligned : std::integral_constant < int, max_integer_of<std::alignment
 template <typename T>
 inline constexpr T* align(const T* ptr, int32_t alignment)
 {
-    return (T*)((address(ptr) + alignment - 1) & ~(alignment - 1));
+    return (T*)((UPTRINT(ptr) + alignment - 1) & ~(alignment - 1));
+    //return (T*)((UPTRINT(ptr) + alignment - 1) & -alignment);
 }
 
 /**
@@ -69,170 +70,186 @@ constexpr inline bool is_alignment(std::size_t value) noexcept
     return (UPTRINT(ptr) & (alignment - 1)) == 0;
 }
 
-inline void *allocate_aligned(size_t n) 
-{
-    // We need to allocate extra bytes to guarantee alignment,
-    // and to store the pointer to the original buffer.
-    uint8_t *buf = reinterpret_cast<uint8_t *>(malloc(n + alignment_of_max_align));
-    if (!buf) return NULL;
-    // Align to next higher multiple of MATHFU_ALIGNMENT.
-    uint8_t *aligned_buf = reinterpret_cast<uint8_t *>(
-        (reinterpret_cast<size_t>(buf)+alignment_of_max_align) &
-        ~(alignment_of_max_align - 1));
-    // Write out original buffer pointer before aligned buffer.
-    // The assert will fail if the allocator granularity is less than the pointer
-    // size, or if alignment_of_max_align doesn't fit two pointers.
-    assert(static_cast<size_t>(aligned_buf - buf) > sizeof(void *));
-    *(reinterpret_cast<uint8_t **>(aligned_buf)-1) = buf;
-    return aligned_buf;
-}
+ inline void* aligned_alloc(std::size_t size, std::size_t alignment = alignment_of_max_align) noexcept
+ {
+     assert(is_alignment(alignment));
+#if PLATFORM_WINDOWS
+     return ::_aligned_malloc(size, alignment);
+#elif PLATFORM_APPLE || PLATFORM_LINUX
+     enum {
+         void_size = sizeof(void*)
+     };
+     if (alignment < void_size) {
+         alignment = void_size;
+     }
+     void* p;
+     if (::posix_memalign(&p, alignment, size) != 0) {
+         p = 0;
+     }
+     return p;
 
-/// Deallocate a block of memory allocated with allocate_aligned().
-/// @param p Pointer to memory to deallocate.
-inline void free_aligned(void *p) 
-{
-    if (p == NULL) return;
-    free(*(reinterpret_cast<uint8_t **>(p)-1));
-}
+#elif PLATFORM_ANDROID
+     return ::memalign(alignment, size);
+#endif
+ }
 
-
-/** 
- * Aligned memory allocator, for use with STL types like std::vector.
- * For example:
- *     std::vector<CusTomClass, aligned_allocator<CusTomClass>> myvector;
- *
+ /**
+ Causes the space pointed to by `ptr` to be
+ deallocated, that is, made available for further
+ allocation. If `ptr` is a null pointer, no
+ action occurs. Otherwise, if the argument does
+ not match a pointer earlier returned by the
+ `aligned_alloc` function, or if the space has
+ been deallocated by a call to `aligned_free`,
+ the behavior is undefined.
  */
-template <typename T>
-class aligned_allocator : public std::allocator<T> {
-public:
-    /// Size type.
-    typedef size_t size_type;
-    /// Pointer of type T.
-    typedef T *pointer;
-    /// Const pointer of type T.
-    typedef const T *const_pointer;
+ inline void aligned_free(void* ptr) noexcept
+ {
+#if PLATFORM_WINDOWS
+     ::_aligned_free(ptr);
+#elif PLATFORM_APPLE || PLATFORM_ANDROID || PLATFORM_LINUX
+     ::free(ptr);
+#endif
+ }
 
-    /// Constructs a simd_allocator.
-    aligned_allocator() throw() : std::allocator<T>() {}
-    /// @brief Constructs and copies a simd_allocator.
-    ///
-    /// @param a Allocator to copy.
-    aligned_allocator(const aligned_allocator &a) throw() : std::allocator<T>(a) {}
-    /// @brief Constructs and copies a simd_allocator.
-    ///
-    /// @param a Allocator to copy.
-    template <class U>
-    aligned_allocator(const aligned_allocator<U> &a) throw() : std::allocator<T>(a) {}
-    /// @brief Destructs a simd_allocator.
-    ~aligned_allocator() throw() {}
-
-    /// @brief Obtains an allocator of a different type.
-    template <typename _Tp1>
-    struct rebind 
-    {
-        /// @brief Allocator of type _Tp1.
-        typedef aligned_allocator<_Tp1> other;
-    };
-
-    /// @brief Allocate memory for object T.
-    ///
-    /// @param n Number of types to allocate.
-    /// @return Pointer to the newly allocated memory.
-    pointer allocate(size_type n) 
-    {
-        return reinterpret_cast<pointer>(allocate_aligned(n * sizeof(T)));
-    }
-
-    /// Deallocate memory referenced by pointer p.
-    ///
-    /// @param p Pointer to memory to deallocate.
-    void deallocate(pointer p, size_type) { free_aligned(p); }
-};
-
-
-template< typename _Ty >
-class aligned_ptr final 
-{
-public:
-    typedef memory_aligned_t<_Ty> aligned_value_type;
-    typedef _Ty		              value_type;
-    typedef _Ty&		          reference;
-    typedef _Ty* 		          pointer;
-    typedef const _Ty& 	          const_reference;
-    typedef	const _Ty*            const_pointer;
-    typedef const _Ty* const      const_pointer_const;
-
-    template< typename ...Args >
-    explicit aligned_ptr(Args &&...args) 
-    {
-        void* dataPtr = ::operator new(sizeof(aligned_value_type));
-        new (dataPtr)value_type(std::forward< Args >(args)...);
-        context.template reset<aligned_value_type>(reinterpret_cast<aligned_value_type*>(dataPtr), [](aligned_value_type* ptr)
-        {
-            reinterpret_cast<pointer>(ptr)->~value_type();
-            ::operator delete(ptr);
-        });
-    }
-
-    ~aligned_ptr() 
-    {
-
-    }
-
-    aligned_ptr(aligned_ptr &&other) noexcept 
-        :context(std::move(other.context))
-    {
-    }
-   
-    aligned_ptr& operator=(aligned_ptr &&other) noexcept
-    {
-        context = std::move(other.context);
-        return *this;
-    }
-
-    aligned_ptr(const aligned_ptr& other)
-    {
-        context = other.context;
-    }
-
-    aligned_ptr& operator=(const aligned_ptr& other)
-    {
-        context = other.context;
-        return *this;
-    }
-
-    reference operator*() 
-    {
-        return *reinterpret_cast<pointer>(context.get());
-    }
-
-    const_reference operator*() const 
-    {
-        return *reinterpret_cast<const_pointer>(context.get());
-    }
-
-    pointer operator->() 
-    {
-        return reinterpret_cast<pointer>(context.get());
-    }
-
-    const_pointer operator->() const 
-    {
-        return reinterpret_cast<const_pointer>(context.get());
-    }
-
-    pointer get() 
-    {
-        return reinterpret_cast<pointer>(context.get());
-    }
-
-    const_pointer get() const 
-    {
-        return reinterpret_cast<const_pointer>(context.get());
-    }
-private:
-    std::shared_ptr<aligned_value_type> context;
-};
+//
+///** 
+// * Aligned memory allocator, for use with STL types like std::vector.
+// * For example:
+// *     std::vector<CusTomClass, aligned_allocator<CusTomClass>> myvector;
+// *
+// */
+//template <typename T>
+//class aligned_allocator : public std::allocator<T> {
+//public:
+//    /// Size type.
+//    typedef size_t size_type;
+//    /// Pointer of type T.
+//    typedef T *pointer;
+//    /// Const pointer of type T.
+//    typedef const T *const_pointer;
+//
+//    /// Constructs a simd_allocator.
+//    aligned_allocator() throw() : std::allocator<T>() {}
+//    /// @brief Constructs and copies a simd_allocator.
+//    ///
+//    /// @param a Allocator to copy.
+//    aligned_allocator(const aligned_allocator &a) throw() : std::allocator<T>(a) {}
+//    /// @brief Constructs and copies a simd_allocator.
+//    ///
+//    /// @param a Allocator to copy.
+//    template <class U>
+//    aligned_allocator(const aligned_allocator<U> &a) throw() : std::allocator<T>(a) {}
+//    /// @brief Destructs a simd_allocator.
+//    ~aligned_allocator() throw() {}
+//
+//    /// @brief Obtains an allocator of a different type.
+//    template <typename _Tp1>
+//    struct rebind 
+//    {
+//        /// @brief Allocator of type _Tp1.
+//        typedef aligned_allocator<_Tp1> other;
+//    };
+//
+//    /// @brief Allocate memory for object T.
+//    ///
+//    /// @param n Number of types to allocate.
+//    /// @return Pointer to the newly allocated memory.
+//    pointer allocate(size_type n) 
+//    {
+//        return reinterpret_cast<pointer>(allocate_aligned(n * sizeof(T)));
+//    }
+//
+//    /// Deallocate memory referenced by pointer p.
+//    ///
+//    /// @param p Pointer to memory to deallocate.
+//    void deallocate(pointer p, size_type) { free_aligned(p); }
+//};
+//
+//
+//template< typename _Ty >
+//class aligned_ptr final 
+//{
+//public:
+//    typedef memory_aligned_t<_Ty> aligned_value_type;
+//    typedef _Ty		              value_type;
+//    typedef _Ty&		          reference;
+//    typedef _Ty* 		          pointer;
+//    typedef const _Ty& 	          const_reference;
+//    typedef	const _Ty*            const_pointer;
+//    typedef const _Ty* const      const_pointer_const;
+//
+//    template< typename ...Args >
+//    explicit aligned_ptr(Args &&...args) 
+//    {
+//        void* dataPtr = ::operator new(sizeof(aligned_value_type));
+//        new (dataPtr)value_type(std::forward< Args >(args)...);
+//        context.template reset<aligned_value_type>(reinterpret_cast<aligned_value_type*>(dataPtr), [](aligned_value_type* ptr)
+//        {
+//            reinterpret_cast<pointer>(ptr)->~value_type();
+//            ::operator delete(ptr);
+//        });
+//    }
+//
+//    ~aligned_ptr() 
+//    {
+//
+//    }
+//
+//    aligned_ptr(aligned_ptr &&other) noexcept 
+//        :context(std::move(other.context))
+//    {
+//    }
+//   
+//    aligned_ptr& operator=(aligned_ptr &&other) noexcept
+//    {
+//        context = std::move(other.context);
+//        return *this;
+//    }
+//
+//    aligned_ptr(const aligned_ptr& other)
+//    {
+//        context = other.context;
+//    }
+//
+//    aligned_ptr& operator=(const aligned_ptr& other)
+//    {
+//        context = other.context;
+//        return *this;
+//    }
+//
+//    reference operator*() 
+//    {
+//        return *reinterpret_cast<pointer>(context.get());
+//    }
+//
+//    const_reference operator*() const 
+//    {
+//        return *reinterpret_cast<const_pointer>(context.get());
+//    }
+//
+//    pointer operator->() 
+//    {
+//        return reinterpret_cast<pointer>(context.get());
+//    }
+//
+//    const_pointer operator->() const 
+//    {
+//        return reinterpret_cast<const_pointer>(context.get());
+//    }
+//
+//    pointer get() 
+//    {
+//        return reinterpret_cast<pointer>(context.get());
+//    }
+//
+//    const_pointer get() const 
+//    {
+//        return reinterpret_cast<const_pointer>(context.get());
+//    }
+//private:
+//    std::shared_ptr<aligned_value_type> context;
+//};
 
 NS_FK_END
 #endif // FOUNDATIONKIT_MEMORY_ALIGNED_HPP

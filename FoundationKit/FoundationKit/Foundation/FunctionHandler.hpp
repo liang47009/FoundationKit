@@ -56,7 +56,7 @@ class FunctionHandlerBase
 public:
 	FunctionHandlerBase(){}
 	virtual~FunctionHandlerBase(){}
-	virtual Value Invoke(const ArgumentList& args) = 0;
+	virtual void Invoke(const ArgumentList& args) = 0;
 };
 typedef std::shared_ptr<FunctionHandlerBase>   FunctionHandlerPointer;
 
@@ -68,18 +68,18 @@ class FunctionHandler : public FunctionHandlerBase
 	using args_tuple_type   = typename function_traits_t::args_tuple_type;
 
 public:
-	stl_function_type   Invoker;
+	stl_function_type   Func;
 	args_tuple_type     ArgsTuple;
 
 	FunctionHandler(const stl_function_type& fun)
 	{
-		Invoker = fun;
+        Func = fun;
 	}
 
-	virtual Value Invoke(const ArgumentList& args)
+	virtual void Invoke(const ArgumentList& args)
 	{
 		ApplyBuildTuple(ArgsTuple, args);
-		return apply(Invoker, ArgsTuple);
+		apply(Func, ArgsTuple);
 	}
 };
 
@@ -89,16 +89,16 @@ class FunctionHandler<_Ft, 0> : public FunctionHandlerBase
 	using function_traits_t = function_traits < _Ft >;
 	using stl_function_type = typename function_traits_t::stl_function_type;
 public:
-	stl_function_type   Invoker;
+	stl_function_type   Func;
 
 	FunctionHandler(const stl_function_type& fun)
 	{
-		Invoker = fun;
+        Func = fun;
 	}
 
 	virtual void Invoke(const ArgumentList& /*args*/)
 	{
-		Invoker();
+        Func();
 	}
 };
 

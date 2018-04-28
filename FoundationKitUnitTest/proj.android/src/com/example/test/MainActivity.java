@@ -1,5 +1,7 @@
 package com.example.test;
 
+import java.io.File;
+
 import com.losemymind.foundationkit.AndroidJNIBridge;
 import com.losemymind.foundationkit.AndroidJNIProxyTest;
 
@@ -45,6 +47,9 @@ public class MainActivity extends Activity {
 		Log.e("TAG", "===== JNIProxy " + JNIProxy);
 		JNIProxy.OnMethodInvoke("OnMethodInvoke", I, D);
 		JNIProxy.OnMethodInvoke1("OnMethodInvoke1", C, Z);
+		
+		AndroidJNIBridge.sendMessage("OnJavaCall", "Value", 10, 100.f, "value c");
+		
 	}
 
 	public void setProxy(Object proxy){

@@ -193,12 +193,21 @@ public:
     }
 };
 
+
+void OnJavaCall(std::string value, int i, float f, const char* c)
+{
+    ANDROID_LOGE("============== OnJavaCall value=%s, i=%d, f=%f, c=%s", value.c_str(), i, f, c);
+}
+
 static android::AndroidJavaProxy* AndroidJavaProxyInstance = nullptr;
 JNIEXPORT void JNICALL Java_com_example_test_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
 {
     ANDROID_LOGE("============== >>>>> foundationInit");
     AndroidJNI::InitializeJavaEnv(g_vm, JNI_VERSION_1_6, context);
     PlatformDevice::DumpDeviceInfo();
+
+    FoundationKit::NotificationCenter::DefaultCenter.AddObserver("OnJavaCall", BindFunctionHandler(OnJavaCall));
+
     android::AndroidJavaObject  mainActive(context);
     mainActive.Call("debug_Print", 100,"======", "========");
     android::AndroidJavaClass  mainActiveClass("com.example.test.MainActivity");

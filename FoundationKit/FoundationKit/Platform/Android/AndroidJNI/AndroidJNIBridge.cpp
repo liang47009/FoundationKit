@@ -30,11 +30,6 @@ extern "C"
         //ANDROID_LOGE("======= nativeInvoke InvokeMethodName:%s", InvokeMethodName.c_str());
         //ANDROID_LOGE("======= nativeInvoke InvokeMethodSignature:%s", InvokeMethodSignature.c_str());
         size_t ArgsCount = env->GetArrayLength(InArgs);
-        if (InvokeMethodSignature.size() != ArgsCount)
-        {
-            FKLog("The parameters and signature do not match.");
-            return;
-        }
         ArgumentList Arglist;
         for (size_t argIndex = 0; argIndex < ArgsCount; ++argIndex)
         {

@@ -161,7 +161,7 @@ public final class AndroidJNIBridge {
 	public static String getSimpleSignature(Object... Objectes) throws Exception{
 		StringBuilder signature = new StringBuilder();
 		for (Object obj : Objectes)
-			signature.append(getSignature(obj.getClass()));
+			signature.append(getSimpleSignature(obj.getClass()));
 		return signature.toString();
 	}
 	

@@ -79,7 +79,7 @@ public:
      * @param y The y coordinate.
      * @param z The z coordinate.
      */
-    Vector3(float x, float y, float z);
+    Vector3(float x, float y, float z=0.f);
 
     /**
      * Constructs a new vector from the values in the specified array.

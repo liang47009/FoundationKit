@@ -477,6 +477,17 @@ long long PlatformDevice::GetAvailableMemory()
     //natural_t mem_used = (vm_stat.active_count+vm_stat.inactive_count+vm_stat.wire_count)*pagesize;
     //natural_t mem_total = mem_used +vm_stat.free_count*pagesize;
     return vm_stat.free_count * pagesize;
+    /**
+    // get free memory
+	vm_size_t PageSize;
+	host_page_size(mach_host_self(), &PageSize);
+
+	// get memory stats
+	vm_statistics Stats;
+	mach_msg_type_number_t StatsSize = sizeof(Stats);
+	host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&Stats, &StatsSize);
+	return (Stats.free_count * PageSize);
+    */
 }
 
 Rect PlatformDevice::GetScreenResolution()
