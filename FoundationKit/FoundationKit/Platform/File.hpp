@@ -100,6 +100,7 @@ public:
     static DateTime GetLastAccessTimeUtc(const std::string& path);
     static DateTime GetLastWriteTime(const std::string& path);
     static DateTime GetLastWriteTimeUtc(const std::string& path);
+private:
     static std::string ErrnoToString(int error, const std::string& operation);
 };
 

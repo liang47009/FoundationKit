@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
 		Character c = 'c';
 		Boolean   z = false;
 		AndroidJNIBridge.sendMessage("JNIBridgeTest", B,S,I,J,F,D,C,Z, b,s,i,j,f,d,c,z);
-		Log.e("TAG", "===== JNIProxy " + JNIProxy);
+		//Log.e("TAG", "===== JNIProxy " + JNIProxy);
 		JNIProxy.OnMethodInvoke("OnMethodInvoke", I, D);
 		JNIProxy.OnMethodInvoke1("OnMethodInvoke1", C, Z);
 		
@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void setProxy(Object proxy){
-		Log.e("TAG", "===== setProxy " + proxy);
+		//Log.e("TAG", "===== setProxy " + proxy);
 		JNIProxy = (AndroidJNIProxyTest)proxy;
 	}
    @Override  

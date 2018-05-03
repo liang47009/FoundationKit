@@ -37,7 +37,7 @@ decltype(auto) match(T&& value, const Case& _case, const Cases&... cases)
 {
     //using args = typename function_traits<Case>::args_tuple;
     //using arg = std::tuple_element_t<0, args>;
-    using arg = function_traits<Case>::args<0>::type;
+    using arg = function_traits<Case>::argument<0>::type;
     using match = std::is_same < std::decay_t<arg>, std::decay_t<T> > ;
     return details::match_call(_case, std::forward<T>(value), match{}, cases...);
 }

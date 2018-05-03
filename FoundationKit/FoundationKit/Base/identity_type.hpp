@@ -32,6 +32,6 @@ On some compilers (like GCC), using this macro on abstract types requires to
 add and remove a reference to the specified type.
 */
 /* must NOT prefix this with `::` to work with parenthesized syntax */ 
-#define IDENTITY_TYPE(parenthesized_type) FoundationKit::function_traits< void parenthesized_type >::args<0>::type;
+#define IDENTITY_TYPE(parenthesized_type) FoundationKit::function_traits< void parenthesized_type >::argument<0>::type;
 
 #endif // END OF FOUNDATIONKIT_IDENTITY_TYPE_HPP

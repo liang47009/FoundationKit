@@ -7,7 +7,8 @@
 #ifndef PAL_MODULEMANAGER_HPP
 #define PAL_MODULEMANAGER_HPP
 
-
+#include <string>
+#include "ModuleInterface.hpp"
 
 /**
 * Utility class for registering modules that are statically linked.

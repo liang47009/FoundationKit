@@ -11,9 +11,10 @@
 #include <unordered_map>
 #include <string>
 #include <jni.h>
-#include "FoundationKit/Foundation/FunctionHandler.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidLexicalCast.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaObject.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaClass.hpp"
+#include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaProxyHelper.hpp"
 NS_FK_BEGIN
 namespace android 
 {
@@ -27,6 +28,7 @@ namespace android
             Interfaces.push_back(AndroidJNI::FindJavaClass(InInterfaceClass.c_str()));
             ProxyObject = NewInstance(this, Interfaces);
             ClassName = InInterfaceClass;
+            Clazz = AndroidJNI::FindJavaClass(InInterfaceClass.c_str());
         }
 
         virtual ~AndroidJavaProxy()
@@ -44,12 +46,22 @@ namespace android
             return ProxyObject.Get();
         }
 
-        jobject __OnInvoke(jclass InClass, jmethodID InMethod, jobjectArray InArgs)
+        virtual jobject __OnInvoke(jclass InClass, jmethodID InMethod, jobjectArray InArgs)
         {
             static android::AndroidJavaClass ObjectClass("java/lang/Object");
             JNIEnv* env = AndroidJNI::GetJNIEnv();
-            if (!env->IsSameObject(InClass, ObjectClass))
+            if (!env->IsSameObject(InClass, Clazz.Get()))
                 return nullptr;
+
+            jobject result = nullptr;
+            for (auto mapIter : MethodsMap)
+            {
+                if (mapIter.first->GetMethodID((jclass)(Clazz.Get())) == InMethod)
+                {
+                    result = mapIter.second->Invoke(InArgs);
+                    return result;
+                }
+            }
 
             static jmethodID methodIDs[] =
             {
@@ -57,10 +69,9 @@ namespace android
                 env->GetMethodID(ObjectClass, "equals", "(Ljava/lang/Object;)Z"),
                 env->GetMethodID(ObjectClass, "toString", "()Ljava/lang/String;")
             };
-            jobject result = nullptr;
-            if (methodIDs[0] == InMethod) { result = env->NewLocalRef(android::lexical_cast<jobject>(__HashCode()));}
-            if (methodIDs[1] == InMethod) { result = env->NewLocalRef(android::lexical_cast<jobject>(__Equals(env->GetObjectArrayElement(InArgs, 0))));}
-            if (methodIDs[2] == InMethod) { result = env->NewLocalRef(__ToString());}
+            if (methodIDs[0] == InMethod) { result = env->NewLocalRef(android::lexical_cast<jobject>(__HashCode())); }
+            if (methodIDs[1] == InMethod) { result = env->NewLocalRef(android::lexical_cast<jobject>(__Equals(env->GetObjectArrayElement(InArgs, 0)))); }
+            if (methodIDs[2] == InMethod) { result = env->NewLocalRef(__ToString()); }
             return result;
         }
     private:
@@ -91,13 +102,18 @@ namespace android
         static void DisableInstance(jobject InProxy)
         {
             android::CallStaticWithSig<jobject>("com.losemymind.foundationkit.AndroidJNIBridge", "DisableProxyInterface", "(Ljava/lang/Object;)V", InProxy);
-
+            
         }
-    private:
-        std::unordered_map<jmethodID, FunctionHandlerPointer> MethodsMap;
+protected:
+        std::unordered_map<LazyJNIMethodPointer, JNIInvokeHandlerPointer> MethodsMap;
         android::AndroidJavaObject  ProxyObject;
         std::string                 ClassName;
+        JNIGlobalReference          Clazz;
     };
+
+#define REG_PROXY_METHOD(CLS, FUN) \
+MethodsMap.insert(std::make_pair(android::LazyJNIMethodPointer(new android::LazyJNIMethod<decltype(&CLS::FUN)>(#FUN)), android::BindJNIInvokeHandler(&CLS::FUN, this)))
+
 
 } // namespace android 
 

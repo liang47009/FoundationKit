@@ -179,17 +179,18 @@ class AndroidJNIProxyTest : public android::AndroidJavaProxy
 public:
     AndroidJNIProxyTest() : android::AndroidJavaProxy("com.losemymind.foundationkit.AndroidJNIProxyTest")
     {
-
+        REG_PROXY_METHOD(AndroidJNIProxyTest, OnMethodInvoke);
+        REG_PROXY_METHOD(AndroidJNIProxyTest, OnMethodInvoke1);
     }
 
     virtual void OnMethodInvoke(std::string MethodName, int a, double b)
     {
-
+        ANDROID_LOGE("============== OnMethodInvoke MethodName=%s, a=%d, b=%f", MethodName.c_str(), a, b);
     }
 
-    virtual void OnMethodInvoke1(std::string MethodName, char a, bool b)
+    virtual void OnMethodInvoke1(std::string MethodName, wchar_t a, bool b)
     {
-
+        ANDROID_LOGE("============== OnMethodInvoke1 MethodName=%s, a=%c, b=%d", MethodName.c_str(), a,b=true?1:0);
     }
 };
 
@@ -199,7 +200,7 @@ void OnJavaCall(std::string value, int i, float f, const char* c)
     ANDROID_LOGE("============== OnJavaCall value=%s, i=%d, f=%f, c=%s", value.c_str(), i, f, c);
 }
 
-static android::AndroidJavaProxy* AndroidJavaProxyInstance = nullptr;
+static AndroidJNIProxyTest* AndroidJNIProxyTestInstance = nullptr;
 JNIEXPORT void JNICALL Java_com_example_test_MainActivity_foundationInit( JNIEnv* env,jobject thiz,jobject context)
 {
     ANDROID_LOGE("============== >>>>> foundationInit");
@@ -213,8 +214,8 @@ JNIEXPORT void JNICALL Java_com_example_test_MainActivity_foundationInit( JNIEnv
     android::AndroidJavaClass  mainActiveClass("com.example.test.MainActivity");
     std::string mainClassName = mainActiveClass.CallStatic<std::string>("getClassName");
     ANDROID_LOGE("========== mainClassName: %s", mainClassName.c_str());
-    AndroidJavaProxyInstance = new android::AndroidJavaProxy("com.losemymind.foundationkit.AndroidJNIProxyTest");
-    mainActive.Call("setProxy", (jobject)(*AndroidJavaProxyInstance));
+    AndroidJNIProxyTestInstance = new AndroidJNIProxyTest();
+    mainActive.Call("setProxy", (jobject)(*AndroidJNIProxyTestInstance));
      
     //char* leak = new char[1024];
     //int ret = TestHeapUseAfterFree(10);

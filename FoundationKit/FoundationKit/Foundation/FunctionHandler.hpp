@@ -63,15 +63,15 @@ typedef std::shared_ptr<FunctionHandlerBase>   FunctionHandlerPointer;
 template<typename _Ft, size_t ArgsNum>
 class FunctionHandler : public FunctionHandlerBase
 {
-	using function_traits_t = function_traits < _Ft >;
-	using stl_function_type = typename function_traits_t::stl_function_type;
-	using args_tuple_type   = typename function_traits_t::args_tuple_type;
+	using function_traits_t  = function_traits < _Ft >;
+	using function_type      = typename function_traits_t::function_type;
+	using argument_meta_type = typename function_traits_t::argument_meta_type;
 
 public:
-	stl_function_type   Func;
-	args_tuple_type     ArgsTuple;
+    function_type       Func;
+    argument_meta_type  ArgsTuple;
 
-	FunctionHandler(const stl_function_type& fun)
+	FunctionHandler(const function_type& fun)
 	{
         Func = fun;
 	}
@@ -87,11 +87,11 @@ template<typename _Ft>
 class FunctionHandler<_Ft, 0> : public FunctionHandlerBase
 {
 	using function_traits_t = function_traits < _Ft >;
-	using stl_function_type = typename function_traits_t::stl_function_type;
+	using function_type     = typename function_traits_t::function_type;
 public:
-	stl_function_type   Func;
+    function_type   Func;
 
-	FunctionHandler(const stl_function_type& fun)
+	FunctionHandler(const function_type& fun)
 	{
         Func = fun;
 	}
@@ -167,8 +167,7 @@ namespace detail
 template<typename _Ft, typename _Ty>
 FunctionHandlerPointer BindFunctionHandler(_Ft fun, _Ty* object)
 {
-    const size_t arityvalue = function_traits < _Ft >::arity::value;
-    return detail::BindFunctionHandlerImpl(fun, object, std::make_index_sequence<arityvalue>{});
+    return detail::BindFunctionHandlerImpl(fun, object, std::make_index_sequence<function_traits < _Ft >::arity::value>{});
     // or
     //typedef typename std::make_index_sequence<arityvalue> Indices;
     //return detail::BindFunctionHandlerImpl(fun, object, Indices());
@@ -177,11 +176,7 @@ FunctionHandlerPointer BindFunctionHandler(_Ft fun, _Ty* object)
 template<typename _Ft>
 FunctionHandlerPointer BindFunctionHandler(_Ft fun)
 {
-    const size_t arityvalue = function_traits < _Ft >::arity::value;
-    return detail::BindFunctionHandlerImpl(fun, std::make_index_sequence<arityvalue>{});
-    // or
-    //typedef typename std::make_index_sequence<arityvalue> Indices;
-    //return detail::BindFunctionHandlerImpl(fun, Indices());
+    return detail::BindFunctionHandlerImpl(fun, std::make_index_sequence<function_traits < _Ft >::arity::value>{});
 }
 
 template<typename... Args>

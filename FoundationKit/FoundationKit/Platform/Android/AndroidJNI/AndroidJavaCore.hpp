@@ -30,6 +30,19 @@ namespace android
         >::Result::value();
     }
 
+    //deduces the signature of a JNI method according to the variadic params and the return type
+    template <typename T, typename... Args>
+    const char * GetJNISignature()
+    {
+        return CombineFixedChars <
+            FixedChars<'('>,  //left parenthesis
+            typename CPPTypeCast<typename std::decay<Args>::type>::Signature...,      //params signature
+            FixedChars<')'>,  //right parenthesis
+            typename CPPTypeCast<typename std::decay<T>::type>::Signature,            //return type signature
+            FixedChars < '\0' >
+        >::Result::value();
+    }
+
     /**
     static std::string ParseOneSig(size_t& index, const std::string& subSigs)
     {

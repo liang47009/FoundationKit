@@ -79,7 +79,7 @@ namespace android
         return Op<JT>::CallMethod(from, methodID);
     }
 
-#define JNI_TO_CPP_PRIMITIVE_CONVERTER(RT,JT,CLASS, METHOD, SIG)                                    \
+#define JNI_TO_CPP_PRIMITIVE_CONVERTER(RT,JT,CLASS, METHOD, SIG)                                \
     template<>                                                                                  \
     struct converter<RT, JT >                                                                   \
     {                                                                                           \
@@ -138,7 +138,7 @@ namespace android
     template<>
     struct converter<std::string, jobject> :public converter<std::string, jstring> {};
 
-#define CPP_TO_JNI_PRIMITIVE_CONVERTER(RT,CT,CLASS,SIG)                                             \
+#define CPP_TO_JNI_PRIMITIVE_CONVERTER(RT,CT,CLASS,SIG)                                         \
     template<>                                                                                  \
     struct converter<RT, CT >                                                                   \
     {                                                                                           \
@@ -398,34 +398,6 @@ namespace android
     {
         return from;
     }
-
-    //template<size_t N>
-    //struct PaddingTuple
-    //{
-    //    template<typename Tuple>
-    //    static void Padding(Tuple& tp, jobjectArray& args, JNIEnv* env)
-    //    {
-    //        std::get<N - 1>(tp) = lexical_cast<typename std::decay<decltype(std::get<N - 1>(tp))>::type>(env->GetObjectArrayElement(args, N - 1));
-    //        PaddingTuple<N - 1>::Padding(tp, args);
-    //    }
-    //};
-
-    //template<>
-    //struct PaddingTuple<0>
-    //{
-    //    template<typename Tuple>
-    //    static void Padding(Tuple& tp, jobjectArray& args, JNIEnv* env)
-    //    {
-    //        std::get<0>(tp) = lexical_cast<typename std::decay<decltype(std::get<0>(tp))>::type>(env->GetObjectArrayElement(args, 0));
-    //    }
-    //};
-
-    //template<typename Tuple>
-    //inline void ApplyPaddingTuple(Tuple& tp, const jobjectArray& args)
-    //{
-    //    JNIEnv* env = AndroidJNI::GetJNIEnv();
-    //    PaddingTuple<std::tuple_size<Tuple>::value>::Padding(tp, const_cast<jobjectArray&>(args), env);
-    //}
 }// namespace android
 NS_FK_END
 

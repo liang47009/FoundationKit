@@ -377,6 +377,15 @@
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaCore.hpp">
       <Filter>Platform\Android\AndroidJNI</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\ModuleInterface.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\experimental\ModuleManager.hpp">
+      <Filter>experimental</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaProxyHelper.hpp">
+      <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
@@ -511,6 +520,9 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNIBridge.cpp">
       <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\experimental\ModuleManager.cpp">
+      <Filter>experimental</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

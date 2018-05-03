@@ -81,13 +81,13 @@ void AppDelegate::applicationDidLaunching()
 
 }
 
+
+
 bool AppDelegate::applicationDidFinishLaunching() 
 {
 	std::error_code ec;
 	std::string strErr = ec.message();
     PlatformDevice::DumpDeviceInfo();
-    std::string DocumentsPath = Path::GetDocumentsPath();
-
 
 
     FKLog(">>> applicationDidFinishLaunching end.");
