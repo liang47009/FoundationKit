@@ -28,8 +28,8 @@ std::string Base58::encode(const uint8* source, uint32 length)
     {
         int carry = *source;
         int i = 0;
-        std::vector<uint8>::reverse_iterator it = Base58Data.rbegin();
-        for (it;(carry != 0 || i < index)&&(it != Base58Data.rend()); ++it, ++i)
+        //std::vector<uint8>::reverse_iterator it = Base58Data.rbegin();
+        for (auto it = Base58Data.rbegin(); (carry != 0 || i < index)&&(it != Base58Data.rend()); ++it, ++i)
         {
             carry += 256 * (*it);
             *it = carry % 58;
@@ -63,14 +63,14 @@ std::string Base58::encode(const u8string& source)
 
 std::string Base58::encode(const std::vector<uint8>& source)
 {
-    return encode(source.data(), source.size());
+    return encode(source.data(), static_cast<uint32>(source.size()));
 }
 
 std::string Base58::encode_check(const std::string& source)
 {
     // add 4-byte hash check to the end
     std::string source_check(source);
-    int hash = std::hash<std::string>{}(source_check);
+    size_t hash = std::hash<std::string>{}(source_check);
     source_check.insert(source_check.end(), (unsigned char*)&hash, (unsigned char*)&hash + 4);
     return encode(source_check);
 }
@@ -106,10 +106,9 @@ bool Base58::decode(const char* source, uint32 length, std::vector<uint8>& dest)
         if (ch == nullptr)
             return false;
         // Apply "b256 = b256*58+ch"
-        int carry = ch - BitcoinAlphabet.c_str();
+        long carry = ch - BitcoinAlphabet.c_str();
         int i = 0;
-        std::vector<uint8>::reverse_iterator it = Base256Data.rbegin();
-        for (it; (carry != 0 || i < index) && (it != Base256Data.rend()); ++it, ++i)
+        for (auto it=Base256Data.rbegin(); (carry != 0 || i < index) && (it != Base256Data.rend()); ++it, ++i)
         {
             carry += 58 * (*it);
             *it = carry % 256;
@@ -141,7 +140,7 @@ bool Base58::decode(const char* source, uint32 length, std::vector<uint8>& dest)
 bool Base58::decode(const std::string& source, u8string& dest)
 {
     std::vector<uint8> decodeData;
-    bool bWasSuccessful = decode(source.c_str(), source.size(), decodeData);
+    bool bWasSuccessful = decode(source.c_str(), static_cast<uint32>(source.size()), decodeData);
     dest.assign(&decodeData[0], decodeData.size());
     return bWasSuccessful;
 }
@@ -149,14 +148,14 @@ bool Base58::decode(const std::string& source, u8string& dest)
 bool Base58::decode(const std::string& source, std::string& dest)
 {
     std::vector<uint8> Result;
-    bool bWasSuccessful = decode(source.c_str(), source.size(), Result);
+    bool bWasSuccessful = decode(source.c_str(), static_cast<uint32>(source.size()), Result);
     dest.assign((const char*)&Result[0], Result.size());
     return bWasSuccessful;
 }
 
 bool Base58::decode(const std::string& source, std::vector<uint8>& dest)
 {
-    return decode(source.c_str(), source.size(), dest);
+    return decode(source.c_str(), static_cast<uint32>(source.size()), dest);
 }
 
 
@@ -170,13 +169,13 @@ bool Base58::decode_check(const std::string& source, std::string& dest)
 
 bool Base58::decode_check(const std::string& source, std::vector<uint8>& dest)
 {
-    if (!decode(source.c_str(), source.size(), dest) || (dest.size() < 4))
+    if (!decode(source.c_str(), static_cast<uint32>(source.size()), dest) || (dest.size() < 4))
     {
         dest.clear();
         return false;
     }
     // re-calculate the checksum, ensure it matches the included 4-byte checksum
-    int hash = std::hash<std::string >{}(std::string(dest.begin(), dest.end() - 4));
+    size_t hash = std::hash<std::string >{}(std::string(dest.begin(), dest.end() - 4));
     if (memcmp(&hash, &dest[dest.size() - 4], 4) != 0)
     {
         dest.clear();
