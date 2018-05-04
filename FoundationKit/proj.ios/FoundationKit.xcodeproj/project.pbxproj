@@ -36,13 +36,14 @@
 		093490D21E7F7BA30034ECF2 /* Value.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490371E7F7BA20034ECF2 /* Value.cpp */; };
 		093490D61E7F7BA30034ECF2 /* Version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490431E7F7BA20034ECF2 /* Version.cpp */; };
 		093490D71E7F7BA30034ECF2 /* GenericPlatformMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490461E7F7BA20034ECF2 /* GenericPlatformMacros.cpp */; };
+		093515A7209C422C004B1AF0 /* AndroidJNIBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515A2209C422C004B1AF0 /* AndroidJNIBridge.cpp */; };
+		093515B2209C42DE004B1AF0 /* Base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515B1209C42DE004B1AF0 /* Base58.cpp */; };
 		093DF5421ECAAA4800BA1C7C /* des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093DF53F1ECAAA4800BA1C7C /* des.cpp */; };
 		093DF5431ECAAA5E00BA1C7C /* des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093DF53F1ECAAA4800BA1C7C /* des.cpp */; };
 		094109DF1F3C0787006D6F80 /* AndroidDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109A01F3C0787006D6F80 /* AndroidDevice.cpp */; };
 		094109E01F3C0787006D6F80 /* AndroidDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109A11F3C0787006D6F80 /* AndroidDirectory.cpp */; };
 		094109E11F3C0787006D6F80 /* AndroidEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109A21F3C0787006D6F80 /* AndroidEnvironment.cpp */; };
 		094109E21F3C0787006D6F80 /* AndroidFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109A31F3C0787006D6F80 /* AndroidFile.cpp */; };
-		094109E31F3C0787006D6F80 /* AndroidJavaBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109A41F3C0787006D6F80 /* AndroidJavaBridge.cpp */; };
 		094109E41F3C0787006D6F80 /* AndroidJNI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109AA1F3C0787006D6F80 /* AndroidJNI.cpp */; };
 		094109E51F3C0787006D6F80 /* AndroidPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109AC1F3C0787006D6F80 /* AndroidPath.cpp */; };
 		094109E81F3C0787006D6F80 /* AppleDirectory.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B11F3C0787006D6F80 /* AppleDirectory.mm */; };
@@ -191,6 +192,22 @@
 		093490451E7F7BA20034ECF2 /* FoundationMacros.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FoundationMacros.hpp; sourceTree = "<group>"; };
 		093490461E7F7BA20034ECF2 /* GenericPlatformMacros.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenericPlatformMacros.cpp; sourceTree = "<group>"; };
 		093490471E7F7BA20034ECF2 /* GenericPlatformMacros.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GenericPlatformMacros.hpp; sourceTree = "<group>"; };
+		0935159F209C420D004B1AF0 /* FunctionBox.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FunctionBox.hpp; sourceTree = "<group>"; };
+		093515A0209C422C004B1AF0 /* AndroidJavaCore.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidJavaCore.hpp; sourceTree = "<group>"; };
+		093515A1209C422C004B1AF0 /* AndroidJavaProxyHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidJavaProxyHelper.hpp; sourceTree = "<group>"; };
+		093515A2209C422C004B1AF0 /* AndroidJNIBridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidJNIBridge.cpp; sourceTree = "<group>"; };
+		093515A3209C422C004B1AF0 /* AndroidJNIOperation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidJNIOperation.hpp; sourceTree = "<group>"; };
+		093515A4209C422C004B1AF0 /* AndroidLexicalCast.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidLexicalCast.hpp; sourceTree = "<group>"; };
+		093515A5209C422C004B1AF0 /* AndroidJNIBridge.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidJNIBridge.hpp; sourceTree = "<group>"; };
+		093515A6209C422C004B1AF0 /* AndroidJavaProxy.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidJavaProxy.hpp; sourceTree = "<group>"; };
+		093515A8209C4250004B1AF0 /* FoundationKitConfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FoundationKitConfig.hpp; sourceTree = "<group>"; };
+		093515A9209C4250004B1AF0 /* FoundationKitVersion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FoundationKitVersion.hpp; sourceTree = "<group>"; };
+		093515AA209C4251004B1AF0 /* FoundationKitVersion.hpp.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FoundationKitVersion.hpp.in; sourceTree = "<group>"; };
+		093515AD209C4296004B1AF0 /* error.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = error.hpp; sourceTree = "<group>"; };
+		093515AE209C4296004B1AF0 /* identity_type.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = identity_type.hpp; sourceTree = "<group>"; };
+		093515AF209C42DE004B1AF0 /* Base58.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Base58.hpp; sourceTree = "<group>"; };
+		093515B0209C42DE004B1AF0 /* crc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = crc.hpp; sourceTree = "<group>"; };
+		093515B1209C42DE004B1AF0 /* Base58.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Base58.cpp; sourceTree = "<group>"; };
 		093DF53F1ECAAA4800BA1C7C /* des.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = des.cpp; sourceTree = "<group>"; };
 		093DF5401ECAAA4800BA1C7C /* des.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = des.hpp; sourceTree = "<group>"; };
 		093DF5411ECAAA4800BA1C7C /* urlencode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = urlencode.hpp; sourceTree = "<group>"; };
@@ -198,9 +215,6 @@
 		094109A11F3C0787006D6F80 /* AndroidDirectory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidDirectory.cpp; sourceTree = "<group>"; };
 		094109A21F3C0787006D6F80 /* AndroidEnvironment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidEnvironment.cpp; sourceTree = "<group>"; };
 		094109A31F3C0787006D6F80 /* AndroidFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidFile.cpp; sourceTree = "<group>"; };
-		094109A41F3C0787006D6F80 /* AndroidJavaBridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidJavaBridge.cpp; sourceTree = "<group>"; };
-		094109A51F3C0787006D6F80 /* AndroidJavaBridge.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidJavaBridge.hpp; sourceTree = "<group>"; };
-		094109A71F3C0787006D6F80 /* AndroidFoundation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidFoundation.hpp; sourceTree = "<group>"; };
 		094109A81F3C0787006D6F80 /* AndroidJavaClass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidJavaClass.hpp; sourceTree = "<group>"; };
 		094109A91F3C0787006D6F80 /* AndroidJavaObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidJavaObject.hpp; sourceTree = "<group>"; };
 		094109AA1F3C0787006D6F80 /* AndroidJNI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidJNI.cpp; sourceTree = "<group>"; };
@@ -264,7 +278,6 @@
 		098D2A501F5560240092E166 /* forward.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = forward.hpp; sourceTree = "<group>"; };
 		098D2A621F66261B0092E166 /* Time.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Time.cpp; sourceTree = "<group>"; };
 		098D2A631F66261B0092E166 /* Time.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Time.hpp; sourceTree = "<group>"; };
-		09A0B2451F04EC2A00572DEB /* FunctionHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FunctionHandler.hpp; sourceTree = "<group>"; };
 		09A0B2461F04EC3300572DEB /* scope_guard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = scope_guard.hpp; sourceTree = "<group>"; };
 		09B006C91FA979460027702E /* MACPlatform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MACPlatform.hpp; sourceTree = "<group>"; };
 		09B006CA1FA9794F0027702E /* IOSPlatform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IOSPlatform.hpp; sourceTree = "<group>"; };
@@ -333,6 +346,9 @@
 		09348EC71E7F7BA20034ECF2 /* FoundationKit */ = {
 			isa = PBXGroup;
 			children = (
+				093515A8209C4250004B1AF0 /* FoundationKitConfig.hpp */,
+				093515A9209C4250004B1AF0 /* FoundationKitVersion.hpp */,
+				093515AA209C4251004B1AF0 /* FoundationKitVersion.hpp.in */,
 				09276257203EC058003DE7C5 /* Math */,
 				09348EC81E7F7BA20034ECF2 /* Base */,
 				09348ED71E7F7BA20034ECF2 /* Crypto */,
@@ -351,6 +367,8 @@
 		09348EC81E7F7BA20034ECF2 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				093515AD209C4296004B1AF0 /* error.hpp */,
+				093515AE209C4296004B1AF0 /* identity_type.hpp */,
 				095616961F9DE74E00DEDFA7 /* apply.hpp */,
 				095616931F9DE74E00DEDFA7 /* contains_of_type.hpp */,
 				095616921F9DE74E00DEDFA7 /* disable_if.hpp */,
@@ -379,6 +397,9 @@
 		09348ED71E7F7BA20034ECF2 /* Crypto */ = {
 			isa = PBXGroup;
 			children = (
+				093515B1209C42DE004B1AF0 /* Base58.cpp */,
+				093515AF209C42DE004B1AF0 /* Base58.hpp */,
+				093515B0209C42DE004B1AF0 /* crc.hpp */,
 				093DF53F1ECAAA4800BA1C7C /* des.cpp */,
 				093DF5401ECAAA4800BA1C7C /* des.hpp */,
 				093DF5411ECAAA4800BA1C7C /* urlencode.hpp */,
@@ -427,6 +448,7 @@
 		0934900A1E7F7BA20034ECF2 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				0935159F209C420D004B1AF0 /* FunctionBox.hpp */,
 				09BC2A022015CD30007106D2 /* BitStream.cpp */,
 				09BC2A032015CD30007106D2 /* BitStream.hpp */,
 				094A12CA1FEB57C100B1F8B9 /* TimeSpan.cpp */,
@@ -441,7 +463,6 @@
 				09320FBA1F31B3CF00063C11 /* Directory.hpp */,
 				09320FBB1F31B3CF00063C11 /* File.hpp */,
 				09320FBC1F31B3CF00063C11 /* Path.hpp */,
-				09A0B2451F04EC2A00572DEB /* FunctionHandler.hpp */,
 				0934900C1E7F7BA20034ECF2 /* Compression.cpp */,
 				0934900D1E7F7BA20034ECF2 /* Compression.hpp */,
 				093490101E7F7BA20034ECF2 /* DateTime.cpp */,
@@ -494,8 +515,6 @@
 				094109A11F3C0787006D6F80 /* AndroidDirectory.cpp */,
 				094109A21F3C0787006D6F80 /* AndroidEnvironment.cpp */,
 				094109A31F3C0787006D6F80 /* AndroidFile.cpp */,
-				094109A41F3C0787006D6F80 /* AndroidJavaBridge.cpp */,
-				094109A51F3C0787006D6F80 /* AndroidJavaBridge.hpp */,
 				094109A61F3C0787006D6F80 /* AndroidJNI */,
 				094109AC1F3C0787006D6F80 /* AndroidPath.cpp */,
 				094109AE1F3C0787006D6F80 /* AndroidPlatformTLS.hpp */,
@@ -506,7 +525,13 @@
 		094109A61F3C0787006D6F80 /* AndroidJNI */ = {
 			isa = PBXGroup;
 			children = (
-				094109A71F3C0787006D6F80 /* AndroidFoundation.hpp */,
+				093515A0209C422C004B1AF0 /* AndroidJavaCore.hpp */,
+				093515A6209C422C004B1AF0 /* AndroidJavaProxy.hpp */,
+				093515A1209C422C004B1AF0 /* AndroidJavaProxyHelper.hpp */,
+				093515A2209C422C004B1AF0 /* AndroidJNIBridge.cpp */,
+				093515A5209C422C004B1AF0 /* AndroidJNIBridge.hpp */,
+				093515A3209C422C004B1AF0 /* AndroidJNIOperation.hpp */,
+				093515A4209C422C004B1AF0 /* AndroidLexicalCast.hpp */,
 				094109A81F3C0787006D6F80 /* AndroidJavaClass.hpp */,
 				094109A91F3C0787006D6F80 /* AndroidJavaObject.hpp */,
 				094109AA1F3C0787006D6F80 /* AndroidJNI.cpp */,
@@ -721,10 +746,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				093515A7209C422C004B1AF0 /* AndroidJNIBridge.cpp in Sources */,
 				093490CE1E7F7BA30034ECF2 /* StringUtils.cpp in Sources */,
 				094109F71F3C0787006D6F80 /* Path.cpp in Sources */,
 				094109E01F3C0787006D6F80 /* AndroidDirectory.cpp in Sources */,
 				094109EB1F3C0787006D6F80 /* ApplePath.mm in Sources */,
+				093515B2209C42DE004B1AF0 /* Base58.cpp in Sources */,
 				094A12CD1FEB57C200B1F8B9 /* TimeZone.cpp in Sources */,
 				09276274203EC058003DE7C5 /* Quaternion.cpp in Sources */,
 				094109F11F3C0787006D6F80 /* UICKeyChainStore.m in Sources */,
@@ -752,7 +779,6 @@
 				093490BA1E7F7BA30034ECF2 /* unzip.cpp in Sources */,
 				093490A51E7F7BA20034ECF2 /* ConvertUTFWrapper.cpp in Sources */,
 				094109E81F3C0787006D6F80 /* AppleDirectory.mm in Sources */,
-				094109E31F3C0787006D6F80 /* AndroidJavaBridge.cpp in Sources */,
 				09BC2A042015CD30007106D2 /* BitStream.cpp in Sources */,
 				094109F31F3C0787006D6F80 /* IOSDevice.mm in Sources */,
 				094109F01F3C0787006D6F80 /* Reachability_libo.m in Sources */,

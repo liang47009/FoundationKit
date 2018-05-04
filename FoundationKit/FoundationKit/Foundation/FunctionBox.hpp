@@ -110,7 +110,7 @@ public:
         Func = fun;
 	}
 
-	virtual void Invoke(const ValueList& /*args*/)
+	virtual Value Invoke(const ValueList& /*args*/)
 	{
         using is_void = std::is_same<typename function_traits_t::return_type, void>;
         return InvokeSwitch<typename function_traits_t::return_type >(is_void{});
