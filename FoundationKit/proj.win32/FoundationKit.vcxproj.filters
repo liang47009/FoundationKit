@@ -321,9 +321,6 @@
     <ClInclude Include="..\FoundationKit\Foundation\File.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\Foundation\FunctionHandler.hpp">
-      <Filter>Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Foundation\NotificationCenter.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
@@ -385,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaProxyHelper.hpp">
       <Filter>Platform\Android\AndroidJNI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Foundation\FunctionBox.hpp">
+      <Filter>Foundation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

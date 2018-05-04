@@ -11,13 +11,13 @@ NS_FK_BEGIN
 /*                          NotificationObserver                            */
 /************************************************************************/
 
-NotificationObserver::Pointer NotificationObserver::Create(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+NotificationObserver::Pointer NotificationObserver::Create(const std::string& name, FunctionBoxPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 {
     NotificationObserver *observer = new  NotificationObserver(name, selector, target, callOnce);
     return NotificationObserver::Pointer(observer);
 }
 
-NotificationObserver::NotificationObserver(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+NotificationObserver::NotificationObserver(const std::string& name, FunctionBoxPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 : _name(name)
 , _pSelector(selector)
 , _target(target)
@@ -31,7 +31,7 @@ NotificationObserver::~NotificationObserver()
 
 }
 
-void NotificationObserver::Invoke(const ArgumentList& args)
+void NotificationObserver::Invoke(const ValueList& args)
 {
     if (_pSelector)
     {
@@ -45,7 +45,7 @@ void* NotificationObserver::GetTarget() const
     return _target;
 }
 
-const FunctionHandlerPointer NotificationObserver::GetSelector() const
+const FunctionBoxPointer NotificationObserver::GetSelector() const
 {
     return _pSelector;
 }
@@ -88,7 +88,7 @@ NotificationCenter::~NotificationCenter()
 
 }
 
-void NotificationCenter::AddObserver(const std::string& name, FunctionHandlerPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
+void NotificationCenter::AddObserver(const std::string& name, FunctionBoxPointer selector, void* target /*= nullptr*/, bool callOnce /*= false*/)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     NotificationObserver::Pointer observer;
@@ -166,7 +166,7 @@ void NotificationCenter::RemoveObserver(const std::string& name, void* target)
     }
 }
 
-void NotificationCenter::Invoke(const std::string& name, const ArgumentList& args)
+void NotificationCenter::Invoke(const std::string& name, const ValueList& args)
 {
     std::unique_lock<std::mutex> lock(_mutex);
     ObserverList observersToCopy(_observers);

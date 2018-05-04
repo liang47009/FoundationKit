@@ -231,7 +231,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Foundation\ElapsedTimer.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Exception.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\File.hpp" />
-    <ClInclude Include="..\FoundationKit\Foundation\FunctionHandler.hpp" />
+    <ClInclude Include="..\FoundationKit\Foundation\FunctionBox.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\NotificationCenter.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Path.hpp" />
     <ClInclude Include="..\FoundationKit\Foundation\Singleton.hpp" />

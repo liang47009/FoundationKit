@@ -4,8 +4,8 @@
   losemymind.libo@gmail.com
 
 ****************************************************************************/
-#ifndef FOUNDATIONKIT_FUNCATIONLISTENER_HPP
-#define FOUNDATIONKIT_FUNCATIONLISTENER_HPP
+#ifndef FOUNDATIONKIT_FUNCTIONBOX_HPP
+#define FOUNDATIONKIT_FUNCTIONBOX_HPP
 
 #include <type_traits>
 #include <memory>
@@ -16,13 +16,12 @@
 #include "FoundationKit/Base/apply.hpp"
 
 NS_FK_BEGIN
-typedef ValueList ArgumentList;
 
 template<size_t N>
 struct BuildTuple
 {
 	template<typename Tuple>
-	static void Build(Tuple& tp, ArgumentList& args)
+	static void Build(Tuple& tp, ValueList& args)
 	{
 		std::get<N - 1>(tp) = args[N - 1].As<typename std::decay<decltype(std::get<N - 1>(tp))>::type>();
 		BuildTuple<N - 1>::Build(tp, args);
@@ -33,35 +32,35 @@ template<>
 struct BuildTuple<0>
 {
 	template<typename Tuple>
-	static void Build(Tuple& tp, ArgumentList& args)
+	static void Build(Tuple& tp, ValueList& args)
 	{
 		std::get<0>(tp) = args[0].As<typename std::decay<decltype(std::get<0>(tp))>::type>();
 	}
 };
 
 template<typename Tuple>
-inline void ApplyBuildTuple(Tuple& tp, const ArgumentList& args)
+inline void ApplyBuildTuple(Tuple& tp, const ValueList& args)
 {
-	BuildTuple<std::tuple_size<Tuple>::value>::Build(tp, const_cast<ArgumentList&>(args));
+	BuildTuple<std::tuple_size<Tuple>::value>::Build(tp, const_cast<ValueList&>(args));
 }
 
 template<>
-inline void ApplyBuildTuple(std::tuple<ArgumentList>& tp, const ArgumentList& args)
+inline void ApplyBuildTuple(std::tuple<ValueList>& tp, const ValueList& args)
 {
 	std::get<0>(tp) = args;
 }
 
-class FunctionHandlerBase
+class FunctionBoxBase
 {
 public:
-	FunctionHandlerBase(){}
-	virtual~FunctionHandlerBase(){}
-	virtual void Invoke(const ArgumentList& args) = 0;
+    FunctionBoxBase(){}
+	virtual~FunctionBoxBase(){}
+	virtual Value Invoke(const ValueList& args) = 0;
 };
-typedef std::shared_ptr<FunctionHandlerBase>   FunctionHandlerPointer;
+typedef std::shared_ptr<FunctionBoxBase>  FunctionBoxPointer;
 
 template<typename _Ft, size_t ArgsNum>
-class FunctionHandler : public FunctionHandlerBase
+class FunctionBox : public FunctionBoxBase
 {
 	using function_traits_t  = function_traits < _Ft >;
 	using function_type      = typename function_traits_t::function_type;
@@ -71,35 +70,64 @@ public:
     function_type       Func;
     argument_meta_type  ArgsTuple;
 
-	FunctionHandler(const function_type& fun)
+    FunctionBox(const function_type& fun)
 	{
         Func = fun;
 	}
 
-	virtual void Invoke(const ArgumentList& args)
+	virtual Value Invoke(const ValueList& args)
 	{
-		ApplyBuildTuple(ArgsTuple, args);
-		apply(Func, ArgsTuple);
+        using is_void = std::is_same<typename function_traits_t::return_type, void>;
+        return InvokeSwitch<typename function_traits_t::return_type>(is_void{}, args);
 	}
+protected:
+    template <typename _Ty, typename = typename std::enable_if< !std::is_same<_Ty, void>::value, _Ty>::type >
+    Value InvokeSwitch(std::false_type, const ValueList& args)
+    {
+        ApplyBuildTuple(ArgsTuple, args);
+        return apply(Func, ArgsTuple);
+    }
+
+    template <typename _Ty, typename = typename std::enable_if< std::is_same<_Ty, void>::value, _Ty>::type >
+    Value InvokeSwitch(std::true_type, const ValueList& args)
+    {
+        ApplyBuildTuple(ArgsTuple, args);
+        apply(Func, ArgsTuple);
+        return Value();
+    }
 };
 
 template<typename _Ft>
-class FunctionHandler<_Ft, 0> : public FunctionHandlerBase
+class FunctionBox<_Ft, 0> : public FunctionBoxBase
 {
 	using function_traits_t = function_traits < _Ft >;
 	using function_type     = typename function_traits_t::function_type;
 public:
     function_type   Func;
 
-	FunctionHandler(const function_type& fun)
+    FunctionBox(const function_type& fun)
 	{
         Func = fun;
 	}
 
-	virtual void Invoke(const ArgumentList& /*args*/)
+	virtual void Invoke(const ValueList& /*args*/)
 	{
-        Func();
+        using is_void = std::is_same<typename function_traits_t::return_type, void>;
+        return InvokeSwitch<typename function_traits_t::return_type >(is_void{});
 	}
+protected:
+    template <typename _Ty, typename = typename std::enable_if< !std::is_same<_Ty, void>::value, _Ty>::type >
+    Value InvokeSwitch(std::false_type)
+    {
+        return Func();
+    }
+
+    template <typename _Ty, typename = typename std::enable_if< std::is_same<_Ty, void>::value, _Ty>::type >
+    Value InvokeSwitch(std::true_type)
+    {
+        Func();
+        return Value();
+    }
 };
 
 namespace PlaceHolderDetail
@@ -132,31 +160,31 @@ namespace PlaceHolderDetail
 namespace detail
 {
     template<typename _Ft, typename _Ty, std::size_t... index >
-    FunctionHandlerPointer BindFunctionHandlerImpl(_Ft fun, _Ty* object, std::index_sequence<index...>)
+    FunctionBoxPointer BindFunctionBoxImpl(_Ft fun, _Ty* object, std::index_sequence<index...>)
     {
         const size_t arityvalue = function_traits < _Ft >::arity::value;
-        std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue >(std::bind(fun, object, PlaceHolderDetail::PlaceHolderMaker<index>::Get()...)));
+        std::shared_ptr<FunctionBox<_Ft, arityvalue> > pSelector(new FunctionBox<_Ft, arityvalue >(std::bind(fun, object, PlaceHolderDetail::PlaceHolderMaker<index>::Get()...)));
         return pSelector;
     }
 
     template<typename _Ft, std::size_t... index >
-    FunctionHandlerPointer BindFunctionHandlerImpl(_Ft fun, std::index_sequence<index...>)
+    FunctionBoxPointer BindFunctionBoxImpl(_Ft fun, std::index_sequence<index...>)
     {
         const size_t arityvalue = function_traits < _Ft >::arity::value;
-        std::shared_ptr<FunctionHandler<_Ft, arityvalue> > pSelector(new FunctionHandler<_Ft, arityvalue>(std::bind(fun, PlaceHolderDetail::PlaceHolderMaker<index>::Get()...)));
+        std::shared_ptr<FunctionBox<_Ft, arityvalue> > pSelector(new FunctionBox<_Ft, arityvalue>(std::bind(fun, PlaceHolderDetail::PlaceHolderMaker<index>::Get()...)));
         return pSelector;
     }
 
 
     template <typename T>
-    void BuildArgumentList(ArgumentList& al, const T &t)
+    void BuildArgumentList(ValueList& al, const T &t)
     {
         al.emplace_back(t);
     }
 
 
     template <typename T, typename...Args>
-    void BuildArgumentList(ArgumentList& al, const T &t, const Args&... args)
+    void BuildArgumentList(ValueList& al, const T &t, const Args&... args)
     {
         al.emplace_back(t);
         BuildArgumentList(al, args...);
@@ -165,31 +193,25 @@ namespace detail
 
 
 template<typename _Ft, typename _Ty>
-FunctionHandlerPointer BindFunctionHandler(_Ft fun, _Ty* object)
+FunctionBoxPointer BindFunctionBox(_Ft fun, _Ty* object)
 {
-    return detail::BindFunctionHandlerImpl(fun, object, std::make_index_sequence<function_traits < _Ft >::arity::value>{});
-    // or
-    //typedef typename std::make_index_sequence<arityvalue> Indices;
-    //return detail::BindFunctionHandlerImpl(fun, object, Indices());
+    return detail::BindFunctionBoxImpl(fun, object, std::make_index_sequence<function_traits < _Ft >::arity::value>{});
 }
 
 template<typename _Ft>
-FunctionHandlerPointer BindFunctionHandler(_Ft fun)
+FunctionBoxPointer BindFunctionBox(_Ft fun)
 {
-    return detail::BindFunctionHandlerImpl(fun, std::make_index_sequence<function_traits < _Ft >::arity::value>{});
+    return detail::BindFunctionBoxImpl(fun, std::make_index_sequence<function_traits < _Ft >::arity::value>{});
 }
 
 template<typename... Args>
-void InvokeFunctionHandler(FunctionHandlerPointer Handler, Args... args)
+void InvokeFunctionBox(FunctionBoxPointer Handler, Args... args)
 {
-    ArgumentList al;
+    ValueList al;
     detail::BuildArgumentList(al, std::forward<Args>(args)...);
     Handler->Invoke(al);
 }
 
-
 NS_FK_END
 
-#endif // FOUNDATIONKIT_FUNCATIONLISTENER_HPP
-
-
+#endif // END OF FOUNDATIONKIT_FUNCTIONBOX_HPP

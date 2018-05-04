@@ -31,7 +31,7 @@
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 #include "FoundationKit/Foundation/Exception.hpp"
 #include "FoundationKit/Foundation/File.hpp"
-#include "FoundationKit/Foundation/FunctionHandler.hpp"
+#include "FoundationKit/Foundation/FunctionBox.hpp"
 #include "FoundationKit/Foundation/Path.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -80,8 +80,6 @@ void AppDelegate::applicationDidLaunching()
 {
 
 }
-
-
 
 bool AppDelegate::applicationDidFinishLaunching() 
 {

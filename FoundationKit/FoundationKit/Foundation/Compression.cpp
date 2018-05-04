@@ -225,17 +225,14 @@ bool Compression::UncompressFile(const std::string& srcFilePath, const std::stri
         BREAK_IF(gFile == nullptr);
         FILE* desFp = File::Open(desFilePath, "wb");
         BREAK_IF(desFp == nullptr);
+        gzrewind(gFile);
         long readsize = 0;
-        long totalReadSize = 0;
         char* buffer = new char[defaultBufferLength];
-        do 
+        while (!gzeof(gFile))
         {
-            gzseek(gFile, totalReadSize, SEEK_SET);
             readsize = gzread(gFile, buffer, defaultBufferLength);
-            totalReadSize += readsize;
             fwrite(buffer, 1, readsize, desFp);
-        } while (readsize == defaultBufferLength);
-
+        }
         delete[] buffer;
         fflush(desFp);
         fclose(desFp);

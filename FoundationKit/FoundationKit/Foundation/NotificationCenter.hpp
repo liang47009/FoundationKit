@@ -14,7 +14,7 @@
 #include <memory>
 #include <mutex>
 #include "FoundationKit/FoundationMacros.hpp"
-#include "FoundationKit/Foundation/FunctionHandler.hpp"
+#include "FoundationKit/Foundation/FunctionBox.hpp"
 
 NS_FK_BEGIN
 
@@ -22,20 +22,20 @@ class NotificationObserver
 {
 public:
     typedef std::shared_ptr<NotificationObserver> Pointer;
-    static Pointer Create(const std::string& name, FunctionHandlerPointer selector, void* target = nullptr, bool callOnce = false);
+    static Pointer Create(const std::string& name, FunctionBoxPointer selector, void* target = nullptr, bool callOnce = false);
     ~NotificationObserver();
-    void                          Invoke(const ArgumentList& args);
+    void                          Invoke(const ValueList& args);
     void*                         GetTarget()const;
-    const FunctionHandlerPointer  GetSelector()const;
+    const FunctionBoxPointer      GetSelector()const;
     const std::string&            GetName()const;
     bool                          IsCallOnce();
     bool operator ==(const NotificationObserver& other);
     bool operator != (const NotificationObserver& other);
 protected:
-    NotificationObserver(const std::string& name, FunctionHandlerPointer selector, void* target = nullptr, bool callOnce = false);
+    NotificationObserver(const std::string& name, FunctionBoxPointer selector, void* target = nullptr, bool callOnce = false);
 private:
     std::string             _name;
-    FunctionHandlerPointer  _pSelector;
+    FunctionBoxPointer      _pSelector;
     void*                   _target;
     bool                    _callOnce;
 };
@@ -56,11 +56,11 @@ class NotificationCenter
 
 public:
     ~NotificationCenter();
-    void AddObserver(const std::string& name, FunctionHandlerPointer selector, void* target = nullptr, bool callOnce = false);
+    void AddObserver(const std::string& name, FunctionBoxPointer selector, void* target = nullptr, bool callOnce = false);
     void RemoveObserver(const std::string& name);
     void RemoveObserver(void* target);
     void RemoveObserver(const std::string& name, void* target);
-    void Invoke(const std::string& name, const ArgumentList& args);
+    void Invoke(const std::string& name, const ValueList& args);
     static NotificationCenter DefaultCenter;
 protected:
     // Check whether the observer exists by the specified target and name.

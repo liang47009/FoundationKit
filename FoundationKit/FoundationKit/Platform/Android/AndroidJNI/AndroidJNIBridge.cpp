@@ -30,7 +30,7 @@ extern "C"
         //ANDROID_LOGE("======= nativeInvoke InvokeMethodName:%s", InvokeMethodName.c_str());
         //ANDROID_LOGE("======= nativeInvoke InvokeMethodSignature:%s", InvokeMethodSignature.c_str());
         size_t ArgsCount = env->GetArrayLength(InArgs);
-        ArgumentList Arglist;
+        ValueList Arglist;
         for (size_t argIndex = 0; argIndex < ArgsCount; ++argIndex)
         {
             char argType = InvokeMethodSignature[argIndex];
