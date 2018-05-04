@@ -33,14 +33,14 @@ public:
     static const int64 CUSTOMID_BITS = 5;
     static const int64 SEQUENCE_BITS = 12;
 
-    static const int64 MAX_CUSTOMID = -1L ^ (-1U << CUSTOMID_BITS);
-    static const int64 MAX_WORKERID = -1L ^ (-1U << WORKERID_BITS);
+    static const int64 MAX_CUSTOMID = -1L ^ (-1L << CUSTOMID_BITS);
+    static const int64 MAX_WORKERID = -1L ^ (-1L << WORKERID_BITS);
 
     static const int64 WORKERID_SHIFT = SEQUENCE_BITS;
     static const int64 CUSTOMID_SHIFT = SEQUENCE_BITS + WORKERID_BITS;
     static const int64 TIMESTMP_SHIFT = SEQUENCE_BITS + WORKERID_BITS + CUSTOMID_BITS;
 
-    static const uint64 SEQUENCE_MASK = -1L ^ (-1U << SEQUENCE_BITS);
+    static const uint64 SEQUENCE_MASK = -1L ^ (-1L << SEQUENCE_BITS);
 
     bool SetLogo(int64 workerid, int64 customid)
     {
