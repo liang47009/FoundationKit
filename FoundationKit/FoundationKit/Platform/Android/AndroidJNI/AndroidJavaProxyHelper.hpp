@@ -11,7 +11,7 @@
 #if PLATFORM_ANDROID
 
 #include "FoundationKit/Base/function_traits.hpp"
-#include "FoundationKit/Foundation/FunctionHandler.hpp"
+#include "FoundationKit/Foundation/FunctionBox.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.hpp"
 #include "FoundationKit/Platform/Android/AndroidJNI/AndroidJavaCore.hpp"
 #include <jni.h>
@@ -134,7 +134,7 @@ namespace android
     };
 
     template<typename _Ft>
-    class JNIInvokeHandler<_Ft, 0> : public FunctionHandlerBase
+    class JNIInvokeHandler<_Ft, 0> : public JNIInvokeHandlerBase
     {
         using function_traits_t = function_traits < _Ft >;
         using function_type     = typename function_traits_t::function_type;
