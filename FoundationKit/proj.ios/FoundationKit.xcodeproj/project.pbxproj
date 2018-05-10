@@ -38,17 +38,25 @@
 		093490D71E7F7BA30034ECF2 /* GenericPlatformMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093490461E7F7BA20034ECF2 /* GenericPlatformMacros.cpp */; };
 		093515A7209C422C004B1AF0 /* AndroidJNIBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515A2209C422C004B1AF0 /* AndroidJNIBridge.cpp */; };
 		093515B2209C42DE004B1AF0 /* Base58.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515B1209C42DE004B1AF0 /* Base58.cpp */; };
+		093515B420A3F0AB004B1AF0 /* AndroidPlatformMisc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515B320A3F0AB004B1AF0 /* AndroidPlatformMisc.cpp */; };
+		093515B620A3F0C5004B1AF0 /* ApplePlatformMisc.mm in Sources */ = {isa = PBXBuildFile; fileRef = 093515B520A3F0C5004B1AF0 /* ApplePlatformMisc.mm */; };
+		093515BC20A3F104004B1AF0 /* StandardDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515B920A3F104004B1AF0 /* StandardDirectory.cpp */; };
+		093515BD20A3F104004B1AF0 /* StandardEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515BA20A3F104004B1AF0 /* StandardEnvironment.cpp */; };
+		093515BE20A3F104004B1AF0 /* StandardFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515BB20A3F104004B1AF0 /* StandardFile.cpp */; };
+		093515BF20A3F109004B1AF0 /* StandardDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515B920A3F104004B1AF0 /* StandardDirectory.cpp */; };
+		093515C020A3F10B004B1AF0 /* StandardEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515BA20A3F104004B1AF0 /* StandardEnvironment.cpp */; };
+		093515C120A3F10E004B1AF0 /* StandardFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515BB20A3F104004B1AF0 /* StandardFile.cpp */; };
+		093515C320A3F125004B1AF0 /* WindowsPlatformMisc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515C220A3F125004B1AF0 /* WindowsPlatformMisc.cpp */; };
+		093515CB20A3F564004B1AF0 /* SwitchDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515C520A3F564004B1AF0 /* SwitchDevice.cpp */; };
+		093515CC20A3F564004B1AF0 /* SwitchEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515C620A3F564004B1AF0 /* SwitchEnvironment.cpp */; };
+		093515CD20A3F564004B1AF0 /* SwitchPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515C720A3F564004B1AF0 /* SwitchPath.cpp */; };
+		093515CE20A3F564004B1AF0 /* SwitchPlatformMisc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515C920A3F564004B1AF0 /* SwitchPlatformMisc.cpp */; };
 		093DF5421ECAAA4800BA1C7C /* des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093DF53F1ECAAA4800BA1C7C /* des.cpp */; };
 		093DF5431ECAAA5E00BA1C7C /* des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093DF53F1ECAAA4800BA1C7C /* des.cpp */; };
 		094109DF1F3C0787006D6F80 /* AndroidDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109A01F3C0787006D6F80 /* AndroidDevice.cpp */; };
-		094109E01F3C0787006D6F80 /* AndroidDirectory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109A11F3C0787006D6F80 /* AndroidDirectory.cpp */; };
-		094109E11F3C0787006D6F80 /* AndroidEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109A21F3C0787006D6F80 /* AndroidEnvironment.cpp */; };
 		094109E21F3C0787006D6F80 /* AndroidFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109A31F3C0787006D6F80 /* AndroidFile.cpp */; };
 		094109E41F3C0787006D6F80 /* AndroidJNI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109AA1F3C0787006D6F80 /* AndroidJNI.cpp */; };
 		094109E51F3C0787006D6F80 /* AndroidPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109AC1F3C0787006D6F80 /* AndroidPath.cpp */; };
-		094109E81F3C0787006D6F80 /* AppleDirectory.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B11F3C0787006D6F80 /* AppleDirectory.mm */; };
-		094109E91F3C0787006D6F80 /* AppleEnvironment.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B21F3C0787006D6F80 /* AppleEnvironment.mm */; };
-		094109EA1F3C0787006D6F80 /* AppleFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B31F3C0787006D6F80 /* AppleFile.mm */; };
 		094109EB1F3C0787006D6F80 /* ApplePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B41F3C0787006D6F80 /* ApplePath.mm */; };
 		094109ED1F3C0787006D6F80 /* Directory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109B71F3C0787006D6F80 /* Directory.cpp */; };
 		094109EE1F3C0787006D6F80 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109BA1F3C0787006D6F80 /* File.cpp */; };
@@ -67,9 +75,6 @@
 		09410A031F3C07C8006D6F80 /* Path.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109CC1F3C0787006D6F80 /* Path.cpp */; };
 		09410A041F3C07D0006D6F80 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109BA1F3C0787006D6F80 /* File.cpp */; };
 		09410A051F3C07D7006D6F80 /* Directory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109B71F3C0787006D6F80 /* Directory.cpp */; };
-		09410A061F3C0948006D6F80 /* AppleDirectory.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B11F3C0787006D6F80 /* AppleDirectory.mm */; };
-		09410A071F3C094A006D6F80 /* AppleEnvironment.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B21F3C0787006D6F80 /* AppleEnvironment.mm */; };
-		09410A081F3C094D006D6F80 /* AppleFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B31F3C0787006D6F80 /* AppleFile.mm */; };
 		09410A091F3C094F006D6F80 /* ApplePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 094109B41F3C0787006D6F80 /* ApplePath.mm */; };
 		094A12C81FE0F2DB00B1F8B9 /* NotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094A12C61FE0F2DA00B1F8B9 /* NotificationCenter.cpp */; };
 		094A12CD1FEB57C200B1F8B9 /* TimeZone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094A12C91FEB57C100B1F8B9 /* TimeZone.cpp */; };
@@ -208,12 +213,23 @@
 		093515AF209C42DE004B1AF0 /* Base58.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Base58.hpp; sourceTree = "<group>"; };
 		093515B0209C42DE004B1AF0 /* crc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = crc.hpp; sourceTree = "<group>"; };
 		093515B1209C42DE004B1AF0 /* Base58.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Base58.cpp; sourceTree = "<group>"; };
+		093515B320A3F0AB004B1AF0 /* AndroidPlatformMisc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidPlatformMisc.cpp; sourceTree = "<group>"; };
+		093515B520A3F0C5004B1AF0 /* ApplePlatformMisc.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApplePlatformMisc.mm; sourceTree = "<group>"; };
+		093515B720A3F104004B1AF0 /* PlatformMisc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlatformMisc.hpp; sourceTree = "<group>"; };
+		093515B920A3F104004B1AF0 /* StandardDirectory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardDirectory.cpp; sourceTree = "<group>"; };
+		093515BA20A3F104004B1AF0 /* StandardEnvironment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardEnvironment.cpp; sourceTree = "<group>"; };
+		093515BB20A3F104004B1AF0 /* StandardFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardFile.cpp; sourceTree = "<group>"; };
+		093515C220A3F125004B1AF0 /* WindowsPlatformMisc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowsPlatformMisc.cpp; sourceTree = "<group>"; };
+		093515C520A3F564004B1AF0 /* SwitchDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwitchDevice.cpp; sourceTree = "<group>"; };
+		093515C620A3F564004B1AF0 /* SwitchEnvironment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwitchEnvironment.cpp; sourceTree = "<group>"; };
+		093515C720A3F564004B1AF0 /* SwitchPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwitchPath.cpp; sourceTree = "<group>"; };
+		093515C820A3F564004B1AF0 /* SwitchPlatform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SwitchPlatform.hpp; sourceTree = "<group>"; };
+		093515C920A3F564004B1AF0 /* SwitchPlatformMisc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwitchPlatformMisc.cpp; sourceTree = "<group>"; };
+		093515CA20A3F564004B1AF0 /* SwitchPlatformTLS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SwitchPlatformTLS.hpp; sourceTree = "<group>"; };
 		093DF53F1ECAAA4800BA1C7C /* des.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = des.cpp; sourceTree = "<group>"; };
 		093DF5401ECAAA4800BA1C7C /* des.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = des.hpp; sourceTree = "<group>"; };
 		093DF5411ECAAA4800BA1C7C /* urlencode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = urlencode.hpp; sourceTree = "<group>"; };
 		094109A01F3C0787006D6F80 /* AndroidDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidDevice.cpp; sourceTree = "<group>"; };
-		094109A11F3C0787006D6F80 /* AndroidDirectory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidDirectory.cpp; sourceTree = "<group>"; };
-		094109A21F3C0787006D6F80 /* AndroidEnvironment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidEnvironment.cpp; sourceTree = "<group>"; };
 		094109A31F3C0787006D6F80 /* AndroidFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidFile.cpp; sourceTree = "<group>"; };
 		094109A81F3C0787006D6F80 /* AndroidJavaClass.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidJavaClass.hpp; sourceTree = "<group>"; };
 		094109A91F3C0787006D6F80 /* AndroidJavaObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidJavaObject.hpp; sourceTree = "<group>"; };
@@ -221,9 +237,6 @@
 		094109AB1F3C0787006D6F80 /* AndroidJNI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidJNI.hpp; sourceTree = "<group>"; };
 		094109AC1F3C0787006D6F80 /* AndroidPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AndroidPath.cpp; sourceTree = "<group>"; };
 		094109AE1F3C0787006D6F80 /* AndroidPlatformTLS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidPlatformTLS.hpp; sourceTree = "<group>"; };
-		094109B11F3C0787006D6F80 /* AppleDirectory.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppleDirectory.mm; sourceTree = "<group>"; };
-		094109B21F3C0787006D6F80 /* AppleEnvironment.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppleEnvironment.mm; sourceTree = "<group>"; };
-		094109B31F3C0787006D6F80 /* AppleFile.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppleFile.mm; sourceTree = "<group>"; };
 		094109B41F3C0787006D6F80 /* ApplePath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApplePath.mm; sourceTree = "<group>"; };
 		094109B51F3C0787006D6F80 /* ApplePlatformTLS.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ApplePlatformTLS.hpp; sourceTree = "<group>"; };
 		094109B71F3C0787006D6F80 /* Directory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Directory.cpp; sourceTree = "<group>"; };
@@ -270,10 +283,6 @@
 		0956169A1F9DE74F00DEDFA7 /* has_member.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = has_member.hpp; sourceTree = "<group>"; };
 		0956169B1F9DE74F00DEDFA7 /* max_integer_of.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = max_integer_of.hpp; sourceTree = "<group>"; };
 		0977BAF61AB6CC31006BC260 /* libFoundationKit_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFoundationKit_iOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		09785AD31F7116A5005F3149 /* AndroidPlatformMemory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AndroidPlatformMemory.hpp; sourceTree = "<group>"; };
-		09785AD41F7116AC005F3149 /* ApplePlatformMemory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ApplePlatformMemory.hpp; sourceTree = "<group>"; };
-		09785AD51F7116B7005F3149 /* WindowsPlatformMemory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowsPlatformMemory.hpp; sourceTree = "<group>"; };
-		09785AD61F7116BF005F3149 /* PlatformMemory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlatformMemory.hpp; sourceTree = "<group>"; };
 		098459372071D16200ACD7A0 /* ConvertUTF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConvertUTF.cpp; sourceTree = "<group>"; };
 		098D2A501F5560240092E166 /* forward.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = forward.hpp; sourceTree = "<group>"; };
 		098D2A621F66261B0092E166 /* Time.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Time.cpp; sourceTree = "<group>"; };
@@ -483,10 +492,35 @@
 			path = Foundation;
 			sourceTree = "<group>";
 		};
+		093515B820A3F104004B1AF0 /* Standard */ = {
+			isa = PBXGroup;
+			children = (
+				093515B920A3F104004B1AF0 /* StandardDirectory.cpp */,
+				093515BA20A3F104004B1AF0 /* StandardEnvironment.cpp */,
+				093515BB20A3F104004B1AF0 /* StandardFile.cpp */,
+			);
+			path = Standard;
+			sourceTree = "<group>";
+		};
+		093515C420A3F564004B1AF0 /* Switch */ = {
+			isa = PBXGroup;
+			children = (
+				093515C520A3F564004B1AF0 /* SwitchDevice.cpp */,
+				093515C620A3F564004B1AF0 /* SwitchEnvironment.cpp */,
+				093515C720A3F564004B1AF0 /* SwitchPath.cpp */,
+				093515C820A3F564004B1AF0 /* SwitchPlatform.hpp */,
+				093515C920A3F564004B1AF0 /* SwitchPlatformMisc.cpp */,
+				093515CA20A3F564004B1AF0 /* SwitchPlatformTLS.hpp */,
+			);
+			path = Switch;
+			sourceTree = "<group>";
+		};
 		0941099E1F3C0787006D6F80 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
-				09785AD61F7116BF005F3149 /* PlatformMemory.hpp */,
+				093515C420A3F564004B1AF0 /* Switch */,
+				093515B720A3F104004B1AF0 /* PlatformMisc.hpp */,
+				093515B820A3F104004B1AF0 /* Standard */,
 				0941099F1F3C0787006D6F80 /* Android */,
 				094109B01F3C0787006D6F80 /* Apple */,
 				094109B71F3C0787006D6F80 /* Directory.cpp */,
@@ -494,13 +528,13 @@
 				094109B91F3C0787006D6F80 /* Environment.hpp */,
 				094109BA1F3C0787006D6F80 /* File.cpp */,
 				094109BB1F3C0787006D6F80 /* File.hpp */,
-				094109BC1F3C0787006D6F80 /* ios */,
-				094109C81F3C0787006D6F80 /* mac */,
+				094109BC1F3C0787006D6F80 /* IOS */,
+				094109C81F3C0787006D6F80 /* Mac */,
 				094109CC1F3C0787006D6F80 /* Path.cpp */,
 				094109CD1F3C0787006D6F80 /* Path.hpp */,
 				094109D01F3C0787006D6F80 /* PlatformDevice.hpp */,
 				094109D11F3C0787006D6F80 /* PlatformTLS.hpp */,
-				094109D31F3C0787006D6F80 /* windows */,
+				094109D31F3C0787006D6F80 /* Windows */,
 			);
 			path = Platform;
 			sourceTree = "<group>";
@@ -508,12 +542,10 @@
 		0941099F1F3C0787006D6F80 /* Android */ = {
 			isa = PBXGroup;
 			children = (
+				093515B320A3F0AB004B1AF0 /* AndroidPlatformMisc.cpp */,
 				09BC2A0720197405007106D2 /* AndroidInternal */,
 				09B006CB1FA979650027702E /* AndroidPlatform.hpp */,
-				09785AD31F7116A5005F3149 /* AndroidPlatformMemory.hpp */,
 				094109A01F3C0787006D6F80 /* AndroidDevice.cpp */,
-				094109A11F3C0787006D6F80 /* AndroidDirectory.cpp */,
-				094109A21F3C0787006D6F80 /* AndroidEnvironment.cpp */,
 				094109A31F3C0787006D6F80 /* AndroidFile.cpp */,
 				094109A61F3C0787006D6F80 /* AndroidJNI */,
 				094109AC1F3C0787006D6F80 /* AndroidPath.cpp */,
@@ -543,24 +575,21 @@
 		094109B01F3C0787006D6F80 /* Apple */ = {
 			isa = PBXGroup;
 			children = (
-				09785AD41F7116AC005F3149 /* ApplePlatformMemory.hpp */,
-				094109B11F3C0787006D6F80 /* AppleDirectory.mm */,
-				094109B21F3C0787006D6F80 /* AppleEnvironment.mm */,
-				094109B31F3C0787006D6F80 /* AppleFile.mm */,
+				093515B520A3F0C5004B1AF0 /* ApplePlatformMisc.mm */,
 				094109B41F3C0787006D6F80 /* ApplePath.mm */,
 				094109B51F3C0787006D6F80 /* ApplePlatformTLS.hpp */,
 			);
 			path = Apple;
 			sourceTree = "<group>";
 		};
-		094109BC1F3C0787006D6F80 /* ios */ = {
+		094109BC1F3C0787006D6F80 /* IOS */ = {
 			isa = PBXGroup;
 			children = (
 				09B006CA1FA9794F0027702E /* IOSPlatform.hpp */,
 				094109BD1F3C0787006D6F80 /* detail */,
 				094109C61F3C0787006D6F80 /* IOSDevice.mm */,
 			);
-			path = ios;
+			path = IOS;
 			sourceTree = "<group>";
 		};
 		094109BD1F3C0787006D6F80 /* detail */ = {
@@ -578,20 +607,20 @@
 			path = detail;
 			sourceTree = "<group>";
 		};
-		094109C81F3C0787006D6F80 /* mac */ = {
+		094109C81F3C0787006D6F80 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
 				09B006C91FA979460027702E /* MACPlatform.hpp */,
 				094109C91F3C0787006D6F80 /* MACDevice.mm */,
 			);
-			path = mac;
+			path = Mac;
 			sourceTree = "<group>";
 		};
-		094109D31F3C0787006D6F80 /* windows */ = {
+		094109D31F3C0787006D6F80 /* Windows */ = {
 			isa = PBXGroup;
 			children = (
+				093515C220A3F125004B1AF0 /* WindowsPlatformMisc.cpp */,
 				09B006CC1FA979F20027702E /* WindowsPlatform.hpp */,
-				09785AD51F7116B7005F3149 /* WindowsPlatformMemory.hpp */,
 				094109D71F3C0787006D6F80 /* WindowsDevice.cpp */,
 				094109D81F3C0787006D6F80 /* WindowsDirectory.cpp */,
 				094109D91F3C0787006D6F80 /* WindowsEnvironment.cpp */,
@@ -599,7 +628,7 @@
 				094109DB1F3C0787006D6F80 /* WindowsPath.cpp */,
 				094109DD1F3C0787006D6F80 /* WindowsPlatformTLS.hpp */,
 			);
-			path = windows;
+			path = Windows;
 			sourceTree = "<group>";
 		};
 		0977BAED1AB6CC31006BC260 = {
@@ -709,7 +738,6 @@
 				0927627E203EC35B003DE7C5 /* Vector2.cpp in Sources */,
 				0927627A203EC34B003DE7C5 /* MathUtil.cpp in Sources */,
 				094C50B11EC3FF1B00AB3021 /* StringUtils.cpp in Sources */,
-				09410A081F3C094D006D6F80 /* AppleFile.mm in Sources */,
 				098D2A651F6626230092E166 /* Time.cpp in Sources */,
 				094C50B41EC3FF1B00AB3021 /* Base64.cpp in Sources */,
 				0927627D203EC357003DE7C5 /* Rect.cpp in Sources */,
@@ -717,18 +745,20 @@
 				094A12CF1FEB587800B1F8B9 /* TimeZone.cpp in Sources */,
 				094C50B71EC3FF1B00AB3021 /* Exception.cpp in Sources */,
 				093DF5431ECAAA5E00BA1C7C /* des.cpp in Sources */,
+				093515C020A3F10B004B1AF0 /* StandardEnvironment.cpp in Sources */,
 				09410A001F3C07AB006D6F80 /* MACDevice.mm in Sources */,
+				093515BF20A3F109004B1AF0 /* StandardDirectory.cpp in Sources */,
 				094C50B91EC3FF1B00AB3021 /* aes.cpp in Sources */,
 				09410A091F3C094F006D6F80 /* ApplePath.mm in Sources */,
 				094C50BB1EC3FF1B00AB3021 /* Compression.cpp in Sources */,
 				09410A031F3C07C8006D6F80 /* Path.cpp in Sources */,
 				09410A051F3C07D7006D6F80 /* Directory.cpp in Sources */,
-				09410A061F3C0948006D6F80 /* AppleDirectory.mm in Sources */,
 				094C50C71EC3FF1B00AB3021 /* Version.cpp in Sources */,
 				094A12D01FEB587B00B1F8B9 /* TimeSpan.cpp in Sources */,
 				0927627F203EC35F003DE7C5 /* Vector3.cpp in Sources */,
 				094C50C81EC3FF1B00AB3021 /* unzip.cpp in Sources */,
 				094C50C91EC3FF1B00AB3021 /* ConvertUTFWrapper.cpp in Sources */,
+				093515C120A3F10E004B1AF0 /* StandardFile.cpp in Sources */,
 				094C50CC1EC3FF1B00AB3021 /* ioapi_mem.cpp in Sources */,
 				098459392071D1D600ACD7A0 /* ConvertUTF.cpp in Sources */,
 				0927627C203EC354003DE7C5 /* Quaternion.cpp in Sources */,
@@ -737,7 +767,6 @@
 				094C50D51EC3FF1B00AB3021 /* ioapi.cpp in Sources */,
 				0927627B203EC351003DE7C5 /* Matrix.cpp in Sources */,
 				09276280203EC362003DE7C5 /* Vector4.cpp in Sources */,
-				09410A071F3C094A006D6F80 /* AppleEnvironment.mm in Sources */,
 				094C50D71EC3FF1B00AB3021 /* Value.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -749,24 +778,26 @@
 				093515A7209C422C004B1AF0 /* AndroidJNIBridge.cpp in Sources */,
 				093490CE1E7F7BA30034ECF2 /* StringUtils.cpp in Sources */,
 				094109F71F3C0787006D6F80 /* Path.cpp in Sources */,
-				094109E01F3C0787006D6F80 /* AndroidDirectory.cpp in Sources */,
 				094109EB1F3C0787006D6F80 /* ApplePath.mm in Sources */,
 				093515B2209C42DE004B1AF0 /* Base58.cpp in Sources */,
 				094A12CD1FEB57C200B1F8B9 /* TimeZone.cpp in Sources */,
 				09276274203EC058003DE7C5 /* Quaternion.cpp in Sources */,
 				094109F11F3C0787006D6F80 /* UICKeyChainStore.m in Sources */,
+				093515CE20A3F564004B1AF0 /* SwitchPlatformMisc.cpp in Sources */,
 				094109FD1F3C0787006D6F80 /* WindowsPath.cpp in Sources */,
 				093490911E7F7BA20034ECF2 /* Base64.cpp in Sources */,
 				094109F21F3C0787006D6F80 /* UIDeviceHardware.mm in Sources */,
 				09276271203EC058003DE7C5 /* Math.cpp in Sources */,
 				098459382071D16200ACD7A0 /* ConvertUTF.cpp in Sources */,
 				094109FA1F3C0787006D6F80 /* WindowsDirectory.cpp in Sources */,
+				093515BD20A3F104004B1AF0 /* StandardEnvironment.cpp in Sources */,
 				093490D71E7F7BA30034ECF2 /* GenericPlatformMacros.cpp in Sources */,
+				093515B620A3F0C5004B1AF0 /* ApplePlatformMisc.mm in Sources */,
 				093490C61E7F7BA30034ECF2 /* Exception.cpp in Sources */,
 				09276272203EC058003DE7C5 /* MathUtil.cpp in Sources */,
 				093490901E7F7BA20034ECF2 /* aes.cpp in Sources */,
+				093515BC20A3F104004B1AF0 /* StandardDirectory.cpp in Sources */,
 				093490C21E7F7BA30034ECF2 /* Compression.cpp in Sources */,
-				094109E11F3C0787006D6F80 /* AndroidEnvironment.cpp in Sources */,
 				09276275203EC058003DE7C5 /* Rect.cpp in Sources */,
 				094109E51F3C0787006D6F80 /* AndroidPath.cpp in Sources */,
 				093490D61E7F7BA30034ECF2 /* Version.cpp in Sources */,
@@ -778,19 +809,20 @@
 				09276278203EC058003DE7C5 /* Vector4.cpp in Sources */,
 				093490BA1E7F7BA30034ECF2 /* unzip.cpp in Sources */,
 				093490A51E7F7BA20034ECF2 /* ConvertUTFWrapper.cpp in Sources */,
-				094109E81F3C0787006D6F80 /* AppleDirectory.mm in Sources */,
 				09BC2A042015CD30007106D2 /* BitStream.cpp in Sources */,
 				094109F31F3C0787006D6F80 /* IOSDevice.mm in Sources */,
 				094109F01F3C0787006D6F80 /* Reachability_libo.m in Sources */,
-				094109EA1F3C0787006D6F80 /* AppleFile.mm in Sources */,
+				093515B420A3F0AB004B1AF0 /* AndroidPlatformMisc.cpp in Sources */,
 				093490B91E7F7BA30034ECF2 /* ioapi_mem.cpp in Sources */,
 				094109EE1F3C0787006D6F80 /* File.cpp in Sources */,
 				09276276203EC058003DE7C5 /* Vector2.cpp in Sources */,
-				094109E91F3C0787006D6F80 /* AppleEnvironment.mm in Sources */,
 				094109FB1F3C0787006D6F80 /* WindowsEnvironment.cpp in Sources */,
 				09276277203EC058003DE7C5 /* Vector3.cpp in Sources */,
+				093515CD20A3F564004B1AF0 /* SwitchPath.cpp in Sources */,
 				094109DF1F3C0787006D6F80 /* AndroidDevice.cpp in Sources */,
+				093515BE20A3F104004B1AF0 /* StandardFile.cpp in Sources */,
 				094109ED1F3C0787006D6F80 /* Directory.cpp in Sources */,
+				093515CC20A3F564004B1AF0 /* SwitchEnvironment.cpp in Sources */,
 				09276273203EC058003DE7C5 /* Matrix.cpp in Sources */,
 				093490C41E7F7BA30034ECF2 /* DateTime.cpp in Sources */,
 				094A12CE1FEB57C200B1F8B9 /* TimeSpan.cpp in Sources */,
@@ -798,7 +830,9 @@
 				093490B81E7F7BA30034ECF2 /* ioapi.cpp in Sources */,
 				094109FC1F3C0787006D6F80 /* WindowsFile.cpp in Sources */,
 				093490D21E7F7BA30034ECF2 /* Value.cpp in Sources */,
+				093515C320A3F125004B1AF0 /* WindowsPlatformMisc.cpp in Sources */,
 				094109F91F3C0787006D6F80 /* WindowsDevice.cpp in Sources */,
+				093515CB20A3F564004B1AF0 /* SwitchDevice.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

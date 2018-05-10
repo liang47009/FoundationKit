@@ -7,6 +7,7 @@
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #if (PLATFORM_APPLE)
 #include <stdlib.h>
+#import <Foundation/Foundation.h>
 #include "FoundationKit/Platform/PlatformMisc.hpp"
 NS_FK_BEGIN
 

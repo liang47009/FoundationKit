@@ -27,7 +27,7 @@
 #include "FoundationKit/Foundation/ElapsedTimer.hpp"
 #include "FoundationKit/Foundation/Exception.hpp"
 #include "FoundationKit/Foundation/File.hpp"
-#include "FoundationKit/Foundation/FunctionHandler.hpp"
+#include "FoundationKit/Foundation/FunctionBox.hpp"
 #include "FoundationKit/Foundation/Path.hpp"
 #include "FoundationKit/Foundation/Singleton.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -53,7 +53,6 @@
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
-#include "FoundationKit/Platform/PlatformMemory.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 
 int main(int argc, const char * argv[]) {
