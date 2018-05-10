@@ -7,7 +7,7 @@
 #ifndef FOUNDATIONKIT_SWITCHPLATFORM_HPP
 #define FOUNDATIONKIT_SWITCHPLATFORM_HPP
 
-#if defined(PLATFORM_SWITCH)
+#if defined(__SWITCH__)
 /**
  * Macro for marking up deprecated code, functions and types.
  *
@@ -47,6 +47,6 @@
 #define FORCENOINLINE __attribute__((noinline))	           /* Force code to NOT be inline */
 #define THREAD_LOCAL __thread
 #define FILEPATH_MAX PATH_MAX
-#endif // #if defined(PLATFORM_SWITCH)
+#endif // #if defined(__SWITCH__)
 
 #endif // END OF FOUNDATIONKIT_SWITCHPLATFORM_HPP

@@ -14,7 +14,13 @@
 #elif (PLATFORM_APPLE)
 #include "FoundationKit/Platform/Apple/ApplePlatformTLS.hpp"
 #elif (PLATFORM_WINDOWS)
-#include "FoundationKit/Platform/windows/WindowsPlatformTLS.hpp"
+#include "FoundationKit/Platform/Windows/WindowsPlatformTLS.hpp"
+#elif (PLATFORM_LINUX)
+#include "FoundationKit/Platform/Linux/LinuxPlatformTLS.hpp"
+#elif (PLATFORM_SWITCH)
+#include "FoundationKit/Platform/Switch/SwitchPlatformTLS.hpp"
+#else
+#error Unknown platform
 #endif
 
 #endif // FOUNDATIONKIT_PLATFORMTLS_HPP

@@ -89,7 +89,7 @@ enum class EPlatform { Windows, Linux, Android, Mac, iOS, Apple,TVOS, XBoxOne,PS
 
 #if   PLATFORM_WINDOWS
 constexpr EPlatform TargetPlatform = EPlatform::Windows;
-#include "FoundationKit/Platform/windows/WindowsPlatform.hpp"
+#include "FoundationKit/Platform/Windows/WindowsPlatform.hpp"
 
 #elif PLATFORM_ANDROID
 constexpr EPlatform TargetPlatform = EPlatform::Android;
@@ -97,15 +97,18 @@ constexpr EPlatform TargetPlatform = EPlatform::Android;
 
 #elif PLATFORM_IOS
 constexpr EPlatform TargetPlatform = EPlatform::iOS;
-#include "FoundationKit/Platform/ios/IOSPlatform.hpp"
+#include "FoundationKit/Platform/IOS/IOSPlatform.hpp"
 
 #elif PLATFORM_MAC
 constexpr EPlatform TargetPlatform = EPlatform::Mac;
-#include "FoundationKit/Platform/mac/MACPlatform.hpp"
+#include "FoundationKit/Platform/Mac/MACPlatform.hpp"
 
 #elif PLATFORM_LINUX
 constexpr EPlatform TargetPlatform = EPlatform::Linux;
-#include "FoundationKit/Platform/linux/LinuxPlatform.hpp"
+#include "FoundationKit/Platform/Linux/LinuxPlatform.hpp"
+#elif PLATFORM_SWITCH
+constexpr EPlatform TargetPlatform = EPlatform::Switch;
+#include "FoundationKit/Platform/Switch/SwitchPlatform.hpp"
 #else
 constexpr EPlatform TargetPlatform = EPlatform::Unknow;
 #error Unknown platform
