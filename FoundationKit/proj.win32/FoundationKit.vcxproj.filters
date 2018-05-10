@@ -10,9 +10,6 @@
     <Filter Include="Platform">
       <UniqueIdentifier>{4e5d3ba0-9fee-44bb-8846-cebb842049c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Platform\windows">
-      <UniqueIdentifier>{fe579a28-0dfa-426e-92c5-130f254da9c5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="external">
       <UniqueIdentifier>{60fab813-1b98-4b94-9fae-2eb120e87216}</UniqueIdentifier>
     </Filter>
@@ -37,29 +34,32 @@
     <Filter Include="Platform\Apple">
       <UniqueIdentifier>{3ee1b1c5-1dc3-48fa-8bf9-b70ed5b062b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Platform\ios">
-      <UniqueIdentifier>{95494ff4-e093-4572-9139-e142d0ec87a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Platform\mac">
-      <UniqueIdentifier>{2065263b-45a1-44a2-a138-ef45432fbf0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Platform\windows\sys">
-      <UniqueIdentifier>{bef2ae3c-6bfc-4e28-9173-943161f875f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Platform\linux">
-      <UniqueIdentifier>{3ce1ac0c-7dbe-416d-8305-d3b4c0a458d5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Platform\Android\AndroidInternal">
       <UniqueIdentifier>{d7ad321c-1c9f-48e9-9d63-1ca19ce83245}</UniqueIdentifier>
     </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{f16b61bc-6327-41ef-8a4f-9a0ae2813627}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Platform\switch">
-      <UniqueIdentifier>{97e3aa24-a910-41dc-826d-e2c4f7d58d95}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Platform\Standard">
       <UniqueIdentifier>{e54e9b61-d5e9-45aa-ac32-8ddc017d823c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Switch">
+      <UniqueIdentifier>{97e3aa24-a910-41dc-826d-e2c4f7d58d95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{fe579a28-0dfa-426e-92c5-130f254da9c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows\sys">
+      <UniqueIdentifier>{bef2ae3c-6bfc-4e28-9173-943161f875f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Mac">
+      <UniqueIdentifier>{2065263b-45a1-44a2-a138-ef45432fbf0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Linux">
+      <UniqueIdentifier>{3ce1ac0c-7dbe-416d-8305-d3b4c0a458d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\IOS">
+      <UniqueIdentifier>{95494ff4-e093-4572-9139-e142d0ec87a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -166,7 +166,7 @@
       <Filter>Platform\Android\AndroidJNI</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp">
-      <Filter>Platform\windows</Filter>
+      <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformTLS.hpp">
       <Filter>Platform\Android</Filter>
@@ -178,10 +178,10 @@
       <Filter>experimental</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\dirent.h">
-      <Filter>Platform\windows\sys</Filter>
+      <Filter>Platform\Windows\sys</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.h">
-      <Filter>Platform\windows\sys</Filter>
+      <Filter>Platform\Windows\sys</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\threadsafe_stack.hpp">
       <Filter>experimental</Filter>
@@ -217,13 +217,13 @@
       <Filter>Platform\Android</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\ios\IOSPlatform.hpp">
-      <Filter>Platform\ios</Filter>
+      <Filter>Platform\IOS</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\mac\MACPlatform.hpp">
-      <Filter>Platform\mac</Filter>
+      <Filter>Platform\Mac</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatform.hpp">
-      <Filter>Platform\windows</Filter>
+      <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\FileHandle.hpp">
       <Filter>experimental</Filter>
@@ -235,10 +235,10 @@
       <Filter>experimental</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\linux\LinuxPlatform.hpp">
-      <Filter>Platform\linux</Filter>
+      <Filter>Platform\Linux</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\linux\LinuxPlatformTLS.hpp">
-      <Filter>Platform\linux</Filter>
+      <Filter>Platform\Linux</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Crypto\Base58.hpp">
       <Filter>Crypto</Filter>
@@ -381,10 +381,10 @@
       <Filter>Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\switch\SwitchPlatform.hpp">
-      <Filter>Platform\switch</Filter>
+      <Filter>Platform\Switch</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\switch\SwitchPlatformTLS.hpp">
-      <Filter>Platform\switch</Filter>
+      <Filter>Platform\Switch</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\PlatformMisc.hpp">
       <Filter>Platform</Filter>
@@ -426,19 +426,19 @@
       <Filter>Platform\Android\AndroidJNI</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsDevice.cpp">
-      <Filter>Platform\windows</Filter>
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsDirectory.cpp">
-      <Filter>Platform\windows</Filter>
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsEnvironment.cpp">
-      <Filter>Platform\windows</Filter>
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsFile.cpp">
-      <Filter>Platform\windows</Filter>
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPath.cpp">
-      <Filter>Platform\windows</Filter>
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidFile.cpp">
       <Filter>Platform\Android</Filter>
@@ -519,10 +519,10 @@
       <Filter>experimental</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\switch\SwitchDevice.cpp">
-      <Filter>Platform\switch</Filter>
+      <Filter>Platform\Switch</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\switch\SwitchPath.cpp">
-      <Filter>Platform\switch</Filter>
+      <Filter>Platform\Switch</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Standard\StandardFile.cpp">
       <Filter>Platform\Standard</Filter>
@@ -540,10 +540,10 @@
       <Filter>Platform\Standard</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPlatformMisc.cpp">
-      <Filter>Platform\windows</Filter>
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Switch\SwitchPlatformMisc.cpp">
-      <Filter>Platform\switch</Filter>
+      <Filter>Platform\Switch</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -554,10 +554,10 @@
       <Filter>Platform\Apple</Filter>
     </None>
     <None Include="..\FoundationKit\Platform\ios\IOSDevice.mm">
-      <Filter>Platform\ios</Filter>
+      <Filter>Platform\IOS</Filter>
     </None>
     <None Include="..\FoundationKit\Platform\mac\MACDevice.mm">
-      <Filter>Platform\mac</Filter>
+      <Filter>Platform\Mac</Filter>
     </None>
     <None Include="..\FoundationKit\Math\MathUtil.inl">
       <Filter>Math</Filter>
