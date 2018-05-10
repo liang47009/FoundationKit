@@ -31,10 +31,10 @@
 NS_FK_BEGIN
 #if PLATFORM_WINDOWS
 const char PlatformNewLine[] ={ '\r', '\n' };
-#elif (PLATFORM_ANDROID) ||(PLATFORM_LINUX)
-const char PlatformNewLine[] ={'\n'};
 #elif (PLATFORM_MAC)||(PLATFORM_IOS)
 const char PlatformNewLine[] ={ '\r'};
+#else
+const char PlatformNewLine[] = { '\n' };
 #endif
 
 
@@ -161,14 +161,6 @@ bool File::Close(int file)
     return (close(file) == 0);
 #endif
 }
-
-#if PLATFORM_ANDROID
-extern FILE* AndroidOpenAsset(const char * path);
-FILE* File::OpenAsset(const std::string& path)
-{
-    return AndroidOpenAsset(path.c_str());
-}
-#endif
 
 bool File::AppendAllLines(const std::string& path, const std::vector<std::string>& contents)
 {

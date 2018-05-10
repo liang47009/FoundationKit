@@ -47,6 +47,7 @@
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/PlatformMemory.hpp"
+#include "FoundationKit/Platform/PlatformMisc.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 
 #include "FoundationKit/Math/Math.hpp"
@@ -121,7 +122,7 @@ void AppDelegate::TestTupleArgs(int a, const std::string & str, const char * str
 
 void RunGuetzli()
 {
-    auto LaunchArgs = Environment::GetCommandLineArgs();
+    auto LaunchArgs = PlatformMisc::GetCommandLineArgs();
     if (LaunchArgs.size() < 3)return;
     std::string SrcPath = LaunchArgs[1];
     std::string DesPath = LaunchArgs[2];

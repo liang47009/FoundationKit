@@ -531,11 +531,6 @@ float PlatformDevice::GetScreenDPI()
     return ppi;
 }
 
-float PlatformDevice::GetRefreshRate()
-{
-    return 60.0f;
-}
-
 float PlatformDevice::GetScreenXDPI()
 {
     return GetScreenDPI();
@@ -544,6 +539,11 @@ float PlatformDevice::GetScreenXDPI()
 float PlatformDevice::GetScreenYDPI()
 {
     return GetScreenDPI();
+}
+
+float PlatformDevice::GetRefreshRate()
+{
+    return 60.0f;
 }
 
 float PlatformDevice::GetNativeScale()

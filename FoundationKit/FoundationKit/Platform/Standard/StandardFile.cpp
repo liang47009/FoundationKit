@@ -1,13 +1,12 @@
 /****************************************************************************
   Copyright (c) 2017 libo All rights reserved.
- 
+
   losemymind.libo@gmail.com
 
 ****************************************************************************/
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if (PLATFORM_IOS || PLATFORM_MAC)
+#if PLATFORM_ANDROID || PLATFORM_APPLE || PLATFORM_LINUX || PLATFORM_SWITCH
 
-#include <stdlib.h>
 #include "FoundationKit/Platform/File.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
 NS_FK_BEGIN
@@ -43,5 +42,4 @@ bool File::Rename(const std::string& sourceFileName, const std::string& destFile
 
 NS_FK_END
 
-#endif //OF #if (PLATFORM_IOS || PLATFORM_MAC)
-
+#endif //#if PLATFORM_ANDROID || PLATFORM_APPLE || PLATFORM_LINUX || PLATFORM_SWITCH

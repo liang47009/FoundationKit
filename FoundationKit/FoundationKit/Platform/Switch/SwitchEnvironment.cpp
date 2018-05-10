@@ -5,7 +5,7 @@
 
 ****************************************************************************/
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if PLATFORM_ANDROID
+#if PLATFORM_SWITCH
 
 #include <sstream>
 #include <stdlib.h>
@@ -71,25 +71,14 @@ bool Environment::SetEnvironmentVariable(const std::string& variable, const std:
 
 Environment::stringvec Environment::GetCommandLineArgs()
 {
-    stringvec commandArgs;// = StringUtils::Split(GSavedCommandLine, ' ');
-    FILE *fp = nullptr;
-    if ((fp = fopen("/proc/self/cmdline", "r")) == NULL)
-    {
-        FKLog("Cannot open /proc/self/cmdline file!");
-        return commandArgs;
-    }
-    char line_buf[256] = { 0 };
-    while (fgets(line_buf, sizeof(line_buf), fp) != NULL)
-    {
-        commandArgs.push_back(line_buf);
-    }
-    fclose(fp);
+    stringvec commandArgs;
+
     return commandArgs;
 }
 
 NS_FK_END
 
-#endif //#if PLATFORM_ANDROID
+#endif //#if PLATFORM_SWITCH
 
 
 

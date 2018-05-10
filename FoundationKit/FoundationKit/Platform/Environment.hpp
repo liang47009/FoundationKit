@@ -22,7 +22,6 @@ public:
     static std::string GetEnvironmentVariable(const std::string& variable);
     static bool        HasEnvironmentVariable(const std::string& variable);
     static bool        SetEnvironmentVariable(const std::string& variable, const std::string& value);
-    static stringvec   GetCommandLineArgs();
 };
 
 NS_FK_END

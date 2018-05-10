@@ -7,7 +7,7 @@
 #ifndef FOUNDATIONKIT_FUNCTION_CACHE_HPP
 #define FOUNDATIONKIT_FUNCTION_CACHE_HPP
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#include <unordered_map>
+#include <map>
 #include <functional>
 #include <utility>
 NS_FK_BEGIN
@@ -42,7 +42,7 @@ namespace detail
     template <typename R, typename... Args>
     std::function<R(Args...)> function_cache(R(*func) (Args...))
     {
-        auto result_map = std::make_shared<std::unordered_map<std::tuple<Args...>, R>>();
+        auto result_map = std::make_shared<std::map<std::tuple<Args...>, R>>();
 
         return ([=](Args... args)
         {
@@ -58,7 +58,7 @@ template <typename R, typename...  Args>
 std::function<R(Args...)> function_cache(R(*func)(Args...), bool needClear = false)
 {  
     using fun_type = std::function<R(Args...)>;  
-    static std::unordered_map<decltype(func), fun_type> functor_map;
+    static std::map<decltype(func), fun_type> functor_map;
 
     if (needClear)  
         return functor_map[func] = detail::function_cache(func);

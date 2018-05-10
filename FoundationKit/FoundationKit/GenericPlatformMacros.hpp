@@ -80,6 +80,9 @@ enum class EPlatform { Windows, Linux, Android, Mac, iOS, Apple,TVOS, XBoxOne,PS
 #   undef  PLATFORM_MAC
 #   define PLATFORM_MAC 1
 
+#elif(__SWITCH__)
+#   undef  PLATFORM_SWITCH
+#   define PLATFORM_SWITCH 1
 #else
     #error Unknown platform
 #endif

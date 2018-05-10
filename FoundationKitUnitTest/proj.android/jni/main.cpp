@@ -59,6 +59,7 @@
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Platform/PlatformDevice.hpp"
 #include "FoundationKit/Platform/PlatformMemory.hpp"
+#include "FoundationKit/Platform/PlatformMisc.hpp"
 #include "FoundationKit/Platform/PlatformTLS.hpp"
 
 #include "FoundationKit/Math/Math.hpp"
@@ -96,7 +97,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
 	ANDROID_LOGE("============== >>>>> JNI_OnLoad");
     g_vm = vm;
-    auto cmdList =  Environment::GetCommandLineArgs();
+    auto cmdList =  PlatformMisc::GetCommandLineArgs();
     ANDROID_LOGE("============== CommandLineArgs:");
     for(std::string val : cmdList)
     {
@@ -207,7 +208,7 @@ JNIEXPORT void JNICALL Java_com_example_test_MainActivity_foundationInit( JNIEnv
     AndroidJNI::InitializeJavaEnv(g_vm, JNI_VERSION_1_6, context);
     PlatformDevice::DumpDeviceInfo();
 
-    FoundationKit::NotificationCenter::DefaultCenter.AddObserver("OnJavaCall", BindFunctionHandler(OnJavaCall));
+    FoundationKit::NotificationCenter::DefaultCenter.AddObserver("OnJavaCall", BindFunctionBox(OnJavaCall));
 
     android::AndroidJavaObject  mainActive(context);
     mainActive.Call("debug_Print", 100,"======", "========");

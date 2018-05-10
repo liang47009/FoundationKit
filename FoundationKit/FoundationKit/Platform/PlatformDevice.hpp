@@ -115,9 +115,11 @@ public:
     //dp = px/(dpi/160)
     //dpi = px/dp*160
     static float GetScreenDPI();
-    static float GetRefreshRate();
     static float GetScreenXDPI();
     static float GetScreenYDPI();
+    //PPI=¡Ì(X*X+Y*Y)/DP
+    //static float GetScreenPPI();
+    static float GetRefreshRate();
     static float GetNativeScale();
     static PlatformMemoryConstants& GetMemoryConstants();
     static void DumpDeviceInfo();

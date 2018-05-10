@@ -5,7 +5,7 @@
 
 ****************************************************************************/
 #include "FoundationKit/GenericPlatformMacros.hpp"
-#if (PLATFORM_ANDROID)
+#if (PLATFORM_SWITCH)
 
 #include "FoundationKit/Platform/Path.hpp"
 #include "FoundationKit/Foundation/StringUtils.hpp"
@@ -30,8 +30,8 @@ void Path::SetTempPath(const std::string& path)
 }
 std::string Path::GetApplicationPath()
 {
-    return "assets/";
+    return "";
 }
 NS_FK_END
 
-#endif // #if (PLATFORM_ANDROID)
+#endif // #if (PLATFORM_ANDROID || PLATFORM_LINUX)

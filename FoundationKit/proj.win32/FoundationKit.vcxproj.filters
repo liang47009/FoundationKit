@@ -55,6 +55,12 @@
     <Filter Include="Math">
       <UniqueIdentifier>{f16b61bc-6327-41ef-8a4f-9a0ae2813627}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform\switch">
+      <UniqueIdentifier>{97e3aa24-a910-41dc-826d-e2c4f7d58d95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Standard">
+      <UniqueIdentifier>{e54e9b61-d5e9-45aa-ac32-8ddc017d823c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp">
@@ -179,18 +185,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\experimental\threadsafe_stack.hpp">
       <Filter>experimental</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformMemory.hpp">
-      <Filter>Platform\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\PlatformMemory.hpp">
-      <Filter>Platform</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformMemory.hpp">
-      <Filter>Platform\Apple</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformMemory.hpp">
-      <Filter>Platform\Android</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\apply.hpp">
       <Filter>Base</Filter>
@@ -386,6 +380,15 @@
     <ClInclude Include="..\FoundationKit\Foundation\FunctionBox.hpp">
       <Filter>Foundation</Filter>
     </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\switch\SwitchPlatform.hpp">
+      <Filter>Platform\switch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\switch\SwitchPlatformTLS.hpp">
+      <Filter>Platform\switch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FoundationKit\Platform\PlatformMisc.hpp">
+      <Filter>Platform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\FoundationKit\Crypto\aes.cpp">
@@ -436,15 +439,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPath.cpp">
       <Filter>Platform\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDevice.cpp">
-      <Filter>Platform\Android</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDirectory.cpp">
-      <Filter>Platform\Android</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidEnvironment.cpp">
-      <Filter>Platform\Android</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidFile.cpp">
       <Filter>Platform\Android</Filter>
@@ -524,15 +518,36 @@
     <ClCompile Include="..\FoundationKit\experimental\ModuleManager.cpp">
       <Filter>experimental</Filter>
     </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\switch\SwitchDevice.cpp">
+      <Filter>Platform\switch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\switch\SwitchPath.cpp">
+      <Filter>Platform\switch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Standard\StandardFile.cpp">
+      <Filter>Platform\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Standard\StandardDirectory.cpp">
+      <Filter>Platform\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDevice.cpp">
+      <Filter>Platform\Android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPlatformMisc.cpp">
+      <Filter>Platform\Android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Standard\StandardEnvironment.cpp">
+      <Filter>Platform\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPlatformMisc.cpp">
+      <Filter>Platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FoundationKit\Platform\Switch\SwitchPlatformMisc.cpp">
+      <Filter>Platform\switch</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\FoundationKit\Platform\Apple\AppleDirectory.mm">
-      <Filter>Platform\Apple</Filter>
-    </None>
     <None Include="..\FoundationKit\Platform\Apple\AppleEnvironment.mm">
-      <Filter>Platform\Apple</Filter>
-    </None>
-    <None Include="..\FoundationKit\Platform\Apple\AppleFile.mm">
       <Filter>Platform\Apple</Filter>
     </None>
     <None Include="..\FoundationKit\Platform\Apple\ApplePath.mm">
@@ -569,5 +584,8 @@
       <Filter>Foundation</Filter>
     </None>
     <None Include="..\FoundationKit\FoundationKitVersion.hpp.in" />
+    <None Include="..\FoundationKit\Platform\Apple\ApplePlatformMisc.mm">
+      <Filter>Platform\Apple</Filter>
+    </None>
   </ItemGroup>
 </Project>

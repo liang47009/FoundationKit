@@ -36,14 +36,16 @@ $(SRCROOT)/FoundationKit/Math/Vector3.cpp \
 $(SRCROOT)/FoundationKit/Math/Vector4.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidJNI/AndroidJNIBridge.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidJNI/AndroidJNI.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidDirectory.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidEnvironment.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidDevice.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidFile.cpp \
 $(SRCROOT)/FoundationKit/Platform/Android/AndroidPath.cpp \
-$(SRCROOT)/FoundationKit/Platform/Android/AndroidDevice.cpp \
+$(SRCROOT)/FoundationKit/Platform/Android/AndroidPlatformMisc.cpp \
 $(SRCROOT)/FoundationKit/Platform/Directory.cpp \
 $(SRCROOT)/FoundationKit/Platform/File.cpp \
-$(SRCROOT)/FoundationKit/Platform/Path.cpp 
+$(SRCROOT)/FoundationKit/Platform/Path.cpp \
+$(SRCROOT)/FoundationKit/Platform/Standard/StandardDirectory.cpp \
+$(SRCROOT)/FoundationKit/Platform/Standard/StandardEnvironment.cpp \
+$(SRCROOT)/FoundationKit/Platform/Standard/StandardFile.cpp 
 
 LOCAL_C_INCLUDES := \
 $(PROJECT_DIR)/ \

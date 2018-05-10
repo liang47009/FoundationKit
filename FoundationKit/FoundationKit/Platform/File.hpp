@@ -37,10 +37,6 @@ public:
     static int   Open(const std::string& path, int mode/* = O_RDONLY | O_BINARY*/);
     static bool  Close(FILE* file);
     static bool  Close(int file);
-#if PLATFORM_ANDROID
-    // OpenAsset returned file handle only support fread fseek and fclose.
-    static FILE* OpenAsset(const std::string& path);
-#endif
     static bool AppendAllLines(const std::string& path, const std::vector<std::string>& contents);
     static bool AppendAllText(const std::string& path, const std::string& contents);
     static std::vector<uint8> ReadAllBytesFromZip(const std::string& path, const std::string& fileName);

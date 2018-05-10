@@ -30,41 +30,13 @@ static int AndroidCloseAsset(void* asset) {
     return 0;
 }
 
+// wrapper fread/fseek/fclose
 FILE* AndroidOpenAsset(const char * path)
 {
     AAssetManager* AndroidAssetManager = AndroidJNI::GetAAssetManager();
     AAsset* asset = AAssetManager_open(AndroidAssetManager, path, AASSET_MODE_UNKNOWN);
     if (!asset) return nullptr;
     return funopen(asset, AndroidReadAsset, AndroidWriteAsset, AndroidSeekAsset, AndroidCloseAsset);
-}
-
-bool File::Move(const std::string& sourceFileName, const std::string& destFileName)
-{
-    if (IsExists(destFileName))
-        return false;
-
-    if (!IsExists(sourceFileName))
-        return false;
-
-    return (rename(sourceFileName.c_str(), destFileName.c_str()) == 0);
-}
-
-bool File::Delete(const std::string& path)
-{
-    return (remove(path.c_str()) == 0);
-}
-
-bool File::IsExists(const std::string& path)
-{
-    struct stat sts;
-    if (stat(path.c_str(), &sts) == 0 && S_ISREG(sts.st_mode))
-        return true;
-    return false;
-}
-
-bool File::Rename(const std::string& sourceFileName, const std::string& destFileName)
-{
-    return (rename(sourceFileName.c_str(), destFileName.c_str()) == 0);
 }
 
 NS_FK_END

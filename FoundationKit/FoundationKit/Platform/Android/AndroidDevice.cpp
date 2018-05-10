@@ -523,12 +523,6 @@ float PlatformDevice::GetScreenDPI()
     return GLOBAL_DisplayInfo.densityDpi;
 }
 
-float PlatformDevice::GetRefreshRate()
-{
-    lazyGetScreenResolution();
-    return GLOBAL_DisplayInfo.fps;
-}
-
 float PlatformDevice::GetScreenXDPI()
 {
     lazyGetScreenResolution();
@@ -539,6 +533,12 @@ float PlatformDevice::GetScreenYDPI()
 {
     lazyGetScreenResolution();
     return GLOBAL_DisplayInfo.ydpi;
+}
+
+float PlatformDevice::GetRefreshRate()
+{
+    lazyGetScreenResolution();
+    return GLOBAL_DisplayInfo.fps;
 }
 
 float PlatformDevice::GetNativeScale()

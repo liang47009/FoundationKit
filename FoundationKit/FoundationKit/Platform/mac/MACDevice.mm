@@ -411,11 +411,6 @@ float PlatformDevice::GetScreenDPI()
     //return ((displayPixelSize.width / displayPhysicalSize.width) * 25.4f);
 }
 
-float PlatformDevice::GetRefreshRate()
-{
-    return 60.0f;
-}
-
 float PlatformDevice::GetScreenXDPI()
 {
     NSScreen* mainScreen = [NSScreen mainScreen];
@@ -430,6 +425,11 @@ float PlatformDevice::GetScreenYDPI()
     NSDictionary* description = [mainScreen deviceDescription];
     NSSize resolution = [[description objectForKey:NSDeviceResolution] sizeValue];
     return resolution.height;
+}
+
+float PlatformDevice::GetRefreshRate()
+{
+    return 60.0f;
 }
 
 float PlatformDevice::GetNativeScale()

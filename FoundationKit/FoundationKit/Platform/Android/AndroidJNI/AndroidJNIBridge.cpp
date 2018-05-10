@@ -1,6 +1,5 @@
 #include "AndroidJNIBridge.hpp"
 #if PLATFORM_ANDROID
-
 #include <vector>
 #include <string>
 #include "AndroidJavaProxy.hpp"

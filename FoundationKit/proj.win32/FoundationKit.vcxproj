@@ -267,9 +267,7 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidLexicalCast.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNIOperation.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatform.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidPlatformTLS.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Directory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Environment.hpp" />
@@ -280,12 +278,13 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Platform\mac\MACPlatform.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\Path.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformDevice.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\PlatformMemory.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\PlatformMisc.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\PlatformTLS.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\switch\SwitchPlatform.hpp" />
+    <ClInclude Include="..\FoundationKit\Platform\switch\SwitchPlatformTLS.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\dirent.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.h" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatform.hpp" />
-    <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformMemory.hpp" />
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatformTLS.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -321,20 +320,26 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClCompile Include="..\FoundationKit\Math\Vector3.cpp" />
     <ClCompile Include="..\FoundationKit\Math\Vector4.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDevice.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidDirectory.cpp" />
-    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidEnvironment.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidFile.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNI.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNIBridge.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPath.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPlatformMisc.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Directory.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\File.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\Path.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Standard\StandardDirectory.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Standard\StandardEnvironment.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Standard\StandardFile.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\switch\SwitchDevice.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\switch\SwitchPath.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\Switch\SwitchPlatformMisc.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsDevice.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsDirectory.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsEnvironment.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsFile.cpp" />
     <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPath.cpp" />
+    <ClCompile Include="..\FoundationKit\Platform\windows\WindowsPlatformMisc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FoundationKit\FoundationKitVersion.hpp.in" />
@@ -346,10 +351,9 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <None Include="..\FoundationKit\Math\Vector2.inl" />
     <None Include="..\FoundationKit\Math\Vector3.inl" />
     <None Include="..\FoundationKit\Math\Vector4.inl" />
-    <None Include="..\FoundationKit\Platform\Apple\AppleDirectory.mm" />
     <None Include="..\FoundationKit\Platform\Apple\AppleEnvironment.mm" />
-    <None Include="..\FoundationKit\Platform\Apple\AppleFile.mm" />
     <None Include="..\FoundationKit\Platform\Apple\ApplePath.mm" />
+    <None Include="..\FoundationKit\Platform\Apple\ApplePlatformMisc.mm" />
     <None Include="..\FoundationKit\Platform\ios\IOSDevice.mm" />
     <None Include="..\FoundationKit\Platform\mac\MACDevice.mm" />
   </ItemGroup>
