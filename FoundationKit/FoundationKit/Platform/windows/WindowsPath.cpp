@@ -18,21 +18,27 @@ std::string Path::GetTempPath()
     {
         return TemporaryPath;
     }
-    WCHAR app_data_path[MAX_PATH + 1];
-    ::GetTempPathW(MAX_PATH + 1, app_data_path);
-    std::wstring result(app_data_path);
+    WCHAR TempPath[MAX_PATH + 1];
+    ::GetTempPathW(MAX_PATH + 1, TempPath);
+
+    // Always expand the temp path in case windows returns short directory names.
+    TCHAR FullTempPath[MAX_PATH];
+    ZeroMemory(FullTempPath, sizeof(TCHAR) * MAX_PATH);
+    ::GetLongPathName(TempPath, FullTempPath, MAX_PATH);
+
+    std::wstring result(FullTempPath);
     WCHAR full_path[MAX_PATH + 1] = { 0 };
     ::GetModuleFileNameW(nullptr, full_path, MAX_PATH + 1);
     // Get filename of executable only, e.g. MyGame.exe
     WCHAR *base_name = wcsrchr(full_path, '\\');
-    result += base_name;
+    result += (++base_name); // Remove '\\'
     // Remove ".exe" extension, e.g. C:\Documents and Settings\username\Local Settings\Application Data\MyGame
     result = result.substr(0, result.rfind(L"."));
     result += DirectorySeparatorChar;
     // Create directory
     if (SUCCEEDED(SHCreateDirectoryEx(nullptr, result.c_str(), nullptr)))
     {
-        TemporaryPath = StringUtils::wstring2string(app_data_path);
+        TemporaryPath = StringUtils::wstring2string(result);
     }
     return TemporaryPath;
 }
@@ -44,40 +50,40 @@ std::string Path::GetDocumentsPath()
         return DocumentsPath;
     }
     // Get full path of executable, e.g. c:\Program Files (x86)\My Game Folder\MyGame.exe
-    WCHAR full_path[MAX_PATH + 1] = { 0 };
-    ::GetModuleFileNameW(nullptr, full_path, MAX_PATH + 1);
+    WCHAR ModuleFullPath[MAX_PATH + 1] = { 0 };
+    ::GetModuleFileNameW(nullptr, ModuleFullPath, MAX_PATH + 1);
     // Debug app uses executable directory; Non-debug app uses local app data directory
     //#ifndef _DEBUG
     // Get filename of executable only, e.g. MyGame.exe
-    WCHAR *base_name = wcsrchr(full_path, '\\');
-    std::wstring retPath;
-    if (base_name)
+    WCHAR *AppBaseName = wcsrchr(ModuleFullPath, '\\');
+    std::wstring FullDocumentsPath;
+    if (AppBaseName)
     {
-        WCHAR app_data_path[MAX_PATH + 1];
-        // Get local app data directory, e.g. C:\Documents and Settings\username\Local Settings\Application Data
-        if (SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_PERSONAL /*CSIDL_COMMON_DOCUMENTS*/, nullptr, SHGFP_TYPE_CURRENT, app_data_path)))
+        WCHAR UserDocumentPath[MAX_PATH + 1];
+        // Get user document directory, e.g. C:\User\username\Documents
+        if (SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_PERSONAL /*CSIDL_COMMON_DOCUMENTS*/, nullptr, SHGFP_TYPE_CURRENT, UserDocumentPath)))
         {
-            std::wstring ret(app_data_path);
-            // Adding executable filename, e.g. C:\Documents and Settings\username\Local Settings\Application Data\MyGame.exe
-            ret += base_name;
-            // Remove ".exe" extension, e.g. C:\Documents and Settings\username\Local Settings\Application Data\MyGame
-            ret = ret.substr(0, ret.rfind(L"."));
-            ret += L"\\";
+            FullDocumentsPath = UserDocumentPath;
+            // Adding executable filename, e.g. C:\User\username\Documents\MyGame.exe
+            FullDocumentsPath += AppBaseName;
+            // Remove ".exe" extension, e.g. C:\User\username\Documents\MyGame
+            FullDocumentsPath = FullDocumentsPath.substr(0, FullDocumentsPath.rfind(L"."));
+            FullDocumentsPath += L"\\";
             // Create directory
-            if (SUCCEEDED(SHCreateDirectoryEx(nullptr, ret.c_str(), nullptr)))
+            if (!SUCCEEDED(SHCreateDirectoryEx(nullptr, FullDocumentsPath.c_str(), nullptr)))
             {
-                retPath = ret;
+                FullDocumentsPath.clear();
             }
         }
     }
-    if (retPath.empty())
+    if (FullDocumentsPath.empty())
     {
         // If fetching of local app data directory fails, use the executable one
-        retPath = full_path;
+        FullDocumentsPath = ModuleFullPath;
         // remove xxx.exe
-        retPath = retPath.substr(0, retPath.rfind(L"\\") + 1);
+        FullDocumentsPath = FullDocumentsPath.substr(0, FullDocumentsPath.rfind(L"\\") + 1);
     }
-    DocumentsPath = StringUtils::wstring2string(retPath);
+    DocumentsPath = StringUtils::wstring2string(FullDocumentsPath);
     return DocumentsPath;
 }
 
