@@ -22,9 +22,6 @@
     <Filter Include="Base">
       <UniqueIdentifier>{65b125cc-d559-4605-bbc6-67c151774db0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="experimental">
-      <UniqueIdentifier>{77ba71ed-6746-4d2a-8085-4d7e997e5f01}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Platform\Android">
       <UniqueIdentifier>{6c301a9e-186b-43b5-87da-ef782acd1e95}</UniqueIdentifier>
     </Filter>
@@ -123,12 +120,6 @@
     <ClInclude Include="..\FoundationKit\Base\scope_guard.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\BehaviourTree.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\BehaviourTreeTest.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\string_builder.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -174,17 +165,11 @@
     <ClInclude Include="..\FoundationKit\Platform\Apple\ApplePlatformTLS.hpp">
       <Filter>Platform\Apple</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\AsyncTask.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\dirent.h">
       <Filter>Platform\Windows\sys</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\sys\resource.h">
       <Filter>Platform\Windows\sys</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\threadsafe_stack.hpp">
-      <Filter>experimental</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Base\apply.hpp">
       <Filter>Base</Filter>
@@ -224,15 +209,6 @@
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\windows\WindowsPlatform.hpp">
       <Filter>Platform\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\FileHandle.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\IFileHandle.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\match.hpp">
-      <Filter>experimental</Filter>
     </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\linux\LinuxPlatform.hpp">
       <Filter>Platform\Linux</Filter>
@@ -368,12 +344,6 @@
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaCore.hpp">
       <Filter>Platform\Android\AndroidJNI</Filter>
     </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\ModuleInterface.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
-    <ClInclude Include="..\FoundationKit\experimental\ModuleManager.hpp">
-      <Filter>experimental</Filter>
-    </ClInclude>
     <ClInclude Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJavaProxyHelper.hpp">
       <Filter>Platform\Android\AndroidJNI</Filter>
     </ClInclude>
@@ -446,9 +416,6 @@
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidPath.cpp">
       <Filter>Platform\Android</Filter>
     </ClCompile>
-    <ClCompile Include="..\FoundationKit\experimental\FileHandle.cpp">
-      <Filter>experimental</Filter>
-    </ClCompile>
     <ClCompile Include="..\FoundationKit\Crypto\Base58.cpp">
       <Filter>Crypto</Filter>
     </ClCompile>
@@ -514,9 +481,6 @@
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\Android\AndroidJNI\AndroidJNIBridge.cpp">
       <Filter>Platform\Android\AndroidJNI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\FoundationKit\experimental\ModuleManager.cpp">
-      <Filter>experimental</Filter>
     </ClCompile>
     <ClCompile Include="..\FoundationKit\Platform\switch\SwitchDevice.cpp">
       <Filter>Platform\Switch</Filter>

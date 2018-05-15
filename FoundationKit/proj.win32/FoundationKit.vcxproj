@@ -206,15 +206,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClInclude Include="..\FoundationKit\Crypto\md5.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\sha1.hpp" />
     <ClInclude Include="..\FoundationKit\Crypto\urlencode.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\AsyncTask.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\BehaviourTree.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\BehaviourTreeTest.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\FileHandle.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\IFileHandle.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\match.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\ModuleInterface.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\ModuleManager.hpp" />
-    <ClInclude Include="..\FoundationKit\experimental\threadsafe_stack.hpp" />
     <ClInclude Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi.h" />
     <ClInclude Include="..\FoundationKit\external\unzip\ioapi_mem.h" />
@@ -292,8 +283,6 @@ xcopy /Y /Q "$(SolutionDir)ThirdParty\zlib\prebuilt\win32\*.*" "$(OutDir)"</Comm
     <ClCompile Include="..\FoundationKit\Crypto\Base58.cpp" />
     <ClCompile Include="..\FoundationKit\Crypto\Base64.cpp" />
     <ClCompile Include="..\FoundationKit\Crypto\des.cpp" />
-    <ClCompile Include="..\FoundationKit\experimental\FileHandle.cpp" />
-    <ClCompile Include="..\FoundationKit\experimental\ModuleManager.cpp" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTF.cpp" />
     <ClCompile Include="..\FoundationKit\external\ConvertUTF\ConvertUTFWrapper.cpp" />
     <ClCompile Include="..\FoundationKit\external\unzip\ioapi.cpp" />
