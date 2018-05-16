@@ -19,7 +19,7 @@ namespace android
 
     //deduces the signature of a JNI method according to the variadic params and the return type
     template <typename T, typename... Args>
-    const char * GetJNISignature(Args...)
+    const char * GetJNISignature()
     {
         return CombineFixedChars <
             FixedChars<'('>,  //left parenthesis
@@ -32,15 +32,9 @@ namespace android
 
     //deduces the signature of a JNI method according to the variadic params and the return type
     template <typename T, typename... Args>
-    const char * GetJNISignature()
+    const char * GetJNISignature(Args...)
     {
-        return CombineFixedChars <
-            FixedChars<'('>,  //left parenthesis
-            typename CPPTypeCast<typename std::decay<Args>::type>::Signature...,      //params signature
-            FixedChars<')'>,  //right parenthesis
-            typename CPPTypeCast<typename std::decay<T>::type>::Signature,            //return type signature
-            FixedChars < '\0' >
-        >::Result::value();
+        return GetJNISignature<Args>();
     }
 
     /**

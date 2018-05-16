@@ -60,19 +60,20 @@ public:
     void RemoveObserver(const std::string& name);
     void RemoveObserver(void* target);
     void RemoveObserver(const std::string& name, void* target);
-    void Invoke(const std::string& name, const ValueList& args);
+    void InvokeWithArgsPack(const std::string& name, const ValueList& args);
+
     template<typename... Args>
-    void Invoke(const std::string& name, Args... args)
+    void Invoke(const std::string& name, Args&&... args)
     {
         ValueList al;
         detail::PackValueList(al, std::forward<Args>(args)...);
-        Invoke(name, al);
+        InvokeWithArgsPack(name, al);
     }
+
     static NotificationCenter DefaultCenter;
 protected:
     // Check whether the observer exists by the specified target and name.
     bool ObserverExisted(const std::string& name,void* target = nullptr);
-
 private:
     NotificationCenter();
     ObserverList   _observers;

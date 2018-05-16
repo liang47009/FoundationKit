@@ -166,14 +166,14 @@ void NotificationCenter::RemoveObserver(const std::string& name, void* target)
     }
 }
 
-void NotificationCenter::Invoke(const std::string& name, const ValueList& args)
+void NotificationCenter::InvokeWithArgsPack(const std::string& name, const ValueList& args)
 {
     std::unique_lock<std::mutex> lock(_mutex);
     ObserverList observersToCopy(_observers);
     lock.unlock();
 
     ObserverList::iterator iter = observersToCopy.begin();
-    while(iter !=  observersToCopy.end())
+    while (iter != observersToCopy.end())
     {
         NotificationObserver::Pointer observer = *iter;
         if (!observer)

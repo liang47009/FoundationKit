@@ -181,10 +181,10 @@ namespace detail
 
 
     template <typename T, typename...Args>
-    void PackValueList(ValueList& al, const T &t, const Args&... args)
+    void PackValueList(ValueList& al, const T &t, Args&&... args)
     {
         al.emplace_back(t);
-        PackValueList(al, args...);
+        PackValueList(al, std::forward<Args>(args)...);
     }
 } // namespace detail
 

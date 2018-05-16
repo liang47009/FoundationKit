@@ -253,7 +253,7 @@ bool Value::operator== (const Value& other) const
 {
     if (this == &other) return true;
     if (other._type != this->_type) return false;
-    if (this->IsNull()) return true;
+    if (this->IsNull() && other.IsNull()) return true;
     switch (_type)
     {
     case Value::EType::NONE:
@@ -279,6 +279,7 @@ bool Value::operator== (const Value& other) const
 
 void Value::Copy(Value& other)
 {
+    if (*this == other) return;
     _type = other.GetType();
     switch (_type)
     {
@@ -359,6 +360,8 @@ void Value::Clear()
     case Value::EType::STRING:
         SAFE_DELETE_ARRAY(_field._stringVal);
         break;
+    case Value::EType::OTHER:
+        SAFE_DELETE(_field._otherData);
     default:
         break;
     }
@@ -409,7 +412,7 @@ std::string FoundationKit::Value::ToString()
         result = _field._stringVal;
         break;
     case  Value::EType::OTHER:
-        result = StringUtils::Format("%p", _field._otherData);
+        result = StringUtils::Format("%p(%s)", _field._otherData, _field._otherData->ToString().c_str());
         break;
     default:
         break;
@@ -427,7 +430,7 @@ void Value::Reset(EType valType)
     }
     else if (_type == EType::OTHER)
     {
-        SAFE_FREE(_field._otherData);
+        SAFE_DELETE(_field._otherData);
     }
     _type = valType;
 }

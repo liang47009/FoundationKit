@@ -69,7 +69,7 @@ extern "C"
                 break;
             }
         }
-        FoundationKit::NotificationCenter::DefaultCenter.Invoke(InvokeMethodName, Arglist);
+        FoundationKit::NotificationCenter::DefaultCenter.InvokeWithArgsPack(InvokeMethodName, Arglist);
 
     }
 }//extern "C"

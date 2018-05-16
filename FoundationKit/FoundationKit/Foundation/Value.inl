@@ -19,16 +19,14 @@ template<typename _Ty>
 Value::Value(_Ty data)
     : Value(EType::OTHER)
 {
-    _field._otherData = malloc(sizeof(_Ty));
-    memcpy(_field._otherData, &data, sizeof(_Ty));
+    _field._otherData = new AnyHolder<_Ty>(data);
 }
 
 template<typename _Ty>
 Value&  Value::operator= (_Ty data)
 {
     Reset(EType::OTHER);
-    _field._otherData = malloc(sizeof(_Ty));
-    memcpy(_field._otherData, &data, sizeof(_Ty));
+    _field._otherData = new AnyHolder<_Ty>(data);
     return *this;
 }
 
@@ -36,9 +34,13 @@ template< typename _Ty>
 _Ty Value::As()
 {
     assert(_type == EType::OTHER);
-    _Ty obj;
-    memcpy(&obj, _field._otherData, sizeof(_Ty));
-    return obj;
+    AnyHolder<_Ty>* pAny = reinterpret_cast<AnyHolder<_Ty>*>(_field._otherData);
+    if (!pAny)
+    {
+        FKLog("%s(%d):type mismatch(_Ty=%s; Any=%s)", __FILE__, __LINE__, typeid(_Ty).name(), _field._otherData->ToString().c_str());
+        return _Ty();
+    }
+    return pAny->Get();
 }
 
 template<>

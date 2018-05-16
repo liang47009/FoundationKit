@@ -43,6 +43,39 @@
 
 NS_FK_BEGIN
 
+class AnyBase
+{
+public:
+    AnyBase() {}
+    virtual~AnyBase() {}
+    virtual std::string ToString() { return "AnyBase"; }
+};
+
+template<typename _Ty>
+class AnyHolder : public AnyBase
+{
+public:
+    AnyHolder(const _Ty& data)
+    {
+        RawData = data;
+    }
+
+    virtual~AnyHolder() 
+    {
+    
+    }
+
+    _Ty Get()
+    {
+        return RawData;
+    }
+    virtual std::string ToString() { return  typeid(_Ty).name(); }
+private:
+    _Ty RawData;
+};
+
+
+
 class  Value
 {
 public:
@@ -134,9 +167,7 @@ public:
     }
 
 private:
-
     void Reset(EType valType);
-
     Value(EType valType);
     union
     {
@@ -152,7 +183,7 @@ private:
         float              _floatVal;
         double             _doubleVal;
         char*              _stringVal; // char*/std::string
-        void*              _otherData;
+        AnyBase*           _otherData;
     }_field;
 
     EType _type;

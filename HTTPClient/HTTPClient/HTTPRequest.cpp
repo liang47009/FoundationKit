@@ -516,7 +516,7 @@ void HTTPRequest::FinishedRequest()
             curl_slist_free_all(curlCookies);
             curlCookies = nullptr;
         }
-        ResponseInstance->SetSucceeded(CURLE_OK == CompletionResult)
+        ResponseInstance->SetSucceeded(CURLE_OK == CompletionResult && HTTPCode::OK == httpCode)
             .SetResponseCode(httpCode)
             .SetContentSize(static_cast<int32>(contentLengthDownload))
             .SetCookies(responseCookies)
