@@ -38,6 +38,7 @@
 
 #include <vector>
 #include <string>
+#include <typeinfo>
 #include "FoundationKit/FoundationMacros.hpp"
 #include "FoundationKit/Base/types.hpp"
 

@@ -171,7 +171,7 @@ namespace android
     JNIInvokeHandlerPointer BindJNIInvokeHandlerImpl(_Ft fun, _Ty* object, std::index_sequence<index...>)
     {
         const size_t arityvalue = function_traits < _Ft >::arity::value;
-        std::shared_ptr<JNIInvokeHandler<_Ft, arityvalue> > pSelector(new JNIInvokeHandler<_Ft, arityvalue >(std::bind(fun, object, PlaceHolderDetail::PlaceHolderMaker<index>::Get()...)));
+        std::shared_ptr<JNIInvokeHandler<_Ft, arityvalue> > pSelector(new JNIInvokeHandler<_Ft, arityvalue >(std::bind(fun, object, detail::PlaceHolders<index>::Get()...)));
         return pSelector;
     }
 
