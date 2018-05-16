@@ -15,7 +15,7 @@ USING_NS_FK;
 void __fail__(const char* expr, const char* file, int line)
 {
 # if(EMSCRIPTEN)
-    __assert_fail(expr, file, line, "");
+    __assert_fail(expr, file, line, expr);
 # elif defined(__native_client__)
     __assert(expr, line, file); // WHY.
 # elif defined(__ANDROID__)
@@ -26,7 +26,7 @@ void __fail__(const char* expr, const char* file, int line)
     _assert(expr, file, line);
 # elif defined(_MSC_VER)
     #if DEBUG_MODE
-    _CrtDbgReport(_CRT_ASSERT, file, line, file, expr);
+        _CrtDbgReport(_CRT_ASSERT, file, line, file, expr);
     #else
     UNUSED_ARG(file);
     UNUSED_ARG(line);

@@ -47,28 +47,32 @@ template<>
 inline uint8 Value::As<uint8>()
 {
     assert(_type == EType::UCHAR);
-    return _field._ucharVal;
+    //return _field._ucharVal;
+    return ImplicitAs<uint8>();
 }
 
 template<>
 inline uint16 Value::As<uint16>()
 {
     assert(_type == EType::USHORT);
-    return _field._ushortVal;
+    //return _field._ushortVal;
+    return ImplicitAs<uint16>();
 }
 
 template<>
 inline uint32 Value::As<uint32>()
 {
     assert(_type == EType::UINT);
-    return _field._uintVal;
+    //return _field._uintVal;
+    return ImplicitAs<uint32>();
 }
 
 template<>
 inline uint64 Value::As<uint64>()
 {
     assert(_type == EType::ULONGLONG);
-    return _field._ulonglongVal;
+    //return _field._ulonglongVal;
+    return ImplicitAs<uint64>();
 }
 
 template<>
@@ -82,42 +86,48 @@ template<>
 inline char Value::As<char>()
 {
     assert(_type == EType::CHAR);
-    return _field._charVal;
+    //return _field._charVal;
+    return ImplicitAs<char>();
 }
 
 template<>
 inline short Value::As<int16>()
 {
     assert(_type == EType::SHORT);
-    return _field._shortVal;
+    //return _field._shortVal;
+    return ImplicitAs<int16>();
 }
 
 template<>
 inline int Value::As<int32>()
 {
     assert(_type == EType::INT);
-    return _field._intVal;
+    //return _field._intVal;
+    return ImplicitAs<int32>();
 }
 
 template<>
 inline long long Value::As<int64>()
 {
     assert(_type == EType::LONGLONG);
-    return _field._longlongVal;
+    //return _field._longlongVal;
+    return ImplicitAs<int64>();
 }
 
 template<>
 inline float Value::As<float>()
 {
     assert(_type == EType::FLOAT);
-    return _field._floatVal;
+    //return _field._floatVal;
+    return ImplicitAs<float>();
 }
 
 template<>
 inline double Value::As<double>()
 {
     assert(_type == EType::DOUBLE);
-    return _field._doubleVal;
+    //return _field._doubleVal;
+    return ImplicitAs<double>();
 }
 
 template<>
@@ -139,6 +149,31 @@ inline std::string Value::As<std::string>()
 {
     assert( _type == EType::STRING);
     return _field._stringVal;
+}
+
+template< typename _Ty>
+_Ty Value::ImplicitAs()
+{
+    switch (_type)
+    {
+    case Value::EType::NONE:
+        break;
+    case Value::EType::UCHAR:     return static_cast<_Ty>(_field._ucharVal);
+    case Value::EType::USHORT:    return static_cast<_Ty>(_field._ushortVal);
+    case Value::EType::UINT:      return static_cast<_Ty>(_field._uintVal);
+    case Value::EType::ULONGLONG: return static_cast<_Ty>(_field._ulonglongVal);
+    //case Value::EType::BOOL:      return static_cast<_Ty>(_field._boolVal);
+    case Value::EType::CHAR:      return static_cast<_Ty>(_field._charVal);
+    case Value::EType::SHORT:     return static_cast<_Ty>(_field._shortVal);
+    case Value::EType::INT:       return static_cast<_Ty>(_field._intVal);
+    case Value::EType::LONGLONG:  return static_cast<_Ty>(_field._longlongVal);
+    case Value::EType::FLOAT:     return static_cast<_Ty>(_field._floatVal);
+    case Value::EType::DOUBLE:    return static_cast<_Ty>(_field._doubleVal);
+    default:
+        break;
+    }
+    ASSERTED(false,"Type mismatch.");
+    return _Ty();
 }
 
 NS_FK_END

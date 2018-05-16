@@ -55,26 +55,13 @@ template<typename _Ty>
 class AnyHolder : public AnyBase
 {
 public:
-    AnyHolder(const _Ty& data)
-    {
-        RawData = data;
-    }
-
-    virtual~AnyHolder() 
-    {
-    
-    }
-
-    _Ty Get()
-    {
-        return RawData;
-    }
+    AnyHolder(const _Ty& data){RawData = data;}
+    virtual~AnyHolder() {}
     virtual std::string ToString() { return  typeid(_Ty).name(); }
+    _Ty Get(){return RawData;}
 private:
     _Ty RawData;
 };
-
-
 
 class  Value
 {
@@ -165,9 +152,10 @@ public:
     {
         return As<_Ty>();
     }
-
 private:
     void Reset(EType valType);
+    template< typename _Ty >
+    inline _Ty ImplicitAs();
     Value(EType valType);
     union
     {
