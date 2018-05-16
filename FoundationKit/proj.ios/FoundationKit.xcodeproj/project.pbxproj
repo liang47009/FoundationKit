@@ -47,10 +47,6 @@
 		093515C020A3F10B004B1AF0 /* StandardEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515BA20A3F104004B1AF0 /* StandardEnvironment.cpp */; };
 		093515C120A3F10E004B1AF0 /* StandardFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515BB20A3F104004B1AF0 /* StandardFile.cpp */; };
 		093515C320A3F125004B1AF0 /* WindowsPlatformMisc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515C220A3F125004B1AF0 /* WindowsPlatformMisc.cpp */; };
-		093515CB20A3F564004B1AF0 /* SwitchDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515C520A3F564004B1AF0 /* SwitchDevice.cpp */; };
-		093515CC20A3F564004B1AF0 /* SwitchEnvironment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515C620A3F564004B1AF0 /* SwitchEnvironment.cpp */; };
-		093515CD20A3F564004B1AF0 /* SwitchPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515C720A3F564004B1AF0 /* SwitchPath.cpp */; };
-		093515CE20A3F564004B1AF0 /* SwitchPlatformMisc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093515C920A3F564004B1AF0 /* SwitchPlatformMisc.cpp */; };
 		093DF5421ECAAA4800BA1C7C /* des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093DF53F1ECAAA4800BA1C7C /* des.cpp */; };
 		093DF5431ECAAA5E00BA1C7C /* des.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 093DF53F1ECAAA4800BA1C7C /* des.cpp */; };
 		094109DF1F3C0787006D6F80 /* AndroidDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 094109A01F3C0787006D6F80 /* AndroidDevice.cpp */; };
@@ -783,7 +779,6 @@
 				094A12CD1FEB57C200B1F8B9 /* TimeZone.cpp in Sources */,
 				09276274203EC058003DE7C5 /* Quaternion.cpp in Sources */,
 				094109F11F3C0787006D6F80 /* UICKeyChainStore.m in Sources */,
-				093515CE20A3F564004B1AF0 /* SwitchPlatformMisc.cpp in Sources */,
 				094109FD1F3C0787006D6F80 /* WindowsPath.cpp in Sources */,
 				093490911E7F7BA20034ECF2 /* Base64.cpp in Sources */,
 				094109F21F3C0787006D6F80 /* UIDeviceHardware.mm in Sources */,
@@ -818,11 +813,9 @@
 				09276276203EC058003DE7C5 /* Vector2.cpp in Sources */,
 				094109FB1F3C0787006D6F80 /* WindowsEnvironment.cpp in Sources */,
 				09276277203EC058003DE7C5 /* Vector3.cpp in Sources */,
-				093515CD20A3F564004B1AF0 /* SwitchPath.cpp in Sources */,
 				094109DF1F3C0787006D6F80 /* AndroidDevice.cpp in Sources */,
 				093515BE20A3F104004B1AF0 /* StandardFile.cpp in Sources */,
 				094109ED1F3C0787006D6F80 /* Directory.cpp in Sources */,
-				093515CC20A3F564004B1AF0 /* SwitchEnvironment.cpp in Sources */,
 				09276273203EC058003DE7C5 /* Matrix.cpp in Sources */,
 				093490C41E7F7BA30034ECF2 /* DateTime.cpp in Sources */,
 				094A12CE1FEB57C200B1F8B9 /* TimeSpan.cpp in Sources */,
@@ -832,7 +825,6 @@
 				093490D21E7F7BA30034ECF2 /* Value.cpp in Sources */,
 				093515C320A3F125004B1AF0 /* WindowsPlatformMisc.cpp in Sources */,
 				094109F91F3C0787006D6F80 /* WindowsDevice.cpp in Sources */,
-				093515CB20A3F564004B1AF0 /* SwitchDevice.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
