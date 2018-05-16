@@ -179,6 +179,25 @@ private:
 
 typedef std::vector<Value>   ValueList;
 
+//template <class _Ty>
+//inline std::vector<Value>& operator << (std::vector<Value>& out, _Ty& c)
+//{
+//    out.emplace_back(c);
+//    return out;
+//}
+//
+//template <class _Ty>
+//inline  std::vector<Value>& operator >> (std::vector<Value>& in, _Ty& c)
+//{
+//    ASSERTED(in.size() > 0, _FILE_AND_LINE_);
+//    if (in.size() > 0)
+//    {
+//        c = in.begin()->As<_Ty>();
+//        in.erase(in.begin());
+//    }
+//    return in;
+//}
+
 NS_FK_END
 #endif // FOUNDATIONKIT_VALUE_HPP
 

@@ -12,6 +12,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include <string>
+#include <iostream>
 #include "FoundationKit/GenericPlatformMacros.hpp"
 #include "FoundationKit/Foundation/TimeSpan.hpp"
 #include "FoundationKit/Foundation/Time.hpp"
@@ -800,8 +801,16 @@ private:
 	/** Holds the ticks in 100 nanoseconds resolution since January 1, 0001 A.D. */
     int64     Ticks;
     ETimeKind TimeKind;
+    friend std::ostream& operator<< (std::ostream& stream, const DateTime& datetime);
 };
 
+inline std::ostream& operator<< (std::ostream& stream, const DateTime& datetime)
+{
+    stream << datetime.ToString();
+    return stream;
+}
+
 NS_FK_END
+
 
 #endif // FOUNDATIONKIT_DATETIME_HPP
