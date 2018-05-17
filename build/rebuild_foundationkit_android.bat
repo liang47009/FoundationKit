@@ -21,7 +21,7 @@ cd ../FoundationKit/proj.android
 call ndk-build clean
 call ndk-build -j8
 
-set PUBLISH_DIR="..\..\publish\Android\"
+set PUBLISH_DIR="..\..\publish\"
 
 if exist %PUBLISH_DIR% rmdir %PUBLISH_DIR% /s /q
 

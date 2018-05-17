@@ -13,7 +13,7 @@ if exist "..\Win32" rmdir "..\Win32" /s /q
 call "%DEVENV%" ..\FoundationKitFramework.sln /rebuild "Debug|win32" /project FoundationKit /projectconfig "Debug|win32"
 call "%DEVENV%" ..\FoundationKitFramework.sln /rebuild "Release|win32" /project FoundationKit /projectconfig "Release|win32"
 
-set PUBLISH_DIR="..\publish\vs2015\FoundationKit\"
+set PUBLISH_DIR="..\publish\vs2015\"
 
 if exist %PUBLISH_DIR% rmdir %PUBLISH_DIR% /s /q
 
@@ -21,6 +21,6 @@ xcopy /Y /Q /S "..\FoundationKit\FoundationKit\*.h" "%PUBLISH_DIR%include\Founda
 xcopy /Y /Q /S "..\FoundationKit\FoundationKit\*.hpp" "%PUBLISH_DIR%include\FoundationKit\"
 xcopy /Y /Q /S "..\FoundationKit\FoundationKit\*.inl" "%PUBLISH_DIR%include\FoundationKit\"
 xcopy /Y /Q /S "..\FoundationKit\FoundationKit\*.ipp" "%PUBLISH_DIR%include\FoundationKit\"
-xcopy /Y /Q /S "..\Win32\*.lib" "%PUBLISH_DIR%prebuilt\"
+xcopy /Y /Q /S "..\Win32\*.lib" "%PUBLISH_DIR%libs\"
 
 pause

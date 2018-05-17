@@ -20,7 +20,7 @@ cd %~dp0
 cd ../FoundationKit/proj.android
 call ndk-build -j8
 
-set PUBLISH_DIR="..\..\publish\Android\FoundationKit\"
+set PUBLISH_DIR="..\..\publish\Android\"
 
 if exist %PUBLISH_DIR% rmdir %PUBLISH_DIR% /s /q
 
@@ -28,7 +28,7 @@ xcopy /Y /Q /S "..\FoundationKit\*.h" "%PUBLISH_DIR%include\FoundationKit\"
 xcopy /Y /Q /S "..\FoundationKit\*.hpp" "%PUBLISH_DIR%include\FoundationKit\"
 xcopy /Y /Q /S "..\FoundationKit\*.inl" "%PUBLISH_DIR%include\FoundationKit\"
 xcopy /Y /Q /S "..\NetFramework\*.ipp" "%PUBLISH_DIR%include\NetFramework\"
-xcopy /Y /Q /S ".\obj\local\*.a" "%PUBLISH_DIR%prebuilt\"
+xcopy /Y /Q /S ".\obj\local\*.a" "%PUBLISH_DIR%libs\"
 
 
 pause
