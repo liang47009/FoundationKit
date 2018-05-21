@@ -34,7 +34,7 @@ namespace android
     template <typename T, typename... Args>
     const char * GetJNISignature(Args...)
     {
-        return GetJNISignature<Args...>();
+        return GetJNISignature<T, Args...>();
     }
 
     /**
